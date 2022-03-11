@@ -18,22 +18,16 @@ var Drawer_1 = require("@mui/material/Drawer");
 var Box_1 = require("@mui/material/Box");
 var AppBar_1 = require("@mui/material/AppBar");
 var Toolbar_1 = require("@mui/material/Toolbar");
-var List_1 = require("@mui/material/List");
 var Typography_1 = require("@mui/material/Typography");
 var Divider_1 = require("@mui/material/Divider");
 var IconButton_1 = require("@mui/material/IconButton");
 var Badge_1 = require("@mui/material/Badge");
 var Container_1 = require("@mui/material/Container");
-var Grid_1 = require("@mui/material/Grid");
-var Paper_1 = require("@mui/material/Paper");
 var Link_1 = require("@mui/material/Link");
 var Menu_1 = require("@mui/icons-material/Menu");
 var ChevronLeft_1 = require("@mui/icons-material/ChevronLeft");
 var Notifications_1 = require("@mui/icons-material/Notifications");
-var ListItems_1 = require("./Components/Shared/ListItems");
-var Chart_1 = require("./Components/Shared/Chart");
-var Deposits_1 = require("./Components/Shared/Deposits");
-var Orders_1 = require("./Components/Shared/Orders");
+/*import { mainListItems, secondaryListItems } from './Components/Shared/ListItems.tsx';*/
 function Copyright(props) {
     return (React.createElement(Typography_1.default, __assign({ variant: "body2", color: "text.secondary", align: "center" }, props),
         'Copyright © ',
@@ -108,11 +102,7 @@ function DashboardContent() {
                     } },
                     React.createElement(IconButton_1.default, { onClick: toggleDrawer },
                         React.createElement(ChevronLeft_1.default, null))),
-                React.createElement(Divider_1.default, null),
-                React.createElement(List_1.default, { component: "nav" },
-                    ListItems_1.mainListItems,
-                    React.createElement(Divider_1.default, { sx: { my: 1 } }),
-                    ListItems_1.secondaryListItems)),
+                React.createElement(Divider_1.default, null)),
             React.createElement(Box_1.default, { component: "main", sx: {
                     backgroundColor: function (theme) {
                         return theme.palette.mode === 'light'
@@ -124,28 +114,7 @@ function DashboardContent() {
                     overflow: 'auto',
                 } },
                 React.createElement(Toolbar_1.default, null),
-                React.createElement(Container_1.default, { maxWidth: "lg", sx: { mt: 4, mb: 4 } },
-                    React.createElement(Grid_1.default, { container: true, spacing: 3 },
-                        React.createElement(Grid_1.default, { item: true, xs: 12, md: 8, lg: 9 },
-                            React.createElement(Paper_1.default, { sx: {
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: 240,
-                                } },
-                                React.createElement(Chart_1.default, null))),
-                        React.createElement(Grid_1.default, { item: true, xs: 12, md: 4, lg: 3 },
-                            React.createElement(Paper_1.default, { sx: {
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: 240,
-                                } },
-                                React.createElement(Deposits_1.default, null))),
-                        React.createElement(Grid_1.default, { item: true, xs: 12 },
-                            React.createElement(Paper_1.default, { sx: { p: 2, display: 'flex', flexDirection: 'column' } },
-                                React.createElement(Orders_1.default, null)))),
-                    React.createElement(Copyright, { sx: { pt: 4 } }))))));
+                React.createElement(Container_1.default, { maxWidth: "lg", sx: { mt: 4, mb: 4 } })))));
 }
 function Dashboard() {
     return React.createElement(DashboardContent, null);
