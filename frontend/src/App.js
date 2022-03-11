@@ -1,9 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
-import './Dashboard.tsx'
+import Dashboard from './Dashboard'
 function App() {
     return (
-        <Dashboard/>
+        
+            <Dashboard/> 
   );
 }
 
