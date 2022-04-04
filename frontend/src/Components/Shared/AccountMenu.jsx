@@ -22,10 +22,10 @@ export default function AccountMenu() {
     setAnchorEl(null);
   };
   return (
-    <React.Fragment>
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }}>Contact</Typography>
-        <Typography sx={{ minWidth: 100 }}>Profile</Typography>
+      <React.Fragment>
+
+          <Box sx={{ display: 'flex', alignContent: 'right', flex: 'right', alignItems: 'right', textAlign: 'center'     }}>
+         
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
@@ -34,8 +34,8 @@ export default function AccountMenu() {
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
-          >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                  >
+                      <Avatar alt="User" src="/img/defaultUser.png"/>
           </IconButton>
         </Tooltip>
       </Box>
@@ -75,10 +75,10 @@ export default function AccountMenu() {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <Avatar /> Profile
+                  <Avatar src="/img/defaultUser.png" /> Profile
         </MenuItem>
         <MenuItem>
-          <Avatar /> My account
+                  <Avatar src="/img/defaultUser.png"/> My account
         </MenuItem>
         <Divider />
         <MenuItem>
