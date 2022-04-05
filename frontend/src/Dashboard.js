@@ -3,15 +3,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import AccountMenu from './Components/Shared/AccountMenu';
+import TextScrollView from './Components/TextScrollView/TextScrollView';
 
 export default function Dashboard() {
     return (
         <div>
-            <AccountMenu/>
+            <AccountMenu background="red"/>
             <CssBaseline />
-            <Container fixed>
-                <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} />
-            </Container>
+            <TextScrollView/>
         </div>
 
     );
