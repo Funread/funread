@@ -6,7 +6,9 @@ class ReadingView extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            //ListHere
+            title: this.props.title || 'Reading View'
+            content: this.props.content || ''
+            page: this.props.page || '#'
         }
     }
 
@@ -15,8 +17,8 @@ class ReadingView extends React.Component {
         console.log('reading view')
         return (
             <Container fixed>
-                <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} />
-                <span>asdasd</span>
+                <Box sx={{  height: '100vh' }} />
+                <span> {this.state.title}</span>
             </Container>
             )
     }
