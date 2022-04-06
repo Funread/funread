@@ -6,8 +6,8 @@ class ReadingView extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            title: this.props.title || 'Reading View'
-            content: this.props.content || ''
+            title: this.props.title || 'Reading View',
+            content: this.props.content || '',
             page: this.props.page || '#'
         }
     }
