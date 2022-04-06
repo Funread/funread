@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\frontend",
+    "\\frontend\\public",
+    "\\frontend\\public\\img",
+    "\\frontend\\src",
+    "\\frontend\\src\\Components",
+    "\\frontend\\src\\Components\\Books",
+    "\\frontend\\src\\Components\\Shared",
+    "\\frontend\\src\\Components\\Teacher"
+  ],
+  "SelectedNode": "\\frontend\\src\\Components\\Books\\BookCreatorWizard.jsx",
+  "PreviewInSolutionExplorer": false
+}
