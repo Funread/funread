@@ -29,13 +29,14 @@ class PageTwoBookCreator extends React.Component {
                         marginTop: 10
                     }} >
                         <legend>Enter Information</legend>
-                        <Input placeholder="Name" sx={{
-                            marginBottom: 10
-                        }} />
-                        <Input placeholder="Email" sx={{
-                            marginBottom: 10
-                        }} />
                         <TextField label="Book Title" sx={{
+                            marginBottom: 5,
+                            marginTop: 2
+                        }} />
+                        <TextField label="Unit name" sx={{
+                            marginBottom: 5
+                        }} />
+                        <TextField label="Grade" sx={{
                         }} />
                         {/* <Button variant="raised">Submit</Button> */}
                     </FormGroup>

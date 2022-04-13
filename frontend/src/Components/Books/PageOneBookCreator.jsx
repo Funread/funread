@@ -1,15 +1,21 @@
-import { Grid, Box, Card} from '@mui/material'
+import { Grid, Box, Card, Button} from '@mui/material'
 import { height } from '@mui/system'
 import React from 'react'
 
 class PageOneBookCreator extends React.Component {
     constructor(props) {
-        super(props)
+        super(props) 
+        this.clicked = this.clicked.bind(this)
         this.state = {
             //ListHere
             label: 'Hello World'
         }
     }
+
+    clicked() {
+        alert("clicked");
+    }
+
 
     render() {
         //Pre  
@@ -22,6 +28,7 @@ class PageOneBookCreator extends React.Component {
                     <Grid item xs={4}>
                         <Card sx={{ width: 300, height:400}}>
                             <div>style 1</div>
+                            <Button onClick={this.clicked()}>template 1</Button>
                         </Card>
                     </Grid>
                     <Grid item xs={4}>

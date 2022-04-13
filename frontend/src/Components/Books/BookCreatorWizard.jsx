@@ -8,16 +8,26 @@ class BookCreatorWizard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            //ListHere
-            label: 'Hello World'
+            template: null,
+            description: null,
+            title: null,
+            unitName: null,
+            gradeNumber: null
         }
+    }
+
+    PageOneState(template) {
+        this.setState({
+            template: template
+        })
+
     }
 
     render() {
         let TitleList = ['Book style', 'Name & clasification', 'Save and Create']
         let Fragment1 =
             <React.Fragment>
-                <PageOneBookCreator></PageOneBookCreator>
+                <PageOneBookCreator pageOneState={this.PageOneState} ></PageOneBookCreator>
             </React.Fragment>
         let Fragment2 =
             <React.Fragment>
