@@ -1,45 +1,79 @@
-import { Grid, Box, Card, Button} from '@mui/material'
+import { Grid, Box, Card, Button, CardActionArea, CardMedia, CardContent, Typography} from '@mui/material'
 import { height } from '@mui/system'
 import React from 'react'
 
 class PageOneBookCreator extends React.Component {
     constructor(props) {
         super(props) 
-        this.clicked = this.clicked.bind(this)
+        this.clicked = this.PageOneState.bind(this)
         this.state = {
             //ListHere
             label: 'Hello World'
         }
     }
 
-    clicked() {
-        alert("clicked");
-    }
+    // clicked() {
+    //     alert("clicked");
+    // }
+    PageOneState(template) {
+        this.setState({
+            template: template
+        })
 
+    }
 
     render() {
         //Pre  
         return (
             <Box textAlign="center" marginLeft={30} marginTop={10} sx={{
-                width: 700, 
+                width: 800, 
                 height: 700, 
                 }}>
-                <Grid container spacing={40} display='flex'>
+                <Grid container spacing={30}>
+                <Grid item xs={4}>
+                    <Card sx={{ width: 300, height:400 }}>
+                        <CardActionArea
+                            onClick={() => { 
+                                alert("clicked")
+                            }}>
+                            <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                Style 1
+                            </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
+                </Grid>
                     <Grid item xs={4}>
-                        <Card sx={{ width: 300, height:400}}>
-                            <div>style 1</div>
-                            <Button onClick={this.clicked()}>template 1</Button>
-                        </Card>
+                        <Card sx={{ width: 300, height:400 }}>
+                        <CardActionArea
+                            onClick={() => { 
+                                alert("clicked")
+                            }}>
+                            <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                Style 2
+                            </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
                     </Grid>
                     <Grid item xs={4}>
-                        <Card sx={{ width: 300, height:400}} >
-                            <div>style 2</div>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Card sx={{ width: 300, height:400}} >
+                        {/* <Card sx={{ width: 300, height:400}} >
                             <div>style 3</div>
-                        </Card>
+                        </Card> */}
+                        <Card sx={{ width: 300, height:400 }}>
+                        <CardActionArea
+                            onClick={() => { 
+                                alert("clicked")
+                            }}>
+                            <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                Style 3
+                            </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
                     </Grid>
                 </Grid>
             </Box>
