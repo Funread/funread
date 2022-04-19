@@ -70,7 +70,9 @@ class Wizard extends React.Component {
         };
 
         return (
+ 
             <Box sx={{ width: '60%', display: 'inline'  }}>
+ 
                 <Stepper activeStep={this.state.activeStep}>
                     {this.state.stepsTitleList.map((label, index) => {
                         const stepProps = {};
@@ -134,4 +136,6 @@ class Wizard extends React.Component {
     }
 }
 
+ 
 export default Wizard
+ 
