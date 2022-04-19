@@ -7,6 +7,7 @@ import PageThreeBookCreator from './PageThreeBookCreator';
 class BookCreatorWizard extends React.Component {
     constructor(props) {
         super(props)
+        this.PageOneState = this.PageOneState.bind(this)
         this.state = {
             template: null,
             description: null,
@@ -27,7 +28,7 @@ class BookCreatorWizard extends React.Component {
         let TitleList = ['Book style', 'Name & clasification', 'Save and Create']
         let Fragment1 =
             <React.Fragment>
-                <PageOneBookCreator pageOneState={this.PageOneState} ></PageOneBookCreator>
+                <PageOneBookCreator></PageOneBookCreator>
             </React.Fragment>
         let Fragment2 =
             <React.Fragment>
