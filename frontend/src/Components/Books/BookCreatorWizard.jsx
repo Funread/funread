@@ -1,19 +1,36 @@
 import React from 'react' 
 import Wizard from '../Shared/Wizard'
 import TextField from '@mui/material/TextField';
+ 
+import PageOneBookCreator from './PageOneBookCreator';
+import PageTwoBookCreator from './PageTwoBookCreator';
+import PageThreeBookCreator from './PageThreeBookCreator';
 class BookCreatorWizard extends React.Component {
     constructor(props) {
         super(props)
+        this.PageOneState = this.PageOneState.bind(this)
         this.state = {
-            //ListHere
-            label: 'Hello World'
+            template: null,
+            description: null,
+            title: null,
+            unitName: null,
+            gradeNumber: null
         }
     }
 
+    PageOneState(template) {
+        this.setState({
+            template: template
+        })
+
+    }
+
+ 
     render() {
         let TitleList = ['Book style', 'Name & clasification', 'Save and Create']
         let Fragment1 =
             <React.Fragment>
+ 
                 step 1 here
             </React.Fragment>
         let Fragment2 =
@@ -22,6 +39,7 @@ class BookCreatorWizard extends React.Component {
             <TextField id="standard-basic" label="Standard" variant="standard" />
             </React.Fragment>
         let Fragment3 = <React.Fragment> step 3  </React.Fragment>
+ 
 
         let stepListObjets = [Fragment1, Fragment2, Fragment3]
         return (
@@ -36,3 +54,4 @@ class BookCreatorWizard extends React.Component {
 }
 
 export default BookCreatorWizard
+ 
