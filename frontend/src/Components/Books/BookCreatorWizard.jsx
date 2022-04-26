@@ -5,6 +5,8 @@ import TextField from '@mui/material/TextField';
 import PageOneBookCreator from './PageOneBookCreator';
 import PageTwoBookCreator from './PageTwoBookCreator';
 import PageThreeBookCreator from './PageThreeBookCreator';
+import BookCreatorBoard from './Template/BookCreatorBoard';
+import UploadImage from '../Shared/UploadImage';
 class BookCreatorWizard extends React.Component {
     constructor(props) {
         super(props)
@@ -36,8 +38,12 @@ class BookCreatorWizard extends React.Component {
         let Fragment2 =
             <React.Fragment>
                 //Example of inputs here
-            <TextField id="standard-basic" label="Standard" variant="standard" />
+                <TextField id="standard-basic" label="Standard" variant="standard" />
+                <PageTwoBookCreator/>
+                <UploadImage />
             </React.Fragment>
+
+        // add <BookCreatorBoard/> in fragment to test    
         let Fragment3 = <React.Fragment> step 3  </React.Fragment>
  
 
