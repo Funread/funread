@@ -46,20 +46,6 @@ class PageThreeBookCreator extends React.Component {
                                 <TableCell align="center">{this.state.unitname}</TableCell>
                                 <TableCell align="center">{this.state.grade}</TableCell>
 
-                            {/* {rows.map((row) => (
-                                <TableRow
-                                key={row.name}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                <TableCell component="th" scope="row">
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align="center">template</TableCell>
-                                <TableCell align="center">{this.props.title}</TableCell>
-                                <TableCell align="center">{this.props.unitname}</TableCell>
-                                <TableCell align="center">{this.props.grade}</TableCell>
-                                </TableRow>
-                            ))} */}
                             </TableBody>
                         </Table>
                     </TableContainer>
