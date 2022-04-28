@@ -38,7 +38,7 @@ class PageOneBookCreator extends React.Component {
                             }}>
                             <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
-                                Style 1
+                                Comic
                             </Typography>
                             </CardContent>
                         </CardActionArea>
@@ -52,7 +52,7 @@ class PageOneBookCreator extends React.Component {
                             }}>
                             <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
-                                Style 2
+                                Storybook
                             </Typography>
                             </CardContent>
                         </CardActionArea>
@@ -69,7 +69,7 @@ class PageOneBookCreator extends React.Component {
                             }}>
                             <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
-                                Style 3
+                                Meme
                             </Typography>
                             </CardContent>
                         </CardActionArea>
