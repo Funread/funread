@@ -1,7 +1,6 @@
 import React from 'react' 
 import Wizard from '../Shared/Wizard'
 import TextField from '@mui/material/TextField';
- 
 import PageOneBookCreator from './PageOneBookCreator';
 import PageTwoBookCreator from './PageTwoBookCreator';
 import PageThreeBookCreator from './PageThreeBookCreator';
@@ -27,25 +26,19 @@ class BookCreatorWizard extends React.Component {
 
     }
 
- 
     render() {
         let TitleList = ['Book style', 'Name & clasification', 'Save and Create']
         let Fragment1 =
             <React.Fragment>
- 
-                step 1 here
+                <PageOneBookCreator></PageOneBookCreator>
             </React.Fragment>
         let Fragment2 =
             <React.Fragment>
-                //Example of inputs here
-                <TextField id="standard-basic" label="Standard" variant="standard" />
-                <PageTwoBookCreator/>
-                <UploadImage />
-            </React.Fragment>
 
-        // add <BookCreatorBoard/> in fragment to test    
-        let Fragment3 = <React.Fragment> step 3  </React.Fragment>
- 
+            {/* <TextField id="standard-basic" label="Standard" variant="standard" /> */}
+                <PageTwoBookCreator></PageTwoBookCreator>
+            </React.Fragment>
+        let Fragment3 = <React.Fragment> <PageThreeBookCreator></PageThreeBookCreator> </React.Fragment>
 
         let stepListObjets = [Fragment1, Fragment2, Fragment3]
         return (
@@ -60,4 +53,4 @@ class BookCreatorWizard extends React.Component {
 }
 
 export default BookCreatorWizard
- 
+
