@@ -1,0 +1,63 @@
+.Storybook{
+    background-color: aquamarine;
+    width: 1550px;
+    height: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.story-container{
+    background-color: aquamarine;
+    width: 1550px;
+    height: 950px;
+    display: flex;
+    flex-wrap: nowrap;
+    column-gap: 50px;
+}
+
+.story-img{
+    height: 90%;
+    width: 750px;
+    background-color: chartreuse;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 10px;
+}
+
+.canvas{
+    width:750px;
+    height: 900px;
+    background-color: white;
+}
+
+.choose-file{
+    width:750px;
+    height:50px;
+}
+
+.story-txt{
+    height: 95%;
+    width: 750px;
+    background-color: rgb(255, 221, 0);
+}
+
+/* textarea{
+    outline: 0;
+    resize: none;
+    overflow: auto;
+    font-size: 20px;
+} */
+
+.test{
+    height: 50px;
+    width: 100%;
+    background-color: blueviolet;
+}
+
+.content{
+    background-color: white;
+    overflow: auto;
+    font-size: 20px;
+}
+
