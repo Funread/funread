@@ -4,6 +4,8 @@ import TextField from '@mui/material/TextField';
 import PageOneBookCreator from './PageOneBookCreator';
 import PageTwoBookCreator from './PageTwoBookCreator';
 import PageThreeBookCreator from './PageThreeBookCreator';
+import BookCreatorBoard from './Template/BookCreatorBoard';
+import UploadImage from '../Shared/UploadImage';
 class BookCreatorWizard extends React.Component {
     constructor(props) {
         super(props)
@@ -32,6 +34,7 @@ class BookCreatorWizard extends React.Component {
             </React.Fragment>
         let Fragment2 =
             <React.Fragment>
+
             {/* <TextField id="standard-basic" label="Standard" variant="standard" /> */}
                 <PageTwoBookCreator></PageTwoBookCreator>
             </React.Fragment>
@@ -51,30 +54,3 @@ class BookCreatorWizard extends React.Component {
 
 export default BookCreatorWizard
 
-
-
-
-
-
-// import React from 'react'
- 
-// import HorizontalLinearStepper from '../Shared/HorizontalLinearStepper'
-// class BookCreatorWizard extends React.Component {
-//     constructor(props) {
-//         super(props)
-//         this.state = {
-//             //ListHere
-//             label: 'Hello World'
-//         }
-//     }
-
-//     render() {
-//         //Pre  
-//         return (
-//             <HorizontalLinearStepper/>
-
-//         )
-//     }
-// }
-
-// export default BookCreatorWizard
