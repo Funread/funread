@@ -17,6 +17,9 @@ import PageOneBookCreator from './Components/Books/PageOneBookCreator';
 import PageTwoBookCreator from './Components/Books/PageTwoBookCreator';
  
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Comic from './Components/Books/Template/Comic';
+import Storybook from './Components/Books/Template/Storybook';
+import Meme from './Components/Books/Template/Meme';
 export default function Dashboard() {
     return (
         <div>
@@ -27,6 +30,8 @@ export default function Dashboard() {
                 <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="readingview" element={<ReadingView />} />
+                    <Route path="comic" element={<Comic />} />
+                    <Route path="meme" element={<Meme />} />
  
                     <Route path="createbook" element={<BookCreatorWizard />} />
                     <Route path="*" element={<NoPage />} />
