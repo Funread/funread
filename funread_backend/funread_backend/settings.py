@@ -9,33 +9,24 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-# from smtpd import DebuggingServer
+
 from pathlib import Path
-import environs
-import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Initialise environment variables
-env = environs.Env()
-
-# Take environment variables from .env file
-environs.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# Raises Django's ImproperlyConfigured
-# exception if SECRET_KEY not in os.environ
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'z*q#84&=4o14&)-z@uy-*dox9%_o7@%e*ls3obq8@8$u^m+5x9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# Set to True to access rest_framwork API UI
 DEBUG = True
 
-#TODO: unsecure
-# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -46,42 +37,29 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    #rest framwork
+    'AuthApp.apps.AuthappConfig',
+    'BookCreator.apps.BookcreatorConfig',
     'rest_framework',
-
-    #CORS
-    'corsheaders',
-
-    #TeacherApp
-    'TeacherApp'
 ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://127.0.0.1:8000"
-# ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 
-#TODO: unsecure, only for testing
-CORS_ORIGIN_ALLOW_ALL = True
+AUTH_USER_MODEL = "AuthApp.User" 
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "funread-backend.herokuapp.com",
-    "funread.uc.r.appspot.com",
-]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    #CORS
-    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'funread_backend.urls'
@@ -110,14 +88,15 @@ WSGI_APPLICATION = 'funread_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo', #pymongo == 3.12.1 otherwise raise error
+        'ENGINE': 'djongo',
         'CLIENT': {
-            'host': env('DATABASE_HOST'),
-            'name': env('DATABASE_NAME'),
-            'authMechanism': 'SCRAM-SHA-1' # for cloud db
+          'host': 'mongodb+srv://kim_jinhyuk:zW8tmyFtCBskKeOs@funread-cloud.7a4vx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+          'name': 'funReadDB',
+          'authMechanism': 'SCRAM-SHA-1' # for cloud db
         }
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -154,6 +133,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+
 STATIC_URL = '/static/'
-STATIC_ROOT = '/static/'
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
