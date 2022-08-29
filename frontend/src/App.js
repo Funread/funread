@@ -1,10 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
-import Dashboard from './Dashboard'
+import "./App.css";
+
 function App() {
-    return (
-        
-            <Dashboard/> 
+  return (
+    <h1>Hola Mundo</h1>
   );
 }
 

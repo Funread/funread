@@ -27,6 +27,33 @@
 .App-link {
   color: #61dafb;
 }
+/* ----------------------------------------Made by me---------------------------------------- */
+
+.background {
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.buttonLogin {
+  margin-right: 15px;
+}
+
+.StyleFont{
+  font-size: bold;
+  font-size: 20px;
+  font-family: roboto;
+}
+
+
+
+
+
+ 
+
+
+/* ----------------------------------------End Made by me---------------------------------------- */
 
 @keyframes App-logo-spin {
   from {
@@ -35,4 +62,9 @@
   to {
     transform: rotate(360deg);
   }
+
+
+
+
 }
+
