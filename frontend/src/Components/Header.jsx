@@ -14,7 +14,7 @@ class Header extends React.Component {
   render() {
     return (
       //Return Here component or html code
-      <div>
+      <div className="main-header">
         <Navbar collapseOnSelect expand="lg" bg="transparent" variant="dark">
           <Container>
             <Navbar.Brand className="StyleFont" href="#">FUNREAD</Navbar.Brand>
@@ -22,14 +22,19 @@ class Header extends React.Component {
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>
               <Nav>
-                <Nav.Link className="StyleFont" href="#">About Us</Nav.Link>
-                <Nav.Link className="StyleFont" href="#">Study Programs</Nav.Link>
-                <Nav.Link className="StyleFont" href="#">Recent Reports</Nav.Link>
-                <Button className="buttonLogin StyleFont" variant="outline-light">
-                  Log In
-                </Button>
-                {"  "}
-                <Button className="StyleFont" variant="outline-light">Sign Up</Button>
+                <div className="menu-options">
+                  <Nav.Link className="menu-options-content" href="#">About Us</Nav.Link>
+                  <Nav.Link className="menu-options-content" href="#">Study Programs</Nav.Link>
+                  <Nav.Link className="menu-options-content" href="#">Recent Reports</Nav.Link>
+                </div>
+                <div className="account-buttons">
+                <Button className="buttonLogin account-button-content btn-sm" variant="outline-light">
+                    Log In
+                  </Button>
+                  {"  "}
+                  <Button className="account-button-content btn-sm" variant="outline-light">Sign Up</Button>
+                </div>
+                
               </Nav>
             </Navbar.Collapse>
           </Container>

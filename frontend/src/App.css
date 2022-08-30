@@ -30,22 +30,46 @@
 /* ----------------------------------------Made by me---------------------------------------- */
 
 .background {
-  height: 100vh;
+  height: 90vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  overflow: hidden;
+  margin: 25px;
+  border-radius: 18px;
+
 }
 
 .buttonLogin {
   margin-right: 15px;
 }
 
-.StyleFont{
+.menu-options{
+  font-size: bold;
+  font-size: 20px;
+  font-family: roboto;
+  margin-right: 16px;
+  
+}
+
+.menu-options-content{
+  float: left;
+}
+
+.account-buttons{
+  margin-top: 5px;
   font-size: bold;
   font-size: 20px;
   font-family: roboto;
 }
 
+.main-header{
+  margin: 20px 50px 10px 50px;
+}
+
+.account-button-content{
+  border-radius: 8px !important;
+}
 
 
 
