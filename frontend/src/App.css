@@ -30,17 +30,17 @@
 /* ----------------------------------------Made by me---------------------------------------- */
 
 .background {
-  height: 90vh;
+  height: 85vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
-  margin: 25px;
+  margin: 40px;
   border-radius: 18px;
 
 }
 
-.buttonLogin {
+.custom-button {
   margin-right: 15px;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .main-header{
-  margin: 20px 50px 10px 50px;
+  margin: 40px 45px 80px 60px;
 }
 
 .account-button-content{

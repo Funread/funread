@@ -1,5 +1,5 @@
 import React from "react";
-
+import CustomButton from "./CustomButton";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 
 class Header extends React.Component {
@@ -28,11 +28,8 @@ class Header extends React.Component {
                   <Nav.Link className="menu-options-content" href="#">Recent Reports</Nav.Link>
                 </div>
                 <div className="account-buttons">
-                <Button className="buttonLogin account-button-content btn-sm" variant="outline-light">
-                    Log In
-                  </Button>
-                  {"  "}
-                  <Button className="account-button-content btn-sm" variant="outline-light">Sign Up</Button>
+                  <CustomButton name={"Log In"}/>
+                  <CustomButton name={"Sign Up"}/>
                 </div>
                 
               </Nav>

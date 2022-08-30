@@ -1,7 +1,8 @@
 import React from 'react'
 import "./App.css";
-import Header from "./Components/Header";
+import Header from "./Components/Shared/Header";
 import Background from "./bg.jpg";
+import { Button } from 'react-bootstrap';
 
 function LandingPage() {
   return (
@@ -11,6 +12,7 @@ function LandingPage() {
         style={{ backgroundImage: `url(${Background})` }}
       >
         <Header />
+        
       </div>
     </div>
   )
