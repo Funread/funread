@@ -12,8 +12,6 @@ create table Roles(
     Role varchar(200) not null
 );
 
-
-
 /* el nombre deberia ser varchar */
 
 /*La tabla usuarios se utiliza con la intencion de saber
@@ -144,9 +142,10 @@ FOREIGN KEY(WidgetId) REFERENCES Widget (WidgetId)
 
 create table Groups(
 GroupsId int primary key not null,
-UserId varchar(200) not null,
+UserId int not null,
 isTeacher Boolean default False,
-CreatedAt DateTime default(sysdate())
+CreatedAt DateTime default(sysdate()),
+FOREIGN KEY(UserId) REFERENCES User (UserId)
 );
 
 
@@ -175,7 +174,8 @@ create table BooksPerClasses(
 BooksPerClasses int primary key,
 BooksId int ,
 ClassesId int,
-FOREIGN KEY(ClassesId) REFERENCES Classes (ClassesId)
+FOREIGN KEY(ClassesId) REFERENCES Classes (ClassesId),
+FOREIGN KEY(BooksId) REFERENCES Book (BookID)
 );
 
 create table GroupsPerClasses(
@@ -191,14 +191,14 @@ create table AuthorList(
 AuthorListId int primary key,
 BookID int,
 UserID int,
-OREIGN KEY(BookID) REFERENCES Book (BookId),
-FOREIGN KEY(UserID) REFERENCES User (UserId)
+FOREIGN KEY(UserID) REFERENCES User (UserId),
+FOREIGN KEY(BookID) REFERENCES Book (BookID)
 );
 
 create table SharedBooks(
 SharedBooksId int primary key,
 BookID int,
 UserID int,
-OREIGN KEY(BookID) REFERENCES Book (BookId),
-FOREIGN KEY(UserID) REFERENCES User (UserId)
+FOREIGN KEY(UserID) REFERENCES User (UserId),
+FOREIGN KEY(BookID) REFERENCES Book (BookId)
 ); 
