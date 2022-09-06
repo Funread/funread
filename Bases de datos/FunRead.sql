@@ -191,6 +191,7 @@ create table AuthorList(
 AuthorListId int primary key,
 BookID int,
 UserID int,
+OREIGN KEY(BookID) REFERENCES Book (BookId),
 FOREIGN KEY(UserID) REFERENCES User (UserId)
 );
 
@@ -198,5 +199,6 @@ create table SharedBooks(
 SharedBooksId int primary key,
 BookID int,
 UserID int,
+OREIGN KEY(BookID) REFERENCES Book (BookId),
 FOREIGN KEY(UserID) REFERENCES User (UserId)
 ); 
