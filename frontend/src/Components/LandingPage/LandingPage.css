@@ -1,0 +1,9 @@
+.background {
+  height: 92vh;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  margin: 40px;
+  border-radius: 20px;
+}

@@ -1,0 +1,32 @@
+.logo-funread {
+  width: 260px;
+  height: 40px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.menu-options {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.menu-options-content {
+  float: left;
+  margin-right: 20px;
+}
+
+.account-button {
+  margin-right: 20px;
+}
+
+.main-header {
+  margin: 40px 20px 80px 60px;
+}
+
+.navbar {
+  padding-top: 0;
+  padding-bottom: 0;
+}

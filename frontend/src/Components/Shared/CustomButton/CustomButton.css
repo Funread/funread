@@ -1,0 +1,12 @@
+.custom-button {
+  margin-right: 40px;
+}
+
+.account-button-content {
+  width: 120px;
+  height: 60px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+}

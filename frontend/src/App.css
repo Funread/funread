@@ -29,53 +29,10 @@
 }
 /* ----------------------------------------Made by me---------------------------------------- */
 
-.background {
-  height: 85vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+html,
+body {
   overflow: hidden;
-  margin: 40px;
-  border-radius: 18px;
-
 }
-
-.custom-button {
-  margin-right: 15px;
-}
-
-.menu-options{
-  font-size: bold;
-  font-size: 20px;
-  font-family: roboto;
-  margin-right: 16px;
-  
-}
-
-.menu-options-content{
-  float: left;
-}
-
-.account-buttons{
-  margin-top: 5px;
-  font-size: bold;
-  font-size: 20px;
-  font-family: roboto;
-}
-
-.main-header{
-  margin: 40px 45px 80px 60px;
-}
-
-.account-button-content{
-  border-radius: 8px !important;
-}
-
-
-
-
- 
-
 
 /* ----------------------------------------End Made by me---------------------------------------- */
 
@@ -86,9 +43,4 @@
   to {
     transform: rotate(360deg);
   }
-
-
-
-
 }
-
