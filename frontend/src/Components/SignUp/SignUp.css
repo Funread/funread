@@ -30,24 +30,116 @@
   min-width: 100%;
   height: 60px;
   border-radius: 10px;
+  border-style: solid;
+  border-color: #e9e9e9;
+  color: #e9e9e9;
 }
 
-.signup-form-button {
+.form-control-lg-filled {
+  min-width: 100%;
+  font-size: 20px;
+  height: 60px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #42006d;
+  color: #42006d;
+}
+
+.form-control::placeholder {
+  color: #e9e9e9;
+}
+
+.signup-form-button-empty {
   margin-top: 40px;
   min-width: 100%;
   height: 60px;
   font-size: 20px;
   border-radius: 10px;
+  background: white;
+  border-style: solid;
+  border-color: #d5a6fa;
+  color: #d5a6fa;
+}
+
+.signup-form-button-empty:hover {
+  background: white;
+  border-style: solid;
+  border-color: #d5a6fa;
+  color: #d5a6fa;
+}
+
+.signup-form-button-empty:focus {
+  background: white;
+  border-style: solid;
+  border-color: #d5a6fa;
+  color: #d5a6fa;
+}
+
+.signup-form-button-empty:active {
+  background: white;
+  border-style: solid;
+  border-color: #d5a6fa;
+  color: #d5a6fa;
 }
 
 .signup-icons {
   margin-right: 10px;
 }
 
-.password-bg {
+.password-bg-empty {
   background-color: white;
-  color: gainsboro;
   border-style: 0 1 0 0;
   margin: 0 10 0 auto;
+  border-color: #e9e9e9;
+}
+
+.password-bg-filled {
+  border-style: solid;
+  border-color: #42006d;
+  color: #42006d;
+}
+
+.signup-form-button-filled {
+  margin-top: 40px;
+  min-width: 100%;
+  height: 60px;
+  font-size: 20px;
   border-radius: 10px;
+  background: #42006d;
+  border-style: solid;
+  border-color: #42006d;
+  color: white;
+}
+
+.eye-button {
+  background: white;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #e9e9e9;
+  color: #e9e9e9;
+  border-left: none;
+}
+
+.eye-button:hover {
+  background: white;
+  border-style: solid;
+  border-color: #e9e9e9;
+  color: #e9e9e9;
+  border-left: none;
+}
+
+.eye-button:focus {
+  background: white;
+  border-style: solid;
+  border-color: #e9e9e9;
+  color: #e9e9e9;
+  border-left: none;
+}
+
+.eye-button:active {
+  background: white;
+  border-style: solid;
+  border-color: #e9e9e9;
+  color: #e9e9e9;
+  border-left: none;
 }

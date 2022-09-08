@@ -1,12 +1,32 @@
-.custom-button {
-  margin-right: 40px;
+.account-button:hover {
+  background: #d5a6fa;
+  border-style: solid;
+  border-color: #d5a6fa;
+  color: white;
 }
 
-.account-button-content {
+.account-button:focus {
+  background: #42006d;
+  border-style: solid;
+  border-color: #42006d;
+  color: white;
+}
+
+.account-button {
   width: 120px;
   height: 60px;
   font-size: 20px;
   font-weight: bold;
   border-radius: 10px;
   font-family: Arial, Helvetica, sans-serif;
+  margin-right: 40px;
+  border-style: solid;
+  border-color: #d5a6fa;
+  color: white;
+}
+
+.account-button-focused {
+  background: #42006d;
+  border-style: solid;
+  border-color: white;
 }
