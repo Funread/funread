@@ -40,7 +40,7 @@ create table UserRoles(
 
 /*Esta tabla se hace para tener informacion del instituto*/
 create table Institute(
-ScholId int primary key,
+InstituteId int primary key,
 Name varchar(200) not null
 );
 
@@ -49,10 +49,10 @@ intituteMemberId porque desplegaba error de duplicado*/
 
 /*Para tener informacion del miembro de ese instituto*/
 create table InstituteMembers(
-InstituteMembersId int primary key,
-SchoolID int not null,
+InstituteMembersID int primary key,
+InstituteID int not null,
 UserId int not null,
-FOREIGN KEY(SchoolID) REFERENCES Institute (ScholId),
+FOREIGN KEY(InstituteID) REFERENCES Institute (InstituteId),
 FOREIGN KEY(UserId) REFERENCES User (UserId)
 );
 
@@ -60,7 +60,7 @@ FOREIGN KEY(UserId) REFERENCES User (UserId)
 /*Tabla que sirve para tener la informacion de en que grado estan 
 el estudiante*/
 create table Grades(
-ClassesId int primary key not null,
+GradesID int primary key not null,
 BooksId varchar(200) not null,
 Progress int,
 Grade float,
@@ -144,8 +144,10 @@ create table Groups(
 GroupsId int primary key not null,
 UserId int not null,
 isTeacher Boolean default False,
+CreatedBy int not null,
 CreatedAt DateTime default(sysdate()),
-FOREIGN KEY(UserId) REFERENCES User (UserId)
+FOREIGN KEY(UserId) REFERENCES User (UserId),
+FOREIGN KEY(CreatedBy) REFERENCES User (UserId)
 );
 
 
@@ -201,4 +203,4 @@ BookID int,
 UserID int,
 FOREIGN KEY(UserID) REFERENCES User (UserId),
 FOREIGN KEY(BookID) REFERENCES Book (BookId)
-); 
+);
