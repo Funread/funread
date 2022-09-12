@@ -16,25 +16,10 @@
 .menu-options-content {
   float: left;
   margin-right: 20px;
-  color: #d5a6fa;
 }
 
-.navbar .navbar-nav .nav-link:hover {
-  text-decoration: underline 5px;
-  text-underline-offset: 15px;
-  color: #d5a6fa;
-}
-
-.navbar .navbar-nav .nav-link:focus {
-  text-decoration: underline 5px;
-  text-underline-offset: 15px;
-  color: white;
-}
-
-.navbar .navbar-nav .nav-link:active {
-  text-decoration: underline 5px;
-  text-underline-offset: 15px;
-  color: white;
+.account-button {
+  margin-right: 20px;
 }
 
 .main-header {

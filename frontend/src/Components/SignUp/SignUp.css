@@ -1,6 +1,6 @@
 .signup-form {
   max-width: 480px;
-  height: 55vh;
+  height: 58vh;
   max-height: 100%;
   padding: 60px;
   background-color: white;
@@ -12,13 +12,16 @@
 
 .signup-form-title {
   font-weight: bold;
-  font-size: 60px;
+  font-size: 5.28vh;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 100%;
+  height: 5.28vh;
 }
 
 .signup-form-subtitle {
   font-weight: normal;
+  height: 2vh;
+  font-size: 1.8vh;
 }
 
 .form-label {
@@ -30,116 +33,34 @@
   min-width: 100%;
   height: 60px;
   border-radius: 10px;
-  border-style: solid;
-  border-color: #e9e9e9;
-  color: #e9e9e9;
 }
 
-.form-control-lg-filled {
+.signup-form-button {
+  margin-top: 2vh;
   min-width: 100%;
-  font-size: 20px;
-  height: 60px;
-  border-radius: 10px;
-  border-style: solid;
-  border-color: #42006d;
-  color: #42006d;
-}
-
-.form-control::placeholder {
-  color: #e9e9e9;
-}
-
-.signup-form-button-empty {
-  margin-top: 40px;
-  min-width: 100%;
-  height: 60px;
+  height: 5.28vh;
   font-size: 20px;
   border-radius: 10px;
-  background: white;
-  border-style: solid;
-  border-color: #d5a6fa;
-  color: #d5a6fa;
-}
-
-.signup-form-button-empty:hover {
-  background: white;
-  border-style: solid;
-  border-color: #d5a6fa;
-  color: #d5a6fa;
-}
-
-.signup-form-button-empty:focus {
-  background: white;
-  border-style: solid;
-  border-color: #d5a6fa;
-  color: #d5a6fa;
-}
-
-.signup-form-button-empty:active {
-  background: white;
-  border-style: solid;
-  border-color: #d5a6fa;
-  color: #d5a6fa;
 }
 
 .signup-icons {
   margin-right: 10px;
 }
 
-.password-bg-empty {
+.password-bg {
   background-color: white;
+  color: gainsboro;
   border-style: 0 1 0 0;
   margin: 0 10 0 auto;
-  border-color: #e9e9e9;
-}
-
-.password-bg-filled {
-  border-style: solid;
-  border-color: #42006d;
-  color: #42006d;
-}
-
-.signup-form-button-filled {
-  margin-top: 40px;
-  min-width: 100%;
-  height: 60px;
-  font-size: 20px;
   border-radius: 10px;
-  background: #42006d;
-  border-style: solid;
-  border-color: #42006d;
-  color: white;
 }
 
-.eye-button {
-  background: white;
-  border-radius: 10px;
-  border-style: solid;
-  border-color: #e9e9e9;
-  color: #e9e9e9;
-  border-left: none;
+.font-size{
+  font-size: 1.8vh;
+  
 }
 
-.eye-button:hover {
-  background: white;
-  border-style: solid;
-  border-color: #e9e9e9;
-  color: #e9e9e9;
-  border-left: none;
-}
-
-.eye-button:focus {
-  background: white;
-  border-style: solid;
-  border-color: #e9e9e9;
-  color: #e9e9e9;
-  border-left: none;
-}
-
-.eye-button:active {
-  background: white;
-  border-style: solid;
-  border-color: #e9e9e9;
-  color: #e9e9e9;
-  border-left: none;
+.responsive-text{
+  margin-bottom: 0.5vh;
+  height: 5vh;
 }

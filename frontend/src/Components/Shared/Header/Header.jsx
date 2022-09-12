@@ -1,5 +1,4 @@
 import React from "react";
-import CustomButton from "../CustomButton/CustomButton";
 import { Navbar, Nav } from "react-bootstrap";
 import logoFunread from "../../../logoFunread.png";
 import "./Header.css";
@@ -8,11 +7,15 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+     
       //ListHere
       label: this.props.miPrimerProps,
+
     };
   }
 
+
+  
   render() {
     return (
       //Return Here component or html code
@@ -42,16 +45,8 @@ class Header extends React.Component {
                 </Nav.Link>
               </div>
               <div>
-                <CustomButton
-                  name={"Log In"}
-                  setLogin={this.props.setLogin}
-                  setSignup={this.props.setSignup}
-                />
-                <CustomButton
-                  name={"Sign Up"}
-                  setSignup={this.props.setSignup}
-                  setLogin={this.props.setLogin}
-                />
+                {/* <CustomButton name={"Log In"} setLogin={this.props.setLogin} setSignup={this.props.setSignup}/>
+                <CustomButton name={"Sign Up"} setSignup={this.props.setSignup} setLogin={this.props.setLogin}/> */}
               </div>
             </Nav>
           </Navbar.Collapse>
