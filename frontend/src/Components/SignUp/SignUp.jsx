@@ -30,9 +30,9 @@ function SignUp(props) {
   const isEmpty = (data, id) => {
     data !== ""
       ? (document.getElementById(id).className =
-          "form-control-lg-filled form-control form-control-lg responsive-text")
+          "form-control-lg-filled form-control form-control-lg")
       : (document.getElementById(id).className =
-          "form-control-lg form-control form-control-lg responsive-text");
+          "form-control-lg form-control form-control-lg");
   };
 
   useEffect(() => {
@@ -77,7 +77,7 @@ function SignUp(props) {
                 setName(e.target.value);
                 isEmpty(e.target.value, "nameInput");
               }}
-              className="form-control-lg responsive-text"
+              className="form-control-lg"
               placeholder="Your name here"
               required
             />

@@ -106,13 +106,13 @@ function LogIn(props) {
           </div>
         </Form.Group>
         <Form.Group>
-          <div class="mb-3 form-check titles-login">
+          <div className="mb-3 form-check titles-login">
             <input
               type="checkbox"
               className="form-check-input"
               id="rememberMeCheck"
             />
-            <label className="form-check-label" for="rememberMeCheck">
+            <label className="form-check-label" htmlFor="rememberMeCheck">
               Remember me
             </label>
           </div>

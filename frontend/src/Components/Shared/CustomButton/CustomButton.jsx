@@ -1,32 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import "./CustomButton.css";
 import { Button } from "react-bootstrap";
 
+function CustomButton(props) {
+  const [state, setState] = useState(false);
 
-class CustomButton extends React.Component {
-  render() {
-    return (
-      <>
-        <Button
-          className="custom-button account-button-content"
-          variant="outline-light"
-          onClick={() => {
-            if(this.props.name === "Log In"){
-              {this.props.setLogin(true)}
-              {this.props.setSignup(false)}
-            }else if(this.props.name === "Sign Up"){
-              {this.props.setSignup(true)}
-              {this.props.setLogin(false)}
-            }
+  const setName = () => {
+    if (props.name === "Log In") {
+      props.setLogin(true);
+      props.setSignup(false);
+    } else {
+      props.setSignup(true);
+      props.setLogin(false);
+    }
+  };
 
-            
-          }}
-        >
-          {this.props.name}
-        </Button>
-      </>
-    );
-  }
+  const setFocus = () => {
+    setState(!state);
+  };
+
+  return (
+    <>
+      <Button
+        variant="outline-light"
+        onClick={() => {
+          setName();
+          setFocus();
+        }}
+        className={"account-button " + (state ? "account-button-focused" : "")}
+      >
+        {props.name}
+      </Button>
+    </>
+  );
 }
 
 export default CustomButton;
