@@ -1,81 +1,141 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faUser, faEye } from "@fortawesome/free-regular-svg-icons";
 import "./SignUp.css";
-import InputGroup from "react-bootstrap/InputGroup";
-import CustomButton from '../Shared/CustomButton/CustomButton';
+import CustomButton from "../Shared/CustomButton/CustomButton";
 
-class SignUp extends React.Component {
-  render() {
-    return (
-      <div className="signup-form">
-        <Form>
+function SignUp() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-          <div className='pr'>
-            <CustomButton name={"Log In"} setLogin={this.props.setLogin} setSignup={this.props.setSignup}/>
-            <CustomButton name={"Sign Up"} setSignup={this.props.setSignup} setLogin={this.props.setLogin}/>
-          </div>
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+    showPassword
+      ? (document.getElementById("passwordButton").style.color = "#e9e9e9")
+      : (document.getElementById("passwordButton").style.color = "#42006d");
+  };
 
-          <h1 className="signup-form-title">Hello!</h1>
-          <h5 className="signup-form-subtitle">
-            Add your information to register.
-          </h5>
-          <div>
-            <Form.Group>
-              <Form.Label className='font-size'>
-                <FontAwesomeIcon className="signup-icons" icon={faUser} />
-                Your name
-              </Form.Label>
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(name);
+    console.log(email);
+    console.log(password);
+  };
+
+  const isEmpty = (data, id) => {
+    data !== ""
+      ? (document.getElementById(id).className =
+          "form-control-lg-filled form-control form-control-lg responsive-text")
+      : (document.getElementById(id).className =
+          "form-control-lg form-control form-control-lg responsive-text");
+  };
+
+  useEffect(() => {
+    name !== "" && email !== "" && password !== ""
+      ? (document.getElementById("submit-button").className =
+          "signup-form-button-filled")
+      : (document.getElementById("submit-button").className =
+          "signup-form-button-empty");
+  });
+
+  return (
+    <div className="signup-form">
+      <div className="account-button-container">
+        <CustomButton
+          name={"Log In"}
+          setLogin={this.props.setLogin}
+          setSignup={this.props.setSignup}
+        />
+        <CustomButton
+          name={"Sign Up"}
+          setSignup={this.props.setSignup}
+          setLogin={this.props.setLogin}
+        />
+      </div>
+      <Form onSubmit={handleSubmit}>
+        <h1 className="signup-form-title">Hello!</h1>
+        <h5 className="signup-form-subtitle">
+          Add your information to register.
+        </h5>
+        <div>
+          <Form.Group>
+            <Form.Label className="font-size">
+              <FontAwesomeIcon className="signup-icons" icon={faUser} />
+              Your name
+            </Form.Label>
+            <Form.Control
+              id="nameInput"
+              size="lg"
+              type="text"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                isEmpty(e.target.value, "nameInput");
+              }}
+              className="form-control-lg responsive-text"
+              placeholder="Your name here"
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label className="font-size">
+              <FontAwesomeIcon className="signup-icons" icon={faEnvelope} />
+              Email
+            </Form.Label>
+            <Form.Control
+              id="emailInput"
+              size="lg"
+              type="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                isEmpty(e.target.value, "emailInput");
+              }}
+              className="form-control-lg responsive-text"
+              placeholder="example@mep.co.cr"
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label className="font-size">
+              <FontAwesomeIcon className="signup-icons" icon={faLock} />
+              Password
+            </Form.Label>
+            <div>
               <Form.Control
-                size="lg"
-                type="text"
-                placeholder="Your name here"
-                className='responsive-text'
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label className='font-size'>
-                <FontAwesomeIcon className="signup-icons" icon={faEnvelope} />
-                Email
-              </Form.Label>
-              <Form.Control
+                id="passwordInput"
                 size="lg"
                 type="email"
                 placeholder="example@mep.co.cr"
-                className='responsive-text'
+                className="responsive-text"
               />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label className='font-size'>
-                <FontAwesomeIcon className="signup-icons" icon={faLock} />
-                Password
-              </Form.Label>
-              <InputGroup>
-                <Form.Control
-                  style={{ borderRightWidth: 0 }}
-                  size="lg"
-                  type="password"
-                  placeholder="Your password"
-                  className='responsive-text'
-                />
-                <InputGroup.Text className="password-bg">
-                  <FontAwesomeIcon className="fa-xl" icon={faEye} />
-                </InputGroup.Text>
-              </InputGroup>
-            </Form.Group>
-          </div>
-          <div>
-            <Button className="signup-form-button mb-3 flex-fill" type="submit">
-              Sign Up
-            </Button>
-          </div>
-        </Form>
-      </div>
-    );
-  }
+              <Button
+                id="passwordButton"
+                className="password-button"
+                onClick={togglePassword}
+              >
+                <FontAwesomeIcon className="fa-xl" icon={faEye} />
+              </Button>
+            </div>
+          </Form.Group>
+        </div>
+        <div>
+          <Button
+            id="submit-button"
+            className="signup-form-button-empty mb-3 flex-fill"
+            type="submit"
+          >
+            Sign Up
+          </Button>
+        </div>
+      </Form>
+    </div>
+  );
 }
 
 export default SignUp;
