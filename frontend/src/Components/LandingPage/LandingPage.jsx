@@ -15,12 +15,12 @@ function LandingPage() {
     return (
       <div>
         <div className="background" style={{ backgroundColor: "#42006D" }}>
-          <Header setLogin={setLogin} setSignup={setSignup}/>
+          <Header />
 
 
           {login ? <LogIn setLogin={setLogin} setSignup={setSignup}/>:null}
           {login ? <WelcomeFooter message={"Welcome Back!"} />:null}
-          {signup ? <SignUp/>:null}
+          {signup ? <SignUp setSignup={setSignup} setLogin={setLogin} />:null}
           {signup ? <WelcomeFooter message={"Welcome!"} />:null}
           
           {/* {signup ? <SignUp/>:null} */}

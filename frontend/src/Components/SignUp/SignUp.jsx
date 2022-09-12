@@ -6,12 +6,19 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faUser, faEye } from "@fortawesome/free-regular-svg-icons";
 import "./SignUp.css";
 import InputGroup from "react-bootstrap/InputGroup";
+import CustomButton from '../Shared/CustomButton/CustomButton';
 
 class SignUp extends React.Component {
   render() {
     return (
       <div className="signup-form">
         <Form>
+
+          <div className='pr'>
+            <CustomButton name={"Log In"} setLogin={this.props.setLogin} setSignup={this.props.setSignup}/>
+            <CustomButton name={"Sign Up"} setSignup={this.props.setSignup} setLogin={this.props.setLogin}/>
+          </div>
+
           <h1 className="signup-form-title">Hello!</h1>
           <h5 className="signup-form-subtitle">
             Add your information to register.
