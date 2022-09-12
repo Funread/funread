@@ -36,9 +36,9 @@ function LogIn(props) {
   useEffect(() => {
     email !== "" && password !== ""
       ? (document.getElementById("submit-button").className =
-          "signup-form-button-filled")
+          "login-form-button-filled")
       : (document.getElementById("submit-button").className =
-          "signup-form-button-empty");
+          "login-form-button-empty");
   });
 
   return (
