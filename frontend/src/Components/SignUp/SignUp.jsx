@@ -7,7 +7,7 @@ import { faEnvelope, faUser, faEye } from "@fortawesome/free-regular-svg-icons";
 import "./SignUp.css";
 import CustomButton from "../Shared/CustomButton/CustomButton";
 
-function SignUp() {
+function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -48,13 +48,13 @@ function SignUp() {
       <div className="account-button-container">
         <CustomButton
           name={"Log In"}
-          setLogin={this.props.setLogin}
-          setSignup={this.props.setSignup}
+          setLogin={props.setLogin}
+          setSignup={props.setSignup}
         />
         <CustomButton
           name={"Sign Up"}
-          setSignup={this.props.setSignup}
-          setLogin={this.props.setLogin}
+          setSignup={props.setSignup}
+          setLogin={props.setLogin}
         />
       </div>
       <Form onSubmit={handleSubmit}>
@@ -110,9 +110,15 @@ function SignUp() {
               <Form.Control
                 id="passwordInput"
                 size="lg"
-                type="email"
-                placeholder="example@mep.co.cr"
-                className="responsive-text"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  isEmpty(e.target.value, "passwordInput");
+                }}
+                className="form-control-lg-empty"
+                type={showPassword ? "text" : "password"}
+                placeholder="Your password"
+                required
               />
               <Button
                 id="passwordButton"

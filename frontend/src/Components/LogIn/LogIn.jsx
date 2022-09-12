@@ -4,10 +4,10 @@ import Button from "react-bootstrap/Button";
 import "./LogIn.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope, faUser, faEye } from "@fortawesome/free-regular-svg-icons";
+import { faEnvelope, faEye } from "@fortawesome/free-regular-svg-icons";
 import CustomButton from "../Shared/CustomButton/CustomButton";
 
-function LogIn() {
+function LogIn(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,13 +46,13 @@ function LogIn() {
       <div className="account-button-container">
         <CustomButton
           name={"Log In"}
-          setLogin={this.props.setLogin}
-          setSignup={this.props.setSignup}
+          setLogin={props.setLogin}
+          setSignup={props.setSignup}
         />
         <CustomButton
           name={"Sign Up"}
-          setSignup={this.props.setSignup}
-          setLogin={this.props.setLogin}
+          setSignup={props.setSignup}
+          setLogin={props.setLogin}
         />
       </div>
       <Form onSubmit={handleSubmit}>
