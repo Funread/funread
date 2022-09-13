@@ -13,6 +13,11 @@ function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  /**
+   * Function tooglePassword:
+   * Alterna la contraseña entre estados: oculto/mostrar.
+   * Cambia el color del ícono de ojo en la contraseña según su estado: oculto/mostrar.
+   */
   const togglePassword = () => {
     setShowPassword(!showPassword);
     showPassword
@@ -20,13 +25,26 @@ function SignUp(props) {
       : (document.getElementById("passwordButton").style.color = "#42006d");
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  /**
+   * Function handleSubmit:
+   * Recibe los datos ingresados por el usuario en los campos del formulario.
+   * Se ejecuta cuando se presiona el botón de Log In.
+   * Las variables name, email y password contienen los valores ingresados por el usuario al momento de presionar el boton de Log In.
+   */
+  const handleSubmit = () => {
     console.log(name);
     console.log(email);
     console.log(password);
   };
 
+  /**
+   * Function isEmpty:
+   * @param {*} data valor ingresado por el usuario.
+   * @param {*} id identificador del campo del formulario.
+   *
+   * Comprueba si un campo del formulario esta vacio.
+   * Asigna un css distinto a los campos con información.
+   */
   const isEmpty = (data, id) => {
     data !== ""
       ? (document.getElementById(id).className =
@@ -35,6 +53,10 @@ function SignUp(props) {
           "form-control-lg form-control form-control-lg");
   };
 
+  /**
+   * Function useEffect:
+   * Cambia el color del botón de Log In cuando los campos de email y password han sido llenados.
+   */
   useEffect(() => {
     name !== "" && email !== "" && password !== ""
       ? (document.getElementById("submit-button").className =
