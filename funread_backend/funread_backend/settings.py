@@ -37,19 +37,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'AuthApp.apps.AuthappConfig',
-    'BookCreator.apps.BookcreatorConfig',
-    'rest_framework',
+    'Users'
+#     'AuthApp.apps.AuthappConfig',
+#     'BookCreator.apps.BookcreatorConfig',
+#     'rest_framework',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.BasicAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#     ]
+# }
 
-AUTH_USER_MODEL = "AuthApp.User" 
+# AUTH_USER_MODEL = "AuthApp.User" 
 
 
 MIDDLEWARE = [
@@ -87,12 +88,23 @@ WSGI_APPLICATION = 'funread_backend.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'djongo',
+    #     'CLIENT': {
+    #       'host': 'mongodb+srv://kim_jinhyuk:zW8tmyFtCBskKeOs@funread-cloud.7a4vx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+    #       'name': 'funReadDB',
+    #       'authMechanism': 'SCRAM-SHA-1' # for cloud db
+    #     }
+    # }
     'default': {
-        'ENGINE': 'djongo',
-        'CLIENT': {
-          'host': 'mongodb+srv://kim_jinhyuk:zW8tmyFtCBskKeOs@funread-cloud.7a4vx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-          'name': 'funReadDB',
-          'authMechanism': 'SCRAM-SHA-1' # for cloud db
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'FUNREAD',
+        'HOST':'localhost',
+        "PASSWORD":'angaby2903',
+        'PORT':'3306',
+        'USER':'root',
+        'OPTIONS':{
+            'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
         }
     }
 }
