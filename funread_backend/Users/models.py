@@ -5,7 +5,7 @@ from django.contrib.auth.models import (
 # Create your models here.
 
 class User(models.Model):
-    userid = models.IntegerField(primary_key=True)  # Field name made lowercase.
+    userid = models.AutoField(primary_key=True)  # Field name made lowercase.
     email = models.CharField(max_length=200)  # Field name made lowercase.
     name = models.CharField(max_length=200, blank=True, null=True)  # Field name made lowercase.
     lastname = models.CharField(max_length=200, blank=True, null=True)  # Field name made lowercase.

@@ -14,7 +14,7 @@ function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [list,setList] = useState(null);
-  const {userList} = useSignUp();
+  const {userList,searchUser,createUser} = useSignUp();
 
   /**
    * Function tooglePassword:
@@ -39,6 +39,10 @@ function SignUp(props) {
     console.log(email);
     console.log(password);
     userList(setList)
+    searchUser()
+    createUser( 
+      name ,email,password
+      )
     console.log(list)
 
   };
