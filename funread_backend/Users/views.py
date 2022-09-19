@@ -1,76 +1,43 @@
-from django.http.response import JsonResponse
-from django.utils.decorators import method_decorator
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
+from email import header
+from wsgiref import headers
 from .models import User
-import hashlib
-import json
+from .serializers import UserSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
 
-# Create your views here.
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def user(request, pk):
+    """
+    Retrieve, update or delete a code snippet.
+    """
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT, )
 
 
-class UsersView(View):
+@api_view(['GET'])
+def list(request):
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+        user = User.objects.all()
+        serializer = UserSerializer(user, many=True)
+        return Response(serializer.data)
 
-    def get(self, request, id=0):
-        if (id > 0):
-            listUser = list(User.objects.filter(userid=id).values())
-            if len(listUser) > 0:
-                user = listUser[0]
-                datos = {'message': "Success", 'company': user}
-            else:
-                datos = {'message': "User not found..."}
-            return JsonResponse(datos)
-        else:
-            listUser = list(User.objects.values())
-            if len(listUser) > 0:
-                datos = {'message': "Success", 'companies': listUser}
-            else:
-                datos = {'message': "User not found..."}
-            return JsonResponse(datos)    
-            
-    def post(self, request):
-        jd = json.loads(request.body)
-        User.objects.create(userid=jd['userid'],email=jd['email'], name=jd['name'], lastname=jd['lastname'], password = hashlib.sha256(jd['password'].encode('utf-8')).hexdigest(), createdat=jd['createdat'], actived=jd['actived'])
-        datos = {'message': "Success"}
-        return JsonResponse(datos)
 
-class UserPutInfo(View):
-
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-    
-    def put(self, request, userid):
-        jd = json.loads(request.body)
-        try:
-            user = User.objects.get(userid=userid)
-            user.email=jd['email']
-            user.name=jd['name']
-            user.lastname=jd['lastname']
-            user.password = hashlib.sha256(jd['password'].encode('utf-8')).hexdigest()
-            user.save()
-            msg = {'message': "Success"}
-        except:
-            msg = {'message': "Company not found..."}
-        return JsonResponse(msg)
-
-class UserPutPassword(View):
-
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-        
-    def put(self, request, userid):
-        jd = json.loads(request.body)
-        try:
-            user = User.objects.get(userid=userid)
-            user.password = hashlib.sha256(jd['password'].encode('utf-8')).hexdigest()
-            user.save()
-            msg = {'message': "Success"}
-        except:
-            msg = {'message': "Company not found..."}
-        return JsonResponse(msg)

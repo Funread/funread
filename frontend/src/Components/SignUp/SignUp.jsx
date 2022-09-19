@@ -6,12 +6,15 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faUser, faEye } from "@fortawesome/free-regular-svg-icons";
 import "./SignUp.css";
 import CustomButton from "../Shared/CustomButton/CustomButton";
+import { useSignUp } from "../../hooks/useSignUp";
 
 function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [list,setList] = useState(null);
+  const {userList} = useSignUp();
 
   /**
    * Function tooglePassword:
@@ -35,6 +38,9 @@ function SignUp(props) {
     console.log(name);
     console.log(email);
     console.log(password);
+    userList(setList)
+    console.log(list)
+
   };
 
   /**
@@ -58,6 +64,7 @@ function SignUp(props) {
    * Cambia el color del botón de Log In cuando los campos de email y password han sido llenados.
    */
   useEffect(() => {
+ 
     name !== "" && email !== "" && password !== ""
       ? (document.getElementById("submit-button").className =
           "signup-form-button-filled")
@@ -79,7 +86,7 @@ function SignUp(props) {
           setLogin={props.setLogin}
         />
       </div>
-      <Form onSubmit={handleSubmit}>
+      <Form >
         <h1 className="signup-form-title">Hello!</h1>
         <h5 className="signup-form-subtitle">
           Add your information to register.
@@ -156,7 +163,7 @@ function SignUp(props) {
           <Button
             id="submit-button"
             className="signup-form-button-empty mb-3 flex-fill"
-            type="submit"
+            onClick={handleSubmit}
           >
             Sign Up
           </Button>
