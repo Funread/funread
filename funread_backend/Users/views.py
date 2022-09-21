@@ -57,7 +57,21 @@ def user_change_search(request, pk):
 def listed(request):
 
     user = User.objects.all()
-    serializer = UserSerializer(user, many=True)
+    serializer = UserSerializer(user,many=True)
+    return Response(serializer.data)
+
+@ api_view(['GET'])
+def listed_active(request):
+
+    user = User.objects.filter(actived=1)
+    serializer = UserSerializer(user,many=True)
+    return Response(serializer.data)
+
+@ api_view(['GET'])
+def listed_deactive(request):
+
+    user = User.objects.filter(actived=0)
+    serializer = UserSerializer(user,many=True)
     return Response(serializer.data)
 
 
@@ -93,7 +107,7 @@ def login(request):
     passwordSe = data.get('password')
     
     try:
-        user = User.objects.get(email = emailSe, password = passwordSe)
+        user = User.objects.get(email = emailSe, password = passwordSe, actived=1)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = LoginSerializer(user)

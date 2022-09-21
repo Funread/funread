@@ -7,6 +7,8 @@ from rest_framework.urlpatterns import format_suffix_patterns
 urlpatterns=[
     path('user/<int:pk>/', views.user_change_search),
     path('list/', views.listed),
+    path('list-active/', views.listed_active),
+    path('list-deactive/', views.listed_deactive),
     path('new-user/', views.new_user),
     path('delete_user/<int:pk>/',views.delete_user),
     path('login/',views.login)
