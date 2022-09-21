@@ -25,22 +25,24 @@ SECRET_KEY = 'z*q#84&=4o14&)-z@uy-*dox9%_o7@%e*ls3obq8@8$u^m+5x9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Users'
-#     'AuthApp.apps.AuthappConfig',
-#     'BookCreator.apps.BookcreatorConfig',
-#     'rest_framework',
+    'rest_framework',
+    'Users.apps.UsersConfig'
+    #     'AuthApp.apps.AuthappConfig',
+    #     'BookCreator.apps.BookcreatorConfig',
+    #     'rest_framework',
 ]
 
 # REST_FRAMEWORK = {
@@ -50,10 +52,11 @@ INSTALLED_APPS = [
 #     ]
 # }
 
-# AUTH_USER_MODEL = "AuthApp.User" 
+# AUTH_USER_MODEL = "Users.User"
 
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -61,6 +64,40 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
+]
+
+# CORS_ALLOW_ALL_ORIGINS=True
+
+# CORS_ORIGIN_ALLOW_ALL=True
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+    "Access-Control-Allow-Origin"
 ]
 
 ROOT_URLCONF = 'funread_backend.urls'
@@ -99,12 +136,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
-        'HOST':'localhost',
-        "PASSWORD":'angaby2903',
-        'PORT':'3306',
-        'USER':'root',
-        'OPTIONS':{
-            'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
+        'HOST': 'localhost',
+        "PASSWORD": 'angaby2903',
+        'PORT': '3306',
+        'USER': 'root',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
     }
 }
@@ -142,7 +179,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+#AUTH_USER_MODEL = 'Users.User'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
