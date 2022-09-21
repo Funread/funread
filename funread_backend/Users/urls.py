@@ -9,7 +9,7 @@ urlpatterns=[
     path('list/', views.listed),
     path('new-user/', views.new_user),
     path('delete_user/<int:pk>/',views.delete_user),
-    path('login/<int:pk>/<str:email>/',views.login)
+    path('login/',views.login)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

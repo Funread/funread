@@ -1,8 +1,7 @@
-from email import header
-import email
+import json
 from wsgiref import headers
 from .models import User
-from .serializers import UserSerializer, UserStatusSerializer,LoginSerializer
+from .serializers import UserSerializer, UserStatusSerializer, LoginSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -13,6 +12,7 @@ import hashlib
 def new_user(request):
 
     data = {
+
         'email': request.data.get('email'),
         'name': request.data.get('name'),
         'lastname': request.data.get('lastname'),
@@ -28,7 +28,7 @@ def new_user(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'PUT'])
 def user_change_search(request, pk):
     try:
         user = User.objects.get(pk=pk)
@@ -52,12 +52,14 @@ def user_change_search(request, pk):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @ api_view(['GET'])
 def listed(request):
 
     user = User.objects.all()
     serializer = UserSerializer(user, many=True)
     return Response(serializer.data)
+
 
 @api_view(['PUT'])
 def delete_user(request, pk):
@@ -77,22 +79,22 @@ def delete_user(request, pk):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@ api_view(['GET'])
-def list(request):
+@ api_view(['POST'])
+def login(request):
 
-    user = User.objects.all()
-    serializer = UserSerializer(user, many=True)
-    return Response(serializer.data)
-
-@ api_view(['GET'])
-def login(request,pk,email):
-
+    data = {
+        'email': request.data.get('email'),
+        'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest(),
+    }
+   
+    print(data.get('email'))
+    print(data.get('password'))
+    emailSe = data.get('email')
+    passwordSe = data.get('password')
+    
     try:
-        user = User.objects.get(pk=pk,email=email)
-        print(user)
+        user = User.objects.get(email = emailSe, password = passwordSe)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
-    
     serializer = LoginSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
