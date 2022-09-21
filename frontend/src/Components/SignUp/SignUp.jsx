@@ -6,12 +6,14 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faUser, faEye } from "@fortawesome/free-regular-svg-icons";
 import "./SignUp.css";
 import CustomButton from "../Shared/CustomButton/CustomButton";
+import { useSign } from "../../hooks/useSign";
 
 function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { signUp } = useSign();
 
   /**
    * Function tooglePassword:
@@ -32,9 +34,8 @@ function SignUp(props) {
    * Las variables name, email y password contienen los valores ingresados por el usuario al momento de presionar el boton de Log In.
    */
   const handleSubmit = () => {
-    console.log(name);
-    console.log(email);
-    console.log(password);
+    let info = signUp(name, email, password);
+    console.log(info);
   };
 
   /**
@@ -79,7 +80,7 @@ function SignUp(props) {
           setLogin={props.setLogin}
         />
       </div>
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <h1 className="signup-form-title">Hello!</h1>
         <h5 className="signup-form-subtitle">
           Add your information to register.
@@ -156,7 +157,7 @@ function SignUp(props) {
           <Button
             id="submit-button"
             className="signup-form-button-empty mb-3 flex-fill"
-            type="submit"
+            onClick={handleSubmit}
           >
             Sign Up
           </Button>

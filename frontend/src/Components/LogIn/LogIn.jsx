@@ -6,11 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faEye } from "@fortawesome/free-regular-svg-icons";
 import CustomButton from "../Shared/CustomButton/CustomButton";
+import { useLogin } from "../../hooks/useLogin";
 
 function LogIn(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { loginIn } = useLogin();
 
   /**
    * Function tooglePassword:
@@ -31,8 +33,7 @@ function LogIn(props) {
    * Las variables email y password contienen los valores ingresados por el usuario al momento de presionar el boton de Log In.
    */
   const handleSubmit = () => {
-    console.log(email);
-    console.log(password);
+    loginIn(email, password);
   };
 
   /**
@@ -142,7 +143,8 @@ function LogIn(props) {
         <Button
           id="submit-button"
           className="login-form-button-empty"
-          type="submit"
+          onClick={handleSubmit}
+          // type="submit"
         >
           Log In
         </Button>

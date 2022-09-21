@@ -1,76 +1,114 @@
-from django.http.response import JsonResponse
-from django.utils.decorators import method_decorator
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
-from .models import User
-import hashlib
 import json
+from wsgiref import headers
+from .models import User
+from .serializers import UserSerializer, UserStatusSerializer, LoginSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+import hashlib
 
-# Create your views here.
+
+@api_view(['POST'])
+def new_user(request):
+
+    data = {
+
+        'email': request.data.get('email'),
+        'name': request.data.get('name'),
+        'lastname': request.data.get('lastname'),
+        'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest(),
+        'createdat': request.data.get('createdat'),
+        'actived': request.data.get('actived'),
+
+    }
+    serializer = UserSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UsersView(View):
+@api_view(['GET', 'PUT'])
+def user_change_search(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    if request.method == 'GET':
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def get(self, request, id=0):
-        if (id > 0):
-            listUser = list(User.objects.filter(userid=id).values())
-            if len(listUser) > 0:
-                user = listUser[0]
-                datos = {'message': "Success", 'company': user}
-            else:
-                datos = {'message': "User not found..."}
-            return JsonResponse(datos)
-        else:
-            listUser = list(User.objects.values())
-            if len(listUser) > 0:
-                datos = {'message': "Success", 'companies': listUser}
-            else:
-                datos = {'message': "User not found..."}
-            return JsonResponse(datos)    
-            
-    def post(self, request):
-        jd = json.loads(request.body)
-        User.objects.create(userid=jd['userid'],email=jd['email'], name=jd['name'], lastname=jd['lastname'], password = hashlib.sha256(jd['password'].encode('utf-8')).hexdigest(), createdat=jd['createdat'], actived=jd['actived'])
-        datos = {'message': "Success"}
-        return JsonResponse(datos)
+    elif request.method == 'PUT':
+        data = {
+            'email': request.data.get('email'),
+            'name': request.data.get('name'),
+            'lastname': request.data.get('lastname'),
+            'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest(),
+        }
+        serializer = UserSerializer(user, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserPutInfo(View):
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+@ api_view(['GET'])
+def listed(request):
+
+    user = User.objects.all()
+    serializer = UserSerializer(user,many=True)
+    return Response(serializer.data)
+
+@ api_view(['GET'])
+def listed_active(request):
+
+    user = User.objects.filter(actived=1)
+    serializer = UserSerializer(user,many=True)
+    return Response(serializer.data)
+
+@ api_view(['GET'])
+def listed_deactive(request):
+
+    user = User.objects.filter(actived=0)
+    serializer = UserSerializer(user,many=True)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+def delete_user(request, pk):
+
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    data = {
+        'actived': 0,
+    }
+    serializer = UserStatusSerializer(user, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@ api_view(['POST'])
+def login(request):
+
+    data = {
+        'email': request.data.get('email'),
+        'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest(),
+    }
+   
+    print(data.get('email'))
+    print(data.get('password'))
+    emailSe = data.get('email')
+    passwordSe = data.get('password')
     
-    def put(self, request, userid):
-        jd = json.loads(request.body)
-        try:
-            user = User.objects.get(userid=userid)
-            user.email=jd['email']
-            user.name=jd['name']
-            user.lastname=jd['lastname']
-            user.password = hashlib.sha256(jd['password'].encode('utf-8')).hexdigest()
-            user.save()
-            msg = {'message': "Success"}
-        except:
-            msg = {'message': "Company not found..."}
-        return JsonResponse(msg)
-
-class UserPutPassword(View):
-
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-        
-    def put(self, request, userid):
-        jd = json.loads(request.body)
-        try:
-            user = User.objects.get(userid=userid)
-            user.password = hashlib.sha256(jd['password'].encode('utf-8')).hexdigest()
-            user.save()
-            msg = {'message': "Success"}
-        except:
-            msg = {'message': "Company not found..."}
-        return JsonResponse(msg)
+    try:
+        user = User.objects.get(email = emailSe, password = passwordSe, actived=1)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = LoginSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
