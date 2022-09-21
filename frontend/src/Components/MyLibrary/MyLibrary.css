@@ -1,0 +1,85 @@
+.my-library {
+  margin: 0 60px 0 60px;
+  height: 100%;
+  background-color: aliceblue;
+}
+
+.my-library-banner {
+  height: 60px;
+  background-color: #ff9696;
+  color: white;
+  font-size: 60px;
+  padding: 8px 0;
+  border-radius: 10px;
+}
+
+h2 {
+  margin-left: 70px;
+}
+
+.my-library-options {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.my-library-options-content {
+  float: left;
+  padding: 0 !important;
+  margin-right: 40px;
+  color: #42006d;
+}
+
+.my-library-select-view {
+  color: #42006d;
+}
+
+.my-library-body {
+  min-height: 100%;
+  padding: 40px 0 40px 0;
+  display: flex;
+}
+
+.my-library-recent-views {
+  height: 550px;
+  width: 400px;
+  padding: 20px;
+  line-height: 20px;
+  background-color: gray;
+  border-radius: 10px;
+}
+
+.my-library-recent-views-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: #42006d;
+}
+
+.my-library-all-books {
+  height: 550px;
+  width: 100%;
+  font-size: 20px;
+  margin-left: 40px;
+  background-color: gray;
+  border-radius: 10px;
+}
+
+.recent-views .list-group-item {
+  height: 50px;
+  margin-top: 20px;
+  border-radius: 10px !important;
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.books-table {
+  padding-left: 20px !important;
+  margin: 0;
+}
+
+.books-table tr {
+  line-height: 45px;
+}

@@ -2,6 +2,7 @@ import React from "react";
 import "../../App.css";
 import Header from "../Shared/Header/Header";
 import SignUp from "../SignUp/SignUp";
+import MyLibrary from "../MyLibrary/MyLibrary";
 import WelcomeFooter from "../Shared/WelcomeFooter/WelcomeFooter";
 import "./LandingPage.css";
 import LogIn from "../LogIn/LogIn";
@@ -12,13 +13,13 @@ function LandingPage() {
   const [signup, setSignup] = useState(false);
   return (
     <div>
-      <div className="background" style={{ backgroundColor: "#42006D" }}>
+      <div className="background" style={{ backgroundColor: "#ffffff" }}>
         <Header />
-
-        {login ? <LogIn setLogin={setLogin} setSignup={setSignup} /> : null}
-        {login ? <WelcomeFooter message={"Welcome Back!"} /> : null}
-        {signup ? <SignUp setSignup={setSignup} setLogin={setLogin} /> : null}
-        {signup ? <WelcomeFooter message={"Welcome!"} /> : null}
+        <MyLibrary />
+        {/*login ? <LogIn setLogin={setLogin} setSignup={setSignup} /> : null*/}
+        {/*login ? <WelcomeFooter message={"Welcome Back!"} /> : null*/}
+        {/*signup ? <SignUp setSignup={setSignup} setLogin={setLogin} /> : null*/}
+        {/*signup ? <WelcomeFooter message={"Welcome!"} /> : null*/}
       </div>
     </div>
   );
