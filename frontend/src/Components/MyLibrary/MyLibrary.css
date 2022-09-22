@@ -48,6 +48,7 @@ h2 {
   line-height: 20px;
   background-color: gray;
   border-radius: 10px;
+  flex-direction: column;
 }
 
 .my-library-recent-views-title {
@@ -59,7 +60,7 @@ h2 {
 
 .my-library-all-books {
   height: 550px;
-  width: 100%;
+  width: 1356px;
   font-size: 20px;
   margin-left: 40px;
   background-color: gray;
@@ -82,4 +83,64 @@ h2 {
 
 .books-table tr {
   line-height: 45px;
+}
+
+.my-library-all-books-view-2 {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.small-book-card {
+  width: 185px;
+  height: 175px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.my-library-all-books-view-3 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.large-book-card {
+  width: 230px;
+  height: 510px;
+  border-radius: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.large-book-card-body {
+  padding-top: 10px;
+  padding-bottom: 0;
+}
+
+.large-book-card-description {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.carousel-books {
+  width: 100%;
+}
+
+.carousel-books-item {
+  padding: 20px 40px 20px 40px;
+}
+
+.carousel-books-stack {
+  justify-content: start;
+  gap: 20px;
+}
+
+.carousel-control-prev {
+  justify-content: start;
+}
+
+.carousel-control-next {
+  justify-content: end;
 }

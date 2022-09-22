@@ -3,6 +3,10 @@ import { Navbar, Nav } from "react-bootstrap";
 import "./MyLibrary.css";
 import ListGroup from "react-bootstrap/ListGroup";
 import Table from "react-bootstrap/Table";
+import Card from "react-bootstrap/Card";
+import Carousel from "react-bootstrap/Carousel";
+import Stack from "react-bootstrap/Stack";
+import logo from "../../placeholderBook.jpg";
 
 function MyLibrary() {
   const [myView, setMyView] = useState("1");
@@ -119,11 +123,44 @@ function View1() {
 }
 
 function View2() {
-  return <div className="my-library-all-books-view-2">Vista 2</div>;
+  return (
+    <div className="my-library-all-books-view-2">
+      <Card className="small-book-card">
+        <Card.Img
+          variant="top"
+          src={logo}
+          alt={logo}
+          height="100px"
+          width="120px"
+        />
+        <Card.Body>
+          <Card.Title>Name of Book</Card.Title>
+        </Card.Body>
+      </Card>
+    </div>
+  );
 }
 
 function View3() {
-  return <div className="my-library-all-books-view-3">Vista 3</div>;
+  return (
+    <div className="my-library-all-books-view-3">
+      <Carousel className="carousel-books" indicators={false}>
+        <Carousel.Item className="carousel-books-item">
+          <Stack direction="horizontal" className="carousel-books-stack">
+            <Card className="large-book-card">
+              <Card.Img variant="top" src={logo} alt={logo} height="470px" />
+              <Card.Body className="large-book-card-body">
+                <Card.Title>Name of Book</Card.Title>
+              </Card.Body>
+              <Card.Text className="large-book-card-description">
+                History
+              </Card.Text>
+            </Card>
+          </Stack>
+        </Carousel.Item>
+      </Carousel>
+    </div>
+  );
 }
 
 export default MyLibrary;
