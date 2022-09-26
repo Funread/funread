@@ -10,13 +10,16 @@ import "swiper/css";
 import "swiper/css/navigation";
 import logo from "../../placeholderBook.jpg";
 
+/**
+ * Function MyLibrary:
+ * @param {*} props Información de los libros vistos recientemente por el usuario y los libros del usuario.
+ *
+ * Componente MyLibrary.
+ */
 function MyLibrary(props) {
   const [myView, setMyView] = useState("1");
-  const arr = [
-    /*0, 1, 2, 3, 4, 5, 6, 7*/
-  ];
+  const arr = [0, 1, 2, 3, 4, 5, 6, 7];
   const booksList = [
-    /*
     { name: "Libro 1", type: "Historia", pages: "12", date: "Enero 20" },
     { name: "Libro 2", type: "Historia", pages: "13", date: "Enero 20" },
     { name: "Libro 3", type: "Historia", pages: "50", date: "Enero 20" },
@@ -31,13 +34,24 @@ function MyLibrary(props) {
     { name: "Libro 12", type: "Historia", pages: "785", date: "Enero 21" },
     { name: "Libro 13", type: "Historia", pages: "785", date: "Enero 21" },
     { name: "Libro 14", type: "Historia", pages: "785", date: "Enero 21" },
-*/
   ];
 
+  /**
+   * Function changeView:
+   * @param {*} view Número de vista a la que se desea cambiar.
+   *
+   * Cambia la vista (entre 3 opciones) de los libros del usuarios.
+   */
   function changeView(view) {
     setMyView(view);
   }
 
+  /**
+   * Function setRecentViews:
+   * @param {*} userRecentViews Libros vistos recientemente por el usuario.
+   *
+   * Si el usuario ha visto libros recientemente, los agrega a una lista y la regresa para mostrarla en pantalla.
+   */
   function setRecentViews(userRecentViews) {
     const recentViewsList = [];
 
@@ -52,7 +66,11 @@ function MyLibrary(props) {
     return recentViewsList;
   }
 
-  function View1() {
+  /**
+   * Function firstView:
+   * Vista 1: Contiene la vista con la tabla de datos de los libros del usuario.
+   */
+  function firstView() {
     return (
       <div className="my-library-all-books-view-1">
         <Table className="books-table">
@@ -70,6 +88,13 @@ function MyLibrary(props) {
     );
   }
 
+  /**
+   * Function setBooksTableData:
+   * @param {*} data Lista/Objeto con la información de los libros del usuario.
+   *
+   * Agrega la información de los libros del usuario a la tabla de datos.
+   * Posteriormente la regresa como una lista para mostrar la información en pantalla (vista 1).
+   */
   function setBooksTableData(data) {
     const booksList = [];
 
@@ -89,7 +114,11 @@ function MyLibrary(props) {
     return booksList;
   }
 
-  function View2() {
+  /**
+   * Function secondView:
+   * Vista 2: Contiene la vista con las tarjetas pequeñas (imagen y nombre de libro) de los libros del usuario.
+   */
+  function secondView() {
     return (
       <div className="my-library-all-books-view-2">
         {setSmallBookCardsData(booksList)}
@@ -97,6 +126,13 @@ function MyLibrary(props) {
     );
   }
 
+  /**
+   * Function setSmallBookCardsData:
+   * @param {*} data Lista/Objeto con la información de los libros del usuario.
+   *
+   * Agrega la información de los libros del usuario a tarjetas pequeñas con imagen y nombre  del libro.
+   * Posteriormente las regresa como una lista para mostrar la información en pantalla (vista 2).
+   */
   function setSmallBookCardsData(data) {
     const booksList = [];
 
@@ -122,7 +158,11 @@ function MyLibrary(props) {
     return booksList;
   }
 
-  function View3() {
+  /**
+   * Function thirdView:
+   * Vista 3: Contiene la vista con las tarjetas grandes (imagen, nombre de libro y tipo) de los libros del usuario.
+   */
+  function thirdView() {
     return (
       <div className="my-library-all-books-view-3">
         <div className="swiper-books">
@@ -142,6 +182,13 @@ function MyLibrary(props) {
     );
   }
 
+  /**
+   * Function setLargeBookCardsData:
+   * @param {*} data Lista/Objeto con la información de los libros del usuario.
+   *
+   * Agrega la información de los libros del usuario a tarjetas grandes con imagen, nombre y tipo del libro.
+   * Posteriormente las regresa como una lista para mostrar la información en pantalla (vista 3).
+   */
   function setLargeBookCardsData(data) {
     const booksList = [];
 
@@ -230,7 +277,11 @@ function MyLibrary(props) {
             </ListGroup>
           </div>
           <div className="my-library-all-books">
-            {myView === "1" ? View1() : myView === "2" ? View2() : View3()}
+            {myView === "1"
+              ? firstView()
+              : myView === "2"
+              ? secondView()
+              : thirdView()}
           </div>
         </div>
       </div>
