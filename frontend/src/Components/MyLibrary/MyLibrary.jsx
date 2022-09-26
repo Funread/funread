@@ -4,20 +4,25 @@ import "./MyLibrary.css";
 import ListGroup from "react-bootstrap/ListGroup";
 import Table from "react-bootstrap/Table";
 import Card from "react-bootstrap/Card";
-import Carousel from "react-bootstrap/Carousel";
-import Stack from "react-bootstrap/Stack";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
 import logo from "../../placeholderBook.jpg";
 
 function MyLibrary(props) {
   const [myView, setMyView] = useState("1");
-  const arr = [0, 1, 2, 3, 4, 5, 6, 7];
+  const arr = [
+    /*0, 1, 2, 3, 4, 5, 6, 7*/
+  ];
   const booksList = [
+    /*
     { name: "Libro 1", type: "Historia", pages: "12", date: "Enero 20" },
     { name: "Libro 2", type: "Historia", pages: "13", date: "Enero 20" },
     { name: "Libro 3", type: "Historia", pages: "50", date: "Enero 20" },
-    { name: "Libro 4", type: "asd", pages: "12", date: "Enero 20" },
+    { name: "Libro 4", type: "Historia", pages: "12", date: "Enero 20" },
     { name: "Libro 5", type: "Historia", pages: "12", date: "Enero 20" },
-    { name: "Libro 6", type: "asd", pages: "12", date: "Diciembre 19" },
+    { name: "Libro 6", type: "Historia", pages: "12", date: "Diciembre 19" },
     { name: "Libro 7", type: "Historia", pages: "785", date: "Enero 21" },
     { name: "Libro 8", type: "Historia", pages: "785", date: "Enero 21" },
     { name: "Libro 9", type: "Historia", pages: "785", date: "Enero 21" },
@@ -26,6 +31,7 @@ function MyLibrary(props) {
     { name: "Libro 12", type: "Historia", pages: "785", date: "Enero 21" },
     { name: "Libro 13", type: "Historia", pages: "785", date: "Enero 21" },
     { name: "Libro 14", type: "Historia", pages: "785", date: "Enero 21" },
+*/
   ];
 
   function changeView(view) {
@@ -119,13 +125,19 @@ function MyLibrary(props) {
   function View3() {
     return (
       <div className="my-library-all-books-view-3">
-        <Carousel className="carousel-books" indicators={false}>
-          <Carousel.Item className="carousel-books-item">
-            <Stack direction="horizontal" className="carousel-books-stack">
+        <div className="swiper-books">
+          <div className="swiper-wrapper">
+            <Swiper
+              modules={[Navigation]}
+              slidesPerView={4}
+              spaceBetween={20}
+              navigation
+              loop={true}
+            >
               {setLargeBookCardsData(booksList)}
-            </Stack>
-          </Carousel.Item>
-        </Carousel>
+            </Swiper>
+          </div>
+        </div>
       </div>
     );
   }
@@ -136,15 +148,17 @@ function MyLibrary(props) {
     if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
         booksList.push(
-          <Card className="large-book-card" key={i}>
-            <Card.Img variant="top" src={logo} alt={logo} height="470px" />
-            <Card.Body className="large-book-card-body">
-              <Card.Title>{data[i].name}</Card.Title>
-            </Card.Body>
-            <Card.Text className="large-book-card-description">
-              {data[i].type}
-            </Card.Text>
-          </Card>
+          <SwiperSlide key={i}>
+            <Card className="large-book-card" key={i}>
+              <Card.Img variant="top" src={logo} alt={logo} height="320px" />
+              <Card.Body className="large-book-card-body">
+                <Card.Title>{data[i].name}</Card.Title>
+              </Card.Body>
+              <Card.Text className="large-book-card-description">
+                {data[i].type}
+              </Card.Text>
+            </Card>
+          </SwiperSlide>
         );
       }
     }

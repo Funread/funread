@@ -1,7 +1,6 @@
 .my-library {
   height: 756px;
   margin: 0 60px 0 60px;
-  background-color: aliceblue;
 }
 
 .my-library-banner {
@@ -47,11 +46,11 @@ h2 {
 }
 
 .my-library-recent-views {
-  height: 486px;
+  height: 100%;
   width: 460px;
   padding: 40px;
   line-height: 20px;
-  background-color: gray;
+  background-color: #f9fafe;
   border-radius: 10px;
   flex-direction: column;
   overflow-y: auto;
@@ -65,11 +64,11 @@ h2 {
 }
 
 .my-library-all-books {
-  height: 486px;
+  height: 100%;
   width: 1220px;
   font-size: 20px;
   margin-left: 40px;
-  background-color: gray;
+  background-color: #f9fafe;
   border-radius: 10px;
   overflow-y: auto;
 }
@@ -108,16 +107,22 @@ h2 {
 }
 
 .my-library-all-books-view-3 {
+  height: 100%;
   display: flex;
   justify-content: space-between;
   overflow: hidden;
 }
 
+.swiper-books {
+  width: 100%;
+  padding: 40px 20px 40px 20px;
+}
+
 .large-book-card {
-  width: 230px;
-  height: 510px;
+  height: 406px;
   border-radius: 10px;
   padding-bottom: 10px;
+  margin: 0 20px 0 20px;
   text-align: center;
 }
 
@@ -132,25 +137,14 @@ h2 {
   text-align: center;
 }
 
-.carousel-books {
-  width: 100%;
+.swiper-button-prev {
+  left: 0 !important;
+  color: #42006d !important;
 }
 
-.carousel-books-item {
-  padding: 20px 40px 20px 40px;
-}
-
-.carousel-books-stack {
-  justify-content: start;
-  gap: 20px;
-}
-
-.carousel-control-prev {
-  justify-content: start;
-}
-
-.carousel-control-next {
-  justify-content: end;
+.swiper-button-next {
+  right: 0 !important;
+  color: #42006d !important;
 }
 
 ::-webkit-scrollbar {
@@ -172,4 +166,20 @@ h2 {
   border-bottom-left-radius: 0;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 1366px) {
+  .my-library-body {
+    height: 406px;
+    padding: 40px 0 40px 0;
+    display: flex;
+  }
+
+  .large-book-card {
+    height: 246px;
+    border-radius: 10px;
+    padding-bottom: 10px;
+    margin: 0 10px 0 10px;
+    text-align: center;
+  }
 }
