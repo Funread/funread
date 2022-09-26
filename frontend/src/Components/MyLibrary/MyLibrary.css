@@ -1,6 +1,6 @@
 .my-library {
+  height: 756px;
   margin: 0 60px 0 60px;
-  height: 100%;
   background-color: aliceblue;
 }
 
@@ -17,8 +17,12 @@ h2 {
   margin-left: 70px;
 }
 
+.my-library-navbar {
+  margin-top: 30px;
+  height: 60px;
+}
+
 .my-library-options {
-  margin-top: 10px;
   font-weight: bold;
   font-size: 20px;
   font-family: Arial, Helvetica, sans-serif;
@@ -33,22 +37,24 @@ h2 {
 
 .my-library-select-view {
   color: #42006d;
+  margin-right: 40px;
 }
 
 .my-library-body {
-  min-height: 100%;
-  padding: 40px 0 40px 0;
+  height: 606px;
+  padding: 40px 0 80px 0;
   display: flex;
 }
 
 .my-library-recent-views {
-  height: 550px;
-  width: 400px;
-  padding: 20px;
+  height: 486px;
+  width: 460px;
+  padding: 40px;
   line-height: 20px;
   background-color: gray;
   border-radius: 10px;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .my-library-recent-views-title {
@@ -59,16 +65,17 @@ h2 {
 }
 
 .my-library-all-books {
-  height: 550px;
-  width: 1356px;
+  height: 486px;
+  width: 1220px;
   font-size: 20px;
   margin-left: 40px;
   background-color: gray;
   border-radius: 10px;
+  overflow-y: auto;
 }
 
 .recent-views .list-group-item {
-  height: 50px;
+  height: 60px;
   margin-top: 20px;
   border-radius: 10px !important;
   font-size: 20px;
@@ -86,16 +93,16 @@ h2 {
 }
 
 .my-library-all-books-view-2 {
-  padding: 20px;
+  padding: 40px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
+  justify-content: flex-start;
+  gap: 40px;
 }
 
 .small-book-card {
-  width: 185px;
-  height: 175px;
+  width: 192px;
+  height: 185px;
   padding: 10px;
   border-radius: 10px;
 }
@@ -103,6 +110,7 @@ h2 {
 .my-library-all-books-view-3 {
   display: flex;
   justify-content: space-between;
+  overflow: hidden;
 }
 
 .large-book-card {
@@ -143,4 +151,25 @@ h2 {
 
 .carousel-control-next {
   justify-content: end;
+}
+
+::-webkit-scrollbar {
+  width: 14px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
