@@ -1,12 +1,17 @@
+from rest_framework import routers
+from .api import UserViewSet
+from Users import views
 from django.urls import path
-from .views import UsersView,UserPutInfo,UserPutPassword
+from rest_framework.urlpatterns import format_suffix_patterns
 
-urlpatterns = [
-    path('list/', UsersView.as_view(), name='users_list'),
-    path('search/users/<int:id>', UsersView.as_view(), name='search_process'),
-    path('new/users/', UsersView.as_view(), name='new_process'),
-    path('modify/users/<int:userid>', UserPutInfo.as_view(), name='change_info_process'),
-    path('changePassword/users/<int:userid>', UserPutPassword.as_view(), name='change_password_process'),
-    path('eliminate/users/<int:userid>', UsersView.as_view(), name='eliminate_process')
-    
+urlpatterns=[
+    path('user/<int:pk>/', views.user_change_search),
+    path('list/', views.listed),
+    path('list-active/', views.listed_active),
+    path('list-deactive/', views.listed_deactive),
+    path('new-user/', views.new_user),
+    path('delete_user/<int:pk>/',views.delete_user),
+    path('login/',views.login)
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

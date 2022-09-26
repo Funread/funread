@@ -11,7 +11,5 @@ class TeacherSerializer(serializers.ModelSerializer):
         return Teachers.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.TeacherName = validated_data.get('TeacherName', instance.TeacherName)
-        instance.TeacherPwd = validated_data.get('TeacherPwd', instance.TeacherPwd)
         instance.save()
         return instance
