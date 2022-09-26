@@ -21,7 +21,7 @@ function CustomButton(props) {
 
   return (
     <>
-      <Button
+    <Button
         variant="outline-light"
         onClick={() => {
           setName();
@@ -31,6 +31,7 @@ function CustomButton(props) {
       >
         {props.name}
       </Button>
+      
     </>
   );
 }

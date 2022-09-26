@@ -1,9 +1,47 @@
-.background {
-  height: 92vh;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.background-container {
+  background-color: white;
+  padding: 40px;
+}
+
+.landing-page-container {
+  max-height: 100%;
+  background-color: #42006d;
   overflow: hidden;
-  margin: 40px;
   border-radius: 20px;
+  padding: 0;
+}
+
+.body-container {
+  max-height: 610px;
+  max-width: 1840px;
+  padding: 0;
+}
+
+.news-container {
+  max-height: 530px;
+  max-width: 1130px;
+  background: red;
+  margin: 0px 90px 0px 60px;
+  padding: 0;
+}
+
+.footer-container {
+  height: 140px;
+  width: 1060px;
+  padding: 0;
+}
+
+.row {
+  padding: 0;
+  margin: 0;
+}
+
+.col {
+  padding: 0;
+  margin: 0;
+}
+
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
 }

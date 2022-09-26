@@ -1,16 +1,4 @@
-.welcome-footer {
-  max-width: 1060px;
-  min-height: 140px;
+.welcome-footer-text {
   font-size: 60px;
   font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  bottom: 40px;
-  margin-top: 110px;
-}
-
-.svgt {
-  position: sticky;
-  min-height: 208px;
 }

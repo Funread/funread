@@ -6,14 +6,14 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faUser, faEye } from "@fortawesome/free-regular-svg-icons";
 import "./SignUp.css";
 import CustomButton from "../Shared/CustomButton/CustomButton";
-import { useSign } from "../../hooks/useSign";
-
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signUp } = useSign();
 
   /**
    * Function tooglePassword:
@@ -34,8 +34,9 @@ function SignUp(props) {
    * Las variables name, email y password contienen los valores ingresados por el usuario al momento de presionar el boton de Log In.
    */
   const handleSubmit = () => {
-    let info = signUp(name, email, password);
-    console.log(info);
+    console.log(name);
+    console.log(email);
+    console.log(password);
   };
 
   /**
@@ -49,9 +50,9 @@ function SignUp(props) {
   const isEmpty = (data, id) => {
     data !== ""
       ? (document.getElementById(id).className =
-          "form-control-lg-filled form-control form-control-lg")
+          "form-control-lg-filled form-control form-control-lg responsive-text")
       : (document.getElementById(id).className =
-          "form-control-lg form-control form-control-lg");
+          "form-control-lg form-control form-control-lg responsive-text");
   };
 
   /**
@@ -67,27 +68,36 @@ function SignUp(props) {
   });
 
   return (
-    <div className="signup-form">
+    <Container className="signup-form">
       <div className="account-button-container">
-        <CustomButton
-          name={"Log In"}
-          setLogin={props.setLogin}
-          setSignup={props.setSignup}
-        />
-        <CustomButton
-          name={"Sign Up"}
-          setSignup={props.setSignup}
-          setLogin={props.setLogin}
-        />
+        <Row>
+          <Col>
+            <CustomButton
+              name={"Log In"}
+              setLogin={props.setLogin}
+              setSignup={props.setSignup}
+            />
+          </Col>
+          <Col>
+            <CustomButton
+              name={"Sign Up"}
+              setSignup={props.setSignup}
+              setLogin={props.setLogin}
+            />
+          </Col>
+        </Row>
       </div>
-      <Form>
-        <h1 className="signup-form-title">Hello!</h1>
-        <h5 className="signup-form-subtitle">
-          Add your information to register.
-        </h5>
-        <div>
+      <Form onSubmit={handleSubmit}>
+        <Row>
+          <h1 className="signup-form-title">Hello!</h1>
+          <h5 className="signup-form-subtitle">
+            Add your information to register.
+          </h5>
+        </Row>
+
+        <Row>
           <Form.Group>
-            <Form.Label className="font-size">
+            <Form.Label className="font-size form-label">
               <FontAwesomeIcon className="signup-icons" icon={faUser} />
               Your name
             </Form.Label>
@@ -100,11 +110,13 @@ function SignUp(props) {
                 setName(e.target.value);
                 isEmpty(e.target.value, "nameInput");
               }}
-              className="form-control-lg"
+              className="form-control-lg responsive-text"
               placeholder="Your name here"
               required
             />
           </Form.Group>
+        </Row>
+        <Row>
           <Form.Group>
             <Form.Label className="font-size">
               <FontAwesomeIcon className="signup-icons" icon={faEnvelope} />
@@ -124,6 +136,8 @@ function SignUp(props) {
               required
             />
           </Form.Group>
+        </Row>
+        <Row>
           <Form.Group>
             <Form.Label className="font-size">
               <FontAwesomeIcon className="signup-icons" icon={faLock} />
@@ -138,7 +152,7 @@ function SignUp(props) {
                   setPassword(e.target.value);
                   isEmpty(e.target.value, "passwordInput");
                 }}
-                className="form-control-lg-empty"
+                className="form-control-lg responsive-text"
                 type={showPassword ? "text" : "password"}
                 placeholder="Your password"
                 required
@@ -148,22 +162,22 @@ function SignUp(props) {
                 className="password-button"
                 onClick={togglePassword}
               >
-                <FontAwesomeIcon className="fa-xl" icon={faEye} />
+                <FontAwesomeIcon className="fa-lg" icon={faEye} />
               </Button>
             </div>
           </Form.Group>
-        </div>
-        <div>
+        </Row>
+        <Row>
           <Button
             id="submit-button"
-            className="signup-form-button-empty mb-3 flex-fill"
-            onClick={handleSubmit}
+            className="signup-form-button-empty"
+            type="submit"
           >
             Sign Up
           </Button>
-        </div>
+        </Row>
       </Form>
-    </div>
+    </Container>
   );
 }
 

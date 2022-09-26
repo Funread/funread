@@ -38,10 +38,12 @@
 }
 
 .main-header {
-  margin: 40px 20px 80px 60px;
+  height: 56px;
+  margin: 40px 40px 80px 60px;
 }
 
 .navbar {
+  height: 56px;
   padding-top: 0;
   padding-bottom: 0;
 }

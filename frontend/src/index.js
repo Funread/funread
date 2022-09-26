@@ -4,6 +4,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LandingPage from "./Components/LandingPage/LandingPage";
+import Wizard from "./Components/Shared/Wizard/Wizard";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
