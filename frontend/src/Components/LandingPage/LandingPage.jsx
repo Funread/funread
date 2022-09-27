@@ -3,6 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import "../../App.css";
 import Wizard from "../Shared/Wizard/Wizard";
 import Header from "../Shared/Header/Header";
+import TestToast from "../Shared/Toast/TestToast";
 import SignUp from "../SignUp/SignUp";
 import MyLibrary from "../MyLibrary/MyLibrary";
 import WelcomeFooter from "../Shared/WelcomeFooter/WelcomeFooter";
@@ -22,6 +23,7 @@ function LandingPage() {
           <Routes>
             <Route exact path="/MyLibrary" element={<MyLibrary />} />
             <Route exact path="/Wizard" element={<Wizard />} />
+            <Route exact path="/TestToast" element={<TestToast />} />
           </Routes>
         </div>
         {login ? <LogIn setLogin={setLogin} setSignup={setSignup} /> : null}
