@@ -7,11 +7,15 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+     
       //ListHere
       label: this.props.miPrimerProps,
+
     };
   }
 
+
+  
   render() {
     return (
       //Return Here component or html code
@@ -40,7 +44,9 @@ class Header extends React.Component {
                   Recent Reports
                 </Nav.Link>
               </div>
-              <div></div>
+              <div>
+                
+              </div>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
