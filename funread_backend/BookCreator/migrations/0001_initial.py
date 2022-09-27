@@ -4,6 +4,8 @@ import BookCreator.models
 from django.db import migrations, models
 import djongo.models.fields
 
+from django.db import migrations, models
+from funread_backend.Users.models import User
 
 class Migration(migrations.Migration):
 
@@ -14,28 +16,18 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='BookCreator',
+            name='Book',
             fields=[
-                ('id', models.CharField(max_length=100, primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=100)),
-                ('description', models.CharField(max_length=100)),
-                ('type', models.CharField(max_length=100)),
-                ('teacherId', models.CharField(max_length=100)),
+                ('bookid', models.AutoField(primary_key=True)),
+                ('title', models.CharField(max_length=100)),
+                ('category',models.IntegerField(blank=True,null=True)),
+                ('portrait', models.CharField(max_length=200, blank=True)),
+                ('createdBy',models.ForeignKey(User, on_delete=models.CASCADE)),
+                ('createdAt',models.DateTimeField(blank=True, null=True)),
+                ('updatedBy', models.ForeignKey(User, on_delete=models.CASCADE)),
+                ('updatedAt', models.DateTimeField(blank=True, null=True)),
+                ('state',models.IntegerField(blank=True)),
+                ('sharedBook', models.BooleanField(default=False, blank=True, null=True)),
             ],
-        ),
-        migrations.CreateModel(
-            name='Content',
-            fields=[
-                ('order', models.IntegerField(primary_key=True, serialize=False)),
-                ('dataType', models.CharField(max_length=100)),
-                ('value', models.CharField(max_length=256)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Page',
-            fields=[
-                ('pageNumber', models.IntegerField(primary_key=True, serialize=False)),
-                ('contentsList', djongo.models.fields.ArrayField(model_container=BookCreator.models.Content)),
-            ],
-        ),
+        )
     ]
