@@ -34,3 +34,13 @@ class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['email','password']
+        
+class UserPasswordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email','password']
+
+    def update(self, instance, validated_data):
+        instance.password = validated_data.get('password', instance.password)
+        instance.save()
+        return instance
