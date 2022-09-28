@@ -18,6 +18,15 @@ import {
 function Toast(props) {
   const [closeTimer, setCloseTimer] = useState(5000);
 
+  /**
+   * Arrow function toastBody:
+   * @param {*} toastColor Color of the toast depending on type.
+   * @param {*} toastIcon Icon of the toast depending on type.
+   * @param {*} toastTitle Title of the toast.
+   * @param {*} toastMessage Message of the toast.
+   *
+   * Renders a toast based on the properties received.
+   */
   const toastBody = (toastColor, toastIcon, toastTitle, toastMessage) => (
     <div className="toast-body">
       <div
@@ -34,6 +43,14 @@ function Toast(props) {
     </div>
   );
 
+  /**
+   * Arrow function toastType:
+   * @param {*} toastType Type of toast to show to the user (warning, error, success & information).
+   * @param {*} toastTitle Title of the toast.
+   * @param {*} toastMessage Message of the toast.
+   *
+   * Sends the properties of the toast to another function based on its type.
+   */
   const toastType = (toastType, toastTitle, toastMessage) => {
     if (toastType === "warning") {
       toast(
