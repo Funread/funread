@@ -1,11 +1,7 @@
 from rest_framework import serializers
-from rest_framework import mixins, generics
-from BookCreator.models import Book
-
+from .models import Book
 
 class BookSerializer(serializers.ModelSerializer):
- 
-
   class Meta:
     model = Book
     fields = '__all__'
@@ -13,8 +9,18 @@ class BookSerializer(serializers.ModelSerializer):
       return Book.objects.create(**validated_data)
 
   def update(self, instance, validated_data):
-      instance.title = validated_data.get('name', instance.name)
-      instance.email = validated_data.get('email', instance.email)
-      instance.portrait = validated_data.get('lastname', instance.lastname)
+      instance.title = validated_data.get('title', instance.title)
+      instance.portrait = validated_data.get('portrait', instance.portrait)
+      instance.save()
+      return instance
+
+class BookUpdatedBySerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Book
+    fields = ['title','category','portrait','updatedBy','updatedAt']
+
+  def update(self, instance, validated_data):
+      instance.title = validated_data.get('title', instance.title)
+      instance.portrait = validated_data.get('portrait', instance.portrait)
       instance.save()
       return instance
