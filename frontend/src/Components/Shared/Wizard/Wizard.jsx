@@ -21,6 +21,11 @@ const ContainerWz = ({children}) =>{
     const BtnContinueClick = () =>{
         setActivePage(index => index + 1)
     }
+    const BtnCloseClick = () =>{
+        setModalShow(false)
+        setActivePage(index => 0)
+    }
+
     return (
         <> 
         <Button variant="primary" onClick={() => setModalShow(true)}>
@@ -64,7 +69,7 @@ const ContainerWz = ({children}) =>{
                     </Col>
                     <Col>
                         {activePage < pages.length ? (
-                            <button className="btn-right" type="button" onClick={() => setModalShow(false)}>
+                            <button className="btn-right" type="button" onClick={BtnCloseClick}>
                                 Close
                                 <FontAwesomeIcon className='icons-wizard-right' icon={faXmark} />
                             </button>
