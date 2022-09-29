@@ -26,6 +26,10 @@ const ContainerWz = ({children}) =>{
         setActivePage(index => 0)
     }
 
+    const BtnSafeClick = () =>{
+        console.log("Información guardada!");
+    }
+
     return (
         <> 
         <Button variant="primary" onClick={() => setModalShow(true)}>
@@ -63,7 +67,7 @@ const ContainerWz = ({children}) =>{
                         {activePage === pages.length -1 ? (
                             <button className='btn-right' type="submit" >
                                 Save Book
-                                <FontAwesomeIcon className='icons-wizard-right' icon={faAngleRight}/>
+                                <FontAwesomeIcon className='icons-wizard-right' icon={faAngleRight} onClick={BtnSafeClick}/>
                             </button>
                         ):null}
                     </Col>
