@@ -15,7 +15,7 @@ class Header extends React.Component {
   render() {
     return (
       //Return Here component or html code
-      <div className="main-header">
+      <>
         <Navbar collapseOnSelect expand="xxl" bg="transparent" variant="dark">
           <Navbar.Brand href="#">
             <div
@@ -44,7 +44,7 @@ class Header extends React.Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-      </div>
+      </>
     );
   }
 }

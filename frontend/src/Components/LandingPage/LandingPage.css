@@ -1,9 +1,49 @@
-.background {
-  height: 92vh;
+.landing-page-container {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
-  margin: 40px;
   border-radius: 20px;
+  height: 100%;
+  background-color: #888888;
+}
+
+.landing-page-header {
+  height: 20%;
+  padding: 40px 40px 80px 60px;
+}
+
+.landing-page-body {
+  display: flex;
+  flex-direction: row;
+  height: 80%;
+}
+
+.landing-page-body-left-section {
+  width: 70%;
+  display: flex;
+  margin-right: 80px;
+  flex-direction: column;
+}
+
+.landing-page-body-right-section {
+  margin-left: auto;
+  margin-right: 60px;
+}
+
+.landing-page-news-section {
+  margin-left: 60px;
+  height: 100%;
+  background-color: brown;
+  margin-bottom: 60px;
+}
+
+.landing-page-account-section {
+  background-color: blue;
+  margin-left: auto;
+}
+
+.landing-page-footer {
+  width: 100%;
+  margin-top: auto;
 }
