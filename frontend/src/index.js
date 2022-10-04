@@ -5,13 +5,14 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import { BrowserRouter } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <React.StrictMode>
+    <>
       <LandingPage />
-    </React.StrictMode>
+    </>
   </BrowserRouter>
 );
 
