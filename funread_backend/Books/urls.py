@@ -1,6 +1,6 @@
 from rest_framework import routers
 from .api import BookViewSet
-from BookCreator import views
+from Books import views
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 

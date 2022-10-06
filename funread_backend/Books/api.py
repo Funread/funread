@@ -1,4 +1,4 @@
-from BookCreator.models import Book
+from Books.models import Book
 from rest_framework import viewsets, permissions
 from .serializers import BookSerializer
 

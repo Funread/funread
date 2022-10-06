@@ -1,3 +1,4 @@
+import datetime
 import json
 from sre_parse import State
 from turtle import title
@@ -15,10 +16,10 @@ def new_book(request):
         'title': request.data.get('title'),
         'category': request.data.get('category'),
         'portrait': request.data.get('lastname'),
-        'createdBy': request.data.get('createdBy'),
-        'createdAt': request.data.get('createdat'),
-        'updatedBy': request.data.get('updatedBy'),
-        'updatedAt': request.data.get('updatedAt'),
+        'createdby_id': request.data.get('createdBy'),
+        'createdAt': datetime.datetime.now(),
+        'updatedby_id': request.data.get('updatedBy'),
+        'updatedAt': datetime.datetime.now(),
         'state' : request.data.get('state' ),
         'sharedBook' : request.data.get('sharedBook'),
     }
