@@ -7,13 +7,14 @@
 }
 
 .menu-options {
-  margin-top: 10px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .menu-options-content {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   float: left;
   margin-right: 20px;
   color: #d5a6fa;

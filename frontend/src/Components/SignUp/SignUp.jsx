@@ -7,6 +7,7 @@ import { faEnvelope, faUser, faEye } from "@fortawesome/free-regular-svg-icons";
 import "./SignUp.css";
 import CustomButton from "../Shared/CustomButton/CustomButton";
 import { useSign } from "../../hooks/useSign";
+import { InputGroup } from "react-bootstrap";
 
 function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
@@ -73,20 +74,22 @@ function SignUp(props) {
           name={"Log In"}
           setLogin={props.setLogin}
           setSignup={props.setSignup}
+          style={"account-log-in-button button-inactive"}
         />
         <CustomButton
           name={"Sign Up"}
           setSignup={props.setSignup}
           setLogin={props.setLogin}
+          style={"account-sign-up-button button-active"}
         />
       </div>
-      <Form>
-        <h1 className="signup-form-title">Hello!</h1>
-        <h5 className="signup-form-subtitle">
-          Add your information to register.
-        </h5>
-        <div>
-          <Form.Group>
+      <div className="signup-form-body">
+        <Form onSubmit={handleSubmit} className="signup-form-content">
+          <h1 className="signup-form-title">Hello!</h1>
+          <h5 className="signup-form-subtitle">
+            Add your information to register.
+          </h5>
+          <Form.Group className="form-group">
             <Form.Label className="font-size">
               <FontAwesomeIcon className="signup-icons" icon={faUser} />
               Your name
@@ -105,7 +108,7 @@ function SignUp(props) {
               required
             />
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="form-group">
             <Form.Label className="font-size">
               <FontAwesomeIcon className="signup-icons" icon={faEnvelope} />
               Email
@@ -124,12 +127,12 @@ function SignUp(props) {
               required
             />
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="form-group">
             <Form.Label className="font-size">
               <FontAwesomeIcon className="signup-icons" icon={faLock} />
               Password
             </Form.Label>
-            <div>
+            <InputGroup className="form-input-group">
               <Form.Control
                 id="passwordInput"
                 size="lg"
@@ -138,31 +141,32 @@ function SignUp(props) {
                   setPassword(e.target.value);
                   isEmpty(e.target.value, "passwordInput");
                 }}
+                style={{ borderRightWidth: 0 }}
                 className="form-control-lg-empty"
                 type={showPassword ? "text" : "password"}
                 placeholder="Your password"
                 required
               />
-              <Button
-                id="passwordButton"
-                className="password-button"
-                onClick={togglePassword}
-              >
-                <FontAwesomeIcon className="fa-xl" icon={faEye} />
-              </Button>
-            </div>
+              <InputGroup.Text className="form-input-group-text-password">
+                <Button
+                  id="passwordButton"
+                  className="signup-form-password-button"
+                  onClick={togglePassword}
+                >
+                  <FontAwesomeIcon className="fa-xl float end" icon={faEye} />
+                </Button>
+              </InputGroup.Text>
+            </InputGroup>
           </Form.Group>
-        </div>
-        <div>
           <Button
             id="submit-button"
-            className="signup-form-button-empty mb-3 flex-fill"
+            className="signup-form-button-empty"
             onClick={handleSubmit}
           >
             Sign Up
           </Button>
-        </div>
-      </Form>
+        </Form>
+      </div>
     </div>
   );
 }

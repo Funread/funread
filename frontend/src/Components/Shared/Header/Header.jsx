@@ -40,7 +40,6 @@ class Header extends React.Component {
                   Recent Reports
                 </Nav.Link>
               </div>
-              <div></div>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
