@@ -4,8 +4,7 @@ from Users.serializers import UserSerializer
 from .models import Book
 
 class BookSerializer(serializers.ModelSerializer):
-  createdby = UserSerializer(many=True, read_only=True)
-  updatedby = UserSerializer(many=True, read_only=True)
+
   class Meta:
     model = Book
     fields = '__all__'
