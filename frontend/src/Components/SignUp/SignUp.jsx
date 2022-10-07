@@ -36,7 +36,6 @@ function SignUp(props) {
    */
   const handleSubmit = () => {
     let info = signUp(name, email, password);
-    console.log(info);
   };
 
   /**
@@ -49,10 +48,28 @@ function SignUp(props) {
    */
   const isEmpty = (data, id) => {
     data !== ""
-      ? (document.getElementById(id).className =
-          "form-control-lg-filled form-control form-control-lg")
-      : (document.getElementById(id).className =
-          "form-control-lg form-control form-control-lg");
+      ? changeInputColor(id, "#42006d")
+      : changeInputColor(id, "#e9e9e9");
+
+    if (id === "passwordInput") {
+      data !== ""
+        ? (document.getElementById("inputGroupText").style.borderColor =
+            "#42006d")
+        : (document.getElementById("inputGroupText").style.borderColor =
+            "#e9e9e9");
+    }
+  };
+
+  /**
+   * Function changeInputColor:
+   * @param {*} id identificador del campo del formulario.
+   * @param {*} color color nuevo del campo del formulario.
+   *
+   * Cambia el color del borde y la letra del formulario, depende de si tiene o no datos.
+   */
+  const changeInputColor = (id, color) => {
+    document.getElementById(id).style.borderColor = color;
+    document.getElementById(id).style.color = color;
   };
 
   /**
@@ -103,7 +120,7 @@ function SignUp(props) {
                 setName(e.target.value);
                 isEmpty(e.target.value, "nameInput");
               }}
-              className="form-control-lg"
+              className="signup-form-control-lg"
               placeholder="Your name here"
               required
             />
@@ -122,7 +139,7 @@ function SignUp(props) {
                 setEmail(e.target.value);
                 isEmpty(e.target.value, "emailInput");
               }}
-              className="form-control-lg responsive-text"
+              className="signup-form-control-lg"
               placeholder="example@mep.co.cr"
               required
             />
@@ -142,12 +159,15 @@ function SignUp(props) {
                   isEmpty(e.target.value, "passwordInput");
                 }}
                 style={{ borderRightWidth: 0 }}
-                className="form-control-lg-empty"
+                className="signup-form-control-lg"
                 type={showPassword ? "text" : "password"}
                 placeholder="Your password"
                 required
               />
-              <InputGroup.Text className="form-input-group-text-password">
+              <InputGroup.Text
+                id="inputGroupText"
+                className="form-input-group-text-password"
+              >
                 <Button
                   id="passwordButton"
                   className="signup-form-password-button"
