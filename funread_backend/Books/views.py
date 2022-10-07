@@ -12,16 +12,17 @@ import hashlib
 
 @api_view(['POST'])
 def new_book(request):
+    print(request.data)
     data = {
-        'title': request.data.get('title'),
+        'title': "request.data.get('title')",
         'category': request.data.get('category'),
-        'portrait': request.data.get('lastname'),
-        'createdby_id': request.data.get('createdBy'),
+        'portrait': request.data.get('portrait'),
+        'createdby': request.data.get('createdby'),
         'createdAt': datetime.datetime.now(),
-        'updatedby_id': request.data.get('updatedBy'),
-        'updatedAt': datetime.datetime.now(),
+        'updatedby': request.data.get('updatedby'),
+        'lastupdateat': datetime.datetime.now(),
         'state' : request.data.get('state' ),
-        'sharedBook' : request.data.get('sharedBook'),
+        'sharedbook' : request.data.get('sharedBook'),
     }
     serializer = BookSerializer(data=data)
     if serializer.is_valid():
