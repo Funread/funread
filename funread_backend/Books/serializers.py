@@ -8,7 +8,6 @@ class BookSerializer(serializers.ModelSerializer):
   class Meta:
     model = Book
     fields = '__all__'
-    
 
   def create(self, validated_data):
       return Book.objects.create(**validated_data)
@@ -17,26 +16,24 @@ class BookSerializer(serializers.ModelSerializer):
       instance.title = validated_data.get('title', instance.title)
       instance.category = validated_data.get('category', instance.category)
       instance.portrait = validated_data.get('portrait', instance.portrait)
-      instance.createdBy = validated_data.get('createdby', instance.updatedBy)
-      instance.updatedAt = validated_data.get('createdAt', instance.updatedAt)
-      instance.updatedBy = validated_data.get('updatedby_id', instance.updatedBy)
-      instance.updatedAt = validated_data.get('updatedAt', instance.updatedAt)
+      instance.updatedby = validated_data.get('updatedby', instance.updatedby)
+      instance.lastupdateat = validated_data.get('lastupdateat', instance.lastupdateat)
       instance.state = validated_data.get('state', instance.state)
-      instance.sharedBook = validated_data.get('sharedBook', instance.sharedBook)
+      instance.sharedbook = validated_data.get('sharedbook', instance.sharedbook)
       instance.save()
       return instance
 
 class BookUpdatedBySerializer(serializers.ModelSerializer):
   class Meta:
     model = Book
-    fields = ['title','category','portrait','updatedBy','updatedAt']
+    fields = ['title','category','portrait','updatedby','lastupdateat']
 
   def update(self, instance, validated_data):
       instance.title = validated_data.get('title', instance.title)
       instance.category = validated_data.get('category', instance.category)
       instance.portrait = validated_data.get('portrait', instance.portrait)
-      instance.updatedBy = validated_data.get('updatedBy', instance.updatedBy)
-      instance.updatedAt = validated_data.get('updatedAt', instance.updatedAt)
+      instance.updatedby = validated_data.get('updatedby', instance.updatedby)
+      instance.lastupdateat = validated_data.get('lastupdateat', instance.lastupdateat)
       instance.save()
       return instance
 
@@ -46,6 +43,6 @@ class bookStateSerializer(serializers.ModelSerializer):
         fields = ['state']
 
     def update(self, instance, validated_data):
-        instance.actived = validated_data.get('state', instance.actived)
+        instance.state = validated_data.get('state', instance.state)
         instance.save()
         return instance
