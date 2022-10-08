@@ -12,8 +12,8 @@ urlpatterns=[
     path('list-notPublished/', views.listed_NotPublishedBooks),
     path('list-private/', views.listed_PrivateBooks),
     path('new-book/', views.new_book),
-    path('modify-state-private/', views.new_book),
-    path('modify-state-publish/',views.modifyStateToPrivate)
+    path('modify-state-private/', views.modifyStateToPrivate),
+    path('modify-state-publish/',views.modifyStateToPublish)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

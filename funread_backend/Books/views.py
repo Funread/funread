@@ -14,11 +14,11 @@ import hashlib
 def new_book(request):
     print(request.data)
     data = {
-        'title': "request.data.get('title')",
+        'title': request.data.get('title'),
         'category': request.data.get('category'),
         'portrait': request.data.get('portrait'),
         'createdby': request.data.get('createdby'),
-        'createdAt': datetime.datetime.now(),
+        'createdat': datetime.datetime.now(),
         'updatedby': request.data.get('updatedby'),
         'lastupdateat': datetime.datetime.now(),
         'state' : request.data.get('state' ),
@@ -31,9 +31,9 @@ def new_book(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-def bookSearch(request, bookid):
+def bookSearch(request, title):
     try:
-        book = Book.objects.get(bookid=bookid)
+        book = Book.objects.get(title=title)
         print(book)
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -52,11 +52,13 @@ def bookChange(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     data = {
-        'tile': request.data.get('title'),
+        'title': request.data.get('title'),
         'portrait': request.data.get('portrait'),
         'category': request.data.get('category'),
-        'updatedBy': request.data.get('updatedBy'),
-        'updatedAt': request.data.get('updatedAt'), 
+        'createdby': request.data.get('createdby'),
+        'updatedby': request.data.get('updatedby'),
+        'lastupdateat': datetime.datetime.now(), 
+        'state': request.data.get('state'),
     }
     serializer = BookSerializer(book, data=data)
     if serializer.is_valid():
@@ -67,8 +69,8 @@ def bookChange(request):
 
 @ api_view(['GET'])
 def listed(request):
-    user = Book.objects.all()
-    serializer = BookSerializer(user, many=True)
+    book = Book.objects.all()
+    serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
 
