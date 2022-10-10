@@ -204,3 +204,21 @@ UserID int,
 FOREIGN KEY(UserID) REFERENCES User (UserId),
 FOREIGN KEY(BookID) REFERENCES Book (BookId)
 ); 
+/*----------------------------Gestor de archivos--------------------------------------------*/
+create table Folders(
+FoldersId int not null primary key auto_increment,
+NameFolders varchar(200) not null,
+CreatedBy int not null,
+foreign key(CreatedBy) REFERENCES User(UserId)
+);
+
+create table File(
+FileId int not null primary key auto_increment,
+FileLocation varchar(200) not null,
+FoldersId int not null,
+UploadBy int not null,
+IdTags int not null,
+foreign key(FoldersId)references Folders(FoldersId),
+foreign key(UploadBy)references User(UserId),
+foreign key(idTags) references Tags(TagsId)
+);
