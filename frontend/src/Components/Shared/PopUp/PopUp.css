@@ -19,6 +19,7 @@
     position: relative;
     height: 50%;
     margin-top: 10%;
+    min-height: 400px;
   }
   
   .popup h2 {
@@ -67,9 +68,10 @@
   .footer{
     padding: 1%;
     background-color: aqua;
-    margin-top: 1%;
+    margin-top: auto;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: auto;
   }
 
 
