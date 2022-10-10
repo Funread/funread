@@ -226,7 +226,7 @@ function MyLibrary(props) {
       </div>
       <div className="my-library">
         <div className="my-library-banner">
-          <h2>My Library</h2>
+          <h2 className="my-library-title">My Library</h2>
         </div>
         <Navbar bg="transparent" className="my-library-navbar">
           <Nav>

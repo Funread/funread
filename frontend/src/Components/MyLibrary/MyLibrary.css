@@ -11,15 +11,15 @@
 }
 
 .my-library-banner {
+  display: flex;
   height: min(60px, 10%);
   background-color: #ff9696;
   color: white;
-  font-size: min(60px, 6vh);
-  padding: 8px 0;
   border-radius: 20px;
+  align-items: center;
 }
 
-h2 {
+.my-library-title {
   margin-left: 70px;
 }
 
