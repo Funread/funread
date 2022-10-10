@@ -13,14 +13,14 @@ import MyLibrary from "./Components/MyLibrary/MyLibrary";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <>
+    <div className="background-container">
       <Routes>
         <Route exact path="/MyLibrary" element={<MyLibrary />} />
         <Route exact path="/Wizard" element={<Wizard />} />
         <Route exact path="/TestToast" element={<TestToast />} />
         <Route exact path="/" element={<LandingPage />} />
       </Routes>
-    </>
+    </div>
   </BrowserRouter>
 );
 

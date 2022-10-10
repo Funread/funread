@@ -11,7 +11,7 @@ function LandingPage() {
   const [login, setLogin] = useState(true);
   const [signup, setSignup] = useState(false);
   return (
-    <div className="landing-page-container">
+    <>
       <div className="landing-page-header">
         <Header />
       </div>
@@ -32,7 +32,7 @@ function LandingPage() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -9,6 +9,7 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import logo from "../../placeholderBook.jpg";
+import Header from "../Shared/Header/Header";
 
 /**
  * Function MyLibrary:
@@ -197,9 +198,11 @@ function MyLibrary(props) {
         booksList.push(
           <SwiperSlide key={i}>
             <Card className="large-book-card" key={i}>
-              <Card.Img variant="top" src={logo} alt={logo} height="320px" />
+              <Card.Img variant="top" src={logo} alt={logo} height="80%" />
               <Card.Body className="large-book-card-body">
-                <Card.Title>{data[i].name}</Card.Title>
+                <Card.Title className="large-book-card-title">
+                  {data[i].name}
+                </Card.Title>
               </Card.Body>
               <Card.Text className="large-book-card-description">
                 {data[i].type}
@@ -213,8 +216,14 @@ function MyLibrary(props) {
     return booksList;
   }
 
+  /**
+   * Debe eliminarse el header actual cuando este creado el header del dashboard
+   */
   return (
     <>
+      <div className="landing-page-header">
+        <Header />
+      </div>
       <div className="my-library">
         <div className="my-library-banner">
           <h2>My Library</h2>
