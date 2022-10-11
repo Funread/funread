@@ -1,16 +1,11 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
 import "../../App.css";
-import Wizard from "../Shared/Wizard/Wizard";
 import Header from "../Shared/Header/Header";
-import TestToast from "../Shared/Toast/TestToast";
 import SignUp from "../SignUp/SignUp";
-import MyLibrary from "../MyLibrary/MyLibrary";
 import WelcomeFooter from "../Shared/WelcomeFooter/WelcomeFooter";
 import "./LandingPage.css";
 import LogIn from "../LogIn/LogIn";
 import { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
 
 function LandingPage() {
   const [login, setLogin] = useState(true);
