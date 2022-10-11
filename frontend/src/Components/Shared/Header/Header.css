@@ -1,14 +1,22 @@
-.logo-funread {
-  width: 260px;
-  height: 40px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.header-navbar-container {
+  display: flex;
+  flex-direction: column;
+  padding-right: 60px;
+  padding-left: 60px;
+  padding-top: min(40px, 2.2%);
+}
+
+.header-navbar-brand {
+  padding: 0;
+}
+
+.header-navbar-logo-funread {
+  width: 220px;
 }
 
 .menu-options {
   font-weight: bold;
-  font-size: 1.25rem;
+  font-size: min(20px, 3vh);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -21,20 +29,20 @@
 }
 
 .menu-options-content:hover {
-  text-decoration: underline 5px;
-  text-underline-offset: 15px;
+  text-decoration: underline 25%;
+  text-underline-offset: 25%;
   color: #d5a6fa;
 }
 
 .menu-options-content:focus {
-  text-decoration: underline 5px;
-  text-underline-offset: 15px;
+  text-decoration: underline 25%;
+  text-underline-offset: 25%;
   color: white;
 }
 
 .menu-options-content:active {
-  text-decoration: underline 5px;
-  text-underline-offset: 15px;
+  text-decoration: underline 25%;
+  text-underline-offset: 25%;
   color: white;
 }
 

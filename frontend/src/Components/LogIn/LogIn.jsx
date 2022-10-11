@@ -85,7 +85,7 @@ function LogIn(props) {
 
   return (
     <div className="login-form">
-      <div className="account-button-container">
+      <div className="login-account-button-container">
         <CustomButton
           name={"Log In"}
           setLogin={props.setLogin}

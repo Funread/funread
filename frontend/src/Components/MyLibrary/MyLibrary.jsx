@@ -10,6 +10,15 @@ import "swiper/css";
 import "swiper/css/navigation";
 import logo from "../../placeholderBook.jpg";
 import Header from "../Shared/Header/Header";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSliders,
+  faDownload,
+  faPlus,
+  faBars,
+  faGripVertical,
+  faEllipsis,
+} from "@fortawesome/free-solid-svg-icons";
 
 /**
  * Function MyLibrary:
@@ -149,7 +158,9 @@ function MyLibrary(props) {
               width="120px"
             />
             <Card.Body>
-              <Card.Title>{data[i].name}</Card.Title>
+              <Card.Title className="small-book-card-title">
+                {data[i].name}
+              </Card.Title>
             </Card.Body>
           </Card>
         );
@@ -221,23 +232,29 @@ function MyLibrary(props) {
    */
   return (
     <>
-      <div className="landing-page-header">
+      <div className="my-library-header">
         <Header />
       </div>
       <div className="my-library">
         <div className="my-library-banner">
-          <h2 className="my-library-title">My Library</h2>
+          <p className="my-library-title">My Library</p>
         </div>
         <Navbar bg="transparent" className="my-library-navbar">
           <Nav>
             <div className="my-library-options">
               <Nav.Link className="my-library-options-content">
+                <FontAwesomeIcon icon={faPlus} />
+                {"  "}
                 Create Book
               </Nav.Link>
               <Nav.Link className="my-library-options-content">
+                <FontAwesomeIcon icon={faDownload} />
+                {"  "}
                 Import Book
               </Nav.Link>
               <Nav.Link className="my-library-options-content">
+                <FontAwesomeIcon icon={faSliders} />
+                {"  "}
                 Filters
               </Nav.Link>
             </div>
@@ -256,7 +273,7 @@ function MyLibrary(props) {
                   changeView("1");
                 }}
               >
-                1
+                <FontAwesomeIcon icon={faBars} />
               </Nav.Link>
               <Nav.Link
                 className="my-library-options-content"
@@ -264,7 +281,7 @@ function MyLibrary(props) {
                   changeView("2");
                 }}
               >
-                2
+                <FontAwesomeIcon icon={faGripVertical} />
               </Nav.Link>
               <Nav.Link
                 className="my-library-options-content"
@@ -273,7 +290,7 @@ function MyLibrary(props) {
                   changeView("3");
                 }}
               >
-                3
+                <FontAwesomeIcon icon={faEllipsis} />
               </Nav.Link>
             </div>
           </Nav>
