@@ -79,7 +79,7 @@
   @media screen and (max-width: 1400px) {
     .popup {
       width: 70%;
-      margin-top: 20%;
+      margin-top: 10%;
       min-width: 500px;
     }
 
@@ -88,7 +88,7 @@
   @media screen and (max-height: 600px) {
     .popup {
       width: 70%;
-      margin-top: 25%;
+      margin-top: 10%;
       min-height: 260px;
       height: 50%;
     }

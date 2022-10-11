@@ -14,7 +14,7 @@ root.render(
   <Routes>
     <Route path="/" element={<LandingPage />}>
     </Route>
-    <Route path="/wiki" element={<Wiki />}>
+    <Route path="/wiki/*" element={<Wiki />}>
     </Route>
   </Routes>
 </BrowserRouter>  

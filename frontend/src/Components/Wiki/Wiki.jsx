@@ -1,6 +1,8 @@
 import React from 'react'
 import "./Wiki.css"; 
 import "react-bootstrap";
+import { Route, Routes } from 'react-router-dom';
+import PopUp_Wiki from "./PopUp_Wiki";
 class Wiki extends React.Component {
     constructor(props) {
         super(props)
@@ -18,27 +20,32 @@ class Wiki extends React.Component {
         return (
             <React.Fragment>
                 <div>
-                    <div class="container-fluid">
-                        <div class="row content">
-                            <div class="col-sm-3 sidenav">
+                    <div className="container-fluid">
+                        <div className="row content">
+                            <div className="col-sm-3 sidenav">
                             <h4>FunRead's Wiki</h4>
-                            <ul class="nav nav-pills flex-column">
-                                <li class="nav-item">
-                                <a class="nav-link active" href="#">Pop up</a>
+                            <ul className="nav nav-pills flex-column">
+                                <li className="nav-item">
+                                <a className="nav-link active" href="#">Pop up</a>
                                 </li>
-                                <li class="nav-item">
-                                <a class="nav-link" href="#">Wizard</a>
+                                <li className="nav-item">
+                                <a className="nav-link" href="#">Wizard</a>
                                 </li>
-                                <li class="nav-item">
-                                <a class="nav-link" href="#">Modal</a>
+                                <li className="nav-item">
+                                <a className="nav-link" href="#">Modal</a>
                                 </li>
-                                <li class="nav-item">
-                                <a class="nav-link" href="#">Toast</a>
+                                <li className="nav-item">
+                                <a className="nav-link" href="#">Toast</a>
                                 </li>
-                                <li class="nav-item">
-                                <a class="nav-link disabled" href="#">Disabled</a>
+                                <li className="nav-item">
+                                <a className="nav-link disabled" href="#">Disabled</a>
                                 </li>
                             </ul>
+                            </div>
+                            <div className="col-sm-9">
+                                <Routes>
+                                    <Route path="/popup" element={<PopUp_Wiki />}/>
+                                </Routes>
                             </div> 
                         </div> 
                     </div>    

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Row, Col } from "react-bootstrap";
 
 
-const CustomPopup = (props) => {
+const PopUp = (props) => {
   const [show, setShow] = useState(false);
   const closeHandler = (e) => {
     setShow(false);
@@ -15,20 +15,29 @@ const CustomPopup = (props) => {
   useEffect(() => {
     setShow(props.show);
 
-      document.addEventListener("mousedown", (event) => {
+    if(props.show === true){
+      let handler = (event) =>{
         if(!contRef.current.contains(event.target)) {
           closeHandler(false);
         }
-      })
+      };
+  
+        document.addEventListener("mousedown", handler);
+  
+        return () => {
+          document.removeEventListener("mousedown", handler);
+        };
+    }
     
   }, [props.show]);
   
   return (
     <>
+    {show && (
       <div 
       style={{
-        visibility: show ? "visible" : "hidden",
-        opacity: show ? "1" : "0"
+        visibility: "visible",
+        opacity: "1"
       }}
       className="overlay"
       >
@@ -61,15 +70,18 @@ const CustomPopup = (props) => {
         <div className="content">{props.children}</div>
       </div>
     </div>
+    )}
+      
     </>
     
   );
 };
 
-CustomPopup.propTypes = {
+PopUp.propTypes = {
   title: PropTypes.string.isRequired,
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired
 };
 
-export default CustomPopup;
+export default PopUp;
+
