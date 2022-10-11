@@ -5,7 +5,6 @@ html,
 
 #root {
   height: 100%;
-  padding: 2%;
 }
 
 body {
@@ -23,7 +22,12 @@ code {
     monospace;
 }
 
-.background-container {
+.index-background-padding {
+  height: 100%;
+  padding: 2%;
+}
+
+.index-background-container {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import MyLibrary from "./Components/MyLibrary/MyLibrary";
+import Wiki from "./Components/Wiki/Wiki";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,23 +15,28 @@ root.render(
     <Routes>
       <Route
         exact
-        path="/MyLibrary"
+        path="/mylibrary"
         element={
-          <div className="background-container">
-            <MyLibrary />
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <MyLibrary />
+            </div>
           </div>
         }
       />
+
       <Route
         exact
         path="/"
         element={
-          <div className="background-container">
-            <LandingPage />
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <LandingPage />
+            </div>
           </div>
         }
       />
-      <Route path="/wiki" element={<Wiki />}></Route>
+      <Route path="/wiki" element={<Wiki />} />
     </Routes>
   </BrowserRouter>
 );
