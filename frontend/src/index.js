@@ -4,16 +4,20 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LandingPage from "./Components/LandingPage/LandingPage";
-import { BrowserRouter } from "react-router-dom";
+ 
 import "react-toastify/dist/ReactToastify.css";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Wiki from "./Components/Wiki/Wiki";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <>
-      <LandingPage />
-    </>
-  </BrowserRouter>
+  <Routes>
+    <Route path="/" element={<LandingPage />}>
+    </Route>
+    <Route path="/wiki" element={<Wiki />}>
+    </Route>
+  </Routes>
+</BrowserRouter>  
 );
 
 // If you want to start measuring performance in your app, pass a function
