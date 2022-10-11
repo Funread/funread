@@ -30,6 +30,7 @@ root.render(
           </div>
         }
       />
+      <Route path="/wiki" element={<Wiki />}></Route>
     </Routes>
   </BrowserRouter>
 );
