@@ -19,13 +19,6 @@ function LandingPage() {
     <div>
       <div className="background" style={{ backgroundColor: "#888888" }}>
         <Header />
-        <div>
-          <Routes>
-            <Route exact path="/MyLibrary" element={<MyLibrary />} />
-            <Route exact path="/Wizard" element={<Wizard />} />
-            <Route exact path="/TestToast" element={<TestToast />} />
-          </Routes>
-        </div>
         {login ? <LogIn setLogin={setLogin} setSignup={setSignup} /> : null}
         {login ? <WelcomeFooter message={"Welcome Back!"} /> : null}
         {signup ? <SignUp setSignup={setSignup} setLogin={setLogin} /> : null}
