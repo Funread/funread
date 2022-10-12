@@ -51,6 +51,7 @@ def bookChange(request):
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+
     data = {
         'title': request.data.get('title'),
         'portrait': request.data.get('portrait'),
