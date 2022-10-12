@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
 import Toast from "./Toast";
 
 function TestToast() {
@@ -47,10 +48,18 @@ function TestToast() {
   return (
     <>
       <div>
-        <button onClick={callInfoToast}>Info</button>
-        <button onClick={callWarningToast}>Warning</button>
-        <button onClick={callErrorToast}>Error</button>
-        <button onClick={callSuccessToast}>Success</button>
+        <Button variant="info" onClick={callInfoToast}>
+          Info
+        </Button>{" "}
+        <Button variant="warning" onClick={callWarningToast}>
+          Warning
+        </Button>{" "}
+        <Button variant="danger" onClick={callErrorToast}>
+          Error
+        </Button>{" "}
+        <Button variant="success" onClick={callSuccessToast}>
+          Success
+        </Button>
         {toast}
       </div>
     </>

@@ -1,33 +1,45 @@
-.account-button {
+.account-button-body {
   width: 50%;
-  height: 60px;
-  font-size: 20px;
+  height: 100%;
+  font-size: 1.25rem;
   font-weight: bold;
-  border-radius: 10px;
   font-family: Arial, Helvetica, sans-serif;
   border-style: solid;
-  border-color: #d5a6fa;
+  box-shadow: none !important;
+}
+
+.account-button-body:hover {
+  background: #ffffff;
+  border-style: solid;
+  border-color: #ffffff;
+  color: gray;
+}
+
+.account-button-body:focus {
+  background: #ffffff;
+  border-style: solid;
+  border-color: #ffffff;
+  color: gray;
+}
+
+.account-log-in-button {
+  border-radius: 20px 0 0 0;
+}
+
+.account-sign-up-button {
+  border-radius: 0 20px 0 0;
+}
+
+.button-active {
+  background: #ffffff;
+  border-style: solid;
+  border-color: #ffffff;
+  color: gray;
+}
+
+.button-inactive {
   background: #d5a6fa;
-  color: white;
-  min-width: 6vw;
-}
-
-.account-button:hover {
-  background: #d5a6fa;
   border-style: solid;
   border-color: #d5a6fa;
-  color: white;
-}
-
-.account-button:focus {
-  background: #42006d;
-  border-style: solid;
-  border-color: #42006d;
-  color: white;
-}
-
-.account-button-focused {
-  background: #42006d;
-  border-style: solid;
-  border-color: white;
+  color: #ffffff;
 }
