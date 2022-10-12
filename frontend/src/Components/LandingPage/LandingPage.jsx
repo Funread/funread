@@ -7,9 +7,12 @@ import "./LandingPage.css";
 import LogIn from "../LogIn/LogIn";
 import { useState } from "react";
 
+
 function LandingPage() {
   const [login, setLogin] = useState(true);
   const [signup, setSignup] = useState(false);
+  
+
   return (
     <div>
       <div className="background" style={{ backgroundColor: "#888888" }}>
