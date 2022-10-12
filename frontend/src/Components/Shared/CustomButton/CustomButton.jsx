@@ -27,7 +27,7 @@ function CustomButton(props) {
           setName();
           setFocus();
         }}
-        className={"account-button " + (state ? "account-button-focused" : "")}
+        className={"account-button-body " + props.style}
       >
         {props.name}
       </Button>
