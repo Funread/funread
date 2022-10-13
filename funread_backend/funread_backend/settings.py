@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'Users.apps.UsersConfig'
+    'Users.apps.UsersConfig',
+    'Books',
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
     #     'rest_framework',
@@ -137,7 +138,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": 'angaby2903',
+        "PASSWORD": 'Lyckan.0606',
         'PORT': '3306',
         'USER': 'root',
         'OPTIONS': {
