@@ -1,181 +1,117 @@
-/*------------------ area del usuario-----------------------------*/
+use funread;
+
+alter table widgetItem drop primary key;
+/*--------------------Cambiar el password de user a 256------------------*/
+alter table user modify column password nvarchar(256);
+
+/*--------------------Agregar de la elementorder en pages y name en widget------------------*/
+Alter table pages Add ElementOrder int not null;
+Alter table widget Add Name varchar(200);
 
 
-create table Roles(
-	RolesId int primary key not null auto_increment,
-    Role varchar(200) not null
-);
+/*--------------------Cambio de nombre de la tabla grouos------------------*/
+alter table groups rename StudentGroups;
+
+/*------------------Borramiento de llaves foraneas------------------------*/
+ALTER TABLE booksperclasses  drop foreign key booksperclasses_ibfk_1;
+ALTER TABLE booksperclasses  drop foreign key `booksperclasses_ibfk_2`;
+Alter Table classeslog DROP foreign key classeslog_ibfk_1;
+ALTER TABLE classeslog DROP foreign key classeslog_ibfk_2;
+Alter Table groupsperclasses DROP foreign key groupsperclasses_ibfk_1;
+ALTER TABLE groupsperclasses DROP foreign key groupsperclasses_ibfk_2;
+Alter table widgetitem drop foreign key widgetitem_ibfk_2;
+Alter table tagsperpage drop foreign key tagsperpage_ibfk_1;
+Alter table widget drop foreign key widget_ibfk_1;
+Alter table widgetitem drop foreign key widgetitem_ibfk_1;
+Alter table file drop foreign key file_ibfk_3;
+Alter table tagsperbook drop foreign key tagsperbook_ibfk_2;
+Alter table tagsperpage drop foreign key tagsperpage_ibfk_2;
+Alter table authorlist drop foreign key authorlist_ibfk_2;
+Alter table pages drop foreign key pages_ibfk_1;
+Alter table sharedbooks drop foreign key sharedbooks_ibfk_2;
+Alter table tagsperbook drop foreign key tagsperbook_ibfk_1;
+Alter table institutemembers drop foreign key institutemembers_ibfk_1;
+Alter table book drop foreign key book_ibfk_1;
+Alter table book drop foreign key book_ibfk_2;
+Alter table classes drop foreign key classes_ibfk_1;
+Alter table file drop foreign key file_ibfk_2;
+Alter table folders drop foreign key folders_ibfk_1;
+Alter table grades drop foreign key grades_ibfk_1;
+Alter table sharedbooks drop foreign key sharedbooks_ibfk_1;
+Alter table studentgroups drop foreign key studentgroups_ibfk_1;
+Alter table studentgroups drop foreign key studentgroups_ibfk_2;
+Alter table userroles drop foreign key userroles_ibfk_2;
+Alter table userroles drop foreign key userroles_ibfk_1;
+Alter table authorlist drop foreign key authorlist_ibfk_1;
+Alter table institutemembers drop foreign key institutemembers_ibfk_2;
+
+/*-----------------------Poner Autoincrementales----------------------------------------------*/
+
+ALTER TABLE `sharedbooks` CHANGE `SharedBooksId` `SharedBooksId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `authorlist` CHANGE `AuthorListId` `AuthorListId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `groupsperclasses` CHANGE `GroupsPerClassesId` `GroupsPerClassesId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `booksperclasses` CHANGE `BooksPerClasses` `BooksPerClasses` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `classeslog` CHANGE `ClassesLogId` `ClassesLogId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `classes` CHANGE `ClassesId` `ClassesId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `studentgroups` CHANGE `GroupsId` `GroupsId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `widgetitem` CHANGE `WidgetItemId` `WidgetItemId` INT(11) NOT NULL AUTO_INCREMENT primary key;
+ALTER TABLE `widget` CHANGE `WidgetId` `WidgetId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tagsperpage` CHANGE `TagsPerPageId` `TagsPerPageId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `pages` CHANGE `PageId` `PageId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tagsperbook` CHANGE `TagsPerBookId` `TagsPerBookId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tags` CHANGE `TagsId` `TagsId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `book` CHANGE `BookID` `BookID` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `grades` CHANGE `GradesID` `GradesID` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `institutemembers` CHANGE `InstituteMembersID` `InstituteMembersID` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `institute` CHANGE `InstituteId` `InstituteId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `userroles` CHANGE `UserRolesId` `UserRolesId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `user` CHANGE `UserId` `UserId` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `roles` CHANGE `RolesId` `RolesId` INT(11) NOT NULL AUTO_INCREMENT;
+
+/*----------------------------Borrar Page---------------------------------*/
+Alter table widget drop column PageId;
+
+/*-----------------------------Agregar LLaves Foreneas----------------------*/
 
 
-create table User(
-	UserId int primary key not null auto_increment,
-	Email varchar(200) not null,
-	Name varchar(200),
-	LastName varchar(200),
-	Password nvarchar(256),
-	CreatedAt datetime default(sysdate()) ,
-	Actived boolean
-);
+Alter table userroles add foreign key(IdUser) references user(UserId);
+Alter table userroles add foreign key(IdRole) references Roles(RolesId);
 
-create table UserRoles(
-	UserRolesId int primary key not null auto_increment,
-    IdUser int not null,
-    IdRole int not null,
-    FOREIGN KEY(IdRole) REFERENCES Roles (RolesId),
-    FOREIGN KEY(IdUser) REFERENCES User (UserId)
-);
-/*-------------------- area del instituto-------------------------- */
+Alter table InstituteMembers add foreign key(UserId) references user(UserId);
+Alter table InstituteMembers add foreign key(InstituteId) references Institute(InstituteID);
 
+Alter table Grades add FOREIGN KEY(UserId) REFERENCES User (UserId);
 
-create table Institute(
-	InstituteId int not null primary key auto_increment,
-	Name varchar(200) not null
-);
+Alter table Book add FOREIGN KEY(CreatedBy) REFERENCES User (UserId);
+Alter table Book add FOREIGN KEY(LastUpdateBy) REFERENCES User (UserId);
 
+Alter table tagsperbook add FOREIGN KEY(BookId) REFERENCES Book (BookID);
+Alter table tagsperbook add FOREIGN KEY(TagsID) REFERENCES Tags (TagsId);
 
-create table InstituteMembers(
-	InstituteMembersID int not null primary key auto_increment,
-	InstituteID int not null,
-	UserId int not null,
-	FOREIGN KEY(InstituteID) REFERENCES Institute (InstituteId),
-	FOREIGN KEY(UserId) REFERENCES User (UserId)
-);
+Alter table pages add FOREIGN KEY(BookId) REFERENCES Book (BookID);
 
-/*------------------ area de los grados----------------------------*/
+Alter table tagsperpage add FOREIGN KEY(PageID) REFERENCES Pages (PageId);
+Alter table tagsperpage add FOREIGN KEY(TagsID) REFERENCES Tags (TagsId);
 
-create table Grades(
-	GradesID int primary key not null auto_increment,
-	BooksId varchar(200) not null,
-	Progress int,
-	Grade float,
-	UserId int not null,
-	FOREIGN KEY(UserId) REFERENCES User (UserId)
-);
+Alter table widgetItem add FOREIGN KEY(PageId) REFERENCES Pages (PageId);
+Alter table widgetItem add FOREIGN KEY(WidgetId) REFERENCES Widget (WidgetId);
 
-/*------------------ area de los Books----------------------------*/
-create table Book(
-	BookID int  not null primary key auto_increment,
-	Title varchar(200) not null,
-	Category int,
-	Portrait varchar(200),
-	CreatedBy int,
-	CreatedAt DateTime default(sysdate()),
-	LastUpdateBy int,
-	LastUpdateAt DateTime default(sysdate()),
-	State int not null,
-	SharedBook Boolean default 0,
-	FOREIGN KEY(CreatedBy) REFERENCES User (UserId),
-	FOREIGN KEY(LastUpdateBy) REFERENCES User (UserId)
-);
+Alter table studentGroups add FOREIGN KEY(UserId) REFERENCES User (UserId);
+Alter table studentGroups add FOREIGN KEY(CreatedBy) REFERENCES User (UserId);
 
-create table Tags(
-	TagsId int not null primary key auto_increment,
-	Description nvarchar(50) Not null
-);
+Alter table classes add FOREIGN KEY(TeacherAssigned) REFERENCES User (UserId);
 
-create table TagsPerBook(
-	TagsPerBookId int not null primary key auto_increment,
-	BookId int,
-	TagsID  int,
-	FOREIGN KEY(BookId) REFERENCES Book (BookID),
-	FOREIGN KEY(TagsID) REFERENCES Tags (TagsId)
-);
+Alter table classesLog add FOREIGN KEY(UserID) REFERENCES User (UserId);
+Alter table classesLog add FOREIGN KEY(ClassesID) REFERENCES Classes (ClassesId);
 
-create table Pages(
-PageId int not null primary key auto_increment,
-BookId int,
-ElemetOrder int not null,
-Type int not null,
-Template int not null,
-FOREIGN KEY(BookId) REFERENCES Book (BookID)
-);
+Alter table BooksPerClasses add FOREIGN KEY(ClassesId) REFERENCES Classes (ClassesId);
+Alter table BooksPerClasses add FOREIGN KEY(BooksId) REFERENCES Book (BookID);
 
-create table TagsPerPage(
-TagsPerPageId int not null primary key auto_increment,
-PageID int,
-TagsID int,
-FOREIGN KEY(PageID) REFERENCES Pages (PageId),
-FOREIGN KEY(TagsID) REFERENCES Tags (TagsId)
-);
+Alter table GroupsPerClasses add FOREIGN KEY(ClassesId) REFERENCES Classes (ClassesId);
+Alter table GroupsPerClasses add FOREIGN KEY(GroupsId) REFERENCES studentGroups (GroupsId);
 
-create table Widget(
-WidgetId int not null primary key auto_increment,
-Name varchar(200),
-Type int
-);
+Alter table AuthorList add FOREIGN KEY(UserID) REFERENCES User (UserId);
+Alter table AuthorList add FOREIGN KEY(BookID) REFERENCES Book (BookID);
 
-create table WidgetItem(
-WidgetItemId int not null primary key auto_increment,
-PageId int,
-WidgetId int,
-Value int,
-Type int not null,
-FOREIGN KEY(PageId) REFERENCES Pages (PageId),
-FOREIGN KEY(WidgetId) REFERENCES Widget (WidgetId)
-);
-
-/*------------------ area de los Classes & Groups----------------------------*/
-
-create table StudentGroups(
-StudentGroupsId int primary key not null auto_increment,
-UserId int not null,
-isTeacher Boolean default False,
-CreatedBy int not null,
-CreatedAt DateTime default(sysdate()),
-FOREIGN KEY(UserId) REFERENCES User (UserId),
-FOREIGN KEY(CreatedBy) REFERENCES User (UserId)
-);
-
-
-create table Classes(
-ClassesId int not null primary key auto_increment,
-Name varchar(200) not null,
-Grade int,
-TeacherAssigned int,
-CreatedAt DateTime default(sysdate()),
-LastUpdateAt datetime default(sysdate()),
-FOREIGN KEY(TeacherAssigned) REFERENCES User (UserId)
-);
-
-create table ClassesLog(
- ClassesLogId int not null primary key auto_increment,
- ClassesID int not null,
- UserID int not null,
- CreatedAt DateTime default(sysdate()),
- Description nvarchar(100),
-FOREIGN KEY(UserID) REFERENCES User (UserId),
-FOREIGN KEY(ClassesID) REFERENCES Classes (ClassesId)
-);
-
-create table BooksPerClasses(
-BooksPerClasses int not null primary key auto_increment,
-BooksId int ,
-ClassesId int,
-FOREIGN KEY(ClassesId) REFERENCES Classes (ClassesId),
-FOREIGN KEY(BooksId) REFERENCES Book (BookID)
-);
-
-create table GroupsPerClasses(
-GroupsPerClassesId int not null primary key auto_increment,
-StudentGroupsId int,
-ClassesId int,
-FOREIGN KEY(ClassesId) REFERENCES Classes (ClassesId),
-FOREIGN KEY(StudentGroupsId) REFERENCES StudentGroups (StudentGroupsId)
-);
-
-/*------------------area de ShareBooks-------------------------*/
-create table AuthorList(
-AuthorListId int not null primary key auto_increment,
-BookID int,
-UserID int,
-FOREIGN KEY(UserID) REFERENCES User (UserId),
-FOREIGN KEY(BookID) REFERENCES Book (BookID)
-);
-
-create table SharedBooks(
-SharedBooksId int not null primary key auto_increment,
-BookID int,
-UserID int,
-FOREIGN KEY(UserID) REFERENCES User (UserId),
-FOREIGN KEY(BookID) REFERENCES Book (BookId)
-); 
+Alter table SharedBooks add FOREIGN KEY(UserID) REFERENCES User (UserId);
+Alter table SharedBooks add FOREIGN KEY(BookID) REFERENCES Book (BookId);
