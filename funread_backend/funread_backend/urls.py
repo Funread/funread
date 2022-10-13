@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('accounts/', include('AuthApp.urls')),
     # path('book_creator/', include('BookCreator.urls')),
-    path('users/',include('Users.urls'))
+    path('users/',include('Users.urls')),
+    path('books/',include('Books.urls'))
 ]
