@@ -137,7 +137,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": 'angaby2903',
+#<<<<<<< Updated upstream
+        # "PASSWORD": 'angaby2903',
+#=======
+        "PASSWORD": '1234',
+#>>>>>>> Stashed changes
         'PORT': '3306',
         'USER': 'root',
         'OPTIONS': {
