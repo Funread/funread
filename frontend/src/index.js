@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import MyLibrary from "./Components/MyLibrary/MyLibrary";
+import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import Wiki from "./Components/Wiki/Wiki";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -36,6 +37,12 @@ root.render(
           </div>
         }
       />
+      <Route path="/dashboard" 
+      element={<div className="index-background-padding">
+            <div className="index-background-container ">
+              <Dashboard />
+            </div>
+          </div>} />
       <Route path="/wiki" element={<Wiki />} />
     </Routes>
   </BrowserRouter>
