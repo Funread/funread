@@ -15,7 +15,7 @@ def new_page(request):
     print(request.data)
     data = {
         'pageid': request.data.get('pageid'),
-        'bookid': request.data.get('bookid'),
+        'book': request.data.get('book'),
         'elementorder': request.data.get('elementorder'),
         'type': request.data.get('type'),
         'template': request.data.get('template')
@@ -25,3 +25,44 @@ def new_page(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def pageSearch(request, pageid):
+    try:
+        page = Pages.objects.get(pageid=pageid)
+        print(page)
+    except Pages.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = PageSerializer(page)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['PUT'])
+def pageChange(request):
+    try:
+        dataRequest = {
+            'pageid': request.data.get('pageid'),
+        }
+        pageidSe = dataRequest.get('pageid')
+        page = Pages.objects.get(pageid=pageidSe)
+    except Pages.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+    data = {
+        'elementorder': request.data.get('elementorder'),
+        'type': request.data.get('type'),
+        'template': request.data.get('template'),
+    }
+    serializer = PageSerializer(Pages, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@ api_view(['GET'])
+def listed(request):
+    page = Pages.objects.all()
+    serializer = PageSerializer(page, many=True)
+    return Response(serializer.data)
+
