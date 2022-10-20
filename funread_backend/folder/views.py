@@ -37,11 +37,9 @@ def listed(request):
 @api_view(['DELETE'])
 def deleteFolder(request, nameFolders):
     folder = Folder.objects.get(nameFolders=nameFolders)
-    serializer = FolderSearch(nameFolders=nameFolders)
-    if serializer.is_valid():
-        folder.delete()
-        return Response(serializer, status=status.HTTP_201_CREATED)
-    return Response(serializer, status=status.HTTP_400_BAD_REQUEST)
+    folder.delete()
+
+    return Response(status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def FolderSearch(request, nameFolders):
@@ -53,21 +51,14 @@ def FolderSearch(request, nameFolders):
     serializer = FolderSerializer(folder)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['GET','PUT'])
-def folderChange(request):
-
-    if request.method == 'GET':
-        nameFolders: request.data.get(nameFolder)
-        nameFolders = nameFolder(Folder)
-        return Response(FolderSerializer.data)
-
-    elif request.method == 'PUT':
-        nameFolder: request.data.get(nameFolder)
-        Folder = FolderSerializer(Folder,data = request.data)
-        if FolderSerializer.is_valid():
-            FolderSerializer.save()
-            return Response(FolderSerializer.data)
-        return Response(FolderSerializer.errors)
+@api_view(['PUT'])
+def folderChange(request, nameFolders):
+    folder = Folder.objects.filter(nameFolders=nameFolders).first()
+    serializer = FolderSerializer(folder, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

@@ -9,7 +9,7 @@ urlpatterns = [
     path('newFolder/', views.new_folder),
     path('delete/<str:nameFolders>', views.deleteFolder),
     path('search/<str:nameFolders>', views.FolderSearch),
-    path('change/',views.folderChange),
+    path('change/<str:nameFolders>',views.folderChange),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
