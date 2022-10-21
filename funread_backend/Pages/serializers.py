@@ -13,10 +13,10 @@ class PageSerializer(serializers.ModelSerializer):
       return Pages.objects.create(**validated_data)
 
   def update(self, instance, validated_data):
-      instance.pageid = validated_data.get('pageid', instance.title)
-      instance.book = validated_data.get('book', instance.category)
-      instance.elementorder = validated_data.get('elementorder', instance.portrait)
-      instance.type = validated_data.get('type', instance.updatedby)
-      instance.template = validated_data.get('template', instance.lastupdateat)
+      instance.pageid = validated_data.get('pageid', instance.pageid)
+      instance.book = validated_data.get('book', instance.book)
+      instance.elementorder = validated_data.get('elementorder', instance.elementorder)
+      instance.type = validated_data.get('type', instance.type)
+      instance.template = validated_data.get('template', instance.template)
       instance.save()
       return instance

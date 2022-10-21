@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Users.apps.UsersConfig',
     'Books',
     'Pages.apps.PagesConfig',
+    'Widget.apps.WidgetConfig',
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
     #     'rest_framework',
