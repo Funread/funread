@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'Users.apps.UsersConfig',
     'Books',
+    'folder',
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
     #     'rest_framework',
@@ -138,7 +139,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": 'Lyckan.0606',
+        "PASSWORD": '',
         'PORT': '3306',
         'USER': 'root',
         'OPTIONS': {
