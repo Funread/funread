@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'Users.apps.UsersConfig',
     'Books',
     'folder',
+    'Tags',
+    'Files',
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
     #     'rest_framework',

@@ -22,5 +22,7 @@ urlpatterns = [
     # path('book_creator/', include('BookCreator.urls')),
     path('users/',include('Users.urls')),
     path('books/',include('Books.urls')),
+    path('file/',include('Files.urls')),
     path('folder/',include('folder.urls')),
+    path('Tags/',include('Tags.urls')),
 ]
