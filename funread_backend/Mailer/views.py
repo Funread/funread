@@ -15,6 +15,7 @@ def new_email(request):
         'emailSubject':request.data.get('emailSubject'),
         'bodyMessage':request.data.get('bodyMessage')
     }
+    
     serializer = MailSerializer(data=data)
     print(serializer)
     if serializer.is_valid():
