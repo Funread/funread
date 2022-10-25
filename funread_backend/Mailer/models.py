@@ -6,7 +6,7 @@ class Mail(models.Model):
     emailTo = models.CharField(max_length=200, blank=False, null=False )
     emailFrom = models.CharField(max_length=200,blank=False, null=False)
     emailSubject = models.CharField(max_length=50,blank=True, null=True)
-    bodyMessage = models.CharField(max_length=500,blank=False, null=False)
+    bodyMessage = models.TextField(max_length=500,blank=False, null=False)
     
 class MailControl(models.Model):
     idControl = models.ForeignKey(Mail, related_name='idControl',db_column='idControl', on_delete=models.CASCADE, to_field='emailId')
