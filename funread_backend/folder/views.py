@@ -19,7 +19,7 @@ import json
 def new_folder(request):
     print(request.data)
     data = {
-        'nameFolders': request.data.get('nameFolders'),
+        'nameFolders': request.data.get('nameFolders').lower(),
         'createdBy': request.data.get('createdBy'),
     }
     serializer = FolderSerializer(data=data)
