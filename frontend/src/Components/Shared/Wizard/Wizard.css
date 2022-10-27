@@ -9,6 +9,14 @@
   margin: 0 60px 0 60px;
 }
 
+.wizard-title {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  line-height: 120%;
+  font-size: 32px;
+  font-weight: bold;
+}
+
 .wizard-bg {
   height: 90%;
   background-color: transparent;
@@ -18,40 +26,36 @@
 }
 
 .btn-left {
+  height: 40px;
   margin-right: 10px;
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 7px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  width: 90px;
+  width: 120px;
   border: 1px solid;
-  font-size: 10px;
+  font-size: 14px !important;
   background-color: white;
   border-color: #d5a6fa;
 }
 
 .btn-right {
+  height: 40px;
   margin-right: 10px;
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 7px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  width: 90px;
+  width: 120px;
   border: 1px solid;
-  font-size: 10px;
+  font-size: 14px !important;
   background-color: white;
   border-color: #d5a6fa;
 }
 
 .btn-close {
+  height: 40px;
   margin-right: 10px;
   border-radius: 20px;
-  padding: 7px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  width: 900px;
+  width: 120px;
   border: 1px solid;
-  font-size: 10px;
+  font-size: 14px !important;
   background-color: white;
   border-color: #d5a6fa;
 }
@@ -60,10 +64,12 @@
   max-height: 80px;
   border: 1px solid;
   width: 100%;
-  padding: 20px;
+  padding: 20px 30px 20px 40px;
   min-width: 195px;
   background-color: aquamarine;
   border-radius: 20px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .btn-left:hover {

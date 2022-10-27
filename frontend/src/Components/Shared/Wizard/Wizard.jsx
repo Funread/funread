@@ -20,20 +20,23 @@ const ContainerWz = ({ children }) => {
   const pages = React.Children.toArray(children);
   const currentPage = pages[activePage];
   const [toast, setToast] = useState("");
+  const [wizardTitle, setWizardTitle] = useState("Book Style");
   const navigate = useNavigate();
 
   const BtnBackClick = () => {
-    setActivePage((index) => index - 1);
+    setActivePage((index) => 0);
+    setWizardTitle("Book Style");
   };
 
   const BtnContinueClick = () => {
-    setActivePage((index) => index + 1);
+    setActivePage((index) => 2);
+    setWizardTitle("Add Book Information");
   };
 
   const BtnCloseClick = () => {
     //setModalShow(false);
-    navigate("/mylibrary");
     setActivePage((index) => 0);
+    navigate("/mylibrary");
   };
 
   const BtnSafeClick = () => {
@@ -68,11 +71,9 @@ const ContainerWz = ({ children }) => {
       </div>
 
       <div className="wizard-body">
-        <div className="d-flex flex-row-reverse bd-highlight buttons-container">
+        <div className="d-flex flex-row bd-highlight buttons-container">
+          <p className="wizard-title">{wizardTitle}</p>
           <Row>
-            <Col>
-              <h1>asd</h1>
-            </Col>
             <Col>
               {activePage > 0 ? (
                 <button

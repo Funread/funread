@@ -49,3 +49,17 @@
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
+
+@media (max-width: 1400px) {
+  .create-book-page2-information-image {
+    height: 250px;
+    width: 50%;
+  }
+}
+
+@media (max-width: 992px) {
+  .create-book-page2-information-image {
+    height: 250px;
+    width: 100%;
+  }
+}
