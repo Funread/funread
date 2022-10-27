@@ -52,13 +52,37 @@ def FolderSearch(request, nameFolders):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
-def folderChange(request, nameFolders):
-    folder = Folder.objects.filter(nameFolders=nameFolders).first()
-    serializer = FolderSerializer(folder, data=request.data)
+def folderChange(request):
+
+    try:
+        dataRequest = {
+            'nameFolders': request.data.get('nameFolders'),
+        }
+        FolderSe = dataRequest.get('nameFolders')
+        print(FolderSe)
+        folder = Folder.objects.get(folder=FolderSe)
+    except Folder.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    data = {
+        'nameFolders': request.data.get('newNameFolders').lower(),
+        'createdBy': request.data.get('createdBy')    
+    }
+    serializer = FolderSerializer(folder, data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+#@api_view(['PUT'])
+#def folderChange(request, nameFolders):
+#    folder = Folder.objects.filter(nameFolders=nameFolders).first()
+#    serializer = FolderSerializer(folder.lower(), data=request.data)
+#    if serializer.is_valid():
+#        serializer.save()
+#        return Response(serializer.data, status=status.HTTP_200_OK)
+#    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
