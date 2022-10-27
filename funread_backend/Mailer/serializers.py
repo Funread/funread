@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Mail
+from .models import Mail, MailControl
 
 class MailSerializer (serializers.ModelSerializer):
     class Meta:
