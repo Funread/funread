@@ -9,6 +9,11 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import MyLibrary from "./Components/MyLibrary/MyLibrary";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import Wiki from "./Components/Wiki/Wiki";
+import TextImage from "./Components/Shared/Templates/TextImage/TextImage";
+import Text from "./Components/Shared/Templates/Text/Text";
+import Audio from "./Components/Shared/Templates/Audio/Audio";
+import Collage from "./Components/Shared/Templates/Collage/Collage";
+import Puzzle from "./Components/Shared/Templates/Puzzle/Puzzle";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -44,6 +49,12 @@ root.render(
             </div>
           </div>} />
       <Route path="/wiki" element={<Wiki />} />
+
+      <Route path="/textImage" element={<TextImage />} />
+      <Route path="/audio" element={<Audio />} />
+      <Route path="/text" element={<Text />} />
+      <Route path="/collage" element={<Collage />} />
+      <Route path="/puzzle" element={<Puzzle />} />
     </Routes>
   </BrowserRouter>
 );
