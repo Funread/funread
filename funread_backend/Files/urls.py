@@ -1,13 +1,13 @@
 from rest_framework import routers
-from .api import FileViewSet
 from  Files import views
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
+from .api import FileViewSet
 
 urlpatterns = [
     path('list/' , views.listed),
     path('newfile/', views.new_file),
-    path('delete/<str:namefile>', views.deletefile), 
+    path('delete/<str:namefile>', views.deleteFile), 
     #path('search/<str:description>', views.tagsSearch),
     #path('change/<str:description>',views.tagsChange), 
 ]
