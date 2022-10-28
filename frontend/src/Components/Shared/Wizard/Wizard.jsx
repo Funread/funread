@@ -7,45 +7,69 @@ import {
   faAngleLeft,
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
-
-import Modal from "react-bootstrap/Modal";
-import Page2RightContainer from "../../CreateBookPage2/CreateBookPage2";
+import Page2RightContainer from "../CreateBookPage2/CreateBookPage2";
 import Toast from "../Toast/Toast";
 import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 
 const ContainerWz = ({ children }) => {
-  const [modalShow, setModalShow] = React.useState(true);
   const [activePage, setActivePage] = React.useState(0);
   const pages = React.Children.toArray(children);
   const currentPage = pages[activePage];
   const [toast, setToast] = useState("");
-  const [wizardTitle, setWizardTitle] = useState("Book Style");
+  const [wizardTitle, setWizardTitle] = useState("1 Book Style");
   const navigate = useNavigate();
+  /**
+   * Las siguientes const se pueden cambiar por un objeto
+   */
+  const [bookCover, setBookCover] = useState("Book Cover");
+  const [bookName, setBookName] = useState("Book Name");
+  const [bookClass, setBookClass] = useState("Book Class");
+  const [bookPages, setBookPages] = useState("Book Pages");
+  const [bookStyle, setBookStyle] = useState("Book Style");
+  const [bookTools, setBookTools] = useState("Book Tools");
 
   const BtnBackClick = () => {
     setActivePage((index) => 0);
-    setWizardTitle("Book Style");
+    setWizardTitle("1 Book Style");
   };
 
   const BtnContinueClick = () => {
     setActivePage((index) => 2);
-    setWizardTitle("Add Book Information");
+    setWizardTitle("2 Add Book Information");
   };
 
   const BtnCloseClick = () => {
-    //setModalShow(false);
     setActivePage((index) => 0);
     navigate("/mylibrary");
   };
 
   const BtnSafeClick = () => {
+    console.log(bookCover);
+    console.log(bookName);
+    console.log(bookClass);
+    console.log(bookPages);
+    console.log(bookStyle);
+    console.log(bookTools);
     console.log("Información guardada!");
-    callToast();
+
+    /**
+     * En los true se especifica lo que respondio el servidor (si se guardo el libro o no)
+     */
+    callToast(true);
+    if (true) {
+      navigate("/mylibrary");
+    }
   };
 
-  const callToast = () => {
-    if (true) {
+  /**
+   * Function callToast:
+   * @param {*} response Respuesta obtenida del servidor
+   *
+   * Muestra un toast de exito o error que depende de si se guardo o no el libro
+   */
+  const callToast = (response) => {
+    if (response) {
       setToast(
         <Toast
           type="success"
@@ -106,12 +130,15 @@ const ContainerWz = ({ children }) => {
               ) : null}
 
               {activePage === pages.length - 1 ? (
-                <button className="btn-right" type="submit">
+                <button
+                  className="btn-right"
+                  type="submit"
+                  onClick={BtnSafeClick}
+                >
                   Save Book
                   <FontAwesomeIcon
                     className="icons-wizard-right"
                     icon={faAngleRight}
-                    onClick={BtnSafeClick}
                   />
                 </button>
               ) : null}
