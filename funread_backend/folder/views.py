@@ -54,7 +54,7 @@ def FolderSearch(request, nameFolders):
 
 @api_view(['PUT'])
 def folderChange(request, nameFolders):
-    folder = Folder.objects.filter(nameFolders=nameFolders).first()
+    folder = Folder.objects.get(nameFolders=nameFolders)
     serializer = FolderSerializer(folder, data=request.data)
     if serializer.is_valid():
         serializer.save()
