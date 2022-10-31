@@ -3,6 +3,7 @@ import "./Wiki.css";
 import "react-bootstrap";
 import { Route, Routes } from 'react-router-dom';
 import PopUp_Wiki from "./PopUp_Wiki";
+import Wizard from "../Shared/Wizard/Wizard";
 class Wiki extends React.Component {
     constructor(props) {
         super(props)
@@ -26,16 +27,19 @@ class Wiki extends React.Component {
                             <h4>FunRead's Wiki</h4>
                             <ul className="nav nav-pills flex-column">
                                 <li className="nav-item">
-                                <a className="nav-link active" href="#">Pop up</a>
+                                <a className="nav-link active" href="popup">Pop up</a>
                                 </li>
                                 <li className="nav-item">
-                                <a className="nav-link" href="#">Wizard</a>
+                                <a className="nav-link" href="wizard">Wizard</a>
                                 </li>
                                 <li className="nav-item">
                                 <a className="nav-link" href="#">Modal</a>
                                 </li>
                                 <li className="nav-item">
                                 <a className="nav-link" href="#">Toast</a>
+                                </li>
+                                <li className="nav-item">
+                                <a className="nav-link" href="wparte1">Wizard Parte 1</a>
                                 </li>
                                 <li className="nav-item">
                                 <a className="nav-link disabled" href="#">Disabled</a>
@@ -45,6 +49,17 @@ class Wiki extends React.Component {
                             <div className="col-sm-9">
                                 <Routes>
                                     <Route path="/popup" element={<PopUp_Wiki />}/>
+                                    <Route
+                                        exact
+                                        path="/wizard"
+                                        element={
+                                        <div className="index-background-padding">
+                                            <div className="index-background-container ">
+                                            <Wizard />
+                                            </div>
+                                        </div>
+                                        }
+                                    />
                                 </Routes>
                             </div> 
                         </div> 

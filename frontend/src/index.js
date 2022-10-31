@@ -9,6 +9,8 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import MyLibrary from "./Components/MyLibrary/MyLibrary";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import Wiki from "./Components/Wiki/Wiki";
+import Wizard from "./Components/Shared/Wizard/Wizard";
+import WizardParte1 from "./Components/WizardParte1/WizardParte1";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -43,7 +45,31 @@ root.render(
               <Dashboard />
             </div>
           </div>} />
-      <Route path="/wiki" element={<Wiki />} />
+      <Route path="/wiki/*" element={<Wiki />} />
+      {/* <Route path="/wizard" element={<Wizard />}/> */}
+      <Route
+        exact
+        path="/wparte1"
+        element={
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <WizardParte1 />
+            </div>
+          </div>
+        }
+      />
+
+      <Route
+        exact
+        path="/wizard"
+        element={
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <Wizard />
+            </div>
+          </div>
+        }
+      />
     </Routes>
   </BrowserRouter>
 );
