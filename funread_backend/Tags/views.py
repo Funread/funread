@@ -33,3 +33,13 @@ def listed(request):
     folder = Tags.objects.all()
     serializer = TagsSerializer(folder, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def tagsSearch(request, description):
+    try:
+        tags = Tags.objects.get(description=description)
+        print(Tags)
+    except Tags.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = TagsSerializer(tags)
+    return Response(serializer.data, status=status.HTTP_200_OK)

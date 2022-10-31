@@ -8,7 +8,7 @@ urlpatterns = [
     path('list/' , views.listed),
     path('newtags/', views.new_tags),
     #path('delete/<str:description>', views.deletetags), 
-    #path('search/<str:description>', views.tagsSearch),
+    path('search/<str:description>', views.tagsSearch),
     #path('change/<str:description>',views.tagsChange), 
 ]
 

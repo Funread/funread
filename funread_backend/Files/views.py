@@ -19,6 +19,17 @@ def listed(request):
     serializer = FileSerializer(file, many=True)
     return Response(serializer.data)
 
+#--------------Metodo que devuelve uno en especifico------------------------#
+@api_view(['GET'])
+def filesearch(request, namefile):
+    try:
+        file = File.objects.get(namefile=namefile)
+        print()
+    except File.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = FileSerializer(file)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 #-------------------Metodo para eliminar un file------------------------------#
 @api_view(['DELETE'])
 def deleteFile(request, namefile):
@@ -30,12 +41,16 @@ def deleteFile(request, namefile):
 #-------------------Metodo para agregar-----------------------------------------#
 @api_view(['POST'])
 def new_file(request):
-    serializer = FileSerializerFile(data=request.data)
+    print(request.data)
+    data = {
+        'namefile': request.data.get('namefile').lower(),
+        'filelocation': request.data.get('filelocation'),
+        'idfolder': request.data.get('idfolder'),
+        'uploadby': request.data.get('uploadby'),
+        'idtags' : request.data.get('idtags' ),
+    }
+    serializer = FileSerializer(data=data)
     if serializer.is_valid():
-        validated_data=serializer.validated_data
-        file = File(**validated_data)
-        File.save()
-
-        serializer_response = FileSerializerFile(file)
-        return Response(serializer_response.data, status=status.HTTP_201_CREATED)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
