@@ -54,3 +54,14 @@ def new_file(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#----------------------Metodo que actualiza-----------------------------------------#
+@api_view(['PUT'])
+def fileChange(request, namefile):
+    file = File.objects.get(namefile=namefile)
+    serializer = FileSerializer(file, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

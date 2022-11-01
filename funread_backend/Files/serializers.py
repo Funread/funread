@@ -13,7 +13,7 @@ class FileSerializer(serializers.ModelSerializer):
       return File.objects.create(**validated_data)
 
   def update(self, instance, validated_data):
-      instance.namefile = validated_data.get('namefile', instance.namefile)
+      instance.namefile = validated_data.get('namefile', instance.namefile).lower()
       instance.filelocation = validated_data.get('filelocation', instance.filelocation)
       instance.idfolder = validated_data.get('idfolder', instance.idfolder)
       instance.uploadby = validated_data.get('uploadby', instance.uploadby)
