@@ -16,11 +16,13 @@ import json
 
 # Create your views here.
 
+#--------------------------Method POST------------------------------------#
+
 @api_view(['POST'])
 def new_tags(request):
     print(request.data)
     data = {
-        'description': request.data.get('description'),
+        'description': request.data.get('description').lower(),
     }
     serializer = TagsSerializer(data=data)
     if serializer.is_valid():
@@ -28,6 +30,7 @@ def new_tags(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
+#-------------------Method GET------------------------------------------------#
 @ api_view(['GET'])
 def listed(request):
     folder = Tags.objects.all()
@@ -43,3 +46,13 @@ def tagsSearch(request, description):
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = TagsSerializer(tags)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+#-----------------------Metodo PUT----------------------------------#
+@api_view(['PUT'])
+def tagsChange(request, description):
+    file = Tags.objects.get(description=description)
+    serializer = TagsSerializer(file, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

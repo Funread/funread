@@ -4,5 +4,5 @@ from django.db import models
 
 class Tags(models.Model):
     tagsId = models.AutoField(primary_key=True)
-    description = models.CharField(max_length=200, null=True)
+    description = models.CharField(max_length=200, unique=True)
 
