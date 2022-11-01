@@ -60,10 +60,9 @@ render() {
             </div>
           </div>
         </div>
-      </div>
-    </React.Fragment>
-  )
-}
-
+        </div>
+      </React.Fragment>
+    )
+  }
 }
 export default Wiki;

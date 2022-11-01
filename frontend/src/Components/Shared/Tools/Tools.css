@@ -4,9 +4,10 @@
   height: 30%;
   border-radius: 20px;
   border: 1px solid;
-  min-width: 150px;
+  min-width: 300px;
   min-height: 200px;
   overflow-y: auto;
+  overflow-x: auto;
 }
 
 .tools-size-counter {
@@ -26,6 +27,7 @@
 
 .tools-body {
   width: 100%;
+  
 }
 
 .tools-row {
@@ -64,5 +66,5 @@
 
 .tools-list-arrow {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
