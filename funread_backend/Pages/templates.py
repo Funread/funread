@@ -13,9 +13,7 @@ class Template(str, MultiValueEnum):
         my_json = {}
         for template in Template:
             if template.name == name:
-                my_json = {
-                    name : template.values
-                }
+                my_json = {name : template.values}
         widget = { }
         enumitemposition = 0
         for key in my_json:
@@ -26,7 +24,7 @@ class Template(str, MultiValueEnum):
                     widget['type'] =value
                 enumitemposition = enumitemposition + 1
         serializer = Widget.serializers.WidgetSerializer(data=widget)
-        if(serializer.is_valid):
+        if serializer.is_valid():
             if 'name' in widget:
                 serializer.save()
                 print(my_json)

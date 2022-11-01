@@ -12,7 +12,6 @@ import hashlib
 
 @api_view(['POST'])
 def new_book(request):
-    print(request.data)
     data = {
         'title': request.data.get('title'),
         'category': request.data.get('category'),
@@ -35,7 +34,6 @@ def bookSearch(request, title):
     try:
         print(title)
         book = Book.objects.get(title=title)
-        print(book)
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = BookSerializer(book)
@@ -73,7 +71,6 @@ def bookChange(request):
 def listed(request):
     book = Book.objects.all()
     serializer = BookSerializer(book, many=True)
-    print(serializer)
     return Response(serializer.data)
 
 
