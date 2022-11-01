@@ -33,6 +33,7 @@ def new_book(request):
 @api_view(['GET'])
 def bookSearch(request, title):
     try:
+        print(title)
         book = Book.objects.get(title=title)
         print(book)
     except Book.DoesNotExist:
@@ -72,6 +73,7 @@ def bookChange(request):
 def listed(request):
     book = Book.objects.all()
     serializer = BookSerializer(book, many=True)
+    print(serializer)
     return Response(serializer.data)
 
 

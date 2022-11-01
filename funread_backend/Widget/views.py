@@ -14,7 +14,6 @@ import hashlib
 def new_widget(request):
     print(request.data)
     data = {
-        'widgetid': request.data.get('pageid'),
         'type': request.data.get('type'),
         'name': request.data.get('name')
     }
@@ -67,7 +66,6 @@ def listedWidget(request):
 def new_widgetItem(request):
     print(request.data)
     data = {
-        'widgetitemid': request.data.get('widgetitemid'),
         'page': request.data.get('page'),
         'widget': request.data.get('widget'),
         'type': request.data.get('type'),
@@ -116,7 +114,7 @@ def widgetItemChange(request):
 
 @ api_view(['GET'])
 def listedWidgetItems(request):
-    page = WidgetItem.objects.all()
-    serializer = WidgetItemSerializer(page, many=True)
+    widgetitem = WidgetItem.objects.all()
+    serializer = WidgetItemSerializer(widgetitem, many=True)
     return Response(serializer.data)
 

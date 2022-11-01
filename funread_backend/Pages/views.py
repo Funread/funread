@@ -1,20 +1,21 @@
+from asyncio.windows_events import NULL
 import datetime
 import json
 from sre_parse import State
 from turtle import title
 from wsgiref import headers
 from .models import Pages
-from .serializers import PageSerializer
+from .serializers import PageSerializer, getTemplate
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
+from django.http import JsonResponse
 
 @api_view(['POST'])
 def new_page(request):
     print(request.data)
     data = {
-        'pageid': request.data.get('pageid'),
         'book': request.data.get('book'),
         'elementorder': request.data.get('elementorder'),
         'type': request.data.get('type'),
@@ -53,7 +54,7 @@ def pageChange(request):
         'type': request.data.get('type'),
         'template': request.data.get('template'),
     }
-    serializer = PageSerializer(Pages, data=data)
+    serializer = PageSerializer(page, data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -66,3 +67,8 @@ def listed(request):
     serializer = PageSerializer(page, many=True)
     return Response(serializer.data)
 
+@ api_view(['GET'])
+def Template(request, templateerquest):
+    template = getTemplate()
+    serializer = template.gettemplate(templateerquest)
+    return Response(serializer)

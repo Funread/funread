@@ -1,8 +1,9 @@
+from unicodedata import name
 from rest_framework import serializers
 
 from Books.serializers import BookSerializer
 from .models import Pages
-
+from Pages.templates import Template
 class PageSerializer(serializers.ModelSerializer):
 
   class Meta:
@@ -20,3 +21,10 @@ class PageSerializer(serializers.ModelSerializer):
       instance.template = validated_data.get('template', instance.template)
       instance.save()
       return instance
+
+
+class getTemplate():
+  def gettemplate(self, templateerquest):
+    template_json = Template.getTemplate(templateerquest)
+    return template_json
+  

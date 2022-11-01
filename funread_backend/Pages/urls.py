@@ -10,8 +10,8 @@ urlpatterns=[
     path('search/<str:pageid>', views.pageSearch),
     path('change/', views.pageChange),
     path('list/', views.listed),
-    path('new-page/', views.new_page)
-    
+    path('new-page/', views.new_page),
+    path('template/<str:templateerquest>', views.Template)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
