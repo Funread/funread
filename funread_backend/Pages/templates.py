@@ -7,7 +7,7 @@ from rest_framework import status
 class Template(str, MultiValueEnum):
     IMAGES = "image", "https://previews.123rf.com/images/koblizeek/koblizeek2001/koblizeek200100006/137486703-ningún-símbolo-de-vector-de-imagen-falta-el-icono-disponible-no-hay-galería-para-este-momento-.jpg",1
     TEXT =  "text","Insert Text Here",2
-    
+
     @classmethod    
     def getTemplate(self, name):  
         my_json = {}
@@ -27,6 +27,5 @@ class Template(str, MultiValueEnum):
         if serializer.is_valid():
             if 'name' in widget:
                 serializer.save()
-                print(my_json)
             return my_json
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

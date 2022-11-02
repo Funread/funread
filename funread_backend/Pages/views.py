@@ -70,5 +70,6 @@ def listed(request):
 @ api_view(['GET'])
 def Template(request, templateerquest):
     template = getTemplate()
-    serializer = template.gettemplate(templateerquest)
+    mayusTemplate = templateerquest.upper()
+    serializer = template.gettemplate(mayusTemplate)
     return Response(serializer)
