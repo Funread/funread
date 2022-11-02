@@ -55,7 +55,9 @@ class Wiki extends React.Component {
                                         element={
                                         <div className="index-background-padding">
                                             <div className="index-background-container ">
-                                            <Wizard />
+                                            <div className='secondContainer'>
+                                                <Wizard />
+                                            </div>
                                             </div>
                                         </div>
                                         }

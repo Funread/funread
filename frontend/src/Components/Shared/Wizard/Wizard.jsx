@@ -18,10 +18,7 @@ const ContainerWz = ({ children , props}) => {
   const [toast, setToast] = useState("");
   const [wizardTitle, setWizardTitle] = useState("Book Style");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    props.data("Hola");
-  });
+  
 
 
   
@@ -97,7 +94,9 @@ const ContainerWz = ({ children , props}) => {
                 <button
                   className="btn-right"
                   type="button"
-                  onClick={BtnContinueClick}
+                  onClick={(e)=> {
+                    BtnContinueClick();
+                  }}
                 >
                   Continue
                   <FontAwesomeIcon
@@ -148,8 +147,7 @@ const ContainerWz = ({ children , props}) => {
 
 const Page1 = (props) => (
   <>
-  <WizardParte1 />
-  console.log(props);
+  <WizardParte1 onUpdateBookStyle={props.onUpdateBookStyle}/>
   
   </>
 );
@@ -157,10 +155,18 @@ const Page2 = () => <h1>Page 2</h1>;
 const Page3 = () => <h1>Page 3</h1>;
 
 export default function Wizard() {
-  const [data, setData] = useState({data: String});
+  const [bookStyle, setBookStyle] = useState({});
+  
+
+  const updateBookStyle = (value) => {
+      setBookStyle(value)
+      console.log(bookStyle);
+  }
+
+
   return (
-    <ContainerWz data={setData}>
-      <Page1 data={data}/>
+    <ContainerWz>
+      <Page1 onUpdateBookStyle={updateBookStyle}/>
       <Page2 />
       <Page3 />
     </ContainerWz>

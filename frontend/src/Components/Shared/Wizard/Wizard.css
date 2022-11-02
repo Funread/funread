@@ -140,3 +140,11 @@
   }
 
 }
+
+@media screen and (min-width: 700px) {
+  .wizard-bg {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+}

@@ -6,6 +6,10 @@
     background-color: #f1f1f1;
     height: 100%;
   }
+
+  .secondContainer{
+    margin-top: 50px;
+  }
   
   /* Set black background color, white text and some padding */
   footer {
