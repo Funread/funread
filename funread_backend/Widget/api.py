@@ -1,7 +1,7 @@
 from Pages.models import Pages
 from rest_framework import viewsets, permissions
 
-from funread_backend.Widget.models import Widget, WidgetItem
+from Widget.models import Widget, WidgetItem
 from .serializers import WidgetSerializer,WidgetItemSerializer
 
 class WidgetViewSet(viewsets.ModelViewSet):

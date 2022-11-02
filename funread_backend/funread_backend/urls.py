@@ -22,5 +22,5 @@ urlpatterns = [
     path('users/',include('Users.urls')),
     path('books/',include('Books.urls')),
     path('pages/',include('Pages.urls')),
-    path('widget/',include('Pages.urls')),
+    path('widget/',include('Widget.urls'))
 ]
