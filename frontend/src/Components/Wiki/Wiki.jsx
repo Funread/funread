@@ -52,8 +52,10 @@ class Wiki extends React.Component {
                             </div>
                             <div className="col-sm-9">
                                 <Routes>
-                                    <Route path="/popup" element={<PopUp_Wiki />}/>                                
-                                    <Route path="/wizardtemplate" element={<WizardTemplate />} />
+                                    <Route path="/popup" element={<PopUp_Wiki />}/>       
+                                                      
+                                <Route path="/wizardtemplate" element={<div><WizardTemplate /></div>} />
+                                
                                 </Routes>
                             </div> 
                         </div> 
