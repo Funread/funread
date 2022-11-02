@@ -9,7 +9,7 @@ from rest_framework import status
 # Create your views here.
 
 @api_view(['POST'])
-def new_email(request):
+def createEmail(request):
     
     data = {
         'emailTo': request.data.get('emailTo'),
@@ -26,13 +26,13 @@ def new_email(request):
     return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-def listed_all_mail(request):
+def listAll(request):
     mail = Mail.objects.all()
     serializer = MailSerializer(mail, many=True)
     return Response(serializer.data,status =status.HTTP_200_OK)
 
 @api_view(['GET'])
-def inboxMail(request):
+def listByEmail(request):
     try:
         dataRequest = {
             'emailFrom': request.data.get('emailFrom'),
@@ -47,16 +47,15 @@ def inboxMail(request):
         return Response(serializer.data,status=status.HTTP_404_NOT_FOUND)
 
 
-
 @api_view(['GET'])
-def listed_sender(request):
+def listByEmail(request):
     try:
         dataRequest = {
-            'idControl': request.data.get('idControl'),
+            'emailFrom': request.data.get('emailFrom'),
         }
         print(request.data)
-        emailSe = dataRequest.get('idControl')
-        mailcontrol = MailControl.objects.filter(idControl=emailSe)
+        emailSe = dataRequest.get('emailFrom')
+        mailcontrol = MailControl.objects.filter(emailFrom=emailSe)
         print(mailcontrol)
         serializer = MailControlSerializer(mailcontrol, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
@@ -65,9 +64,10 @@ def listed_sender(request):
 
 
 @api_view(['POST'])
-def new_mailcontrol(request):
+def createMailControl(request):
     
     data = {
+        'idControl': request.data.get('idControl'),
         'date': request.data.get('date'),
         'category':request.data.get('category'),
         'status':request.data.get('status'),
@@ -81,7 +81,7 @@ def new_mailcontrol(request):
     return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-def listed_all_mailcontrol(request):
+def listAll(request):
     mailcontrol = MailControl.objects.all()
     serializer = MailControlSerializer(mailcontrol, many=True)
     return Response(serializer.data,status =status.HTTP_200_OK)
