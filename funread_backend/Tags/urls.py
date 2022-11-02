@@ -5,10 +5,10 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-    path('list/' , views.listed),
-    path('newtags/', views.new_tags),
-    path('search/<str:description>', views.tagsSearch),
-    path('change/<str:description>',views.tagsChange), 
+    path('tags/listAllTags/' , views.listed),
+    path('tags/insertTags/', views.new_tags),
+    path('tags/searchTags/<str:description>', views.tagsSearch),
+    path('tags/updateTags/<str:description>',views.tagsChange), 
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
