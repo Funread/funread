@@ -1,4 +1,4 @@
-from Mailer.models import Mail
+from .models import Mail
 from rest_framework import viewsets, permissions
 from .serializers import MailSerializer
 
