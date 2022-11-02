@@ -49,6 +49,7 @@ def pageChange(request):
 
 
     data = {
+        'book': request.data.get('book'),
         'elementorder': request.data.get('elementorder'),
         'type': request.data.get('type'),
         'template': request.data.get('template'),

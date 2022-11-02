@@ -26,7 +26,7 @@ urlpatterns=[
     path('changewidget/', views.widgetChange),
     path('listwidget/', views.listedWidget),
     path('new-widget/', views.new_widget),
-    path('searchwidgetitem/<str:widgetid>', views.widgetItemSearch),
+    path('searchwidgetitem/<str:widgetitemid>', views.widgetItemSearch),
     path('changewidgetitem/', views.widgetItemChange),
     path('listwidgetitem/', views.listedWidgetItems),
     path('new-widgetitem/', views.new_widgetItem)

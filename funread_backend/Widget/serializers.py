@@ -21,11 +21,11 @@ class WidgetSerializer(serializers.ModelSerializer):
 class WidgetItemSerializer(serializers.ModelSerializer):
 
   class Meta:
-    model = Widget
+    model = WidgetItem
     fields = '__all__'
 
   def create(self, validated_data):
-      return Widget.objects.create(**validated_data)
+      return WidgetItem.objects.create(**validated_data)
 
   def update(self, instance, validated_data):
       instance.widgetitemid = validated_data.get('widgetitemid', instance.widgetitemid)

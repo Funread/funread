@@ -47,7 +47,7 @@ def widgetChange(request):
 
     data = {
         'type': request.data.get('type'),
-        'name': request.data.get('name'),
+        'name': request.data.get('name')
     }
     serializer = WidgetSerializer(widget, data=data)
     if serializer.is_valid():
@@ -80,7 +80,7 @@ def new_widgetItem(request):
 @api_view(['GET'])
 def widgetItemSearch(request, widgetitemid):
     try:
-        widgetitem = Widget.objects.get(widgetitemid=widgetitemid)
+        widgetitem = WidgetItem.objects.get(widgetitemid=widgetitemid)
         print(widgetitem)
     except WidgetItem.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
