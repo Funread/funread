@@ -11,5 +11,6 @@ urlpatterns = [
     path('mailer/listByEmail', views.listByEmail),
     path('controlMailer/listByEmail', views.listByEmail),
     path('controlMailer/insertMailControl', views.createMailControl),
-    path('controlMailer/listAll', views.listAll)
+    path('controlMailer/listAll', views.listAll),
+    path('controlMailer/updateMailControl',views.updateMailControl)
 ]

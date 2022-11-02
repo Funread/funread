@@ -1,4 +1,3 @@
-from curses import def_shell_mode
 from django.db import models
 from Users.models import User
 
