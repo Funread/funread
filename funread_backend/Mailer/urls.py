@@ -7,10 +7,11 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     path('mailer/insertEmail',views.insertEmail), 
-    path('mailer/listAll', views.listAll),
+    path('mailer/listAllEmail', views.listAllEmail),
     path('mailer/listByEmail', views.listByEmail),
-    path('controlMailer/listByEmail', views.listByEmail),
+    
+    path('controlMailer/listByMailControl', views.listByMailControl),
     path('controlMailer/insertMailControl', views.createMailControl),
-    path('controlMailer/listAll', views.listAll),
+    path('controlMailer/listAllMailControl', views.listAllMailControl),
     path('controlMailer/updateMailControl',views.updateMailControl)
 ]

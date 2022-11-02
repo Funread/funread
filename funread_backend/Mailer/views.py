@@ -28,7 +28,7 @@ def insertEmail(request):
 
 
 @api_view(['GET'])
-def listAll(request):
+def listAllEmail(request):
     mail = Mail.objects.all()
     serializer = MailSerializer(mail, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -51,7 +51,7 @@ def listByEmail(request):
 
 
 @api_view(['GET'])
-def listByEmail(request):
+def listByMailControl(request):
     try:
         dataRequest = {
             'emailFrom': request.data.get('emailFrom'),
@@ -85,7 +85,7 @@ def createMailControl(request):
 
 
 @api_view(['GET'])
-def listAll(request):
+def listAllMailControl(request):
     mailcontrol = MailControl.objects.all()
     serializer = MailControlSerializer(mailcontrol, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
