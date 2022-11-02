@@ -10,7 +10,7 @@ from rest_framework import status
 
 
 @api_view(['POST'])
-def createEmail(request):
+def insertEmail(request):
 
     data = {
         'emailTo': request.data.get('emailTo'),

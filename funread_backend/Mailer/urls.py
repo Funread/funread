@@ -6,7 +6,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 
 urlpatterns = [
-    path('mailer/createEmail',views.createEmail), 
+    path('mailer/insertEmail',views.insertEmail), 
     path('mailer/listAll', views.listAll),
     path('mailer/listByEmail', views.listByEmail),
     path('controlMailer/listByEmail', views.listByEmail),
