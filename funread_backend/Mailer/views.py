@@ -67,10 +67,11 @@ def listByMailControl(request):
 
 
 @api_view(['POST'])
-def createMailControl(request):
+def insertMailControl(request):
 
     data = {
         'idControl': request.data.get('idControl'),
+        'emailFrom': request.data.get('emailFrom'),
         'date': request.data.get('date'),
         'category': request.data.get('category'),
         'status': request.data.get('status'),
