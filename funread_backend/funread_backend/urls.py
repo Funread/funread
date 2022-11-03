@@ -27,6 +27,8 @@ urlpatterns = [
     path('file/',include('Files.urls')),
     path('folder/',include('folder.urls')),
     path('Tags/',include('Tags.urls')),
+    path('email/', include('Mailer.urls'))
+
 ]
 
 if settings.DEBUG:

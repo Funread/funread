@@ -1,19 +1,24 @@
-import React from 'react'
-import "./Wiki.css"; 
+import React from "react";
+import "./Wiki.css";
 import "react-bootstrap";
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from "react-router-dom";
 import PopUp_Wiki from "./PopUp_Wiki";
+import Wizard from "../Shared/Wizard/Wizard";
+import WizardTemplate from '../WizardTemplete/WizardTemplate';
+
 class Wiki extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            openContainer : false,
-            openContainer2: "login",	
+  constructor(props) {
+    super(props);
+    this.state = {
+      openContainer: false,
+      openContainer2: "login",
+    };
+  }
 
 
            
-        }
-    }
+        
+    
 
     render() {
         //Pre    
@@ -38,13 +43,17 @@ class Wiki extends React.Component {
                                 <a className="nav-link" href="#">Toast</a>
                                 </li>
                                 <li className="nav-item">
+                                <a className="nav-link" href="wizardtemplate">Wizard Template</a>
+                                </li>
+                                <li className="nav-item">
                                 <a className="nav-link disabled" href="#">Disabled</a>
                                 </li>
                             </ul>
                             </div>
                             <div className="col-sm-9">
                                 <Routes>
-                                    <Route path="/popup" element={<PopUp_Wiki />}/>
+                                    <Route path="/popup" element={<PopUp_Wiki />}/>                                                            
+                                <Route path="/wizardtemplate" element={<div><WizardTemplate /></div>} />
                                 </Routes>
                             </div> 
                         </div> 
@@ -53,6 +62,6 @@ class Wiki extends React.Component {
             </React.Fragment>
             )
     }
-}
 
-export default Wiki
+}
+export default Wiki;

@@ -19,7 +19,7 @@ import json
 def new_folder(request):
     print(request.data)
     data = {
-        'nameFolders': request.data.get('nameFolders'),
+        'nameFolders': request.data.get('nameFolders').lower(),
         'createdBy': request.data.get('createdBy'),
     }
     serializer = FolderSerializer(data=data)
@@ -51,9 +51,10 @@ def FolderSearch(request, nameFolders):
     serializer = FolderSerializer(folder)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 @api_view(['PUT'])
 def folderChange(request, nameFolders):
-    folder = Folder.objects.filter(nameFolders=nameFolders).first()
+    folder = Folder.objects.get(nameFolders=nameFolders)
     serializer = FolderSerializer(folder, data=request.data)
     if serializer.is_valid():
         serializer.save()
