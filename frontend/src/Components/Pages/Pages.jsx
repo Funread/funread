@@ -11,8 +11,7 @@ export const Pages = (props) => {
     )
   }else{
     return(
-      <>
-        
+      <>     
       </>
     )
   }
