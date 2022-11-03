@@ -23,4 +23,5 @@ urlpatterns = [
     path('users/',include('Users.urls')),
     path('books/',include('Books.urls')),
     path('folder/',include('folder.urls')),
+    path('email/', include('Mailer.urls'))
 ]
