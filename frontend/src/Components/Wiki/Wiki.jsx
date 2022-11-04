@@ -40,7 +40,7 @@ render() {
                   <a className="nav-link" href="#">Toast</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Tools</a>
+                  <a className="nav-link" href="tools">Tools</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="wizardtemplate">Wizard Template</a>
@@ -54,7 +54,7 @@ render() {
             <div className="col-sm-9">
               <Routes>
                 <Route path="/popup" element={<PopUp_Wiki />} />
-                <Route path='/tools' element={<Tools />} />
+                <Route path='/tools' element={<div><Tools /></div>} />
                 <Route path="/wizardtemplate" element={<div><WizardTemplate /></div>} />
               </Routes>
             </div>
