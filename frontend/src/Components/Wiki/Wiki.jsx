@@ -28,10 +28,10 @@ render() {
               <h4>FunRead's Wiki</h4>
               <ul className="nav nav-pills flex-column">
                 <li className="nav-item">
-                  <a className="nav-link active" href="#">Pop up</a>
+                  <a className="nav-link active" href="popup">Pop up</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Wizard</a>
+                  <a className="nav-link" href="wizard">Wizard</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="#">Modal</a>
@@ -40,7 +40,7 @@ render() {
                   <a className="nav-link" href="#">Toast</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Tools</a>
+                  <a className="nav-link" href="tools">Tools</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="wizardtemplate">Wizard Template</a>
@@ -55,7 +55,7 @@ render() {
               <Routes>
                 <Route path="/popup" element={<PopUp_Wiki />} />
                 <Route path='/tools' element={<Tools />} />
-                <Route path="/wizardtemplate" element={<div><WizardTemplate /></div>} />
+                <Route path="/wizardtemplate" element={<WizardTemplate />} />
                 <Route
                   exact
                   path="/wizard"
