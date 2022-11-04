@@ -1,5 +1,6 @@
 .wizard-header {
   height: 15%;
+  margin-bottom: 10px;
 }
 
 .wizard-body {
@@ -147,4 +148,11 @@
     overflow-x: hidden;
   }
 
+}
+
+@media screen and (max-height: 690px) {
+  .wizard-header {
+    height: 15%;
+    margin-bottom: 40px;
+  }
 }
