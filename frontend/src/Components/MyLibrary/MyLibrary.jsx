@@ -9,6 +9,16 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import logo from "../../placeholderBook.jpg";
+import Header from "../Shared/Header/Header";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSliders,
+  faDownload,
+  faPlus,
+  faBars,
+  faGripVertical,
+  faEllipsis,
+} from "@fortawesome/free-solid-svg-icons";
 
 /**
  * Function MyLibrary:
@@ -148,7 +158,9 @@ function MyLibrary(props) {
               width="120px"
             />
             <Card.Body>
-              <Card.Title>{data[i].name}</Card.Title>
+              <Card.Title className="small-book-card-title">
+                {data[i].name}
+              </Card.Title>
             </Card.Body>
           </Card>
         );
@@ -197,9 +209,11 @@ function MyLibrary(props) {
         booksList.push(
           <SwiperSlide key={i}>
             <Card className="large-book-card" key={i}>
-              <Card.Img variant="top" src={logo} alt={logo} height="320px" />
+              <Card.Img variant="top" src={logo} alt={logo} height="80%" />
               <Card.Body className="large-book-card-body">
-                <Card.Title>{data[i].name}</Card.Title>
+                <Card.Title className="large-book-card-title">
+                  {data[i].name}
+                </Card.Title>
               </Card.Body>
               <Card.Text className="large-book-card-description">
                 {data[i].type}
@@ -213,22 +227,34 @@ function MyLibrary(props) {
     return booksList;
   }
 
+  /**
+   * Debe eliminarse el header actual cuando este creado el header del dashboard
+   */
   return (
     <>
+      <div className="my-library-header">
+        <Header />
+      </div>
       <div className="my-library">
         <div className="my-library-banner">
-          <h2>My Library</h2>
+          <p className="my-library-title">My Library</p>
         </div>
         <Navbar bg="transparent" className="my-library-navbar">
           <Nav>
             <div className="my-library-options">
-              <Nav.Link className="my-library-options-content">
+              <Nav.Link className="my-library-options-content" href="wizard">
+                <FontAwesomeIcon icon={faPlus} />
+                {"  "}
                 Create Book
               </Nav.Link>
               <Nav.Link className="my-library-options-content">
+                <FontAwesomeIcon icon={faDownload} />
+                {"  "}
                 Import Book
               </Nav.Link>
               <Nav.Link className="my-library-options-content">
+                <FontAwesomeIcon icon={faSliders} />
+                {"  "}
                 Filters
               </Nav.Link>
             </div>
@@ -247,7 +273,7 @@ function MyLibrary(props) {
                   changeView("1");
                 }}
               >
-                1
+                <FontAwesomeIcon icon={faBars} />
               </Nav.Link>
               <Nav.Link
                 className="my-library-options-content"
@@ -255,7 +281,7 @@ function MyLibrary(props) {
                   changeView("2");
                 }}
               >
-                2
+                <FontAwesomeIcon icon={faGripVertical} />
               </Nav.Link>
               <Nav.Link
                 className="my-library-options-content"
@@ -264,7 +290,7 @@ function MyLibrary(props) {
                   changeView("3");
                 }}
               >
-                3
+                <FontAwesomeIcon icon={faEllipsis} />
               </Nav.Link>
             </div>
           </Nav>
