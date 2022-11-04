@@ -10,6 +10,7 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import logo from "../../placeholderBook.jpg";
+import WizardTemplate from '../WizardTemplete/WizardTemplate';
 
 export const WizardInformation = (props) => {
   const [page, setPage] = useState(0);
@@ -18,22 +19,6 @@ export const WizardInformation = (props) => {
   const [option2, setOption2] = useState("Math");
   const [option3, setOption3] = useState("Science");
   const [nameOfBook, setNameOfBook] = useState("");
-  const booksList = [
-    { type: "Template 1" },
-    { type: "Template 2" },
-    { type: "Template 3" },
-    { type: "Template 4" },
-    { type: "Template 5" },
-    { type: "Template 6" },
-    { type: "Template 7" },
-    { type: "Template 8" },
-    { type: "Template 9" },
-    { type: "Template 10" },
-    { type: "Template 11" },
-    { type: "Template 12" },
-    { type: "Template 13" },
-    { type: "Template 14" },
-  ];
 
   const updateBookStyle = () => {
     const bookStyle = {
@@ -129,7 +114,7 @@ export const WizardInformation = (props) => {
             navigation
             loop={true}
           >
-            {setLargeBookCardsData(booksList)}
+            {setLargeBookCardsData()}
           </Swiper>
         </div>
       </Row>
@@ -139,24 +124,14 @@ export const WizardInformation = (props) => {
 
 
 // ============== Carrousel puede se un componente ================
-export const setLargeBookCardsData = (data) => {
+export const setLargeBookCardsData = () => {
   const booksList = [];
 
-  if (data.length > 0) {
-    for (let i = 0; i < data.length; i++) {
+  if (12 > 0) {
+    for (let i = 0; i < 12; i++) {
       booksList.push(
         <SwiperSlide key={i}>
-          <Card className="large-book-card" key={i}>
-            <Card.Img variant="top" src={logo} alt={logo} height="80%" />
-            <Card.Body className="large-book-card-body">
-              <Card.Title className="large-book-card-title">
-                {data[i].name}
-              </Card.Title>
-            </Card.Body>
-            <Card.Text className="large-book-card-description">
-              {data[i].type}
-            </Card.Text>
-          </Card>
+          <WizardTemplate></WizardTemplate>
         </SwiperSlide>
       );
     }
