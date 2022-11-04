@@ -242,7 +242,7 @@ function MyLibrary(props) {
         <Navbar bg="transparent" className="my-library-navbar">
           <Nav>
             <div className="my-library-options">
-              <Nav.Link className="my-library-options-content">
+              <Nav.Link className="my-library-options-content" href="wizard">
                 <FontAwesomeIcon icon={faPlus} />
                 {"  "}
                 Create Book

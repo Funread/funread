@@ -11,6 +11,7 @@ import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import Wiki from "./Components/Wiki/Wiki";
 import Wizard from "./Components/Shared/Wizard/Wizard";
 import WizardParte1 from "./Components/WizardParte1/WizardParte1";
+import WizardTemplate from "./Components/WizardTemplete/WizardTemplate";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -39,8 +40,10 @@ root.render(
           </div>
         }
       />
-      <Route path="/dashboard" 
-      element={<div className="index-background-padding">
+      <Route
+        path="/dashboard"
+        element={
+          <div className="index-background-padding">
             <div className="index-background-container ">
               <Dashboard />
             </div>
@@ -70,6 +73,7 @@ root.render(
           </div>
         }
       />
+      <Route path="/wizardtemplate" element={<WizardTemplate />} />
     </Routes>
   </BrowserRouter>
 );
