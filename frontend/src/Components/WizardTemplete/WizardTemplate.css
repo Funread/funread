@@ -1,6 +1,6 @@
 .background-template{
     background-color: rgb(95, 95, 95);
-    width: 20%;
+    width: 60%;
     height: 40%;
     margin: 20px auto;
     padding: 1px;
@@ -18,10 +18,11 @@
 }
 .Template{
     color: black;
+    width: 100%;
 }
 .prueba{
     width: 100%;
-    height: 30.8vh;
+    height: 100%;
     border-radius: 18px;
     margin-top: 0.5%;
     min-height: 115px;

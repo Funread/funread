@@ -130,8 +130,8 @@ export const setLargeBookCardsData = () => {
   if (12 > 0) {
     for (let i = 0; i < 12; i++) {
       booksList.push(
-        <SwiperSlide key={i}>
-          <WizardTemplate></WizardTemplate>
+        <SwiperSlide key={i} >
+            <WizardTemplate></WizardTemplate>
         </SwiperSlide>
       );
     }

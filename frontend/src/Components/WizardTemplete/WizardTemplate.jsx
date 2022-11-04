@@ -15,7 +15,7 @@ function WizardTemplate(props) {
             </center>
           </div>
     </div>
-        <div className='Template'><center><h3>Template</h3></center></div>
+        <div className='Template'><center><h5>Template</h5></center></div>
     </div>
   )
 }
