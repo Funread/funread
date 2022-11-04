@@ -77,7 +77,7 @@ export const ContainerWizard = (props) => {
           <p className="wizard-title">{wizardTitle}</p>
           <Row>
             <Col>
-              {activePage > 0 ? (
+              {pages !== 1 ? (
                 <button
                   className="btn-left"
                   type="button"
@@ -93,7 +93,7 @@ export const ContainerWizard = (props) => {
             </Col>
 
             <Col>
-              {/* {activePage < pages.length - 1 ? ( */}
+              {pages === 1 ? (
                 <button
                   className="btn-right"
                   type="button"
@@ -107,22 +107,20 @@ export const ContainerWizard = (props) => {
                     icon={faAngleRight}
                   />
                 </button>
-              {/* // ) : null} */}
+              ) : null}
 
-              {/* {activePage === pages.length - 1 ? ( */}
-                <button className="btn-right" type="submit">
+              {pages !==  1 ? (
+                <button className="btn-right" type="submit" onClick={BtnSafeClick}>
                   Save Book
                   <FontAwesomeIcon
                     className="icons-wizard-right"
                     icon={faAngleRight}
-                    onClick={BtnSafeClick}
                   />
                 </button>
-              {/* ) : null} */}
+               ) : null} 
             </Col>
 
             <Col>
-              {/* {activePage < pages.length ? ( */}
                 <button
                   className="btn-right"
                   type="button"
@@ -134,7 +132,6 @@ export const ContainerWizard = (props) => {
                     icon={faXmark}
                   />
                 </button>
-              {/* ) : null} */}
             </Col>
           </Row>
         </div>

@@ -42,7 +42,7 @@
 .container-form{
     width: 80%;
     margin: 100px auto;
-    margin-top: -25%;
+    margin-top: -20% !important;
 }
 
 .h7{
