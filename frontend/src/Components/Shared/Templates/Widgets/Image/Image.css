@@ -1,0 +1,12 @@
+.image{
+    width: 100%;
+    height: auto;
+}
+.image-container{
+    display: block;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    background: #CBC3E3;
+    padding: 5vh;
+}

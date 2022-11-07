@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import "./Puzzle.css";
 import { JigsawPuzzle } from "react-jigsaw-puzzle/lib";
 import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
-import img from "./Image.png";
   
-function Puzzle() {
+function Puzzle(props) {
+    const img = props.imagen
     const [text, setText] = useState("Resuelve el rompecabezas");
       
     const set = () => {
