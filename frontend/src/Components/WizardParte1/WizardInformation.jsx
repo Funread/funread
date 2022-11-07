@@ -20,14 +20,7 @@ export const WizardInformation = (props) => {
   const [option3, setOption3] = useState("Science");
   const [nameOfBook, setNameOfBook] = useState("");
 
-  const updateBookStyle = () => {
-    const bookStyle = {
-      classBook: classBook,
-      page: page,
-      nameOfBook: nameOfBook,
-    };
-    props.onUpdateBookStyle(bookStyle);
-  };
+  
 
   return (
     <>
@@ -96,7 +89,6 @@ export const WizardInformation = (props) => {
                       step={1}
                       onChange={(e) => {
                         setPage(e.target.value);
-                        updateBookStyle();
                       }}
                     />
                   </Col>
