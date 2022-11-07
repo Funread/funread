@@ -1,0 +1,12 @@
+.audioplayer
+{
+	width: 115vh; 
+    box-shadow: 5px 5px 20px rgba(0,0, 0, 0.4);
+    border-radius: 90px;
+}
+.audio-container{
+    padding: 5vh;
+    width: 100%;
+    background-color: #CBC3E3;
+    text-align: center;
+}
