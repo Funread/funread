@@ -1,8 +1,12 @@
 import React from "react";
 import "./CreateBookPage2.css";
-
+import Tools from "../Tools/Tools";
 function Page2(props) {
   return (
+    <>
+    <div className="tools-style">
+      <Tools></Tools>
+    </div>
     <div className="create-book-page2-book-information-container">
       <div className="create-book-page2-book-information-content">
         <h1 className="create-book-page2-book-information-content-title">
@@ -59,6 +63,7 @@ function Page2(props) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

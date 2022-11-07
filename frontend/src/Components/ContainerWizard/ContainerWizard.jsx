@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useCallback} from "react";
 import {Pages} from '../../Components/Pages/Pages'
 import { Col, Row } from "react-bootstrap";
 import "../ContainerWizard/style.css";
@@ -15,12 +15,13 @@ import Header from "../Shared/Header/Header";
 
 export const ContainerWizard = (props) => {
   const [activePage, setActivePage] = React.useState(0);
-  // const pages = React.Children.toArray(children);
-  // const currentPage = pages[activePage];
   const [toast, setToast] = useState("");
   const [wizardTitle, setWizardTitle] = useState("Book Style");
   const navigate = useNavigate();
   const [pages,setPages] = useState(1)
+  const [nameOfBook, setNameOfBook] = useState("");
+  const [classOfBook, setClassOfBook] = useState("");
+  const [numberOfPages, setNumberOfPages] = useState(1);
 
   const BtnBackClick = () => {
     setActivePage((index) => 0);
@@ -65,6 +66,13 @@ export const ContainerWizard = (props) => {
       );
     }
   };
+
+  const bookData = useCallback(() =>{
+    setNameOfBook();
+    setClassOfBook();
+    setNumberOfPages();
+    console.log(nameOfBook,classOfBook.numberOfPages);
+  }, [nameOfBook], [classOfBook], [numberOfPages]);
 
   return (
     <>
@@ -138,7 +146,7 @@ export const ContainerWizard = (props) => {
 
         <div className="wizard-bg">
 
-          <Pages page= {pages} ></Pages>
+          <Pages page= {pages}  fnBook={bookData}></Pages>
         </div>
       </div>
       {toast}
