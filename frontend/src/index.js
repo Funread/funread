@@ -9,6 +9,12 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import MyLibrary from "./Components/MyLibrary/MyLibrary";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import Wiki from "./Components/Wiki/Wiki";
+import Image from "./Components/Shared/Templates/Widgets/Image/Image";
+import Text from "./Components/Shared/Templates/Widgets/Text/Text";
+import Audio from "./Components/Shared/Templates/Widgets/Audio/Audio";
+import Collage from "./Components/Shared/Templates/Widgets/Collage/Collage";
+import Puzzle from "./Components/Shared/Templates/Widgets/Puzzle/Puzzle";
+import Title from "./Components/Shared/Templates/Widgets/Title/Title";
 import Wizard from "./Components/Shared/Wizard/Wizard";
 import WizardParte1 from "./Components/WizardParte1/WizardParte1";
 import WizardTemplate from "./Components/WizardTemplete/WizardTemplate";
@@ -48,6 +54,14 @@ root.render(
               <Dashboard />
             </div>
           </div>} />
+      <Route path="/wiki" element={<Wiki />} />
+
+      <Route path="/image" element={<Image imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg"/>} />
+      <Route path="/title" element={<Title texto="Esto es un Titulo"/>} />
+      <Route path="/audio" element={<Audio audio="https://file-examples.com/storage/fe8c7eef0c6364f6c9504cc/2017/11/file_example_MP3_700KB.mp3" />} />
+      <Route path="/text" element={<Text texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam egestas eget orci eu imperdiet. Vivamus eros ligula, ornare eu lorem sed, vehicula consectetur mi." />} />
+      <Route path="/collage" element={<Collage />} />
+      <Route path="/puzzle" element={<Puzzle imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg" />} />
       <Route path="/wiki/*" element={<Wiki />} />
       {/* <Route path="/wizard" element={<Wizard />}/> */}
       <Route
