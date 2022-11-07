@@ -1,0 +1,158 @@
+.wizard-header {
+  height: 15%;
+  margin-bottom: 10px;
+}
+
+.wizard-body {
+  display: flex;
+  flex-direction: column;
+  height: 85%;
+  margin: 0 60px 0 60px;
+}
+
+.wizard-title {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  line-height: 120%;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.wizard-bg {
+  height: 90%;
+  background-color: transparent;
+  margin-bottom: 0 !important;
+  padding-top: min(20px, 1.2%);
+  padding-bottom: min(60px, 3.5%) !important;
+}
+
+.btn-left {
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 20px;
+  padding: 7px;
+  width: 120px;
+  border: 1px solid;
+  font-size: 14px !important;
+  background-color: white;
+  border-color: #d5a6fa;
+}
+
+.btn-right {
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 20px;
+  padding: 7px;
+  width: 120px;
+  border: 1px solid;
+  font-size: 14px !important;
+  background-color: white;
+  border-color: #d5a6fa;
+}
+
+.btn-close {
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 20px;
+  width: 120px;
+  border: 1px solid;
+  font-size: 14px !important;
+  background-color: white;
+  border-color: #d5a6fa;
+}
+
+.buttons-container {
+  max-height: 80px;
+  border: 1px solid;
+  width: 100%;
+  padding: 20px 30px 20px 40px;
+  min-width: 560px;
+  background-color: aquamarine;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-left:hover {
+  background: #d5a6fa;
+  border-style: solid;
+  border-color: #d5a6fa;
+  color: white;
+}
+
+.btn-right:hover {
+  background: #d5a6fa;
+  border-style: solid;
+  border-color: #d5a6fa;
+  color: white;
+}
+
+.btn-close:hover {
+  background: #d5a6fa;
+  border-style: solid;
+  border-color: #d5a6fa;
+  color: white;
+}
+
+.btn-left:focus {
+  background: #42006d;
+  border-style: solid;
+  border-color: #42006d;
+  color: white;
+}
+
+.btn-right:focus {
+  background: #42006d;
+  border-style: solid;
+  border-color: #42006d;
+  color: white;
+}
+
+.btn-close:focus {
+  background: #42006d;
+  border-style: solid;
+  border-color: #42006d;
+  color: white;
+}
+
+.icons-wizard-right {
+  margin-left: 10px;
+}
+
+.icons-wizard-left {
+  margin-right: 10px;
+}
+
+.Page2LeftContainer {
+  background: brown;
+  width: 25%;
+  border-radius: 20px;
+}
+
+@media screen and (max-width: 1072px) {
+  .wizard-bg {
+    height: 90%;
+    background-color: transparent;
+    margin-bottom: 0 !important;
+    padding-top: min(20px, 1.2%);
+    padding-bottom: min(60px, 3.5%) !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+}
+
+@media screen and (min-width: 700px) {
+  .wizard-bg {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+}
+
+@media screen and (max-height: 690px) {
+  .wizard-header {
+    height: 15%;
+    margin-bottom: 40px;
+  }
+}
