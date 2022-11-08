@@ -5,14 +5,14 @@
 }
 
 .add-page-header {
-  height: auto;
+  height: 18%;
 }
 
 .add-page-body {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  margin: 0 60px 80px 60px;
+  padding: 0 60px 80px 60px;
+  height: 82%;
 }
 
 .add-page-banner {
@@ -22,6 +22,7 @@
   color: white;
   border-radius: 20px;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .add-page-title {
@@ -35,16 +36,14 @@
 .add-page-book-information-container {
   display: flex;
   flex-direction: row;
-  flex: 1;
-  margin-top: 20px;
+  height: 88%;
 }
 
 .add-page-pages-container {
   width: 25%;
-  height: 100%;
   border-radius: 20px;
   background: #ffffff;
-  padding: 20px min(40px, 2.4%);
+  overflow-y: auto;
 }
 
 .add-page-pages-title {
@@ -52,12 +51,46 @@
   font-size: 30px;
   font-weight: bold;
   margin: 0;
+  padding: 20px 20px 0 20px;
   color: #42006d;
+}
+
+.add-page-pages-item-active {
+  height: 180px;
+  width: 100%;
+  padding: 20px;
+  background-color: #c5c5c5;
+}
+
+.add-page-pages-item-inactive {
+  height: 180px;
+  width: 100%;
+  padding: 20px;
+  background-color: transparent;
+}
+
+.add-page-pages-item-content {
+  height: 100%;
+  width: 100%;
+  box-shadow: none !important;
+  background: #ffffff;
+  border-radius: 20px;
+  border-color: black;
+  padding: 0;
+}
+
+.add-page-pages-item-content:hover {
+  background: #ffffff;
+  border-color: #c5c5c5;
+}
+
+.add-page-pages-item-content:focus {
+  background: #ffffff;
+  border-color: #c5c5c5;
 }
 
 .add-page-preview-container {
   width: 75%;
-  height: 100%;
   border-radius: 20px;
   margin-left: min(20px, 1.2%);
   background: #ffffff;

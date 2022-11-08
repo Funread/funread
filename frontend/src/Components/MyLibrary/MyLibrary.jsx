@@ -9,7 +9,6 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import logo from "../../placeholderBook.jpg";
-import Header from "../Shared/Header/Header";
 import HeaderDashboard from "../Shared/HeaderDashboard/HeaderDashboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
