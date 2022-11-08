@@ -1,11 +1,17 @@
+.my-library-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .my-library-header {
-  height: 15%;
+  height: auto;
 }
 
 .my-library {
   display: flex;
   flex-direction: column;
-  height: 85%;
+  height: 80%;
   margin: 0 60px 0 60px;
 }
 
