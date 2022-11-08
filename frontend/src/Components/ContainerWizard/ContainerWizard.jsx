@@ -1,5 +1,5 @@
-import React, {useState, useCallback} from "react";
-import {Pages} from '../../Components/Pages/Pages'
+import React, { useState, useCallback } from "react";
+import { Pages } from "../../Components/Pages/Pages";
 import { Col, Row } from "react-bootstrap";
 import "../ContainerWizard/style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +18,7 @@ export const ContainerWizard = (props) => {
   const [toast, setToast] = useState("");
   const [wizardTitle, setWizardTitle] = useState("Book Style");
   const navigate = useNavigate();
-  const [pages,setPages] = useState(1)
+  const [pages, setPages] = useState(1);
   const [nameOfBook, setNameOfBook] = useState("");
   const [classOfBook, setClassOfBook] = useState("");
   const [numberOfPages, setNumberOfPages] = useState(1);
@@ -26,14 +26,14 @@ export const ContainerWizard = (props) => {
   const BtnBackClick = () => {
     setActivePage((index) => 0);
     setWizardTitle("Book Style");
-    setPages(pages-1)
-    console.log(pages)
+    setPages(pages - 1);
+    console.log(pages);
   };
 
   const BtnContinueClick = () => {
     setActivePage((index) => 2);
-    setPages(pages+1)
-    console.log(pages)
+    setPages(pages + 1);
+    console.log(pages);
     setWizardTitle("Add Book Information");
   };
 
@@ -67,12 +67,17 @@ export const ContainerWizard = (props) => {
     }
   };
 
-  const bookData = useCallback(() =>{
-    setNameOfBook();
-    setClassOfBook();
-    setNumberOfPages();
-    console.log(nameOfBook,classOfBook.numberOfPages);
-  }, [nameOfBook], [classOfBook], [numberOfPages]);
+  const bookData = useCallback(
+    () => {
+      setNameOfBook();
+      setClassOfBook();
+      setNumberOfPages();
+      console.log(nameOfBook, classOfBook.numberOfPages);
+    },
+    [nameOfBook],
+    [classOfBook],
+    [numberOfPages]
+  );
 
   return (
     <>
@@ -117,36 +122,39 @@ export const ContainerWizard = (props) => {
                 </button>
               ) : null}
 
-              {pages !==  1 ? (
-                <button className="btn-right" type="submit" onClick={BtnSafeClick}>
+              {pages !== 1 ? (
+                <button
+                  className="btn-right"
+                  type="submit"
+                  onClick={BtnSafeClick}
+                >
                   Save Book
                   <FontAwesomeIcon
                     className="icons-wizard-right"
                     icon={faAngleRight}
                   />
                 </button>
-               ) : null} 
+              ) : null}
             </Col>
 
             <Col>
-                <button
-                  className="btn-right"
-                  type="button"
-                  onClick={BtnCloseClick}
-                >
-                  Close
-                  <FontAwesomeIcon
-                    className="icons-wizard-right"
-                    icon={faXmark}
-                  />
-                </button>
+              <button
+                className="btn-right"
+                type="button"
+                onClick={BtnCloseClick}
+              >
+                Close
+                <FontAwesomeIcon
+                  className="icons-wizard-right"
+                  icon={faXmark}
+                />
+              </button>
             </Col>
           </Row>
         </div>
 
         <div className="wizard-bg">
-
-          <Pages page= {pages}  fnBook={bookData}></Pages>
+          <Pages page={pages} fnBook={bookData}></Pages>
         </div>
       </div>
       {toast}
