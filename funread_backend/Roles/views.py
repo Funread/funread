@@ -77,9 +77,21 @@ def roleupdate(request, role):
 
 #Elimina un elemento de la lista UserRoles
 @api_view(['DELETE'])
-def deleteUserRole(request, idrole):
-    idrole = UserRoles.objects.get(idrole=idrole)
+def deleteUserRole(request, pk):
+    idrole = UserRoles.objects.get(userrolesid=pk)
     idrole.delete()
+
     return Response(status=status.HTTP_200_OK)
+
+#---------------------Busca un elemento de userrole por su id-------------------------#
+api_view(['GET'])
+def UserRolesSearch(request, pk):
+    try:
+        userrole = UserRoles.objects.get(userrolesid=pk)
+        print(userrole)
+    except UserRoles.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = UserRolesSerializer(userrole)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
