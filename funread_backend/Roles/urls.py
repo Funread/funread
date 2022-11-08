@@ -6,6 +6,7 @@ from .api import RolesViewSet
 
 urlpatterns = [
     path('roles/listAllRoles/' , views.listed),
+    path('roles/searchRoles/<str:role>', views.RolesSearch),
     path('roles/insertRoles/', views.new_role),
     path('roles/deleteRoles/<str:role>', views.deleteRole),
     path('roles/updateRoles/<str:role>',views.roleupdate), 
@@ -13,6 +14,7 @@ urlpatterns = [
     path('userroles/insertUserRoles/', views.new_Userrole),
     path('userroles/deleteUserRoles/<str:pk>', views.deleteUserRole),
     path('userroles/searchUserRoles/<str:pk>', views.UserRolesSearch),
+    path('userroles/updateUserRoles/<str:pk>',views.userroleupdate),
     
 ]
 
