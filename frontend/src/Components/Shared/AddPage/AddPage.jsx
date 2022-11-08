@@ -3,7 +3,7 @@ import "./AddPage.css";
 import DashHeader from "../HeaderDashboard/HeaderDashboard";
 import { Button } from "react-bootstrap";
 
-function AddPage() {
+function AddPage(props) {
   const [myBookName, setMyBookName] = useState("New Book Name");
 
   function changePagePreview() {
