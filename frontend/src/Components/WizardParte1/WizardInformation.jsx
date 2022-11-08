@@ -13,14 +13,11 @@ import logo from "../../placeholderBook.jpg";
 import WizardTemplate from '../WizardTemplete/WizardTemplate';
 
 export const WizardInformation = (props) => {
-  const [page, setPage] = useState(0);
   const [classBook, setClassBook] = useState("Select");
   const [option1, setOption1] = useState("History");
   const [option2, setOption2] = useState("Math");
   const [option3, setOption3] = useState("Science");
-  const [nameOfBook, setNameOfBook] = useState("");
 
-  
 
   return (
     <>
@@ -34,7 +31,7 @@ export const WizardInformation = (props) => {
               type="text"
               id="nameOfBook"
               placeholder="Enter the name of book"
-              onChange={(ev) => setNameOfBook(ev.target.value)}
+              onChange={(ev) => props.fnNameOfBook(ev.target.value)}
             />
             <div className="footer">
               <Row>
@@ -60,19 +57,19 @@ export const WizardInformation = (props) => {
                       <Dropdown.Menu>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => setClassBook(option1)}
+                          onClick={(HandleClass) => {setClassBook(option1); props.fnClassOfBook(option1)}}
                         >
                           {option1}
                         </Dropdown.Item>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => setClassBook(option2)}
+                          onClick={(HandleClass) => {setClassBook(option2); props.fnClassOfBook(option2)}}
                         >
                           {option2}
                         </Dropdown.Item>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => setClassBook(option3)}
+                          onClick={(HandleClass) => {setClassBook(option3); props.fnClassOfBook(option3)}}
                         >
                           {option3}
                         </Dropdown.Item>
@@ -87,9 +84,7 @@ export const WizardInformation = (props) => {
                       min={1}
                       max={99}
                       step={1}
-                      onChange={(e) => {
-                        setPage(e.target.value);
-                      }}
+                      onChange={(ev) => props.fnNumberOfPages(ev.target.value)}
                     />
                   </Col>
                 </Row>
