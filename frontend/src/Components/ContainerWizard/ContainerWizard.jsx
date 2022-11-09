@@ -27,7 +27,6 @@ export const ContainerWizard = (props) => {
     setActivePage((index) => 0);
     setWizardTitle("Book Style");
     setPages(pages-1)
-    // console.log(pages)
   };
 
   const BtnContinueClick = () => {
@@ -71,17 +70,14 @@ export const ContainerWizard = (props) => {
 
   const fnNameOfBook = useCallback((props) =>{
     setNameOfBook(props);
-    // console.log(nameOfBook);
   }, [nameOfBook]);
 
   const fnClassOfBook = useCallback((props) =>{
     setClassOfBook(props);
-    // console.log(nameOfBook);
   }, [classOfBook]);
 
   const fnNumberOfPages = useCallback((props) =>{
     setNumberOfPages(props);
-    // console.log(nameOfBook);
   }, [numberOfPages]);
 
   return (
@@ -164,8 +160,6 @@ export const ContainerWizard = (props) => {
         </div>
       </div>
       {toast}
-
-      {/* <Pages></Pages> */}
     </>
   );
 };
