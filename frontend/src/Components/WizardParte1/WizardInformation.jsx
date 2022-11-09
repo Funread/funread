@@ -113,12 +113,18 @@ export const WizardInformation = (props) => {
 // ============== Carrousel puede se un componente ================
 export const setLargeBookCardsData = () => {
   const booksList = [];
+  const count = 0;
 
   if (12 > 0) {
     for (let i = 0; i < 12; i++) {
       booksList.push(
         <SwiperSlide key={i} >
-            <WizardTemplate></WizardTemplate>
+          <Row className='style-template'>
+            <WizardTemplate name={"Template"}></WizardTemplate>
+          </Row>
+          <Row>
+            <WizardTemplate name={"Template"}></WizardTemplate>
+          </Row>
         </SwiperSlide>
       );
     }
