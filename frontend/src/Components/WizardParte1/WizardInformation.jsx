@@ -94,13 +94,15 @@ export const WizardInformation = (props) => {
         </div>
 
         <div className="main-container-book-style">
+          <div className='style-title'>Select Book Style</div>
           <Swiper
             modules={[Navigation]}
-            slidesPerView={4}
+            slidesPerView={6}
             spaceBetween={20}
             navigation
-            loop={true}
+            loop={true} 
           >
+            
             {setLargeBookCardsData()}
           </Swiper>
         </div>
@@ -114,16 +116,19 @@ export const WizardInformation = (props) => {
 export const setLargeBookCardsData = () => {
   const booksList = [];
   const count = 0;
-
   if (12 > 0) {
     for (let i = 0; i < 12; i++) {
       booksList.push(
         <SwiperSlide key={i} >
-          <Row className='style-template'>
-            <WizardTemplate name={"Template"}></WizardTemplate>
+          <Row>
+            <Col className='style-template'>
+              <WizardTemplate name={"Template"}></WizardTemplate>
+            </Col>
           </Row>
           <Row>
-            <WizardTemplate name={"Template"}></WizardTemplate>
+            <Col className='style-template'>
+              <WizardTemplate name={"Template"}></WizardTemplate>
+            </Col>
           </Row>
         </SwiperSlide>
       );

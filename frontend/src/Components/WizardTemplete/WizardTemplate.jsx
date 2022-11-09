@@ -7,7 +7,7 @@ import Imagen from './img/Imagen.png';
 
 function WizardTemplate(props) {
   return (
-    <div>
+    <div className='main-container'>
     <div className='background-template'>
         <div className = 'Image'>
           <div >

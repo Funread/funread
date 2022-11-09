@@ -103,9 +103,17 @@
     margin-left:auto;
     
 }
+.style-title{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: -10px;
+    margin-bottom: -10px;
+    margin-left: 5%;
+}
 
 .style-template{
-
+    font-size: 90%;
+    font-weight: bold;
 }
 
 @media screen and (max-width: 1072px) {
@@ -137,6 +145,8 @@
     }
 
   }
+
+  
 
 
 
