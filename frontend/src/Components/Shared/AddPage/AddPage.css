@@ -25,12 +25,56 @@
   margin-bottom: 20px;
 }
 
-.add-page-title {
+.add-page-banner-title {
   padding-bottom: 5px;
   margin-bottom: 0;
   font-size: min(32px, 4vh);
-  margin-left: min(40px, 2.4%);
+  margin-left: min(20px, 2.4%);
   font-weight: bold;
+}
+
+.add-page-banner-buttons-container {
+  margin-left: auto;
+}
+
+.add-page-banner-option-button {
+  margin-left: 10px;
+  background: #ffffff;
+  box-shadow: none !important;
+}
+
+.add-page-banner-option-button:hover {
+  margin-left: 10px;
+  background: #ffffff;
+  color: black;
+  box-shadow: none !important;
+}
+
+.add-page-banner-option-button:focus {
+  margin-left: 10px;
+  background: #ffffff;
+  color: black;
+  box-shadow: none !important;
+}
+
+.add-page-banner-close-button {
+  margin-left: 10px;
+  background: transparent;
+  box-shadow: none !important;
+  border-radius: 20px;
+  border-style: none;
+}
+
+.add-page-banner-close-button:hover {
+  background: transparent;
+  box-shadow: none !important;
+  color: black;
+}
+
+.add-page-banner-close-button:focus {
+  background: transparent;
+  box-shadow: none !important;
+  color: black;
 }
 
 .add-page-book-information-container {
@@ -41,57 +85,23 @@
 
 .add-page-pages-container {
   width: 25%;
-  border-radius: 20px;
-  background: #ffffff;
-  overflow-y: auto;
-}
-
-.add-page-pages-title {
-  width: 100%;
-  font-size: 30px;
-  font-weight: bold;
-  margin: 0;
-  padding: 20px 20px 0 20px;
-  color: #42006d;
-}
-
-.add-page-pages-item-active {
-  height: 180px;
-  width: 100%;
-  padding: 20px;
-  background-color: #c5c5c5;
-}
-
-.add-page-pages-item-inactive {
-  height: 180px;
-  width: 100%;
-  padding: 20px;
-  background-color: transparent;
-}
-
-.add-page-pages-item-content {
   height: 100%;
-  width: 100%;
-  box-shadow: none !important;
-  background: #ffffff;
   border-radius: 20px;
-  border-color: black;
-  padding: 0;
-}
-
-.add-page-pages-item-content:hover {
   background: #ffffff;
-  border-color: #c5c5c5;
-}
-
-.add-page-pages-item-content:focus {
-  background: #ffffff;
-  border-color: #c5c5c5;
 }
 
 .add-page-preview-container {
-  width: 75%;
+  width: 50%;
+  height: 100%;
   border-radius: 20px;
-  margin-left: min(20px, 1.2%);
+  margin-left: min(40px, 2.4%);
+  background: #ffffff;
+}
+
+.add-page-template-widget-container {
+  width: 25%;
+  height: 100%;
+  border-radius: 20px;
+  margin-left: min(40px, 2.4%);
   background: #ffffff;
 }
