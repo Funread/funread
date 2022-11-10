@@ -111,13 +111,3 @@
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
-
-@media (max-height: 768px) {
-  .book-pages-container-title-options {
-    height: 15%;
-  }
-
-  .book-pages-item-container {
-    height: 85%;
-  }
-}
