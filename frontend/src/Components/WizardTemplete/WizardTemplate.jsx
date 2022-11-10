@@ -7,7 +7,7 @@ import Imagen from './img/Imagen.png';
 
 function WizardTemplate(props) {
   return (
-    <div>
+    <div className='main-container'>
     <div className='background-template'>
         <div className = 'Image'>
           <div >
@@ -16,7 +16,7 @@ function WizardTemplate(props) {
             </center>
           </div>
     </div>
-        <div className='Template'><center><h5>Template</h5></center></div>
+        <div className='Template'><center>{props.name}</center></div>
     </div>
     </div>
   )
