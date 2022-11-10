@@ -12,7 +12,7 @@ class SharedBooksSerializer(serializers.ModelSerializer):
       return SharedBooks.objects.create(**validated_data)
 
   def update(self, instance, validated_data):
-      instance.idbook = validated_data.get('idbook', instance.idbook)
-      instance.iduser = validated_data.get('iduser', instance.iduser)
+      instance.idBook = validated_data.get('idBook', instance.idBook)
+      instance.idUser = validated_data.get('idUser', instance.idUser)
       instance.save()
       return instance

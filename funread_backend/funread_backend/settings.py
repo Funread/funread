@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'Tags',
     'Files',
     'Mailer',
+    'Author',
+    'Sharedbooks'
 
 
     #     'AuthApp.apps.AuthappConfig',
