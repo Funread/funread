@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'folder',
     'Tags',
     'Files',
-    'Mailer'
+    'Mailer',
+    'Sharedbooks'
 
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
