@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,10 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'Users.apps.UsersConfig',
+    'Users',
     'Books',
     'Pages.apps.PagesConfig',
     'Widget.apps.WidgetConfig',
+    'folder',
+    'Tags',
+    'Files',
+    'Mailer',
+    'Roles'
+
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
     #     'rest_framework',
@@ -140,7 +147,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": 'Lyckan.0606',
+        "PASSWORD": '',
         'PORT': '3306',
         'USER': 'root',
         'OPTIONS': {
@@ -187,3 +194,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL ='/archivos/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

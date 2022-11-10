@@ -22,8 +22,6 @@ function PopUp_Wiki() {
         return (
             //Return Here component or html code
             <div>
-               <Button variant="outline-info" onClose={popupCloseHandler}
-             onClick={() => setVisibility(true)}>Open Pop Up</Button>
 
             <PopUp active={active} toggle={toggle} show={visibility} title="Wiki" onClose={popupCloseHandler}/>
                 

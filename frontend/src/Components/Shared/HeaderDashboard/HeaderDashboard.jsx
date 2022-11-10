@@ -16,7 +16,7 @@ class HeaderDashboard extends React.Component {
     return (
       //Return Here component or html code
       <div className="main-header">
-        <Navbar collapseOnSelect expand="xxl" bg="transparent" variant="dark">
+        <Navbar collapseOnSelect expand="lg" bg="transparent" variant="dark">
           <Navbar.Brand href="#">
             <div
               className="logo-funread"
@@ -30,7 +30,12 @@ class HeaderDashboard extends React.Component {
             <Nav className="me-auto"></Nav>
             <Nav>
               <div className="dashboard-options">
-                <input type="text" className="search-hover" name="" placeholder="search here..." />
+                <input
+                  type="text"
+                  className="search-hover"
+                  name=""
+                  placeholder="search here..."
+                />
                 <Nav.Link className="dashboard-options-content" href="#2">
                   C
                 </Nav.Link>

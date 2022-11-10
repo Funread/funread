@@ -29,7 +29,6 @@ class UserStatusSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

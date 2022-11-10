@@ -52,7 +52,7 @@ def bookChange(request):
 
 
     data = {
-        'title': request.data.get('title'),
+        'title': request.data.get('new_title'),
         'portrait': request.data.get('portrait'),
         'category': request.data.get('category'),
         'createdby': request.data.get('createdby'),

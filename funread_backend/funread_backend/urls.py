@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -22,5 +24,14 @@ urlpatterns = [
     path('users/',include('Users.urls')),
     path('books/',include('Books.urls')),
     path('pages/',include('Pages.urls')),
-    path('widget/',include('Widget.urls'))
+    path('widget/',include('Widget.urls')),
+    path('file/',include('Files.urls')),
+    path('folder/',include('folder.urls')),
+    path('Tags/',include('Tags.urls')),
+    path('email/', include('Mailer.urls')),
+    path('roles/', include('Roles.urls'))
+
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
