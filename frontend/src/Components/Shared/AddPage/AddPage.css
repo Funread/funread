@@ -18,6 +18,7 @@
 .add-page-banner {
   display: flex;
   height: min(60px, 10%);
+  min-height: 40px;
   background-color: green;
   color: white;
   border-radius: 20px;
@@ -28,7 +29,7 @@
 .add-page-banner-title {
   padding-bottom: 5px;
   margin-bottom: 0;
-  font-size: min(32px, 4vh);
+  font-size: 32px;
   margin-left: min(20px, 2.4%);
   font-weight: bold;
 }
