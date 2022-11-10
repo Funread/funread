@@ -26,7 +26,7 @@ function AddPage(props) {
           <div className="add-page-banner-buttons-container">
             <Button
               variant="outline-dark"
-              size="sm"
+              size="md"
               className="add-page-banner-option-button"
               type="button"
             >
@@ -34,7 +34,7 @@ function AddPage(props) {
             </Button>
             <Button
               variant="outline-dark"
-              size="sm"
+              size="md"
               className="add-page-banner-option-button"
               type="button"
             >
