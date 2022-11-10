@@ -17,6 +17,7 @@ import Puzzle from "./Components/Shared/Templates/Widgets/Puzzle/Puzzle";
 import Title from "./Components/Shared/Templates/Widgets/Title/Title";
 import Wizard from "./Components/Shared/Wizard/Wizard";
 import WizardTemplate from "./Components/WizardTemplete/WizardTemplate";
+import AddPage from "./Components/Shared/AddPage/AddPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -97,6 +98,17 @@ root.render(
         }
       />
       <Route path="/wizardtemplate" element={<WizardTemplate />} />
+
+      <Route
+        path="/addpage"
+        element={
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <AddPage />
+            </div>
+          </div>
+        }
+      />
     </Routes>
   </BrowserRouter>
 );

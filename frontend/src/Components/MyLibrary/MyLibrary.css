@@ -1,11 +1,17 @@
+.my-library-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .my-library-header {
-  height: 15%;
+  height: 18%;
 }
 
 .my-library {
   display: flex;
   flex-direction: column;
-  height: 85%;
+  height: 82%;
   margin: 0 60px 0 60px;
 }
 
@@ -28,7 +34,7 @@
 
 .my-library-navbar {
   margin-top: min(30px, 1.8%);
-  height: 10%;
+  height: 8%;
 }
 
 .my-library-options {
