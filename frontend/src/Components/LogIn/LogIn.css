@@ -1,7 +1,7 @@
 .login-form {
   max-width: 480px;
   max-height: 100%;
-  min-height: 280px;
+  min-height: 380px;
   background-color: white;
   border-radius: 20px;
   font-family: Arial, Helvetica, sans-serif;
@@ -22,14 +22,19 @@
   height: 574px;
   max-height: 100%;
   padding: 0 12.5% 12.5% 12.5%;
-  justify-content: space-evenly;
 }
 
 .login-form-content {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   height: 100%;
+}
+
+.login-form-inputs {
+  display: flex;
+  flex-direction: column;
+  height: 60%;
+  justify-content: space-around;
 }
 
 .login-form-title {
@@ -42,6 +47,7 @@
 .login-form-subtitle {
   font-weight: normal;
   font-size: 2vh;
+  margin-bottom: min(20px, 6%);
 }
 
 .login-form-control-lg {
@@ -113,7 +119,7 @@
 }
 
 .login-form-button-empty {
-  margin-top: 5vh;
+  margin-top: min(50px, 14%);
   min-width: 100%;
   height: 12%;
   font-size: 2vh;
@@ -126,7 +132,7 @@
 }
 
 .login-form-button-filled {
-  margin-top: 5vh;
+  margin-top: min(50px, 14%);
   min-width: 100%;
   height: 12%;
   font-size: 2vh;
