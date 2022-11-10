@@ -11,7 +11,7 @@ function AddPage(props) {
   const [myBookName, setMyBookName] = useState("New Book Name");
   const navigate = useNavigate();
 
-  const BtnCloseClick = () => {
+  const closeAddPage = () => {
     navigate("/mylibrary");
   };
 
@@ -45,7 +45,7 @@ function AddPage(props) {
               className="add-page-banner-close-button"
               style={{ marginRight: 20 }}
               type="button"
-              onClick={BtnCloseClick}
+              onClick={closeAddPage}
             >
               <FontAwesomeIcon icon={faX} />
             </Button>

@@ -6,8 +6,28 @@ import { faPlus, faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 
 function BookPages(props) {
-  function changePagePreview() {
-    console.log("new page");
+  const [pageList, setPageList] = useState([
+    <div className="book-pages-item-active" key={0}>
+      <Button
+        className="book-pages-item-content"
+        key={0}
+        type="button"
+      ></Button>
+    </div>,
+  ]);
+
+  function addPage() {
+    setPageList(
+      pageList.concat(
+        <div className="book-pages-item-inactive" key={pageList.length}>
+          <Button
+            className="book-pages-item-content"
+            key={pageList.length}
+            type="button"
+          ></Button>
+        </div>
+      )
+    );
   }
 
   return (
@@ -20,12 +40,18 @@ function BookPages(props) {
           style={{ marginLeft: "auto" }}
           className="book-pages-options"
           icon={faFileCirclePlus}
+          onClick={addPage}
         />
         <FontAwesomeIcon className="book-pages-options" icon={faCopy} />
       </div>
       <div className="book-pages-item-container">
+        {pageList}
         <div className="book-pages-item-inactive">
-          <Button className="book-pages-item-add" type="button">
+          <Button
+            className="book-pages-item-add"
+            type="button"
+            onClick={addPage}
+          >
             <FontAwesomeIcon icon={faPlus} />
           </Button>
         </div>
