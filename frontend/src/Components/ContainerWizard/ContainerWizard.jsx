@@ -26,15 +26,16 @@ export const ContainerWizard = (props) => {
   const BtnBackClick = () => {
     setActivePage((index) => 0);
     setWizardTitle("Book Style");
-    setPages(pages - 1);
-    console.log(pages);
+    setPages(pages-1)
   };
 
   const BtnContinueClick = () => {
     setActivePage((index) => 2);
-    setPages(pages + 1);
-    console.log(pages);
+    setPages(pages+1)
     setWizardTitle("Add Book Information");
+    console.log(nameOfBook);
+    console.log(classOfBook);
+    console.log(numberOfPages);
   };
 
   const BtnCloseClick = () => {
@@ -67,17 +68,17 @@ export const ContainerWizard = (props) => {
     }
   };
 
-  const bookData = useCallback(
-    () => {
-      setNameOfBook();
-      setClassOfBook();
-      setNumberOfPages();
-      console.log(nameOfBook, classOfBook.numberOfPages);
-    },
-    [nameOfBook],
-    [classOfBook],
-    [numberOfPages]
-  );
+  const fnNameOfBook = useCallback((props) =>{
+    setNameOfBook(props);
+  }, [nameOfBook]);
+
+  const fnClassOfBook = useCallback((props) =>{
+    setClassOfBook(props);
+  }, [classOfBook]);
+
+  const fnNumberOfPages = useCallback((props) =>{
+    setNumberOfPages(props);
+  }, [numberOfPages]);
 
   return (
     <>
@@ -154,12 +155,11 @@ export const ContainerWizard = (props) => {
         </div>
 
         <div className="wizard-bg">
-          <Pages page={pages} fnBook={bookData}></Pages>
+
+          <Pages page= {pages}  fnNameOfBook={fnNameOfBook} fnClassOfBook={fnClassOfBook} fnNumberOfPages={fnNumberOfPages}></Pages>
         </div>
       </div>
       {toast}
-
-      {/* <Pages></Pages> */}
     </>
   );
 };

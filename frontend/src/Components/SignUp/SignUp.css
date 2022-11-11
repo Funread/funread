@@ -32,6 +32,13 @@
   height: 100%;
 }
 
+.signup-form-inputs {
+  display: flex;
+  flex-direction: column;
+  height: 60%;
+  justify-content: space-around;
+}
+
 .signup-form-title {
   font-weight: bold;
   font-size: 6vh;
@@ -42,6 +49,7 @@
 .signup-form-subtitle {
   font-weight: normal;
   font-size: 2vh;
+  margin-bottom: min(20px, 6%);
 }
 
 .signup-form-control-lg {
@@ -108,7 +116,7 @@
 }
 
 .signup-form-button-empty {
-  margin-top: 5vh;
+  margin-top: min(50px, 14%);
   min-width: 100%;
   height: 12%;
   font-size: 2vh;
@@ -121,7 +129,7 @@
 }
 
 .signup-form-button-filled {
-  margin-top: 5vh;
+  margin-top: min(50px, 14%);
   min-width: 100%;
   height: 12%;
   font-size: 2vh;

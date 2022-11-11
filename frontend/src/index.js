@@ -17,6 +17,7 @@ import Puzzle from "./Components/Shared/Templates/Widgets/Puzzle/Puzzle";
 import Title from "./Components/Shared/Templates/Widgets/Title/Title";
 import Wizard from "./Components/Shared/Wizard/Wizard";
 import WizardTemplate from "./Components/WizardTemplete/WizardTemplate";
+import AddPage from "./Components/Shared/AddPage/AddPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -52,38 +53,18 @@ root.render(
             <div className="index-background-container ">
               <Dashboard />
             </div>
-          </div>
-        }
-      />
+          </div>} />
       <Route path="/wiki" element={<Wiki />} />
 
-      <Route
-        path="/image"
-        element={
-          <Image imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg" />
-        }
-      />
-      <Route path="/title" element={<Title texto="Esto es un Titulo" />} />
-      <Route
-        path="/audio"
-        element={
-          <Audio audio="https://file-examples.com/storage/fe8c7eef0c6364f6c9504cc/2017/11/file_example_MP3_700KB.mp3" />
-        }
-      />
-      <Route
-        path="/text"
-        element={
-          <Text texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam egestas eget orci eu imperdiet. Vivamus eros ligula, ornare eu lorem sed, vehicula consectetur mi." />
-        }
-      />
+      <Route path="/image" element={<Image imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg"/>} />
+      <Route path="/title" element={<Title texto="Esto es un Titulo"/>} />
+      <Route path="/audio" element={<Audio audio="https://file-examples.com/storage/fe8c7eef0c6364f6c9504cc/2017/11/file_example_MP3_700KB.mp3" />} />
+      <Route path="/text" element={<Text texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam egestas eget orci eu imperdiet. Vivamus eros ligula, ornare eu lorem sed, vehicula consectetur mi." />} />
       <Route path="/collage" element={<Collage />} />
-      <Route
-        path="/puzzle"
-        element={
-          <Puzzle imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg" />
-        }
-      />
+      <Route path="/puzzle" element={<Puzzle imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg" />} />
       <Route path="/wiki/*" element={<Wiki />} />
+      {/* <Route path="/wizard" element={<Wizard />}/> */}
+      
 
       <Route
         exact
@@ -97,6 +78,17 @@ root.render(
         }
       />
       <Route path="/wizardtemplate" element={<WizardTemplate />} />
+
+      <Route
+        path="/addpage"
+        element={
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <AddPage />
+            </div>
+          </div>
+        }
+      />
     </Routes>
   </BrowserRouter>
 );

@@ -106,78 +106,80 @@ function SignUp(props) {
           <h5 className="signup-form-subtitle">
             Add your information to register.
           </h5>
-          <Form.Group className="form-group">
-            <Form.Label className="font-size">
-              <FontAwesomeIcon className="signup-icons" icon={faUser} />
-              Your name
-            </Form.Label>
-            <Form.Control
-              id="nameInput"
-              size="lg"
-              type="text"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                isEmpty(e.target.value, "nameInput");
-              }}
-              className="signup-form-control-lg"
-              placeholder="Your name here"
-              required
-            />
-          </Form.Group>
-          <Form.Group className="form-group">
-            <Form.Label className="font-size">
-              <FontAwesomeIcon className="signup-icons" icon={faEnvelope} />
-              Email
-            </Form.Label>
-            <Form.Control
-              id="emailInput"
-              size="lg"
-              type="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                isEmpty(e.target.value, "emailInput");
-              }}
-              className="signup-form-control-lg"
-              placeholder="example@mep.co.cr"
-              required
-            />
-          </Form.Group>
-          <Form.Group className="form-group">
-            <Form.Label className="font-size">
-              <FontAwesomeIcon className="signup-icons" icon={faLock} />
-              Password
-            </Form.Label>
-            <InputGroup className="form-input-group">
+          <div className="signup-form-inputs">
+            <Form.Group className="form-group">
+              <Form.Label className="font-size">
+                <FontAwesomeIcon className="signup-icons" icon={faUser} />
+                Your name
+              </Form.Label>
               <Form.Control
-                id="passwordInput"
+                id="nameInput"
                 size="lg"
-                value={password}
+                type="text"
+                value={name}
                 onChange={(e) => {
-                  setPassword(e.target.value);
-                  isEmpty(e.target.value, "passwordInput");
+                  setName(e.target.value);
+                  isEmpty(e.target.value, "nameInput");
                 }}
-                style={{ borderRightWidth: 0 }}
                 className="signup-form-control-lg"
-                type={showPassword ? "text" : "password"}
-                placeholder="Your password"
+                placeholder="Your name here"
                 required
               />
-              <InputGroup.Text
-                id="inputGroupText"
-                className="form-input-group-text-password"
-              >
-                <Button
-                  id="passwordButton"
-                  className="signup-form-password-button"
-                  onClick={togglePassword}
+            </Form.Group>
+            <Form.Group className="form-group">
+              <Form.Label className="font-size">
+                <FontAwesomeIcon className="signup-icons" icon={faEnvelope} />
+                Email
+              </Form.Label>
+              <Form.Control
+                id="emailInput"
+                size="lg"
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  isEmpty(e.target.value, "emailInput");
+                }}
+                className="signup-form-control-lg"
+                placeholder="example@mep.co.cr"
+                required
+              />
+            </Form.Group>
+            <Form.Group className="form-group">
+              <Form.Label className="font-size">
+                <FontAwesomeIcon className="signup-icons" icon={faLock} />
+                Password
+              </Form.Label>
+              <InputGroup className="form-input-group">
+                <Form.Control
+                  id="passwordInput"
+                  size="lg"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    isEmpty(e.target.value, "passwordInput");
+                  }}
+                  style={{ borderRightWidth: 0 }}
+                  className="signup-form-control-lg"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Your password"
+                  required
+                />
+                <InputGroup.Text
+                  id="inputGroupText"
+                  className="form-input-group-text-password"
                 >
-                  <FontAwesomeIcon className="fa-xl float end" icon={faEye} />
-                </Button>
-              </InputGroup.Text>
-            </InputGroup>
-          </Form.Group>
+                  <Button
+                    id="passwordButton"
+                    className="signup-form-password-button"
+                    onClick={togglePassword}
+                  >
+                    <FontAwesomeIcon className="fa-xl float end" icon={faEye} />
+                  </Button>
+                </InputGroup.Text>
+              </InputGroup>
+            </Form.Group>
+          </div>
           <Button
             id="submit-button"
             className="signup-form-button-empty"
