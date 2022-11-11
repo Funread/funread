@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'Users',
     'Books',
+    'Pages',
+    'Widget',
     'folder',
     'Tags',
     'Files',
