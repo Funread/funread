@@ -1,10 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import "./Title.css"
 
 function Title(props) {
+  const [texto, setTexto] = useState("Título de página");
+
   return (
     <div className='container-title'>
-                <p>{props.texto}</p>
+                <p>{texto}</p>
     </div>
   );
 }
