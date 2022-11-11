@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'Users',
     'Books',
+    'Pages',
+    'Widget',
     'folder',
     'Tags',
     'Files',
@@ -49,7 +51,6 @@ INSTALLED_APPS = [
     'Roles',
     'Author',
     'Sharedbooks'
-
 
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',

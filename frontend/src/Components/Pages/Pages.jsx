@@ -1,18 +1,18 @@
-import React from 'react'
-import { WizardInformation } from '../../Components/WizardParte1/WizardInformation'
-import '../Pages/style.css'
+import React from "react";
+import { WizardInformation } from "../../Components/WizardParte1/WizardInformation";
+import Page2 from "../Shared/CreateBookPage2/CreateBookPage2";
 export const Pages = (props) => {
-
-  if(props.page == 1){
-    return(
+  if (props.page === 1) {
+    return (
       <>
-        <WizardInformation></WizardInformation>
+        <WizardInformation fnNameOfBook={props.fnNameOfBook} fnClassOfBook={props.fnClassOfBook} fnNumberOfPages={props.fnNumberOfPages} ></WizardInformation>
       </>
-    )
-  }else{
-    return(
-      <>     
+    );
+  } else {
+    return (
+      <>
+        <Page2 />
       </>
-    )
+    );
   }
-}
+};

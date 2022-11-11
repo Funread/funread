@@ -13,21 +13,11 @@ import logo from "../../placeholderBook.jpg";
 import WizardTemplate from '../WizardTemplete/WizardTemplate';
 
 export const WizardInformation = (props) => {
-  const [page, setPage] = useState(0);
   const [classBook, setClassBook] = useState("Select");
   const [option1, setOption1] = useState("History");
   const [option2, setOption2] = useState("Math");
   const [option3, setOption3] = useState("Science");
-  const [nameOfBook, setNameOfBook] = useState("");
 
-  const updateBookStyle = () => {
-    const bookStyle = {
-      classBook: classBook,
-      page: page,
-      nameOfBook: nameOfBook,
-    };
-    props.onUpdateBookStyle(bookStyle);
-  };
 
   return (
     <>
@@ -41,7 +31,7 @@ export const WizardInformation = (props) => {
               type="text"
               id="nameOfBook"
               placeholder="Enter the name of book"
-              onChange={(ev) => setNameOfBook(ev.target.value)}
+              onChange={(ev) => props.fnNameOfBook(ev.target.value)}
             />
             <div className="footer">
               <Row>
@@ -67,19 +57,19 @@ export const WizardInformation = (props) => {
                       <Dropdown.Menu>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => setClassBook(option1)}
+                          onClick={(HandleClass) => {setClassBook(option1); props.fnClassOfBook(option1)}}
                         >
                           {option1}
                         </Dropdown.Item>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => setClassBook(option2)}
+                          onClick={(HandleClass) => {setClassBook(option2); props.fnClassOfBook(option2)}}
                         >
                           {option2}
                         </Dropdown.Item>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => setClassBook(option3)}
+                          onClick={(HandleClass) => {setClassBook(option3); props.fnClassOfBook(option3)}}
                         >
                           {option3}
                         </Dropdown.Item>
@@ -94,10 +84,7 @@ export const WizardInformation = (props) => {
                       min={1}
                       max={99}
                       step={1}
-                      onChange={(e) => {
-                        setPage(e.target.value);
-                        updateBookStyle();
-                      }}
+                      onChange={(ev) => props.fnNumberOfPages(ev.target.value)}
                     />
                   </Col>
                 </Row>
@@ -107,13 +94,15 @@ export const WizardInformation = (props) => {
         </div>
 
         <div className="main-container-book-style">
+          <div className='style-title'>Select Book Style</div>
           <Swiper
             modules={[Navigation]}
-            slidesPerView={4}
+            slidesPerView={6}
             spaceBetween={20}
             navigation
-            loop={true}
+            loop={true} 
           >
+            
             {setLargeBookCardsData()}
           </Swiper>
         </div>
@@ -126,12 +115,21 @@ export const WizardInformation = (props) => {
 // ============== Carrousel puede se un componente ================
 export const setLargeBookCardsData = () => {
   const booksList = [];
-
+  const count = 0;
   if (12 > 0) {
     for (let i = 0; i < 12; i++) {
       booksList.push(
         <SwiperSlide key={i} >
-            <WizardTemplate></WizardTemplate>
+          <Row>
+            <Col className='style-template'>
+              <WizardTemplate name={"Template"}></WizardTemplate>
+            </Col>
+          </Row>
+          <Row>
+            <Col className='style-template'>
+              <WizardTemplate name={"Template"}></WizardTemplate>
+            </Col>
+          </Row>
         </SwiperSlide>
       );
     }

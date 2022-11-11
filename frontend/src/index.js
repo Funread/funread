@@ -16,8 +16,8 @@ import Collage from "./Components/Shared/Templates/Widgets/Collage/Collage";
 import Puzzle from "./Components/Shared/Templates/Widgets/Puzzle/Puzzle";
 import Title from "./Components/Shared/Templates/Widgets/Title/Title";
 import Wizard from "./Components/Shared/Wizard/Wizard";
-import WizardParte1 from "./Components/WizardParte1/WizardParte1";
 import WizardTemplate from "./Components/WizardTemplete/WizardTemplate";
+import AddPage from "./Components/Shared/AddPage/AddPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -64,17 +64,7 @@ root.render(
       <Route path="/puzzle" element={<Puzzle imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg" />} />
       <Route path="/wiki/*" element={<Wiki />} />
       {/* <Route path="/wizard" element={<Wizard />}/> */}
-      <Route
-        exact
-        path="/wparte1"
-        element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
-              <WizardParte1 />
-            </div>
-          </div>
-        }
-      />
+      
 
       <Route
         exact
@@ -88,6 +78,17 @@ root.render(
         }
       />
       <Route path="/wizardtemplate" element={<WizardTemplate />} />
+
+      <Route
+        path="/addpage"
+        element={
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <AddPage />
+            </div>
+          </div>
+        }
+      />
     </Routes>
   </BrowserRouter>
 );

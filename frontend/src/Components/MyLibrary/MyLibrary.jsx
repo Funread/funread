@@ -9,7 +9,7 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import logo from "../../placeholderBook.jpg";
-import Header from "../Shared/Header/Header";
+import HeaderDashboard from "../Shared/HeaderDashboard/HeaderDashboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSliders,
@@ -231,9 +231,9 @@ function MyLibrary(props) {
    * Debe eliminarse el header actual cuando este creado el header del dashboard
    */
   return (
-    <>
+    <div className="my-library-container">
       <div className="my-library-header">
-        <Header />
+        <HeaderDashboard />
       </div>
       <div className="my-library">
         <div className="my-library-banner">
@@ -311,7 +311,7 @@ function MyLibrary(props) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
