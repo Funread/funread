@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'Tags',
     'Files',
     'Mailer',
+    'Roles',
     'Author',
     'Sharedbooks'
 
