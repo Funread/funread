@@ -7,11 +7,11 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns=[
     
-    path('search/<str:pageid>', views.pageSearch),
-    path('change/', views.pageChange),
-    path('list/', views.listed),
-    path('new-page/', views.new_page),
-    path('template/<str:templateerquest>', views.Template)
+    path('pages/searchPage/<str:pageid>', views.pageSearch),
+    path('pages/changePage/', views.pageChange),
+    path('pages/listallPages/', views.listed),
+    path('pages/insertPage/', views.new_page),
+    path('template/getTemplate<str:templateerquest>', views.Template)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
