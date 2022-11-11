@@ -9,7 +9,6 @@ urlpatterns = [
     path('mailer/insertEmail',views.insertEmail), 
     path('mailer/listAllEmail', views.listAllEmail),
     path('mailer/listByEmail', views.listByEmail),
-    
     path('controlMailer/listByMailControl', views.listByMailControl),
     path('controlMailer/insertMailControl', views.createMailControl),
     path('controlMailer/listAllMailControl', views.listAllMailControl),

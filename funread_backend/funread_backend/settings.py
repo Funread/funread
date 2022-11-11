@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'Files',
     'Mailer',
     'Roles'
+    'Grades',
 
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
@@ -147,8 +148,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": '',
-        'PORT': '3306',
+        "PASSWORD": 'charizard',
+        'PORT': '33060',
         'USER': 'root',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
