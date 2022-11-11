@@ -18,6 +18,7 @@ import Title from "./Components/Shared/Templates/Widgets/Title/Title";
 import Wizard from "./Components/Shared/Wizard/Wizard";
 import WizardTemplate from "./Components/WizardTemplete/WizardTemplate";
 import AddPage from "./Components/Shared/AddPage/AddPage";
+import Template2 from "./Components/Shared/Templates/Template 2/template2";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -89,6 +90,7 @@ root.render(
           </div>
         }
       />
+      <Route path="/template-2" element={<Template2 />} />
     </Routes>
   </BrowserRouter>
 );
