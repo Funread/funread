@@ -29,8 +29,8 @@ urlpatterns = [
     path('folder/',include('folder.urls')),
     path('Tags/',include('Tags.urls')),
     path('email/', include('Mailer.urls')),
-    path('roles/', include('Roles.urls'))
-
+    path('roles/', include('Roles.urls')),
+    path('grades/', include('Grades.urls'))
 ]
 
 if settings.DEBUG:
