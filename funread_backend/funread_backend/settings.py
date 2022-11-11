@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'Roles',
     'Author',
     'Sharedbooks'
+    'Grades',
+
 
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
