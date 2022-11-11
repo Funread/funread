@@ -7,6 +7,6 @@ class Grades(models.Model):
     booksid = models.CharField(max_length=200, blank=False, null=False )
     progress = models.IntegerField(blank=True, null=True)
     grade = models.FloatField(blank=True, null=True)
-    iduser = models.ForeignKey(User,related_name='iduser',db_column='iduser', on_delete=models.CASCADE, to_field='userid')
+    iduser = models.ForeignKey(User,related_name='iduserModel',db_column='iduser', on_delete=models.CASCADE, to_field='userid')
 
 #pasar a minusculas, usar camelCase (para definir variables)
