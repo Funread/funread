@@ -22,13 +22,13 @@ def listed(request):
 
 #Metodo para buscar una variable por nombre
 @api_view(['GET'])
-def AuthorListSearch(request, pk):
+def AuthorListSearch(request):
     try:
-        authorList = AuthorList.objects.get(authorlistid=pk)
-        print(authorList)
+        authorlist = AuthorList.objects.get(authorlistid=request.data.get('authorlistid'))
+        print(authorlist)
     except AuthorList.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = AuthorListserializer(authorList)
+    serializer = AuthorListserializer(authorlist)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 #Metodo para agregar un elemento a la lista Roles
@@ -47,15 +47,15 @@ def new_Authorlist(request):
 
 #Elimina un elemento de la lista Roles
 @api_view(['DELETE'])
-def deleteAuthorList(request, pk):
-    authorList = AuthorList.objects.get(authorlistid=pk)
-    authorList.delete()
+def deleteAuthorList(request):
+    authorlist = AuthorList.objects.get(authorlistid=request.data.get('authorlistid'))
+    authorlist.delete()
     return Response(status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
-def AuthorListupdate(request, pk):
-    authorList = AuthorList.objects.get(authorlistid=pk)
-    serializer = AuthorListserializer(authorList, data=request.data)
+def AuthorListupdate(request):
+    authorlist = AuthorList.objects.get(authorlistid=request.data.get('authorlistid'))
+    serializer = AuthorListserializer(authorlist, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)

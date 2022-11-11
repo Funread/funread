@@ -6,10 +6,10 @@ from .api import AuthorListViewSet
 
 urlpatterns = [
     path('AuthorList/listAllAuthor/' , views.listed),
-    path('AuthorList/searchAuthorList/<str:pk>', views.AuthorListSearch),
+    path('AuthorList/searchAuthorList/', views.AuthorListSearch),
     path('AuthorList/insertAuthorList/', views.new_Authorlist),
-    path('AuthorList/deleteAuthorList/<str:pk>', views.deleteAuthorList),
-    path('AuthorList/updateAuthorList/<str:pk>',views.AuthorListupdate), 
+    path('AuthorList/deleteAuthorList/', views.deleteAuthorList),
+    path('AuthorList/updateAuthorList/',views.AuthorListupdate), 
     
 ]
 

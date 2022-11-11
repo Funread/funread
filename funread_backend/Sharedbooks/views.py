@@ -22,13 +22,13 @@ def listed(request):
 
 #Metodo para buscar una variable por nombre
 @api_view(['GET'])
-def search(request, pk):
+def search(request):
     try:
-        sharedBooks = SharedBooks.objects.get(sharedbooksid=pk)
-        print(sharedBooks)
+        sharedbooks = SharedBooks.objects.get(sharedbooksid=request.data.get('sharedbooksid'))
+        print(sharedbooks)
     except SharedBooks.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = SharedBooksSerializer(sharedBooks)
+    serializer = SharedBooksSerializer(sharedbooks)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 #Metodo para agregar un elemento a la lista SharedBooks
@@ -47,16 +47,16 @@ def add_new(request):
 
 #Elimina un elemento de la lista SharedBooks
 @api_view(['DELETE'])
-def delete(request, pk):
-    sharedbooks = SharedBooks.objects.get(sharedbooksid=pk)
+def delete(request):
+    sharedbooks = SharedBooks.objects.get(sharedbooksid=request.data.get('sharedbooksid'))
     sharedbooks.delete()
-    return Response(status=status.HTTP_200_OK)
+    return Response({"msj":"Succesfully deleted"}, status=status.HTTP_200_OK)
 
 
 #Metedo que cambia la variable de la lista SharedBooks
 @api_view(['PUT'])
-def update(request, pk):
-    sharedbooks = SharedBooks.objects.get(sharedbooksid=pk)
+def update(request):
+    sharedbooks = SharedBooks.objects.get(sharedbooksid=request.data.get('sharedbooksid'))
     serializer = SharedBooksSerializer(sharedbooks, data=request.data)
     if serializer.is_valid():
         serializer.save()

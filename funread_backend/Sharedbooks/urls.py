@@ -6,10 +6,10 @@ from .api import SharedBooksViewSet
 
 urlpatterns = [
     path('sharedbooks/listAllSharedBooks/' , views.listed),
-    path('sharedbooks/searchSharedBooks/<str:pk>', views.search),
+    path('sharedbooks/searchSharedBooks/', views.search),
     path('sharedbooks/insertnewSharedBooks/', views.add_new),
-    path('sharedbooks/deleteSharedBooks/<str:pk>', views.delete),
-    path('sharedbooks/updateSharedBooks/<str:pk>',views.update),
+    path('sharedbooks/deleteSharedBooks/', views.delete),
+    path('sharedbooks/updateSharedBooks/',views.update),
     
 ]
 
