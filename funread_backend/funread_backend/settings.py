@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'Mailer',
     'Roles',
     'Author',
-    'Sharedbooks'
+    'Sharedbooks',
     'Grades',
 
 
