@@ -4,46 +4,8 @@
     overflow-y: scroll;
     position: relative;
     background: #CBC3E3;
-  }
-
-  .image-gallery {
-    /* Mobile first */
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .image-gallery .column {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .image-item img {
-    width: 100%;
-    border-radius: 5px;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  @media only screen and (min-width: 768px) {
-    .image-gallery {
-      flex-direction: row;
-    }
-  }
-  
-  /* overlay styles */
-  
-  .image-item {
-    position: relative;
-  }
-  .image-input{
-    position: absolute;
-    width: 100%;
-    border: none;
-    text-align: center;
-  }
-  .image-input:focus{
-    outline: none !important;
-  }
-  
+}
+.image-item {
+    margin-left: 5vh;
+    margin-bottom: 5vh;
+}

@@ -21,10 +21,11 @@
   width: 40px;
   height: 40px;
   background: #fff;
+  color: #bb88e2;
 }
 
 .dashboard-options-content:hover {
-  color: #d5a6fa;
+  color: #793da7;
 }
 
 .main-header {
@@ -43,6 +44,8 @@
   outline: none;
   background-size: 22px;
   background-position: 13px;
+  background-image: url('./s-icon.png');
+  background-repeat: no-repeat;
   border-radius: 50px;
   width: 40px;
   height: 40px;
