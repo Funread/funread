@@ -49,9 +49,10 @@ INSTALLED_APPS = [
     'Files',
     'Mailer',
     'Roles',
-    'Author',
-    'Sharedbooks',
+    #'Author',
+    #'Sharedbooks',
     'Grades',
+    'Institute'
 
 
     #     'AuthApp.apps.AuthappConfig',
@@ -151,8 +152,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": '',
-        'PORT': '3306',
+        "PASSWORD": 'hipopotamo',
+        'PORT': '33060',
         'USER': 'root',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
