@@ -49,7 +49,10 @@ INSTALLED_APPS = [
     'Files',
     'Mailer',
     'Roles',
+    'Author',
+    'Sharedbooks',
     'Grades',
+
 
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
