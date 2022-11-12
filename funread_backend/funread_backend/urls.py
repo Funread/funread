@@ -30,7 +30,10 @@ urlpatterns = [
     path('Tags/',include('Tags.urls')),
     path('email/', include('Mailer.urls')),
     path('roles/', include('Roles.urls')),
+    path('author/', include('Author.urls')),
+    path('sharedbooks/', include('Sharedbooks.urls')),
     path('grades/', include('Grades.urls'))
+
 ]
 
 if settings.DEBUG:
