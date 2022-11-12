@@ -42,10 +42,18 @@ INSTALLED_APPS = [
     'rest_framework',
     'Users',
     'Books',
+    'Pages',
+    'Widget',
     'folder',
     'Tags',
     'Files',
-    'Mailer'
+    'Mailer',
+    'Roles',
+    #'Author',
+    #'Sharedbooks',
+    'Grades',
+    'Institute'
+
 
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
@@ -144,8 +152,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": '',
-        'PORT': '3306',
+        "PASSWORD": 'hipopotamo',
+        'PORT': '33060',
         'USER': 'root',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"

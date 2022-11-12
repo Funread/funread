@@ -21,6 +21,7 @@ def new_user(request):
         'actived': request.data.get('actived'),
 
     }
+    print(data)
     serializer = UserSerializer(data=data)
     if serializer.is_valid():
         serializer.save()

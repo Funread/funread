@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from "react";
-import "./Wizard.css";
+import React from "react";
 import {ContainerWizard} from '../../ContainerWizard/ContainerWizard'
 
 
 export default function Wizard() {
-  
-  return (
-    <ContainerWizard></ContainerWizard>
-  );
+  return <ContainerWizard></ContainerWizard>;
 }

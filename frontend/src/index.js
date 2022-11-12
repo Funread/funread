@@ -16,26 +16,10 @@ import Collage from "./Components/Shared/Templates/Widgets/Collage/Collage";
 import Puzzle from "./Components/Shared/Templates/Widgets/Puzzle/Puzzle";
 import Title from "./Components/Shared/Templates/Widgets/Title/Title";
 import Wizard from "./Components/Shared/Wizard/Wizard";
-import WizardParte1 from "./Components/WizardParte1/WizardParte1";
 import WizardTemplate from "./Components/WizardTemplete/WizardTemplate";
-import TextImage from "./Components/Shared/Templates/TextImage/TextImage";
-
-const images = [
-  "https://picsum.photos/200/300?image=1050",
-  "https://picsum.photos/300/300?image=206",
-  "https://picsum.photos/300/300?image=206",
-  "https://picsum.photos/300/300?image=206",
-  "https://picsum.photos/300/300?image=206",
-  "https://picsum.photos/300/300?image=206",
-  "https://picsum.photos/300/300?image=206",
-  "https://picsum.photos/200/300?image=1050",
-  "https://picsum.photos/200/300?image=1050",
-  "https://picsum.photos/200/300?image=1050",
-  "https://picsum.photos/300/300?image=206",
-  "https://picsum.photos/300/300?image=206",
-  "https://picsum.photos/300/300?image=206",
-  "https://picsum.photos/300/300?image=206",
-]
+import AddPage from "./Components/Shared/AddPage/AddPage";
+import Template2 from "./Components/Shared/Templates/Template 2/template2";
+import Template3 from "./Components/Shared/Templates/Template3/Template3";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -77,23 +61,12 @@ root.render(
       <Route path="/image" element={<Image imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg"/>} />
       <Route path="/title" element={<Title texto="Esto es un Titulo"/>} />
       <Route path="/audio" element={<Audio audio="https://file-examples.com/storage/fe8c7eef0c6364f6c9504cc/2017/11/file_example_MP3_700KB.mp3" />} />
-      <Route path="/text" element={<Text />} />
-      <Route path="/collage" element={<Collage galeria={images} />} />
+      <Route path="/text" element={<Text texto="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam egestas eget orci eu imperdiet. Vivamus eros ligula, ornare eu lorem sed, vehicula consectetur mi." />} />
+      <Route path="/collage" element={<Collage />} />
       <Route path="/puzzle" element={<Puzzle imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg" />} />
-      <Route path="/textImage" element={<TextImage />} />
       <Route path="/wiki/*" element={<Wiki />} />
       {/* <Route path="/wizard" element={<Wizard />}/> */}
-      <Route
-        exact
-        path="/wparte1"
-        element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
-              <WizardParte1 />
-            </div>
-          </div>
-        }
-      />
+      
 
       <Route
         exact
@@ -107,6 +80,20 @@ root.render(
         }
       />
       <Route path="/wizardtemplate" element={<WizardTemplate />} />
+
+      <Route path="/template-3" element={<Template3/>} />
+
+      <Route
+        path="/addpage"
+        element={
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <AddPage />
+            </div>
+          </div>
+        }
+      />
+      <Route path="/template-2" element={<Template2 />} />
     </Routes>
   </BrowserRouter>
 );
