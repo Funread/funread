@@ -36,8 +36,8 @@ def search(request):
 def add_new(request):
     print(request.data)
     data = {
-        'idBook': request.data.get('idBook'),
-        'idUser': request.data.get('idUser'),
+        'bookId': request.data.get('bookId'),
+        'userId': request.data.get('userId'),
     }
     serializer = SharedBooksSerializer(data=data)
     if serializer.is_valid():
