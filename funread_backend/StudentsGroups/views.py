@@ -35,7 +35,7 @@ def search(request):
 def add_new(request):
     print(request.data)
     data = {
-        'userId': request.data.get('idUser'),
+        'userId': request.data.get('userId'),
         'isTeacher': request.data.get('isTeacher'),
         'createdBy': request.data.get('createdBy'),
         'createdAt': datetime.datetime.now(), 
