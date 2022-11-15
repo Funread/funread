@@ -49,10 +49,11 @@ INSTALLED_APPS = [
     'Files',
     'Mailer',
     'Roles',
-    #'Author',
-    #'Sharedbooks',
+    'Author',
+    'Sharedbooks',
     'Grades',
     'Institute',
+    'StudentsGroups',
     'TagsPerPage',
 
 
