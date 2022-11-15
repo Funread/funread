@@ -52,7 +52,9 @@ INSTALLED_APPS = [
     #'Author',
     #'Sharedbooks',
     'Grades',
-    'Institute'
+    'Institute',
+    'TagsPersBook',
+    'Classes',
 
 
     #     'AuthApp.apps.AuthappConfig',
@@ -152,7 +154,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": 'hipopotamo',
+        "PASSWORD": 'charizard',
         'PORT': '33060',
         'USER': 'root',
         'OPTIONS': {

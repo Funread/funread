@@ -34,6 +34,7 @@ urlpatterns = [
     #path('sharedbooks/', include('Sharedbooks.urls')),
     path('grades/', include('Grades.urls')),
     path('institute/', include('Institute.urls')),
+    path('tagsperbook/', include('TagsPersBook.urls')),
     
 ]
 
