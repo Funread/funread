@@ -35,6 +35,7 @@ urlpatterns = [
     path('grades/', include('Grades.urls')),
     path('institute/', include('Institute.urls')),
     path('studentsgroups/', include('StudentsGroups.urls')),
+    path('tagsperpage/', include('TagsPerPage.urls')),
     
 ]
 

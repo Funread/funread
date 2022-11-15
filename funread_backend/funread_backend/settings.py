@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'Grades',
     'Institute',
     'StudentsGroups',
+    'TagsPerPage',
 
 
     #     'AuthApp.apps.AuthappConfig',
