@@ -12,7 +12,7 @@ class TagsPerPageSerializer(serializers.ModelSerializer):
       return TagsPerPage.objects.create(**validated_data)
 
   def update(self, instance, validated_data):
-      instance.pageID = validated_data.get('PageID', instance.PageID)
-      instance.tagsID = validated_data.get('TagsID', instance.TagsID)
+      instance.pageId = validated_data.get('pageId', instance.pageId)
+      instance.tagsId = validated_data.get('pagsId', instance.tagsId)
       instance.save()
       return instance

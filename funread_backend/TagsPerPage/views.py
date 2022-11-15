@@ -36,8 +36,8 @@ def search(request):
 def add_new(request):
     print(request.data)
     data = {
-        'PageID': request.data.get('PageID'),
-        'TagsID': request.data.get('TagsID'),
+        'pageId': request.data.get('pageId'),
+        'tagsId': request.data.get('tagsId'),
     }
     serializer = TagsPerPageSerializer(data=data)
     if serializer.is_valid():
