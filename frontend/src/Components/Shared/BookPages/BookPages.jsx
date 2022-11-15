@@ -6,28 +6,22 @@ import { faPlus, faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 
 function BookPages(props) {
-  const [pageList, setPageList] = useState([
-    <div className="book-pages-item-active" key={0}>
-      <Button
-        className="book-pages-item-content"
-        key={0}
-        type="button"
-      ></Button>
-    </div>,
-  ]);
+  const [pageList, setPageList] = useState([]);
+  const [activedPage, setActivedPage] = useState(null);
 
-  function addPage() {
-    setPageList(
-      pageList.concat(
-        <div className="book-pages-item-inactive" key={pageList.length}>
-          <Button
-            className="book-pages-item-content"
-            key={pageList.length}
-            type="button"
-          ></Button>
-        </div>
-      )
-    );
+  const addNewPage = () => {
+    let oldList = [...pageList];
+    oldList.push({ pageNumber: oldList.length + 1 });
+    setPageList(oldList);
+  };
+
+  function toogleActive(id) {
+    if (activedPage != null) {
+      document.getElementById(activedPage).className =
+        "book-pages-item-inactive";
+    }
+    document.getElementById(id).className = "book-pages-item-active";
+    setActivedPage(id);
   }
 
   return (
@@ -40,18 +34,26 @@ function BookPages(props) {
           style={{ marginLeft: "auto" }}
           className="book-pages-options"
           icon={faFileCirclePlus}
-          onClick={addPage}
+          onClick={addNewPage}
         />
         <FontAwesomeIcon className="book-pages-options" icon={faCopy} />
       </div>
       <div className="book-pages-item-container">
-        {pageList}
-        <div className="book-pages-item-inactive">
-          <Button
-            className="book-pages-item-add"
-            type="button"
-            onClick={addPage}
+        {pageList.map((page) => (
+          <div
+            className="book-pages-item-inactive"
+            key={page.pageNumber}
+            id={"page-" + page.pageNumber}
           >
+            <Button
+              className="book-pages-item-content"
+              key={page.pageNumber}
+              onClick={() => toogleActive("page-" + page.pageNumber)}
+            ></Button>
+          </div>
+        ))}
+        <div className="book-pages-item-inactive">
+          <Button className="book-pages-item-add" onClick={addNewPage}>
             <FontAwesomeIcon icon={faPlus} />
           </Button>
         </div>
