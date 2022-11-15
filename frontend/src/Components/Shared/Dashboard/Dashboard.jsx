@@ -16,7 +16,8 @@ function Dashboard(props) {
               <Carousel.Item>
                 <img
                   className="d-block w-100"
-                  src="https://www.solidbackgrounds.com/images/2560x1600/2560x1600-orange-color-wheel-solid-color-background.jpg"
+                  src={require('./image01.jpg')}
+                  style={{ height: "480px", width: "50%" }}
                   alt="First slide"
                 />
               </Carousel.Item>
@@ -24,7 +25,8 @@ function Dashboard(props) {
               <Carousel.Item>
                 <img
                   className="d-block w-100"
-                  src="https://www.solidbackgrounds.com/images/2560x1600/2560x1600-palatinate-blue-solid-color-background.jpg"
+                  src={require('./image02.jpg')}
+                  style={{ height: "480px", width: "50%" }}
                   alt="Second slide"
                 />
               </Carousel.Item>
@@ -32,7 +34,8 @@ function Dashboard(props) {
               <Carousel.Item>
                 <img
                   className="d-block w-100"
-                  src="https://www.solidbackgrounds.com/images/2560x1600/2560x1600-royal-purple-solid-color-background.jpg"
+                  src={require('./image03.jpg')}
+                  style={{ height: "480px", width: "50%" }}
                   alt="Third slide"
                 />
               </Carousel.Item>
