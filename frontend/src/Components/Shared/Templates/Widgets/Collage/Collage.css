@@ -1,11 +1,11 @@
 .collage-container {
-  padding: 40px 5%;
-  height: 780px;
-  overflow-y: scroll;
-  position: relative;
-  background: #CBC3E3;
+    padding: 40px 5%;
+    height: 780px;
+    overflow-y: scroll;
+    position: relative;
+    background: #CBC3E3;
 }
 .image-item {
-  margin-left: 5vh;
-  margin-bottom: 5vh;
+    margin-left: 5vh;
+    margin-bottom: 5vh;
 }

@@ -1,6 +1,13 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import logoFunread from "../../../logoFunread.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCalendar,
+  faUser,
+  faMessage,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import "./HeaderDashboard.css";
 
 class HeaderDashboard extends React.Component {
@@ -37,13 +44,13 @@ class HeaderDashboard extends React.Component {
                   placeholder="search here..."
                 />
                 <Nav.Link className="dashboard-options-content" href="#2">
-                  C
+                  <FontAwesomeIcon icon={faCalendar} />
                 </Nav.Link>
                 <Nav.Link className="dashboard-options-content" href="#3">
-                  M
+                  <FontAwesomeIcon icon={faMessage} />
                 </Nav.Link>
                 <Nav.Link className="dashboard-options-content" href="#4">
-                  U
+                  <FontAwesomeIcon icon={faUser} />
                 </Nav.Link>
               </div>
               <div></div>
