@@ -38,7 +38,7 @@ def listedclasses(request):
 
 @api_view(['PUT'])
 def classesChange(request):
-    classes = Classes.objects.get(classesid=request.data.get("classesid"))
+    classes = Classes.objects.get(classesId=request.data.get("classesId"))
     data={
         'name': request.data.get('name'),
         'grade': request.data.get('grade'),
