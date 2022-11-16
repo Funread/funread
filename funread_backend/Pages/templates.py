@@ -29,3 +29,10 @@ class Template(str, MultiValueEnum):
                 serializer.save()
             return my_json
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @classmethod
+    def getallTemplates(self):  
+        my_json = {}
+        for template in Template:
+           my_json[template.name] = template.values
+        return my_json

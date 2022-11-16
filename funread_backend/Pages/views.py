@@ -67,9 +67,18 @@ def listed(request):
     serializer = PageSerializer(page, many=True)
     return Response(serializer.data)
 
-@ api_view(['GET'])
-def Template(request, templateerquest):
+@ api_view(['POST'])
+def Template(request):
     template = getTemplate()
+    templateerquest = request.data.get('templaterequest')
     mayusTemplate = templateerquest.upper()
     serializer = template.gettemplate(mayusTemplate)
+    print(serializer)
+    return Response(serializer)
+
+@ api_view(['GET'])
+def listAllTemplates(request):
+    template = getTemplate()
+    serializer = template.getallTemplates()
+    print(serializer)
     return Response(serializer)

@@ -7,14 +7,17 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faEye } from "@fortawesome/free-regular-svg-icons";
 import CustomButton from "../Shared/CustomButton/CustomButton";
 import { useLogin } from "../../hooks/useLogin";
+import { getTemplate } from "../../hooks/getTemplate";
 import { InputGroup } from "react-bootstrap";
+import { getAllTemplates } from "../../hooks/getAllTemplates copy";
 
 function LogIn(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loginIn } = useLogin();
-
+  const { getTheTemplate } = getTemplate();
+  const { getAllTemplate } = getAllTemplates();
   /**
    * Function tooglePassword:
    * Alterna la contraseña entre estados: oculto/mostrar.
@@ -35,6 +38,8 @@ function LogIn(props) {
    */
   const handleSubmit = () => {
     loginIn(email, password);
+    getTheTemplate(email);
+    getAllTemplate();
   };
 
   /**

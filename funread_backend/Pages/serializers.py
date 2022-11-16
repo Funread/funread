@@ -24,7 +24,11 @@ class PageSerializer(serializers.ModelSerializer):
 
 
 class getTemplate():
+  def getallTemplates(self):
+    templates_json = Template.getallTemplates()
+    return templates_json
   def gettemplate(self, templateerquest):
     template_json = Template.getTemplate(templateerquest)
     return template_json
   
+

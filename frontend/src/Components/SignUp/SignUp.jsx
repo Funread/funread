@@ -8,7 +8,6 @@ import "./SignUp.css";
 import CustomButton from "../Shared/CustomButton/CustomButton";
 import { useSign } from "../../hooks/useSign";
 import { InputGroup } from "react-bootstrap";
-
 function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
