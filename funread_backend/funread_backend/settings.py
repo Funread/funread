@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'StudentsGroups',
     'TagsPerPage',
     'Classes',
+    'ClassesLog',
+    'TeacherApp'
     
 
     #     'AuthApp.apps.AuthappConfig',
@@ -155,7 +157,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": 'charizard',
+        "PASSWORD": 'hipopotamo',
         'PORT': '33060',
         'USER': 'root',
         'OPTIONS': {
