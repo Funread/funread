@@ -1,14 +1,14 @@
 .landing-page-header {
   display: flex;
   flex-direction: column;
-  height: 15%;
+  height: 18%;
   justify-content: last baseline;
 }
 
 .landing-page-body {
   display: flex;
   flex-direction: row;
-  height: 85%;
+  height: 82%;
 }
 
 .landing-page-body-left-section {
