@@ -4,7 +4,7 @@ from Users.models import User
 
 class Grades(models.Model):
     gradesid = models.AutoField(primary_key=True)
-    booksid = models.CharField(max_length=200, blank=False, null=False, unique=True).lower()
+    booksid = models.CharField(max_length=200, blank=False, null=False, unique=True)
     progress = models.IntegerField(blank=True, null=True)
     grade = models.FloatField(blank=True, null=True)
     iduser = models.ForeignKey(User,related_name='iduserModel',db_column='iduser', on_delete=models.CASCADE, to_field='userid')
