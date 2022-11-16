@@ -63,10 +63,6 @@ function AddPage(props) {
             />
           </div>
           <div className="add-page-preview-container">
-            {selectedPage != null ? <h1>{selectedPage}</h1> : null}
-          </div>
-          <div className="add-page-template-widget-container"></div>
-          <div className="add-page-preview-container">
             <PreviewPageOfBook></PreviewPageOfBook>
           </div>
           <div className="add-page-template-widget-container">
