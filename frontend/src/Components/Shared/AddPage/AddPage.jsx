@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import BookPages from "../BookPages/BookPages";
+import PreviewPageOfBook from "../PreviewPageOfBook/PreviewPageOfBook";
+import ComponentToolsOfBook from "../ComponentToolsOfBook/ComponentToolsOfBook";
 
 function AddPage(props) {
   const [myBookName, setMyBookName] = useState("New Book Name");
@@ -55,8 +57,12 @@ function AddPage(props) {
           <div className="add-page-pages-container">
             <BookPages />
           </div>
-          <div className="add-page-preview-container"></div>
-          <div className="add-page-template-widget-container"></div>
+          <div className="add-page-preview-container">
+            <PreviewPageOfBook></PreviewPageOfBook>
+          </div>
+          <div className="add-page-template-widget-container">
+            <ComponentToolsOfBook></ComponentToolsOfBook>
+          </div>
         </div>
       </div>
     </div>
