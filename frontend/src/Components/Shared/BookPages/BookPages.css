@@ -3,6 +3,8 @@
   height: 100%;
   border-radius: 20px;
   background: #ffffff;
+  border: 1px solid;
+  border-color: #000000;
 }
 
 .book-pages-container-title-options {
@@ -51,6 +53,13 @@
   background-color: transparent;
 }
 
+.book-pages-item-last-item {
+  height: 180px;
+  width: 100%;
+  padding: 20px;
+  background-color: transparent;
+}
+
 .book-pages-item-content {
   height: 100%;
   width: 100%;
@@ -92,6 +101,46 @@
   background: #c5c5c5;
   border-color: #c5c5c5;
   color: black;
+}
+
+.book-pages-bottom-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.book-pages-button-bottom {
+  border-radius: 20px;
+  color: #000000;
+  background: #c5c5c5;
+  border-color: transparent;
+  box-shadow: none !important;
+  position: relative;
+  bottom: 20px;
+}
+
+.book-pages-button-bottom:hover {
+  border-radius: 20px;
+  color: #000000;
+  background: #c5c5c5;
+  border-color: transparent;
+  box-shadow: none !important;
+}
+
+.book-pages-button-bottom:focus {
+  border-radius: 20px;
+  color: #000000;
+  background: #c5c5c5;
+  border-color: transparent;
+  box-shadow: none !important;
+}
+
+.book-pages-button-bottom:active {
+  border-radius: 20px;
+  color: #000000;
+  background: #c5c5c5;
+  border-color: transparent;
+  box-shadow: none !important;
 }
 
 .book-pages-item-container::-webkit-scrollbar-track {
