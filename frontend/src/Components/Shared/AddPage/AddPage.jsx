@@ -17,11 +17,6 @@ function AddPage(props) {
     navigate("/mylibrary");
   };
 
-  const showInfo = () => {
-    console.log("Total pages: " + totalPages);
-    console.log("Selected page: " + selectedPage);
-  };
-
   return (
     <div className="add-page-container">
       <div className="add-page-header">
@@ -36,7 +31,6 @@ function AddPage(props) {
               size="md"
               className="add-page-banner-option-button"
               type="button"
-              onClick={showInfo}
             >
               PRESENT
             </Button>
