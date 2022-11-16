@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     #'Sharedbooks',
     'Grades',
     'Institute',
-    'BooksPerClasses'
+    'BooksPerClasses',
+    'GroupsPerClasses'
 
 
     #     'AuthApp.apps.AuthappConfig',
