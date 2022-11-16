@@ -36,7 +36,7 @@ urlpatterns = [
     path('institute/', include('Institute.urls')),
     path('studentsgroups/', include('StudentsGroups.urls')),
     path('tagsperpage/', include('TagsPerPage.urls')),
-    
+    path('classes/', include('Classes.urls')),
 ]
 
 if settings.DEBUG:
