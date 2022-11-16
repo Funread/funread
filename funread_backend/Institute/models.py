@@ -6,7 +6,7 @@ from Users.models import User
 
 class Institute(models.Model):
     instituteId = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, blank=False, null=False)
+    name = models.CharField(max_length=200, blank=False, null=False,unique=True)
    
 
 class InstituteMembers(models.Model):
