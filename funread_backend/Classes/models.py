@@ -9,4 +9,3 @@ class Classes(models.Model):
     teacherAssigned = models.ForeignKey(User, related_name='teacherassigned1',db_column='teacherAssigned', on_delete=models.CASCADE, to_field='userid')
     createdAt = models.DateTimeField(blank=True, null=True)  
     lastupdateAt = models.DateTimeField(blank=True, null=True)  
- 

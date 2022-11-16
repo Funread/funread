@@ -1,6 +1,6 @@
 from .models import Classes
 from rest_framework import viewsets,permissions
-from .serializer import ClassesSerializer
+from .serializers import ClassesSerializer
 
 class ClassesViewSet(viewsets.ModelViewSet):
   queryset = Classes.objects.all()

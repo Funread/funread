@@ -2,7 +2,7 @@ from django.shortcuts import render
 import json
 from wsgiref import headers
 from .models import Classes
-from .serializer import ClassesSerializer
+from .serializers import ClassesSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -16,7 +16,7 @@ def createclasses(request):
         
         'name': request.data.get('name'),
         'grade': request.data.get('grade'),
-        'teacherassigned': request.data.get('teacherAssigned'),
+        'teacherAssigned': request.data.get('teacherAssigned'),
         'createdAt': datetime.datetime.now(), 
         'lastupdateAt': datetime.datetime.now(),
         }
@@ -42,8 +42,8 @@ def classesChange(request):
     data={
         'name': request.data.get('name'),
         'grade': request.data.get('grade'),
-        'teacherassigned': request.data.get('teacherassigned'),
-        'lastupdateat': datetime.datetime.now(),
+        'teacherAssigned': request.data.get('teacherAssigned'),
+        'lastupdateAt': datetime.datetime.now(),
     }
     serializer = ClassesSerializer(classes, data=data)
     if serializer.is_valid():
@@ -54,7 +54,7 @@ def classesChange(request):
 
 @api_view(['DELETE'])
 def deleteclasses(request):
-    classes = Classes.objects.get(classesid=request.data.get("classesid"))
+    classes = Classes.objects.get(classesId=request.data.get("classesId"))
     classes.delete()
 
     return Response({"msj":"Successfully delete"},status=status.HTTP_200_OK)
