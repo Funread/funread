@@ -46,7 +46,8 @@
   color: white;
 }
 
-.navbar {
+.header-navbar {
   padding-top: 0;
   padding-bottom: 0;
+  height: 50px !important;
 }
