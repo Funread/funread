@@ -4,8 +4,8 @@ import json
 from sre_parse import State
 from turtle import title
 from wsgiref import headers
-from .models import SharedBooks
-from .serializers import  SharedBooksSerializer
+from .models import TagsPerPage
+from .serializers import  TagsPerPageSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -13,22 +13,22 @@ import hashlib
 
 # Create your views here.
 
-#Metodo para mostrar todos los elementos de la lista SharedBooks
+#Metodo para mostrar todos los elementos de la lista TagsPerPage
 @ api_view(['GET'])
 def listed(request):
-    sharedBooks = SharedBooks.objects.all()
-    serializer = SharedBooksSerializer (sharedBooks, many=True)
+    tagsPerPage = TagsPerPage.objects.all()
+    serializer = TagsPerPageSerializer (tagsPerPage, many=True)
     return Response(serializer.data)
 
 #Metodo para buscar una variable por nombre
 @api_view(['GET'])
 def search(request):
     try:
-        sharedbooks = SharedBooks.objects.get(sharedbooksid=request.data.get('sharedbooksid'))
-        print(sharedbooks)
-    except SharedBooks.DoesNotExist:
+        tagsPerPage  = TagsPerPage.objects.get(tagsPerPageId=request.data.get('tagsPerPageId'))
+        print(tagsPerPage)
+    except TagsPerPage.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = SharedBooksSerializer(sharedbooks)
+    serializer = TagsPerPageSerializer(tagsPerPage)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 #Metodo para agregar un elemento a la lista SharedBooks
@@ -36,10 +36,10 @@ def search(request):
 def add_new(request):
     print(request.data)
     data = {
-        'bookId': request.data.get('bookId'),
-        'userId': request.data.get('userId'),
+        'pageId': request.data.get('pageId'),
+        'tagsId': request.data.get('tagsId'),
     }
-    serializer = SharedBooksSerializer(data=data)
+    serializer = TagsPerPageSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -48,16 +48,16 @@ def add_new(request):
 #Elimina un elemento de la lista SharedBooks
 @api_view(['DELETE'])
 def delete(request):
-    sharedbooks = SharedBooks.objects.get(sharedbooksid=request.data.get('sharedbooksid'))
-    sharedbooks.delete()
+    tagsPerPage = TagsPerPage.objects.get(tagsPerPageId=request.data.get('tagsPerPageId'))
+    tagsPerPage.delete()
     return Response({"msj":"Succesfully deleted"}, status=status.HTTP_200_OK)
 
 
 #Metedo que cambia la variable de la lista SharedBooks
 @api_view(['PUT'])
 def update(request):
-    sharedbooks = SharedBooks.objects.get(sharedbooksid=request.data.get('sharedbooksid'))
-    serializer = SharedBooksSerializer(sharedbooks, data=request.data)
+    tagsPerPage = TagsPerPage.objects.get(tagsPerPageId=request.data.get('tagsPerPageId'))
+    serializer = TagsPerPageSerializer(tagsPerPage, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)

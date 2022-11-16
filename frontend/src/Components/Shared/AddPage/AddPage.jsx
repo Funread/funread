@@ -9,6 +9,8 @@ import BookPages from "../BookPages/BookPages";
 
 function AddPage(props) {
   const [myBookName, setMyBookName] = useState("New Book Name");
+  const [totalPages, setTotalPages] = useState(0);
+  const [selectedPage, setSelectedPage] = useState(null);
   const navigate = useNavigate();
 
   const closeAddPage = () => {
@@ -53,9 +55,14 @@ function AddPage(props) {
         </div>
         <div className="add-page-book-information-container">
           <div className="add-page-pages-container">
-            <BookPages />
+            <BookPages
+              setTotalPages={setTotalPages}
+              setSelectedPage={setSelectedPage}
+            />
           </div>
-          <div className="add-page-preview-container"></div>
+          <div className="add-page-preview-container">
+            {selectedPage != null ? <h1>{selectedPage}</h1> : null}
+          </div>
           <div className="add-page-template-widget-container"></div>
         </div>
       </div>
