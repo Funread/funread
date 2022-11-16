@@ -1,12 +1,12 @@
 from django.db import models
-from TeacherApp.models import Teachers
+from Users.models import User
 
 # Create your models here.
 class Classes(models.Model):
-    classesid = models.AutoField(primary_key=True)  
+    classesId = models.AutoField(primary_key=True)  
     name = models.CharField(max_length=200, blank=True, null=True) 
     grade = models.IntegerField(blank=True, null=True)
-    teacherassigned = models.ForeignKey(Teachers, related_name='teacherassigned1',db_column='teacherassigned', on_delete=models.CASCADE, to_field='TeacherId')
-    createdat = models.DateTimeField(blank=True, null=True)  
-    lastupdateat = models.DateTimeField(blank=True, null=True)  
+    teacherAssigned = models.ForeignKey(User, related_name='teacherassigned1',db_column='teacherAssigned', on_delete=models.CASCADE, to_field='userid')
+    createdAt = models.DateTimeField(blank=True, null=True)  
+    lastupdateAt = models.DateTimeField(blank=True, null=True)  
  

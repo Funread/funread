@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
+import datetime
 # Create your views here.
 
 @api_view(['POST'])
@@ -15,9 +16,9 @@ def createclasses(request):
         
         'name': request.data.get('name'),
         'grade': request.data.get('grade'),
-        'teacherassigned': request.data.get('teacherassigned'),
-        'createdat': request.data.get('createdat'),
-        'lastupdateat': request.data.get('lastupdateat'),
+        'teacherassigned': request.data.get('teacherAssigned'),
+        'createdAt': datetime.datetime.now(), 
+        'lastupdateAt': datetime.datetime.now(),
         }
     serializer = ClassesSerializer(data=data)
     print(serializer)
@@ -42,8 +43,7 @@ def classesChange(request):
         'name': request.data.get('name'),
         'grade': request.data.get('grade'),
         'teacherassigned': request.data.get('teacherassigned'),
-        'createdat': request.data.get('createdat'),
-        'lastupdateat': request.data.get('lastupdateat'),
+        'lastupdateat': datetime.datetime.now(),
     }
     serializer = ClassesSerializer(classes, data=data)
     if serializer.is_valid():

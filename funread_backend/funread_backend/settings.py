@@ -155,8 +155,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": 'charizard',
-        'PORT': '33060',
+        "PASSWORD": 'password',
+        'PORT': '3306',
         'USER': 'root',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
