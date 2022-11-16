@@ -8,6 +8,6 @@ urlpatterns = [
     path('classes/createClasses', views.createclasses),
     path('classes/listedClasses', views.listedclasses),
     path('classes/changeClasses', views.classesChange),
-    path('classes/deleteClasses', views.deleteclasses)
-    
+    path('classes/deleteClasses', views.deleteclasses) 
+   
 ]

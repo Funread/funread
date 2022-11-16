@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'StudentsGroups',
     'TagsPerPage',
     'Classes',
-    'TeacherApp',
+    
 
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
