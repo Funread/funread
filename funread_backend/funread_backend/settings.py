@@ -49,12 +49,15 @@ INSTALLED_APPS = [
     'Files',
     'Mailer',
     'Roles',
-    #'Author',
-    #'Sharedbooks',
+    'Author',
+    'Sharedbooks',
     'Grades',
     'Institute',
     'BooksPerClasses',
     'GroupsPerClasses'
+    'StudentsGroups',
+    'TagsPerPage',
+
 
 
     #     'AuthApp.apps.AuthappConfig',

@@ -14,7 +14,7 @@ import hashlib
 def createInstitute(request):
     data = {
         
-        'name': request.data.get('name'),
+        'name': request.data.get('name').lower(),
         
         }
     serializer = InstituteSerializer(data=data)
