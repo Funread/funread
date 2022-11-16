@@ -8,7 +8,13 @@ class Header extends React.Component {
     return (
       //Return Here component or html code
       <div className="header-navbar-container">
-        <Navbar collapseOnSelect expand="lg" bg="transparent" variant="dark">
+        <Navbar
+          className="header-navbar"
+          collapseOnSelect
+          expand="lg"
+          bg="transparent"
+          variant="dark"
+        >
           <Navbar.Brand href="#" className="header-navbar-brand">
             <img
               src={logoFunread}
