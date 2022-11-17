@@ -57,7 +57,10 @@ INSTALLED_APPS = [
     'GroupsPerClasses'
     'StudentsGroups',
     'TagsPerPage',
-
+    'Classes',
+    'ClassesLog',
+    'TeacherApp'
+    
 
 
     #     'AuthApp.apps.AuthappConfig',
