@@ -36,7 +36,7 @@ def search(request):
 def add_new(request):
     print(request.data)
     data = {
-        'booksId': request.data.get('booksId'),
+        'bookId': request.data.get('bookId'),
         'classesId': request.data.get('classesId'),
     }
     serializer = BooksPerClassesSerializer(data=data)
@@ -56,7 +56,7 @@ def delete(request):
 #Metedo que cambia la variable de la lista SharedBooks
 @api_view(['PUT'])
 def update(request):
-    booksPerClasses  = BooksPerClasses .objects.get(booksPerClassesId=request.data.get('booksPerClassesId'))
+    booksPerClasses = BooksPerClasses.objects.get(booksPerClassesId=request.data.get('booksPerClassesId'))
     serializer = BooksPerClassesSerializer(booksPerClasses, data=request.data)
     if serializer.is_valid():
         serializer.save()

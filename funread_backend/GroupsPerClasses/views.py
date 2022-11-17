@@ -36,7 +36,7 @@ def search(request):
 def add_new(request):
     print(request.data)
     data = {
-        'groupsId': request.data.get('groupsId'),
+        'groupId': request.data.get('groupId'),
         'classesId': request.data.get('classesId'),
     }
     serializer = GroupsPerClassesSerializer(data=data)
@@ -48,7 +48,7 @@ def add_new(request):
 #Elimina un elemento de la lista SharedBooks
 @api_view(['DELETE'])
 def delete(request):
-    groupsPerClasses = GroupsPerClasses.objects.get(booksPerClassesId=request.data.get('groupsPerClassesId'))
+    groupsPerClasses = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
     groupsPerClasses.delete()
     return Response({"msj":"Succesfully deleted"}, status=status.HTTP_200_OK)
 

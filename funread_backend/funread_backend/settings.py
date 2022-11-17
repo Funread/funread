@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'Grades',
     'Institute',
     'BooksPerClasses',
-    'GroupsPerClasses'
+    'GroupsPerClasses',
     'StudentsGroups',
     'TagsPerPage',
     'Classes',
