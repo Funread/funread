@@ -1,6 +1,6 @@
 import React from 'react'
 import {Col, Row} from 'react-bootstrap';
-import "./TextImage.css"
+import "./Template 1.css"
 import Text from '../Widgets/Text/Text';
 import Image from '../Widgets/Image/Image';
 import Title from '../Widgets/Title/Title';
