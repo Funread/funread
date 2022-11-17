@@ -13,6 +13,6 @@ class TagsPerPageSerializer(serializers.ModelSerializer):
 
   def update(self, instance, validated_data):
       instance.pageId = validated_data.get('pageId', instance.pageId)
-      instance.tagsId = validated_data.get('pagsId', instance.tagsId)
+      instance.tagsId = validated_data.get('tagsId', instance.tagsId)
       instance.save()
       return instance
