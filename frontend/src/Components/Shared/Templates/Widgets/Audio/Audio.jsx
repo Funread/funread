@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
+import Audio_Prueba from "./Audio_Prueba.mp3"
 import "./Audio.css"
 
 function Audio(props) {
 
-  const [audio, setAudio] = useState("https://file-examples.com/storage/fe8c7eef0c6364f6c9504cc/2017/11/file_example_MP3_700KB.mp3");
+  const [audio, setAudio] = useState(Audio_Prueba);
 
   return (
     <div className='audio-container'>

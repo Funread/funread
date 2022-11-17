@@ -6,6 +6,7 @@ import PopUp_Wiki from "./PopUp_Wiki";
 import Wizard from "../Shared/Wizard/Wizard";
 import WizardTemplate from '../WizardTemplete/WizardTemplate';
 import Tools from "../Shared/Tools/Tools";
+import PreviewPageOfBook from "../Shared/PreviewPageOfBook/PreviewPageOfBook";
 
 class Wiki extends React.Component {
   constructor(props) {
@@ -46,6 +47,9 @@ render() {
                   <a className="nav-link" href="wizardtemplate">Wizard Template</a>
                 </li>
                 <li className="nav-item">
+                  <a className="nav-link" href="previewPageOfBook">Preview page of book</a>
+                </li>
+                <li className="nav-item">
                   <a className="nav-link disabled" href="#">Disabled</a>
                 </li>
 
@@ -69,6 +73,7 @@ render() {
                   </div>
                   }
                   />
+                  <Route path="/previewPageOfBook" element={<PreviewPageOfBook />} />
               </Routes>
             </div>
           </div>
