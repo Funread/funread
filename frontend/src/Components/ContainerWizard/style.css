@@ -65,30 +65,31 @@
   width: 100%;
   padding: 20px 30px 20px 40px;
   min-width: 560px;
-  background-color: aquamarine;
+  background-color: #d5a6fa;
   border-radius: 20px;
   align-items: center;
   justify-content: space-between;
+  border-color: #d5a6fa
 }
 
 .btn-left:hover {
   background: #d5a6fa;
   border-style: solid;
-  border-color: #d5a6fa;
+  border-color: #42006d;
   color: white;
 }
 
 .btn-right:hover {
   background: #d5a6fa;
   border-style: solid;
-  border-color: #d5a6fa;
+  border-color: #42006d;
   color: white;
 }
 
 .btn-close:hover {
   background: #d5a6fa;
   border-style: solid;
-  border-color: #d5a6fa;
+  border-color: #42006d;
   color: white;
 }
 

@@ -48,7 +48,7 @@ export const WizardInformation = (props) => {
                     <Dropdown className="d-flex justify-content-start">
                       <Dropdown.Toggle
                         className="style-dropdown"
-                        variant="success"
+                        variant="outline-white"
                         id="dropdown-autoclose-true"
                       >
                         {classBook}

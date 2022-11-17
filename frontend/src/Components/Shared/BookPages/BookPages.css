@@ -19,7 +19,7 @@
   font-size: 3vh;
   font-weight: bold;
   margin: 0;
-  color: #42006d;
+  color: #000000;
   line-height: 100%;
 }
 
@@ -28,7 +28,7 @@
   margin-top: 5px;
   margin-right: 10px;
   cursor: pointer;
-  color: #42006d;
+  color: #000000;
 }
 
 .book-pages-item-container {
