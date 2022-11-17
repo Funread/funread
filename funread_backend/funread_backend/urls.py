@@ -38,6 +38,8 @@ urlpatterns = [
     path('tagsperpage/', include('TagsPerPage.urls')),
     path('classes/', include('Classes.urls')),
     path('classeslog/', include('ClassesLog.urls')),
+    path('booksPerClasses/', include('BooksPerClasses.urls')),
+    path('groupsPerClasses/', include('GroupsPerClasses.urls')),
 ]
 
 if settings.DEBUG:

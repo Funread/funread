@@ -53,12 +53,15 @@ INSTALLED_APPS = [
     'Sharedbooks',
     'Grades',
     'Institute',
+    'BooksPerClasses',
+    'GroupsPerClasses',
     'StudentsGroups',
     'TagsPerPage',
     'Classes',
     'ClassesLog',
     'TeacherApp'
     
+
 
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
@@ -157,8 +160,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": 'charizard',
-        'PORT': '33060',
+        "PASSWORD": '',
+        'PORT': '3306',
         'USER': 'root',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
