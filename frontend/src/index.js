@@ -20,6 +20,7 @@ import WizardTemplate from "./Components/WizardTemplete/WizardTemplate";
 import AddPage from "./Components/Shared/AddPage/AddPage";
 import Template2 from "./Components/Shared/Templates/Template 2/template2";
 import Template3 from "./Components/Shared/Templates/Template3/Template3";
+import AddImage from "./Components/addImage/AddImage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -36,6 +37,19 @@ root.render(
           </div>
         }
       />
+
+      <Route
+        exact
+        path="/addImage"
+        element={
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <AddImage />
+            </div>
+          </div>
+        }
+      />
+
 
       <Route
         exact

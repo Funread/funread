@@ -1,0 +1,19 @@
+.buttonadd{
+    text-align: left;
+}
+
+.my-addImage-options{
+    text-align: left;
+}
+
+.add-image-banner-option-button {
+    margin-left: 25px;
+    background: turquoise;
+    box-shadow: none !important;
+    border-radius: 15px;
+    
+  }
+
+.add-image-banner-buttons-container {
+    margin-left: auto;
+  }
