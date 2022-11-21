@@ -30,11 +30,16 @@ urlpatterns = [
     path('Tags/',include('Tags.urls')),
     path('email/', include('Mailer.urls')),
     path('roles/', include('Roles.urls')),
-    #path('author/', include('Author.urls')),
-    #path('sharedbooks/', include('Sharedbooks.urls')),
+    path('author/', include('Author.urls')),
+    path('sharedbooks/', include('Sharedbooks.urls')),
     path('grades/', include('Grades.urls')),
     path('institute/', include('Institute.urls')),
-    
+    path('studentsgroups/', include('StudentsGroups.urls')),
+    path('tagsperpage/', include('TagsPerPage.urls')),
+    path('classes/', include('Classes.urls')),
+    path('classeslog/', include('ClassesLog.urls')),
+    path('booksPerClasses/', include('BooksPerClasses.urls')),
+    path('groupsPerClasses/', include('GroupsPerClasses.urls')),
 ]
 
 if settings.DEBUG:

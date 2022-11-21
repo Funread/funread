@@ -12,8 +12,7 @@ class AuthorListserializer(serializers.ModelSerializer):
       return AuthorList.objects.create(**validated_data)
 
   def update(self, instance, validated_data):
-      instance.iduser = validated_data.get('iduser', instance.iduser)
-      instance.idbook = validated_data.get('idbook', instance.idbook)
+      instance.userId = validated_data.get('userId', instance.userId)
+      instance.bookId = validated_data.get('bookId', instance.bookId)
       instance.save()
       return instance
-

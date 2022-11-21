@@ -36,8 +36,8 @@ def AuthorListSearch(request):
 def new_Authorlist(request):
     print(request.data)
     data = {
-        'iduser': request.data.get('iduser'),
-        'idbook': request.data.get('idbook')
+        'userId': request.data.get('userId'),
+        'bookId': request.data.get('bookId')
     }
     serializer = AuthorListserializer(data=data)
     if serializer.is_valid():
@@ -60,5 +60,3 @@ def AuthorListupdate(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    

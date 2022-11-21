@@ -5,8 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
   faUser,
-  faMessage,
-  faSearch,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import "./HeaderDashboard.css";
 
@@ -23,8 +22,14 @@ class HeaderDashboard extends React.Component {
     return (
       //Return Here component or html code
       <div className="main-header">
-        <Navbar collapseOnSelect expand="lg" bg="transparent" variant="dark">
-          <Navbar.Brand href="#">
+        <Navbar
+          className="header-dashboard-navbar"
+          collapseOnSelect
+          expand="lg"
+          bg="transparent"
+          variant="dark"
+        >
+          <Navbar.Brand href="#" className="header-dashboard-navbar-brand">
             <div
               className="logo-funread"
               style={{
@@ -47,7 +52,7 @@ class HeaderDashboard extends React.Component {
                   <FontAwesomeIcon icon={faCalendar} />
                 </Nav.Link>
                 <Nav.Link className="dashboard-options-content" href="#3">
-                  <FontAwesomeIcon icon={faMessage} />
+                  <FontAwesomeIcon icon={faBars} />
                 </Nav.Link>
                 <Nav.Link className="dashboard-options-content" href="#4">
                   <FontAwesomeIcon icon={faUser} />

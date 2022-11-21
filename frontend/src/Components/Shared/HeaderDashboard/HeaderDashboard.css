@@ -32,7 +32,7 @@
   margin: min(40px, 2.2%) 40px min(80px, 4.5%) 60px;
 }
 
-.navbar {
+.header-dashboard-navbar {
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -55,4 +55,8 @@
 .search-hover:hover {
   width: 300px;
   padding-left: 50px;
+}
+
+.header-dashboard-navbar-brand {
+  padding: 0;
 }
