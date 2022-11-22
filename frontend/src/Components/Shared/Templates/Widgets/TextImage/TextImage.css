@@ -1,17 +1,17 @@
-.container-textImage{
-    display: block;
-    width: 100%;
-    height: auto;
-    background: #ffff;
-    padding: 5vh;
+.container-textImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #ffff;
+  padding: 5vh;
 }
-.image{
-    width: 100%;
-    height: auto;
+.image {
+  width: 100%;
+  height: auto;
 }
-.image-col{
-    text-align: center;
+.image-col {
+  text-align: center;
 }
-.text-col{
-    font-size: 2vh;
+.text-col {
+  font-size: 2vh;
 }
