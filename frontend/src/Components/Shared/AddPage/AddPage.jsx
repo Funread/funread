@@ -12,7 +12,11 @@ import ComponentToolsOfBook from "../ComponentToolsOfBook/ComponentToolsOfBook";
 function AddPage(props) {
   const [myBookName, setMyBookName] = useState("New Book Name");
   const [totalPages, setTotalPages] = useState(0);
-  const [selectedPage, setSelectedPage] = useState(null);
+  const [selectedPage, setSelectedPage] = useState(1);
+  const [pageTemplate, setPageTemplate] = useState({
+    page: null,
+    template: null,
+  });
   const navigate = useNavigate();
 
   const closeAddPage = () => {
@@ -64,11 +68,17 @@ function AddPage(props) {
           </div>
           <div className="add-page-preview-container">
             {selectedPage != null ? (
-              <PreviewPageOfBook pageNumber={selectedPage}></PreviewPageOfBook>
+              <PreviewPageOfBook
+                pageNumber={selectedPage}
+                pageTemplate={pageTemplate.template}
+              ></PreviewPageOfBook>
             ) : null}
           </div>
           <div className="add-page-template-widget-container">
-            <ComponentToolsOfBook></ComponentToolsOfBook>
+            <ComponentToolsOfBook
+              pageNumber={selectedPage}
+              setPageTemplate={setPageTemplate}
+            ></ComponentToolsOfBook>
           </div>
         </div>
       </div>

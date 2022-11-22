@@ -10,25 +10,22 @@ import {
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 
 function BookPages(props) {
-  const [pageList, setPageList] = useState([]);
-  const [activedPage, setActivedPage] = useState(null);
+  const [pageList, setPageList] = useState({
+    activePage: 1,
+    pages: [{ pageNumber: 1 }],
+  });
   const bottomRef = useRef(null);
 
   const addNewPage = () => {
-    let oldList = [...pageList];
+    let oldList = [...pageList.pages];
     oldList.push({ pageNumber: oldList.length + 1 });
     props.setTotalPages(oldList.length);
-    setPageList(oldList);
+    setPageList({ activePage: pageList.activePage, pages: oldList });
   };
 
   function toogleActive(id) {
-    if (activedPage != null) {
-      document.getElementById(activedPage).className =
-        "book-pages-item-inactive";
-    }
-    document.getElementById("page-" + id).className = "book-pages-item-active";
+    setPageList({ ...pageList, activePage: id });
     props.setSelectedPage(id);
-    setActivedPage("page-" + id);
   }
 
   const scrollToBottom = () => {
@@ -50,11 +47,14 @@ function BookPages(props) {
         <FontAwesomeIcon className="book-pages-options" icon={faCopy} />
       </div>
       <div className="book-pages-item-container">
-        {pageList.map((page) => (
+        {pageList.pages.map((page) => (
           <div
-            className="book-pages-item-inactive"
+            className={
+              page.pageNumber === pageList.activePage
+                ? "book-pages-item-active"
+                : "book-pages-item-inactive"
+            }
             key={page.pageNumber}
-            id={"page-" + page.pageNumber}
           >
             <Button
               className="book-pages-item-content"
