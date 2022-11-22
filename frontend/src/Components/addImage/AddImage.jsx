@@ -34,15 +34,15 @@ function AddImage(props){
 
     function firstView() {
         return (
-          <div className="my-library-all-books-view-1">
-            <Table className="books-table">
+          <div className="my-imagnes-all-images-view-1">
+            <Table className="images-table">
               <thead>
                 <tr>
-                  <th style={{ width: "25%" }}>Nombre</th>
-                  <th style={{ width: "25%" }}>Tipo</th>
-                  <th style={{ width: "25%" }}>Tamaño</th>
-                  <th style={{ width: "25%" }}>Fecha</th>
-                  <th>opciones</th>
+                  <th style={{ width: "15%" }}>Nombre</th>
+                  <th style={{ width: "15%" }}>Tipo</th>
+                  <th style={{ width: "15%" }}>Tamaño</th>
+                  <th style={{ width: "15%" }}>Fecha</th>
+                  <th style={{ width: "40%" }}>opciones</th>
                 </tr>
               </thead>
               <tbody>{setBooksTableData(fileList)}</tbody>
@@ -90,6 +90,24 @@ function AddImage(props){
                 <td style={{ width: "20%" }}>{data[i].Tipo}</td>
                 <td style={{ width: "20%" }}>{data[i].tamano}</td>
                 <td style={{ width: "20%" }}>{data[i].fecha}</td>
+                <td>
+                    <Button
+                        variant="outline-dark"
+                        size="md"
+                        className="edit-image-button"
+                        type="button"
+                    >Editar
+                    </Button>{" "}
+                    <Button
+                        variant="outline-dark"
+                        size="md"
+                        className="delete-image-button"
+                        type="button"
+                    >Borrar
+                    </Button>{" "}
+                    
+                
+                </td>
             </tr>
             );
         }
@@ -118,7 +136,7 @@ function AddImage(props){
             </div>
         </div>
         <div className="my-library-body">
-        <div className="my-library-all-books">
+        <div className="my-image-all-image">
            {firstView()}
           </div>
         </div>
