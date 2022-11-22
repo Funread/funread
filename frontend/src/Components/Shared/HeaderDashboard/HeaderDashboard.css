@@ -45,15 +45,11 @@
   background-image: url('./s-icon.png');
   background-repeat: no-repeat;
   border-radius: 50px;
-  width: 40px;
+  width: 300px;
   height: 40px;
   padding: 20px;
-  transition: all 0.5s;
   float: left;
   margin-right: 20px;
-}
-.search-hover:hover {
-  width: 300px;
   padding-left: 50px;
 }
 
