@@ -1,0 +1,17 @@
+.btneliminar{
+    background-color: #f9a59a;
+    border: 2px solid #f9a59a;
+}
+.btnagregar{
+    background-color: #cb93ff;
+    border: 2px solid #cb93ff;
+}
+.btneditar{
+    background-color: #95b8f6;
+    border: 2px solid #95b8f6;
+}
+.btnbuscar{
+    background-color: #f9d99a;
+    border: 2px solid #f9d99a;
+}
+
