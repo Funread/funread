@@ -106,6 +106,8 @@
   background: #ffffff;
   min-height: 230px;
   min-width: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .add-page-template-widget-container {
