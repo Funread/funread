@@ -20,8 +20,9 @@ import {
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
+import { UseListRole, InsertRole, DeleteRole, EditRole } from "../../hooks/ListRoles";
 
-function WikiBackend(props) {
+function WikiBackend(props) { 
     const modelList = [
     
         { name: "AuthorList" },
@@ -51,6 +52,29 @@ function WikiBackend(props) {
 
       ];
 
+      const listRoles = () => {
+
+        UseListRole ()
+
+      }
+
+      const InsertsRole = () => {
+        let role="admin"
+        InsertRole (role)
+
+      }
+
+      const deletsRole = () => {
+
+        DeleteRole ()
+
+      }
+
+      const editsRol = () => {
+        let role="student"
+        EditRole (role)
+
+      }
 
       function firstView() {
         return (
@@ -84,12 +108,13 @@ function WikiBackend(props) {
                 <td><center>
                     <Button
                       className="btneditar"
+                      onClick={editsRol}
                     >
                       Editar
                     </Button>{" "}
-                    <Button className="btneliminar">Eliminar</Button>{" "}
-                    <Button className="btnagregar">Agregar</Button>{" "}
-                    <Button className="btnbuscar">Buscar</Button>{" "}
+                    <Button className="btneliminar"onClick={deletsRole}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={InsertsRole}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listRoles}>Buscar</Button>{" "}
                     </center>
                   </td>
               </tr>
@@ -104,7 +129,8 @@ function WikiBackend(props) {
       return (
         <div className="my-library-container">
           <div className="my-library-header">
-            <HeaderDashboard />
+            <HeaderDashboard /> 
+            <Button className="btnbuscar">Buscar</Button>{" "}
           </div>
           <div className="my-library">
             <div className="my-library-banner">
