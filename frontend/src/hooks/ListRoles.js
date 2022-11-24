@@ -3,9 +3,36 @@ import axios from "axios";
 const moment = require("moment");
 
 
-export const useRoles = () => {
- 
-  const InsertRole = async(role) => {
+
+
+export const UseListRole = async() => {
+
+    try {
+      
+
+    const data = await axios({
+      method: "get",
+      url: "http://127.0.0.1:8000/roles/roles/listAllRoles/",
+    });
+
+  
+    if (data.status === 200 ) {
+    //   console.log('La lista de roles fue consultada correctamente');
+      console.log(data.data)
+    }
+
+  } catch (error) {
+      console.log(error)
+      console.log('Error en la consulta de la lista');
+  }
+
+  
+
+  };
+
+  
+
+export const InsertRole = async(role) => {
 
     try {
       
@@ -30,9 +57,7 @@ export const useRoles = () => {
   }
   };
 
-  return {
-    InsertRole,
-  };
-
  
-};
+
+
+
