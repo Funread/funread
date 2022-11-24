@@ -20,23 +20,32 @@
 
 .my-images-all-images-view-1{
   margin: auto;
+  background-color: gray;
 }
 
 .image-table{
   padding-left: 20px !important;
   margin: 0;
+  background-color: beige;
+  width: 100px;
 }
 
 .my-image-all-image{
   height: 100%;
   width: 100%;
-  max-width: 75%;
-  font-size: 20px;
   background-color: #f9fafe;
   overflow-y: auto;
-  margin: auto;
+
 }
 
 .edit-image-button{
   background-color: green;
+}
+
+.btn-delete{
+  background-color: red;
+}
+
+.bg-color{
+  background-color:black;
 }

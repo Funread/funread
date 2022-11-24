@@ -38,7 +38,7 @@ function AddImage(props){
             <Table className="images-table">
               <thead>
                 <tr>
-                  <th style={{ width: "15%" }}>Nombre</th>
+                  <th className="bg-color" style={{ width: "15%" }}>Nombre</th>
                   <th style={{ width: "15%" }}>Tipo</th>
                   <th style={{ width: "15%" }}>Tamaño</th>
                   <th style={{ width: "15%" }}>Fecha</th>
@@ -98,15 +98,7 @@ function AddImage(props){
                         type="button"
                     >Editar
                     </Button>{" "}
-                    <Button
-                        variant="outline-dark"
-                        size="md"
-                        className="delete-image-button"
-                        type="button"
-                    >Borrar
-                    </Button>{" "}
-                    
-                
+                    <Button className="btn-delete">Borrar</Button>{" "}
                 </td>
             </tr>
             );
