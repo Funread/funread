@@ -20,7 +20,7 @@ import {
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
-import { UseListRole, InsertRole } from "../../hooks/ListRoles";
+import { UseListRole, InsertRole, DeleteRole, EditRole } from "../../hooks/ListRoles";
 
 function WikiBackend(props) { 
     const modelList = [
@@ -64,7 +64,17 @@ function WikiBackend(props) {
 
       }
 
+      const deletsRole = () => {
 
+        DeleteRole ()
+
+      }
+
+      const editsRol = () => {
+        let role="student"
+        EditRole (role)
+
+      }
 
       function firstView() {
         return (
@@ -98,10 +108,11 @@ function WikiBackend(props) {
                 <td><center>
                     <Button
                       className="btneditar"
+                      onClick={editsRol}
                     >
                       Editar
                     </Button>{" "}
-                    <Button className="btneliminar">Eliminar</Button>{" "}
+                    <Button className="btneliminar"onClick={deletsRole}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={InsertsRole}>Agregar</Button>{" "}
                     <Button className="btnbuscar"onClick={listRoles}>Buscar</Button>{" "}
                     </center>
