@@ -43,9 +43,19 @@
 }
 
 .btn-delete{
-  background-color: red;
+  background-color: #ff6961;
 }
 
 .bg-color{
   background-color:black;
+}
+
+.btn-edit{
+  background-color: #77dd77;
+}
+
+.btn-add{
+  background-color: #b6ffff;
+  margin-right: 25px;
+  border-radius: 10px;
 }

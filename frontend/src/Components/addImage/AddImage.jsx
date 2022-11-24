@@ -18,6 +18,11 @@ import {
     faBars,
     faGripVertical,
     faEllipsis,
+    faAngleLeft,
+    faFileCirclePlus,
+    faTrash,
+    faPen,
+    faXmark
   } from "@fortawesome/free-solid-svg-icons";
 
 
@@ -38,11 +43,11 @@ function AddImage(props){
             <Table className="images-table">
               <thead>
                 <tr>
-                  <th className="bg-color" style={{ width: "15%" }}>Nombre</th>
-                  <th style={{ width: "15%" }}>Tipo</th>
-                  <th style={{ width: "15%" }}>Tamaño</th>
-                  <th style={{ width: "15%" }}>Fecha</th>
-                  <th style={{ width: "40%" }}>opciones</th>
+                  <th className="bg-color" style={{ width: "15%" }}>Name</th>
+                  <th style={{ width: "15%" }}>Type</th>
+                  <th style={{ width: "15%" }}>Size</th>
+                  <th style={{ width: "15%" }}>Date</th>
+                  <th style={{ width: "40%" }}>Options</th>
                 </tr>
               </thead>
               <tbody>{setBooksTableData(fileList)}</tbody>
@@ -91,14 +96,26 @@ function AddImage(props){
                 <td style={{ width: "20%" }}>{data[i].tamano}</td>
                 <td style={{ width: "20%" }}>{data[i].fecha}</td>
                 <td>
-                    <Button
-                        variant="outline-dark"
-                        size="md"
-                        className="edit-image-button"
-                        type="button"
-                    >Editar
-                    </Button>{" "}
-                    <Button className="btn-delete">Borrar</Button>{" "}
+                  <button
+                      className="btn-edit"
+                      type="button"
+                    >
+                    <FontAwesomeIcon
+                      className="icons-wizard-left"
+                      icon={faPen}
+                    />
+                    Edit
+                  </button>
+                    <button
+                      className="btn-delete"
+                      type="button"
+                    >
+                    <FontAwesomeIcon
+                      className="icons-wizard-left"
+                      icon={faXmark}
+                    />
+                    Delete
+                  </button>
                 </td>
             </tr>
             );
@@ -117,15 +134,17 @@ function AddImage(props){
         <div className="my-library-banner">
           <p className="my-library-title">Gestor de archivos</p>
           <div className="add-image-banner-buttons-container">
-                <Button
-                    variant="outline-dark"
-                    size="md"
-                    className="add-image-banner-option-button"
-                    type="button"
+              <button
+                  className="btn-add"
+                  type="button"
                 >
-                Agregar
-                </Button>
-            </div>
+                  <FontAwesomeIcon
+                    className="icons-wizard-left"
+                    icon={faFileCirclePlus}
+                  />
+                  New
+                </button>
+          </div>
         </div>
         <div className="my-library-body">
         <div className="my-image-all-image">
