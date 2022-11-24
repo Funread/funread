@@ -15,20 +15,20 @@ export const useInstitute = () => {
       method: "post",
       url: "Institute/Institute/CreateInstitute",
       data: {
-        name:"name"
+        name:name
       },
     });
 
     console.log(data.data)
     if (data.status === 200 ) {
-      console.log('Usuario autenticado');
+      console.log('Institute created');
       console.log(data.data.name);
   
     }
 
   } catch (error) {
       console.log(error)
-      console.log('El usuario o la contrasena no coinciden');
+      console.log('error creating institute');
   }
   };
 
