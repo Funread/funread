@@ -20,7 +20,7 @@ import {
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
-import { UseListRole, InsertRole, DeleteRole, EditRole } from "../../hooks/ListRoles";
+import { InsertInstitute, ListInstitute, EditInstitute ,DeleteInstitute} from "../../hooks/useInstitute"
 
 function WikiBackend(props) { 
     const modelList = [
@@ -52,27 +52,29 @@ function WikiBackend(props) {
 
       ];
 
-      const listRoles = () => {
+      const insertsInsitute = () => {
+        let change="Juana"
+        InsertInstitute (change)
 
-        UseListRole ()
+      }
+      
+      const listInsitute = () => {
+
+        ListInstitute ()
 
       }
 
-      const InsertsRole = () => {
-        let role="admin"
-        InsertRole (role)
+
+
+      const deleteInstitute = () => {
+
+        DeleteInstitute ()
 
       }
 
-      const deletsRole = () => {
-
-        DeleteRole ()
-
-      }
-
-      const editsRol = () => {
-        let role="student"
-        EditRole (role)
+      const editsInstitute = () => {
+        let name="Benjamina"
+        EditInstitute (name)
 
       }
 
@@ -106,15 +108,10 @@ function WikiBackend(props) {
               <tr key={i}>
                 <td style={{ width: "50%" }}>{data[i].name}</td>
                 <td><center>
-                    <Button
-                      className="btneditar"
-                      onClick={editsRol}
-                    >
-                      Editar
-                    </Button>{" "}
-                    <Button className="btneliminar"onClick={deletsRole}>Eliminar</Button>{" "}
-                    <Button className="btnagregar"onClick={InsertsRole}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listRoles}>Buscar</Button>{" "}
+                    <Button className="btneditar" onClick={editsInstitute}>Editar</Button>{" "}
+                    <Button className="btneliminar"onClick={deleteInstitute}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertsInsitute}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listInsitute}>Buscar</Button>{" "}
                     </center>
                   </td>
               </tr>

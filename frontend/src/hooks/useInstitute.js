@@ -2,8 +2,7 @@ import axios from "axios";
 
 const moment = require("moment");
 
-
-
+//CREATE--------------------------------------------------------------------------------------------------------------
 
 export const InsertInstitute = async(name) => {
 
@@ -12,23 +11,27 @@ export const InsertInstitute = async(name) => {
 
     const data = await axios({
       method: "post",
-      url: "http://127.0.0.1:8000/roles/roles/insertRoles/",
+      url: "http://127.0.0.1:8000/institute/Institute/CreateInstitute",
       data: {
-        role: role
+        name: name
       },
     });
 
     console.log(data.data)
     if (data.status === 200 ) {
-      console.log('Se ingreso correctamente el Role');
+      console.log('The Institute was entered correctly');
     
     }
 
   } catch (error) {
       console.log(error)
-      console.log('Es posible que  ya exista el Role, debe ingresar otro');
+      console.log('It is possible that the Institute already exists, you must enter another');
   }
   };
+
+
+//LIST--------------------------------------------------------------------------------------------------------------
+
 
 export const ListInstitute = async() => {
 
@@ -37,50 +40,54 @@ export const ListInstitute = async() => {
 
     const data = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/roles/roles/listAllRoles/",
+      url: "http://127.0.0.1:8000/institute/Institute/listInstitute",
     });
 
   
     if (data.status === 200 ) {
-    //   console.log('La lista de roles fue consultada correctamente');
+    //   console.log('Institute list queried successfully');
       console.log(data.data)
     }
 
   } catch (error) {
       console.log(error)
-      console.log('Error en la consulta de la lista');
+      console.log('List query error');
   }
 
   
 
   };
 
-export const EditInstitute = async(role) => {
+//UPDATE--------------------------------------------------------------------------------------------------------------
+
+
+export const EditInstitute = async(name, change) => {
 
     try {
       
 
     const data = await axios({
       method: "put",
-      url: "http://127.0.0.1:8000/roles/roles/updateRoles/pepito",
+      url: "http://127.0.0.1:8000/institute/Institute/UpdateInstitute",
       data: {
-        role: role
+        name: change
       },
     });
 
     console.log(data.data)
     if (data.status === 200 ) {
-      console.log('Se actualizo correctamente el Role');
+      console.log('The Institute was successfully updated');
     
     }
 
   } catch (error) {
       console.log(error)
-      console.log('Es posible que  ya exista el Role, debe ingresar otro');
+      console.log('It is possible that the Insitute already exists, you must enter another');
   }
   };
 
-  
+  //DELETE--------------------------------------------------------------------------------------------------------------
+
 export const DeleteInstitute = async() => {
 
   try {
@@ -88,17 +95,17 @@ export const DeleteInstitute = async() => {
 
   const data = await axios({
     method: "delete",
-    url:"http://127.0.0.1:8000/roles/roles/deleteRoles/admin",
+    url:"http://127.0.0.1:8000/institute/Institute/DeleteInstitute/1",
   });
 
 
   if (data.status === 200 ) {
-    console.log("Se elimino exitosamente")
+    console.log("successfully removed")
   }
 
 } catch (error) {
     console.log(error)
-    console.log('Este rol no existe');
+    console.log('This role does not exist');
 }
 
 
