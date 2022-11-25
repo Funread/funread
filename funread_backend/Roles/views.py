@@ -15,16 +15,16 @@ import hashlib
 
 #Metodo para mostrar todos los elementos de la lista Roles
 @ api_view(['GET'])
-def listed(request):
+def listedRoles(request):
     role = Roles.objects.all()
     serializer = RolesSerializer(role, many=True)
     return Response(serializer.data)
 
 #Metodo para buscar una variable por nombre
 @api_view(['GET'])
-def RolesSearch(request, role):
+def searchRoles(request):
     try:
-        roles = Roles.objects.get(role=role)
+        roles = Roles.objects.get(rolesid=request.data.get('rolesid'))
         print(roles)
     except Roles.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -33,7 +33,7 @@ def RolesSearch(request, role):
 
 #Metodo para agregar un elemento a la lista Roles
 @api_view(['POST'])
-def new_role(request):
+def newRole(request):
     print(request.data)
     data = {
         'role': request.data.get('role').lower(),
@@ -46,10 +46,11 @@ def new_role(request):
 
 #Elimina un elemento de la lista Roles
 @api_view(['DELETE'])
-def deleteRole(request, role):
-    role = Roles.objects.get(role=role)
-    role.delete()
+def deleteRole(request):
+    roles = Roles.objects.get(rolesid=request.data.get('rolesid'))
+    roles.delete()
     return Response(status=status.HTTP_200_OK)
+
 
 
 #Metodo para mostrar todos los elementos de la lista UserRoles
@@ -77,9 +78,9 @@ def new_Userrole(request):
 
 #Metedo que cambia la variable de la lista Roles
 @api_view(['PUT'])
-def roleupdate(request, role):
-    role = Roles.objects.get(role=role)
-    serializer = RolesSerializer(role, data=request.data)
+def updateRole(request):
+    roles = Roles.objects.get(rolesid=request.data.get('rolesid'))
+    serializer = RolesSerializer(roles, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -93,6 +94,7 @@ def deleteUserRole(request, pk):
     idrole.delete()
 
     return Response(status=status.HTTP_200_OK)
+    s
 
 #---------------------Busca un elemento de userrole por su id-------------------------#
 @api_view(['GET'])
