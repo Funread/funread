@@ -88,14 +88,17 @@ export const EditInstitute = async(name, change) => {
 
   //DELETE--------------------------------------------------------------------------------------------------------------
 
-export const DeleteInstitute = async() => {
+export const DeleteInstitute = async(instituteId) => {
 
   try {
     
-
+debugger;
   const data = await axios({
     method: "delete",
-    url:"http://127.0.0.1:8000/institute/Institute/DeleteInstitute/1",
+    url:"http://127.0.0.1:8000/institute/Institute/deleteInstitute",
+    data: {
+      instituteId: instituteId
+    },
   });
 
 
@@ -105,7 +108,7 @@ export const DeleteInstitute = async() => {
 
 } catch (error) {
     console.log(error)
-    console.log('This role does not exist');
+    console.log('This Institute does not exist');
 }
 
 

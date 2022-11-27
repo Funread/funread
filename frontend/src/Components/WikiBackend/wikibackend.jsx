@@ -53,7 +53,7 @@ function WikiBackend(props) {
       ];
 
       const insertsInsitute = () => {
-        let change="Juana"
+        let change="Juana2"
         InsertInstitute (change)
 
       }
@@ -67,8 +67,9 @@ function WikiBackend(props) {
 
 
       const deleteInstitute = () => {
+        let instituteId=1
 
-        DeleteInstitute ()
+        DeleteInstitute (instituteId)
 
       }
 

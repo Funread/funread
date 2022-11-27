@@ -9,7 +9,7 @@ urlpatterns = [
     path('Institute/CreateInstitute', views.createInstitute), 
     path('Institute/listInstitute', views.listedInstitute),
     path('Institute/UpdateInstitute', views.instituteChange),
-    path('Institute/deleteIntitute', views.deleteInstitute),
+    path('Institute/deleteInstitute', views.deleteInstitute),
     
     path('InstituteMembers/CreateMembers', views.createMembers),
     path('InstituteMembers/ListedMembers', views.listedMembers),
