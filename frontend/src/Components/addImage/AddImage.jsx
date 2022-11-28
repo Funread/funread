@@ -105,7 +105,7 @@ function AddImage(props){
                       icon={faPen}
                     />
                     Edit
-                  </button>
+                  </button>{" "}
                     <button
                       className="btn-delete"
                       type="button"

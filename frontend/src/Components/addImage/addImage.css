@@ -34,7 +34,7 @@
   height: 100%;
   width: 100%;
   background-color: #f9fafe;
-  overflow-y: auto;
+  overflow-y: scroll;
 
 }
 
@@ -44,6 +44,7 @@
 
 .btn-delete{
   background-color: #ff6961;
+  color: white;
 }
 
 .bg-color{
@@ -52,10 +53,12 @@
 
 .btn-edit{
   background-color: #77dd77;
+  color: white;
 }
 
 .btn-add{
-  background-color: #b6ffff;
+  background-color: #84b6f4;
   margin-right: 25px;
   border-radius: 10px;
+  color: white;
 }
