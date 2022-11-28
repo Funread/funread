@@ -4,29 +4,31 @@ const moment = require("moment");
 
 //CREATE--------------------------------------------------------------------------------------------------------------
 
-export const InsertTagsPersBook = async(tagsid, bookid) => {
+export const InsertClassesLog = async(classesid, userid, createat, description) => {
 
     try {
       
 
     const data = await axios({
       method: "post",
-      url: "http://127.0.0.1:8000/tagsperbook/TagsPersBook/CreateTagsPerBook",
+      url: "http://127.0.0.1:8000/classeslog/classeslog/createclasseslog",
       data: {
-        tagsid:tagsid,
-        bookid:bookid
+        classesid:classesid,
+        userid:userid,
+        createat:createat,
+        description:description
     },
     });
 
     console.log(data.data)
     if (data.status === 200 ) {
-      console.log('The TagsPersBook was entered correctly');
+      console.log('The ClassesLog was entered correctly');
     
     }
 
   } catch (error) {
       console.log(error)
-      console.log('It is possible that the TagsPersBook already exists, you must enter another');
+      console.log('It is possible that the ClassesLog already exists, you must enter another');
   }
   };
 
@@ -34,14 +36,14 @@ export const InsertTagsPersBook = async(tagsid, bookid) => {
 //LIST--------------------------------------------------------------------------------------------------------------
 
 
-export const ListTagsPersBook = async() => {
+export const ListClassesLog = async() => {
 
     try {
       
 
     const data = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/tagsperbook/TagsPersBook/ListedTagsPersBook",
+      url: "http://127.0.0.1:8000/classeslog/classeslog/listedclasseslog",
     });
 
   
@@ -62,24 +64,26 @@ export const ListTagsPersBook = async() => {
 //UPDATE--------------------------------------------------------------------------------------------------------------
 
 
-export const EditTagsPersBook = async(tagsperbookid, tagschange, bookchange) => {
+export const EditClassesLog = async(classeslogid,createat,description,classesid,userid) => {
 
     try {
       
 
     const data = await axios({
       method: "put",
-      url: "http://127.0.0.1:8000/tagsperbook/TagsPersBook/ChangeTagsPersBook",
-      data: {
-        tagsperbookid:tagsperbookid,
-        tagschange:tagschange,
-        bookchange:bookchange
+      url: "http://127.0.0.1:8000/classeslog/classeslog/changeclasseslog",
+      data:{
+        classeslogid:classeslogid,
+        createat:createat ,
+        description:description,
+        classesid:classesid,
+        userid:userid
     },
     });
 
     console.log(data.data)
     if (data.status === 200 ) {
-      console.log('The TagsPersBook was successfully updated');
+      console.log('The ClassesLog was successfully updated');
     
     }
 
@@ -91,16 +95,16 @@ export const EditTagsPersBook = async(tagsperbookid, tagschange, bookchange) => 
 
   //DELETE--------------------------------------------------------------------------------------------------------------
 
-export const DeleteTagsPersBook = async(tagsperbookid) => {
+export const DeleteClassesLog = async(classeslogid) => {
 
   try {
     
 
   const data = await axios({
     method: "delete",
-    url:"http://127.0.0.1:8000/tagsperbook/TagsPersBook/DeleteTagsPersBook",
+    url:"http://127.0.0.1:8000/classeslog/classeslog/deleteclasseslog",
     data: {
-        tagsperbookid: tagsperbookid
+      classeslogid:classeslogid
     },
   });
 
@@ -111,10 +115,8 @@ export const DeleteTagsPersBook = async(tagsperbookid) => {
 
 } catch (error) {
     console.log(error)
-    console.log('This TagsPerBook does not exist');
+    console.log('This ClassesLog does not exist');
 }
-
-
-
 };
+
 

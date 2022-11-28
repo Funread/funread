@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     'Classes',
     'StudentsGroups',
     'TagsPerPage',
-    'Classes',
     'ClassesLog',
     'TeacherApp'
     

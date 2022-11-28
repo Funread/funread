@@ -46,7 +46,7 @@ export const ListInstituteMembers = async() => {
 
   
     if (data.status === 200 ) {
-    //   console.log('Institute list queried successfully');
+
       console.log(data.data)
     }
 

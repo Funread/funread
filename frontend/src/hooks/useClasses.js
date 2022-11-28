@@ -4,28 +4,30 @@ const moment = require("moment");
 
 //CREATE--------------------------------------------------------------------------------------------------------------
 
-export const InsertInstitute = async(name) => {
+export const InsertClasses = async(name, grade, teacherAssigned) => {
 
     try {
       
 
     const data = await axios({
       method: "post",
-      url: "http://127.0.0.1:8000/institute/Institute/CreateInstitute",
+      url: "http://127.0.0.1:8000/classes/classes/createClasses",
       data: {
-        name: name
-      },
+        name:name,
+        grade:grade,
+        teacherAssigned:teacherAssigned
+    },
     });
 
     console.log(data.data)
     if (data.status === 200 ) {
-      console.log('The Institute was entered correctly');
+      console.log('The Class was entered correctly');
     
     }
 
   } catch (error) {
       console.log(error)
-      console.log('It is possible that the Institute already exists, you must enter another');
+      console.log('It is possible that the Class already exists, you must enter another');
   }
   };
 
@@ -33,19 +35,19 @@ export const InsertInstitute = async(name) => {
 //LIST--------------------------------------------------------------------------------------------------------------
 
 
-export const ListInstitute = async() => {
+export const ListClasses = async() => {
 
     try {
       
 
     const data = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/institute/Institute/listInstitute",
+      url: "http://127.0.0.1:8000/classes/classes/listedClasses",
     });
 
   
     if (data.status === 200 ) {
-    //   console.log('Institute list queried successfully');
+
       console.log(data.data)
     }
 
@@ -61,24 +63,26 @@ export const ListInstitute = async() => {
 //UPDATE--------------------------------------------------------------------------------------------------------------
 
 
-export const EditInstitute = async(name, change) => {
+export const EditClasses = async(classesId,name ,grade, teacherAssigned ) => {
 
     try {
       
 
     const data = await axios({
       method: "put",
-      url: "http://127.0.0.1:8000/institute/Institute/UpdateInstitute",
+      url: "http://127.0.0.1:8000/classes/classes/changeClasses",
       data: {
+        classesId : classesId,
         name : name,
-        change : change
+        grade:grade,
+        teacherAssigned:teacherAssigned
 
       },
     });
 
     console.log(data.data)
     if (data.status === 200 ) {
-      console.log('The Institute was successfully updated');
+      console.log('The Class was successfully updated');
     
     }
 
@@ -90,16 +94,16 @@ export const EditInstitute = async(name, change) => {
 
   //DELETE--------------------------------------------------------------------------------------------------------------
 
-export const DeleteInstitute = async(instituteId) => {
+export const DeleteClasses = async(classesId) => {
 
   try {
     
 
   const data = await axios({
     method: "delete",
-    url:"http://127.0.0.1:8000/institute/Institute/deleteInstitute",
+    url:"http://127.0.0.1:8000/classes/classes/deleteClasses",
     data: {
-      instituteId: instituteId
+        classesId : classesId
     },
   });
 
@@ -110,7 +114,7 @@ export const DeleteInstitute = async(instituteId) => {
 
 } catch (error) {
     console.log(error)
-    console.log('This Institute does not exist');
+    console.log('This Class does not exist');
 }
 
 
