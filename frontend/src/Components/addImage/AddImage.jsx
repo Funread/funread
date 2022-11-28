@@ -12,15 +12,7 @@ import logo from "../../placeholderBook.jpg";
 import HeaderDashboard from "../Shared/HeaderDashboard/HeaderDashboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faSliders,
-    faDownload,
-    faPlus,
-    faBars,
-    faGripVertical,
-    faEllipsis,
-    faAngleLeft,
     faFileCirclePlus,
-    faTrash,
     faPen,
     faXmark
   } from "@fortawesome/free-solid-svg-icons";
@@ -37,6 +29,9 @@ function AddImage(props){
         { nombre: "text ", Tipo: "text", tamano: "text", fecha: "text" }
     ];
 
+    // esta funcion la da forma a la
+    //  tabla con sus columnas
+ 
     function firstView() {
         return (
           <div className="my-imagnes-all-images-view-1">
@@ -79,10 +74,9 @@ function AddImage(props){
 
      /**
    * Function setBooksTableData:
-   * @param {*} data Lista/Objeto con la información de los libros del usuario.
+   * @param {*} data Lista/Objeto con la información de los archios del usuario.
    *
-   * Agrega la información de los libros del usuario a la tabla de datos.
-   * Posteriormente la regresa como una lista para mostrar la información en pantalla (vista 1).
+   * Agrega la informacion de los archivos a la tabla 
    */
     function setBooksTableData(data) {
         const booksList = [];
@@ -105,7 +99,7 @@ function AddImage(props){
                       icon={faPen}
                     />
                     Edit
-                  </button>{" "}
+                  </button>{"  "}
                     <button
                       className="btn-delete"
                       type="button"
