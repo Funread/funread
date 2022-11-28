@@ -55,12 +55,15 @@ INSTALLED_APPS = [
     'Institute',
     'BooksPerClasses',
     'GroupsPerClasses',
+    'TagsPersBook',
+    'Classes',
     'StudentsGroups',
     'TagsPerPage',
     'Classes',
     'ClassesLog',
     'TeacherApp'
     
+
 
 
     #     'AuthApp.apps.AuthappConfig',

@@ -2,13 +2,15 @@ from django.shortcuts import render
 import json
 from wsgiref import headers
 from .models import Classes
+
 from .serializers import ClassesSerializer
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
 import datetime
-# Create your views here.
+
 
 @api_view(['POST'])
 def createclasses(request):
@@ -19,6 +21,7 @@ def createclasses(request):
         'teacherAssigned': request.data.get('teacherAssigned'),
         'createdAt': datetime.datetime.now(), 
         'lastupdateAt': datetime.datetime.now(),
+
         }
     serializer = ClassesSerializer(data=data)
     print(serializer)
@@ -38,12 +41,14 @@ def listedclasses(request):
 
 @api_view(['PUT'])
 def classesChange(request):
+
     classes = Classes.objects.get(classesId=request.data.get("classesId"))
     data={
         'name': request.data.get('name'),
         'grade': request.data.get('grade'),
         'teacherAssigned': request.data.get('teacherAssigned'),
         'lastupdateAt': datetime.datetime.now(),
+
     }
     serializer = ClassesSerializer(classes, data=data)
     if serializer.is_valid():
@@ -54,7 +59,9 @@ def classesChange(request):
 
 @api_view(['DELETE'])
 def deleteclasses(request):
+
     classes = Classes.objects.get(classesId=request.data.get("classesId"))
     classes.delete()
 
     return Response({"msj":"Successfully delete"},status=status.HTTP_200_OK)
+
