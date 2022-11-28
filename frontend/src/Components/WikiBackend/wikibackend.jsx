@@ -21,6 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
 import { InsertInstitute, ListInstitute, EditInstitute ,DeleteInstitute} from "../../hooks/useInstitute"
+import { InsertInstituteMembers, ListInstituteMembers, EditInstituteMembers ,DeleteInstituteMembers} from "../../hooks/useInstituteMembers"
 
 function WikiBackend(props) { 
     const modelList = [
@@ -52,32 +53,59 @@ function WikiBackend(props) {
 
       ];
 
-      const insertsInsitute = () => {
-        let change="Juana2"
-        InsertInstitute (change)
+      //--------Institute---------------------------------------
 
+      const insertsInsitute = () => {
+        let name="nombre"
+        InsertInstitute (name)
       }
       
       const listInsitute = () => {
 
         ListInstitute ()
-
       }
-
-
 
       const deleteInstitute = () => {
         let instituteId=1
 
         DeleteInstitute (instituteId)
-
       }
 
       const editsInstitute = () => {
-        let name="Benjamina"
-        EditInstitute (name)
-
+        let name = "nombre"
+        let change="nombre2"
+        EditInstitute (name,change)
       }
+
+      //--------InstituteMembers-----------------------------------
+
+      const insertsInsituteMembers = () => {
+        let userId=1
+        let instituteId=1
+        InsertInstituteMembers (userId, instituteId)
+      }
+      
+      const listInsituteMembers = () => {
+
+        ListInstituteMembers ()
+      }
+
+      const deleteInstituteMembers = () => {
+        let instituteMembersId=1
+
+        DeleteInstituteMembers (instituteMembersId)
+      }
+
+      const editsInstituteMembers = () => {
+        let instituteMembersId=1
+        let userchange=2
+        let institutechange=2
+        EditInstituteMembers (instituteMembersId, userchange, institutechange)
+      }
+
+
+
+
 
       function firstView() {
         return (
@@ -113,6 +141,11 @@ function WikiBackend(props) {
                     <Button className="btneliminar"onClick={deleteInstitute}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={insertsInsitute}>Agregar</Button>{" "}
                     <Button className="btnbuscar"onClick={listInsitute}>Buscar</Button>{" "}
+
+                    <Button className="btneditar" onClick={editsInstituteMembers}>Editar</Button>{" "}
+                    <Button className="btneliminar"onClick={deleteInstituteMembers}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertsInsituteMembers}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listInsituteMembers}>Buscar</Button>{" "}
                     </center>
                   </td>
               </tr>

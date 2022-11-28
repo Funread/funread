@@ -4,28 +4,29 @@ const moment = require("moment");
 
 //CREATE--------------------------------------------------------------------------------------------------------------
 
-export const InsertInstitute = async(name) => {
+export const InsertInstituteMembers = async(instituteId, userId) => {
 
     try {
       
 
     const data = await axios({
       method: "post",
-      url: "http://127.0.0.1:8000/institute/Institute/CreateInstitute",
+      url: "http://127.0.0.1:8000/institute/InstituteMembers/CreateMembers",
       data: {
-        name: name
+        instituteId : instituteId,
+        userId : userId
       },
     });
 
     console.log(data.data)
     if (data.status === 200 ) {
-      console.log('The Institute was entered correctly');
+      console.log('The InstituteMember was entered correctly');
     
     }
 
   } catch (error) {
       console.log(error)
-      console.log('It is possible that the Institute already exists, you must enter another');
+      console.log('It is possible that the InstituteMember already exists, you must enter another');
   }
   };
 
@@ -33,14 +34,14 @@ export const InsertInstitute = async(name) => {
 //LIST--------------------------------------------------------------------------------------------------------------
 
 
-export const ListInstitute = async() => {
+export const ListInstituteMembers = async() => {
 
     try {
       
 
     const data = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/institute/Institute/listInstitute",
+      url: "http://127.0.0.1:8000/institute/InstituteMembers/ListedMembers",
     });
 
   
@@ -61,45 +62,46 @@ export const ListInstitute = async() => {
 //UPDATE--------------------------------------------------------------------------------------------------------------
 
 
-export const EditInstitute = async(name, change) => {
+export const EditInstituteMembers = async(instituteMembersId,userchange,institutechange) => {
 
     try {
       
 
     const data = await axios({
       method: "put",
-      url: "http://127.0.0.1:8000/institute/Institute/UpdateInstitute",
+      url: "http://127.0.0.1:8000/institute/InstituteMembers/ChangeMembers",
       data: {
-        name : name,
-        change : change
+        instituteMembersId : instituteMembersId,
+        userchange : userchange,
+        institutechange : institutechange
 
       },
     });
 
     console.log(data.data)
     if (data.status === 200 ) {
-      console.log('The Institute was successfully updated');
+      console.log('The InstituteMember was successfully updated');
     
     }
 
   } catch (error) {
       console.log(error)
-      console.log('Error');
+      console.log('It is possible that the InsituteMember already exists, you must enter another');
   }
   };
 
   //DELETE--------------------------------------------------------------------------------------------------------------
 
-export const DeleteInstitute = async(instituteId) => {
+export const DeleteInstituteMembers = async(instituteMembersId) => {
 
   try {
     
 
   const data = await axios({
     method: "delete",
-    url:"http://127.0.0.1:8000/institute/Institute/deleteInstitute",
+    url:"http://127.0.0.1:8000/institute/InstituteMembers/DeleteMembers",
     data: {
-      instituteId: instituteId
+      instituteMembersId: instituteMembersId
     },
   });
 
@@ -110,7 +112,7 @@ export const DeleteInstitute = async(instituteId) => {
 
 } catch (error) {
     console.log(error)
-    console.log('This Institute does not exist');
+    console.log('This InstituteMember does not exist');
 }
 
 
