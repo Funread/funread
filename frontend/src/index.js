@@ -16,6 +16,7 @@ import AddPage from "./Components/Shared/AddPage/AddPage";
 import Template1 from "./Components/Shared/Templates/Template 1/Template1"
 import Template2 from "./Components/Shared/Templates/Template 2/template2";
 import Template3 from "./Components/Shared/Templates/Template3/Template3";
+import WikiBackend from "./Components/WikiBackend/wikibackend";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -28,6 +29,18 @@ root.render(
           <div className="index-background-padding">
             <div className="index-background-container ">
               <MyLibrary />
+            </div>
+          </div>
+        }
+      />
+
+      <Route
+        exact
+        path="/wikibackend"
+        element={
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <WikiBackend />
             </div>
           </div>
         }
