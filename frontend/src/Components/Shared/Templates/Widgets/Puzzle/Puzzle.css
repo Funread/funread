@@ -5,7 +5,7 @@
   
 /* for the jigsaw puzzle container */
 .jigsaw-puzzle {
-    width: 100%;
+    width: 40%;
     height: auto;
     border: 2px solid #fff;
     margin: auto;
@@ -13,6 +13,6 @@
     background: #fff;
 }
 .puzzle-container{
-    background: #CBC3E3;
+    background: #ffff;
     padding: 5vh;
 }

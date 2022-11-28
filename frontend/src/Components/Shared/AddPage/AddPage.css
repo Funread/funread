@@ -13,7 +13,7 @@
 .add-page-body {
   display: flex;
   flex-direction: column;
-  padding: 0 60px 80px 60px;
+  padding: 0 60px 40px 60px;
   height: 82%;
 }
 
@@ -21,7 +21,7 @@
   display: flex;
   height: min(60px, 10%);
   min-height: 40px;
-  background-color: green;
+  background-color: #d5a6fa;
   color: white;
   border-radius: 20px;
   align-items: center;
@@ -43,21 +43,23 @@
 
 .add-page-banner-option-button {
   margin-left: 10px;
-  background: #ffffff;
-  box-shadow: none !important;
+  border: 1px solid;
+  background-color: #ffff;
+  border-radius: 22px;
+  border-color: #ffff;
 }
 
 .add-page-banner-option-button:hover {
   margin-left: 10px;
-  background: #ffffff;
-  color: black;
+  background: #d5a6fa;
+  color: white;
   box-shadow: none !important;
 }
 
 .add-page-banner-option-button:focus {
   margin-left: 10px;
-  background: #ffffff;
-  color: black;
+  background: #42006d;
+  color: white;
   box-shadow: none !important;
 }
 

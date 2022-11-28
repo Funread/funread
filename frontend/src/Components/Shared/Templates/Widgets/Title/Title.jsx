@@ -2,11 +2,11 @@ import React, {useState} from 'react'
 import "./Title.css"
 
 function Title(props) {
-  const [texto, setTexto] = useState("Título de página");
+  const [title, setTitle] = useState("Título de página");
 
   return (
     <div className='container-title'>
-                <p>{texto}</p>
+                <p>{title}</p>
     </div>
   );
 }

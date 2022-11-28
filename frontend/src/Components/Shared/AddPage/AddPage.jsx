@@ -63,9 +63,9 @@ function AddPage(props) {
             />
           </div>
           <div className="add-page-preview-container">
-          {selectedPage != null ? 
-            <PreviewPageOfBook pageNumber={selectedPage}></PreviewPageOfBook>
-           : null}
+            {selectedPage != null ? (
+              <PreviewPageOfBook pageNumber={selectedPage}></PreviewPageOfBook>
+            ) : null}
           </div>
           <div className="add-page-template-widget-container">
             <ComponentToolsOfBook></ComponentToolsOfBook>
