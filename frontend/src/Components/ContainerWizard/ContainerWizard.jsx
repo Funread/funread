@@ -3,6 +3,7 @@ import { Pages } from "../../Components/Pages/Pages";
 import { Col, Row } from "react-bootstrap";
 import "../ContainerWizard/style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { createBook } from "../../hooks/createBook";
 import {
   faXmark,
   faAngleLeft,
@@ -22,7 +23,7 @@ export const ContainerWizard = (props) => {
   const [nameOfBook, setNameOfBook] = useState("");
   const [classOfBook, setClassOfBook] = useState("");
   const [numberOfPages, setNumberOfPages] = useState(1);
-
+  const { bookCreator } = createBook();
   const BtnBackClick = () => {
     setActivePage((index) => 0);
     setWizardTitle("Book Style");
@@ -36,6 +37,7 @@ export const ContainerWizard = (props) => {
     console.log(nameOfBook);
     console.log(classOfBook);
     console.log(numberOfPages);
+    bookCreator(nameOfBook, nameOfBook);
   };
 
   const BtnCloseClick = () => {

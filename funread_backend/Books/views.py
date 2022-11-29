@@ -20,10 +20,11 @@ def new_book(request):
         'createdat': datetime.datetime.now(),
         'updatedby': request.data.get('updatedby'),
         'lastupdateat': datetime.datetime.now(),
-        'state' : request.data.get('state' ),
+        'state' : request.data.get('state'),
         'sharedbook' : request.data.get('sharedBook'),
     }
     serializer = BookSerializer(data=data)
+    print(serializer)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
