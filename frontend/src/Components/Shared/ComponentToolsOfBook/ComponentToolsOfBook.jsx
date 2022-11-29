@@ -24,8 +24,12 @@ function ComponentToolsOfBook(props) {
   };
 
   const setPageTemplate = (template) => {
-    console.log("apply template to page: " + props.pageNumber);
-    props.setPageTemplate({ page: props.pageNumber, template: template });
+    let oldList = [...props.pagesList];
+    oldList[props.pageNumber - 1] = {
+      pageNumber: props.pageNumber,
+      template: template,
+    };
+    props.setPagesList(oldList);
   };
 
   return (

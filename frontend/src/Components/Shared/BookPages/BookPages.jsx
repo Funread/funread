@@ -10,21 +10,21 @@ import {
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 
 function BookPages(props) {
-  const [pageList, setPageList] = useState({
+  const [tempList, setTempList] = useState({
     activePage: 1,
-    pages: [{ pageNumber: 1 }],
+    pages: [{ pageNumber: 1, template: null }],
   });
   const bottomRef = useRef(null);
 
   const addNewPage = () => {
-    let oldList = [...pageList.pages];
-    oldList.push({ pageNumber: oldList.length + 1 });
-    props.setTotalPages(oldList.length);
-    setPageList({ activePage: pageList.activePage, pages: oldList });
+    let oldList = [...props.pagesList];
+    oldList.push({ pageNumber: oldList.length + 1, template: null });
+    props.setPagesList(oldList);
+    setTempList({ activePage: tempList.activePage, pages: oldList });
   };
 
   function toogleActive(id) {
-    setPageList({ ...pageList, activePage: id });
+    setTempList({ ...tempList, activePage: id });
     props.setSelectedPage(id);
   }
 
@@ -47,10 +47,10 @@ function BookPages(props) {
         <FontAwesomeIcon className="book-pages-options" icon={faCopy} />
       </div>
       <div className="book-pages-item-container">
-        {pageList.pages.map((page) => (
+        {tempList.pages.map((page) => (
           <div
             className={
-              page.pageNumber === pageList.activePage
+              page.pageNumber === tempList.activePage
                 ? "book-pages-item-active"
                 : "book-pages-item-inactive"
             }
