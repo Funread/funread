@@ -17,7 +17,7 @@ function TextImage(props) {
       <Row>
         <Col>
           <div className="template1-image">
-            <Image imagen="https://www.onlineprinters.es/blog/wp-content/uploads/2019/08/image-to-pdf.jpg" />
+            <Image />
           </div>
           <Text />
         </Col>
