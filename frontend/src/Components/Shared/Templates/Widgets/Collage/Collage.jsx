@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Collage.css";
 
 const images = [
-  "https://picsum.photos/200/300?image=105",
   "https://picsum.photos/300/300?image=20",
   "https://picsum.photos/300/300?image=25",
   "https://picsum.photos/300/300?image=45",
@@ -20,12 +19,11 @@ const images = [
 
 function Collage(props) {
   const [img, setCollage] = useState(images);
+
   return (
     <div className="collage-container">
       {img.map((image, i) => (
-        <div className="collage-image-container" key={i}>
-          <img className="image-item" key={i} src={image} alt="" />
-        </div>
+        <img className="image-item" key={i} src={image} alt="" />
       ))}
     </div>
   );
