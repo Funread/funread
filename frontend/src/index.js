@@ -18,6 +18,8 @@ import Template2 from "./Components/Shared/Templates/Template 2/template2";
 import Template3 from "./Components/Shared/Templates/Template3/Template3";
 import AddImage from "./Components/addImage/AddImage";
 import WikiBackend from "./Components/WikiBackend/wikibackend";
+import MemoryGame from "./Components/Shared/Templates/Widgets/MemoryGame/MemoryGame";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -111,6 +113,7 @@ root.render(
       <Route path="/template-1" element={<Template1 />} />
       <Route path="/template-2" element={<Template2 />} />
       <Route path="/template-3" element={<Template3/>} />
+      <Route path="/memorygame" element={<MemoryGame/>} />
     </Routes>
   </BrowserRouter>
 );
