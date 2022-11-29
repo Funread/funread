@@ -20,6 +20,7 @@ import {
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
+import { UseListAuthor, InsertAuthorList, DeleteAuthor, EditAuthor } from "../../hooks/useAuthorList";
 
 function WikiBackend(props) {
     const modelList = [
@@ -51,6 +52,29 @@ function WikiBackend(props) {
 
       ];
 
+      const listAuthor = () => {
+
+        UseListAuthor ()
+
+      }
+
+      const insertsAuthor = () => {
+        let role="leonardo"
+        InsertAuthorList (role)
+
+      }
+
+      const deletsAuthor = () => {
+
+        DeleteAuthor ()
+
+      }
+
+      const editsAuthor = () => {
+        let role="student"
+        EditAuthor (role)
+
+      }
 
       function firstView() {
         return (
@@ -84,12 +108,13 @@ function WikiBackend(props) {
                 <td><center>
                     <Button
                       className="btneditar"
+                      onClick={editsAuthor}
                     >
                       Editar
                     </Button>{" "}
-                    <Button className="btneliminar">Eliminar</Button>{" "}
-                    <Button className="btnagregar">Agregar</Button>{" "}
-                    <Button className="btnbuscar">Buscar</Button>{" "}
+                    <Button className="btneliminar"onClick={deletsAuthor}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertsAuthor}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listAuthor}>Buscar</Button>{" "}
                     </center>
                   </td>
               </tr>
