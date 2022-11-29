@@ -16,6 +16,7 @@
   line-height: 120%;
   font-size: 32px;
   font-weight: bold;
+  color: #ffffff;
 }
 
 .wizard-bg {
@@ -69,7 +70,7 @@
   border-radius: 20px;
   align-items: center;
   justify-content: space-between;
-  border-color: #d5a6fa
+  border-color: #d5a6fa;
 }
 
 .btn-left:hover {

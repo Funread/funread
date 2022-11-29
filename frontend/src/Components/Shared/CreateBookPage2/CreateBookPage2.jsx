@@ -1,17 +1,18 @@
 import React from "react";
 import "./CreateBookPage2.css";
 import Tools from "../Tools/Tools";
+
 function Page2(props) {
   return (
     <div className="page2-container">
       <div className="page2-left-container">
-        <Tools />
+        <Tools fnTools={props.fnTools} />
       </div>
       <div className="page2-right-container">
         <div className="create-book-page2-book-information-container">
           <div className="create-book-page2-book-information-content">
             <h1 className="create-book-page2-book-information-content-title">
-              Book Title
+              {props.nameOfBook !== "" ? props.nameOfBook : "Book's name"}
             </h1>
             <div className="create-book-page2-book-information-content-body">
               <img
