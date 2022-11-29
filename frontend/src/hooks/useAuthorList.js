@@ -37,7 +37,8 @@ export const InsertAuthorList = async(role) => {
       method: "post",
       url: "http://127.0.0.1:8000/author/AuthorList/insertAuthorList/",
       data: {
-        role: role
+        userId:1,
+        bookId:1
       },
     });
 
@@ -61,6 +62,9 @@ export const InsertAuthorList = async(role) => {
     const data = await axios({
       method: "delete",
       url:"http://127.0.0.1:8000/author/AuthorList/deleteAuthorList/",
+      data: { 
+        authorlistid:4
+      }
     });
 
   
@@ -85,8 +89,10 @@ export const InsertAuthorList = async(role) => {
     const data = await axios({
       method: "put",
       url: "http://127.0.0.1:8000/author/AuthorList/updateAuthorList/",
-      data: {
-        role: role
+      data:   {
+        authorlistid:5,
+        userId:2,
+        bookId:2
       },
     });
 

@@ -59,8 +59,8 @@ function WikiBackend(props) {
       }
 
       const insertsAuthor = () => {
-        let role="leonardo"
-        InsertAuthorList (role)
+        let author="leonardo"
+        InsertAuthorList (author)
 
       }
 
@@ -98,32 +98,7 @@ function WikiBackend(props) {
     
 
       function setBooksTableData(data) {
-        const modelList = [];
-    
-        if (data.length > 0) {
-          for (let i = 0; i < data.length; i++) {
-            modelList.push(
-              <tr key={i}>
-                <td style={{ width: "50%" }}>{data[i].name}</td>
-                <td><center>
-                    <Button
-                      className="btneditar"
-                      onClick={editsAuthor}
-                    >
-                      Editar
-                    </Button>{" "}
-                    <Button className="btneliminar"onClick={deletsAuthor}>Eliminar</Button>{" "}
-                    <Button className="btnagregar"onClick={insertsAuthor}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listAuthor}>Buscar</Button>{" "}
-                    </center>
-                  </td>
-              </tr>
-            );
-          }
-        }
-
-        return modelList;
-
+        
       }
 
       return (
@@ -137,7 +112,21 @@ function WikiBackend(props) {
             </div>
             <div className="my-library-body">
               <div className="my-library-all-books">
-              {firstView()}
+              <tr>
+                <td style={{ width: "50%" }}>AuthorList</td>
+                <td><center>
+                    <Button
+                      className="btneditar"
+                      onClick={editsAuthor}
+                    >
+                      Editar
+                    </Button>{" "}
+                    <Button className="btneliminar"onClick={deletsAuthor}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertsAuthor}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listAuthor}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
               </div>
             </div>
           </div>
