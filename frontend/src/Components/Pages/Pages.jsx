@@ -5,13 +5,17 @@ export const Pages = (props) => {
   if (props.page === 1) {
     return (
       <>
-        <WizardInformation fnNameOfBook={props.fnNameOfBook} fnClassOfBook={props.fnClassOfBook} fnNumberOfPages={props.fnNumberOfPages} ></WizardInformation>
+        <WizardInformation
+          fnNameOfBook={props.fnNameOfBook}
+          fnClassOfBook={props.fnClassOfBook}
+          fnNumberOfPages={props.fnNumberOfPages}
+        ></WizardInformation>
       </>
     );
   } else {
     return (
       <>
-        <Page2 />
+        <Page2 nameOfBook={props.nameOfBook} fnTools={props.fnTools} />
       </>
     );
   }

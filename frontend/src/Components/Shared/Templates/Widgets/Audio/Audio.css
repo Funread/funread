@@ -1,12 +1,11 @@
-.audioplayer
-{
-	width: 115vh; 
-    box-shadow: 5px 5px 20px rgba(0,0, 0, 0.4);
-    border-radius: 90px;
+.audioplayer {
+  width: 100%;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 90px;
 }
-.audio-container{
-    padding: 5vh;
-    width: 100%;
-    background-color: #ffff;
-    text-align: center;
+.audio-container {
+  padding: 0.5vw;
+  width: 100%;
+  background-color: transparent;
+  text-align: center;
 }

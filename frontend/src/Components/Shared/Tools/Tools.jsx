@@ -1,11 +1,28 @@
-import React, { useState } from "react";
-import { Dropdown, Row, Col } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Row, Col, FormSelect } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import "./Tools.css";
 
-function Tools() {
-  const [size, setSize] = useState(10);
+function Tools(props) {
+  const [typographyList, setTypographyList] = useState([
+    "Times New Roman",
+    "Tipografía 1",
+    "Tipografía 2",
+    "Tipografía 3",
+  ]);
+  const [typography, setTypography] = useState(typographyList[0]);
+  const [typographySize, setTypographySize] = useState(10);
+  /**(Placeholder)
+   * Es necesario agregar el resto de las herramientas
+   * Y modificar el onChange para que se guarden todas las herramientas cuando alguna cambie */
+  const [toolsList, setToolsList] = useState([
+    { typography: typography, typographySize: typographySize },
+  ]);
+
+  useEffect(() => {
+    props.fnTools(toolsList);
+  }, [toolsList]);
 
   return (
     <div className="tools">
@@ -13,23 +30,25 @@ function Tools() {
       <div className="tools-body">
         <Row className="tools-row">
           <Col lg={8} sm={8} xs={8} className="no-padding">
-            <Dropdown>
-              <Dropdown.Toggle
-                className="tools-dropdown"
-                variant="outline-dark"
-                size="sm"
-                id="dropdown-basic"
-              >
-                Times New Roman
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item> Tipografía 1 </Dropdown.Item>
-                <Dropdown.Item> Tipografía 2 </Dropdown.Item>
-                <Dropdown.Item> Tipografía 3 </Dropdown.Item>
-                <Dropdown.Item> Tipografía 4 </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <FormSelect
+              className="tools-select"
+              value={typography}
+              onChange={(event) => {
+                setTypography(event.target.value);
+                setToolsList([
+                  {
+                    typography: event.target.value,
+                    typographySize: typographySize,
+                  },
+                ]);
+              }}
+            >
+              {typographyList.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </FormSelect>
           </Col>
 
           <Col lg={4} sm={4} xs={4} className="no-padding">
@@ -40,8 +59,16 @@ function Tools() {
               min={10}
               max={96}
               step={2}
-              value={size}
-              onChange={(e) => setSize(e.target.value)}
+              value={typographySize}
+              onChange={(event) => {
+                setTypographySize(event.target.value);
+                setToolsList([
+                  {
+                    typography: typography,
+                    typographySize: event.target.value,
+                  },
+                ]);
+              }}
             ></input>
           </Col>
         </Row>
