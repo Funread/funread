@@ -17,6 +17,7 @@ export const WizardInformation = (props) => {
   const [option1, setOption1] = useState("History");
   const [option2, setOption2] = useState("Math");
   const [option3, setOption3] = useState("Science");
+  const [selectedOption, setSelectedOption] = useState(0);
 
 
   return (
@@ -57,19 +58,19 @@ export const WizardInformation = (props) => {
                       <Dropdown.Menu>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => {setClassBook(option1); props.fnClassOfBook(option1)}}
+                          onClick={(HandleClass) => {setClassBook(option1); props.fnClassOfBook(1)}}
                         >
                           {option1}
                         </Dropdown.Item>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => {setClassBook(option2); props.fnClassOfBook(option2)}}
+                          onClick={(HandleClass) => {setClassBook(option2); props.fnClassOfBook(2)}}
                         >
                           {option2}
                         </Dropdown.Item>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => {setClassBook(option3); props.fnClassOfBook(option3)}}
+                          onClick={(HandleClass) => {setClassBook(option3); props.fnClassOfBook(3)}}
                         >
                           {option3}
                         </Dropdown.Item>

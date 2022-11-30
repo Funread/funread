@@ -21,7 +21,7 @@ export const ContainerWizard = (props) => {
   const navigate = useNavigate();
   const [pages, setPages] = useState(1);
   const [nameOfBook, setNameOfBook] = useState("");
-  const [classOfBook, setClassOfBook] = useState("");
+  const [classOfBook, setClassOfBook] = useState(0);
   const [numberOfPages, setNumberOfPages] = useState(1);
   const { bookCreator } = createBook();
   const BtnBackClick = () => {
