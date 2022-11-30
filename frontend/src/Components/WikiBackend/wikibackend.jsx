@@ -22,6 +22,7 @@ import {
 import { Button } from "react-bootstrap";
 import { listRole, insertRole, deleteRole, editRole } from "../../hooks/ListRoles";
 import { listUserRoles, insertUserRole, deleteUserRole, editUserRole } from "../../hooks/useUserRoles";
+import { listStudentsGroups, insertStudentsGroups, deleteStudentsGroups, editStudentsGroups } from "../../hooks/useStudentsGroups";
 
 function WikiBackend(props) {
     const modelList = [
@@ -79,7 +80,33 @@ function WikiBackend(props) {
       }
 
 
+      //-------------------------------StudentsGroups-----------------------------------
+      const ListStudentsGroups = () => {
+
+        listStudentsGroups ()
+
+      }
+
+      const InsertStudentsGroups = () => {
+        let StudentsGroups="admin"
+        insertStudentsGroups (StudentsGroups)
+
+      }
+
+      const DeleteStudentsGroups = () => {
+
+        deleteStudentsGroups ()
+
+      }
+
+      const EditStudentsGroups = () => {
+        let StudentsGroups="admin"
+        editStudentsGroups (StudentsGroups)
+
+      }
+
       //-------------------------------UserRoles-----------------------------------
+
       const ListUserRole = () => {
 
         listUserRoles ()
@@ -173,6 +200,23 @@ function WikiBackend(props) {
                     </center>
                   </td>
               </tr>
+
+              <tr>
+                <td style={{ width: "50%" }}>StudentsGroups</td>
+                <td><center>
+                    <Button
+                      className="btneditar"
+                      onClick={EditStudentsGroups}
+                    >
+                      Editar
+                    </Button>{" "}
+                    <Button className="btneliminar"onClick={DeleteStudentsGroups}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={InsertStudentsGroups}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={ListStudentsGroups}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
+
               </div>
             </div>
           </div>

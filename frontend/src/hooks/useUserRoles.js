@@ -98,13 +98,13 @@ export const insertUserRole = async(UserRole) => {
 
     console.log(data.data)
     if (data.status === 200 ) {
-      console.log('Se actualizo correctamente el Role');
+      console.log('Se actualizo correctamente el UserRole');
     
     }
 
   } catch (error) {
       console.log(error)
-      console.log('Es posible que  ya exista el Role, debe ingresar otro');
+      console.log('Es posible que  ya exista el UserRole, debe ingresar otro');
   }
   };
 
