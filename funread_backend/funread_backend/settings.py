@@ -162,7 +162,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": 'hipopotamo',
+        "PASSWORD": 'charizard',
         'PORT': '33060',
         'USER': 'root',
         'OPTIONS': {
