@@ -20,7 +20,7 @@ import {
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
-import { UseListAuthor, InsertAuthorList, DeleteAuthor, EditAuthor } from "../../hooks/useAuthorList";
+import { useListAuthor, insertAuthorList, deleteAuthor, editAuthor, searchAuthor } from "../../hooks/useAuthorList";
 
 function WikiBackend(props) {
     const modelList = [
@@ -52,27 +52,35 @@ function WikiBackend(props) {
 
       ];
 
-      const listAuthor = () => {
+      const ListAuthor = () => {
 
-        UseListAuthor ()
+        useListAuthor ()
+           
+      }
+
+      const UseSearchAuthor = () => {
+
+        searchAuthor ()
+           
+      }
+
+      const InsertsAuthor = () => {
+        
+        let author=1
+        let book=1
+        insertAuthorList (author, book)
 
       }
 
-      const insertsAuthor = () => {
-        let author="leonardo"
-        InsertAuthorList (author)
+      const DeletsAuthor = () => {
+
+        deleteAuthor ()
 
       }
 
-      const deletsAuthor = () => {
-
-        DeleteAuthor ()
-
-      }
-
-      const editsAuthor = () => {
-        let role="student"
-        EditAuthor (role)
+      const EditsAuthor = () => {
+        let author="student"
+        editAuthor (author)
 
       }
 
@@ -117,13 +125,14 @@ function WikiBackend(props) {
                 <td><center>
                     <Button
                       className="btneditar"
-                      onClick={editsAuthor}
+                      onClick={EditsAuthor}
                     >
                       Editar
                     </Button>{" "}
-                    <Button className="btneliminar"onClick={deletsAuthor}>Eliminar</Button>{" "}
-                    <Button className="btnagregar"onClick={insertsAuthor}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listAuthor}>Buscar</Button>{" "}
+                    <Button className="btneliminar"onClick={DeletsAuthor}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={InsertsAuthor}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={ListAuthor}>Buscar</Button>{" "}
+                    <Button className="btnbuscar"onClick={UseSearchAuthor}>BuscarID</Button>{" "}
                     </center>
                   </td>
               </tr>
@@ -139,12 +148,3 @@ function WikiBackend(props) {
 }
 
 export default WikiBackend;
-
-
-
-
-
-
-
-
-

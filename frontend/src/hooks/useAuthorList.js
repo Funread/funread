@@ -3,7 +3,7 @@ import axios from "axios";
 const moment = require("moment");
 
 
-export const UseListAuthor = async() => {
+export const useListAuthor = async() => {
 
     try {
       
@@ -28,7 +28,33 @@ export const UseListAuthor = async() => {
 
   };
 
-export const InsertAuthorList = async(role) => {
+  export const searchAuthor = async() => {
+
+    try {
+      
+    const data = await axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/author/AuthorList/searchAuthorList/",
+      
+      data: {
+        authorlistid:6
+      }
+    });
+
+  
+    if (data.status === 200 ) {
+      console.log('El author fue consultado correctamente');
+      console.log(data.data)
+    }
+
+  } catch (error) {
+      console.log(error)
+      console.log('Error en la consulta del author');
+  }
+
+  };
+
+export const insertAuthorList = async(user, book) => {
 
     try {
       
@@ -37,8 +63,8 @@ export const InsertAuthorList = async(role) => {
       method: "post",
       url: "http://127.0.0.1:8000/author/AuthorList/insertAuthorList/",
       data: {
-        userId:1,
-        bookId:1
+        userId:user,
+        bookId:book
       },
     });
 
@@ -54,7 +80,7 @@ export const InsertAuthorList = async(role) => {
   }
   };
 
-  export const DeleteAuthor = async() => {
+  export const deleteAuthor = async() => {
 
     try {
       
@@ -63,7 +89,7 @@ export const InsertAuthorList = async(role) => {
       method: "delete",
       url:"http://127.0.0.1:8000/author/AuthorList/deleteAuthorList/",
       data: { 
-        authorlistid:4
+        authorlistid:8
       }
     });
 
@@ -81,7 +107,7 @@ export const InsertAuthorList = async(role) => {
 
   };
 
-  export const EditAuthor = async(role) => {
+  export const editAuthor = async(role) => {
 
     try {
       
@@ -89,10 +115,10 @@ export const InsertAuthorList = async(role) => {
     const data = await axios({
       method: "put",
       url: "http://127.0.0.1:8000/author/AuthorList/updateAuthorList/",
-      data:   {
-        authorlistid:5,
+      data: {
+        authorlistid:6,
         userId:2,
-        bookId:2
+        bookId:1
       },
     });
 
@@ -104,6 +130,6 @@ export const InsertAuthorList = async(role) => {
 
   } catch (error) {
       console.log(error)
-      console.log('Es posible que  ya exista el Role, debe ingresar otro');
+      console.log('Es posible que  ya exista el author, debe ingresar otro');
   }
   };

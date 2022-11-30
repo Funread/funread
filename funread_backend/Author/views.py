@@ -21,8 +21,9 @@ def listed(request):
     return Response(serializer.data)
 
 #Metodo para buscar una variable por nombre
-@api_view(['GET'])
+@api_view(['POST'])
 def AuthorListSearch(request):
+    print(request)
     try:
         authorlist = AuthorList.objects.get(authorlistid=request.data.get('authorlistid'))
         print(authorlist)
