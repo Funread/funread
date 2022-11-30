@@ -28,6 +28,32 @@ export const listStudentsGroups = async() => {
 
   };
 
+export const searchStudentsGroups = async() => {
+
+    try {
+      
+    const data = await axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/studentsgroups/studentsgroups/searchStudentsGroups/",
+      
+      data: {
+        groupId: 1
+      }
+    });
+
+  
+    if (data.status === 200 ) {
+      console.log('El StudentsGroups fue consultado correctamente');
+      console.log(data.data)
+    }
+
+  } catch (error) {
+      console.log(error)
+      console.log('Error en la consulta del StudentsGroups');
+  }
+
+  };
+
 export const insertStudentsGroups = async(StudentsGroups) => {
 
     try {

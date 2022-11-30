@@ -23,8 +23,9 @@ def listedRoles(request):
     return Response(serializer.data)
 
 #Metodo para buscar una variable por nombre
-@api_view(['GET'])
+@api_view(['POST'])
 def searchRoles(request):
+    print(request)
     try:
         roles = Roles.objects.get(rolesid=request.data.get('rolesid'))
         print(roles)
@@ -74,8 +75,9 @@ def listedUserRoles(request):
     return Response(serializer.data)
 
 #Busca un elemento de userrole por su id#
-@api_view(['GET'])
+@api_view(['POST'])
 def UserRolesSearch(request):
+    print(request)
     try:
         userroles = UserRoles.objects.get(userrolesid=request.data.get('userrolesid'))
         print(userroles)

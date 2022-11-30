@@ -20,8 +20,9 @@ def listed(request):
     return Response(serializer.data)
 
 #Metodo para buscar una variable por nombre
-@api_view(['GET'])
+@api_view(['POST'])
 def search(request):
+    print(request)
     try:
         studentsGroups = StudentsGroups.objects.get(groupId=request.data.get('groupId'))
         print(studentsGroups)

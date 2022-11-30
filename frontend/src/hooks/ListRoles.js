@@ -28,6 +28,32 @@ export const listRole = async() => {
 
   };
 
+export const searchRole = async() => {
+
+    try {
+      
+    const data = await axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/roles/roles/searchRoles/",
+      
+      data: {
+        rolesid: 6
+      }
+    });
+
+  
+    if (data.status === 200 ) {
+      console.log('El Role fue consultado correctamente');
+      console.log(data.data)
+    }
+
+  } catch (error) {
+      console.log(error)
+      console.log('Error en la consulta del Role');
+  }
+
+  };
+
 export const insertRole = async(role) => {
 
     try {

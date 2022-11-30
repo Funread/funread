@@ -20,9 +20,9 @@ import {
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
-import { listRole, insertRole, deleteRole, editRole } from "../../hooks/ListRoles";
-import { listUserRoles, insertUserRole, deleteUserRole, editUserRole } from "../../hooks/useUserRoles";
-import { listStudentsGroups, insertStudentsGroups, deleteStudentsGroups, editStudentsGroups } from "../../hooks/useStudentsGroups";
+import { listRole, searchRole, insertRole, deleteRole, editRole } from "../../hooks/ListRoles";
+import { listUserRoles, searchUserRole, insertUserRole, deleteUserRole, editUserRole } from "../../hooks/useUserRoles";
+import { listStudentsGroups, searchStudentsGroups, insertStudentsGroups, deleteStudentsGroups, editStudentsGroups } from "../../hooks/useStudentsGroups";
 
 function WikiBackend(props) {
     const modelList = [
@@ -61,6 +61,12 @@ function WikiBackend(props) {
 
       }
 
+      const SearchRole = () => {
+
+        searchRole ()
+           
+      }
+
       const InsertRole = () => {
         let role="admin"
         insertRole (role)
@@ -87,6 +93,12 @@ function WikiBackend(props) {
 
       }
 
+      const SearchStudentsGroups = () => {
+
+        searchStudentsGroups ()
+           
+      }
+
       const InsertStudentsGroups = () => {
         let StudentsGroups="admin"
         insertStudentsGroups (StudentsGroups)
@@ -111,6 +123,12 @@ function WikiBackend(props) {
 
         listUserRoles ()
 
+      }
+
+      const SearchUserRole = () => {
+
+        searchUserRole ()
+           
       }
 
       const InsertUserRole = () => {
@@ -181,6 +199,7 @@ function WikiBackend(props) {
                     <Button className="btneliminar"onClick={DeleteRole}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={InsertRole}>Agregar</Button>{" "}
                     <Button className="btnbuscar"onClick={ListRole}>Buscar</Button>{" "}
+                    <Button className="btnbuscar"onClick={searchRole}>BuscarID</Button>{" "}
                     </center>
                   </td>
               </tr>
@@ -197,6 +216,7 @@ function WikiBackend(props) {
                     <Button className="btneliminar"onClick={DeleteUserRole}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={InsertUserRole}>Agregar</Button>{" "}
                     <Button className="btnbuscar"onClick={ListUserRole}>Buscar</Button>{" "}
+                    <Button className="btnbuscar"onClick={SearchUserRole}>BuscarID</Button>{" "}
                     </center>
                   </td>
               </tr>
@@ -213,6 +233,7 @@ function WikiBackend(props) {
                     <Button className="btneliminar"onClick={DeleteStudentsGroups}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={InsertStudentsGroups}>Agregar</Button>{" "}
                     <Button className="btnbuscar"onClick={ListStudentsGroups}>Buscar</Button>{" "}
+                    <Button className="btnbuscar"onClick={SearchStudentsGroups}>BuscarID</Button>{" "}
                     </center>
                   </td>
               </tr>
