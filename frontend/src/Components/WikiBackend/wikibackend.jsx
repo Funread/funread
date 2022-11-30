@@ -21,6 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
 import { listRole, insertRole, deleteRole, editRole } from "../../hooks/ListRoles";
+import { listUserRoles, insertUserRole, deleteUserRole, editUserRole } from "../../hooks/useUserRoles";
 
 function WikiBackend(props) {
     const modelList = [
@@ -52,6 +53,7 @@ function WikiBackend(props) {
 
       ];
 
+      //-------------------------------Roles-----------------------------------
       const ListRole = () => {
 
         listRole ()
@@ -73,6 +75,32 @@ function WikiBackend(props) {
       const EditRole = () => {
         let role="admin"
         editRole (role)
+
+      }
+
+
+      //-------------------------------UserRoles-----------------------------------
+      const ListUserRole = () => {
+
+        listUserRoles ()
+
+      }
+
+      const InsertUserRole = () => {
+        let UserRole="admin"
+        insertUserRole (UserRole)
+
+      }
+
+      const DeleteUserRole = () => {
+
+        deleteUserRole ()
+
+      }
+
+      const EditUserRole = () => {
+        let UserRole="admin"
+        editUserRole (UserRole)
 
       }
 
@@ -112,6 +140,8 @@ function WikiBackend(props) {
             </div>
             <div className="my-library-body">
               <div className="my-library-all-books">
+
+
               <tr>
                 <td style={{ width: "50%" }}>RoleList</td>
                 <td><center>
@@ -124,6 +154,22 @@ function WikiBackend(props) {
                     <Button className="btneliminar"onClick={DeleteRole}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={InsertRole}>Agregar</Button>{" "}
                     <Button className="btnbuscar"onClick={ListRole}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
+  
+              <tr>
+                <td style={{ width: "50%" }}>UserRoleList</td>
+                <td><center>
+                    <Button
+                      className="btneditar"
+                      onClick={EditUserRole}
+                    >
+                      Editar
+                    </Button>{" "}
+                    <Button className="btneliminar"onClick={DeleteUserRole}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={InsertUserRole}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={ListUserRole}>Buscar</Button>{" "}
                     </center>
                   </td>
               </tr>
