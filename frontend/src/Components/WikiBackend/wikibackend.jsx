@@ -200,76 +200,13 @@ function WikiBackend(props) {
 
 
 
-      function firstView() {
-        return (
-          
-          <div className="Wiki">
-            <Table className="Wiki-Table">
-              <thead>
-              <tr>
-                  <th style={{ width: "20%" }}>Name</th>
-                  <center>
-                  <th style={{ width: "60%" }}>Options</th>
-                  </center>
-                </tr>
-              </thead>
-              <tbody>{setBooksTableData(modelList)}</tbody>
-              
-            </Table>
-          </div>
-        );
-      }
+     
     
-
-      function setBooksTableData(data) {
-        const modelList = [];
-    
-        if (data.length > 0) {
-          for (let i = 0; i < data.length; i++) {
-            modelList.push(
-              <tr key={i}>
-                <td style={{ width: "50%" }}>{data[i].name}</td>
-                <td><center>
-                    <Button className="btneditar" onClick={editsInstitute}>Editar</Button>{" "}
-                    <Button className="btneliminar"onClick={deleteInstitute}>Eliminar</Button>{" "}
-                    <Button className="btnagregar"onClick={insertInsitute}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listInsitute}>Buscar</Button>{" "}
-
-                    <Button className="btneditar" onClick={editsInstituteMembers}>Editar</Button>{" "}
-                    <Button className="btneliminar"onClick={deleteInstituteMembers}>Eliminar</Button>{" "}
-                    <Button className="btnagregar"onClick={insertInsituteMembers}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listInsituteMembers}>Buscar</Button>{" "}
-                     
-                    <Button className="btneditar" onClick={editsClasses}>Editar</Button>{" "}
-                    <Button className="btneliminar"onClick={deleteClasses}>Eliminar</Button>{" "}
-                    <Button className="btnagregar"onClick={insertClasses}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listClasses}>Buscar</Button>{" "}
-                    
-                    <Button className="btneditar" onClick={editsClassesLog}>Editar</Button>{" "}
-                    <Button className="btneliminar"onClick={deleteClassesLog}>Eliminar</Button>{" "}
-                    <Button className="btnagregar"onClick={insertClassesLog}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listClassesLog}>Buscar</Button>{" "}
-                    
-                    <Button className="btneditar" onClick={editsTagsPersBook}>Editar</Button>{" "}
-                    <Button className="btneliminar"onClick={deleteTagsPersBook}>Eliminar</Button>{" "}
-                    <Button className="btnagregar"onClick={insertTagsPersBook}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listTagsPersBook}>Buscar</Button>{" "}
-                    </center>
-                  </td>
-              </tr>
-            );
-          }
-        }
-
-        return modelList;
-
-      }
 
       return (
         <div className="my-library-container">
           <div className="my-library-header">
-            <HeaderDashboard /> 
-          
+            <HeaderDashboard />
           </div>
           <div className="my-library">
             <div className="my-library-banner">
@@ -277,12 +214,68 @@ function WikiBackend(props) {
             </div>
             <div className="my-library-body">
               <div className="my-library-all-books">
-              {firstView()}
+              <tr>
+                <td style={{ width: "50%" }}>Institute</td>
+                <td><center>
+
+                    <Button className="btneditar" onClick={editsInstitute}>Editar</Button>{" "}
+                    <Button className="btneliminar"onClick={deleteInstitute}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertInsitute}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listInsitute}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
+              <tr>
+                <td style={{ width: "50%" }}>Institute Members</td>
+                <td><center>
+
+                    <Button className="btneditar" onClick={editsInstituteMembers}>Editar</Button>{" "}
+                    <Button className="btneliminar"onClick={deleteInstituteMembers}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertInsituteMembers}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listInsituteMembers}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
+              <tr>
+                <td style={{ width: "50%" }}>Classes</td>
+                <td><center>
+ 
+                    <Button className="btneditar" onClick={editsClasses}>Editar</Button>{" "}
+                    <Button className="btneliminar"onClick={deleteClasses}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertClasses}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listClasses}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
+              <tr>
+                <td style={{ width: "50%" }}>ClassesLog</td>
+                <td><center>
+
+                    <Button className="btneditar" onClick={editsClassesLog}>Editar</Button>{" "}
+                    <Button className="btneliminar"onClick={deleteClassesLog}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertClassesLog}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listClassesLog}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
+              <tr>
+                <td style={{ width: "50%" }}>TagsPerBooks</td>
+                <td><center>
+
+                    <Button className="btneditar" onClick={editsTagsPersBook}>Editar</Button>{" "}
+                    <Button className="btneliminar"onClick={deleteTagsPersBook}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertTagsPersBook}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listTagsPersBook}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
               </div>
             </div>
           </div>
         </div>
       );
+
+     
 
 
 
