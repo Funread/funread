@@ -17,6 +17,7 @@ import Template1 from "./Components/Shared/Templates/Template 1/Template1"
 import Template2 from "./Components/Shared/Templates/Template 2/template2";
 import Template3 from "./Components/Shared/Templates/Template3/Template3";
 import MemoryGame from "./Components/Shared/Templates/Widgets/MemoryGame/MemoryGame";
+import AddImage from "./Components/addImage/AddImage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -33,6 +34,18 @@ root.render(
           </div>
         }
       />
+
+      <Route
+        exact
+        path="/addImage"
+        element={
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <AddImage />
+            </div>
+          </div>
+        }
+      /> 
 
       <Route
         exact

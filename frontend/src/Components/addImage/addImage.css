@@ -1,0 +1,64 @@
+.buttonadd{
+    text-align: left;
+}
+
+.my-addImage-options{
+    text-align: left;
+}
+
+.add-image-banner-option-button {
+    margin-left: 25px;
+    background: turquoise;
+    box-shadow: none !important;
+    border-radius: 15px;
+    
+  }
+
+.add-image-banner-buttons-container {
+    margin-left: auto;
+  }
+
+.my-images-all-images-view-1{
+  margin: auto;
+  background-color: gray;
+}
+
+.image-table{
+  padding-left: 20px !important;
+  margin: 0;
+  background-color: beige;
+  width: 100px;
+}
+
+.my-image-all-image{
+  height: 100%;
+  width: 100%;
+  background-color: #f9fafe;
+  overflow-y: scroll;
+
+}
+
+.edit-image-button{
+  background-color: green;
+}
+
+.btn-delete{
+  background-color: #ff6961;
+  color: white;
+}
+
+.bg-color{
+  background-color:black;
+}
+
+.btn-edit{
+  background-color: #77dd77;
+  color: white;
+}
+
+.btn-add{
+  background-color: #84b6f4;
+  margin-right: 25px;
+  border-radius: 10px;
+  color: white;
+}
