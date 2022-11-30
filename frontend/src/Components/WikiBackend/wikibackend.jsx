@@ -20,9 +20,9 @@ import {
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
-import { UseListRole, InsertRole, DeleteRole, EditRole } from "../../hooks/ListRoles";
+import { listRole, insertRole, deleteRole, editRole } from "../../hooks/ListRoles";
 
-function WikiBackend(props) { 
+function WikiBackend(props) {
     const modelList = [
     
         { name: "AuthorList" },
@@ -52,27 +52,27 @@ function WikiBackend(props) {
 
       ];
 
-      const listRoles = () => {
+      const ListRole = () => {
 
-        UseListRole ()
+        listRole ()
 
       }
 
-      const InsertsRole = () => {
+      const InsertRole = () => {
         let role="admin"
-        InsertRole (role)
+        insertRole (role)
 
       }
 
-      const deletsRole = () => {
+      const DeleteRole = () => {
 
-        DeleteRole ()
+        deleteRole ()
 
       }
 
-      const editsRol = () => {
-        let role="student"
-        EditRole (role)
+      const EditRole = () => {
+        let role="admin"
+        editRole (role)
 
       }
 
@@ -98,39 +98,13 @@ function WikiBackend(props) {
     
 
       function setBooksTableData(data) {
-        const modelList = [];
-    
-        if (data.length > 0) {
-          for (let i = 0; i < data.length; i++) {
-            modelList.push(
-              <tr key={i}>
-                <td style={{ width: "50%" }}>{data[i].name}</td>
-                <td><center>
-                    <Button
-                      className="btneditar"
-                      onClick={editsRol}
-                    >
-                      Editar
-                    </Button>{" "}
-                    <Button className="btneliminar"onClick={deletsRole}>Eliminar</Button>{" "}
-                    <Button className="btnagregar"onClick={InsertsRole}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listRoles}>Buscar</Button>{" "}
-                    </center>
-                  </td>
-              </tr>
-            );
-          }
-        }
-
-        return modelList;
-
+        
       }
 
       return (
         <div className="my-library-container">
           <div className="my-library-header">
-            <HeaderDashboard /> 
-            <Button className="btnbuscar">Buscar</Button>{" "}
+            <HeaderDashboard />
           </div>
           <div className="my-library">
             <div className="my-library-banner">
@@ -138,7 +112,21 @@ function WikiBackend(props) {
             </div>
             <div className="my-library-body">
               <div className="my-library-all-books">
-              {firstView()}
+              <tr>
+                <td style={{ width: "50%" }}>RoleList</td>
+                <td><center>
+                    <Button
+                      className="btneditar"
+                      onClick={EditRole}
+                    >
+                      Editar
+                    </Button>{" "}
+                    <Button className="btneliminar"onClick={DeleteRole}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={InsertRole}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={ListRole}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
               </div>
             </div>
           </div>
@@ -151,12 +139,3 @@ function WikiBackend(props) {
 }
 
 export default WikiBackend;
-
-
-
-
-
-
-
-
-

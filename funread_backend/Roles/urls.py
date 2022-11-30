@@ -12,9 +12,9 @@ urlpatterns = [
     path('roles/updateRoles/',views.updateRole), 
     path('userroles/listAllUserRoles/' , views.listedUserRoles),
     path('userroles/insertUserRoles/', views.new_Userrole),
-    path('userroles/deleteUserRoles/<str:pk>', views.deleteUserRole),
-    path('userroles/searchUserRoles/<str:pk>', views.UserRolesSearch),
-    path('userroles/updateUserRoles/<str:pk>',views.userroleupdate),
+    path('userroles/deleteUserRoles/', views.deleteUserRole),
+    path('userroles/searchUserRoles/', views.UserRolesSearch),
+    path('userroles/updateUserRoles/',views.userroleupdate),
     
 ]
 

@@ -3,7 +3,7 @@ import axios from "axios";
 const moment = require("moment");
 
 
-export const UseListRole = async() => {
+export const listRole = async() => {
 
     try {
       
@@ -28,7 +28,7 @@ export const UseListRole = async() => {
 
   };
 
-export const InsertRole = async(role) => {
+export const insertRole = async(role) => {
 
     try {
       
@@ -37,8 +37,8 @@ export const InsertRole = async(role) => {
       method: "post",
       url: "http://127.0.0.1:8000/roles/roles/insertRoles/",
       data: {
-        role: role
-      },
+        role:"role1"
+    },
     });
 
     console.log(data.data)
@@ -53,14 +53,17 @@ export const InsertRole = async(role) => {
   }
   };
 
-  export const DeleteRole = async() => {
+  export const deleteRole = async() => {
 
     try {
       
 
     const data = await axios({
       method: "delete",
-      url:"http://127.0.0.1:8000/roles/roles/deleteRoles/admin",
+      url:"http://127.0.0.1:8000/roles/roles/deleteRoles/",
+      data: { 
+        rolesid:5
+      }
     });
 
   
@@ -70,24 +73,25 @@ export const InsertRole = async(role) => {
 
   } catch (error) {
       console.log(error)
-      console.log('Este rol no existe');
+      console.log('Este role no existe');
   }
 
   
 
   };
 
-  export const EditRole = async(role) => {
+  export const editRole = async(role) => {
 
     try {
       
 
     const data = await axios({
       method: "put",
-      url: "http://127.0.0.1:8000/roles/roles/updateRoles/pepito",
+      url: "http://127.0.0.1:8000/roles/roles/updateRoles/",
       data: {
-        role: role
-      },
+        rolesid: 6,
+        role: "numero2"
+    },
     });
 
     console.log(data.data)
