@@ -21,8 +21,9 @@ def listed(request):
     return Response(serializer.data)
 
 #Metodo para buscar una variable por nombre
-@api_view(['GET'])
+@api_view(['POST'])
 def search(request):
+    print(request)
     try:
         tagsPerPage  = TagsPerPage.objects.get(tagsPerPageId=request.data.get('tagsPerPageId'))
         print(tagsPerPage)

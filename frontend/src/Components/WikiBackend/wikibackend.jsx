@@ -20,7 +20,9 @@ import {
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
-import { useListAuthor, insertAuthorList, deleteAuthor, editAuthor, searchAuthor } from "../../hooks/useAuthorList";
+import { useListAuthor, searchAuthor, insertAuthorList, deleteAuthor, editAuthor } from "../../hooks/useAuthorList";
+import { useListSharedBooks, searchSharedBooks, insertSharedBooks, deleteSharedBooks, editSharedBooks,  } from "../../hooks/useSharedBooks";
+import { useListTagsPerPage, searchTagsPerPage, insertTagsPerPage, deleteTagsPerPage, editTagsPerPage,  } from "../../hooks/useTagsPerPage";
 
 function WikiBackend(props) {
     const modelList = [
@@ -51,6 +53,8 @@ function WikiBackend(props) {
         { name: "WidgetItem" },
 
       ];
+
+// -----------------------------------------------AuthorList---------------------------------------------------------
 
       const ListAuthor = () => {
 
@@ -83,6 +87,75 @@ function WikiBackend(props) {
         editAuthor (author)
 
       }
+
+// -----------------------------------------------SharedBooks---------------------------------------------------------
+
+      const ListSharedBooks = () => {
+
+        useListSharedBooks ()
+           
+      }
+
+      const UseSharedBooks = () => {
+
+        searchSharedBooks ()
+           
+      }
+
+      const InsertsSharedBooks = () => {
+        
+        let author=1
+        let book=1
+        insertSharedBooks (author, book)
+
+      }
+
+      const DeletsSharedBooks = () => {
+
+        deleteSharedBooks ()
+
+      }
+
+      const EditsSharedBooks = () => {
+        let author="student"
+        editSharedBooks (author)
+
+      }
+
+// -----------------------------------------------TagsPerPage---------------------------------------------------------
+
+const ListTagsPerPage = () => {
+
+  useListTagsPerPage ()
+     
+}
+
+const UseTagsPerPage = () => {
+
+  searchTagsPerPage ()
+     
+}
+
+const InsertsTagsPerPage = () => {
+  
+  let page=1
+  let tags=1
+  insertTagsPerPage (page, tags)
+
+}
+
+const DeletsTagsPerPage = () => {
+
+  deleteTagsPerPage  ()
+
+}
+
+const EditsTagsPerPage = () => {
+  let author="student"
+  editTagsPerPage (author)
+
+}
+
 
       function firstView() {
         return (
@@ -120,6 +193,9 @@ function WikiBackend(props) {
             </div>
             <div className="my-library-body">
               <div className="my-library-all-books">
+
+{/*----------------------------------------------------Botones Author----------------------------------------------------*/}
+
               <tr>
                 <td style={{ width: "50%" }}>AuthorList</td>
                 <td><center>
@@ -136,15 +212,52 @@ function WikiBackend(props) {
                     </center>
                   </td>
               </tr>
+
+{/*----------------------------------------------------Botones SharedBooks----------------------------------------------------*/}
+
+              <tr>
+                <td style={{ width: "50%" }}>SharedBooks</td>
+                <td><center>
+                    <Button
+                      className="btneditar"
+                      onClick={EditsSharedBooks}
+                    >
+                      Editar
+                    </Button>{" "}
+                    <Button className="btneliminar"onClick={DeletsSharedBooks}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={InsertsSharedBooks}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={ListSharedBooks}>Buscar</Button>{" "}
+                    <Button className="btnbuscar"onClick={UseSharedBooks}>BuscarID</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
+
+{/*----------------------------------------------------Botones TagsPerPage----------------------------------------------------*/}
+
+              <tr>
+                <td style={{ width: "50%" }}>TagsPerPage</td>
+                <td><center>
+                    <Button
+                      className="btneditar"
+                      onClick={EditsTagsPerPage}
+                    >
+                      Editar
+                    </Button>{" "}
+                    <Button className="btneliminar"onClick={DeletsTagsPerPage}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={InsertsTagsPerPage}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={ListTagsPerPage}>Buscar</Button>{" "}
+                    <Button className="btnbuscar"onClick={UseTagsPerPage}>BuscarID</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
+
               </div>
             </div>
           </div>
         </div>
+
       );
-
-
-
-      
+   
 }
 
 export default WikiBackend;
