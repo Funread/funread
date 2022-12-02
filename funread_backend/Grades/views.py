@@ -27,14 +27,13 @@ def creategrade(request):
 
 #---------------------PUT para cambiar------------------
 @api_view(['PUT'])
-def gradechange(request, booksid):
-    grades = Grades.objects.get(booksid=booksid)
+def gradechange(request):
+    grades = Grades.objects.get(booksid=request.data.get('booksid'))
     serializer = GradeSerializer(grades, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 #---------------------DELETE para eliminar registros------------------
@@ -50,3 +49,4 @@ def readgrade(request):
     grade=Grades.objects.all()
     serializer = GradeSerializer(grade, many=True)
     return Response(serializer.data)
+

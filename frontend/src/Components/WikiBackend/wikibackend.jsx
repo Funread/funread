@@ -25,6 +25,7 @@ import { InsertInstituteMembers, ListInstituteMembers, EditInstituteMembers ,Del
 import { InsertTagsPersBook, ListTagsPersBook, EditTagsPersBook ,DeleteTagsPersBook} from "../../hooks/useTagsPersBook"
 import { InsertClasses, ListClasses, EditClasses ,DeleteClasses} from "../../hooks/useClasses"
 import { InsertClassesLog, ListClassesLog, EditClassesLog ,DeleteClassesLog} from "../../hooks/useClassesLog"
+import { InsertGrades, ListGrades, EditGrades, DeleteGrades} from "../../hooks/useGrades"
 
 function WikiBackend(props) { 
     const modelList = [
@@ -195,13 +196,34 @@ function WikiBackend(props) {
         EditTagsPersBook (tagsperbookid, tagschange, bookchange)
       }
 
+//--------Grades-----------------------------------
 
 
+      const insertGrades = () => {
+        let booksid="Sam"
+        let progress=7
+        let grade=5
+        let iduser=1
+      InsertGrades (booksid,progress,grade,iduser)
+    }
+ 
+      const listGrades = () => {
+      ListGrades ()
+    }
 
+      const deleteGrades = () => {
+        let gradesid=1
+      DeleteGrades (gradesid)
+    }
 
-
-     
-    
+      const editsGrades = () => {
+        let gradesid=32
+        let booksid="pamcha"
+        let progress=1
+        let grade=1
+        let iduser=1
+      EditGrades (gradesid,booksid,progress,grade,iduser)
+    }
 
       return (
         <div className="my-library-container">
@@ -269,17 +291,21 @@ function WikiBackend(props) {
                     </center>
                   </td>
               </tr>
+              <tr>
+                <td style={{ width: "50%" }}>Grades</td>
+                <td><center>
+                    <Button className="btneditar" onClick={editsGrades}>Editar</Button>{" "}
+                    <Button className="btneliminar"onClick={deleteGrades}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertGrades}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listGrades}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
               </div>
             </div>
           </div>
         </div>
       );
-
-     
-
-
-
-      
 }
 
 export default WikiBackend;
