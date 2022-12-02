@@ -26,6 +26,7 @@ import { InsertTagsPersBook, ListTagsPersBook, EditTagsPersBook ,DeleteTagsPersB
 import { InsertClasses, ListClasses, EditClasses ,DeleteClasses} from "../../hooks/useClasses"
 import { InsertClassesLog, ListClassesLog, EditClassesLog ,DeleteClassesLog} from "../../hooks/useClassesLog"
 import { InsertGrades, ListGrades, EditGrades, DeleteGrades} from "../../hooks/useGrades"
+import { InsertPages, ListPages, EditPages} from "../../hooks/usePages"
 
 function WikiBackend(props) { 
     const modelList = [
@@ -225,6 +226,34 @@ function WikiBackend(props) {
       EditGrades (gradesid,booksid,progress,grade,iduser)
     }
 
+//--------Pages-----------------------------------
+
+
+const insertPages = () => {
+  
+  let book=1
+  let elementorder=2
+  let type=1
+  let template=2
+
+ 
+InsertPages (book,elementorder,type,template)
+}
+
+const listPages = () => {
+ListPages ()
+}
+
+const editsPages = () => {
+  let book=1
+  let pageid=1
+  let elementorder=2
+  let type=1
+  let template=1
+  
+EditPages (book,pageid,elementorder,type,template)
+}
+
       return (
         <div className="my-library-container">
           <div className="my-library-header">
@@ -298,6 +327,15 @@ function WikiBackend(props) {
                     <Button className="btneliminar"onClick={deleteGrades}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={insertGrades}>Agregar</Button>{" "}
                     <Button className="btnbuscar"onClick={listGrades}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
+              <tr>
+                <td style={{ width: "50%" }}>Pages</td>
+                <td><center>
+                    <Button className="btneditar" onClick={editsPages}>Editar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertPages}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listPages}>Buscar</Button>{" "}
                     </center>
                   </td>
               </tr>
