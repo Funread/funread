@@ -28,6 +28,9 @@ import { InsertClassesLog, ListClassesLog, EditClassesLog ,DeleteClassesLog} fro
 import { InsertBook, ListAllBooks, ListNotPublishBook, ListPrivateBook, ListPublishBook, SearchBook, EditBook, BookToPrivate, BookToPublish} from "../../hooks/useBook"
 import { InsertTags, ListTags, SearchTags, EditTags} from "../../hooks/useTags"
 import { InsertUser, ListAllUser, ListActiveUser, ListDeactiveUser, EditUser ,DeleteUser, SearchUser, ActivateUser, LoginUser, UserPassword} from "../../hooks/useUser"
+import { InsertGrades, ListGrades, EditGrades, DeleteGrades} from "../../hooks/useGrades"
+import { InsertPages, ListPages, EditPages} from "../../hooks/usePages"
+
 function WikiBackend(props) { 
     const modelList = [
     
@@ -197,7 +200,34 @@ function WikiBackend(props) {
         EditTagsPersBook (tagsperbookid, tagschange, bookchange)
       }
 
+//--------Grades-----------------------------------
 
+
+    const insertGrades = () => {
+      let booksid="Sam"
+      let progress=7
+      let grade=5
+      let iduser=1
+      InsertGrades (booksid,progress,grade,iduser)
+    }
+
+    const listGrades = () => {
+      ListGrades ()
+    }
+
+    const deleteGrades = () => {
+      let gradesid=1
+      DeleteGrades (gradesid)
+    }
+
+    const editsGrades = () => {
+      let gradesid=32
+      let booksid="pamcha"
+      let progress=1
+      let grade=1
+      let iduser=1
+      EditGrades (gradesid,booksid,progress,grade,iduser)
+    }
 
   //--------Book--------------------------------------------------------
       
@@ -354,9 +384,34 @@ function WikiBackend(props) {
 
 
 
+//--------Pages-----------------------------------
 
-     
-    
+
+
+const insertPages = () => {
+  
+  let book=1
+  let elementorder=2
+  let type=1
+  let template=2
+
+ 
+InsertPages (book,elementorder,type,template)
+}
+
+const listPages = () => {
+ListPages ()
+}
+
+const editsPages = () => {
+  let book=1
+  let pageid=1
+  let elementorder=2
+  let type=1
+  let template=1
+  
+EditPages (book,pageid,elementorder,type,template)
+}
 
       return (
         <div className="my-library-container">
@@ -467,17 +522,30 @@ function WikiBackend(props) {
                     </center>
                   </td>
               </tr>
+              <tr>
+                <td style={{ width: "50%" }}>Grades</td>
+                <td><center>
+                    <Button className="btneditar" onClick={editsGrades}>Editar</Button>{" "}
+                    <Button className="btneliminar"onClick={deleteGrades}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertGrades}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listGrades}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
+              <tr>
+                <td style={{ width: "50%" }}>Pages</td>
+                <td><center>
+                    <Button className="btneditar" onClick={editsPages}>Editar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertPages}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listPages}>Buscar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
               </div>
             </div>
           </div>
         </div>
       );
-
-     
-
-
-
-      
 }
 
 export default WikiBackend;

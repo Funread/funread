@@ -60,7 +60,7 @@ def pageChange(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+#----------------------------------------------------------------------------------------
 @ api_view(['GET'])
 def listed(request):
     page = Pages.objects.all()
@@ -73,3 +73,8 @@ def Template(request, templateerquest):
     mayusTemplate = templateerquest.upper()
     serializer = template.gettemplate(mayusTemplate)
     return Response(serializer)
+
+
+
+
+    
