@@ -25,7 +25,9 @@ import { InsertInstituteMembers, ListInstituteMembers, EditInstituteMembers ,Del
 import { InsertTagsPersBook, ListTagsPersBook, EditTagsPersBook ,DeleteTagsPersBook} from "../../hooks/useTagsPersBook"
 import { InsertClasses, ListClasses, EditClasses ,DeleteClasses} from "../../hooks/useClasses"
 import { InsertClassesLog, ListClassesLog, EditClassesLog ,DeleteClassesLog} from "../../hooks/useClassesLog"
-
+import { InsertBook, ListAllBooks, ListNotPublishBook, ListPrivateBook, ListPublishBook, SearchBook, EditBook, BookToPrivate, BookToPublish} from "../../hooks/useBook"
+import { InsertTags, ListTags, SearchTags, EditTags} from "../../hooks/useTags"
+import { InsertUser, ListAllUser, ListActiveUser, ListDeactiveUser, EditUser ,DeleteUser, SearchUser, ActivateUser, LoginUser, UserPassword} from "../../hooks/useUser"
 function WikiBackend(props) { 
     const modelList = [
     
@@ -197,6 +199,159 @@ function WikiBackend(props) {
 
 
 
+  //--------Book--------------------------------------------------------
+      
+      const insertBook = () => {
+        let title="libr"
+        let category=1 
+        let portrait="imagen"
+        let createdby=1
+        let updatedby=1
+        let state=1
+        let sharedBook=1
+    
+        InsertBook (title,category,portrait,createdby,updatedby,state,sharedBook)
+    
+  
+      }
+
+      const listAllBooks = () => {
+
+        ListAllBooks ()
+        ListPublishBook()
+        ListNotPublishBook()
+        ListPrivateBook()
+      }
+
+ 
+      const searchBook = () => {
+        let search="libr"
+
+        SearchBook (search)
+      }
+
+      const editBook = () => {
+        let title= "libr"
+        let new_title= "libro"
+        let portrait= "otra cosa"
+        let category= 1
+        let createdby = 1
+        let updatedby = 1
+        let state = 1
+        EditBook (title,new_title,portrait,category,createdby,updatedby,state)
+      }
+
+      const bookToPrivate = () => {
+        let title="title"
+
+        BookToPrivate (title)
+      }
+
+      const bookToPublish = () => {
+        let title="title"
+
+        BookToPublish (title)
+      }
+
+
+
+
+       //--------tags--------------------------------------------------------
+
+      
+       const insertTags = () => {
+        let description="cosa"
+
+        InsertTags (description)
+      }
+      
+      const listTags = () => {
+
+        ListTags ()
+      }
+
+      const searchTags = () => {
+        let search=1
+
+        SearchTags (search)
+      }
+
+      const editTags = () => {
+        let tagsid = 3
+        let description = "otra cosa"
+        EditTags (tagsid, description)
+      }
+
+      //--------User--------------------------------------------------------
+
+
+      const insertUser = () => {
+        let email = "h"
+        let name = "d"
+        let lastname = "d"
+        let password = "1234"
+        let createat = ""
+        let actived = 1
+        
+        
+        InsertUser (email,name,lastname,password,createat,actived)
+        
+      
+      }
+      
+      const loginUser = () => {
+        let username= "z"
+        let password= ""
+
+        
+        LoginUser (username, password)
+        
+      
+      }
+  
+      const listAllUser = () => {
+
+        ListAllUser ()
+        ListActiveUser()
+        ListDeactiveUser()
+   
+      }
+
+     
+      const searchUser = () => {
+        let search="z"
+
+        SearchUser (search)
+      }
+
+      const editUser = () => {
+        let email= "h"
+        let new_email= "z"
+        let name= "kev"
+        let lastname= "g"
+        let password="1234"
+        EditUser (email, new_email, name, lastname, password)
+      }
+
+      const activateUser = () => {
+        let email= "z"
+
+        ActivateUser (email)
+      }
+
+      const userPassword = () => {
+        let email="z"
+        let passsword="el nuevo password"
+
+        UserPassword (email, passsword)
+      }
+
+      const deleteUser = () => { 
+        let email="z"
+
+        DeleteUser (email)
+      }
+
 
 
 
@@ -221,7 +376,7 @@ function WikiBackend(props) {
                     <Button className="btneditar" onClick={editsInstitute}>Editar</Button>{" "}
                     <Button className="btneliminar"onClick={deleteInstitute}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={insertInsitute}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listInsitute}>Buscar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listInsitute}>Listar</Button>{" "}
                     </center>
                   </td>
               </tr>
@@ -232,7 +387,7 @@ function WikiBackend(props) {
                     <Button className="btneditar" onClick={editsInstituteMembers}>Editar</Button>{" "}
                     <Button className="btneliminar"onClick={deleteInstituteMembers}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={insertInsituteMembers}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listInsituteMembers}>Buscar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listInsituteMembers}>Listar</Button>{" "}
                     </center>
                   </td>
               </tr>
@@ -243,7 +398,7 @@ function WikiBackend(props) {
                     <Button className="btneditar" onClick={editsClasses}>Editar</Button>{" "}
                     <Button className="btneliminar"onClick={deleteClasses}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={insertClasses}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listClasses}>Buscar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listClasses}>Listar</Button>{" "}
                     </center>
                   </td>
               </tr>
@@ -254,7 +409,7 @@ function WikiBackend(props) {
                     <Button className="btneditar" onClick={editsClassesLog}>Editar</Button>{" "}
                     <Button className="btneliminar"onClick={deleteClassesLog}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={insertClassesLog}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listClassesLog}>Buscar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listClassesLog}>Listar</Button>{" "}
                     </center>
                   </td>
               </tr>
@@ -265,7 +420,50 @@ function WikiBackend(props) {
                     <Button className="btneditar" onClick={editsTagsPersBook}>Editar</Button>{" "}
                     <Button className="btneliminar"onClick={deleteTagsPersBook}>Eliminar</Button>{" "}
                     <Button className="btnagregar"onClick={insertTagsPersBook}>Agregar</Button>{" "}
-                    <Button className="btnbuscar"onClick={listTagsPersBook}>Buscar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listTagsPersBook}>Listar</Button>{" "}
+                    </center>
+                  </td>
+              </tr>
+              <tr>
+                <td style={{ width: "50%" }}>Books</td>
+                <td><center>
+
+                    <Button className="btneditar" onClick={editBook}>Editar</Button>{" "}
+                    <Button className="btneliminar"onClick={bookToPrivate}>Privar</Button>{" "}
+                    <Button className="btneditar"onClick={bookToPublish}>Publicar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertBook}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listAllBooks}>Listar</Button>{" "}
+                    <Button className="btnbuscar"onClick={searchBook}>Buscar</Button>{" "}
+
+                    </center>
+                  </td>
+              </tr>
+              <tr>
+                <td style={{ width: "50%" }}>Tags</td>
+                <td><center>
+
+                    <Button className="btneditar" onClick={editTags}>Editar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertTags}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listTags}>Listar</Button>{" "}
+                    <Button className="btnbuscar"onClick={searchTags}>Buscar</Button>{" "}
+
+                    </center>
+                  </td>
+              </tr>
+
+              <tr>
+                <td style={{ width: "50%" }}>User</td>
+                <td><center>
+
+                    <Button className="btneditar" onClick={editUser}>Editar</Button>{" "}
+                    <Button className="btneliminar"onClick={deleteUser}>Eliminar</Button>{" "}
+                    <Button className="btnagregar"onClick={insertUser}>Agregar</Button>{" "}
+                    <Button className="btnbuscar"onClick={listAllUser}>Listar</Button>{" "}
+                    <Button className="btnbuscar"onClick={searchUser}>Buscar</Button>{" "}
+                    <Button className="btneditar" onClick={activateUser}>Activar</Button>{" "}
+                    <Button className="btneditar" onClick={userPassword}>Contraseña</Button>{" "}
+                    <Button className="btnagregar" onClick={loginUser}>Login</Button>{" "}
+
                     </center>
                   </td>
               </tr>

@@ -29,11 +29,12 @@ def new_book(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
-def bookSearch(request, title):
+
+@api_view(['POST'])
+def bookSearch(request):
     try:
-        print(title)
-        book = Book.objects.get(title=title)
+        book = Book.objects.get(title=request.data.get('title'))
+        print(book)
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = BookSerializer(book)

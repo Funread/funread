@@ -4,14 +4,14 @@ const moment = require("moment");
 
 //CREATE--------------------------------------------------------------------------------------------------------------
 
-export const InsertBook = async(name, grade, teacherAssigned) => {
+export const InsertBook = async(title,category,portrait,createdby,updatedby,state,sharedBook) => {
 
     try {
       
 
     const data = await axios({
       method: "post",
-      url: "http://127.0.0.1:8000/books/new-book",
+      url: "http://127.0.0.1:8000/books/new-book/",
       data: {
         title:title,
         category:category,
@@ -51,6 +51,7 @@ export const ListAllBooks = async() => {
 
   
     if (data.status === 200 ) {
+      console.log('Book(s):');
 
       console.log(data.data)
     }
@@ -64,7 +65,7 @@ export const ListAllBooks = async() => {
 
   };
 
-  //List not publish--------------------------------------------------------------------------------------------------------------
+  //List publish--------------------------------------------------------------------------------------------------------------
 
 
 export const ListPublishBook = async() => {
@@ -79,7 +80,7 @@ export const ListPublishBook = async() => {
 
   
     if (data.status === 200 ) {
-
+      console.log('Publish Book(s):');
       console.log(data.data)
     }
 
@@ -107,7 +108,7 @@ export const ListNotPublishBook = async() => {
 
   
     if (data.status === 200 ) {
-
+      console.log('Not Publish Book(s):');
       console.log(data.data)
     }
 
@@ -135,7 +136,7 @@ export const ListPrivateBook = async() => {
 
   
     if (data.status === 200 ) {
-
+      console.log('Private Book(s):');
       console.log(data.data)
     }
 
@@ -151,14 +152,17 @@ export const ListPrivateBook = async() => {
   //search--------------------------------------------------------------------------------------------------------------
 
 
-export const SearchBook = async() => {
+export const SearchBook = async(search) => {
 
     try {
       
 
     const data = await axios({
-      method: "get",
-      url: "http://127.0.0.1:8000/books/search/rodolfoelreno",
+      method: "post",
+      url: "http://127.0.0.1:8000/books/search/",
+      data: {
+        title: search
+      }
     });
 
   
@@ -178,7 +182,7 @@ export const SearchBook = async() => {
 //UPDATE--------------------------------------------------------------------------------------------------------------
 
 
-export const EditBook = async(classesId,name ,grade, teacherAssigned ) => {
+export const EditBook = async(title, new_title, portrait, category, createdby, updatedby, state) => {
 
     try {
       
@@ -187,17 +191,20 @@ export const EditBook = async(classesId,name ,grade, teacherAssigned ) => {
       method: "put",
       url: "http://127.0.0.1:8000/books/change/",
       data: {
-        classesId : classesId,
-        name : name,
-        grade:grade,
-        teacherAssigned:teacherAssigned
-
-      },
+        title: title,
+        new_title:new_title,
+        portrait:portrait,
+        category:category ,
+        createdby:createdby,
+        updatedby:updatedby,
+        state:state
+    
+    },
     });
 
     console.log(data.data)
     if (data.status === 200 ) {
-      console.log('The Class was successfully updated');
+      console.log('The Book was successfully updated');
     
     }
 
@@ -209,19 +216,16 @@ export const EditBook = async(classesId,name ,grade, teacherAssigned ) => {
 
 //change to private(DELETE)--------------------------------------------------------------------------------------------------------------
 
-  export const BookToPrivate = async(classesId,name ,grade, teacherAssigned ) => {
+  export const BookToPrivate = async(title) => {
 
     try {
       
 
     const data = await axios({
       method: "put",
-      url: "http://127.0.0.1:8000/books/change/",
+      url: "http://127.0.0.1:8000/books/modify-state-private/",
       data: {
-        classesId : classesId,
-        name : name,
-        grade:grade,
-        teacherAssigned:teacherAssigned
+        title: title
 
       },
     });
@@ -239,21 +243,18 @@ export const EditBook = async(classesId,name ,grade, teacherAssigned ) => {
   };
 
 
-  //change to publish(UNDELETE)--------------------------------------------------------------------------------------------------------------
+  //change to publish--------------------------------------------------------------------------------------------------------------
 
-  export const BookToPublish = async(classesId,name ,grade, teacherAssigned ) => {
+  export const BookToPublish = async(title) => {
 
     try {
       
 
     const data = await axios({
       method: "put",
-      url: "http://127.0.0.1:8000/books/change/",
+      url: "http://127.0.0.1:8000/books/modify-state-publish/",
       data: {
-        classesId : classesId,
-        name : name,
-        grade:grade,
-        teacherAssigned:teacherAssigned
+        title:title
 
       },
     });
