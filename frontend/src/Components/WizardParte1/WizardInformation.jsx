@@ -1,23 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Row, Col } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Row, Col } from "react-bootstrap";
 import "./style.css";
-import Form from 'react-bootstrap/Form';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import Dropdown from "react-bootstrap/Dropdown";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import logo from "../../placeholderBook.jpg";
-import WizardTemplate from '../WizardTemplete/WizardTemplate';
+import WizardTemplate from "../WizardTemplete/WizardTemplate";
 
 export const WizardInformation = (props) => {
   const [classBook, setClassBook] = useState("Select");
   const [option1, setOption1] = useState("History");
   const [option2, setOption2] = useState("Math");
   const [option3, setOption3] = useState("Science");
-
 
   return (
     <>
@@ -57,19 +53,28 @@ export const WizardInformation = (props) => {
                       <Dropdown.Menu>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => {setClassBook(option1); props.fnClassOfBook(option1)}}
+                          onClick={(HandleClass) => {
+                            setClassBook(option1);
+                            props.fnClassOfBook(option1);
+                          }}
                         >
                           {option1}
                         </Dropdown.Item>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => {setClassBook(option2); props.fnClassOfBook(option2)}}
+                          onClick={(HandleClass) => {
+                            setClassBook(option2);
+                            props.fnClassOfBook(option2);
+                          }}
                         >
                           {option2}
                         </Dropdown.Item>
                         <Dropdown.Item
                           href="#"
-                          onClick={(HandleClass) => {setClassBook(option3); props.fnClassOfBook(option3)}}
+                          onClick={(HandleClass) => {
+                            setClassBook(option3);
+                            props.fnClassOfBook(option3);
+                          }}
                         >
                           {option3}
                         </Dropdown.Item>
@@ -94,15 +99,14 @@ export const WizardInformation = (props) => {
         </div>
 
         <div className="main-container-book-style">
-          <div className='style-title'>Select Book Style</div>
+          <div className="style-title">Select Book Style</div>
           <Swiper
             modules={[Navigation]}
             slidesPerView={6}
             spaceBetween={20}
             navigation
-            loop={true} 
+            loop={true}
           >
-            
             {setLargeBookCardsData()}
           </Swiper>
         </div>
@@ -111,7 +115,6 @@ export const WizardInformation = (props) => {
   );
 };
 
-
 // ============== Carrousel puede se un componente ================
 export const setLargeBookCardsData = () => {
   const booksList = [];
@@ -119,14 +122,14 @@ export const setLargeBookCardsData = () => {
   if (12 > 0) {
     for (let i = 0; i < 12; i++) {
       booksList.push(
-        <SwiperSlide key={i} >
+        <SwiperSlide key={i}>
           <Row>
-            <Col className='style-template'>
+            <Col className="style-template">
               <WizardTemplate name={"Template"}></WizardTemplate>
             </Col>
           </Row>
           <Row>
-            <Col className='style-template'>
+            <Col className="style-template">
               <WizardTemplate name={"Template"}></WizardTemplate>
             </Col>
           </Row>

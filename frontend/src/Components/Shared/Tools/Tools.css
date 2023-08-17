@@ -34,8 +34,7 @@
   margin: 0;
 }
 
-.tools-dropdown {
-  background: transparent !important;
+.tools-select {
   color: black !important;
   box-shadow: none !important;
   border-radius: 10px;
@@ -43,6 +42,10 @@
   height: 40px;
   border-color: gray;
   margin: 0 15px 20px 15px;
+}
+
+.tools-select:focus {
+  border: 1px solid black;
 }
 
 .no-padding {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AddPage.css";
 import DashHeader from "../HeaderDashboard/HeaderDashboard";
 import { Button } from "react-bootstrap";
@@ -11,13 +11,26 @@ import ComponentToolsOfBook from "../ComponentToolsOfBook/ComponentToolsOfBook";
 
 function AddPage(props) {
   const [myBookName, setMyBookName] = useState("New Book Name");
-  const [totalPages, setTotalPages] = useState(0);
-  const [selectedPage, setSelectedPage] = useState(null);
+  const [selectedPage, setSelectedPage] = useState(1);
+  const [pagesList, setPagesList] = useState([
+    {
+      pageNumber: 1,
+      template: null,
+    },
+  ]);
   const navigate = useNavigate();
 
   const closeAddPage = () => {
     navigate("/mylibrary");
   };
+
+  function setPreview() {
+    for (let index = 0; index < pagesList.length; index++) {
+      if (selectedPage === pagesList[index].pageNumber) {
+        return pagesList[index].template;
+      }
+    }
+  }
 
   return (
     <div className="add-page-container">
@@ -58,17 +71,23 @@ function AddPage(props) {
         <div className="add-page-book-information-container">
           <div className="add-page-pages-container">
             <BookPages
-              setTotalPages={setTotalPages}
+              pagesList={pagesList}
+              setPagesList={setPagesList}
               setSelectedPage={setSelectedPage}
             />
           </div>
           <div className="add-page-preview-container">
-            {selectedPage != null ? (
-              <PreviewPageOfBook pageNumber={selectedPage}></PreviewPageOfBook>
-            ) : null}
+            <PreviewPageOfBook
+              pageNumber={selectedPage}
+              pageTemplate={setPreview()}
+            ></PreviewPageOfBook>
           </div>
           <div className="add-page-template-widget-container">
-            <ComponentToolsOfBook></ComponentToolsOfBook>
+            <ComponentToolsOfBook
+              pageNumber={selectedPage}
+              pagesList={pagesList}
+              setPagesList={setPagesList}
+            ></ComponentToolsOfBook>
           </div>
         </div>
       </div>

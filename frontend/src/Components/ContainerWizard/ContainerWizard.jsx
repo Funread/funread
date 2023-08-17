@@ -22,16 +22,17 @@ export const ContainerWizard = (props) => {
   const [nameOfBook, setNameOfBook] = useState("");
   const [classOfBook, setClassOfBook] = useState("");
   const [numberOfPages, setNumberOfPages] = useState(1);
+  const [tools, setTools] = useState([]);
 
   const BtnBackClick = () => {
     setActivePage((index) => 0);
     setWizardTitle("Book Style");
-    setPages(pages-1)
+    setPages(pages - 1);
   };
 
   const BtnContinueClick = () => {
     setActivePage((index) => 2);
-    setPages(pages+1)
+    setPages(pages + 1);
     setWizardTitle("Add Book Information");
     console.log(nameOfBook);
     console.log(classOfBook);
@@ -44,6 +45,8 @@ export const ContainerWizard = (props) => {
   };
 
   const BtnSafeClick = () => {
+    /**Use variables from hooks in this area to save them */
+    console.log(tools);
     console.log("Información guardada!");
     callToast();
   };
@@ -68,17 +71,33 @@ export const ContainerWizard = (props) => {
     }
   };
 
-  const fnNameOfBook = useCallback((props) =>{
-    setNameOfBook(props);
-  }, [nameOfBook]);
+  const fnNameOfBook = useCallback(
+    (props) => {
+      setNameOfBook(props);
+    },
+    [nameOfBook]
+  );
 
-  const fnClassOfBook = useCallback((props) =>{
-    setClassOfBook(props);
-  }, [classOfBook]);
+  const fnClassOfBook = useCallback(
+    (props) => {
+      setClassOfBook(props);
+    },
+    [classOfBook]
+  );
 
-  const fnNumberOfPages = useCallback((props) =>{
-    setNumberOfPages(props);
-  }, [numberOfPages]);
+  const fnNumberOfPages = useCallback(
+    (props) => {
+      setNumberOfPages(props);
+    },
+    [numberOfPages]
+  );
+
+  const fnTools = useCallback(
+    (props) => {
+      setTools(props);
+    },
+    [tools]
+  );
 
   return (
     <>
@@ -155,8 +174,14 @@ export const ContainerWizard = (props) => {
         </div>
 
         <div className="wizard-bg">
-
-          <Pages page= {pages}  fnNameOfBook={fnNameOfBook} fnClassOfBook={fnClassOfBook} fnNumberOfPages={fnNumberOfPages}></Pages>
+          <Pages
+            page={pages}
+            fnNameOfBook={fnNameOfBook}
+            fnClassOfBook={fnClassOfBook}
+            fnNumberOfPages={fnNumberOfPages}
+            fnTools={fnTools}
+            nameOfBook={nameOfBook}
+          ></Pages>
         </div>
       </div>
       {toast}
