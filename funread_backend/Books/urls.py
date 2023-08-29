@@ -5,7 +5,7 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns=[
-    path('search/<str:title>', views.bookSearch),
+    path('search/', views.bookSearch),
     path('change/', views.bookChange),
     path('list/', views.listed),
     path('list-published/', views.listed_PublishedBooks),

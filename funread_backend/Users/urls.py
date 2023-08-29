@@ -5,7 +5,7 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns=[
-    path('search/<str:email>', views.userSearch),
+    path('search/', views.userSearch),
     path('change/', views.userChange),
     path('password/', views.userChangePassword),
     path('list/', views.listed),

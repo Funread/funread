@@ -29,15 +29,26 @@ def new_user(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
-def userSearch(request, email):
+# @api_view(['GET'])
+# def userSearch(request, email):
+#     try:
+#         user = User.objects.get(email=email)
+#         print(user)
+#     except User.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+#     serializer = UserSerializer(user)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
+@api_view(['POST'])
+def userSearch(request):
     try:
-        user = User.objects.get(email=email)
+        user = User.objects.get(email=request.data.get('email'))
         print(user)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = UserSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
 
 @api_view(['PUT'])

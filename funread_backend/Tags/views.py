@@ -37,22 +37,54 @@ def listed(request):
     serializer = TagsSerializer(folder, many=True)
     return Response(serializer.data)
 
-@api_view(['GET'])
-def tagsSearch(request, description):
+# @api_view(['GET'])
+# def tagsSearch(request, description):
+#     try:
+#         tags = Tags.objects.get(description=description)
+#         print(Tags)
+#     except Tags.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+#     serializer = TagsSerializer(tags)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
+@api_view(['POST'])
+def tagsSearch(request):
     try:
-        tags = Tags.objects.get(description=description)
-        print(Tags)
+        tags = Tags.objects.get(tagsId=request.data.get('tagsId'))
+        print(tags)
     except Tags.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = TagsSerializer(tags)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 #-----------------------Metodo PUT----------------------------------#
+# @api_view(['PUT'])
+# def tagsChange(request, description):
+#     file = Tags.objects.get(description=description)
+#     serializer = TagsSerializer(file, data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 @api_view(['PUT'])
-def tagsChange(request, description):
-    file = Tags.objects.get(description=description)
-    serializer = TagsSerializer(file, data=request.data)
+def tagsChange(request):
+    tags = Tags.objects.get(tagsId=request.data.get("tagsId"))
+    data={
+        "description":request.data.get("description"),
+        
+        
+    }
+    serializer = TagsSerializer(tags, data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+

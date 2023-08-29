@@ -34,12 +34,14 @@ urlpatterns = [
     path('sharedbooks/', include('Sharedbooks.urls')),
     path('grades/', include('Grades.urls')),
     path('institute/', include('Institute.urls')),
+    path('tagsperbook/', include('TagsPersBook.urls')),
     path('studentsgroups/', include('StudentsGroups.urls')),
     path('tagsperpage/', include('TagsPerPage.urls')),
     path('classes/', include('Classes.urls')),
     path('classeslog/', include('ClassesLog.urls')),
     path('booksPerClasses/', include('BooksPerClasses.urls')),
     path('groupsPerClasses/', include('GroupsPerClasses.urls')),
+
 ]
 
 if settings.DEBUG:

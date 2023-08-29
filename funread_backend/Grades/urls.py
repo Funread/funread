@@ -7,7 +7,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 #---------------------las urls van en base de la carpeta del view------------------
 urlpatterns = [
     path('grades/creategrade',views.creategrade), 
-    path('grades/gradechange/<str:booksid>', views.gradechange),
+    path('grades/gradechange/', views.gradechange),
     path('grades/deletegrade', views.deletegrade),
     path('grades/listgrade', views.readgrade),
 
