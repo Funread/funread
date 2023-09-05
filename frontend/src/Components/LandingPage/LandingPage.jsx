@@ -31,7 +31,7 @@ function LandingPage() {
   return (
     <div className="landing-page-container">
       <div className="landing-page-carousel">
-        <Carousel Images={[image1,image2,image3,image4,image5,image6]}/>
+        <Carousel Images={[image1,image2,image3,image4,image5,image6]} controls={false}/>
         <div className="landing-page-carousel-bottom-gradient" />
       </div>
       <div className="landing-page-header">
