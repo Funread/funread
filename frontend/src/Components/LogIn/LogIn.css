@@ -21,7 +21,7 @@
 .login-form-content {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 95%;
 }
 
 .login-form-inputs {
@@ -51,10 +51,16 @@
   max-height: 100%;
   border-radius: 10px;
   font-size: 2vh;
-  border-style: solid;
-  border-color: #e9e9e9;
-  color: #e9e9e9;
+  border: 2px solid #9D79BC;
+  color: #9D79BC;
   box-shadow: none !important;
+}
+.login-form-control-lg ~ span{
+  border: 2px solid #9D79BC;
+  border-left: 0;
+}
+.login-form-control-lg:focus{
+  border-color: #9D79BC;
 }
 
 .font-size {

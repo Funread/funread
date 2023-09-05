@@ -35,7 +35,7 @@ function SignUp(props) {
    * Las variables name, email y password contienen los valores ingresados por el usuario al momento de presionar el boton de Log In.
    */
   const handleSubmit = () => {
-    let info = signUp(name, email, password);
+    //signUp(name, email, password);
   };
 
   /**
@@ -166,11 +166,7 @@ function SignUp(props) {
               </InputGroup>
             </Form.Group>
           </div>
-          <Button
-            id="submit-button"
-            className="signup-form-button-empty"
-            onClick={handleSubmit}
-          >
+          <Button id="submit-button" className="signup-form-button-empty" type="submit">
             Sign Up
           </Button>
         </Form>

@@ -13,7 +13,10 @@ function LogIn(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remenber, setRemenber] = useState(false);
+  const [check, setCheck] = useState(true);
   const { loginIn } = useLogin();
+  
 
   /**
    * Function tooglePassword:
@@ -34,7 +37,16 @@ function LogIn(props) {
    * Las variables email y password contienen los valores ingresados por el usuario al momento de presionar el boton de Log In.
    */
   const handleSubmit = () => {
-    loginIn(email, password);
+    try {
+      if(remenber){
+        localStorage.setItem('RemenberEmail',email)
+      }else{
+        localStorage.removeItem('RemenberEmail')
+      }
+      //loginIn(email, password);
+    } catch (error) {
+      
+    }
   };
 
   /**
@@ -76,11 +88,22 @@ function LogIn(props) {
    * Cambia el color del botón de Log In cuando los campos de email y password han sido llenados.
    */
   useEffect(() => {
-    email !== "" && password !== ""
-      ? (document.getElementById("submit-button").className =
-          "login-form-button-filled")
-      : (document.getElementById("submit-button").className =
-          "login-form-button-empty");
+    if(email !== "" && password !== ""){
+      document.getElementById("submit-button").className = "login-form-button-filled"
+    }else{
+      document.getElementById("submit-button").className = "login-form-button-empty";
+    }
+    if(check === true){
+      setCheck(false)
+      let remenberValue = localStorage.getItem('RemenberEmail')
+      if(remenberValue != null){
+        document.getElementById("emailInput").value = remenberValue
+        setEmail(remenberValue)
+        isEmpty(remenberValue,"emailInput")
+        document.getElementById("rememberMeCheck").checked = true
+        setRemenber(true)
+      }
+    }
   });
 
   return (
@@ -150,8 +173,11 @@ function LogIn(props) {
                 <input
                   type="checkbox"
                   className="form-check-input"
-                  id="rememberMeCheck"
-                />
+                  id="rememberMeCheck"    
+                  onChange={(e) => {
+                    setRemenber(e.target.checked);
+                  }}
+                  />
                 <label htmlFor="rememberMeCheck">Remember me</label>
               </div>
             </Form.Group>
