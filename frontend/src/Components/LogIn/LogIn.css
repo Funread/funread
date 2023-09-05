@@ -92,21 +92,22 @@
   margin-left: 20px;
   background: white;
   border-radius: 0 10px 10px 0;
-  color: #e9e9e9;
 }
 
+#passwordButton{
+  color: #0000007b;
+}
 
 .login-form-password-button {
   font-size: 1.6vh;
   background: transparent;
   border-style: none;
   box-shadow: none !important;
-  color: #e9e9e9;
+  transition: .3s;
 }
 .login-form-password-button:hover{
   background: transparent;
 }
-
 .login-form-password-button > svg:hover {
   transform: scale(1.3);
   transition: .3s;

@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import "./LogIn.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope, faEye } from "@fortawesome/free-regular-svg-icons";
+import { faEnvelope, faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import CustomButton from "../Shared/CustomButton/CustomButton";
 import { useLogin } from "../../hooks/useLogin";
 import { InputGroup } from "react-bootstrap";
@@ -26,7 +26,7 @@ function LogIn(props) {
   const togglePassword = () => {
     setShowPassword(!showPassword);
     showPassword
-      ? (document.getElementById("passwordButton").style.color = "#e9e9e9")
+      ? (document.getElementById("passwordButton").style.color = "#0000007b")
       : (document.getElementById("passwordButton").style.color = "#42006d");
   };
 
@@ -163,7 +163,7 @@ function LogIn(props) {
                     className="login-form-password-button"
                     onClick={togglePassword}
                   >
-                    <FontAwesomeIcon className="fa-xl float end" icon={faEye} />
+                    {showPassword?<FontAwesomeIcon className="fa-xl float end" icon={faEye}/>:<FontAwesomeIcon className="fa-xl float end" icon={faEyeSlash}/>}
                   </Button>
                 </InputGroup.Text>
               </InputGroup>
