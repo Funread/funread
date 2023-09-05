@@ -38,6 +38,12 @@
   position: relative;
   z-index: 2;
 }
+.landing-page-header .navbar-brand{
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.148);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
 
 .landing-page-body {
   display: flex;
