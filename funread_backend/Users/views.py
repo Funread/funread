@@ -186,20 +186,7 @@ def login(request):
     token = jwt.encode(payload, 'secret', algorithm='HS256')
 
     response = Response()
-        #response.set_cookie(key='jwt', value=token, httponly=True)
     response.data = {
             'jwt': token
         }
     return response
-
-    # print(data.get('email'))
-    # print(data.get('password'))
-    # emailSe = data.get('email')
-    # passwordSe = data.get('password')
-
-    # try:
-    #     user = User.objects.get(email=emailSe, password=passwordSe, actived=1)
-    # except User.DoesNotExist:
-    #     return Response(status=status.HTTP_404_NOT_FOUND)
-    # serializer = LoginSerializer(user)
-    # return Response(serializer.data, status=status.HTTP_200_OK)
