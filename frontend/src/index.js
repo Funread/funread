@@ -38,11 +38,9 @@ root.render(
         exact
         path="/"
         element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
+            <div className="index-background-container landing-page">
               <LandingPage />
             </div>
-          </div>
         }
       />
       <Route

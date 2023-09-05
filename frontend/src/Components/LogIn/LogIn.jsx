@@ -85,20 +85,6 @@ function LogIn(props) {
 
   return (
     <div className="login-form">
-      <div className="login-account-button-container">
-        <CustomButton
-          name={"Log In"}
-          setLogin={props.setLogin}
-          setSignup={props.setSignup}
-          style={"account-log-in-button button-active"}
-        />
-        <CustomButton
-          name={"Sign Up"}
-          setSignup={props.setSignup}
-          setLogin={props.setLogin}
-          style={"account-sign-up-button button-inactive"}
-        />
-      </div>
       <div className="login-form-body">
         <Form onSubmit={handleSubmit} className="login-form-content">
           <h1 className="login-form-title">Hello!</h1>
@@ -173,7 +159,7 @@ function LogIn(props) {
           <Button
             id="submit-button"
             className="login-form-button-empty"
-            onClick={handleSubmit}
+            type="submit"
           >
             Log In
           </Button>

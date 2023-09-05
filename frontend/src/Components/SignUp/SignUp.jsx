@@ -86,20 +86,6 @@ function SignUp(props) {
 
   return (
     <div className="signup-form">
-      <div className="signup-account-button-container ">
-        <CustomButton
-          name={"Log In"}
-          setLogin={props.setLogin}
-          setSignup={props.setSignup}
-          style={"account-log-in-button button-inactive"}
-        />
-        <CustomButton
-          name={"Sign Up"}
-          setSignup={props.setSignup}
-          setLogin={props.setLogin}
-          style={"account-sign-up-button button-active"}
-        />
-      </div>
       <div className="signup-form-body">
         <Form onSubmit={handleSubmit} className="signup-form-content">
           <h1 className="signup-form-title">Hello!</h1>
