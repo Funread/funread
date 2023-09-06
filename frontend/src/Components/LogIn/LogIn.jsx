@@ -34,7 +34,7 @@ function LogIn(props) {
    * Las variables email y password contienen los valores ingresados por el usuario al momento de presionar el boton de Log In.
    */
   const handleSubmit = () => {
-    //console.log(logIn(email, password));
+    console.log(logIn(email, password));
     if(axiosAuth() !== null){
       axiosAuth().get("users/list/").then((res) => {
         console.log(res.data)
