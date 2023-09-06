@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope, faUser, faEye } from "@fortawesome/free-regular-svg-icons";
+import { faEnvelope, faUser, faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import "./SignUp.css";
 import CustomButton from "../Shared/CustomButton/CustomButton";
 import { useSign } from "../../hooks/useSign";
@@ -12,6 +12,7 @@ import { InputGroup } from "react-bootstrap";
 function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signUp } = useSign();
@@ -24,7 +25,7 @@ function SignUp(props) {
   const togglePassword = () => {
     setShowPassword(!showPassword);
     showPassword
-      ? (document.getElementById("passwordButton").style.color = "#e9e9e9")
+      ? (document.getElementById("passwordButton").style.color = "#0000007b")
       : (document.getElementById("passwordButton").style.color = "#42006d");
   };
 
@@ -35,7 +36,8 @@ function SignUp(props) {
    * Las variables name, email y password contienen los valores ingresados por el usuario al momento de presionar el boton de Log In.
    */
   const handleSubmit = () => {
-    //signUp(name, email, password);
+    //signUp(name, lastName, email, password);
+    console.log(name, lastName, email, password);
   };
 
   /**
@@ -77,7 +79,7 @@ function SignUp(props) {
    * Cambia el color del botón de Log In cuando los campos de email y password han sido llenados.
    */
   useEffect(() => {
-    name !== "" && email !== "" && password !== ""
+    name !== "" && lastName !== "" && email !== "" && password !== ""
       ? (document.getElementById("submit-button").className =
           "signup-form-button-filled")
       : (document.getElementById("submit-button").className =
@@ -88,30 +90,50 @@ function SignUp(props) {
     <div className="signup-form">
       <div className="signup-form-body">
         <Form onSubmit={handleSubmit} className="signup-form-content">
-          <h1 className="signup-form-title">Hello!</h1>
+          <h1 className="signup-form-title">Are you new?</h1>
           <h5 className="signup-form-subtitle">
             Add your information to register.
           </h5>
           <div className="signup-form-inputs">
-            <Form.Group className="form-group">
-              <Form.Label className="font-size">
-                <FontAwesomeIcon className="signup-icons" icon={faUser} />
-                Your name
-              </Form.Label>
-              <Form.Control
-                id="nameInput"
-                size="lg"
-                type="text"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                  isEmpty(e.target.value, "nameInput");
-                }}
-                className="signup-form-control-lg"
-                placeholder="Your name here"
-                required
-              />
-            </Form.Group>
+              <div className="singup-form-name-lastname">
+                <Form.Group className="form-group">
+                  <Form.Label className="font-size">
+                    <FontAwesomeIcon className="signup-icons" icon={faUser} />
+                    Your name ...
+                  </Form.Label>
+                  <Form.Control
+                    id="nameInput"
+                    size="lg"
+                    type="text"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      isEmpty(e.target.value, "nameInput");
+                    }}
+                    className="signup-form-control-lg"
+                    placeholder="Your name"
+                    required
+                  />
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label className="font-size">
+                    and lastname
+                  </Form.Label>
+                  <Form.Control
+                    id="lastNameInput"
+                    size="lg"
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                      isEmpty(e.target.value, "lastNameInput");
+                    }}
+                    className="signup-form-control-lg"
+                    placeholder="Your lastName"
+                    required
+                  />
+                </Form.Group>
+              </div>
             <Form.Group className="form-group">
               <Form.Label className="font-size">
                 <FontAwesomeIcon className="signup-icons" icon={faEnvelope} />
@@ -151,16 +173,9 @@ function SignUp(props) {
                   placeholder="Your password"
                   required
                 />
-                <InputGroup.Text
-                  id="inputGroupText"
-                  className="form-input-group-text-password"
-                >
-                  <Button
-                    id="passwordButton"
-                    className="signup-form-password-button"
-                    onClick={togglePassword}
-                  >
-                    <FontAwesomeIcon className="fa-xl float end" icon={faEye} />
+                <InputGroup.Text  id="inputGroupText" className="form-input-group-text-password">
+                  <Button id="passwordButton" className="signup-form-password-button" onClick={togglePassword}>
+                    {showPassword?<FontAwesomeIcon className="fa-xl float end" icon={faEye}/>:<FontAwesomeIcon className="fa-xl float end" icon={faEyeSlash}/>}
                   </Button>
                 </InputGroup.Text>
               </InputGroup>

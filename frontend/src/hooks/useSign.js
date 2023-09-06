@@ -5,7 +5,7 @@ const moment = require("moment");
 
 export const useSign = () => {
  
-  const signUp = async(name, email, password) => {
+  const signUp = async(name, lastName, email, password) => {
 
     try {
       
@@ -16,7 +16,7 @@ export const useSign = () => {
       data: {
         email: email,
         name: name,
-        lastname: "Falta propiedad en frontend (Formulario)",
+        lastname: lastName,
         password: password,
         createdat: moment().format(),
         actived: 1,

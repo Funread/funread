@@ -112,6 +112,9 @@
   transform: scale(1.3);
   transition: .3s;
 }
+.login-form-password-button > svg{
+  transition: .3s;
+}
 
 .login-form-password-button:focus {
   background: transparent;

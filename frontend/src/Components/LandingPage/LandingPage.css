@@ -138,3 +138,14 @@
   }
 }
 
+@media (max-width: 370px) {
+  .navbar-brand{
+    width: 130px;
+    height: 30px;
+  }
+  .header-navbar-logo-funread{
+    transform: scale(0.5);
+    translate: -50px -10px;
+  }
+}
+

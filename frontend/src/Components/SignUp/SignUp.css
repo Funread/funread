@@ -31,6 +31,10 @@
   gap: 12px;
 }
 
+.singup-form-name-lastname{
+  display: flex;
+  gap: 7px;
+}
 .signup-form-title {
   font-weight: bold;
   font-size: 6vh;
@@ -85,7 +89,6 @@
   margin-left: 20px;
   background: inherit;
   border-radius: 0 10px 10px 0;
-  color: #e9e9e9;
 }
 
 .signup-form-password-button {
@@ -93,13 +96,18 @@
   background: transparent;
   border-style: none;
   box-shadow: none !important;
-  color: #e9e9e9;
+  transition: .3s;
 }
 
 .signup-form-password-button:hover {
   background-color: transparent;
-  border-style: none;
-  color: #e9e9e9;
+}
+.signup-form-password-button > svg:hover {
+  transform: scale(1.3);
+  transition: .3s;
+}
+.signup-form-password-button > svg{
+  transition: .3s;
 }
 
 .signup-form-password-button:focus {

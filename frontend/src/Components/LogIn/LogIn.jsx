@@ -110,7 +110,7 @@ function LogIn(props) {
     <div className="login-form">
       <div className="login-form-body">
         <Form onSubmit={handleSubmit} className="login-form-content">
-          <h1 className="login-form-title">Hello!</h1>
+          <h1 className="login-form-title">Welcome Back!</h1>
           <h5 className="login-form-subtitle">
             Add your information to Log In.
           </h5>
