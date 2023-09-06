@@ -171,11 +171,14 @@ def login(request):
     # print(data.get('email'))
     # print(data.get('password'))
     emailSe = request.data.get('email')
-    passwordSe= request.data.get('password')
-    #user = User.objects.get(email=emailSe, password=passwordSe, actived=1)
-    user = User.objects.filter(email=emailSe).first()
+    passwordSe= hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest()
+    #request.data.get('password')
+    user = User.objects.get(email=emailSe, password=passwordSe)
+    #user = User.objects.filter(email=emailSe).first()
     if user is None:
             raise AuthenticationFailed('User not found')
+    if not user.actived.__eq__(1):
+            raise AuthenticationFailed('inactive user')
     if not user.password.__eq__(passwordSe):
            raise AuthenticationFailed('Incorrect password')
     payload = {
