@@ -13,81 +13,93 @@ import Puzzle from "./Components/Shared/Templates/Widgets/Puzzle/Puzzle";
 import Wizard from "./Components/Shared/Wizard/Wizard";
 import WizardTemplate from "./Components/WizardTemplete/WizardTemplate";
 import AddPage from "./Components/Shared/AddPage/AddPage";
-import Template1 from "./Components/Shared/Templates/Template 1/Template1"
+import Template1 from "./Components/Shared/Templates/Template 1/Template1";
 import Template2 from "./Components/Shared/Templates/Template 2/template2";
 import Template3 from "./Components/Shared/Templates/Template3/Template3";
 import MemoryGame from "./Components/Shared/Templates/Widgets/MemoryGame/MemoryGame";
+import { Provider } from "react-redux";
+import { store } from "./poc/app/store";
+import POCFR_148 from "./poc/POCFR_148";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <Routes>
-      <Route
-        exact
-        path="/mylibrary"
-        element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
-              <MyLibrary />
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          exact
+          path="/mylibrary"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <MyLibrary />
+              </div>
             </div>
-          </div>
-        }
-      />
+          }
+        />
 
-      <Route
-        exact
-        path="/"
-        element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
-              <LandingPage />
+        <Route
+          exact
+          path="/"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <LandingPage />
+              </div>
             </div>
-          </div>
-        }
-      />
-      <Route
-        path="/dashboard"
-        element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
-              <Dashboard />
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <Dashboard />
+              </div>
             </div>
-          </div>} />
-      <Route path="/wiki" element={<Wiki />} />
+          }
+        />
+        <Route path="/wiki" element={<Wiki />} />
 
-      <Route path="/puzzle" element={<Puzzle imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg" />} />
-      {/* <Route path="/wizard" element={<Wizard />}/> */}
-      
+        <Route
+          path="/puzzle"
+          element={
+            <Puzzle imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg" />
+          }
+        />
+        {/* <Route path="/wizard" element={<Wizard />}/> */}
 
-      <Route
-        exact
-        path="/wizard"
-        element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
-              <Wizard />
+        <Route
+          exact
+          path="/wizard"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <Wizard />
+              </div>
             </div>
-          </div>
-        }
-      />
-      <Route path="/wizardtemplate" element={<WizardTemplate />} />
+          }
+        />
+        <Route path="/wizardtemplate" element={<WizardTemplate />} />
 
-      <Route
-        path="/addpage"
-        element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
-              <AddPage />
+        <Route
+          path="/addpage"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <AddPage />
+              </div>
             </div>
-          </div>
-        }
-      />
-      <Route path="/template-1" element={<Template1 />} />
-      <Route path="/template-2" element={<Template2 />} />
-      <Route path="/template-3" element={<Template3/>} />
-      <Route path="/memorygame" element={<MemoryGame/>} />
-    </Routes>
-  </BrowserRouter>
+          }
+        />
+        <Route path="/template-1" element={<Template1 />} />
+        <Route path="/template-2" element={<Template2 />} />
+        <Route path="/template-3" element={<Template3 />} />
+        <Route path="/memorygame" element={<MemoryGame />} />
+        <Route path="/pocfr148" element={<POCFR_148 />} />
+      </Routes>
+    </BrowserRouter>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
