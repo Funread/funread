@@ -13,7 +13,7 @@ function LogIn(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loginIn,axiosAuth } = useLogin();
+  const { logIn,axiosAuth } = useLogin();
 
   /**
    * Function tooglePassword:
@@ -34,7 +34,15 @@ function LogIn(props) {
    * Las variables email y password contienen los valores ingresados por el usuario al momento de presionar el boton de Log In.
    */
   const handleSubmit = () => {
-    console.log(loginIn(email, password));
+    //console.log(logIn(email, password));
+    if(axiosAuth() !== null){
+      axiosAuth().get("users/list/").then((res) => {
+        console.log(res.data)
+      })
+    }else{
+      console.log("unAuthenticaded")
+    }
+    
   };
 
   /**
