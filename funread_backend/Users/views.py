@@ -166,30 +166,30 @@ def activate_user(request):
 
 @ api_view(['POST'])
 def login(request):
-    #'email': request.data.get('email')
-    #'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest()
+    # 'email': request.data.get('email')
+    # 'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest()
     # print(data.get('email'))
     # print(data.get('password'))
     emailSe = request.data.get('email')
-    passwordSe= hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest()
-    #request.data.get('password')
-    user = User.objects.get(email=emailSe, password=passwordSe)
-    #user = User.objects.filter(email=emailSe).first()
+    passwordSe = hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest()
+    # request.data.get('password')
+    #user = User.objects.get(email=emailSe, password=passwordSe)
+    user = User.objects.filter(email=emailSe).first()
     if user is None:
-            raise AuthenticationFailed('User not found')
+        raise AuthenticationFailed('User not found')
     if not user.actived.__eq__(1):
-            raise AuthenticationFailed('inactive user')
+        raise AuthenticationFailed('inactive user')
     if not user.password.__eq__(passwordSe):
-           raise AuthenticationFailed('Incorrect password')
+        raise AuthenticationFailed('Incorrect password')
     payload = {
-            'id': user.userid,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1),
-            'iat': datetime.datetime.utcnow()
-        }
+        'id': user.userid,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1),
+        'iat': datetime.datetime.utcnow()
+    }
     token = jwt.encode(payload, 'secret', algorithm='HS256')
 
     response = Response()
     response.data = {
-            'jwt': token
-        }
+        'jwt': token
+    }
     return response
