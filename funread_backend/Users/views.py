@@ -1,12 +1,13 @@
 import json
 from wsgiref import headers
-from .models import User
+from .models import User 
 from .serializers import UserPasswordSerializer, UserSerializer, UserStatusSerializer, LoginSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
-
+#from Roles.models import UserRoles 
+#from Roles.serializers import UserRolesSerializer
 
 @api_view(['POST'])
 def new_user(request):
@@ -175,8 +176,9 @@ def login(request):
     passwordSe = data.get('password')
 
     try:
-        user = User.objects.get(email=emailSe, password=passwordSe, actived=1)
+        user = User.objects.get(email=emailSe, password=passwordSe,actived=1)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = LoginSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
+

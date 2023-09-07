@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from Users.serializers import UserSerializer
-from .models import Roles, UserRoles
+from .models import Roles 
 
 class RolesSerializer(serializers.ModelSerializer):
 
@@ -27,17 +27,18 @@ class RolesUpdatedBySerializer(serializers.ModelSerializer):
       return instance
       
 
-class UserRolesSerializer(serializers.ModelSerializer):
+#class UserRolesSerializer(serializers.ModelSerializer):
 
-  class Meta:
-    model = UserRoles
-    fields = '__all__'
+  #class Meta:
+    #model = UserRoles
+    #fields = '__all__'
+    #depth = 1
 
-  def create(self, validated_data):
-      return UserRoles.objects.create(**validated_data)
+  #def create(self, validated_data):
+      #return UserRoles.objects.create(**validated_data)
 
-  def update(self, instance, validated_data):
-      instance.idrole = validated_data.get('idrole', instance.idrole)
-      instance.iduser = validated_data.get('iduser', instance.iduser)
-      instance.save()
-      return instance
+  #def update(self, instance, validated_data):
+      #instance.idrole = validated_data.get('idrole', instance.idrole)
+      #instance.iduser = validated_data.get('iduser', instance.iduser)
+      #instance.save()
+      #return instance

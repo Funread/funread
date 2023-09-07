@@ -10,11 +10,11 @@ urlpatterns = [
     path('roles/insertRoles/', views.new_role),
     path('roles/deleteRoles/<str:role>', views.deleteRole),
     path('roles/updateRoles/<str:role>',views.roleupdate), 
-    path('userroles/listAllUserRoles/' , views.listedUserRoles),
-    path('userroles/insertUserRoles/', views.new_Userrole),
-    path('userroles/deleteUserRoles/<str:pk>', views.deleteUserRole),
-    path('userroles/searchUserRoles/<str:pk>', views.UserRolesSearch),
-    path('userroles/updateUserRoles/<str:pk>',views.userroleupdate),
+    #path('userroles/listAllUserRoles/' , views.listedUserRoles),
+    #path('userroles/insertUserRoles/', views.new_Userrole),
+    #path('userroles/deleteUserRoles/<str:pk>', views.deleteUserRole),
+    #path('userroles/searchUserRoles/<str:pk>', views.UserRolesSearch),
+    #path('userroles/updateUserRoles/<str:pk>',views.userroleupdate),
     
 ]
 

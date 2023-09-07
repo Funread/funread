@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
+from Roles.models import Roles
 # Create your models here.
 
 class User(models.Model):
@@ -12,3 +13,4 @@ class User(models.Model):
     password = models.CharField(max_length=256, blank=True, null=True)  # Field name made lowercase.
     createdat = models.DateTimeField(blank=True, null=True)  # Field name made lowercase.
     actived = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
+    roles = models.ManyToManyField(Roles) 
