@@ -12,7 +12,6 @@ import { InputGroup } from "react-bootstrap";
 function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signUp } = useSign();
@@ -37,7 +36,7 @@ function SignUp(props) {
    */
   const handleSubmit = () => {
     //signUp(name, lastName, email, password);
-    console.log(name, lastName, email, password);
+    console.log(name, "", email, password);
   };
 
   /**
@@ -79,7 +78,7 @@ function SignUp(props) {
    * Cambia el color del botón de Log In cuando los campos de email y password han sido llenados.
    */
   useEffect(() => {
-    name !== "" && lastName !== "" && email !== "" && password !== ""
+    name !== "" && email !== "" && password !== ""
       ? (document.getElementById("submit-button").className =
           "signup-form-button-filled")
       : (document.getElementById("submit-button").className =
@@ -95,45 +94,25 @@ function SignUp(props) {
             Add your information to register.
           </h5>
           <div className="signup-form-inputs">
-              <div className="singup-form-name-lastname">
-                <Form.Group className="form-group">
-                  <Form.Label className="font-size">
-                    <FontAwesomeIcon className="signup-icons" icon={faUser} />
-                    Your name ...
-                  </Form.Label>
-                  <Form.Control
-                    id="nameInput"
-                    size="lg"
-                    type="text"
-                    value={name}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                      isEmpty(e.target.value, "nameInput");
-                    }}
-                    className="signup-form-control-lg"
-                    placeholder="Your name"
-                    required
-                  />
-                </Form.Group>
-                <Form.Group className="form-group">
-                  <Form.Label className="font-size">
-                    and lastname
-                  </Form.Label>
-                  <Form.Control
-                    id="lastNameInput"
-                    size="lg"
-                    type="text"
-                    value={lastName}
-                    onChange={(e) => {
-                      setLastName(e.target.value);
-                      isEmpty(e.target.value, "lastNameInput");
-                    }}
-                    className="signup-form-control-lg"
-                    placeholder="Your lastName"
-                    required
-                  />
-                </Form.Group>
-              </div>
+            <Form.Group className="form-group">
+              <Form.Label className="font-size">
+                <FontAwesomeIcon className="signup-icons" icon={faUser} />
+                Your name
+              </Form.Label>
+              <Form.Control
+                id="nameInput"
+                size="lg"
+                type="text"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  isEmpty(e.target.value, "nameInput");
+                }}
+                className="signup-form-control-lg"
+                placeholder="Your name here"
+                required
+              />
+            </Form.Group>
             <Form.Group className="form-group">
               <Form.Label className="font-size">
                 <FontAwesomeIcon className="signup-icons" icon={faEnvelope} />
