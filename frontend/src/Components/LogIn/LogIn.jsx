@@ -182,11 +182,7 @@ function LogIn(props) {
               </div>
             </Form.Group>
           </div>
-          <Button
-            id="submit-button"
-            className="login-form-button-empty"
-            type="submit"
-          >
+          <Button id="submit-button" className="login-form-button-empty" type="submit">
             Log In
           </Button>
         </Form>

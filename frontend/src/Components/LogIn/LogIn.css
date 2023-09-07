@@ -135,11 +135,12 @@
   height: 12%;
   font-size: 2vh;
   border-radius: 10px;
-  background: white;
+  background: #5d4b6a;
   border-style: solid;
-  border-color: #d5a6fa;
-  color: #d5a6fa;
+  border-color: #5d4b6a;
+  color: white;
   box-shadow: none !important;
+  pointer-events: none;
 }
 
 .login-form-button-filled {
