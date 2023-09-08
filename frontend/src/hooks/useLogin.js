@@ -12,6 +12,8 @@ export const useLogin = () => {
         sessionStorage.setItem("jwt",res.data.jwt)
         //si se cambia la forma de alamacenar el token se debera cambiar esto
         return "success"
+      }else if(res.status === 403){
+        return "Error de inicio de session"
       }
     }).catch(error => {
       return null
