@@ -4,19 +4,8 @@ from .models import User
 from .serializers import UserPasswordSerializer, UserSerializer, UserStatusSerializer, LoginSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import permissions, status
+from rest_framework import status
 import hashlib
-import jwt
-from rest_framework.exceptions import AuthenticationFailed
-import datetime
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from django.http import JsonResponse
-from datetime import datetime, timedelta
-from django.conf import settings
-from django.contrib.auth import authenticate
-from Users import verifyJwt
 
 
 @api_view(['POST'])
@@ -105,11 +94,6 @@ def userChangePassword(request):
 @ api_view(['GET'])
 def listed(request):
 
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
     user = User.objects.all()
     serializer = UserSerializer(user, many=True)
     return Response(serializer.data)
@@ -179,28 +163,20 @@ def activate_user(request):
 
 @ api_view(['POST'])
 def login(request):
-    emailSe = request.data.get('email')
-    passwordSe = hashlib.sha256(request.data.get(
-        'password').encode('utf-8')).hexdigest()
-    user = User.objects.filter(email=emailSe).first()
-    if user is None:
-        raise AuthenticationFailed('User not found')
-    if not user.actived.__eq__(1):
-        raise AuthenticationFailed('inactive user')
-    if not user.password.__eq__(passwordSe):
-        raise AuthenticationFailed('Incorrect password')
 
-    signing_key = 'z*q#84&=4o14&)-z@uy-*dox9%_o7@%e*ls3obq8@8$u^m+5x9'
-    payload = {
-        'exp': datetime.utcnow() + timedelta(hours=1),
-        'iat': datetime.utcnow(),
-        'user_id': user.userid
+    data = {
+        'email': request.data.get('email'),
+        'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest(),
     }
-    algorithm = 'HS256'
-    token = jwt.encode(payload, signing_key, algorithm)
 
-    response = Response()
-    response.data= {
-        "jwt":token
-    }
-    return response
+    print(data.get('email'))
+    print(data.get('password'))
+    emailSe = data.get('email')
+    passwordSe = data.get('password')
+
+    try:
+        user = User.objects.get(email=emailSe, password=passwordSe, actived=1)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = LoginSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
