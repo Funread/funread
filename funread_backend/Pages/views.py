@@ -10,9 +10,20 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
 from django.http import JsonResponse
+import sys
+sys.path.append('Se debe poner la ruta de la carpeta funread_backend/funread_backend')
+import verifyJwt
 
 @api_view(['POST'])
 def new_page(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     print(request.data)
     data = {
         'book': request.data.get('book'),
@@ -28,6 +39,14 @@ def new_page(request):
 
 @api_view(['GET'])
 def pageSearch(request, pageid):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         page = Pages.objects.get(pageid=pageid)
         print(page)
@@ -38,6 +57,14 @@ def pageSearch(request, pageid):
 
 @api_view(['PUT'])
 def pageChange(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'pageid': request.data.get('pageid'),
@@ -63,12 +90,28 @@ def pageChange(request):
 
 @ api_view(['GET'])
 def listed(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     page = Pages.objects.all()
     serializer = PageSerializer(page, many=True)
     return Response(serializer.data)
 
 @ api_view(['GET'])
 def Template(request, templateerquest):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     template = getTemplate()
     mayusTemplate = templateerquest.upper()
     serializer = template.gettemplate(mayusTemplate)

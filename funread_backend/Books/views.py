@@ -9,9 +9,20 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
+import sys
+sys.path.append('Se debe poner la ruta de la carpeta funread_backend/funread_backend')
+import verifyJwt
 
 @api_view(['POST'])
 def new_book(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     data = {
         'title': request.data.get('title'),
         'category': request.data.get('category'),
@@ -31,6 +42,14 @@ def new_book(request):
 
 @api_view(['GET'])
 def bookSearch(request, title):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         print(title)
         book = Book.objects.get(title=title)
@@ -41,6 +60,14 @@ def bookSearch(request, title):
 
 @api_view(['PUT'])
 def bookChange(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'title': request.data.get('title'),
@@ -69,6 +96,14 @@ def bookChange(request):
 
 @ api_view(['GET'])
 def listed(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     book = Book.objects.all()
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
@@ -76,24 +111,56 @@ def listed(request):
 
 @ api_view(['GET'])
 def listed_PublishedBooks(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     book = Book.objects.filter(state=2)
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
 @ api_view(['GET'])
 def listed_NotPublishedBooks(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     book = Book.objects.filter(state=1)
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
 @ api_view(['GET'])
 def listed_PrivateBooks(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     book = Book.objects.filter(state=0)
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
 @api_view(['PUT'])
 def modifyStateToPrivate(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'title': request.data.get('title'),
@@ -113,6 +180,14 @@ def modifyStateToPrivate(request):
 
 @api_view(['PUT'])
 def modifyStateToPublish(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'title': request.data.get('title'),

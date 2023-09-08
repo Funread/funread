@@ -3,6 +3,9 @@ from TeacherApp.serializers import TeacherSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+import sys
+sys.path.append('Se debe poner la ruta de la carpeta funread_backend/funread_backend')
+import verifyJwt
 
 # Create your views here.
 
@@ -11,6 +14,13 @@ def teacher_list(request):
     """
     List all code snippets, or create a new snippet.
     """
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     if request.method == 'GET':
         snippets = Teachers.objects.all()
         serializer = TeacherSerializer(snippets, many=True)
@@ -29,6 +39,13 @@ def teacher_detail(request, pk):
     """
     Retrieve, update or delete a code snippet.
     """
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         snippet = Teachers.objects.get(pk=pk)
     except Teachers.DoesNotExist:

@@ -7,11 +7,22 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
+import sys
+sys.path.append('Se debe poner la ruta de la carpeta funread_backend/funread_backend')
+import verifyJwt
 
 # -----------------Institute----------------------------
 
 @api_view(['POST'])
 def createInstitute(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     data = {
         
         'name': request.data.get('name').lower(),
@@ -27,6 +38,14 @@ def createInstitute(request):
 
 @api_view(['GET'])
 def listedInstitute(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     institute=Institute.objects.all()
     serializer = InstituteSerializer(institute, many=True)
     return Response(serializer.data)
@@ -42,6 +61,14 @@ def listedInstitute(request):
 
 @api_view(['PUT'])
 def instituteChange(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     institute = Institute.objects.get(name=request.data.get("name"))
     data={
         "name":request.data.get("change"),
@@ -60,6 +87,14 @@ def instituteChange(request):
 
 @api_view(['DELETE'])
 def deleteInstitute(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     institute = Institute.objects.get(instituteId=request.data.get("instituteId"))
     institute.delete()
     return Response({"msj":"successfully delete"},status=status.HTTP_200_OK)
@@ -73,6 +108,14 @@ def deleteInstitute(request):
 
 @api_view(['POST'])
 def createMembers(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     data = {
         
         'userId': request.data.get('userId'),
@@ -89,6 +132,14 @@ def createMembers(request):
 
 @api_view(['GET'])
 def listedMembers(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     instituteMembers=InstituteMembers.objects.all()
     serializer = InstituteMembersSerializer(instituteMembers, many=True)
     return Response(serializer.data)
@@ -97,6 +148,14 @@ def listedMembers(request):
 
 @api_view(['PUT'])
 def memberChange(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     instituteMembers = InstituteMembers.objects.get(instituteMembersId=request.data.get("instituteMembersId"))
     data={
         "userId":request.data.get("userchange"),
@@ -113,6 +172,14 @@ def memberChange(request):
 
 @api_view(['DELETE'])
 def deleteMembers(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     instituteMembers = InstituteMembers.objects.get(instituteMembersId=request.data.get("instituteMembersId"))
     instituteMembers.delete()
 

@@ -10,12 +10,23 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
+import sys
+sys.path.append('Se debe poner la ruta de la carpeta funread_backend/funread_backend')
+import verifyJwt
 
 # Create your views here.
 
 #Metodo para mostrar todos los elementos de la lista Roles
 @ api_view(['GET'])
 def listed(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     role = Roles.objects.all()
     serializer = RolesSerializer(role, many=True)
     return Response(serializer.data)
@@ -23,6 +34,14 @@ def listed(request):
 #Metodo para buscar una variable por nombre
 @api_view(['GET'])
 def RolesSearch(request, role):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         roles = Roles.objects.get(role=role)
         print(roles)
@@ -34,6 +53,14 @@ def RolesSearch(request, role):
 #Metodo para agregar un elemento a la lista Roles
 @api_view(['POST'])
 def new_role(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     print(request.data)
     data = {
         'role': request.data.get('role').lower(),
@@ -47,6 +74,14 @@ def new_role(request):
 #Elimina un elemento de la lista Roles
 @api_view(['DELETE'])
 def deleteRole(request, role):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     role = Roles.objects.get(role=role)
     role.delete()
     return Response(status=status.HTTP_200_OK)
@@ -55,6 +90,14 @@ def deleteRole(request, role):
 #Metodo para mostrar todos los elementos de la lista UserRoles
 @ api_view(['GET'])
 def listedUserRoles(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     Userrole = UserRoles.objects.all()
     serializer = UserRolesSerializer(Userrole, many=True)
     return Response(serializer.data)
@@ -63,6 +106,14 @@ def listedUserRoles(request):
 #Metodo para agregar un elemento a la lista UserRoles
 @api_view(['POST'])
 def new_Userrole(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     print(request.data)
     data = {
         'idrole': request.data.get('idrole'),
@@ -78,6 +129,14 @@ def new_Userrole(request):
 #Metedo que cambia la variable de la lista Roles
 @api_view(['PUT'])
 def roleupdate(request, role):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     role = Roles.objects.get(role=role)
     serializer = RolesSerializer(role, data=request.data)
     if serializer.is_valid():
@@ -89,6 +148,14 @@ def roleupdate(request, role):
 #Elimina un elemento de la lista UserRoles
 @api_view(['DELETE'])
 def deleteUserRole(request, pk):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     idrole = UserRoles.objects.get(userrolesid=pk)
     idrole.delete()
 
@@ -97,6 +164,14 @@ def deleteUserRole(request, pk):
 #---------------------Busca un elemento de userrole por su id-------------------------#
 @api_view(['GET'])
 def UserRolesSearch(request, pk):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         userrole = UserRoles.objects.get(userrolesid=pk)
         print(userrole)
@@ -110,6 +185,14 @@ def UserRolesSearch(request, pk):
 #Metedo que cambia la variable de la lista User Roles
 @api_view(['PUT'])
 def userroleupdate(request, pk):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     userrole = UserRoles.objects.get(userrolesid=pk)
     serializer = UserRolesSerializer(userrole, data=request.data)
     if serializer.is_valid():

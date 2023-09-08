@@ -6,12 +6,22 @@ from .models import MailControl
 from .serializers import MailControlStatusSerializer, MailSerializer, MailControlSerializer
 from rest_framework.response import Response
 from rest_framework import status
+import sys
+sys.path.append('Se debe poner la ruta de la carpeta funread_backend/funread_backend')
+import verifyJwt
 # Create your views here.
 
 
 @api_view(['POST'])
 def insertEmail(request):
 
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     data = {
         'emailTo': request.data.get('emailTo'),
         'emailFrom': request.data.get('emailFrom'),
@@ -29,6 +39,14 @@ def insertEmail(request):
 
 @api_view(['GET'])
 def listAllEmail(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     mail = Mail.objects.all()
     serializer = MailSerializer(mail, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -36,6 +54,14 @@ def listAllEmail(request):
 
 @api_view(['GET'])
 def listByEmail(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'emailFrom': request.data.get('emailFrom'),
@@ -52,6 +78,14 @@ def listByEmail(request):
 
 @api_view(['GET'])
 def listByMailControl(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'emailFrom': request.data.get('emailFrom'),
@@ -69,6 +103,13 @@ def listByMailControl(request):
 @api_view(['POST'])
 def createMailControl(request):
 
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     data = {
         'idControl': request.data.get('idControl'),
         'date': request.data.get('date'),
@@ -86,6 +127,14 @@ def createMailControl(request):
 
 @api_view(['GET'])
 def listAllMailControl(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     mailcontrol = MailControl.objects.all()
     serializer = MailControlSerializer(mailcontrol, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -94,6 +143,13 @@ def listAllMailControl(request):
 @api_view(['PUT'])
 def updateMailControl(request):
 
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'idControl': request.data.get('idControl'),
