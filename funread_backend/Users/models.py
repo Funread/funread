@@ -4,7 +4,7 @@ from django.contrib.auth.models import (
 )
 from Roles.models import Roles
 # Create your models here.
-
+# Create your models here.
 class User(models.Model):
     userid = models.AutoField(primary_key=True)  # Field name made lowercase.
     email = models.CharField(max_length=200, unique=True)  # Field name made lowercase.
