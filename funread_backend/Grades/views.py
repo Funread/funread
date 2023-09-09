@@ -6,7 +6,7 @@ from .serializers import GradeSerializer,GradeChangeSerializer
 from rest_framework.response import Response
 from rest_framework import status
 import sys
-sys.path.append('Se debe poner la ruta de la carpeta funread_backend/funread_backend')
+sys.path.append('funread_backend')
 import verifyJwt
 
 # Create your views here.

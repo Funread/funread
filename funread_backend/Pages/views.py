@@ -11,7 +11,7 @@ from rest_framework import status
 import hashlib
 from django.http import JsonResponse
 import sys
-sys.path.append('Se debe poner la ruta de la carpeta funread_backend/funread_backend')
+sys.path.append('funread_backend')
 import verifyJwt
 
 @api_view(['POST'])

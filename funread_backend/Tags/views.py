@@ -14,7 +14,7 @@ from wsgiref import headers
 import datetime
 import json
 import sys
-sys.path.append('Se debe poner la ruta de la carpeta funread_backend/funread_backend')
+sys.path.append('funread_backend')
 import verifyJwt
 
 
