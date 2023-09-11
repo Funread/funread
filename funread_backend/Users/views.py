@@ -1,9 +1,14 @@
-from .models import User
+
+import json
+from wsgiref import headers
+from .models import User 
 from .serializers import UserPasswordSerializer, UserSerializer, UserStatusSerializer, LoginSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
+#from Roles.models import UserRoles 
+#from Roles.serializers import UserRolesSerializer
 import jwt
 from rest_framework.exceptions import AuthenticationFailed
 import datetime
@@ -12,7 +17,6 @@ from django.conf import settings
 import sys
 sys.path.append('funread_backend')
 import verifyJwt
-
 
 @api_view(['POST'])
 def new_user(request):
@@ -246,8 +250,21 @@ def login(request):
     algorithm = settings.SIMPLE_JWT['ALGORITHM']
     token = jwt.encode(payload, signing_key, algorithm)
 
+    #print(data.get('email'))
+    #print(data.get('password'))
+    #emailSe = data.get('email')
+    #passwordSe = data.get('password')
+
+    #try:
+    #    user = User.objects.get(email=emailSe, password=passwordSe,actived=1)
+    #except User.DoesNotExist:
+    #    return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = LoginSerializer(user)
+    #return Response(serializer.data, status=status.HTTP_200_OK)
+
     response = Response()
     response.data= {
-      'jwt': token
+      'jwt': token,
+      'data': serializer.data
     }
     return response

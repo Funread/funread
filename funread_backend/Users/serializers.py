@@ -3,9 +3,11 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = User
         fields = '__all__'
+        depth = 1
 
     def create(self, validated_data):
         return User.objects.create(**validated_data)
