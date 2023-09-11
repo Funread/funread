@@ -30,4 +30,4 @@ toml==0.10.2
 typing_extensions==4.4.0
 tzdata==2022.4
 whitenoise==6.0.0
-windows-curses==2.3.0
+windows-curses==2.3.1
