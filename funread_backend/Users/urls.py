@@ -3,6 +3,8 @@ from .api import UserViewSet
 from Users import views
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework_simplejwt import views as jwt_views
+
 
 urlpatterns=[
     path('search/<str:email>', views.userSearch),
@@ -14,7 +16,7 @@ urlpatterns=[
     path('new-user/', views.new_user),
     path('delete_user/',views.delete_user),
     path('activate_user/',views.activate_user),
-    path('login/',views.login)
+    path('login/',views.login),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

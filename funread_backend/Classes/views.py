@@ -8,10 +8,21 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
 import datetime
+import sys
+sys.path.append('funread_backend')
+import verifyJwt
 # Create your views here.
 
 @api_view(['POST'])
 def createclasses(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     data = {
         
         'name': request.data.get('name'),
@@ -30,6 +41,14 @@ def createclasses(request):
 
 @api_view(['GET'])
 def listedclasses(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     classes=Classes.objects.all()
     serializer = ClassesSerializer(classes, many=True)
     return Response(serializer.data)
@@ -38,6 +57,14 @@ def listedclasses(request):
 
 @api_view(['PUT'])
 def classesChange(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     classes = Classes.objects.get(classesId=request.data.get("classesId"))
     data={
         'name': request.data.get('name'),
@@ -54,6 +81,14 @@ def classesChange(request):
 
 @api_view(['DELETE'])
 def deleteclasses(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     classes = Classes.objects.get(classesId=request.data.get("classesId"))
     classes.delete()
 

@@ -1,0 +1,44 @@
+.card{
+    margin: 0em;
+    border-radius: 0;
+    box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, .18);
+  }
+
+  .img-wrapper{
+    max-width: 100%;
+    height: 65vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  
+  }
+
+
+  @media screen and (min-width:576px ){
+    .carousel-inner{
+      display: block;
+      justify-content: center;
+  
+    }
+  
+    .carousel-item{
+      display: block;
+      margin-left: 0;
+      flex: 0 0 calc(100%/3);
+    }
+  
+    .img-wrapper{
+    height: 17vw;
+  
+  }
+  }
+
+  .cardnav{
+    width: 8rem;
+    height: 10rem;
+  }
+  .imgnav{
+    margin-top: 1rem;
+    width: 6rem;
+    height: 8rem;
+  }

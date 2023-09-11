@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'Users',
     'Books',
     'Pages',
@@ -68,6 +69,15 @@ INSTALLED_APPS = [
     #     'rest_framework',
 ]
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),  # Duración del token de acceso (ejemplo: 1 hora)
+    'ALGORITHM': 'HS256',  # Algoritmo de firma JWT
+    'SIGNING_KEY': SECRET_KEY, #'funreadkeysecret',  # Clave secreta para firmar los tokens
+    'VERIFYING_KEY': None,  # Clave pública para verificar tokens (puede dejarse en None)
+    #'AUTH_HEADER_TYPES': ('Bearer'),  # Tipos de encabezado de autenticación (generalmente 'Bearer')
+    'USER_ID_FIELD': 'useid',
+    'USER_ID_CLAIM': 'user_id',
+}
 # REST_FRAMEWORK = {
 #     'DEFAULT_AUTHENTICATION_CLASSES': [
 #         'rest_framework.authentication.BasicAuthentication',
@@ -75,7 +85,7 @@ INSTALLED_APPS = [
 #     ]
 # }
 
-# AUTH_USER_MODEL = "Users.User"
+#AUTH_USER_MODEL = "Users.User"
 
 
 MIDDLEWARE = [
