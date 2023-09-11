@@ -13,6 +13,10 @@ from turtle import title
 from wsgiref import headers
 import datetime
 import json
+import sys
+sys.path.append('funread_backend')
+import verifyJwt
+
 
 # Create your views here.
 
@@ -20,6 +24,14 @@ import json
 
 @api_view(['POST'])
 def new_tags(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     print(request.data)
     data = {
         'description': request.data.get('description').lower(),
@@ -33,12 +45,28 @@ def new_tags(request):
 #-------------------Method GET------------------------------------------------#
 @ api_view(['GET'])
 def listed(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     folder = Tags.objects.all()
     serializer = TagsSerializer(folder, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def tagsSearch(request, description):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         tags = Tags.objects.get(description=description)
         print(Tags)
@@ -50,6 +78,14 @@ def tagsSearch(request, description):
 #-----------------------Metodo PUT----------------------------------#
 @api_view(['PUT'])
 def tagsChange(request, description):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     file = Tags.objects.get(description=description)
     serializer = TagsSerializer(file, data=request.data)
     if serializer.is_valid():
