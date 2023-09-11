@@ -1,38 +1,37 @@
 import axios from "axios";
 
-const moment = require("moment");
-
-
 export const useLogin = () => {
  
-  const loginIn = async(email, password) => {
-
-    try {
-      
-
-    const data = await axios({
-      method: "post",
-      url: "users/login/",
-      data: {
-        email: email, 
-        password: password,
-      },
+  //esta constante se utiliza para hacer el inicio de session, guardando el token obtenido
+  const logIn = (email, password) => {
+    return axios.post("http://localhost:8000/users/login/", {
+      email: email, 
+      password: password,
+    }).then((res) => {
+      if (res.status === 200 ) {
+        sessionStorage.setItem("jwt",res.data.jwt)
+        //si se cambia la forma de alamacenar el token se debera cambiar esto
+        return "success"
+      }else if(res.status === 403){
+        return "Error de inicio de session"
+      }
+    }).catch(error => {
+      return null
     });
+  };
 
-    console.log(data.data)
-    if (data.status === 200 ) {
-      console.log('Usuario autenticado');
-      console.log(data.data.email);
-      console.log(data.data.password);
+  //esta constate se utiliza para tomar una instancia de axios que ya cuente con el endpoint principal y
+  //pase por el header el token guardado hacia el backend, para realizar validaciones
+  const axiosAuth = () => {
+    if(sessionStorage.getItem("jwt") !== null){
+      return axios.create({
+        baseURL: "http://localhost:8000/",
+        headers: {Authorization: sessionStorage.getItem("jwt")}
+      });
+    }else{
+      return null;
     }
-
-  } catch (error) {
-      console.log(error)
-      console.log('El usuario o la contrasena no coinciden');
   }
-  };
 
-  return {
-    loginIn,
-  };
+  return {logIn,axiosAuth};
 };

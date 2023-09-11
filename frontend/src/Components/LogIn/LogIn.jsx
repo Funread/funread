@@ -13,7 +13,7 @@ function LogIn(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loginIn } = useLogin();
+  const { logIn,axiosAuth } = useLogin();
 
   /**
    * Function tooglePassword:
@@ -34,7 +34,27 @@ function LogIn(props) {
    * Las variables email y password contienen los valores ingresados por el usuario al momento de presionar el boton de Log In.
    */
   const handleSubmit = () => {
-    loginIn(email, password);
+
+    logIn(email, password).then(() => {  //Esto debe hacerce para evitar que axiosAuth revise si el token existe antes de terminar el login
+      if(axiosAuth() !== null){
+        //hacer cambio de pagina
+        console.log('login exitoso')
+      }else{
+        console.log('Contraseña o correo incorrecto')
+      }
+    }
+    );
+
+    // Esto es un ejemplo de como utilizar el hook useLogin, especificamente la constante axiosAuth
+
+  // if(axiosAuth() !== null){                            -Primero hacemos un if que confirme que podemos usar axiosAuth
+    //   axiosAuth().get("users/list/").then((res) => {   - Hacemos nuestra consulta, Nota: no se debe colocar toda la url, el endpoint pincipal ya esta en la instancia de axios (http://localhost:8000/) por lo que colocamos la porcion del endpoint que falta para realizar la consulta, en este caso "users/list/"
+    //     console.log(res.data)                          - Obtenemos nuestros resultados, podemos usar res.data, res.headers, res.status, entre algunos mas
+    //   })
+    // }else{                           -Encaso de no poder usar axiosAuth, podemos hacer diferentes accioes, informar que no se puede usar, movernos a la pagina de login, lo que se necesite en el momento
+    //   console.log("unAuthenticaded")
+    // }
+    
   };
 
   /**
