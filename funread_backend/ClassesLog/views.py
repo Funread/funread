@@ -7,10 +7,21 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
+import sys
+sys.path.append('funread_backend')
+import verifyJwt
 # Create your views here.
 
 @api_view(['POST'])
 def createclasseslog(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     data = {
         
         'classesid': request.data.get('classesid'),
@@ -29,6 +40,14 @@ def createclasseslog(request):
 
 @api_view(['GET'])
 def listedclasseslog(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     classeslog=ClassesLog.objects.all()
     serializer = ClassesLogSerializer(classeslog, many=True)
     return Response(serializer.data)
@@ -37,6 +56,14 @@ def listedclasseslog(request):
 
 @api_view(['PUT'])
 def classeslogchange(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     classeslog = ClassesLog.objects.get(classeslogid=request.data.get("classeslogid"))
     data={
         'classesid': request.data.get('classesid'),
@@ -53,6 +80,14 @@ def classeslogchange(request):
 
 @api_view(['DELETE'])
 def deleteclasseslog(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     classeslog = ClassesLog.objects.get(classeslogid=request.data.get("classeslogid"))
     classeslog.delete()
 

@@ -12,11 +12,22 @@ from turtle import title
 from wsgiref import headers
 import datetime
 import json
+import sys
+sys.path.append('funread_backend')
+import verifyJwt
 
 # Create your views here.
 
 @api_view(['POST'])
 def new_folder(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     print(request.data)
     data = {
         'nameFolders': request.data.get('nameFolders').lower(),
@@ -30,12 +41,28 @@ def new_folder(request):
 
 @ api_view(['GET'])
 def listed(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     folder = Folder.objects.all()
     serializer = FolderSerializer(folder, many=True)
     return Response(serializer.data)
 
 @api_view(['DELETE'])
 def deleteFolder(request, nameFolders):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     folder = Folder.objects.get(nameFolders=nameFolders)
     folder.delete()
 
@@ -43,6 +70,14 @@ def deleteFolder(request, nameFolders):
 
 @api_view(['GET'])
 def FolderSearch(request, nameFolders):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         folder = Folder.objects.get(nameFolders=nameFolders)
         print(folder)
@@ -54,6 +89,14 @@ def FolderSearch(request, nameFolders):
 
 @api_view(['PUT'])
 def folderChange(request, nameFolders):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     folder = Folder.objects.get(nameFolders=nameFolders)
     serializer = FolderSerializer(folder, data=request.data)
     if serializer.is_valid():

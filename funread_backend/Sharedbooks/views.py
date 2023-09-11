@@ -10,12 +10,23 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
+import sys
+sys.path.append('funread_backend')
+import verifyJwt
 
 # Create your views here.
 
 #Metodo para mostrar todos los elementos de la lista SharedBooks
 @ api_view(['GET'])
 def listed(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     sharedBooks = SharedBooks.objects.all()
     serializer = SharedBooksSerializer (sharedBooks, many=True)
     return Response(serializer.data)
@@ -23,6 +34,14 @@ def listed(request):
 #Metodo para buscar una variable por nombre
 @api_view(['GET'])
 def search(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         sharedbooks = SharedBooks.objects.get(sharedbooksid=request.data.get('sharedbooksid'))
         print(sharedbooks)
@@ -34,6 +53,14 @@ def search(request):
 #Metodo para agregar un elemento a la lista SharedBooks
 @api_view(['POST'])
 def add_new(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     print(request.data)
     data = {
         'bookId': request.data.get('bookId'),
@@ -48,6 +75,13 @@ def add_new(request):
 #Elimina un elemento de la lista SharedBooks
 @api_view(['DELETE'])
 def delete(request):
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     sharedbooks = SharedBooks.objects.get(sharedbooksid=request.data.get('sharedbooksid'))
     sharedbooks.delete()
     return Response({"msj":"Succesfully deleted"}, status=status.HTTP_200_OK)
@@ -56,6 +90,14 @@ def delete(request):
 #Metedo que cambia la variable de la lista SharedBooks
 @api_view(['PUT'])
 def update(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     sharedbooks = SharedBooks.objects.get(sharedbooksid=request.data.get('sharedbooksid'))
     serializer = SharedBooksSerializer(sharedbooks, data=request.data)
     if serializer.is_valid():
