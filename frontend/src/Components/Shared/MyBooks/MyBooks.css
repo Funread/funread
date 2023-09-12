@@ -1,0 +1,30 @@
+.custom_section {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap:20px;
+}
+
+.custom_section_item{
+  scroll-snap-align: center;
+}
+
+.custom_section::-webkit-scrollbar {
+  height: 7px;
+}
+
+.custom_section::-webkit-scrollbar-thumb {
+  background-color: #d6d5d5;
+  border-radius: 10px;
+}
+
+.custom_section::-webkit-scrollbar-thumb:hover {
+  background-color: #323232;
+}
+
+.custom_section::-webkit-scrollbar-track {
+  background-color: transparent;
+  border: none;
+  margin: 0 ;
+  box-shadow: none 
+}
