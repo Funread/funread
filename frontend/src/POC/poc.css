@@ -1,0 +1,17 @@
+.spacer {
+  width: 50px;
+}
+
+h4 {
+  color: grey;
+  text-align: left;
+}
+
+@media only screen and (max-width: 900px) {
+  .section {
+    height: 50rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform: translate(1);
+  }
+}

@@ -1,4 +1,4 @@
-import BookCard from '../BookCard/BookCard'
+import BookCard from '../Shared/BookCard/BookCard'
 import './MyBooks.css'
 
 const MY_BOOKS = [

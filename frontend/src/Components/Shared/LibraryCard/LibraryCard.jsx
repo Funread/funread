@@ -3,6 +3,7 @@ import './LibraryCard.css'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import MyBooks from '../../MyBooks/MyBooks';
 
 const Library = ({title,description,portrait}) =>{
   const [show, setShow] = useState(false);
@@ -28,7 +29,9 @@ const Library = ({title,description,portrait}) =>{
         <Modal.Header>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body> Here Book</Modal.Body>
+        <Modal.Body> 
+          <MyBooks></MyBooks>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close

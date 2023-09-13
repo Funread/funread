@@ -1,9 +1,7 @@
 import Library from "../Shared/LibraryCard/LibraryCard"
 import "./ShareLibrary.css"
 
-
-
-function POC() {
+function ShareLibrary() {
     const LIBRARIES = [
         {
             id: 1,
@@ -59,8 +57,8 @@ function POC() {
 
     return (
         <>
-            <h4>Share Library</h4>
-            <div className="section_sharelibrary">
+           
+            <div className="section_sharelibrary shadow p-3 mb-5 bg-body rounded ">
                 {LIBRARIES.map(({ id, title, description,portrait }) => (
                     <div key={id} className="section_item">
                         <Library title={title}
@@ -75,4 +73,4 @@ function POC() {
         </>
     );
 }
-export default POC;
+export default ShareLibrary;
