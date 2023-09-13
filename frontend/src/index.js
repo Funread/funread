@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./Components/LandingPage/LandingPage";
@@ -17,6 +18,7 @@ import Template1 from "./Components/Shared/Templates/Template 1/Template1"
 import Template2 from "./Components/Shared/Templates/Template 2/template2";
 import Template3 from "./Components/Shared/Templates/Template3/Template3";
 import MemoryGame from "./Components/Shared/Templates/Widgets/MemoryGame/MemoryGame";
+import POC from './POC/poc'
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -86,6 +88,7 @@ root.render(
       <Route path="/template-2" element={<Template2 />} />
       <Route path="/template-3" element={<Template3/>} />
       <Route path="/memorygame" element={<MemoryGame/>} />
+      <Route path="/POC/FR-300" element={<POC />} />
     </Routes>
   </BrowserRouter>
 );

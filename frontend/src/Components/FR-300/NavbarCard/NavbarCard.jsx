@@ -3,14 +3,14 @@ import './NavbarCard.css'
 const NavbarCard = ({param}) =>{
     return(
         <>
-            <div class="card cardnav">
-                <div class="img-wrapper">
-                   <img src={param } alt="Pages" class= 'imgnav' />
+            <div className="card cardnav">
+                <div className="img-wrapper">
+                   <img src={param } alt="Pages" className= 'imgnav' />
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title"></h5>
-                    <p class="card-text"></p>
-                    <p class="card-text"><small class="text-body-secondary"></small></p>
+                <div className="card-body">
+                    <h5 className="card-title"></h5>
+                    <p className="card-text"></p>
+                    <p className="card-text"><small className="text-body-secondary"></small></p>
                 </div>
             </div>
     </>

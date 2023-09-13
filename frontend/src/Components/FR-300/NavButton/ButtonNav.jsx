@@ -3,7 +3,7 @@ import './ButtonNav.css';
 const ButtonNav = ({ title }) => {
     return (
         
-      <button class="section-btn">{title}</button>
+      <button className="section-btn">{title}</button>
  
     );
 };
