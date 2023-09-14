@@ -55,7 +55,7 @@ const MyBooks = () => {
   return (
     <div className='custom_section'>
       {MY_BOOKS.map(({ portrait, title, category, author, color }) => (
-        <div key={title} className='custom_section_item'>
+        <div key={title} className='custom_section_item my-3'>
           <BookCard
             image={portrait}
             title={title}

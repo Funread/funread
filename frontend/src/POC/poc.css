@@ -7,11 +7,40 @@ h4 {
   text-align: left;
 }
 
-@media only screen and (max-width: 900px) {
+.section {
+  height: 50rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transform: translate(1);
+}
+/* @media only screen and (max-width: 900px) {
   .section {
     height: 50rem;
     overflow-y: auto;
     overflow-x: hidden;
     transform: translate(1);
   }
+} */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 7rem;
+  background-color: #333;
+  padding-top: 15px;
+  transition: transform 0.3s ease;
+}
+
+.nav-link {
+  color: #fff;
+}
+
+.nav-link.active {
+  background-color: #555;
+}
+
+
+.sidebar.collapsed {
+  transform: translateX(-100%);
 }

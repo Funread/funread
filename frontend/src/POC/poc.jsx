@@ -1,4 +1,6 @@
 import './poc.css'
+
+import React, { useState } from 'react';
 import MyBooks from '../Components/MyBooks/MyBooks'
 import ShareLibrary from '../Components/ShareLibrary/ShareLibrary'
 import Button from 'react-bootstrap/Button'
@@ -10,9 +12,53 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 const POC = () => {
+  const [showSidebar, setShowSidebar] = useState(true);
+
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('collapsed');
+  }
+
   return (
     <>
-      <Navbar expand='lg' className='bg-body-tertiary'>
+      <div className='container-fluid text-center '>
+        <div className='row content'>
+          <div className='col-sm-1'>
+         
+         
+          </div>
+          <div className='col-sm-7 sidenav'>
+            <Form className='d-flex mt-1'>
+              <Form.Control
+                type='search'
+                placeholder='Search'
+                className='me-2'
+                aria-label='Search'
+              />
+              <Button variant='outline-success'>
+                <FontAwesomeIcon
+                  className='fa-magnifying-glass'
+                  icon={faSearch}
+                />
+              </Button>
+            </Form>
+
+            <h4>My Books</h4>
+            <MyBooks></MyBooks>
+            <div className='well'>
+              <p>content</p>
+            </div>
+          </div>
+          <div className='col-sm-3' style={{ background: 'gris' }}>
+            <div className='well'>
+              <p>previw</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* <Navbar expand='lg' className='bg-body-tertiary'>
         <Container fluid>
           <Navbar.Brand >FUNREAD</Navbar.Brand>
           <Navbar.Toggle aria-controls='navbarScroll' />
@@ -59,7 +105,7 @@ const POC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }
