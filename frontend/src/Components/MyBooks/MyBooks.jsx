@@ -25,30 +25,6 @@ const MY_BOOKS = [
     author: 'Harper Lee',
     color: '#B6D6F2',
   },
-  {
-    title: 'The Great Gatsby',
-    category: 'Novel',
-    portrait:
-      'https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781471173936/the-great-gatsby-9781471173936_hr.jpg',
-    author: 'F. Scott Fitzgerald',
-    color: '#C9EBF2',
-  },
-  {
-    title: 'The Outsider',
-    category: 'Terror',
-    portrait:
-      'https://th.bing.com/th/id/OIP.qyKh70xNoEoxDI-8_ZWSIAHaLQ?pid=ImgDet&rs=1',
-    author: 'Stephen King',
-    color: '#FFD3B6',
-  },
-  {
-    title: 'The Silent Patient',
-    category: 'Suspense',
-    portrait:
-      'https://i.pinimg.com/736x/5e/f1/96/5ef196ee333afc38788224d7642a6879.jpg',
-    author: 'Alex Michaelides',
-    color: '#DCEDC1',
-  },
 ]
 
 const MyBooks = () => {
