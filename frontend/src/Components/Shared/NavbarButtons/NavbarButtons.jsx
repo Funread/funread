@@ -3,7 +3,7 @@ import './NavbarButtons.css';
 
 const NavbarButtons = () => {
   return (
-    <nav className="navbar navbar-expand-sm topbar">
+    <nav className="navbar topbar">
       <div>
 
         <ButtonNav title="My Library" />

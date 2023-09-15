@@ -1,10 +1,10 @@
 import ContentImage from "../ContentImage/ContentImage";
 
-const PageContainer = ({ title, image, imageWidth, imageAlt, text }) => {
+const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
   return (
-    <div className="container-fluid">
-      <div className="row">
-        <div className="col-xl-12">
+    // <div className="container-fluid">
+    //   <div className="row">
+    //     <div className="col">
           <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 className="m-0 font-weight-bold text-primary">{title}</h6>
@@ -13,21 +13,22 @@ const PageContainer = ({ title, image, imageWidth, imageAlt, text }) => {
             <div className="card-body">
               <div className="card shadow mb-4">
                 <div className="card-body">
-                  <div className="text-center">
+                  <div className="d-flex align-items-center justify-content-center">
                     <ContentImage
                       image={image}
-                      imageWidth={imageWidth}
+                      width={width}
+                      height={height}
                       imageAlt={imageAlt}
                     />
-                    <p>{text}</p>
                   </div>
+                  <div className="text-center mt-2">{text}</div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        /* </div>
       </div>
-    </div>
+    </div> */
   );
 };
 

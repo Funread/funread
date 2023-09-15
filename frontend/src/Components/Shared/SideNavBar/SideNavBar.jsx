@@ -73,18 +73,18 @@ const SideNavBar = () => {
 
   return (
     <div className={isExpanded ? "row gx-0" : "row gx-0 side-nav-container-NX"}>
-      <div className="bg-dark col-auto min-vh-100 d-flex justify-content-between flex-column pl-0">
+      <div className="bg-dark min-vh-100 d-flex justify-content-between flex-column pl-0">
         <div>
           <div
             className="text-decoration-none text-white d-none d-sm-inline d-flex align-items-center ms-3 mt-3"
             style={{ fontSize: "20px" }}
           >
-            <span className={isExpanded ? "d-none d-sm-inline me-2" : "d-none"}>
+            <span className={isExpanded ? "d-none d-sm-inline" : "d-none"}>
               FUNREAD
             </span>
           </div>
           <button
-            className="button-no-background d-none d-sm-inline me-2"
+            className="button-no-background d-none d-sm-inline"
             onClick={() => setExpendState(!isExpanded)}
           >
             <i className="bi bi-list fs-3"></i>
