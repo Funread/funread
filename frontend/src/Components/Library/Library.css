@@ -1,13 +1,11 @@
 .section_sharelibrary {
   display: flex;
   justify-content: space-between;
+  gap: 20px;
   flex-wrap: wrap;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  margin-left: 2rem;
-  margin-right: 2rem;
   scroll-snap-type: x mandatory;
-  height: 24rem;
   overflow-y: scroll;
   overflow-x: hidden;
   transform: translate(1);
@@ -21,12 +19,11 @@
 
 h4 {
   margin-top: 4rem;
-  margin-left: 5rem;
 }
 .nav-link {
-  color: #000; /* Cambia el color de las pestañas inactivas aquí */
+  color: #000;
 }
-.section_item{
+.section_item {
   scroll-snap-align: center;
 }
 
@@ -41,7 +38,7 @@ h4 {
 }
 
 .section_sharelibrary::-webkit-scrollbar-thumb:hover {
-  background-color:transparent;
+  background-color: transparent;
 }
 
 .section_sharelibrary::-webkit-scrollbar-track {

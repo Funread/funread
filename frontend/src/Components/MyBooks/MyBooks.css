@@ -2,10 +2,8 @@
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  justify-content: space-between;
   gap: 20px;
-  margin-left: 5rem;
-  margin-right: 5rem;
-  margin-top: 2rem;
 }
 
 .custom_section_item {
@@ -17,12 +15,9 @@
 }
 
 .custom_section::-webkit-scrollbar-thumb {
-  background-color: #d6d5d5;
-  border-radius: 10px;
-}
-
-.custom_section::-webkit-scrollbar-thumb:hover {
-  background-color: #323232;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .custom_section::-webkit-scrollbar-track {

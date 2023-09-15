@@ -1,8 +1,27 @@
 import './BookCard.css'
 
-const BookCard = ({ image, title, author, category, color }) => {
+const BookCard = ({
+  id,
+  image,
+  title,
+  author,
+  category,
+  description,
+  color,
+  toggleSidebar,
+}) => {
   return (
-    <div className='card' style={{ width: '250px', borderRadius: '15px', backgroundColor: color}}>
+    <div
+      className='card'
+      style={{ width: '250px', borderRadius: '15px', backgroundColor: color }}
+      onClick={() => toggleSidebar({id,
+        image,
+        title,
+        author,
+        category,
+        description,
+        color,})}
+    >
       <div className='d-flex align-items-center'>
         <div style={{ padding: '20px 0 20px 20px' }}>
           <img

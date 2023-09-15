@@ -1,111 +1,90 @@
 import './poc.css'
-
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import MyBooks from '../Components/MyBooks/MyBooks'
-import ShareLibrary from '../Components/ShareLibrary/ShareLibrary'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import Container from 'react-bootstrap/Container'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import Library from '../Components/Library/Library'
+import BookView from '../Components/Shared/BookView/BookView'
 
 const POC = () => {
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false)
+  const [selectedBook, setSelectedBook] = useState(null)
 
-  const toggleSidebar = () => {
-    setShowSidebar(!showSidebar);
-    const sidebar = document.querySelector('.sidebar');
-    sidebar.classList.toggle('collapsed');
+  const toggleSidebar = (book) => {
+    if (!selectedBook) {
+      setShowSidebar(true)
+      setSelectedBook(book)
+      return
+    }
+
+    if (selectedBook.id === book.id) {
+      setShowSidebar(false)
+      setSelectedBook(null)
+      return
+    }
+    setSelectedBook(book)
   }
 
   return (
     <>
-      <div className='container-fluid text-center '>
-        <div className='row content'>
-          <div className='col-sm-1'>
-         
-         
+      <div className='container-fluid p-0 text-center '>
+        <div className='row content' style={{ height: 'auto' }}>
+          <div className='col-1'>
+            <p>Hola</p>
           </div>
-          <div className='col-sm-7 sidenav'>
-            <Form className='d-flex mt-1'>
-              <Form.Control
-                type='search'
-                placeholder='Search'
-                className='me-2'
-                aria-label='Search'
-              />
-              <Button variant='outline-success'>
-                <FontAwesomeIcon
-                  className='fa-magnifying-glass'
-                  icon={faSearch}
+          <div className={`sidenav ${showSidebar ? 'col-sm-8' : 'col-11'}`}>
+            <div style={{ maxWidth: '1000px' }} className='mx-auto'>
+              <Form className='d-flex mt-1 pt-5'>
+                <Form.Control
+                  type='search'
+                  placeholder='Search'
+                  className='me-2'
+                  aria-label='Search'
                 />
-              </Button>
-            </Form>
+                <Button variant='outline-success'>
+                  <FontAwesomeIcon
+                    className='fa-magnifying-glass'
+                    icon={faSearch}
+                  />
+                </Button>
+              </Form>
 
-            <h4>My Books</h4>
-            <MyBooks></MyBooks>
-            <div className='well'>
-              <p>content</p>
+              <h4>Recent Books</h4>
+              <MyBooks toggleSidebar={toggleSidebar} />
+              {selectedBook && (
+                <div
+                  className='sidebar-mobile'
+                  style={{ background: '#79ABA8' }}
+                >
+                  <BookView
+                    title={selectedBook?.title}
+                    description={selectedBook?.description}
+                    image={selectedBook?.image}
+                    author={selectedBook?.author}
+                  />
+                </div>
+              )}
+
+              <Library toggleSidebar={toggleSidebar} />
             </div>
           </div>
-          <div className='col-sm-3' style={{ background: 'gris' }}>
-            <div className='well'>
-              <p>previw</p>
+          {selectedBook && (
+            <div
+              className='col-sm-3 p-0 sidebar-desktop'
+              style={{ background: '#79ABA8' }}
+            >
+              <BookView
+                title={selectedBook?.title}
+                description={selectedBook?.description}
+                image={selectedBook?.image}
+                author={selectedBook?.author}
+              />
             </div>
-          </div>
+          )}
         </div>
       </div>
-
-      {/* <Navbar expand='lg' className='bg-body-tertiary'>
-        <Container fluid>
-          <Navbar.Brand >FUNREAD</Navbar.Brand>
-          <Navbar.Toggle aria-controls='navbarScroll' />
-          <Navbar.Collapse id='navbarScroll'>
-            <div className="spacer"></div>
-            <Form className='d-flex'>
-              <Form.Control
-                type='search'
-                placeholder='Search'
-                className='me-2'
-                aria-label='Search'
-              />
-              <Button variant='outline-success'>
-                <FontAwesomeIcon
-                  className='fa-magnifying-glass'
-                  icon={faSearch}
-                />
-              </Button>
-            </Form>
-            <Nav
-              className='ms-auto my-2 my-lg-0'
-              style={{ maxHeight: '100px' }}
-              navbarScroll
-            >
-              <Nav.Link href='#action1'>Share Library</Nav.Link>
-              <Nav.Link href='#action2'>Book</Nav.Link>
-              
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-
-      <div className='container-fluid text-center section'>
-        <div className='row content'>
-          <div className='col-sm-9 text-rigth'>
-            <h4>My Books</h4>
-            <MyBooks></MyBooks>
-            <h4>Share Library</h4>
-             <ShareLibrary></ShareLibrary>
-          </div>
-          <div className='col-sm-3 sidenav'>
-            <div className='well'>
-              <p>Keep Reading</p>
-            </div>
-          </div>
-        </div>
-      </div> */}
     </>
   )
 }
