@@ -11,7 +11,7 @@ function LinkInvitacion(props){
   useEffect(() => {
     axios.post('http://localhost:8000/users/getToken/').then((res) => {  //funcion get
       sessionStorage.setItem("jwt",res.data.jwt)
-      sessionStorage.setItem("otros datos de usuario",params.datos)
+      sessionStorage.setItem("datos",params.datos)
       navigate("/mylibrary");
     });
   });
