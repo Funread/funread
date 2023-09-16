@@ -17,6 +17,8 @@ urlpatterns=[
     path('delete_user/',views.delete_user),
     path('activate_user/',views.activate_user),
     path('login/',views.login),
+    path('tokenVerify/',views.tokenVerify),
+    path('getToken/',views.getToken)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

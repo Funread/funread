@@ -268,3 +268,36 @@ def login(request):
       'data': serializer.data
     }
     return response
+
+@ api_view(['POST'])
+def tokenVerify(request):
+    #token verification
+
+    response = Response()
+    
+
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        response.data= {'login':False}
+    else:
+        response.data= {'login':True}
+
+    return response
+
+@ api_view(['POST'])
+def getToken(request):
+    signing_key = settings.SIMPLE_JWT['SIGNING_KEY']
+    payload = {
+        'exp': datetime.utcnow() + settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
+        'iat': datetime.utcnow()
+    }
+    algorithm = settings.SIMPLE_JWT['ALGORITHM']
+    token = jwt.encode(payload, signing_key, algorithm)
+
+    response = Response()
+    response.data= {
+      'jwt': token
+    }
+    return response
