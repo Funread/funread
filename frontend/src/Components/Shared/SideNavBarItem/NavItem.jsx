@@ -1,47 +1,46 @@
-import React, { useState } from "react";
-import "./NavItem.css";
+import './NavItem.css'
+import React, { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const NavItem = ({ text, icon, subItems, isExpanded }) => {
-  const [selectedItem, setSelectedItem] = useState(false);
+const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
+  const [selectedItem, setSelectedItem] = useState(false)
 
   const handleItemClick = () => {
-    setSelectedItem(!selectedItem);
-  };
+    setSelectedItem(!selectedItem)
+    if (onClick) {
+      onClick()
+    }
+  }
 
   return (
     <>
       <div
-        className="nav-link text-white d-flex align-item-center justify-content-between"
-        aria-current="page"
+        key={text}
+        className={`custom-menu-item ${
+          isExpanded ? '' : 'custom-menu-item-NX'
+        } ${isSelected ? 'open' : ''}`}
         onClick={handleItemClick}
       >
-        <div>
-          <i className={icon} style={{ fontSize: "20px" }}></i>
-          <span
-            className={isExpanded ? "d-none d-sm-inline fs-6 ms-2" : "d-none"}
-          >
-            {text}
-          </span>
+        <div className='d-flex align-items-center justify-content-between'>
+          <div className='d-flex align-items-center'>
+            <FontAwesomeIcon icon={icon} />
+            {isExpanded && <p className='ml-2'>{text}</p>}
+          </div>
         </div>
-        <i
-          className={`align-self-end fs-6 bi bi-chevron-${
-            selectedItem ? "down" : "right"
-          } ${isExpanded ? " d-none d-sm-inline" : "d-none"}`}
-        ></i>
       </div>
-      {selectedItem && (
-        <div className="card mt-3">
-          <div className="card card-body size-card p-0">
-            <div className="icon-grid">
-              {subItems.map((subIcon, index) => (
-                <i key={index} className={subIcon}></i>
-              ))}
-            </div>
+      {isSelected && (
+        <div className='custom-card'>
+          <div className='icon-grid'>
+            {subItems.map((subItem, index) => (
+              <div className='icon' key={index}>
+                <FontAwesomeIcon icon={subItem} />
+              </div>
+            ))}
           </div>
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default NavItem;
+export default NavItem

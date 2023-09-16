@@ -1,23 +1,16 @@
-import ButtonNav from '../NavButton/ButtonNav'; 
-import './NavbarButtons.css';
+import ButtonNav from '../NavButton/ButtonNav'
+import './NavbarButtons.css'
 
 const NavbarButtons = () => {
   return (
-    <nav className="navbar topbar">
+    <nav className='navbar'>
       <div>
-
-        <ButtonNav title="My Library" />
-        <ButtonNav title="Shared Library" />
-        <ButtonNav title="My Groups" />
-
+        <ButtonNav title='My Library' />
+        <ButtonNav title='Shared Library' />
+        <ButtonNav title='My Groups' />
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default NavbarButtons;
-
-
-
-
-
+export default NavbarButtons
