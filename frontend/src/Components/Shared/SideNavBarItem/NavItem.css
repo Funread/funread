@@ -46,3 +46,7 @@
   text-align: center;
   color: #333;
 }
+.submenu-image {
+  max-width: 400px; 
+  max-height: 400px; 
+}

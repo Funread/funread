@@ -34,6 +34,13 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
             {subItems.map((subItem, index) => (
               <div className='icon' key={index}>
                 <FontAwesomeIcon icon={subItem} />
+                {subItem.imageSrc && ( 
+                  <img
+                    src={subItem.imageSrc}
+                    alt={text}
+                    className='submenu-image'
+                  />
+                )}
               </div>
             ))}
           </div>

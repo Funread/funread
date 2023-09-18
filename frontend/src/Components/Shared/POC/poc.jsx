@@ -1,16 +1,16 @@
 import React from 'react'
-import './poc-312.css'
+import './poc.css'
 import NavbarButtons from '../Components/Shared/NavbarButtons/NavbarButtons'
-import Sidebar312 from './Sidebar312'
+import Sidebar from '../Components/Shared/Sidebar/Sidebar'
 import Carousel from '../Components/Shared/NavBarCarrousel/NavBarCarrousel'
 import PageContainer from '../Components/Shared/PageContainer/PageContainer'
 
-const Poc312 = () => {
+const Poc = () => {
   return (
     <>
       <div className='container-fluid p-0'>
         <div className='row flex-nowrap'>
-          <Sidebar312 />
+          <Sidebar />
           <div className='col-md-10 p-0' style={{ width: '100%' }}>
             <div className='p-0'>
               <NavbarButtons />
@@ -33,4 +33,4 @@ const Poc312 = () => {
   )
 }
 
-export default Poc312
+export default Poc
