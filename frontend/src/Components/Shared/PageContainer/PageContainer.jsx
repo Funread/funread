@@ -1,11 +1,12 @@
 import ContentImage from '../ContentImage/ContentImage'
+import './PageContainer.css'
 
 const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
   return (
     <div className='container-fluid'>
       <div className='row'>
         <div className='col'>
-          <div className='card shadow mb-4'>
+          <div className='card shadow mb-4 content_page'>
             <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
               <h6 className='m-0 font-weight-bold text-primary'>{title}</h6>
             </div>

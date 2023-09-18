@@ -7,8 +7,8 @@ import Navbar from 'react-bootstrap/Navbar'
 const Carousel = () => {
   return (
     <Navbar bg='light' data-bs-theme='light'>
-      <div className='container p-0'>
-        <div className='custom_section' style={{ width: '100%' }}>
+      <div className='container-sm m-0'>
+        <div className='custom_section' style={{ width: '100%'}}>
           {[
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
             20,
