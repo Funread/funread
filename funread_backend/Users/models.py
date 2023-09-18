@@ -15,5 +15,3 @@ class User(models.Model):
     actived = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
     roles = models.ManyToManyField(Roles) #crea propiedad de roles many to many en users para poder generar la tabla usando el orm, test
 
-    class Meta:
-        db_table = 'user'  # Especifica el nombre de la tabla
