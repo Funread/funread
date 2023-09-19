@@ -30,3 +30,9 @@ h4 {
     max-width: 91.666667%;
   }
 }
+
+@media only screen and (max-width : 900px) {
+.content_library{
+  padding-right: 4rem;
+}
+}

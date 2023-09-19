@@ -83,7 +83,7 @@ function Library({ toggleSidebar }) {
         onSelect={(k) => setKey(k)}
       >
         <Tab eventKey='mylibrary' title='My library' className='tab'>
-          <div className='section_sharelibrary shadow p-3 mb-5 bg-body rounded '>
+          <div className='section_sharelibrary p-3 bg-body rounded '>
             {BOOKS.map(
               ({
                 id,

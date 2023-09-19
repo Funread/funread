@@ -36,10 +36,10 @@ const POC = () => {
 
           <div
             className={`sidenav ${showSidebar ? "col-sm-8" : "col-11"}`}
-            style={{}}
+           
           >
-            <div style={{ maxWidth: "1000px" }} className="mx-auto">
-              <Form className="d-flex mt-1 pt-5">
+            <div style={{ maxWidth: "1100px" }} className="mx-auto content_library">
+              <Form className="d-flex mt-1 pt-3">
                 <Form.Control
                   type="search"
                   placeholder="Search"

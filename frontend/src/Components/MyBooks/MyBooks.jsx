@@ -34,6 +34,16 @@ const MY_BOOKS = [
       'Eu consectetur aliquip est ipsum non in veniam officia consectetur laborum cillum. Enim et eiusmod occaecat labore mollit ullamco culpa duis voluptate commodo incididunt. In ex dolore est esse amet quis pariatur aliquip reprehenderit elit sunt veniam. Culpa eu pariatur pariatur duis anim ut ex ea nostrud nostrud aliqua. Officia consectetur nostrud proident enim ullamco aute ea dolor officia commodo nisi nostrud ex.',
     color: '#B6D6F2',
   },
+  {
+    id: 4,
+    title: 'To Kill a Mockingbird',
+    category: 'Southern Gothic',
+    portrait: 'https://cdn2.penguin.com.au/covers/original/9781784752637.jpg',
+    author: 'Harper Lee',
+    description:
+      'Eu consectetur aliquip est ipsum non in veniam officia consectetur laborum cillum. Enim et eiusmod occaecat labore mollit ullamco culpa duis voluptate commodo incididunt. In ex dolore est esse amet quis pariatur aliquip reprehenderit elit sunt veniam. Culpa eu pariatur pariatur duis anim ut ex ea nostrud nostrud aliqua. Officia consectetur nostrud proident enim ullamco aute ea dolor officia commodo nisi nostrud ex.',
+    color: '#B6D6F2',
+  },
 ]
 
 const MyBooks = ({ toggleSidebar }) => {
