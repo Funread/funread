@@ -1,4 +1,4 @@
-import './poc.css'
+import './pocfr-315.css'
 import React, { useState } from 'react'
 import MyBooks from '../Components/MyBooks/MyBooks'
 import Button from 'react-bootstrap/Button'
@@ -36,13 +36,14 @@ const POC = () => {
     setEditedTitle(newTitle)
     setEditedContent(newContent)
   }
+
   return (
     <>
-      <div className='container-fluid p-0 text-center '>
-        <div className='row flex-nowrap ' style={{ height: 'auto' }}>
+      <div className='container-fluid custom-padding text-center '>
+        <div className='row flex-nowrap' style={{ height: 'auto' }}>
           <SidebarBook></SidebarBook>
 
-          <div className={`sidenav ${showSidebar ? 'col-sm-8' : 'col-11'}`}>
+          <div className={`sidenav ${showSidebar ? 'col-sm-9' : 'col-12'}`}>
             <div
               style={{ maxWidth: '1100px' }}
               className='mx-auto content_library'
@@ -96,7 +97,7 @@ const POC = () => {
           </div>
           {selectedBook && (
             <div
-              className='col-sm-3 p-0 sidebar-desktop'
+              className='col-sm-3 custom-padding sidebar-desktop'
               style={{ background: '#79ABA8' }}
             >
               <BookView
