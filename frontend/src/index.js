@@ -17,18 +17,19 @@ import Template1 from "./Components/Shared/Templates/Template 1/Template1"
 import Template2 from "./Components/Shared/Templates/Template 2/template2";
 import Template3 from "./Components/Shared/Templates/Template3/Template3";
 import MemoryGame from "./Components/Shared/Templates/Widgets/MemoryGame/MemoryGame";
-import POC from "./POC/poc"
+import POCFR_315 from './POCFR-315/pocfr-315'
 import POC314 from "./POC314/poc314";
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <BrowserRouter>
     <Routes>
       <Route
         exact
-        path="/mylibrary"
+        path='/mylibrary'
         element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
+          <div className='index-background-padding'>
+            <div className='index-background-container '>
               <MyLibrary />
             </div>
           </div>
@@ -37,64 +38,72 @@ root.render(
 
       <Route
         exact
-        path="/"
+        path='/'
         element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
+          <div className='index-background-padding'>
+            <div className='index-background-container '>
               <LandingPage />
             </div>
           </div>
         }
       />
       <Route
-        path="/dashboard"
+        path='/dashboard'
         element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
+          <div className='index-background-padding'>
+            <div className='index-background-container '>
               <Dashboard />
             </div>
-          </div>} />
-      <Route path="/wiki" element={<Wiki />} />
+          </div>
+        }
+      />
+      <Route path='/wiki' element={<Wiki />} />
 
-      <Route path="/puzzle" element={<Puzzle imagen="https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg" />} />
+      <Route
+        path='/puzzle'
+        element={
+          <Puzzle imagen='https://149695847.v2.pressablecdn.com/wp-content/uploads/2020/08/What-is-Computer-Vision-scaled.jpg' />
+        }
+      />
       {/* <Route path="/wizard" element={<Wizard />}/> */}
-      
 
       <Route
         exact
-        path="/wizard"
+        path='/wizard'
         element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
+          <div className='index-background-padding'>
+            <div className='index-background-container '>
               <Wizard />
             </div>
           </div>
         }
       />
-      <Route path="/wizardtemplate" element={<WizardTemplate />} />
+      <Route path='/wizardtemplate' element={<WizardTemplate />} />
 
       <Route
-        path="/addpage"
+        path='/addpage'
         element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
+          <div className='index-background-padding'>
+            <div className='index-background-container '>
               <AddPage />
             </div>
           </div>
         }
       />
+
       <Route path="/template-1" element={<Template1 />} />
       <Route path="/template-2" element={<Template2 />} />
       <Route path="/template-3" element={<Template3/>} />
       <Route path="/memorygame" element={<MemoryGame/>} />
-      <Route path="/POC/FR-315" element={<POC/>} />
+      <Route path='/POC/FR-315' element={<POCFR_315 />} />
       <Route path="/POC/FR-314" element={<POC314/>} />
+
 
     </Routes>
   </BrowserRouter>
-);
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals()
