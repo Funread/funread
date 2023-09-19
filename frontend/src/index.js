@@ -19,7 +19,7 @@ import Template3 from "./Components/Shared/Templates/Template3/Template3";
 import MemoryGame from "./Components/Shared/Templates/Widgets/MemoryGame/MemoryGame";
 import ProtectedRoutes from "./ProtectedRoutes";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <BrowserRouter>
     <Routes>
@@ -27,13 +27,14 @@ root.render(
         exact
         path="/"
         element={
-          <div className="index-background-padding">
-            <div className="index-background-container ">
+          <div className='index-background-padding'>
+            <div className='index-background-container '>
               <LandingPage />
             </div>
           </div>
         }
       />
+
       <Route element={<ProtectedRoutes />}>
       {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
         <Route
@@ -96,9 +97,9 @@ root.render(
       </Route>
     </Routes>
   </BrowserRouter>
-);
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals()
