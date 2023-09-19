@@ -91,6 +91,15 @@ function LogIn(props) {
     document.getElementById(id).style.color = color;
   };
 
+  const helperShow= () => {
+    const element = document.getElementById("Login-Form-helper")
+    if(element.className == 'Login-Form-helper-show'){
+      element.className = ''
+    }else{
+      element.className = 'Login-Form-helper-show'
+    }
+  }
+
   /**
    * Function useEffect:
    * Cambia el color del botón de Log In cuando los campos de email y password han sido llenados.
@@ -125,6 +134,9 @@ function LogIn(props) {
           <h5 className="login-form-subtitle">
             Add your information to Log In.
           </h5>
+          <div id="Login-Form-helper" onClick={helperShow}>
+          <h3>?</h3>
+          </div>
           <div className="login-form-inputs">
             <Form.Group className="form-group">
               <Form.Label className="font-size">
