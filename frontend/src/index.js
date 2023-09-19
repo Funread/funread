@@ -18,6 +18,7 @@ import Template2 from "./Components/Shared/Templates/Template 2/template2";
 import Template3 from "./Components/Shared/Templates/Template3/Template3";
 import MemoryGame from "./Components/Shared/Templates/Widgets/MemoryGame/MemoryGame";
 import POC from "./POC/poc"
+import POC314 from "./POC314/poc314";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
@@ -87,6 +88,8 @@ root.render(
       <Route path="/template-3" element={<Template3/>} />
       <Route path="/memorygame" element={<MemoryGame/>} />
       <Route path="/POC/FR-315" element={<POC/>} />
+      <Route path="/POC/FR-314" element={<POC314/>} />
+
     </Routes>
   </BrowserRouter>
 );
