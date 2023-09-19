@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import './TemplateImage.css';
-import ButtonNav from "../ButtonNav/ButtonNav";
 import Form from 'react-bootstrap/Form';
 
 
@@ -15,7 +14,7 @@ function TemplateImage (){
     return (
         
         <div id="template">
-            <ul>
+            <ul >
                 <li>
                     {/*<input size="lg" type="text" placeholder="Write here" id="title"/>*/}
                     <Form.Control size="lg" type="text" placeholder="Write here" />

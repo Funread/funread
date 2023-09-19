@@ -1,20 +1,20 @@
 #template{
-    padding: 15px;
+    padding: 7px;
     max-width: 800px;
-    max-height: 700px;
+    max-height: 500px;
     background-color: rgb(189, 245, 226);
-    text-align: justify;
+    text-align: center;
+    margin-right: 5px;
 }
 
-#title{
-    width: 400px;
-    border-color: azure;
-    background-color: transparent;
+li::marker{
+    color: transparent;
 }
+
 
 #image{
     width: 100%;
-    height: 400px;
+    height: 300px;
 }
 
 

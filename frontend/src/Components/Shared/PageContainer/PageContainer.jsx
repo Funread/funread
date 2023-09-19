@@ -1,5 +1,14 @@
+import TemplateImage from '../../../POC-FR-312/TemplateImage';
 import ContentImage from '../ContentImage/ContentImage'
 import './PageContainer.css'
+
+/*function Templatee({ children }) {
+  return (
+    <div >
+      {children}
+    </div>
+  );
+}*/
 
 const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
   return (
@@ -16,7 +25,11 @@ const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
                 <div className='card-body'>
                   <div className='d-flex flex-column align-items-center justify-content-center '>
                    
-                    <div className='text-center mt-2'>{text}</div>
+                    <div>
+                      {/*<Templatee>*/}
+                        <TemplateImage></TemplateImage>
+                      {/*</Templatee>*/}
+                    </div>
                   </div>
                 </div>
               </div>
