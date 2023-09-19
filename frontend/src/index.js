@@ -18,6 +18,7 @@ import Template2 from "./Components/Shared/Templates/Template 2/template2";
 import Template3 from "./Components/Shared/Templates/Template3/Template3";
 import MemoryGame from "./Components/Shared/Templates/Widgets/MemoryGame/MemoryGame";
 import LinkInvitacion from "./Components/linkInvitacion/linkInvitacion"
+import LinkCreation from "./Components/LinkCreation/LinkCreation"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -93,6 +94,15 @@ root.render(
           <div className="index-background-padding">
             <div className="index-background-container ">
               <LinkInvitacion/>
+            </div>
+          </div>
+        }/>
+        <Route 
+        path="/InvitedGenerator" 
+        element={
+          <div className="index-background-padding">
+            <div className="index-background-container ">
+              <LinkCreation/>
             </div>
           </div>
         }/>
