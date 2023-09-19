@@ -12,15 +12,10 @@ const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
             </div>
 
             <div className='card-body'>
-              <div className='card shadow mb-4'>
+              <div className='card shadow mb-4 centro'>
                 <div className='card-body'>
-                  <div className='d-flex flex-column align-items-center justify-content-center'>
-                    <ContentImage
-                      image={image}
-                      width={width}
-                      height={height}
-                      imageAlt={imageAlt}
-                    />
+                  <div className='d-flex flex-column align-items-center justify-content-center '>
+                   
                     <div className='text-center mt-2'>{text}</div>
                   </div>
                 </div>

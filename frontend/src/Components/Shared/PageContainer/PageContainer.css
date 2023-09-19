@@ -1,5 +1,11 @@
-.content_page{
-    width:76%;
+.content_page {
+    width: 80%; /* Aumenta el ancho al 90% */
+    height: 360%; /* Aumenta la altura a 400px o el valor que desees */
     margin-right: 2rem;
-    /* padding-left: -10rem; */
+}
+
+.centro{
+    width: 100%; /* Aumenta el ancho al 90% */
+    height: 100%; /* Aumenta la altura a 400px o el valor que desees */
+    margin-right: 2rem;
 }
