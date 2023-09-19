@@ -1,12 +1,9 @@
-import "./poc314.css";
+import "./pocfr-314.css";
 import React, { useState } from "react";
-import MyBooks from "../Components/MyBooks/MyBooks";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import Library from "../Components/Library/Library";
-import BookView from "../Components/Shared/BookView/BookView";
 import SidebarBook from "../Components/Shared/SidebarBook/SidebarBook";
 
 const POC314 = () => {
