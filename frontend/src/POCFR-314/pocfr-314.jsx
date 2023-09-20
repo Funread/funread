@@ -5,10 +5,10 @@ import Form from "react-bootstrap/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import SidebarBook from "../Components/Shared/SidebarBook/SidebarBook";
-import ListGroups from "../Components/Shared/ListGroups/ListGroups"; 
-import StudentCard from "../Components/Shared/StudentCard/StudentCard"
-import GroupCardProgress from "../Components/Shared/GroupCardProgress/GroupCardProgress"
- import CardNewGroup from "../Components/Shared/CardNewGroup/CardNewGroup"
+import ListGroups from "../Components/Shared/ListGroups/ListGroups";
+import StudentCard from "../Components/Shared/StudentCard/StudentCard";
+import GroupCardProgress from "../Components/Shared/GroupCardProgress/GroupCardProgress";
+import CardNewGroup from "../Components/Shared/CardNewGroup/CardNewGroup";
 const POC314 = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -33,12 +33,11 @@ const POC314 = () => {
       <div className="container-fluid custom-padding text-center ">
         <div className="row flex-nowrap " style={{ height: "auto" }}>
           <SidebarBook></SidebarBook>
-          <div
-            className={`sidenav ${showSidebar ? "col-sm-9" : "col-12"}`}
-           
-          >
-            <div style={{ maxWidth: "1100px" }}
-             className="mx-auto content_group">
+          <div className={`sidenav ${showSidebar ? "col-sm-9" : "col-12"}`}>
+            <div
+              style={{ maxWidth: "1100px" }}
+              className="mx-auto content_group"
+            >
               <Form className="d-flex mt-1 pt-3">
                 <Form.Control
                   type="search"
@@ -53,9 +52,9 @@ const POC314 = () => {
                   />
                 </Button>
               </Form>
-             <CardNewGroup></CardNewGroup>
+              <CardNewGroup></CardNewGroup>
               <h4>My Groups</h4>
-              <ListGroups toggleSidebar={toggleSidebar}/>
+              <ListGroups toggleSidebar={toggleSidebar} />
 
               {selectedStudent && (
                 <div
