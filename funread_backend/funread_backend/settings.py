@@ -60,7 +60,8 @@ INSTALLED_APPS = [
     'TagsPerPage',
     'Classes',
     'ClassesLog',
-    'TeacherApp'
+    'TeacherApp',
+    'Media'
     
 
 
@@ -70,7 +71,7 @@ INSTALLED_APPS = [
 ]
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),  # Duración del token de acceso (ejemplo: 1 hora)
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=50),  # Duración del token de acceso (ejemplo: 1 hora)
     'ALGORITHM': 'HS256',  # Algoritmo de firma JWT
     'SIGNING_KEY': SECRET_KEY, #'funreadkeysecret',  # Clave secreta para firmar los tokens
     'VERIFYING_KEY': None,  # Clave pública para verificar tokens (puede dejarse en None)
@@ -218,5 +219,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_URL ='/archivos/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL ='/Media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'Media')
