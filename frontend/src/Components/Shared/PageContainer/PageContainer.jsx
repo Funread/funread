@@ -25,11 +25,9 @@ const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
                 <div className='card-body'>
                   <div className='d-flex flex-column align-items-center justify-content-center '>
                    
-                    <div>
-                      {/*<Templatee>*/}
+                    
                         <TemplateImage></TemplateImage>
-                      {/*</Templatee>*/}
-                    </div>
+                   
                   </div>
                 </div>
               </div>
