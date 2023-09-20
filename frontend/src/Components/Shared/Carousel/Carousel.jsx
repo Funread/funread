@@ -8,7 +8,7 @@ function Carousel() {
     <div id="carouselExampleFade" className="carousel slide carousel-fade" data-bs-ride="carousel">
       <div className="carousel-inner">
         <div className="carousel-item active">
-          <img src="/" className="d-block w-100" alt="..." />
+          <img src="/Estudiantes2.jpg" className="d-block w-100" alt="..." />
         </div>
         <div className="carousel-item">
           <img src="/Estudiantes1.jpeg" className="d-block w-100" alt="..." />

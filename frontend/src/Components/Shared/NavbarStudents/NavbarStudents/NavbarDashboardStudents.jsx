@@ -2,6 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './NavbarDashboardStudents.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
 
 const Navbar = () => {
   const [fechaActual, setFechaActual] = useState('');

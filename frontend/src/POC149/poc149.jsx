@@ -28,6 +28,7 @@ function POC129() {
         <div class="col-5">
           <Carousel/>
         </div>
+
         <div class="col-4" style={{display:'flex', textAlign: 'center'}}>
      
             <div className="right-panel" >
