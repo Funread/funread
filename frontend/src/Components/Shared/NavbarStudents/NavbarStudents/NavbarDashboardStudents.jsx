@@ -32,7 +32,7 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-          <form className="d-flex ms-auto">
+          <form className="d-flex ms-2">
             <input
               className="form-control me-2"
               type="search"
@@ -43,19 +43,19 @@ const Navbar = () => {
               <img src="/buscar.png" alt="Buscar" style={{ width: '20px', height: '20px' }} />
             </button>
           </form>
-          <span className="navbar-text mx-auto" id="fecha">
+          <span className="navbar-text ms-auto mx-auto" id="fecha">
             {fechaActual}
           </span>
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li className="nav-item">
+          <ul className="navbar-nav ms-auto mx-auto">
+            <li className="nav-item ms-auto mx-auto">
               <a className="nav-link active hover-celeste" aria-current="page" href="#">
                 <img src="/configuraciones.png" alt="Conf" />
               </a>
             </li>
-            <li className="nav-item mx-2">
+            <li className="nav-item mx-auto ms-auto">
               <span className="nav-link hover-celeste">Nombre del estudiante</span>
             </li>
-            <li className="nav-item">
+            <li className="nav-item mx-5">
               <a className="nav-link hover-celeste" href="#">
                 <img src="/usuario.png" alt="Enlace" />
               </a>

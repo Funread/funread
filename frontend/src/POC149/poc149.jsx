@@ -22,7 +22,7 @@ function POC129() {
     <div>
       <SlideBar/>
     </div>
-    <div class="col-11">
+    <div class="col-12">
       <Navbar />
       <div style={{display:'flex', textAlign: 'center', marginLeft:'25px'}}>
         <div class="col-5">
