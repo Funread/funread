@@ -8,6 +8,7 @@ h4 {
     display: block;
   }
   
+
   @media screen and (min-width: 992px) {
     .sidebar-mobile {
       display: none;
@@ -32,7 +33,10 @@ h4 {
   }
   
   @media only screen and (max-width : 900px) {
-  .content_library{
-    padding-right: 4rem;
+  .content_group{
+    padding-right: 3rem;
   }
+  }
+  .custom-padding {
+    padding-right: 2rem;
   }

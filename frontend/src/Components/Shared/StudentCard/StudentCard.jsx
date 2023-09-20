@@ -6,45 +6,42 @@ import Row from 'react-bootstrap/Row';
 import Accordion from 'react-bootstrap/Accordion';
 
 
-function studentCard() {
+function studentCard({idStudent, idGroup,image, name, pendingTasks, completeTasks }) {
   return (
     <>
-    <div className='div'>
-        <div className='profileImagen'>
+    <div className='container mx-auto pt-5 text-white justify-content-center'>
+        <div className='profileImagen mx-auto'>
         
-            <Image src={"https://i.pinimg.com/564x/97/91/d7/9791d7260dee3f14f37f1e2913e659bb.jpg"} roundedCircle />
+            <Image src={image} width={180} height={180}  alt='image' roundedCircle />
         
         </div>
         <div className='infoStudent'>
 
-            <h6>Hector Acevedo Guerrero <br/>
-            Grupo 3
+            <h6>{name} <br/>
+            Group: {idGroup}
 
-            </h6>
-            
-
-
+            </h6>          
         
         </div>
 
-        <div className='accordionBar'>
-        <Accordion>
+        
+        <Accordion className='custum-accordion'>
         <Accordion.Item eventKey="0">
-            <Accordion.Header>Tareas completas</Accordion.Header>
+            <Accordion.Header>Complete Tasks {completeTasks}</Accordion.Header>
             <Accordion.Body>
             tell me why
             </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey="1">
-            <Accordion.Header>Tareas faltantes</Accordion.Header>
+            <Accordion.Header>Pending Tasks {pendingTasks}</Accordion.Header>
             <Accordion.Body>
             Aint nothing but a headache
             </Accordion.Body>
         </Accordion.Item>
         </Accordion>
 
-
-        </div>
+        <br/>
+      
     </div>
     </>
   );

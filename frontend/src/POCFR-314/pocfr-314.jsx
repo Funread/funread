@@ -5,37 +5,40 @@ import Form from "react-bootstrap/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import SidebarBook from "../Components/Shared/SidebarBook/SidebarBook";
-
+import ListGroups from "../Components/Shared/ListGroups/ListGroups"; 
+import StudentCard from "../Components/Shared/StudentCard/StudentCard"
+import GroupCardProgress from "../Components/Shared/GroupCardProgress/GroupCardProgress"
+ import CardNewGroup from "../Components/Shared/CardNewGroup/CardNewGroup"
 const POC314 = () => {
-  const [showSidebar, setShowSidebar] = useState(true);
-  const [selectedBook, setSelectedBook] = useState(null);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
-  const toggleSidebar = (book) => {
-    if (!selectedBook) {
+  const toggleSidebar = (student) => {
+    if (!selectedStudent) {
       setShowSidebar(true);
-      setSelectedBook(book);
+      setSelectedStudent(student);
       return;
     }
 
-    if (selectedBook.id === book.id) {
+    if (selectedStudent.idStudent === student.idStudent) {
       setShowSidebar(false);
-      setSelectedBook(null);
+      setSelectedStudent(null);
       return;
     }
-    setSelectedBook(book);
+    setSelectedStudent(student);
   };
 
   return (
     <>
-      <div className="container-fluid p-0 text-center ">
+      <div className="container-fluid custom-padding text-center ">
         <div className="row flex-nowrap " style={{ height: "auto" }}>
           <SidebarBook></SidebarBook>
-
           <div
-            className={`sidenav ${showSidebar ? "col-sm-8" : "col-11"}`}
+            className={`sidenav ${showSidebar ? "col-sm-9" : "col-12"}`}
            
           >
-            <div style={{ maxWidth: "1100px" }} className="mx-auto content_library">
+            <div style={{ maxWidth: "1100px" }}
+             className="mx-auto content_group">
               <Form className="d-flex mt-1 pt-3">
                 <Form.Control
                   type="search"
@@ -50,23 +53,43 @@ const POC314 = () => {
                   />
                 </Button>
               </Form>
-
-              <h4>Create Group</h4>
-             
+             <CardNewGroup></CardNewGroup>
               <h4>My Groups</h4>
+              <ListGroups toggleSidebar={toggleSidebar}/>
+
+              {selectedStudent && (
+                <div
+                  className="sidebar-mobile mt-4"
+                  style={{ background: "#79ABA8" }}
+                >
+                  <StudentCard
+                    idStudent={selectedStudent?.idStudent}
+                    image={selectedStudent?.image}
+                    name={selectedStudent?.name}
+                    idGroup={selectedStudent?.idGroup}
+                    pendingTasks={selectedStudent?.pendingTasks}
+                    completeTasks={selectedStudent?.completeTasks}
+                  />
+                </div>
+              )}
+
+              <GroupCardProgress></GroupCardProgress>
+              <br></br>
             </div>
           </div>
-          {selectedBook && (
+          {selectedStudent && (
             <div
               className="col-sm-3 p-0 sidebar-desktop"
               style={{ background: "#79ABA8" }}
             >
-              {/* <BookView
-                title={selectedBook?.title}
-                description={selectedBook?.description}
-                image={selectedBook?.image}
-                author={selectedBook?.author}
-              /> */}
+              <StudentCard
+                idStudent={selectedStudent?.idStudent}
+                image={selectedStudent?.image}
+                name={selectedStudent?.name}
+                idGroup={selectedStudent?.idGroup}
+                pendingTasks={selectedStudent?.pendingTasks}
+                completeTasks={selectedStudent?.completeTasks}
+              />
             </div>
           )}
         </div>

@@ -1,32 +1,38 @@
 
 
 .profileImagen{
-    display: flex;
-    width:300px;
+    justify-content: center;   
     height:200px;
-    margin:25px ;
     margin-top: 2px;
-
 }
 
 .accordionBar{
-    margin: 30px;
-    display: flex;
-    width: 250px;
-    height:100px;
-
+    padding-left: 1rem;
+    padding-top: 1rem;
+    display: flex;   
+    width: 16rem;
+    
 }
 
 .infoStudent{
-    text-align: center;
-    display: flex;
-    width: 300px;
-    margin:30px;
+    margin:1rem ;
+    margin-left: 1rem;
+    justify-content: center;
+ }
+
+.divstudentCard{
+    width: 18rem;
+    height: 580px;
+    padding: 1rem;
+    margin: 1rem;
+}
+.Accordion {
+    
+    max-height: 100vh; /* Establece la altura máxima como el 100% de la altura de la ventana */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical si el contenido es demasiado alto */
   }
 
-.div{
-    width: 380px;
-    height: 680px;
-    padding: 50px;
-    margin: 5px;
+.custum-accordion{
+    justify-content: center;
+    
 }
