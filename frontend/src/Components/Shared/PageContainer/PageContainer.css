@@ -1,11 +1,11 @@
 .content_page {
-    width: 175vh; /* Aumenta el ancho al 90% */
-    height: 85vh; /* Aumenta la altura a 400px o el valor que desees */
+    width: 175vh; 
+    height: 85vh; 
     margin-right: 2rem;
 }
 
 .centro{
-    width: 100%; /* Aumenta el ancho al 90% */
-    height: 100%; /* Aumenta la altura a 400px o el valor que desees */
+    width: 100%; 
+    height: 100%; 
     margin-right: 2rem;
 }
