@@ -32,13 +32,11 @@ function POC149() {
         <div class="col-1" style={{display:'flex', textAlign: 'center'}}>
      
             <div className="right-panel" >
-              <RedContainer />
+            
 
 
               <div className="calendar-and-notifications">
-                <div className="calendar">
-                  <CalendarComponent />
-                </div>
+             
                 <div className="notifications">
                   <NotificationCenter />
                 </div>
@@ -46,6 +44,7 @@ function POC149() {
                 <div className="NotificationCard">
                 <NotificationCard notifications={notification} />
                 </div>
+                
               </div>
 
             </div>
