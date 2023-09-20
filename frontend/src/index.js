@@ -18,7 +18,7 @@ import Template2 from "./Components/Shared/Templates/Template 2/template2";
 import Template3 from "./Components/Shared/Templates/Template3/Template3";
 import MemoryGame from "./Components/Shared/Templates/Widgets/MemoryGame/MemoryGame";
 import ProtectedRoutes from "./ProtectedRoutes";
-import POC129 from "./POC149/poc149";
+import POC149 from "./POC149/poc149";
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -36,7 +36,7 @@ root.render(
         }
         
       />
-        <Route path="/POC-FR-129" element={<POC129/>} />
+        <Route path="/POC-FR-149" element={<POC149/>} />
       <Route element={<ProtectedRoutes />}>
       {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
         <Route
