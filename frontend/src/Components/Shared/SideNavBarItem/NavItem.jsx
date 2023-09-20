@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
   const [selectedItem, setSelectedItem] = useState(false)
+  const [clickedImageName, setClickedImageName] = useState('')
 
   const handleItemClick = () => {
     setSelectedItem(!selectedItem)
@@ -12,8 +13,9 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
     }
   }
 
-  const handleImageClick = () => {
-    alert('Haz hecho clic en la imagen de Quiz.')
+  const handleImageClick = (imageName) => {
+    setClickedImageName(imageName)
+    alert(`Haz hecho clic en la imagen: ${imageName}`)
   }
 
   return (
@@ -43,7 +45,7 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
                     src={subItem.imageSrc}
                     alt={text}
                     className='submenu-image'
-                    onClick={handleImageClick}
+                    onClick={() => handleImageClick(subItem.imageSrc)}
                   />
                 )}
               </div>
