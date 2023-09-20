@@ -1,11 +1,7 @@
 import { useState } from 'react'
 import './BookImage.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faCloudUpload,
-  faFileImage,
-  faTrashAlt,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCloudUpload } from '@fortawesome/free-solid-svg-icons'
 
 const BookImage = () => {
   const [image, setImage] = useState(null)
@@ -14,7 +10,7 @@ const BookImage = () => {
     <>
       <main>
         <div className='form-container'>
-          <form
+          <div
             className='custom-form'
             onClick={() => document.querySelector('.input-field').click()}
           >
@@ -41,26 +37,11 @@ const BookImage = () => {
                 </div>
               )}
             </div>
-          </form>
+          </div>
         </div>
-
-        {/* <section className='uploaded-row'>
-          <FontAwesomeIcon icon={faFileImage} />
-          <span className='upload-content'>
-            {fileName} -
-            <button
-              className='custom-button'
-              onClick={() => {
-                setFileName('No selected file')
-                setImage(null)
-              }}
-            >
-              <FontAwesomeIcon icon={faTrashAlt} />
-            </button>
-          </span>
-        </section> */}
       </main>
     </>
   )
 }
+
 export default BookImage

@@ -18,6 +18,7 @@ import Template2 from './Components/Shared/Templates/Template 2/template2'
 import Template3 from './Components/Shared/Templates/Template3/Template3'
 import MemoryGame from './Components/Shared/Templates/Widgets/MemoryGame/MemoryGame'
 import ProtectedRoutes from './ProtectedRoutes'
+import POCFR_315 from './POCFR-315/pocfr-315'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -99,6 +100,7 @@ root.render(
         <Route path='/template-3' element={<Template3 />} />
 
         <Route path='/memorygame' element={<MemoryGame />} />
+        <Route path='/POC/FR-315' element={<POCFR_315 />} />
 
         {/* Final de Routes protegidas */}
       </Route>

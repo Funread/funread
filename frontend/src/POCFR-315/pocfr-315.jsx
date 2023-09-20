@@ -14,8 +14,6 @@ const POC = () => {
   const [showSidebar, setShowSidebar] = useState(false)
   const [selectedBook, setSelectedBook] = useState(null)
   const [modalShow, setModalShow] = useState(false)
-  const [editedTitle, setEditedTitle] = useState('')
-  const [editedContent, setEditedContent] = useState('')
 
   const toggleSidebar = (book) => {
     if (!selectedBook) {
@@ -30,11 +28,6 @@ const POC = () => {
       return
     }
     setSelectedBook(book)
-  }
-
-  const handleSave = (newTitle, newContent) => {
-    setEditedTitle(newTitle)
-    setEditedContent(newContent)
   }
 
   return (
@@ -68,13 +61,7 @@ const POC = () => {
                   <FontAwesomeIcon icon={faPencilAlt} />
                 </Button>
               </Form>
-              <CreateBook
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                initialTitle={editedTitle}
-                initialContent={editedContent}
-                onSave={handleSave}
-              />
+              <CreateBook show={modalShow} onHide={() => setModalShow(false)} />
 
               <h4>Recent Books</h4>
               <MyBooks toggleSidebar={toggleSidebar} />

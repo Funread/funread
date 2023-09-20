@@ -1,4 +1,4 @@
-.custom-input {
+.custom-title {
   border: none;
   border-bottom: 1px solid #000;
   outline: none;
@@ -6,6 +6,18 @@
   width: 100%;
   font-weight: bold;
   font-size: large;
+}
+.custom-title:focus {
+  box-shadow: none;
+}
+
+.custom-textArea:focus {
+  box-shadow: none;
+}
+
+.custom-textArea {
+  box-shadow: none;
+  border-radius: 0;
 }
 
 @media (max-width: 768px) {
