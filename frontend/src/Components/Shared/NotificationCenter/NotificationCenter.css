@@ -1,0 +1,28 @@
+/* NotificationCenter.css */
+.notification-center {
+  
+  background-color: #c4b4f5;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 16px;
+  max-width: 300px;
+  margin: 10px auto;
+  
+}
+
+.notification-center h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+ text-align: center;
+}
+
+.notification-center ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-center li {
+  margin-bottom: 8px;
+}
+

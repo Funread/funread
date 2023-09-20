@@ -1,0 +1,16 @@
+.navbar-estudiante {
+    background-color: #f8f9fa;
+  }
+
+.navbar-nav .nav-item:hover,
+.navbar-toggler:hover {
+  transform: scale(1.1); 
+  transition: transform 0.3s ease; 
+}
+
+.navbar-nav .nav-item,
+.navbar-toggler {
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+

@@ -1,0 +1,29 @@
+ul{
+    margin: 0;
+    padding: 0;
+}
+
+ul li a:hover{
+    cursor:pointer;
+}
+
+li::marker{
+    color: transparent;
+}
+
+li{
+    padding-top: 15px;
+}
+
+.nav-link{
+    color: #cacaca;
+}
+
+/*#logo{
+    color: #cacaca;
+    font-weight: bolder;
+    font-size: 25px;
+    padding-bottom: 7em;
+}*/
+
+  
