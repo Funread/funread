@@ -48,3 +48,18 @@
   .react-calendar__month-view__days__day--neighboringMonth {
     color: #727171;
   }
+
+
+
+
+  @media (max-width: 765px) {
+    .react-calendar {
+      position: absolute; /* Mantener posición absoluta */
+      top: 80%; /* Colocarlo en la mitad superior */
+   
+      transform: translate(-50%, -50%); 
+      width: 100%; /* Ancho completo */
+      max-width: 70%; /* Ancho máximo completo */
+      height: auto; /* Altura automática */
+    }
+  }

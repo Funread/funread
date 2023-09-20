@@ -25,11 +25,11 @@ function POC149() {
     <div class="col-12">
       <Navbar />
       <div style={{display:'flex', textAlign: 'center', marginLeft:'25px'}}>
-        <div class="col-5">
+        <div class="col-7">
           <Carousel/>
         </div>
 
-        <div class="col-4" style={{display:'flex', textAlign: 'center'}}>
+        <div class="col-1" style={{display:'flex', textAlign: 'center'}}>
      
             <div className="right-panel" >
               <RedContainer />

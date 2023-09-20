@@ -1,9 +1,7 @@
 
 .right-panel {
   margin-left: 75%;
-  margin-top: 80px;
-  max-width: 60%; 
-  min-height: 100vh;
+
   background-color: #dddcdc; 
   display: flex;
   border-radius: 10px; 

@@ -2,7 +2,7 @@
     margin: -50px 60px 40px 60px;
     overflow:auto;
     border-radius: 18px;
-    width: 80%;
+    padding: 20px;
 }
 
 .dashboard-header {
