@@ -12,6 +12,10 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
     }
   }
 
+  const handleImageClick = () => {
+    alert('Haz hecho clic en la imagen de Quiz.')
+  }
+
   return (
     <>
       <div
@@ -34,11 +38,12 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
             {subItems.map((subItem, index) => (
               <div className='icon' key={index}>
                 <FontAwesomeIcon icon={subItem} />
-                {subItem.imageSrc && ( 
+                {subItem.imageSrc && (
                   <img
                     src={subItem.imageSrc}
                     alt={text}
                     className='submenu-image'
+                    onClick={handleImageClick}
                   />
                 )}
               </div>

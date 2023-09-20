@@ -53,46 +53,7 @@ const Sidebar = () => {
 
   const user = 'FUNREAD'
   const menuItems = [
-    {
-      text: 'Texto',
-      icon: faA,
-      subItems: [faTextHeight, faTextWidth],
-    },
-    {
-      text: 'Shapes',
-      icon: faShapes,
-      subItems: [faSquare, faCircle, faRectangleAd],
-    },
-    {
-      text: 'Images',
-      icon: faImage,
-      subItems: [
-        faImage,
-        faImage,
-        faImage,
-        faImage,
-        faImage,
-        faImage,
-        faImage,
-        faImage,
-        faImage,
-      ],
-    },
-    {
-      text: 'Video',
-      icon: faVideo,
-      subItems: [faVideo, faVideo, faVideo, faVideo, faVideo],
-    },
-    {
-      text: 'Audio',
-      icon: faVolumeUp,
-      subItems: [faVolumeUp, faVolumeUp, faVolumeUp],
-    },
-    {
-      text: 'Graphics',
-      icon: faPieChart,
-      subItems: [faPieChart, faPieChart, faPieChart],
-    },
+ 
     {
         text: 'Quiz',
         icon: faQuestionCircle,
