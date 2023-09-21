@@ -31,28 +31,5 @@
 
 
 
-@media (max-width: 750px) {
-  .carousel-container {
-    margin: 2% auto;
-  }
-  .carousel-inner img {
-    max-width: 100%;
-    height: auto;
-    width: 100%;
-  }
 
-}
-
-
-@media (max-width: 600px) {
-  .carousel-container {
-    margin: 2% auto;
-  }
-  .carousel-inner img {
-    max-width: 100%;
-    height: auto;
-    width: 100%;
-  }
-
-}
 

@@ -7,7 +7,7 @@ const NotificationCard = ({ notifications }) => {
       {notifications.map((notification, index) => (
         <div key={index} className="notification">
           <div className="notification-image">
-            <img src={notification.imageSrc} alt="Notification" />
+            <img src="/libro-de-texto.png" alt="Notification" />
           </div>
           <div className="notification-text">
             {notification.text}
@@ -21,13 +21,19 @@ const NotificationCard = ({ notifications }) => {
 const notifications = [
   {
     text: 'Notificación 1',
-    imageSrc: '/iconos/libro.png',
+    imageSrc:'/Estudiantes1.jpeg',
   },
   {
     text: 'Notificación 2',
-    imageSrc: '/iconos/pegatina.png',
+    imageSrc: '/logo192.png',
   },
-  // ... otras notificaciones ...
+
+  {
+    text: 'Notificación ',
+    imageSrc: '/logo192.png',
+  },
+
+
 ];
 
 
