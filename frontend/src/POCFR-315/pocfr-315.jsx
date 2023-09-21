@@ -4,14 +4,16 @@ import MyBooks from '../Components/MyBooks/MyBooks'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import Library from '../Components/Library/Library'
 import BookView from '../Components/Shared/BookView/BookView'
 import SidebarBook from '../Components/Shared/SidebarBook/SidebarBook'
+import CreateBook from '../Components/Shared/CreateBook/CreateBooks'
 
 const POC = () => {
   const [showSidebar, setShowSidebar] = useState(false)
   const [selectedBook, setSelectedBook] = useState(null)
+  const [modalShow, setModalShow] = useState(false)
 
   const toggleSidebar = (book) => {
     if (!selectedBook) {
@@ -52,7 +54,14 @@ const POC = () => {
                     icon={faSearch}
                   />
                 </Button>
+                <Button
+                  variant='outline-success'
+                  onClick={() => setModalShow(true)}
+                >
+                  <FontAwesomeIcon icon={faPencilAlt} />
+                </Button>
               </Form>
+              <CreateBook show={modalShow} onHide={() => setModalShow(false)} />
 
               <h4>Recent Books</h4>
               <MyBooks toggleSidebar={toggleSidebar} />

@@ -1,0 +1,39 @@
+.custom-form-title {
+  border: none;
+  border-bottom: 1px solid #000;
+  outline: none;
+  border-radius: 0;
+  width: 100%;
+  font-weight: bold;
+  font-size: large;
+}
+.custom-form-title:focus {
+  box-shadow: none;
+}
+
+.custom-textArea:focus {
+  box-shadow: none;
+}
+
+.custom-textArea {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.custom-select {
+  appearance: auto;
+}
+.custom-select:focus {
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .modal-body {
+    flex-direction: column;
+  }
+
+  .modal-body > div {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
