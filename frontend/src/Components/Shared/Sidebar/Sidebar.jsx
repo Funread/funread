@@ -58,12 +58,12 @@ const Sidebar = () => {
       subItems: [faTextHeight, faTextWidth],
     },
     {
-      text: 'HomeWork',
+      text: 'HomeWorks',
       icon: faShapes,
       subItems: [faSquare, faCircle, faRectangleAd],
     },
     {
-      text: 'Images',
+      text: 'Pictures',
       icon: faImage,
       subItems: [
         faImage,
@@ -78,17 +78,17 @@ const Sidebar = () => {
       ],
     },
     {
-      text: 'Video',
+      text: 'My activities',
       icon: faVideo,
       subItems: [faVideo, faVideo, faVideo, faVideo, faVideo],
     },
     {
-      text: 'Audio',
+      text: 'Listenings',
       icon: faVolumeUp,
       subItems: [faVolumeUp, faVolumeUp, faVolumeUp],
     },
     {
-      text: 'Graphics',
+      text: 'Practice',
       icon: faPieChart,
       subItems: [faPieChart, faPieChart, faPieChart],
     },
