@@ -20,7 +20,7 @@ import NavItem from '../Components/Shared/SideNavBarItem/NavItem'
 import SideNavBarFooter from '../Components/Shared/SideNavBarFooter/SideNavBarFooter'
 import { useEffect, useState } from 'react'
 
-const Sidebar = () => {
+const Sidebar = ({TemplateSeleccion}) => {
   const [isExpanded, setExpendState] = useState(true)
   const [selectedItem, setSelectedItem] = useState(null)
 
@@ -97,6 +97,7 @@ const Sidebar = () => {
               isExpanded={isExpanded}
               isSelected={selectedItem === index}
               onClick={() => handleItemClick(index)}
+              TemplateSeleccion={this.props.TemplateSeleccion}
             />
           ))}
         </div>

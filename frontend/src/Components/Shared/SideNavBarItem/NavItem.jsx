@@ -2,7 +2,7 @@ import './NavItem.css'
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
+const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick,TemplateSeleccion }) => {
   const [selectedItem, setSelectedItem] = useState(false)
   const [clickedImageName, setClickedImageName] = useState('')
 
@@ -16,6 +16,7 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
   const handleImageClick = (imageName) => {
     setClickedImageName(imageName)
     alert(`Haz hecho clic en la imagen: ${imageName}`)
+    this.props.TemplateSeleccion()
   }
 
   return (
