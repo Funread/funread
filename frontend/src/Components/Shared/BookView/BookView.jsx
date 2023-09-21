@@ -3,7 +3,7 @@ import './BookView.css'
 const BookView = ({ title, description, image, author }) => {
   return (
     <div
-      className='container mx-auto pt-5 text-white'
+      className='container mx-auto pt-5 text-white justify-content-center'
       style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
     >
       <div className='book-header'>
@@ -12,7 +12,7 @@ const BookView = ({ title, description, image, author }) => {
       </div>
 
       <div className='book-image'>
-        <img src={image} width={200} height={300} alt='portrait' />
+        <img src={image} width={170} height={300} alt='portrait' />
       </div>
 
       <div className='book-description'>
