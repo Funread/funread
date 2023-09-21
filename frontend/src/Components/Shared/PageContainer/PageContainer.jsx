@@ -21,7 +21,7 @@ let template=null
         <div className='col'>
           <div className='card shadow mb-4 content_page'>
             <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
-              <h6 className='m-0 font-weight-bold' style={{color: '#5C8374'}}>{title}</h6>
+              <h6 className='m-0 font-weight-bold' style={{color: '#93B1A6'}}>{title}</h6>
             </div>
 
             <div className='card-body'>

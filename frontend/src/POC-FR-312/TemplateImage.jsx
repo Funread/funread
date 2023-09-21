@@ -17,10 +17,10 @@ function TemplateImage (){
             <ul >
                 <li>
                     {/*<input size="lg" type="text" placeholder="Write here" id="title"/>*/}
-                    <Form.Control size="lg" type="text" placeholder="Write here" />
+                    <Form.Control size="lg" type="text" placeholder="Write here" style={{backgroundColor: '#accdc1'}}/>
                 </li>
                 <li>
-                    <input type="file" onChange={handleChange}/>
+                    <input type="file" onChange={handleChange} style={{color: '#183D3D'}}/>
                 </li>
                 <li>
                     <img src={file} id="image"/>

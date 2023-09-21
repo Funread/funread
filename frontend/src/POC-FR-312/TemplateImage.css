@@ -1,20 +1,27 @@
 #template{
-    padding: 7px;
     width: 100%; 
     height: 70vh;
-    background-color: rgb(189, 245, 226);
-    text-align: center;
-    margin-right: 5px;
+    background-color: #93B1A6;
+    text-align: justify;
+    padding-right: 2em;
+    padding-top: 1em;
+    padding-bottom: 2px;
+    border-radius: 7px;
+}
+
+li{
+    padding-bottom: 5px;
 }
 
 li::marker{
     color: transparent;
-    height: 500px;
 }
 
 #image{
     width: 100%;
-    height: 55vh;
+    height: 50vh;
+    border-style: double;
+    border-color: white;
 }
 
 
