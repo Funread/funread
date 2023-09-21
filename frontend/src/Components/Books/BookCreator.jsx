@@ -1,15 +1,15 @@
 import React from 'react'
-import './poc-312.css'
-import NavbarButtons from '../Components/Shared/NavbarButtons/NavbarButtons'
-import Sidebar312 from './Sidebar312'
-import Carousel from '../Components/Shared/NavBarCarrousel/NavBarCarrousel'
-import PageContainer from '../Components/Shared/PageContainer/PageContainer'
-import TemplateImage from '../POC-FR-312/TemplateImage';
+import './BookCreator.css'
+import NavbarButtons from '../Shared/NavbarButtons/NavbarButtons'
+import Sidebar312 from '../../POC-FR-312/Sidebar312'
+import Carousel from '../Shared/PagesList/PagesList'
+import PageContainer from '../Shared/PageContainer/PageContainer'
+import TemplateImage from '../../POC-FR-312/TemplateImage';
 
 // import './ExampleComponent.scss'
 // import Poc312 from './poc-312 copy 2'
 
-class Poc312 extends React.Component {
+class BookCreator extends React.Component {
   constructor(props) {
     super(props)
     this.TemplateSeleccion = this.TemplateSeleccion.bind(this)
@@ -62,4 +62,4 @@ class Poc312 extends React.Component {
   }
 }
 
-export default Poc312
+export default BookCreator;

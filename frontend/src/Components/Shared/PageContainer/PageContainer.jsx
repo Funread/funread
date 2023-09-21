@@ -15,6 +15,11 @@ let template=null
   if(templateSelected===1){
     template= <TemplateImage/>;
   }
+  if(templateSelected===2){
+    template=<ContentImage/>
+  }
+
+ 
 
   return (
     <div className='container-fluid'>

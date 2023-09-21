@@ -2,7 +2,7 @@ import React from 'react'
 import './poc.css'
 import NavbarButtons from '../Components/Shared/NavbarButtons/NavbarButtons'
 import Sidebar from '../Components/Shared/Sidebar/Sidebar'
-import Carousel from '../Components/Shared/NavBarCarrousel/NavBarCarrousel'
+import Carousel from '../Components/Shared/PagesList/PagesList'
 import PageContainer from '../Components/Shared/PageContainer/PageContainer'
 
 const Poc = () => {
