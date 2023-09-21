@@ -19,41 +19,41 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick,Templat
   }
 
   return (
-    <>
-      <div
-        key={text}
-        className={`custom-menu-item ${
-          isExpanded ? '' : 'custom-menu-item-NX'
-        } ${isSelected ? 'open' : ''}`}
-        onClick={handleItemClick}
-      >
-        <div className='d-flex align-items-center justify-content-between'>
-          <div className='d-flex align-items-center'>
-            <FontAwesomeIcon icon={icon} />
-            {isExpanded && <p className='ml-2'>{text}</p>}
-          </div>
-        </div>
+<>
+  <div
+    key={text}
+    className={`custom-menu-item ${
+      isExpanded ? '' : 'custom-menu-item-NX'
+    } ${isSelected ? 'open' : ''}`}
+    onClick={handleItemClick}
+  >
+    <div className='d-flex align-items-center justify-content-between'>
+      <div className='d-flex align-items-center'>
+        <FontAwesomeIcon icon={icon} />
+        {isExpanded && <p className='ml-2'>{text}</p>}
       </div>
-      {isSelected && (
-        <div className='custom-card'>
-          <div className='icon-grid'>
-            {subItems.map((subItem, index) => (
-              <div className='icon' key={index}>
-                <FontAwesomeIcon icon={subItem} />
-                {subItem.imageSrc && (
-                  <img
-                    src={subItem.imageSrc}
-                    alt={text}
-                    className='submenu-image'
-                    onClick={() => handleImageClick(subItem.imageSrc, subItem.id)}
-                  />
-                )}
-              </div>
-            ))}
+    </div>
+  </div>
+  {isSelected && (
+    <div className='custom-card'>
+      <div className='icon-grid' style={{ overflowX: 'hidden', display: 'flex', flexDirection: 'column' }}>
+        {subItems.map((subItem, index) => (
+          <div className='icon' key={index} style={{ marginBottom: '10px' }}>
+            <FontAwesomeIcon icon={subItem} />
+            {subItem.imageSrc && (
+              <img
+                src={subItem.imageSrc}
+                alt={text}
+                className='submenu-image'
+                onClick={() => handleImageClick(subItem.imageSrc, subItem.id)}
+              />
+            )}
           </div>
-        </div>
-      )}
-    </>
+        ))}
+      </div>
+    </div>
+  )}
+</>
   )
 }
 

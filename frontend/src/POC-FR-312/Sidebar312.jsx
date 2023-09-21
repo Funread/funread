@@ -63,6 +63,10 @@ const Sidebar = ({TemplateSeleccion}) => {
               id:1,
               imageSrc: '/imagenes/QUIZ2.png', 
             },
+            {
+              id:3,
+              imageSrc: '/imagenes/QUIZ2.png', 
+            },
             
           ],
         },
