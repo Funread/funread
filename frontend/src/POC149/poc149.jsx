@@ -24,7 +24,7 @@ function POC149() {
     </div>
     <div class="col-12">
       <Navbar />
-      <div style={{display:'flex', textAlign: 'center', marginLeft:'25px'}}>
+      <div  style={{display:'flex', textAlign: 'center', marginLeft:'25px'}}>
         <div class="col-7">
           <Carousel/>
         </div>

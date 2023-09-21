@@ -12,12 +12,12 @@ const notifications = [
   },
   {
     text: 'Opcion 3',
-    imageSrc: '/libro.png',
+    imageSrc: '/pegatina.png',
   },
 
   {
     text: 'Opcion 4',
-    imageSrc: '/libro.png',
+    imageSrc: '/libros.png',
   },
 
 ];

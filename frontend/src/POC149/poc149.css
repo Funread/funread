@@ -10,6 +10,10 @@
   padding-left: 20px;
   height: 90%;
   margin-top: 35px;
+  background-image: url('/public/12.png');
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  
 }
 
 .notifications {
@@ -24,22 +28,3 @@
   padding-right: 40px;
 }
 
-@media (max-width: 1000px) {
-  .col-7 {
-    
-  
-  }
-
-  
-}
-
-
-@media (max-width: 500px) {
-  .right-panel {
-     margin-top: 450px;
-     
-
-  }
-
-  
-}
