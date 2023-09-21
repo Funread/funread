@@ -29,8 +29,7 @@ const POC = () => {
   }
 
   return (
-    <>
-      <div className='container-fluid custom-padding text-center '>
+     <div className='container-fluid custom-padding text-center library'>
         <div className='row flex-nowrap' style={{ height: 'auto' }}>
           <SidebarBook></SidebarBook>
 
@@ -85,11 +84,11 @@ const POC = () => {
                 author={selectedBook?.author}
               />
             </div>
+           
           )}
         </div>
       </div>
-    </>
-  )
+   )
 }
 
 export default POC

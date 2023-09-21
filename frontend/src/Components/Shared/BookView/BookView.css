@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
+
 }
 
 .book-title {
@@ -39,4 +40,25 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+@media screen and (min-width: 987px) {
+  .divstudentCard{
+    padding-right: 6rem;
+  }
+  .book-image {
+    padding-right: 2rem;
+  }
+  
+  .book-description {
+    padding-right: 3rem;
+  }
+}
+
+@media screen and (min-width: 987px) and (max-width: 1500px) {
+  .book-header{
+    justify-content: center;
+    max-width: 15rem;
+
+  }
 }

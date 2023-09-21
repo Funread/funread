@@ -31,7 +31,7 @@
 
 html,
 body {
-  overflow-x: hidden;
+   overflow: hidden; 
 }
 /* ----------------------------------------End Made by me---------------------------------------- */
 
