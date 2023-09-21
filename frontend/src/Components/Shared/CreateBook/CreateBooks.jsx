@@ -99,7 +99,6 @@ const CreateBook = ({ show, onHide }) => {
       //Paso 3: Se asigna la ruta al portrait del book
       const imageRoute = await uploadImage()
       const newBook = { ...book, portrait: imageRoute }
-      console.log('Nuevo libro:', newBook)
 
       //Paso 4: Se publica el libro
       const response3 = await axiosAuth().post('books/new-book/', newBook)

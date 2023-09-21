@@ -70,3 +70,9 @@ h4 {
 .custom-padding {
   padding-right: 2rem;
 }
+
+@media screen and (min-width: 900px) and (max-width: 1260px) {
+  .content_library {
+    padding-right: 3rem;
+  }
+}
