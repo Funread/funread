@@ -13,10 +13,9 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick,Templat
     }
   }
 
-  const handleImageClick = (imageName) => {
-    setClickedImageName(imageName)
-    alert(`Haz hecho clic en la imagen: ${imageName}`)
-    this.props.TemplateSeleccion()
+  const handleImageClick = (imageName,id) => {
+    setClickedImageName(imageName)    
+    TemplateSeleccion(id)
   }
 
   return (
@@ -46,7 +45,7 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick,Templat
                     src={subItem.imageSrc}
                     alt={text}
                     className='submenu-image'
-                    onClick={() => handleImageClick(subItem.imageSrc)}
+                    onClick={() => handleImageClick(subItem.imageSrc, subItem.id)}
                   />
                 )}
               </div>

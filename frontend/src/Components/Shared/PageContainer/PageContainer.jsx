@@ -10,7 +10,12 @@ import './PageContainer.css'
   );
 }*/
 
-const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
+const PageContainer = ({ title, image, width, height, imageAlt, text ,templateSelected}) => {
+let template=null
+  if(templateSelected===1){
+    template= <TemplateImage/>;
+  }
+
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -25,8 +30,8 @@ const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
                 <div className='card-body'>
                   <div className='d-flex flex-column align-items-center justify-content-center '>
                    
-                    
-                        <TemplateImage></TemplateImage>
+                    {template}
+                      {/* <TemplateImage></TemplateImage> */}
                    
                   </div>
                 </div>

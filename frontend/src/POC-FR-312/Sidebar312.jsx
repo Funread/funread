@@ -55,14 +55,33 @@ const Sidebar = ({TemplateSeleccion}) => {
   const menuItems = [
  
     {
+       id: 1,
         text: 'Quiz',
         icon: faQuestionCircle,
         subItems: [
             {
+              id:1,
               imageSrc: '/imagenes/QUIZ2.png', 
             },
+            
           ],
         },
+
+        {
+          id: 2,
+           text: 'Templete',
+           icon: faQuestionCircle,
+           subItems: [
+               {
+                id:2,
+                 imageSrc: '/imagenes/QUIZ2.png', 
+               },
+               // {
+               //   imageSrc: faQuestionCircle, 
+               // },
+             ],
+           },
+              
   ]
 
   return (
@@ -97,7 +116,7 @@ const Sidebar = ({TemplateSeleccion}) => {
               isExpanded={isExpanded}
               isSelected={selectedItem === index}
               onClick={() => handleItemClick(index)}
-              TemplateSeleccion={this.props.TemplateSeleccion}
+              TemplateSeleccion={TemplateSeleccion}
             />
           ))}
         </div>
