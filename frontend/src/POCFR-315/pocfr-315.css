@@ -73,6 +73,6 @@ h4 {
 
 @media screen and (min-width: 900px) and (max-width: 1260px) {
   .content_library {
-    padding-right: 3rem;
+    padding-right: 4rem;
   }
 }

@@ -30,7 +30,7 @@ const POC314 = () => {
 
   return (
     
-      <div className="container-fluid custom-padding text-center ">
+      <div className="container-fluid custom-padding text-center group">
         <div className="row flex-nowrap " style={{ height: "auto" }}>
           <SidebarBook></SidebarBook>
           <div className={`sidenav ${showSidebar ? "col-sm-9" : "col-12"}`}>
@@ -73,7 +73,7 @@ const POC314 = () => {
               )}
 
               <GroupCardProgress></GroupCardProgress>
-              <br></br>
+              <br/>
             </div>
           </div>
           {selectedStudent && (

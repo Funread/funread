@@ -40,3 +40,42 @@ h4 {
   .custom-padding {
     padding-right: 2rem;
   }
+  
+  
+.group {
+  scroll-snap-type: x mandatory;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+.group {
+  scroll-snap-align: center;
+}
+
+.group::-webkit-scrollbar {
+  width: 7px;
+}
+
+.group::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.group::-webkit-scrollbar-thumb:hover {
+  background-color: transparent;
+}
+
+.group::-webkit-scrollbar-track {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  box-shadow: none;
+}
+
+@media screen and (min-width: 900px) and (max-width: 1260px) {
+  .content_group {
+    padding-right: 4rem;
+  }
+}
