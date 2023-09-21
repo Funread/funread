@@ -29,7 +29,7 @@ const POC314 = () => {
   };
 
   return (
-    <>
+    
       <div className="container-fluid custom-padding text-center ">
         <div className="row flex-nowrap " style={{ height: "auto" }}>
           <SidebarBook></SidebarBook>
@@ -93,7 +93,7 @@ const POC314 = () => {
           )}
         </div>
       </div>
-    </>
+    
   );
 };
 
