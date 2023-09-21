@@ -4,6 +4,14 @@
     margin-right: 2rem;
 }
 
+.card-header{
+    background-color: #183D3D;
+}
+
+.card-body{
+    background-color: #215353;
+}
+
 .centro{
     width: 100%; 
     height: 100%; 
