@@ -6,11 +6,12 @@
   flex-direction: column;
   padding-right: 15px;
   padding-left: 20px;
-  height: 90%;
+  height: 81%;
   background-image: url('/public/12.png');
   background-size: cover;
   background-repeat: no-repeat;
   margin: 0 auto;
+  margin-bottom: 70px;
   /* Centra horizontalmente */
 }
 
@@ -36,18 +37,22 @@
   .right-panel {
     width: 800px;
     height: auto;
-    height: 80px;
     
+    
+  }
+  .panel
+  {
+      height: auto;
   }
 }
 
 
 @media screen and (max-width: 768px) {
   .right-panel {
-    width: 800px;
-    height: auto;
-    height: 80px;
-    
+    width:600px;
+    height: 100%;
+    margin-left: 15px;
+    align-items: center;
   }
 }
 .CarouselDiv {
@@ -73,3 +78,54 @@
 }
 
 
+@media screen and (max-width: 400px) {
+  .right-panel {
+    width:200px;
+    height: 50%;
+    padding-bottom: 15px;
+  }
+  .NotificationCard
+  {
+    width: 30px;
+    margin-left: -10px;
+  }
+  
+}
+
+
+@media screen and (max-width: 600px) {
+  .right-panel {
+    width:200px;
+    height: 50%;
+    padding-bottom: 15px;
+    align-items: center;
+
+  }
+  .NotificationCard
+  {
+    width: 30px;
+    margin-left: -10px;
+  }
+  
+}
+
+
+
+@media screen and (max-width: 800px) {
+  .right-panel {
+   align-items: center;
+  }
+  
+  
+}
+
+
+
+
+@media screen and (max-width: 600px) {
+  .right-panel {
+   
+  
+  
+}
+}

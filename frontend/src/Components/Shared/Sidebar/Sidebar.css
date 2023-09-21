@@ -45,3 +45,41 @@
 .custom-nav-menu {
   grid-template-rows: repeat(7, 1fr);
 }
+
+
+
+
+
+
+@media screen and (max-width: 400px) {
+  .custom-side-nav-container  
+  {
+    height: 120vh;
+  }
+  
+  
+}
+
+@media screen and (max-width: 600px) {
+  .custom-side-nav-container  
+  {
+    height: 130vh;
+  }
+}
+
+
+@media screen and (max-width: 1000px) {
+  .custom-side-nav-container  
+  {
+    height: 130vh;
+  }
+}
+
+
+
+@media screen and (max-width: 1500px) {
+  .custom-side-nav-container  
+  {
+    height: 153vh;
+  }
+}

@@ -18,8 +18,8 @@ const notification = [
 function POC149() {
   return (
 
-    <div style={{display:'flex'}}>
-    <div>
+    <div  style={{display:'flex'}}>
+    <div className='slidebar'>
       <SlideBar/>
     </div>
     <div class="col-12">
@@ -29,7 +29,7 @@ function POC149() {
           <Carousel/>
         </div>
 
-        <div class="col-1" style={{display:'flex', textAlign: 'center'}}>
+        <div className ="panel" class="col-1" style={{display:'flex', textAlign: 'center'}}>
      
             <div className="right-panel" >
             

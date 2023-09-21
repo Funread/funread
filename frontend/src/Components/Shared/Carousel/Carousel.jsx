@@ -14,7 +14,7 @@ function Carousel() {
           <img src="/Estudiantes1.jpeg" className="d-block w-100" alt="..." />
         </div>
         <div className="carousel-item">
-          <img src="/Estudiantes3.jpg" className="d-block w-100" alt="..." />
+          <img src="/Estudiantes4.jpg" className="d-block w-100" alt="..." />
         </div>
       </div>
       <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">

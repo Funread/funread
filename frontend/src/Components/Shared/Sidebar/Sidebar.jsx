@@ -53,12 +53,12 @@ const Sidebar = () => {
   const user = 'FUNREAD'
   const menuItems = [
     {
-      text: 'Text',
+      text: 'My courses',
       icon: faA,
       subItems: [faTextHeight, faTextWidth],
     },
     {
-      text: 'Shapes',
+      text: 'HomeWork',
       icon: faShapes,
       subItems: [faSquare, faCircle, faRectangleAd],
     },

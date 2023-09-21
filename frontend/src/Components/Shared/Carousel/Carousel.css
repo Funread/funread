@@ -6,13 +6,16 @@
 }
 
 .carousel-inner img {
-  max-width: 100%; 
-  height: auto;
+  height: 100%; 
+  width: 100%;
+  object-fit: cover; 
+  display: block;
 }
 
 .custom-text {
   color: white;
 }
+
 
 @media (max-width: 400px) {
   .carousel-container {
