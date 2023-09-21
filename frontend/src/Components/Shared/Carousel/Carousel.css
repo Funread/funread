@@ -6,31 +6,47 @@
 }
 
 .carousel-inner img {
-  height: 650px; 
-  width: 100%;
-  object-fit: cover; 
-  display: block;
+  max-width: 100%; 
+  height: auto;
 }
 
 .custom-text {
   color: white;
 }
 
-
-
-@media (max-width: 1000px) {
+@media (max-width: 400px) {
   .carousel-container {
-    margin: 2% auto;
+    width: 106%;
   }
 
   .carousel-inner img {
-    max-width: 100%;
-    height: auto;
+    width: 200px;
+    margin-top: 2px;
    
   }
+
+}
+
+@media (max-width: 600px) {
+  
+  .carousel-inner img {
+    width: 200px;
+    margin-top: 2px;
+   
+  }
+
 }
 
 
+@media (max-width: 200px) {
+  
+  .carousel-inner img {
+    width: 200px;
+    margin-top: 2px;
+   
+  }
+
+}
 
 
 

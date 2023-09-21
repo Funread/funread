@@ -1,27 +1,75 @@
-
 .right-panel {
-  margin-left: 50%;
-  background-color: #dddcdc; 
+  background-color: #dddcdc;
   display: flex;
-  border-radius: 10px; 
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); 
-  flex-direction: column; 
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  flex-direction: column;
   padding-right: 15px;
   padding-left: 20px;
   height: 90%;
-  margin-top: 35px;
   background-image: url('/public/12.png');
-  background-size: cover; 
-  background-repeat: no-repeat; 
-  
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0 auto;
+  /* Centra horizontalmente */
 }
 
 .notifications {
   margin-top: 60px;
-  }
-  .notification {
+}
+
+.notification {
   width: 100%;
   text-align: center;
   padding-right: 0px;
 }
+
+@media screen and (max-width: 1918px) {
+  .right-panel {
+    margin-top: auto;
+
+
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .right-panel {
+    width: 800px;
+    height: auto;
+    height: 80px;
+    
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .right-panel {
+    width: 800px;
+    height: auto;
+    height: 80px;
+    
+  }
+}
+.CarouselDiv {
+
+  display: flex;
+  text-Align: center;
+  margin-Left: 25px;
+
+}
+
+@media screen and (max-width: 1538px) {
+  .CarouselDiv {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 1538px) {
+  .notification {
+    width: 100%;
+    text-align: center;
+    padding-right: 0px;
+  }
+}
+
 

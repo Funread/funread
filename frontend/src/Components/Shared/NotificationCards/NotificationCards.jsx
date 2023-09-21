@@ -19,7 +19,7 @@ const notifications = [
     text: 'Opcion 4',
     imageSrc: '/libros.png',
   },
-
+ 
 ];
 
 const NotificationCard = () => {
@@ -40,3 +40,7 @@ const NotificationCard = () => {
 };
 
 export default NotificationCard;
+
+
+
+
