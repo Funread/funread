@@ -23,6 +23,7 @@
     flex-wrap: wrap; /* Permite que las notificaciones fluyan en varias líneas */
     gap: 10px; /* Espacio entre las notificaciones */
     justify-content: flex-start;
+    padding-left: 20px;
   }
   
   /* Estilos CSS para cada notificación individual (tarjeta) */
@@ -42,6 +43,7 @@
     display: flex; /* Hace que los elementos de notificación se muestren en línea */
     align-items: center; /* Centra verticalmente los elementos de notificación */
     margin-right: 20px; 
+    
   }
 
   .notification {
