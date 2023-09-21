@@ -1,46 +1,46 @@
-import "./NavItem.css";
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import './NavItem.css'
+import React, { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
-  const [selectedItem, setSelectedItem] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(false)
 
   const handleItemClick = () => {
-    setSelectedItem(!selectedItem);
+    setSelectedItem(!selectedItem)
     if (onClick) {
-      onClick();
+      onClick()
     }
-  };
+  }
 
   return (
     <>
       <div
         key={text}
         className={`custom-menu-item border-botton ${
-          isExpanded ? "" : "custom-menu-item-NX"
-        } ${isSelected ? "open" : ""}`}
+          isExpanded ? '' : 'custom-menu-item-NX'
+        } ${isSelected ? 'open' : ''}`}
         onClick={handleItemClick}
       >
-        <div className="d-flex align-items-center justify-content-between">
-          <div className="d-flex align-items-center">
-            <FontAwesomeIcon icon={icon} size="xl" />
-            {isExpanded && <p className="ml-2">{text}</p>}
+        <div className='d-flex align-items-center justify-content-between'>
+          <div className='d-flex align-items-center'>
+            <FontAwesomeIcon icon={icon} size='xl' />
+            {isExpanded && <p className='ml-2'>{text}</p>}
           </div>
         </div>
       </div>
-      {/* {isSelected && (
-        <div className="custom-card">
-          <div className="icon-grid">
+      {isSelected && (
+        <div className='custom-card'>
+          <div className='icon-grid'>
             {subItems.map((subItem, index) => (
-              <div className="icon" key={index}>
+              <div className='icon' key={index}>
                 <FontAwesomeIcon icon={subItem} />
               </div>
             ))}
           </div>
         </div>
-      )} */}
+      )}
     </>
-  );
-};
+  )
+}
 
-export default NavItem;
+export default NavItem
