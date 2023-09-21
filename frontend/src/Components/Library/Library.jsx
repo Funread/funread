@@ -139,6 +139,7 @@ function Library({ toggleSidebar }) {
           </div>
         </Tab>
       </Tabs>
+      <br/>
     </>
   )
 }

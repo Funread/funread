@@ -2,6 +2,37 @@ h4 {
   color: grey;
   text-align: left;
 }
+.library {
+  scroll-snap-type: x mandatory;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+.library {
+  scroll-snap-align: center;
+}
+
+.library::-webkit-scrollbar {
+  width: 7px;
+}
+
+.library::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.library::-webkit-scrollbar-thumb:hover {
+  background-color: transparent;
+}
+
+.library::-webkit-scrollbar-track {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  box-shadow: none;
+}
 
 .sidebar-mobile {
   display: block;
@@ -38,4 +69,10 @@ h4 {
 
 .custom-padding {
   padding-right: 2rem;
+}
+
+@media screen and (min-width: 900px) and (max-width: 1260px) {
+  .content_library {
+    padding-right: 3rem;
+  }
 }

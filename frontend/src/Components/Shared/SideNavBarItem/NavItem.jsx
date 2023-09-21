@@ -28,17 +28,17 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
           </div>
         </div>
       </div>
-      {/* {isSelected && (
-        <div className="custom-card">
-          <div className="icon-grid">
+      {isSelected && (
+        <div className='custom-card'>
+          <div className='icon-grid'>
             {subItems.map((subItem, index) => (
-              <div className="icon" key={index}>
+              <div className='icon' key={index}>
                 <FontAwesomeIcon icon={subItem} />
               </div>
             ))}
           </div>
         </div>
-      )} */}
+      )}
     </>
   )
 }
