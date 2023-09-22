@@ -2,8 +2,12 @@ from enum import unique
 from django.db import models
 from Users.models import User
 
-# Create your models here.
 class Folder(models.Model):
-    foldersId = models.AutoField(primary_key=True)
-    nameFolders = models.CharField(max_length=200, unique=True)
-    createdBy = models.ForeignKey(User, related_name='createdBy', db_column='createdBy', on_delete=models.CASCADE, to_field='userid')
+    foldersid = models.AutoField(db_column='FoldersId', primary_key=True)  # Field name made lowercase.
+    namefolders = models.CharField(db_column='NameFolders', max_length=200)  # Field name made lowercase.
+    createdBy = models.ForeignKey(User, db_column='createdBy', on_delete=models.CASCADE, to_field='userid') # Field name made lowercase.
+
+
+    class Meta:
+        
+        db_table = 'folders'

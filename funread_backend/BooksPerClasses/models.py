@@ -2,9 +2,10 @@ from django.db import models
 from Classes.models import Classes
 from Books.models import Book
 
-# Create your models here.
-
 class BooksPerClasses(models.Model):
-    booksPerClassesId = models.AutoField(primary_key=True)
-    bookId = models.ForeignKey(Book, related_name='bookIdBooksPerClasses',db_column='bookId', on_delete=models.CASCADE, to_field='bookid')
-    classesId = models.ForeignKey(Classes, related_name='classesIdBooksPerClasses',db_column='classesId', on_delete=models.CASCADE, to_field='classesId')
+    booksperclasses = models.AutoField(db_column='BooksPerClasses', primary_key=True)  # Field name made lowercase.
+    booksid = models.ForeignKey(Book, db_column='BooksId', blank=True, null=True, on_delete=models.CASCADE, to_field='bookid')  # Field name made lowercase.
+    classesid = models.ForeignKey(Classes, db_column='ClassesId', on_delete=models.CASCADE, to_field='classesid', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        db_table = 'booksperclasses'
