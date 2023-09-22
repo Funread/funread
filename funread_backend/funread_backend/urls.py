@@ -40,6 +40,7 @@ urlpatterns = [
     path('classeslog/', include('ClassesLog.urls')),
     path('booksPerClasses/', include('BooksPerClasses.urls')),
     path('groupsPerClasses/', include('GroupsPerClasses.urls')),
+    path('Media/', include('Media.urls')),
 ]
 
 if settings.DEBUG:
