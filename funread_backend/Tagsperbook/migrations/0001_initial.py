@@ -9,20 +9,20 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('Pages', '0001_initial'),
         ('Tags', '0001_initial'),
+        ('Books', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='TagsPerPage',
+            name='Tagsperbook',
             fields=[
-                ('tagsperpageid', models.AutoField(db_column='TagsPerPageId', primary_key=True, serialize=False)),
-                ('pageid', models.ForeignKey(blank=True, db_column='PageID', null=True, on_delete=django.db.models.deletion.CASCADE, to='Pages.pages')),
+                ('tagsperbookid', models.AutoField(db_column='TagsPerBookId', primary_key=True, serialize=False)),
+                ('bookid', models.ForeignKey(blank=True, db_column='BookId', null=True, on_delete=django.db.models.deletion.CASCADE, to='Books.book')),
                 ('tagsid', models.ForeignKey(blank=True, db_column='TagsID', null=True, on_delete=django.db.models.deletion.CASCADE, to='Tags.tags')),
             ],
             options={
-                'db_table': 'tagsperpage',
+                'db_table': 'tagsperbook',
             },
         ),
     ]

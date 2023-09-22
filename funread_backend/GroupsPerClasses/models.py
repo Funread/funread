@@ -2,9 +2,11 @@ from django.db import models
 from Classes.models import Classes
 from StudentsGroups.models import StudentsGroups
 
-# Create your models here.
-
 class GroupsPerClasses(models.Model):
-    groupsPerClassesId = models.AutoField(primary_key=True)
-    groupId = models.ForeignKey(StudentsGroups, related_name='groupIdmodels',db_column='groupId', on_delete=models.CASCADE, to_field='groupId')
-    classesId = models.ForeignKey(Classes, related_name='classesIdmodels',db_column='classesId', on_delete=models.CASCADE, to_field='classesId')
+    groupsperclassesid = models.AutoField(db_column='GroupsPerClassesId', primary_key=True)  # Field name made lowercase.
+    groupsid = models.ForeignKey(StudentsGroups, db_column='GroupsId', blank=True, null=True, on_delete=models.CASCADE, to_field='groupsid')  # Field name made lowercase.
+    classesid = models.ForeignKey(Classes, db_column='ClassesId', blank=True, null=True, on_delete=models.CASCADE, to_field='classesid')  # Field name made lowercase.
+
+    class Meta:
+        
+        db_table = 'groupsperclasses'
