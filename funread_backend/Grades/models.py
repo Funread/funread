@@ -1,12 +1,14 @@
 from django.db import models
 from Users.models import User
-# Create your models here.
+from Books.models import Book
 
 class Grades(models.Model):
-    gradesid = models.AutoField(primary_key=True)
-    booksid = models.CharField(max_length=200, blank=False, null=False, unique=True)
-    progress = models.IntegerField(blank=True, null=True)
-    grade = models.FloatField(blank=True, null=True)
-    iduser = models.ForeignKey(User,related_name='iduserModel',db_column='iduser', on_delete=models.CASCADE, to_field='userid')
+    gradesid = models.AutoField(db_column='GradesID', primary_key=True)  # Field name made lowercase.
+    booksid = models.ForeignKey(Book, db_column='BookID', on_delete=models.CASCADE, to_field='bookid') 
+    progress = models.IntegerField(db_column='Progress', blank=True, null=True)  # Field name made lowercase.
+    grade = models.FloatField(db_column='Grade', blank=True, null=True)  # Field name made lowercase.
+    userid = models.ForeignKey(User, db_column='UserId', on_delete=models.CASCADE, to_field='userid')  # Field name made lowercase.
 
-#pasar a minusculas, usar camelCase (para definir variables)
+    class Meta:
+        
+        db_table = 'grades'
