@@ -27,15 +27,13 @@ root.render(
         exact
         path="/"
         element={
-          <div className='index-background-padding'>
-            <div className='index-background-container '>
-              <LandingPage />
-            </div>
+          <div className='index-background-container landing-page'>
+            <LandingPage />
           </div>
         }
       />
 
-      <Route element={<ProtectedRoutes />}>
+      <Route element={<ProtectedRoutes/>}>
       {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
         <Route
           exact
