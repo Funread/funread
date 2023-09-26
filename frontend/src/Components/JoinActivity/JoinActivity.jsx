@@ -4,31 +4,15 @@ import Button from "react-bootstrap/Button";
 import "./JoinActivity.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope, faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { faEnvelope, faEye, faEyeSlash, faSquareCaretRight} from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
 import { InputGroup } from "react-bootstrap";
 
 function JoinActivity(props) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [remenber, setRemenber] = useState(false);
-  const [check, setCheck] = useState(true);
+  const [code, setCode] = useState("");
   const { logIn, axiosAuth } = useLogin();
   const navigate = useNavigate();
-
-  /**
-   * Function tooglePassword:
-   * Alterna la contraseña entre estados: oculto/mostrar.
-   * Cambia el color del ícono de ojo en la contraseña según su estado: oculto/mostrar.
-   */
-  const togglePassword = () => {
-    setShowPassword(!showPassword);
-    showPassword
-      ? (document.getElementById("passwordButton").style.color = "#0000007b")
-      : (document.getElementById("passwordButton").style.color = "#42006d");
-  };
 
   /**
    * Function handleSubmit:
@@ -38,35 +22,8 @@ function JoinActivity(props) {
    */
   const handleSubmit = (event) => {
     event.preventDefault();  // Prevent default form submission behavior
-    try {
-      if(remenber){
-        localStorage.setItem('RemenberEmail',email)
-      }else{
-        localStorage.removeItem('RemenberEmail')
-      }
-    } catch (error) {
-      console.log('algun error ocure')
-      console.error(error)
-    }
-    logIn(email, password).then(() => {  
-      //Esto debe hacerce para evitar que axiosAuth revise si el token existe antes de terminar el login
-      if(axiosAuth() !== null){
-        navigate('/dashboard');
-      }else{
-        console.log('Contraseña o correo incorrecto')
-      }
-    }
-    );
-
-    // Esto es un ejemplo de como utilizar el hook useLogin, especificamente la constante axiosAuth
-
-  // if(axiosAuth() !== null){                            -Primero hacemos un if que confirme que podemos usar axiosAuth
-    //   axiosAuth().get("users/list/").then((res) => {   - Hacemos nuestra consulta, Nota: no se debe colocar toda la url, el endpoint pincipal ya esta en la instancia de axios (http://localhost:8000/) por lo que colocamos la porcion del endpoint que falta para realizar la consulta, en este caso "users/list/"
-    //     console.log(res.data)                          - Obtenemos nuestros resultados, podemos usar res.data, res.headers, res.status, entre algunos mas
-    //   })
-    // }else{                           -Encaso de no poder usar axiosAuth, podemos hacer diferentes accioes, informar que no se puede usar, movernos a la pagina de login, lo que se necesite en el momento
-    //   console.log("unAuthenticaded")
-    // }
+    
+    // codigo para redireccion a la actividad
     
   };
 
@@ -109,102 +66,44 @@ function JoinActivity(props) {
    * Cambia el color del botón de Log In cuando los campos de email y password han sido llenados.
    */
   useEffect(() => {
-    if(email !== "" && password !== ""){
-      document.getElementById("submit-button").className = "login-form-button-filled"
+    if(code !== ""){
+      document.getElementById("join-submit-button").className = "join-form-button-filled"
     }else{
-      document.getElementById("submit-button").className = "login-form-button-empty";
-    }
-    if(check === true){
-      setCheck(false)
-      let remenberValue = localStorage.getItem('RemenberEmail')
-      if(remenberValue != null){
-        document.getElementById("emailInput").value = remenberValue
-        setEmail(remenberValue)
-        isEmpty(remenberValue,"emailInput")
-        document.getElementById("rememberMeCheck").checked = true
-        setRemenber(true)
-      }
+      document.getElementById("join-submit-button").className = "join-form-button-empty";
     }
   });
 
   return (
-    <div className="login-form">
-      <div className="login-form-body">
-        <Form onSubmit={handleSubmit} className="login-form-content">
-          <h1 className="login-form-title">You have a code?!</h1>
-          <h5 className="login-form-subtitle">
+    <div className="join-form">
+      <div className="join-form-body">
+        <Form onSubmit={handleSubmit} className="join-form-content">
+          <h1 className="join-form-title">You have a code?!</h1>
+          <h5 className="join-form-subtitle">
             Add your code to join in the activity.
           </h5>
-          <div className="login-form-inputs">
+          <div className="join-form-inputs">
             <Form.Group className="form-group">
               <Form.Label className="font-size">
-                <FontAwesomeIcon className="login-icons" icon={faEnvelope} />
-                Email
+                <FontAwesomeIcon className="join-icons" icon={faSquareCaretRight} />
+                Code
               </Form.Label>
               <Form.Control
-                id="emailInput"
+                id="codeInput"
                 size="lg"
-                type="email"
-                value={email}
+                type="text" // es posible que se cambio el tipo del imput
+                value={code}
                 onChange={(e) => {
-                  setEmail(e.target.value);
-                  isEmpty(e.target.value, "emailInput");
+                  setCode(e.target.value);
+                  isEmpty(e.target.value, "codeInput");
                 }}
-                className="login-form-control-lg"
-                placeholder="example@mep.co.cr"
+                className="join-form-control-lg"
+                placeholder="#0000000000"
                 required
               />
             </Form.Group>
-            <Form.Group className="form-group">
-              <Form.Label className="font-size">
-                <FontAwesomeIcon className="login-icons" icon={faLock} />
-                Password
-              </Form.Label>
-              <InputGroup className="form-input-group">
-                <Form.Control
-                  id="passwordInput"
-                  size="lg"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    isEmpty(e.target.value, "passwordInput");
-                  }}
-                  style={{ borderRightWidth: 0 }}
-                  className="login-form-control-lg"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Your password"
-                  required
-                />
-                <InputGroup.Text
-                  id="inputGroupText"
-                  className="form-input-group-text-password"
-                >
-                  <Button
-                    id="passwordButton"
-                    className="login-form-password-button"
-                    onClick={togglePassword}
-                  >
-                    {showPassword?<FontAwesomeIcon className="fa-xl float end" icon={faEye}/>:<FontAwesomeIcon className="fa-xl float end" icon={faEyeSlash}/>}
-                  </Button>
-                </InputGroup.Text>
-              </InputGroup>
-            </Form.Group>
-            <Form.Group className="form-group">
-              <div className="mb-3 form-check form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="rememberMeCheck"    
-                  onChange={(e) => {
-                    setRemenber(e.target.checked);
-                  }}
-                  />
-                <label htmlFor="rememberMeCheck">Remember me</label>
-              </div>
-            </Form.Group>
           </div>
-          <Button id="submit-button" className="login-form-button-empty" type="submit">
-            Log In
+          <Button id="join-submit-button" className="join-form-button-empty" type="submit">
+            Join
           </Button>
         </Form>
       </div>

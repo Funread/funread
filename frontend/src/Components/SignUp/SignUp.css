@@ -94,7 +94,9 @@
   box-shadow: none !important;
   transition: .3s;
 }
-
+ #singup-passwordButton{
+  color: #0000007b;
+ }
 .signup-form-password-button:hover {
   background-color: transparent;
 }

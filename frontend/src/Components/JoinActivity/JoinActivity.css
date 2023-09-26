@@ -1,6 +1,6 @@
-.login-form {
+.join-form {
     max-width: 480px;
-    height: 435px;
+    height: 405px;
     border-radius: 20px;
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
@@ -9,28 +9,29 @@
     margin-bottom: 0;
   }
   
-  .login-form-body {
+  .join-form-body {
     display: flex;
     flex-direction: column;
     max-width: 480px;
-    max-height: 100%;
+    height: 100%;
     padding: 0 12.5% 2.5% 12.5%;
   }
   
-  .login-form-content {
+  .join-form-content {
     display: flex;
     flex-direction: column;
     height: 100%;
   }
   
-  .login-form-inputs {
+  .join-form-inputs {
     display: flex;
     flex-direction: column;
+    padding-top: 20%;
     height: 60%;
     gap: 35px;
   }
   
-  .login-form-title {
+  .join-form-title {
     font-weight: bold;
     font-size: 6vh;
     font-family: Arial, Helvetica, sans-serif;
@@ -38,14 +39,14 @@
     color: white;
   }
   
-  .login-form-subtitle {
+  .join-form-subtitle {
     font-weight: normal;
     font-size: 2vh;
     margin-bottom: min(20px, 6%);
     color: white;
   }
   
-  .login-form-control-lg {
+  .join-form-control-lg {
     min-width: 100%;
     max-height: 100%;
     border-radius: 10px;
@@ -54,11 +55,11 @@
     color: #9D79BC;
     box-shadow: none !important;
   }
-  .login-form-control-lg ~ span{
+  .join-form-control-lg ~ span{
     border: 2px solid #9D79BC;
     border-left: 0;
   }
-  .login-form-control-lg:focus{
+  .join-form-control-lg:focus{
     border-color: #9D79BC;
   }
   
@@ -67,7 +68,7 @@
     color: white;
   }
   
-  .login-icons {
+  .join-icons {
     margin-right: 10px;
     color: white;
   }
@@ -97,30 +98,30 @@
     color: #0000007b;
   }
   
-  .login-form-password-button {
+  .join-form-password-button {
     font-size: 1.6vh;
     background: transparent;
     border-style: none;
     box-shadow: none !important;
     transition: .3s;
   }
-  .login-form-password-button:hover{
+  .join-form-password-button:hover{
     background: transparent;
   }
-  .login-form-password-button > svg:hover {
+  .join-form-password-button > svg:hover {
     transform: scale(1.3);
     transition: .3s;
   }
-  .login-form-password-button > svg{
+  .join-form-password-button > svg{
     transition: .3s;
   }
   
-  .login-form-password-button:focus {
+  .join-form-password-button:focus {
     background: transparent;
     border-style: none;
   }
   
-  .login-form-password-button:active {
+  .join-form-password-button:active {
     background: transparent;
     border-style: none;
   }
@@ -130,7 +131,7 @@
     height: 40px;
   }
   
-  .login-form-button-empty {
+  .join-form-button-empty {
     min-width: 100%;
     height: 12%;
     font-size: 2vh;
@@ -143,7 +144,7 @@
     pointer-events: none;
   }
   
-  .login-form-button-filled {
+  .join-form-button-filled {
     min-width: 100%;
     height: 12%;
     font-size: 2vh;
@@ -158,13 +159,13 @@
     .form-check{
       margin-left: 15%;
     }
-    .login-form-title{
+    .join-form-title{
       font-size: 5vh;  
     }
   }
   
   @media (max-width: 400px) {
-    .login-form-inputs {
+    .join-form-inputs {
       gap: 25px;
     }
   }

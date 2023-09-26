@@ -26,6 +26,7 @@
 .login-form-inputs {
   display: flex;
   flex-direction: column;
+  margin-bottom: 30px;
   height: 60%;
   gap: 35px;
 }
@@ -69,12 +70,6 @@
 
 .login-icons {
   margin-right: 10px;
-  color: white;
-}
-
-.form-check {
-  margin-left: 30%;
-  font-size: 2vh;
   color: white;
 }
 

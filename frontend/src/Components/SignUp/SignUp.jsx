@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faUser, faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import "./SignUp.css";
-import CustomButton from "../Shared/CustomButton/CustomButton";
 import { useSign } from "../../hooks/useSign";
 import { InputGroup } from "react-bootstrap";
 
@@ -51,11 +50,11 @@ function SignUp(props) {
       ? changeInputColor(id, "#42006d")
       : changeInputColor(id, "#e9e9e9");
 
-    if (id === "passwordInput") {
+    if (id === "singup-passwordInput") {
       data !== ""
-        ? (document.getElementById("inputGroupText").style.borderColor =
+        ? (document.getElementById("singup-inputGroupText").style.borderColor =
             "#42006d")
-        : (document.getElementById("inputGroupText").style.borderColor =
+        : (document.getElementById("singup-inputGroupText").style.borderColor =
             "#e9e9e9");
     }
   };
@@ -78,9 +77,9 @@ function SignUp(props) {
    */
   useEffect(() => {
     name !== "" && email !== "" && password !== ""
-      ? (document.getElementById("submit-button").className =
+      ? (document.getElementById("singup-submit-button").className =
           "signup-form-button-filled")
-      : (document.getElementById("submit-button").className =
+      : (document.getElementById("singup-submit-button").className =
           "signup-form-button-empty");
   });
 
@@ -151,7 +150,7 @@ function SignUp(props) {
                   placeholder="Your password"
                   required
                 />
-                <InputGroup.Text  id="inputGroupText" className="form-input-group-text-password">
+                <InputGroup.Text  id="singup-inputGroupText" className="form-input-group-text-password">
                   <Button id="singup-passwordButton" className="signup-form-password-button" onClick={togglePassword}>
                     {showPassword?<FontAwesomeIcon className="fa-xl float end" icon={faEye}/>:<FontAwesomeIcon className="fa-xl float end" icon={faEyeSlash}/>}
                   </Button>
