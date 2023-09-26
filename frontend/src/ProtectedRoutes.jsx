@@ -15,7 +15,7 @@ const ProtectedRoutes = () => {
                     const result = response.data.login;
                     setIsAuth(result); // Establecer el valor de isAuth
                 } catch (error) {
-                    console.error("Error verifying token:", error);
+                    //console.error("Error verifying token:", error);
                     setIsAuth(false); // En caso de error, establecer como falso
                 }
             } else {
