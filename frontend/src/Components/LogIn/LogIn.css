@@ -163,3 +163,9 @@
     gap: 25px;
   }
 }
+
+.font-error{
+  color: red;
+  position: absolute;
+  left: 25%;
+}

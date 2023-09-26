@@ -14,6 +14,7 @@ function LogIn(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remenber, setRemenber] = useState(false);
+  const [error, setError] = useState(false);
   const [check, setCheck] = useState(true);
   const { logIn, axiosAuth } = useLogin();
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ function LogIn(props) {
    */
   const handleSubmit = (event) => {
     event.preventDefault();  // Prevent default form submission behavior
+    sessionStorage.clear();
     try {
       if(remenber){
         localStorage.setItem('RemenberEmail',email)
@@ -53,7 +55,8 @@ function LogIn(props) {
       if(axiosAuth() !== null){
         navigate('/dashboard');
       }else{
-        console.log('Contraseña o correo incorrecto')
+        setError(true)
+        setPassword("")
       }
     }
     );
@@ -188,7 +191,11 @@ function LogIn(props) {
                   </Button>
                 </InputGroup.Text>
               </InputGroup>
+              <Form.Label className="font-error">
+                {error ? "Email or Password incorrect":""}
+              </Form.Label>
             </Form.Group>
+        
             <Form.Group className="form-group">
               <div className="mb-3 form-check form-check">
                 <input
