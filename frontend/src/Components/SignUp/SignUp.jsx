@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope, faUser, faEye } from "@fortawesome/free-regular-svg-icons";
+import { faEnvelope, faUser, faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import "./SignUp.css";
 import CustomButton from "../Shared/CustomButton/CustomButton";
 import { useSign } from "../../hooks/useSign";
@@ -24,8 +24,8 @@ function SignUp(props) {
   const togglePassword = () => {
     setShowPassword(!showPassword);
     showPassword
-      ? (document.getElementById("passwordButton").style.color = "#e9e9e9")
-      : (document.getElementById("passwordButton").style.color = "#42006d");
+      ? (document.getElementById("singup-passwordButton").style.color = "#0000007b")
+      : (document.getElementById("singup-passwordButton").style.color = "#42006d");
   };
 
   /**
@@ -86,23 +86,9 @@ function SignUp(props) {
 
   return (
     <div className="signup-form">
-      <div className="signup-account-button-container ">
-        <CustomButton
-          name={"Log In"}
-          setLogin={props.setLogin}
-          setSignup={props.setSignup}
-          style={"account-log-in-button button-inactive"}
-        />
-        <CustomButton
-          name={"Sign Up"}
-          setSignup={props.setSignup}
-          setLogin={props.setLogin}
-          style={"account-sign-up-button button-active"}
-        />
-      </div>
       <div className="signup-form-body">
         <Form onSubmit={handleSubmit} className="signup-form-content">
-          <h1 className="signup-form-title">Hello!</h1>
+          <h1 className="signup-form-title">Are you new?</h1>
           <h5 className="signup-form-subtitle">
             Add your information to register.
           </h5>
@@ -113,13 +99,13 @@ function SignUp(props) {
                 Your name
               </Form.Label>
               <Form.Control
-                id="nameInput"
+                id="singup-nameInput"
                 size="lg"
                 type="text"
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
-                  isEmpty(e.target.value, "nameInput");
+                  isEmpty(e.target.value, "singup-nameInput");
                 }}
                 className="signup-form-control-lg"
                 placeholder="Your name here"
@@ -132,13 +118,13 @@ function SignUp(props) {
                 Email
               </Form.Label>
               <Form.Control
-                id="emailInput"
+                id="singup-emailInput"
                 size="lg"
                 type="email"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
-                  isEmpty(e.target.value, "emailInput");
+                  isEmpty(e.target.value, "singup-emailInput");
                 }}
                 className="signup-form-control-lg"
                 placeholder="example@mep.co.cr"
@@ -152,12 +138,12 @@ function SignUp(props) {
               </Form.Label>
               <InputGroup className="form-input-group">
                 <Form.Control
-                  id="passwordInput"
+                  id="singup-passwordInput"
                   size="lg"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
-                    isEmpty(e.target.value, "passwordInput");
+                    isEmpty(e.target.value, "singup-passwordInput");
                   }}
                   style={{ borderRightWidth: 0 }}
                   className="signup-form-control-lg"
@@ -165,26 +151,15 @@ function SignUp(props) {
                   placeholder="Your password"
                   required
                 />
-                <InputGroup.Text
-                  id="inputGroupText"
-                  className="form-input-group-text-password"
-                >
-                  <Button
-                    id="passwordButton"
-                    className="signup-form-password-button"
-                    onClick={togglePassword}
-                  >
-                    <FontAwesomeIcon className="fa-xl float end" icon={faEye} />
+                <InputGroup.Text  id="inputGroupText" className="form-input-group-text-password">
+                  <Button id="singup-passwordButton" className="signup-form-password-button" onClick={togglePassword}>
+                    {showPassword?<FontAwesomeIcon className="fa-xl float end" icon={faEye}/>:<FontAwesomeIcon className="fa-xl float end" icon={faEyeSlash}/>}
                   </Button>
                 </InputGroup.Text>
               </InputGroup>
             </Form.Group>
           </div>
-          <Button
-            id="submit-button"
-            className="signup-form-button-empty"
-            onClick={handleSubmit}
-          >
+          <Button id="singup-submit-button" className="signup-form-button-empty" type="submit">
             Sign Up
           </Button>
         </Form>

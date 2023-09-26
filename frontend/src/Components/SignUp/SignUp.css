@@ -1,34 +1,26 @@
 .signup-form {
-  max-width: 480px;
-  max-height: 100%;
-  min-height: 380px;
-  background-color: white;
+  max-width: 470px;
+  height: 425px;
   border-radius: 20px;
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
   margin-left: auto;
+  margin-top: 10px;
   flex-direction: column;
-}
-
-.signup-account-button-container {
-  display: flex;
-  height: 60px;
+  margin-bottom: 0;
 }
 
 .signup-form-body {
   display: flex;
   flex-direction: column;
   max-width: 480px;
-  height: 574px;
   max-height: 100%;
-  padding: 0 12.5% 12.5% 12.5%;
-  justify-content: space-evenly;
+  padding: 0 12.5% 3% 12.5%;
 }
 
 .signup-form-content {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   height: 100%;
 }
 
@@ -36,7 +28,7 @@
   display: flex;
   flex-direction: column;
   height: 60%;
-  justify-content: space-around;
+  gap: 12px;
 }
 
 .signup-form-title {
@@ -44,10 +36,12 @@
   font-size: 6vh;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 100%;
+  color: white;
 }
 
 .signup-form-subtitle {
   font-weight: normal;
+  color: white;
   font-size: 2vh;
   margin-bottom: min(20px, 6%);
 }
@@ -58,13 +52,16 @@
   border-radius: 10px;
   font-size: 2vh;
   border-style: solid;
-  border-color: #e9e9e9;
-  color: #e9e9e9;
+  border: 2px solid #9D79BC;
+  color: #9D79BC;
   box-shadow: none !important;
 }
-
-.submit-button {
-  margin: 0 !important;
+.signup-form-control-lg ~ span{
+  border: 2px solid #9D79BC;
+  border-left: 0;
+}
+.signup-form-control-lg:focus{
+  border-color: #9D79BC;
 }
 
 .font-size {
@@ -88,7 +85,6 @@
   margin-left: 20px;
   background: inherit;
   border-radius: 0 10px 10px 0;
-  color: #e9e9e9;
 }
 
 .signup-form-password-button {
@@ -96,13 +92,18 @@
   background: transparent;
   border-style: none;
   box-shadow: none !important;
-  color: #e9e9e9;
+  transition: .3s;
 }
 
 .signup-form-password-button:hover {
   background-color: transparent;
-  border-style: none;
-  color: #e9e9e9;
+}
+.signup-form-password-button > svg:hover {
+  transform: scale(1.3);
+  transition: .3s;
+}
+.signup-form-password-button > svg{
+  transition: .3s;
 }
 
 .signup-form-password-button:focus {
@@ -115,16 +116,22 @@
   border-style: none;
 }
 
+#singup-submit-button {
+  margin-top: 40px;
+  height: 40px;
+}
+
 .signup-form-button-empty {
+  pointer-events: none;
   margin-top: min(50px, 14%);
   min-width: 100%;
   height: 12%;
   font-size: 2vh;
   border-radius: 10px;
-  background: white;
+  background: #5d4b6a;
   border-style: solid;
-  border-color: #d5a6fa;
-  color: #d5a6fa;
+  border-color: #5d4b6a;
+  color: white;
   box-shadow: none !important;
 }
 
@@ -138,4 +145,16 @@
   border-style: solid;
   border-color: #42006d;
   color: white;
+}
+
+@media (max-width: 575px) {
+  .signup-form-title{
+    font-size: 4vh;   
+  }
+}
+
+@media (max-width: 387px) {
+  .signup-form-title{
+    font-size: 3vh;   
+  }
 }

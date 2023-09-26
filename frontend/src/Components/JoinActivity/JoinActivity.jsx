@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "./LogIn.css";
+import "./JoinActivity.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
 import { InputGroup } from "react-bootstrap";
 
-function LogIn(props) {
+function JoinActivity(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -131,9 +131,9 @@ function LogIn(props) {
     <div className="login-form">
       <div className="login-form-body">
         <Form onSubmit={handleSubmit} className="login-form-content">
-          <h1 className="login-form-title">Welcome Back!</h1>
+          <h1 className="login-form-title">You have a code?!</h1>
           <h5 className="login-form-subtitle">
-            Add your information to Log In.
+            Add your code to join in the activity.
           </h5>
           <div className="login-form-inputs">
             <Form.Group className="form-group">
@@ -212,4 +212,4 @@ function LogIn(props) {
   );
 }
 
-export default LogIn;
+export default JoinActivity;

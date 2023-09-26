@@ -1,0 +1,171 @@
+.login-form {
+    max-width: 480px;
+    height: 435px;
+    border-radius: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    margin-left: auto;
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+  
+  .login-form-body {
+    display: flex;
+    flex-direction: column;
+    max-width: 480px;
+    max-height: 100%;
+    padding: 0 12.5% 2.5% 12.5%;
+  }
+  
+  .login-form-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .login-form-inputs {
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+    gap: 35px;
+  }
+  
+  .login-form-title {
+    font-weight: bold;
+    font-size: 6vh;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 100%;
+    color: white;
+  }
+  
+  .login-form-subtitle {
+    font-weight: normal;
+    font-size: 2vh;
+    margin-bottom: min(20px, 6%);
+    color: white;
+  }
+  
+  .login-form-control-lg {
+    min-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    font-size: 2vh;
+    border: 2px solid #9D79BC;
+    color: #9D79BC;
+    box-shadow: none !important;
+  }
+  .login-form-control-lg ~ span{
+    border: 2px solid #9D79BC;
+    border-left: 0;
+  }
+  .login-form-control-lg:focus{
+    border-color: #9D79BC;
+  }
+  
+  .font-size {
+    font-size: 2vh;
+    color: white;
+  }
+  
+  .login-icons {
+    margin-right: 10px;
+    color: white;
+  }
+  
+  .form-check {
+    margin-left: 30%;
+    font-size: 2vh;
+    color: white;
+  }
+  
+  .form-input-group {
+    box-shadow: none !important;
+  }
+  
+  .input-group-text {
+    border-color: inherit;
+  }
+  
+  .form-input-group-text-password {
+    padding: 0;
+    margin-left: 20px;
+    background: white;
+    border-radius: 0 10px 10px 0;
+  }
+  
+  #passwordButton{
+    color: #0000007b;
+  }
+  
+  .login-form-password-button {
+    font-size: 1.6vh;
+    background: transparent;
+    border-style: none;
+    box-shadow: none !important;
+    transition: .3s;
+  }
+  .login-form-password-button:hover{
+    background: transparent;
+  }
+  .login-form-password-button > svg:hover {
+    transform: scale(1.3);
+    transition: .3s;
+  }
+  .login-form-password-button > svg{
+    transition: .3s;
+  }
+  
+  .login-form-password-button:focus {
+    background: transparent;
+    border-style: none;
+  }
+  
+  .login-form-password-button:active {
+    background: transparent;
+    border-style: none;
+  }
+  
+  #submit-button {
+    margin: 0 !important;
+    height: 40px;
+  }
+  
+  .login-form-button-empty {
+    min-width: 100%;
+    height: 12%;
+    font-size: 2vh;
+    border-radius: 10px;
+    background: #5d4b6a;
+    border-style: solid;
+    border-color: #5d4b6a;
+    color: white;
+    box-shadow: none !important;
+    pointer-events: none;
+  }
+  
+  .login-form-button-filled {
+    min-width: 100%;
+    height: 12%;
+    font-size: 2vh;
+    border-radius: 10px;
+    background: #42006d;
+    border-style: solid;
+    border-color: #42006d;
+    color: white;
+  }
+  
+  @media (max-width: 500px) {
+    .form-check{
+      margin-left: 15%;
+    }
+    .login-form-title{
+      font-size: 5vh;  
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .login-form-inputs {
+      gap: 25px;
+    }
+  }
+  

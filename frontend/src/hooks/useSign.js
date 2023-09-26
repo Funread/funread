@@ -9,7 +9,6 @@ export const useSign = () => {
 
     try {
       
-
     const data = await axios({
       method: "post",
       url: "http://localhost:8000/users/new-user/",
