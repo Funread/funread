@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BookCreator from "./Components/BookCreator/BookCreator";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
-
+import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -18,16 +18,17 @@ root.render(
         exact
         path="/"
         element={
-          <div className='index-background-container landing-page'>
+          <div className='index-background-container'>
             <LandingPage />
           </div>
         }
       /> 
+      {/* Esta parte es para DEMO sin iniciar Sesion */}
       <Route
         exact
         path="demo/bookcreator"
         element={
-          <div className='index-background-container landing-page'>
+          <div className='index-background-container'>
             <BookCreator />
           </div>
         }
@@ -38,6 +39,15 @@ root.render(
       {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
         <Route
           exact
+          path="/"
+          element={
+              <div className="index-background-container ">
+                {/* <BookCreator /> */}
+              </div>
+          }
+        />
+     <Route
+          exact
           path="/bookcreator"
           element={
             <div className="index-background-padding">
@@ -47,8 +57,17 @@ root.render(
             </div>
           }
         />
-
-
+ <Route
+          exact
+          path="/dashboard"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <Dashboard />
+              </div>
+            </div>
+          }
+        />
       </Route>
     </Routes>
   </BrowserRouter>
