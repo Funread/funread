@@ -1,5 +1,6 @@
 import './AnswerQuiz.css'
 import React from 'react'
+import Form from 'react-bootstrap/Form';
 
 const AnswerQuiz = ({ value, onChange }) => {
   return (
@@ -13,6 +14,8 @@ const AnswerQuiz = ({ value, onChange }) => {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
+      <input type="number" id='puntos' placeholder='pts' min="0" max="15"/>
+      <Form.Check label="✔" />
     </div>
   )
 }

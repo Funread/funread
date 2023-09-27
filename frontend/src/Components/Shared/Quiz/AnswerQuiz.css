@@ -18,9 +18,17 @@
   margin-right: 7px;
 }
 
-input {
-  width: 100%;
+input{
+  width: 300px;
   background-color: transparent;
-  border: none;
+  border:none;
   border-bottom: 1px solid #000000;
+  
+}
+
+#puntos{
+  width: 50px;
+  border:none;
+  margin-left: 15px;
+  margin-right: 15px;
 }
