@@ -50,7 +50,14 @@ const UniqueSelection = () => {
     <div className='container text-center mt-5'>
       <div className='row justify-content-center'>
         <div className='col'>
-          <div className='responses-grid mx-auto'>
+          <div>
+            <input
+              type='text'
+              className='custom-input'
+              placeholder='Start typing your question'
+            />
+          </div>
+          <div className='responses-grid mx-auto mt-5'>
             {responses.map((response, index) => (
               <AnswerQuiz
                 key={index}

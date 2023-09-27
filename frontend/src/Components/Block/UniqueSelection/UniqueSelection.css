@@ -35,3 +35,21 @@
   text-decoration: underline;
   border-radius: 0.25rem;
 }
+
+.custom-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  font-size: 17px;
+  background-color: #fff;
+  color: #333;
+  outline: none;
+  text-align: center;
+  box-shadow: 0 0 5px #16171880;
+}
+
+.custom-input:focus {
+  border-color: #16171880;
+  box-shadow: 0 0 5px #16171880;
+}
