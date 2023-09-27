@@ -1,28 +1,26 @@
-#cardAnswer{
-    max-width: 405px; /*Se modifica luego al agregar los 2 items (puntaje y check)*/
-    height: 80px;
-    background-color: #B3EDDA;
-    border-radius: 5px;
-    padding-left: 1em;
-    display: flex;
-    place-items: center;
-    
+#cardAnswer {
+  /* max-width: 405px; Se modifica luego al agregar los 2 items (puntaje y check) */
+  height: 80px;
+  background-color: #b3edda;
+  border-radius: 5px;
+  padding-left: 1em;
+  display: flex;
+  place-items: center;
 }
 
-#iconButton{
-    height: 65%;
-    background-color: rgb(68, 148, 121);
-    border-color: transparent;
-    border-radius: 4px;
-    /*border: 1px solid #1b5844;*/
-    box-shadow: 2px 2px rgb(47, 104, 85);
-    margin-right: 7px;
+#iconButton {
+  height: 65%;
+  background-color: rgb(68, 148, 121);
+  border-color: transparent;
+  border-radius: 4px;
+  /*border: 1px solid #1b5844;*/
+  box-shadow: 2px 2px rgb(47, 104, 85);
+  margin-right: 7px;
 }
 
-input{
-    width: 325px;
-    background-color: transparent;
-    border:none;
-    border-bottom: 1px solid #000000;
-   
+input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #000000;
 }
