@@ -1,3 +1,8 @@
+body{
+  background-size: contain;
+  background-image: url(escolar.jpg);
+}
+
 .container {
   padding: 20px;
   margin: 0 auto;
@@ -39,14 +44,15 @@
 .custom-input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #fff;
+  border: 2px solid #b98294;
   border-radius: 5px;
   font-size: 17px;
-  background-color: #fff;
+  background-color: #f2acc3;
   color: #333;
   outline: none;
   text-align: center;
   box-shadow: 0 0 5px #16171880;
+
 }
 
 .custom-input:focus {

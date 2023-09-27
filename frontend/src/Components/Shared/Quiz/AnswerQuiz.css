@@ -1,11 +1,12 @@
 #cardAnswer {
-  /* max-width: 405px; Se modifica luego al agregar los 2 items (puntaje y check) */
+   max-width: 500px; /*Se modifica luego al agregar los 2 items (puntaje y check) */
   height: 80px;
   background-color: #b3edda;
   border-radius: 5px;
   padding-left: 1em;
   display: flex;
   place-items: center;
+  border: 2px solid rgb(91, 179, 150);
 }
 
 #iconButton {
@@ -30,5 +31,8 @@ input{
   width: 50px;
   border:none;
   margin-left: 15px;
-  margin-right: 15px;
+}
+
+.form-check{
+  margin-left: 10px;
 }
