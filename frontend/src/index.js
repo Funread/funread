@@ -6,40 +6,43 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BookCreator from "./Components/BookCreator/BookCreator";
+import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <BrowserRouter>
     <Routes>
+    <Route
+        exact
+        path="/"
+        element={
+          <div className='index-background-container landing-page'>
+            <LandingPage />
+          </div>
+        }
+      /> 
       <Route
         exact
-        path="/bookcreator"
+        path="demo/bookcreator"
         element={
           <div className='index-background-container landing-page'>
             <BookCreator />
           </div>
         }
       />
-<Route
-        exact
-        path="/mylibrary"
-        element={
-          <div className='index-background-container landing-page'>
-            {/* <MyLibrary /> */}
-          </div>
-        }
-      />
+
 
       <Route element={<ProtectedRoutes/>}>
       {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
         <Route
           exact
-          path="/mylibrary"
+          path="/bookcreator"
           element={
             <div className="index-background-padding">
               <div className="index-background-container ">
-                {/* <MyLibrary /> */}
+                <BookCreator />
               </div>
             </div>
           }
