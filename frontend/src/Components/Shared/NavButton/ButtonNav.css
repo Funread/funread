@@ -20,3 +20,11 @@
     background: rgb(74, 74, 83);
     border-color: transparent;
 }
+
+@media only screen and (max-width: 580px) {
+    .section-btn {
+        width: 6em;
+        transition: 0.9s;
+    }
+  }
+  
