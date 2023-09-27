@@ -53,3 +53,17 @@
   border-color: #16171880;
   box-shadow: 0 0 5px #16171880;
 }
+
+.custom-add-image {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  height: 170px;
+  width: 250px;
+  cursor: pointer;
+  background-color: rgba(175, 173, 173, 0.7);
+  box-shadow: 0 0 5px #16171880;
+}

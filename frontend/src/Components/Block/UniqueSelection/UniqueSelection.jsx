@@ -1,6 +1,8 @@
 import './UniqueSelection.css'
 import React, { useState, useEffect } from 'react'
 import AnswerQuiz from '../../Shared/Quiz/AnswerQuiz'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 const MIN_RESPONSES = 2
 const MAX_RESPONSES = 6
@@ -57,6 +59,18 @@ const UniqueSelection = () => {
               placeholder='Start typing your question'
             />
           </div>
+
+          <div className='d-flex justify-content-center align-items-center '>
+            <div className='custom-add-image'>
+              <div className='image-container'>
+                <div>
+                  <FontAwesomeIcon size='3x' icon={faPlus} />
+                  <p>Find and insert media</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className='responses-grid mx-auto mt-5'>
             {responses.map((response, index) => (
               <AnswerQuiz
