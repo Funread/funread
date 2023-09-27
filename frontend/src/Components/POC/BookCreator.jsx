@@ -1,11 +1,11 @@
 import React from 'react'
-import './poc.css'
-import NavbarButtons from '../Components/Shared/NavbarButtons/NavbarButtons'
-import Sidebar from '../Components/Shared/Sidebar/Sidebar'
-import Carousel from '../Components/Shared/NavBarCarrousel/NavBarCarrousel'
-import PageContainer from '../Components/Shared/PageContainer/PageContainer'
+import './BookCreator.css'
+import NavbarButtons from '../Shared/NavbarButtons/NavbarButtons'
+import Sidebar from '../Shared/Sidebar/Sidebar'
+import Carousel from '../Shared/NavBarCarrousel/NavBarCarrousel'
+import PageContainer from '../Shared/PageContainer/PageContainer'
 
-const Poc = () => {
+const BookCreator = () => {
   return (
     <>
       <div className='container-fluid p-0'>
@@ -33,4 +33,4 @@ const Poc = () => {
   )
 }
 
-export default Poc
+export default BookCreator
