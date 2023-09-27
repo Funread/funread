@@ -11,84 +11,84 @@
 @media (min-width: 1700px) and (max-width: 3000px) {
     .content_page {
         width: 80%; 
-        height: 80vh;
+        height: 78vh;
         margin-right: 5%; 
     }
 }
 @media (min-width: 1270px) and (max-width: 1700px) {
     .content_page {
         width: 76%; 
-        height: 76vh;
+        height: 74vh;
         margin-right: 5%; 
     }
 }
 @media (min-width:1100px ) and (max-width: 1270px) {
     .content_page {
         width: 73%; 
-        height: 73vh;
+        height: 71vh;
         margin-right: 5%; 
     }
 }
 @media (min-width: 1000px) and (max-width: 1100px) {
     .content_page {
         width: 70%; 
-        height: 70vh;
+        height: 68vh;
         margin-right: 5%; 
     }
 }
 @media (min-width: 910px) and (max-width: 1000px) {
     .content_page {
         width: 67%; 
-        height: 65vh;
+        height: 63vh;
         margin-right: 5%; 
     }
 }
 @media (min-width: 865px) and (max-width: 910px) {
     .content_page {
         width: 65%; 
-        height: 65vh;
+        height: 63vh;
         margin-right: 5%; 
     }
 }
 @media (min-width: 800px) and (max-width: 865px) {
     .content_page {
         width: 63%; 
-        height: 63vh;
+        height: 61vh;
         margin-right: 5%; 
     }
 }
 @media (min-width: 600px) and (max-width: 800px) {
     .content_page {
         width: 85%; 
-        height: 63vh;
+        height: 61vh;
         margin-right: 5%; 
     }
 }
 @media (min-width: 500px) and (max-width: 600px) {
     .content_page {
         width: 83%; 
-        height: 55vh;
+        height: 53vh;
         margin-right: 5%; 
     }
 }
 @media (min-width: 400px) and (max-width: 500px) {
     .content_page {
         width: 77%; 
-        height: 40vh;
+        height: 38vh;
         margin-right: 5%; 
     }
 }
 @media (min-width: 300px) and (max-width: 400px) {
     .content_page {
         width: 75%; 
-        height: 35vh;
+        height: 33vh;
         margin-right: 5%; 
     }
 }
 @media (min-width: 250px) and (max-width: 300px) {
     .content_page {
         width: 65%; 
-        height: 35vh;
+        height: 33vh;
         margin-right: 5%; 
     }
 }
