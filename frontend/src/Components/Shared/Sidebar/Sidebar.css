@@ -45,3 +45,12 @@
 .custom-nav-menu {
   grid-template-rows: repeat(7, 1fr);
 }
+
+@media only screen and (max-height: 490px) {
+  .custom-side-nav-container {
+    overflow: scroll;
+    min-height: 400px;
+    position: relative;
+    transition: 0.4s;
+  }
+}
