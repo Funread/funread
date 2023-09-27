@@ -5,7 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import BookCreator from "./Components/POC/BookCreator";
+import BookCreator from "./Components/BookCreator/BookCreator";
 import ProtectedRoutes from "./ProtectedRoutes";
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
