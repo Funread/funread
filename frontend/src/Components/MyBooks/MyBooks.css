@@ -1,13 +1,12 @@
-.custom_section {
+.custom_section_book {
   display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
   justify-content: space-between;
   gap: 20px;
+  overflow-x: scroll;
 }
 
 .custom_section_item {
-  scroll-snap-align: center;
+  flex-grow: 1;
 }
 
 .custom_section::-webkit-scrollbar {
@@ -25,4 +24,4 @@
   border: none;
   margin: 0;
   box-shadow: none;
-}
+} 

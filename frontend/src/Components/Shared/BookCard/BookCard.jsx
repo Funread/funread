@@ -13,7 +13,7 @@ const BookCard = ({
   return (
     <div
       className='card'
-      style={{ width: '250px', borderRadius: '0px', backgroundColor: color }}
+      style={{ width: '235px', borderRadius: '5px', backgroundColor: color }}
       onClick={() => toggleSidebar({id,
         image,
         title,

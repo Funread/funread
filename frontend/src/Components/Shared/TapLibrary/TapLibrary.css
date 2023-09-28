@@ -1,4 +1,4 @@
-.section_sharelibrary {
+.section_library {
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -11,14 +11,12 @@
 }
 
 .section_item {
-  display: inline-block;
+ flex-grow: 1;
+ flex-basis: 200;
   width: 15rem;
   height: 15rem;
 }
 
-h4 {
-  margin-top: 4rem;
-}
 .nav-link {
   color: #000;
 }

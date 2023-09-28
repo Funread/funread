@@ -42,7 +42,7 @@ const Library = () => {
                 <Form.Control
                   type='search'
                   placeholder='Search'
-                  className='me-2'
+                  className='me-2 custom-input-search '
                   aria-label='Search'
                 />
                 <Button variant='outline-success'>
@@ -53,12 +53,11 @@ const Library = () => {
                 </Button>
               </Form>
 
-              <h4>Recent Books</h4>
+              <h4 className='mt-3'>Recent Books</h4>
               <MyBooks toggleSidebar={toggleSidebar} />
               {selectedBook && (
                 <div
-                  className='sidebar-mobile'
-                  style={{ background: '#79ABA8' }}
+                  className='sidebar-mobile mt-3 ml-1 shadow rounded'
                 >
                   <BookView
                     title={selectedBook?.title}
@@ -74,8 +73,7 @@ const Library = () => {
           </div>
           {selectedBook && (
             <div
-              className='col-sm-3 custom-padding sidebar-desktop'
-              style={{ background: '#79ABA8' }}
+              className='col-sm-3 custom-padding sidebar-desktop shadow rounded'
             >
               <BookView
                 title={selectedBook?.title}

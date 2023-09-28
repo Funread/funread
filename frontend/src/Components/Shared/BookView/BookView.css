@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: rgb(63, 63, 63);
   gap: 5px;
 
 }
@@ -9,6 +10,7 @@
 .book-title {
   font-size: 24px;
   font-weight: bold;
+  color:  rgb(75, 69, 69);
 }
 
 .book-author {
@@ -24,7 +26,9 @@
   padding: 35px;
   margin-top: 40px;
   text-align: justify;
+  color: rgb(75, 69, 69);
 }
+
 
 .button-section {
   display: flex;
@@ -43,10 +47,7 @@
 }
 
 @media screen and (min-width: 987px) {
-  .divstudentCard{
-    padding-right: 6rem;
-  }
-  .book-image {
+    .book-image {
     padding-right: 2rem;
   }
   

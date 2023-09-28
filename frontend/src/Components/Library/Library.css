@@ -7,6 +7,7 @@ h4 {
   overflow-y: scroll;
   overflow-x: hidden;  
   height: 100vh;
+  background-color: whitesmoke;
 }
 
 
@@ -40,6 +41,12 @@ h4 {
   display: block;
 }
 
+.custom-input-search {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
 @media screen and (min-width: 992px) {
   .sidebar-mobile {
     display: none;
@@ -48,7 +55,8 @@ h4 {
 
 .sidebar-desktop {
   display: none;
-}
+  margin-right: 3rem;
+ }
 
 @media screen and (min-width: 992px) {
   .sidebar-desktop {
@@ -66,13 +74,6 @@ h4 {
   
 }
 
-@media only screen and (max-width: 900px) {
-  .content_library {
-    padding-right: 3rem;
-    margin-left: 100px;
-  }
- 
-}
  .sidenav.col-sm-9 {
     margin-left: 90px;
     justify-content: center;
@@ -81,3 +82,18 @@ h4 {
 .custom-padding {
   padding-right: 2rem;
 }
+
+@media (min-width: 200px) and (max-width: 1300px) {
+  .sidenav.col-sm-9 {
+    margin-left: 90px;
+    justify-content: center;    
+  }
+    .sidenav.col-12 {
+    margin-left: 90px;
+    justify-content: center;
+  }
+  .content_library {
+    padding-right: 4rem;
+  }
+}
+
