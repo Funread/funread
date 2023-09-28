@@ -45,7 +45,7 @@ const Library = () => {
                   className='me-2 custom-input-search '
                   aria-label='Search'
                 />
-                <Button variant='outline-success'>
+                <Button className='button-search-library'>
                   <FontAwesomeIcon
                     className='fa-magnifying-glass'
                     icon={faSearch}

@@ -10,7 +10,7 @@
 .book-title {
   font-size: 24px;
   font-weight: bold;
-  color:  rgb(75, 69, 69);
+  color: rgb(63, 63, 63);
 }
 
 .book-author {
@@ -34,20 +34,21 @@
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  margin-right: 1.5rem;
 }
 
 .button {
+  outline-style: solid;
+  outline-color:#A9DEF9;
   margin: 0 10px;
   padding: 10px 20px;
-  background-color: rgb(202, 201, 201);
+  background-color: white;
   color: #000000;
   border: none;
   border-radius: 5px;
-  transition-duration: 0.4s;
   cursor: pointer;
 }
 .button:hover {background-color: #A9DEF9;}
-
 @media screen and (min-width: 987px) {
     .book-image {
     padding-right: 2rem;

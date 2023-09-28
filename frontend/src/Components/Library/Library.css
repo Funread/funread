@@ -83,6 +83,17 @@ h4 {
   padding-right: 2rem;
 }
 
+.button-search-library{
+  outline-style: solid;
+  outline-color:#A9DEF9;
+  background-color: white;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.button-search-library:hover {background-color: #A9DEF9;}
+
 @media (min-width: 200px) and (max-width: 1300px) {
   .sidenav.col-sm-9 {
     margin-left: 90px;
