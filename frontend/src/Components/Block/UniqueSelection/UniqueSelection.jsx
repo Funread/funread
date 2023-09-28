@@ -49,42 +49,44 @@ const UniqueSelection = () => {
   }, [responses])
 
   return (
-    <div className='container text-center mt-5'>
-      <div className='row justify-content-center'>
-        <div className='col'>
-          <div>
-            <input
-              type='text'
-              className='custom-input'
-              placeholder='Start typing your question'
-            />
-          </div>
+    <div className='custom-quiz-background'>
+      <div className='container custom-quiz-container text-center '>
+        <div className='row justify-content-center'>
+          <div className='col'>
+            <div>
+              <input
+                type='text'
+                className='custom-input'
+                placeholder='Start typing your question'
+              />
+            </div>
 
-          <div className='d-flex justify-content-center align-items-center '>
-            <div className='custom-add-image'>
-              <div className='image-container'>
-                <div>
-                  <FontAwesomeIcon size='3x' icon={faPlus} />
-                  <p>Find and insert media</p>
+            <div className='d-flex justify-content-center align-items-center '>
+              <div className='custom-add-image'>
+                <div className='image-container'>
+                  <div>
+                    <FontAwesomeIcon size='3x' icon={faPlus} />
+                    <p>Find and insert media</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className='responses-grid mx-auto mt-5'>
-            {responses.map((response, index) => (
-              <AnswerQuiz
-                key={index}
-                value={response}
-                onChange={(value) => handleResponseChange(index, value)}
-              />
-            ))}
+            <div className='responses-grid mx-auto mt-5'>
+              {responses.map((response, index) => (
+                <AnswerQuiz
+                  key={index}
+                  value={response}
+                  onChange={(value) => handleResponseChange(index, value)}
+                />
+              ))}
+            </div>
+            <button className='custom-button' onClick={toggleAddingResponses}>
+              {isAddingResponses
+                ? 'Add more answers'
+                : 'Remove additional answers'}
+            </button>
           </div>
-          <button className='custom-button' onClick={toggleAddingResponses}>
-            {isAddingResponses
-              ? 'Add more answers'
-              : 'Remove additional answers'}
-          </button>
         </div>
       </div>
     </div>
