@@ -1,5 +1,68 @@
-#cardAnswer {
-   max-width: 500px; /*Se modifica luego al agregar los 2 items (puntaje y check) */
+/* En tu archivo de estilos CSS */
+
+.card {
+  background-color: #b3edda;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 2px solid rgb(91, 179, 150);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+}
+
+.icon-button {
+  height: 65%;
+  background-color: rgb(68, 148, 121);
+  border-color: transparent;
+  border-radius: 4px;
+  box-shadow: 2px 2px rgb(47, 104, 85);
+  margin-right: 7px;
+}
+
+.icon-button img {
+  width: 30px;
+  height: 50px;
+}
+
+.answer-input {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.answer-input-format {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #000000;
+}
+
+.card-footer {
+  /* padding: 10px; */
+  border-top: 1px solid #ccc;
+}
+
+.additional-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.additional-options input[type='number'] {
+  width: 40px; /* Ajusta el ancho del input de número según tu diseño */
+}
+
+.additional-options label {
+  display: flex;
+  align-items: center;
+}
+
+.additional-options label input[type='checkbox'] {
+  margin-right: 5px; /* Espacio entre el input de número y el checkbox */
+}
+
+/* #cardAnswer {
   height: 80px;
   background-color: #b3edda;
   border-radius: 5px;
@@ -14,25 +77,22 @@
   background-color: rgb(68, 148, 121);
   border-color: transparent;
   border-radius: 4px;
-  /*border: 1px solid #1b5844;*/
   box-shadow: 2px 2px rgb(47, 104, 85);
   margin-right: 7px;
 }
 
-input{
-  width: 300px;
+input {
   background-color: transparent;
-  border:none;
+  border: none;
   border-bottom: 1px solid #000000;
-  
 }
 
-#puntos{
+#puntos {
   width: 50px;
-  border:none;
+  border: none;
   margin-left: 15px;
 }
 
-.form-check{
+.form-check {
   margin-left: 10px;
-}
+} */
