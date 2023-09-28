@@ -60,15 +60,24 @@ h4 {
   .sidenav.col-sm-9 {
     flex-basis: 91.666667%;
     max-width: 91.666667%;
+    margin-left: 100px;
+    justify-content: center;
   }
+  
 }
 
 @media only screen and (max-width: 900px) {
   .content_library {
     padding-right: 3rem;
+    margin-left: 100px;
   }
+ 
 }
-
+ .sidenav.col-sm-9 {
+    margin-left: 90px;
+    justify-content: center;
+    padding-right: 2rem;
+  }
 .custom-padding {
   padding-right: 2rem;
 }
