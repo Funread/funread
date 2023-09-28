@@ -14,7 +14,7 @@ const AnswerQuiz = ({ value, onChange }) => {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
-      <input type="number" id='puntos' placeholder='pts' min="0" max="15"/>
+      <input type="number" id='puntos' placeholder='pts' min="0" max="20"/>
       <Form.Check label="✔"/>
     </div>
   )
