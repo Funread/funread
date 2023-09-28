@@ -1,3 +1,4 @@
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -6,46 +7,82 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BookCreator from "./Components/BookCreator/BookCreator";
+import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
+import Dashboard from "./Components/Shared/Dashboard/Dashboard";
+import UniqueSelection from "./Components/Block/UniqueSelection/UniqueSelection";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <BrowserRouter>
     <Routes>
+    <Route
+        exact
+        path='/'
+        element={
+          <div className='index-background-container'>
+            <LandingPage />
+          </div>
+        }
+      /> 
+      {/* Esta parte es para DEMO sin iniciar Sesion */}
       <Route
         exact
-        path="/bookcreator"
+        path="demo/bookcreator"
         element={
-          <div className='index-background-container landing-page'>
+          <div className='index-background-container'>
             <BookCreator />
           </div>
         }
       />
-<Route
+
+    <Route
         exact
-        path="/mylibrary"
+        path="demo/quiz"
         element={
-          <div className='index-background-container landing-page'>
-            {/* <MyLibrary /> */}
-          </div>
+          
+            <UniqueSelection />
+          
         }
       />
+      
+
 
       <Route element={<ProtectedRoutes/>}>
       {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
         <Route
           exact
-          path="/mylibrary"
+          path="/"
+          element={
+              <div className="index-background-container ">
+                {/* <BookCreator /> */}
+              </div>
+          }
+        />
+     <Route
+          exact
+          path="/bookcreator"
           element={
             <div className="index-background-padding">
               <div className="index-background-container ">
-                {/* <MyLibrary /> */}
+                <BookCreator />
+
               </div>
             </div>
           }
         />
-
-
+ <Route
+          exact
+          path="/dashboard"
+          element={
+            <div className='index-background-padding'>
+              <div className='index-background-container '>
+                <Dashboard />
+              </div>
+            </div>
+          }
+        />
       </Route>
     </Routes>
   </BrowserRouter>
