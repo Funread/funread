@@ -1,5 +1,5 @@
 .custom-quiz-background {
-  background-image: url('../../../../public/imagenes/quiz/background.jpg');
+  background-image: url('../../../../public/imagenes/quiz/background1.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -21,6 +21,7 @@
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
   max-width: 100%;
+  place-items: center;
 }
 
 @media (max-width: 576px) {
@@ -51,10 +52,10 @@
 .custom-input {
   width: 100%;
   padding: 10px;
-  border: 2px solid #4b54b8;
+  border: 2px solid rgb(91, 179, 150);
   border-radius: 5px;
   font-size: 17px;
-  background-color: #868ee5;
+  background-color: #b3edda;
   color: #333;
   outline: none;
   text-align: center;
