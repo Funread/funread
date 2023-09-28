@@ -1,12 +1,12 @@
 .section_library {
   display: flex;
-  justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
   margin-bottom: 1rem;
   scroll-snap-type: x mandatory;
   overflow-y: scroll;
   overflow-x: hidden;
+  height: 30rem;
   transform: translate(1);
 }
 
@@ -24,23 +24,30 @@
   scroll-snap-align: center;
 }
 
-.section_sharelibrary::-webkit-scrollbar {
-  width: 7px;
+.section_library::-webkit-scrollbar {
+  width: 0px;
 }
 
-.section_sharelibrary::-webkit-scrollbar-thumb {
+.section_library::-webkit-scrollbar-thumb {
   background-color: transparent;
   border: none;
   box-shadow: none;
 }
 
-.section_sharelibrary::-webkit-scrollbar-thumb:hover {
+.section_library::-webkit-scrollbar-thumb:hover {
   background-color: transparent;
 }
 
-.section_sharelibrary::-webkit-scrollbar-track {
+.section_library::-webkit-scrollbar-track {
   background-color: transparent;
   border: none;
   margin: 0;
   box-shadow: none;
+}
+
+@media (min-width: 450px) and (max-width: 730px) {
+  .section_item {
+    margin-left: 9.5rem;
+  }
+
 }

@@ -57,7 +57,7 @@ const Library = () => {
               <MyBooks toggleSidebar={toggleSidebar} />
               {selectedBook && (
                 <div
-                  className='sidebar-mobile mt-3 ml-1 shadow rounded'
+                  className='sidebar-mobile mt-3 my-2 shadow rounded'
                 >
                   <BookView
                     title={selectedBook?.title}

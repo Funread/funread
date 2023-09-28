@@ -77,13 +77,13 @@ function TapLibrary({ toggleSidebar }) {
   return (
     <>
       <Tabs
-        className='mt-5'
+        className='mt-2'
         id='controlled-tab'
         activeKey={key}
         onSelect={(k) => setKey(k)}
       >
         <Tab eventKey='mylibrary' title='My library' className='tab'>
-          <div className='section_library p-3 bg-body rounded '>
+          <div className='section_library p-3 bg-body rounded'>
             {BOOKS.map(
               ({
                 id,
