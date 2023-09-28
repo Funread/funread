@@ -268,3 +268,20 @@ def login(request):
       'data': serializer.data
     }
     return response
+
+@ api_view(['POST'])
+def tokenVerify(request):
+    #token verification
+
+    response = Response()
+    
+
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        response.data= {'login':False}
+    else:
+        response.data= {'login':True}
+
+    return response

@@ -16,14 +16,14 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
     <>
       <div
         key={text}
-        className={`custom-menu-item border-botton ${
+        className={`custom-menu-item ${
           isExpanded ? '' : 'custom-menu-item-NX'
         } ${isSelected ? 'open' : ''}`}
         onClick={handleItemClick}
       >
         <div className='d-flex align-items-center justify-content-between'>
           <div className='d-flex align-items-center'>
-            <FontAwesomeIcon icon={icon} size='xl' />
+            <FontAwesomeIcon icon={icon} />
             {isExpanded && <p className='ml-2'>{text}</p>}
           </div>
         </div>

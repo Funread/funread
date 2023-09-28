@@ -1,51 +1,48 @@
 .custom-menu-item {
-    height: 69px;
-    width: 1em;
-    display: flex;
-    color:cornflowerblue;
-    text-decoration:none;
-    text-transform:uppercase;
-    margin: auto 20px;
-    border-radius: 10px;
-    position: relative;
-  }
+  height: 57px;
+  width: 16em;
+  display: flex;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin: auto 20px;
+  border-radius: 10px;
+  position: relative;
+}
 
-  .custom-menu-item:hover{
-    background-color:aliceblue;
-  }
-  
-  .custom-menu-item-NX {
-    margin: auto;
-    width: 4.5em;
-  }
-  
-  .custom-menu-item svg {
-    width: 30px;
-    padding: 0 25px;
-  }
-  
-  .custom-card {
-    background-color: #fff;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    padding: 20px;
-    max-width: 300px;
-    margin: 0 auto;
-    overflow-y: scroll;
-    max-height: 200px;
-  }
-  
-  .icon-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30px, 2fr));
-    gap: 10px;
-    justify-content: center;
-    align-content: center;
-  }
-  
-  .icon {
-    font-size: 35px;
-    text-align: center;
-    color: #333;
-  }
-  
+.custom-menu-item-NX {
+  margin: auto;
+  width: 4.5em;
+}
+.custom-menu-item:hover {
+  background-color: rgb(44, 44, 51);
+}
+.custom-menu-item svg {
+  width: 30px;
+  padding: 0 20px;
+}
+
+.custom-card {
+  background-color: #fff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 300px;
+  margin: 0 auto;
+  overflow-y: scroll;
+  max-height: 200px;
+}
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30px, 2fr));
+  gap: 10px;
+  justify-content: center;
+  align-content: center;
+}
+
+.icon {
+  font-size: 24px;
+  text-align: center;
+  color: #333;
+}
