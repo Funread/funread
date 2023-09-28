@@ -6,7 +6,7 @@ const AnswerQuiz = ({ value, onChange }) => {
   return (
     <div id='cardAnswer'>
       <button id='iconButton'>
-        <img src='./agregar.png' alt='icon' />
+        <img src='./rubik.png' alt='icon' />
       </button>
       <input
         type='text'
