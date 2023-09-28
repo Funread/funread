@@ -160,12 +160,13 @@
 @media (min-width: 470px) and (max-width: 560px) {
   .NavbClass{
       width: 87%; 
+      padding-right: 1rem;
      
   }
 }
 @media (min-width: 350px) and (max-width: 470px) {
   .NavbClass{
       width: 84%; 
-     
+      padding-right: 3rem;
   }
 }
