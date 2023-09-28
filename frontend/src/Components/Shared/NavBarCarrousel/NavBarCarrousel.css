@@ -69,89 +69,89 @@
 
 @media (min-width: 2600px) and (max-width: 3000px) {
   .NavbClass{
-      width: 97%; 
+      width: 89%; 
      
   }
 }
 @media (min-width: 2450px) and (max-width: 2600px) {
   .NavbClass{
-      width: 97%; 
+      width: 88%; 
      
   }
 }
 @media (min-width: 2250px) and (max-width: 2450px) {
   .NavbClass{
-      width: 97%; 
+      width: 87.5%; 
      
   }
 }
 @media (min-width: 2000px) and (max-width: 2250px) {
   .NavbClass{
-      width: 96.5%; 
+      width: 86%; 
      
   }
 }
 @media (min-width: 1800px) and (max-width: 2000px) {
   .NavbClass{
-      width: 96%; 
+      width: 85%; 
      
   }
 }
 @media (min-width: 1600px) and (max-width: 1800px) {
   .NavbClass{
-      width: 95%; 
+      width: 83%; 
      
   }
 }
 @media (min-width: 1450px) and (max-width: 1600px) {
   .NavbClass{
-      width: 94%; 
+      width: 81%; 
      
   }
 }
 @media (min-width: 1285px) and (max-width: 1450px) {
   .NavbClass{
-      width: 94%; 
+      width: 78.5%; 
      
   }
 }
 @media (min-width: 1190px) and (max-width: 1285px) {
   .NavbClass{
-      width: 93%; 
+      width: 76%; 
      
   }
 }
 @media (min-width: 1130px) and (max-width: 1190px) {
   .NavbClass{
-      width: 92%; 
+      width: 75%; 
      
   }
 }
 @media (min-width: 1000px) and (max-width: 1130px) {
   .NavbClass{
-      width: 91%; 
+      width: 73%; 
      
   }
 }
 @media (min-width: 900px) and (max-width: 1000px) {
   .NavbClass{
-      width: 90%; 
+      width: 70%; 
      
   }
 }
 @media (min-width: 800px) and (max-width: 900px) {
   .NavbClass{
-      width: 89.5%; 
+      width: 67%; 
      
   }
 }
-@media (min-width: 770px) and (max-width: 800px) {
+@media (min-width: 766px) and (max-width: 800px) {
   .NavbClass{
-      width: 89%; 
+      width: 62%; 
      
   }
 }
-@media (min-width: 560px) and (max-width: 770px) {
+@media (min-width: 560px) and (max-width: 766px) {
   .NavbClass{
       width: 89%; 
      
