@@ -46,3 +46,9 @@
   text-align: center;
   color: #333;
 }
+
+@media only screen and (max-height: 490px) {
+  .icon-grid {
+    gap: 0;
+  }
+}
