@@ -1,5 +1,5 @@
 import BookCard from '../Shared/BookCard/BookCard'
-import './MyBooks.css'
+import './RecentBook.css'
 
 const MY_BOOKS = [
   {
@@ -46,7 +46,7 @@ const MY_BOOKS = [
   },
 ]
 
-const MyBooks = ({ toggleSidebar }) => {
+const RecentBook = ({ toggleSidebar }) => {
   return (
     <div className='custom_section_book shadow rounded' style={{ width: '100%' }}>
       {MY_BOOKS.map(
@@ -69,4 +69,4 @@ const MyBooks = ({ toggleSidebar }) => {
   )
 }
 
-export default MyBooks
+export default RecentBook;

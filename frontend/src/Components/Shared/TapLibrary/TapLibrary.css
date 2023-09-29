@@ -45,9 +45,9 @@
   box-shadow: none;
 }
 
-@media (min-width: 450px) and (max-width: 730px) {
+@media (min-width: 500px) and (max-width: 1300px) {
   .section_item {
-    margin-left: 9.5rem;
+    margin-left: 4.5rem;
   }
 
 }

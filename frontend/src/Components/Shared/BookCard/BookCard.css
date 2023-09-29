@@ -19,6 +19,16 @@
 
 .card:hover {-webkit-transform:scale(1.1);transform:scale(1.1);}
 
+.custom_section_book {
+   justify-content: center;
+}
+@media (min-width: 1300px) and (max-width: 3000px) {
+  .custom_section_book {
+    display: flex;
+    gap: 80px;
+    justify-content: center;
+  }
+  
 .custom_section_item{
   transition: 300ms ease-in-out;
 }
@@ -33,23 +43,26 @@ margin-left: -10%;
   z-index: 1;
   translate: 60px;
 }
-
-@media (min-width: 1300px) and (max-width: 3000px) {
-  .custom_section_book {
-    display: flex;
-    gap: 80px;
-    columns: auto 4rem;
-    justify-content: center;
-  }
   
 }
-@media (min-width: 500px) and (max-width: 1300px) {
+@media (min-width: 850px) and (max-width: 1300px) {
   .custom_section_book {
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
-    columns: auto 4rem;
     justify-content: center;
+  }
+  .custom_section_item{
+    margin-left: 4.5rem;
+  }
+}
+
+@media (min-width: 350px) and (max-width: 850px) {
+  .custom_section_book {
+    display: flex;
+    justify-content: center;
+  }
+  .custom_section_item{
+    margin-left: 2.5rem;
   }
   
 }

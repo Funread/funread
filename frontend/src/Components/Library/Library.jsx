@@ -1,6 +1,6 @@
 import './Library.css'
 import React, { useState } from 'react'
-import MyBooks from '../MyBooks/MyBooks'
+import RecentBook from '../RecentBook/RecentBook'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -54,7 +54,7 @@ const Library = () => {
               </Form>
 
               <h4 className='mt-3'>Recent Books</h4>
-              <MyBooks toggleSidebar={toggleSidebar} />
+              <RecentBook toggleSidebar={toggleSidebar} />
               {selectedBook && (
                 <div
                   className='sidebar-mobile mt-3 my-2 shadow rounded'
