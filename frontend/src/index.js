@@ -70,7 +70,7 @@ root.render(
               </div>
           }
         />
-     <Route
+      <Route
           exact
           path="/bookcreator"
           element={
@@ -82,7 +82,19 @@ root.render(
             </div>
           }
         />
- <Route
+          <Route
+          exact
+          path="/library"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <Library/>
+
+              </div>
+            </div>
+          }
+        />
+    <Route
           exact
           path="/dashboard"
           element={
