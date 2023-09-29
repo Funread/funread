@@ -16,3 +16,5 @@
   font-size: 0.9rem;
   color: rgb(63, 63, 63);
 }
+
+.card:hover {-webkit-transform:scale(1.1);transform:scale(1.1);}

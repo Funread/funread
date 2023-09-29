@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: rgb(63, 63, 63);
   gap: 5px;
 
 }
@@ -9,6 +10,7 @@
 .book-title {
   font-size: 24px;
   font-weight: bold;
+  color: rgb(63, 63, 63);
 }
 
 .book-author {
@@ -24,29 +26,31 @@
   padding: 35px;
   margin-top: 40px;
   text-align: justify;
+  color: rgb(75, 69, 69);
 }
+
 
 .button-section {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  margin-right: 1.5rem;
 }
 
 .button {
+  outline-style: solid;
+  outline-color:#A9DEF9;
   margin: 0 10px;
   padding: 10px 20px;
-  background-color: #d8d6d7;
+  background-color: white;
   color: #000000;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
-
+.button:hover {background-color: #A9DEF9;}
 @media screen and (min-width: 987px) {
-  .divstudentCard{
-    padding-right: 6rem;
-  }
-  .book-image {
+    .book-image {
     padding-right: 2rem;
   }
   

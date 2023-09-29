@@ -1,14 +1,11 @@
-.html,
-body {
-  height: 100vh;
-}
 
 .custom-side-nav-container {
   background-color: rgb(30, 30, 34);
-  position: relative;
+  height: 100vh;
+  position: fixed;
   color: #fff;
   transition: 0.4s;
-}
+  }
 
 .custom-side-nav-container-NX {
   width: 85px;
@@ -44,7 +41,7 @@ body {
   height: 69px;
   width: 1em;
   display: flex;
-  color: #79aba8;
+  color: #A9DEF9;
   text-decoration: none;
   text-transform: uppercase;
   margin: auto 20px;

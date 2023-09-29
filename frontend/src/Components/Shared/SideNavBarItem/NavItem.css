@@ -1,6 +1,6 @@
 .custom-menu-item {
-  height: 69px;
-  width: 1em;
+  height: 57px;
+  width: 16em;
   display: flex;
   color: cornflowerblue;
   text-decoration: none;
@@ -47,10 +47,4 @@
   font-size: 35px;
   text-align: center;
   color: #333;
-}
-
-@media only screen and (max-height: 490px) {
-  .icon-grid {
-    gap: 0;
-  }
 }

@@ -1,48 +1,110 @@
-.section_sharelibrary {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
+h4 {
+  color: grey;
+  text-align: left;
+}
+.library{
   scroll-snap-type: x mandatory;
   overflow-y: scroll;
-  overflow-x: hidden;
-  transform: translate(1);
+  overflow-x: hidden;  
+  height: 100vh;
+  background-color: whitesmoke;
 }
 
-.section_item {
-  display: inline-block;
-  width: 15rem;
-  height: 15rem;
-}
 
-h4 {
-  margin-top: 4rem;
-}
-.nav-link {
-  color: #000;
-}
-.section_item {
+.library{
   scroll-snap-align: center;
 }
 
-.section_sharelibrary::-webkit-scrollbar {
+.library::-webkit-scrollbar {
   width: 7px;
 }
 
-.section_sharelibrary::-webkit-scrollbar-thumb {
+.library::-webkit-scrollbar-thumb {
   background-color: transparent;
   border: none;
   box-shadow: none;
 }
 
-.section_sharelibrary::-webkit-scrollbar-thumb:hover {
+.library::-webkit-scrollbar-thumb:hover {
   background-color: transparent;
 }
 
-.section_sharelibrary::-webkit-scrollbar-track {
+.library::-webkit-scrollbar-track {
   background-color: transparent;
   border: none;
   margin: 0;
   box-shadow: none;
 }
+
+
+.sidebar-mobile {
+  display: block;
+}
+
+.custom-input-search {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+@media screen and (min-width: 992px) {
+  .sidebar-mobile {
+    display: none;
+  }
+}
+
+.sidebar-desktop {
+  display: none;
+  margin-right: 3rem;
+ }
+
+@media screen and (min-width: 992px) {
+  .sidebar-desktop {
+    display: block;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .sidenav.col-sm-9 {
+    flex-basis: 91.666667%;
+    max-width: 91.666667%;
+    margin-left: 100px;
+    justify-content: center;
+  }
+  
+}
+
+ .sidenav.col-sm-9 {
+    margin-left: 90px;
+    justify-content: center;
+    padding-right: 2rem;
+  }
+.custom-padding {
+  padding-right: 2rem;
+}
+
+.button-search-library{
+  outline-style: solid;
+  outline-color:#A9DEF9;
+  background-color: white;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.button-search-library:hover {background-color: #A9DEF9;}
+
+@media (min-width: 200px) and (max-width: 1300px) {
+  .sidenav.col-sm-9 {
+    margin-left: 90px;
+    justify-content: center;    
+  }
+    .sidenav.col-12 {
+    margin-left: 90px;
+    justify-content: center;
+  }
+  .content_library {
+    padding-right: 4rem;
+  }
+}
+

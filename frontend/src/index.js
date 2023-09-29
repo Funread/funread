@@ -10,7 +10,7 @@ import LandingPage from './Components/LandingPage/LandingPage'
 import ProtectedRoutes from './ProtectedRoutes'
 import Dashboard from './Components/Shared/Dashboard/Dashboard'
 import UniqueSelection from './Components/Block/UniqueSelection/UniqueSelection'
-import BookBuilder from './POCFR-315/pocfr-315'
+import Library from './Components/Library/Library'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -35,6 +35,15 @@ root.render(
           </div>
         }
       />
+      <Route
+        exact
+        path='demo/library'
+        element={
+          <div className='index-background-container'>
+            <Library />
+          </div>
+        }
+      />
 
       <Route exact path='demo/quiz' element={<UniqueSelection />} />
 
@@ -56,6 +65,17 @@ root.render(
             <div className='index-background-padding'>
               <div className='index-background-container '>
                 <BookCreator />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          exact
+          path='/library'
+          element={
+            <div className='index-background-padding'>
+              <div className='index-background-container '>
+                <Library />
               </div>
             </div>
           }

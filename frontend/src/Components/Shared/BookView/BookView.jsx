@@ -3,7 +3,7 @@ import './BookView.css'
 const BookView = ({ title, description, image, author }) => {
   return (
     <div
-      className='container mx-auto pt-5 text-white justify-content-center'
+      className='mx-auto pt-5 text-white justify-content-center'
       style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
     >
       <div className='book-header'>
