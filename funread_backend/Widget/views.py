@@ -9,9 +9,20 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 import hashlib
+import sys
+sys.path.append('funread_backend')
+import verifyJwt
 
 @api_view(['POST'])
 def new_widget(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     print(request.data)
     data = {
         'type': request.data.get('type'),
@@ -25,6 +36,14 @@ def new_widget(request):
 
 @api_view(['GET'])
 def widgetSearch(request, widgetid):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         widget = Widget.objects.get(widgetid=widgetid)
         print(widget)
@@ -35,6 +54,14 @@ def widgetSearch(request, widgetid):
 
 @api_view(['PUT'])
 def widgetChange(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'widgetid': request.data.get('widgetid'),
@@ -58,12 +85,28 @@ def widgetChange(request):
 
 @ api_view(['GET'])
 def listedWidget(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     widget = Widget.objects.all()
     serializer = WidgetSerializer(widget, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])
 def new_widgetItem(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     print(request.data)
     data = {
         'page': request.data.get('page'),
@@ -79,6 +122,14 @@ def new_widgetItem(request):
 
 @api_view(['GET'])
 def widgetItemSearch(request, widgetitemid):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         widgetitem = WidgetItem.objects.get(widgetitemid=widgetitemid)
         print(widgetitem)
@@ -89,6 +140,14 @@ def widgetItemSearch(request, widgetitemid):
 
 @api_view(['PUT'])
 def widgetItemChange(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'widgetitemid': request.data.get('widgetitemid'),
@@ -114,6 +173,14 @@ def widgetItemChange(request):
 
 @ api_view(['GET'])
 def listedWidgetItems(request):
+    
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     widgetitem = WidgetItem.objects.all()
     serializer = WidgetItemSerializer(widgetitem, many=True)
     return Response(serializer.data)

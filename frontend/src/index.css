@@ -36,3 +36,7 @@ code {
   height: 100%;
   background-color: #888888;
 }
+
+.landing-page{
+  border-radius: 0px;
+}

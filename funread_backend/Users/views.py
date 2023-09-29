@@ -1,3 +1,4 @@
+
 import json
 from wsgiref import headers
 from .models import User 
@@ -8,6 +9,14 @@ from rest_framework import status
 import hashlib
 #from Roles.models import UserRoles 
 #from Roles.serializers import UserRolesSerializer
+import jwt
+from rest_framework.exceptions import AuthenticationFailed
+import datetime
+from datetime import datetime
+from django.conf import settings
+import sys
+sys.path.append('funread_backend')
+import verifyJwt
 
 @api_view(['POST'])
 def new_user(request):
@@ -32,6 +41,14 @@ def new_user(request):
 
 @api_view(['GET'])
 def userSearch(request, email):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         user = User.objects.get(email=email)
         print(user)
@@ -44,6 +61,13 @@ def userSearch(request, email):
 @api_view(['PUT'])
 def userChange(request):
 
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'email': request.data.get('email'),
@@ -70,6 +94,13 @@ def userChange(request):
 @api_view(['PUT'])
 def userChangePassword(request):
 
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'email': request.data.get('email'),
@@ -95,6 +126,13 @@ def userChangePassword(request):
 @ api_view(['GET'])
 def listed(request):
 
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     user = User.objects.all()
     serializer = UserSerializer(user, many=True)
     return Response(serializer.data)
@@ -103,6 +141,13 @@ def listed(request):
 @ api_view(['GET'])
 def listed_active(request):
 
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     user = User.objects.filter(actived=1)
     serializer = UserSerializer(user, many=True)
     return Response(serializer.data)
@@ -111,6 +156,13 @@ def listed_active(request):
 @ api_view(['GET'])
 def listed_deactive(request):
 
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     user = User.objects.filter(actived=0)
     serializer = UserSerializer(user, many=True)
     return Response(serializer.data)
@@ -119,6 +171,13 @@ def listed_deactive(request):
 @api_view(['PUT'])
 def delete_user(request):
 
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'email': request.data.get('email'),
@@ -142,6 +201,13 @@ def delete_user(request):
 @api_view(['PUT'])
 def activate_user(request):
 
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         dataRequest = {
             'email': request.data.get('email'),
@@ -164,23 +230,58 @@ def activate_user(request):
 
 @ api_view(['POST'])
 def login(request):
+    emailSe = request.data.get('email')
+    passwordSe = hashlib.sha256(request.data.get(
+        'password').encode('utf-8')).hexdigest()
+    user = User.objects.filter(email=emailSe).first()
+    if user is None:
+        raise AuthenticationFailed('User not found')
+    if not user.actived.__eq__(1):
+        raise AuthenticationFailed('inactive user')
+    if not user.password.__eq__(passwordSe):
+        raise AuthenticationFailed('Incorrect password')
 
-    data = {
-        'email': request.data.get('email'),
-        'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest(),
+    signing_key = settings.SIMPLE_JWT['SIGNING_KEY']
+    payload = {
+        'exp': datetime.utcnow() + settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
+        'iat': datetime.utcnow(),
+        'user_id': user.userid
     }
+    algorithm = settings.SIMPLE_JWT['ALGORITHM']
+    token = jwt.encode(payload, signing_key, algorithm)
 
-    print(data.get('email'))
-    print(data.get('password'))
-    emailSe = data.get('email')
-    passwordSe = data.get('password')
+    #print(data.get('email'))
+    #print(data.get('password'))
+    #emailSe = data.get('email')
+    #passwordSe = data.get('password')
 
-    try:
-        user = User.objects.get(email=emailSe, password=passwordSe,actived=1)
-    except User.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    #try:
+    #    user = User.objects.get(email=emailSe, password=passwordSe,actived=1)
+    #except User.DoesNotExist:
+    #    return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = LoginSerializer(user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    #return Response(serializer.data, status=status.HTTP_200_OK)
 
+    response = Response()
+    response.data= {
+      'jwt': token,
+      'data': serializer.data
+    }
+    return response
 
+@ api_view(['POST'])
+def tokenVerify(request):
+    #token verification
 
+    response = Response()
+    
+
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        response.data= {'login':False}
+    else:
+        response.data= {'login':True}
+
+    return response

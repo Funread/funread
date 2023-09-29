@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./funread_backend/funread_backend"
+    ]
+}
