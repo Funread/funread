@@ -1,24 +1,19 @@
 # Development Branch
 
-1. Create your branch from this branch with command `git checkout -b <your-name>`.
-
-2. Work on your branch and commit your work using (Phase Begin)
+1. Instalar los requerimientos
 ```
-git add <filename>
-git commit -m "<update/fix/chore>: <verb> <something>"
+pip install -r requirements.txt
 ```
-
-3. Push update to your branch
+2. Crear las migraciones
 ```
-git push origin <your-branch>
+python manage.py makemigrations
 ```
-
-4. Create merge request from `<your branch>` to `<development>` on GitHub
-
-5. Merge request if there is no merge conflict. Otherwise invite your teammate to review change.
-
-6. When each phase ends, one of your team member creates merge request from `development` to `main`.
-
-7. After all your teammates and I agree, update `main` branch by approving the merge request. (Phase End)
-
-8. When each new phase begins, run `git pull origin development` on your local branch to work on the latest version.
+3. Realizar la migraciones
+```
+python manage.py migrate
+```
+4. Correr el servidor
+```
+python manage.py runserver
+```
+5. Manos a la obra 😎
