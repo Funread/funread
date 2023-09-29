@@ -82,6 +82,7 @@ function LogIn(props) {
    * Asigna un css distinto a los campos con información.
    */
   const isEmpty = (data, id) => {
+    setError(false)
     data !== ""
       ? changeInputColor(id, "#42006d")
       : changeInputColor(id, "#e9e9e9");

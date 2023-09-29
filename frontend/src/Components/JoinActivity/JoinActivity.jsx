@@ -77,7 +77,7 @@ function JoinActivity(props) {
     <div className="join-form">
       <div className="join-form-body">
         <Form onSubmit={handleSubmit} className="join-form-content">
-          <h1 className="join-form-title">You have a code?!</h1>
+          <h1 className="join-form-title">Do you have a code?</h1>
           <h5 className="join-form-subtitle">
             Add your code to join in the activity.
           </h5>
