@@ -53,7 +53,7 @@ const UniqueSelection = () => {
       <div className='container custom-quiz-container text-center'>
         <div className='row'>
           <div className='col'>
-            <div>
+            {/*<div>
               <input
                 type='text'
                 className='custom-input'
@@ -69,6 +69,25 @@ const UniqueSelection = () => {
                     <p>Find and insert media</p>
                   </div>
                 </div>
+              </div>
+  </div>*/}
+
+            <div id='cardQuestions'>
+              <div className='row'>
+                  <input
+                    type='text'
+                    className='custom-input'
+                    placeholder='Start typing your question'
+                  />
+                  <div className='custom-add-image'>
+                    <div className='image-container'>
+                      <div>
+                        {/*<FontAwesomeIcon size='3x' icon={faPlus} />*/}
+                        <img src='/imagenes/quiz/addImage.png' alt='image'  />
+                        <p>Find and insert media</p>
+                      </div>
+                    </div>
+                  </div>
               </div>
             </div>
 
