@@ -1,7 +1,3 @@
-.bookCreator{
-    scroll-snap-type: x mandatory;
-    overflow-y: auto;
-    overflow-x: hidden;  
-    height: 100vh;
-  }
-  
+.col-md-10{
+margin-right: 10rem;
+}

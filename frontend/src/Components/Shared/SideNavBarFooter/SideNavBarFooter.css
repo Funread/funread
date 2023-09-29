@@ -37,9 +37,3 @@
 .logout-icon:hover {
   background-color: var(--primary);
 }
-
-@media only screen and (max-height: 490px) {
-  .custom-nav-footer  {
-    position: relative;
-  }
-}
