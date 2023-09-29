@@ -8,12 +8,11 @@ import { faSearch, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import Library from '../Components/Library/Library'
 import BookView from '../Components/Shared/BookView/BookView'
 import SidebarBook from '../Components/Shared/SidebarBook/SidebarBook'
-import CreateBook from '../Components/Shared/CreateBook/CreateBooks'
+import BookBuilder from '../Components/Shared/BookBuilder/BookBuilder'
 
 const POC = () => {
   const [showSidebar, setShowSidebar] = useState(false)
   const [selectedBook, setSelectedBook] = useState(null)
-  const [modalShow, setModalShow] = useState(false)
 
   const toggleSidebar = (book) => {
     if (!selectedBook) {
@@ -55,23 +54,23 @@ const POC = () => {
               </Button>
               <Button
                 variant='outline-success'
-                onClick={() => setModalShow(true)}
+                //onClick={() => setModalShow(true)}
               >
                 <FontAwesomeIcon icon={faPencilAlt} />
               </Button>
             </Form>
-            <CreateBook show={modalShow} onHide={() => setModalShow(false)} />
 
             <h4>Recent Books</h4>
             <MyBooks toggleSidebar={toggleSidebar} />
             {selectedBook && (
               <div className='sidebar-mobile' style={{ background: '#79ABA8' }}>
-                <BookView
+                <BookBuilder />
+                {/* <BookView
                   title={selectedBook?.title}
                   description={selectedBook?.description}
                   image={selectedBook?.image}
                   author={selectedBook?.author}
-                />
+                /> */}
               </div>
             )}
 
@@ -83,12 +82,13 @@ const POC = () => {
             className='col-sm-3 custom-padding sidebar-desktop'
             style={{ background: '#79ABA8' }}
           >
-            <BookView
+            <BookBuilder />
+            {/* <BookView
               title={selectedBook?.title}
               description={selectedBook?.description}
               image={selectedBook?.image}
               author={selectedBook?.author}
-            />
+            /> */}
           </div>
         )}
       </div>

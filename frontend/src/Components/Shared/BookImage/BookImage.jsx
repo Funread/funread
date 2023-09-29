@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
+import { Form } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudUpload } from '@fortawesome/free-solid-svg-icons'
 
-const BookImage = ({ onImageSelect }) => {
+const BookImage = ({ onImageSelect, portrait }) => {
   const [image, setImage] = useState(null)
   const [fileName, setFileName] = useState('No selected file')
+  const fileInputRef = useRef(null)
 
   const handleImageChange = (e) => {
     const file = e.target.files[0]
@@ -19,33 +21,27 @@ const BookImage = ({ onImageSelect }) => {
 
   return (
     <div
-      className='custom-form'
-      onClick={() => document.querySelector('.input-field').click()}
+      className='custom-image-form'
+      onClick={() => fileInputRef.current.click()}
     >
-      <input
+      <Form.Control
+        ref={fileInputRef}
         className='input-field'
-        name='portrait'
         type='file'
+        name='portrait'
         accept='image/*'
-        hidden
+        value={portrait}
         onChange={handleImageChange}
+        hidden
       />
-      <div className='image-container p-0'>
-        {image && (
-          <img
-            src={image}
-            alt={fileName}
-            className='rounded-image'
-            style={{ width: '140px', height: '230px' }}
-          />
-        )}
-        {!image && (
-          <div>
-            <FontAwesomeIcon size='3x' icon={faCloudUpload} />
-            <p>Import book cover</p>
-          </div>
-        )}
-      </div>
+      {image ? (
+        <img src={image} width={140} height={230} alt={fileName} />
+      ) : (
+        <div>
+          <FontAwesomeIcon size='3x' icon={faCloudUpload} />
+          <p>Import book cover</p>
+        </div>
+      )}
     </div>
   )
 }

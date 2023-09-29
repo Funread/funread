@@ -10,6 +10,7 @@ import LandingPage from './Components/LandingPage/LandingPage'
 import ProtectedRoutes from './ProtectedRoutes'
 import Dashboard from './Components/Shared/Dashboard/Dashboard'
 import UniqueSelection from './Components/Block/UniqueSelection/UniqueSelection'
+import BookBuilder from './POCFR-315/pocfr-315'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -70,6 +71,8 @@ root.render(
             </div>
           }
         />
+
+        <Route exact path='demo/FE-30' element={<BookBuilder />} />
       </Route>
     </Routes>
   </BrowserRouter>
