@@ -2,7 +2,7 @@ import './UniqueSelection.css'
 import React, { useState, useEffect } from 'react'
 import AnswerQuiz from '../../Shared/Quiz/AnswerQuiz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 const MIN_RESPONSES = 2
 const MAX_RESPONSES = 6
@@ -49,42 +49,59 @@ const UniqueSelection = () => {
   }, [responses])
 
   return (
-    <div className='container text-center mt-5'>
-      <div className='row justify-content-center'>
-        <div className='col'>
-          <div>
-            <input
-              type='text'
-              className='custom-input'
-              placeholder='Start typing your question'
-            />
-          </div>
-
-          <div className='d-flex justify-content-center align-items-center '>
-            <div className='custom-add-image'>
-              <div className='image-container'>
-                <div>
-                  <FontAwesomeIcon size='3x' icon={faPlus} />
-                  <p>Find and insert media</p>
+    <div className='custom-quiz-background'>
+      <div className='container custom-quiz-container text-center'>
+        <div className='row'>
+          <div className='col'>
+            <div id='cardQuestions'>
+              <div className='row'>
+                <input
+                  type='text'
+                  className='custom-input'
+                  placeholder='Start typing your question'
+                />
+                <div className='custom-add-image'>
+                  <div className='image-container'>
+                    <div>
+                      <img src='/imagenes/quiz/addImage.png' alt='addimage' />
+                      <p>Find and insert media</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className='responses-grid mx-auto mt-5'>
-            {responses.map((response, index) => (
-              <AnswerQuiz
-                key={index}
-                value={response}
-                onChange={(value) => handleResponseChange(index, value)}
-              />
-            ))}
+            <div className='responses-grid mx-auto mt-5'>
+              {responses.map((response, index) => (
+                <AnswerQuiz
+                  key={index}
+                  value={response}
+                  onChange={(value) => handleResponseChange(index, value)}
+                />
+              ))}
+            </div>
+            <button
+              className={`custom-button ${
+                isAddingResponses ? 'adding' : 'removing'
+              }`}
+              onClick={toggleAddingResponses}
+            >
+              <div className='button-content'>
+                <div className='button-icon'>
+                  {isAddingResponses ? (
+                    <FontAwesomeIcon size='lg' icon={faPlus} />
+                  ) : (
+                    <FontAwesomeIcon size='lg' icon={faMinus} />
+                  )}
+                </div>
+                <div className='button-text'>
+                  {isAddingResponses
+                    ? 'Add more answers'
+                    : 'Remove additional answers'}
+                </div>
+              </div>
+            </button>
           </div>
-          <button className='custom-button' onClick={toggleAddingResponses}>
-            {isAddingResponses
-              ? 'Add more answers'
-              : 'Remove additional answers'}
-          </button>
         </div>
       </div>
     </div>
