@@ -34,7 +34,7 @@
   border: 1px solid;
   font-size: 14px !important;
   background-color: white;
-  border-color: #d5a6fa;
+  border-color: hwb(36 4% 9%);
 }
 
 .btn-right {
@@ -46,7 +46,7 @@
   border: 1px solid;
   font-size: 14px !important;
   background-color: white;
-  border-color: #d5a6fa;
+  border-color: hsl(36, 88%, 51%);
 }
 
 .btn-close {
@@ -57,7 +57,7 @@
   border: 1px solid;
   font-size: 14px !important;
   background-color: white;
-  border-color: #d5a6fa;
+  border-color: hwb(36 4% 9%);
 }
 
 .buttons-container {
@@ -66,29 +66,29 @@
   width: 100%;
   padding: 20px 30px 20px 40px;
   min-width: 560px;
-  background-color: #d5a6fa;
+  background-color: hwb(36 4% 9%);
   border-radius: 20px;
   align-items: center;
   justify-content: space-between;
-  border-color: #d5a6fa;
+  border-color: hwb(36 4% 9%);
 }
 
 .btn-left:hover {
-  background: #d5a6fa;
+  background: hwb(36 4% 9%);
   border-style: solid;
   border-color: #42006d;
   color: white;
 }
 
 .btn-right:hover {
-  background: #d5a6fa;
+  background: hwb(36 4% 9%);
   border-style: solid;
   border-color: #42006d;
   color: white;
 }
 
 .btn-close:hover {
-  background: #d5a6fa;
+  background: hwb(36 4% 9%);
   border-style: solid;
   border-color: #42006d;
   color: white;

@@ -2,9 +2,11 @@ from django.db import models
 from Tags.models import Tags
 from Pages.models import Pages
 
-# Create your models here.
-
 class TagsPerPage(models.Model):
-    tagsPerPageId = models.AutoField(primary_key=True)
-    pageId = models.ForeignKey(Pages, related_name='pageId',db_column='pageId', on_delete=models.CASCADE, to_field='pageid')
-    tagsId = models.ForeignKey(Tags, related_name='tagsIdmodel',db_column='tagsId', on_delete=models.CASCADE, to_field='tagsId')
+    tagsperpageid = models.AutoField(db_column='TagsPerPageId', primary_key=True)  # Field name made lowercase.
+    pageid = models.ForeignKey(Pages, db_column='PageID', blank=True, null=True, on_delete=models.CASCADE, to_field='pageid')  # Field name made lowercase.
+    tagsid = models.ForeignKey(Tags, db_column='TagsID', blank=True, null=True, on_delete=models.CASCADE, to_field='tagsid')  # Field name made lowercase.
+
+    class Meta:
+        
+        db_table = 'tagsperpage'

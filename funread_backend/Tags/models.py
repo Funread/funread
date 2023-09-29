@@ -1,8 +1,10 @@
 from django.db import models
 
-# Create your models here.
-
 class Tags(models.Model):
-    tagsId = models.AutoField(primary_key=True)
-    description = models.CharField(max_length=200, unique=True)
+    tagsid = models.AutoField(db_column='TagsId', primary_key=True)  # Field name made lowercase.
+    description = models.CharField(db_column='Description', max_length=50, unique=True)  # Field name made lowercase.
+    descriptionn = models.CharField(db_column='Descriptionn', max_length=50)  # Field name made lowercase.
 
+    class Meta:
+        
+        db_table = 'tags'

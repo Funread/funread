@@ -1,11 +1,13 @@
 from django.db import models
 from Users.models import User
 
-# Create your models here.
-
 class StudentsGroups(models.Model):
-    groupId = models.AutoField(primary_key=True)
-    userId = models.ForeignKey(User, related_name='idUser',db_column='userId', on_delete=models.CASCADE, to_field='userid')
-    isTeacher = models.IntegerField(db_column='isTeacher', blank=True, null=True)
-    createdBy = models.ForeignKey(User, related_name='createdByModel',db_column='createdBy', on_delete=models.CASCADE, to_field='userid')
-    createdAt = models.DateTimeField(db_column='createdAt', blank=True, null=True)  
+    groupsid = models.AutoField(db_column='GroupsId', primary_key=True)  # Field name made lowercase.
+    userid = models.ForeignKey(User, db_column='UserId', related_name='student_groups', on_delete=models.CASCADE, to_field='userid')  # Field name made lowercase.
+    isteacher = models.IntegerField(db_column='isTeacher', blank=True, null=True)  # Field name made lowercase.
+    createdby = models.ForeignKey(User, db_column='CreatedBy', related_name='created_student_groups', on_delete=models.CASCADE, to_field='userid')  # Field name made lowercase.
+    createdat = models.DateTimeField(db_column='CreatedAt', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        
+        db_table = 'studentgroups'
