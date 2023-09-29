@@ -2,7 +2,7 @@ import './UniqueSelection.css'
 import React, { useState, useEffect } from 'react'
 import AnswerQuiz from '../../Shared/Quiz/AnswerQuiz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 const MIN_RESPONSES = 2
 const MAX_RESPONSES = 6
@@ -50,10 +50,9 @@ const UniqueSelection = () => {
 
   return (
     <div className='custom-quiz-background'>
-      <div className='container custom-quiz-container text-center '>
-        <div className='row justify-content-center'>
+      <div className='container custom-quiz-container text-center justify-content-center'>
+        <div className='row'>
           <div className='col'>
-            
             <div>
               <input
                 type='text'
@@ -62,7 +61,7 @@ const UniqueSelection = () => {
               />
             </div>
 
-            <div className='d-flex justify-content-center align-items-center '>
+            <div className='d-flex justify-content-center align-items-center'>
               <div className='custom-add-image'>
                 <div className='image-container'>
                   <div>
@@ -82,10 +81,26 @@ const UniqueSelection = () => {
                 />
               ))}
             </div>
-            <button className='custom-button' onClick={toggleAddingResponses}>
-              {isAddingResponses
-                ? 'Add more answers'
-                : 'Remove additional answers'}
+            <button
+              className={`custom-button ${
+                isAddingResponses ? 'adding' : 'removing'
+              }`}
+              onClick={toggleAddingResponses}
+            >
+              <div className='button-content'>
+                <div className='button-icon'>
+                  {isAddingResponses ? (
+                    <FontAwesomeIcon size='lg' icon={faPlus} />
+                  ) : (
+                    <FontAwesomeIcon size='lg' icon={faMinus} />
+                  )}
+                </div>
+                <div className='button-text'>
+                  {isAddingResponses
+                    ? 'Add more answers'
+                    : 'Remove additional answers'}
+                </div>
+              </div>
             </button>
           </div>
         </div>

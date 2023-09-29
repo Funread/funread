@@ -1,12 +1,15 @@
 import './AnswerQuiz.css'
 import React from 'react'
+import { Switch, InputNumber } from 'antd'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faClose, faStar } from '@fortawesome/free-solid-svg-icons'
 
 const AnswerQuiz = ({ value, onChange }) => {
   return (
-    <div className='card'>
-      <div className='card-header'>
+    <div className='custom-quiz-card'>
+      <div className='custom-quiz-card-header'>
         <button className='icon-button'>
-          <img src='./rubik.png' alt='icon' />
+          <img src='/imagenes/quiz/rubik.png' alt='icon' />
         </button>
         <div className='answer-input'>
           <input
@@ -18,13 +21,18 @@ const AnswerQuiz = ({ value, onChange }) => {
           />
         </div>
       </div>
-      <div className='card-footer'>
+      <div className='custom-quiz-card-footer'>
         <div className='additional-options'>
-          <input type='number' id='puntos' placeholder='pts' min='0' max='20' />
-          <label>
-            <input type='checkbox' />
-            <span>Check</span>
-          </label>
+          <InputNumber
+            style={{ width: '65px' }}
+            min={0}
+            max={20}
+            prefix={<FontAwesomeIcon icon={faStar} />}
+          />
+          <Switch
+            checkedChildren={<FontAwesomeIcon icon={faCheck} />}
+            unCheckedChildren={<FontAwesomeIcon icon={faClose} />}
+          />
         </div>
       </div>
     </div>
