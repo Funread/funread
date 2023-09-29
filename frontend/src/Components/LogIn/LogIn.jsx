@@ -195,9 +195,8 @@ function LogIn(props) {
                 {error ? "Email or Password incorrect":""}
               </Form.Label>
             </Form.Group>
-        
             <Form.Group className="form-group">
-              <div className="mb-3 form-check form-check">
+              <div className="mb-3 form-check">
                 <input
                   type="checkbox"
                   className="form-check-input"
@@ -209,10 +208,10 @@ function LogIn(props) {
                 <label htmlFor="rememberMeCheck">Remember me</label>
               </div>
             </Form.Group>
+            <Button id="submit-button" className="login-form-button-empty" type="submit">
+              Log In
+            </Button>
           </div>
-          <Button id="submit-button" className="login-form-button-empty" type="submit">
-            Log In
-          </Button>
         </Form>
       </div>
     </div>

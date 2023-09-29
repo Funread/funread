@@ -101,10 +101,10 @@ function JoinActivity(props) {
                 required
               />
             </Form.Group>
+            <Button id="join-submit-button" className="join-form-button-empty" type="submit">
+              Join
+            </Button>
           </div>
-          <Button id="join-submit-button" className="join-form-button-empty" type="submit">
-            Join
-          </Button>
         </Form>
       </div>
     </div>

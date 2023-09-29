@@ -1,6 +1,6 @@
 .join-form {
     max-width: 480px;
-    height: 405px;
+    height: 100%;
     border-radius: 20px;
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
@@ -14,7 +14,7 @@
     flex-direction: column;
     max-width: 480px;
     height: 100%;
-    padding: 0 12.5% 2.5% 12.5%;
+    padding: 0 12.5% 0 12.5%;
   }
   
   .join-form-content {
@@ -26,14 +26,13 @@
   .join-form-inputs {
     display: flex;
     flex-direction: column;
-    padding-top: 20%;
-    height: 60%;
-    gap: 35px;
+    height: calc(100% - 125px - 6%);
+    justify-content: space-between;
   }
   
   .join-form-title {
     font-weight: bold;
-    font-size: 6vh;
+    font-size: 43px;
     font-family: Arial, Helvetica, sans-serif;
     line-height: 100%;
     color: white;
@@ -41,7 +40,7 @@
   
   .join-form-subtitle {
     font-weight: normal;
-    font-size: 2vh;
+    font-size: 15px;
     margin-bottom: min(20px, 6%);
     color: white;
   }
@@ -50,7 +49,7 @@
     min-width: 100%;
     max-height: 100%;
     border-radius: 10px;
-    font-size: 2vh;
+    font-size: 14px;
     border: 2px solid #9D79BC;
     color: #9D79BC;
     box-shadow: none !important;
@@ -64,18 +63,12 @@
   }
   
   .font-size {
-    font-size: 2vh;
+    font-size: 14px;
     color: white;
   }
   
   .join-icons {
     margin-right: 10px;
-    color: white;
-  }
-  
-  .form-check {
-    margin-left: 30%;
-    font-size: 2vh;
     color: white;
   }
   
@@ -99,7 +92,7 @@
   }
   
   .join-form-password-button {
-    font-size: 1.6vh;
+    font-size: 10px;
     background: transparent;
     border-style: none;
     box-shadow: none !important;
@@ -129,12 +122,14 @@
   #submit-button {
     margin: 0 !important;
     height: 40px;
+    min-height: 40px;
   }
   
   .join-form-button-empty {
     min-width: 100%;
     height: 12%;
-    font-size: 2vh;
+    min-height: 40px;
+    font-size: 14px;
     border-radius: 10px;
     background: #5d4b6a;
     border-style: solid;
@@ -147,7 +142,8 @@
   .join-form-button-filled {
     min-width: 100%;
     height: 12%;
-    font-size: 2vh;
+    min-height: 40px;
+    font-size: 14px;
     border-radius: 10px;
     background: #42006d;
     border-style: solid;
@@ -155,18 +151,23 @@
     color: white;
   }
   
-  @media (max-width: 500px) {
-    .form-check{
-      margin-left: 15%;
-    }
+  @media (max-height: 640px) {
     .join-form-title{
-      font-size: 5vh;  
+      font-size: 20px;
+    }
+    .join-form-inputs{
+      height: calc(100% - 65px);
+    }
+    .join-form-subtitle{
+      display: none;
     }
   }
-  
-  @media (max-width: 400px) {
-    .join-form-inputs {
-      gap: 25px;
+  @media (max-height: 520px) {
+    .signup-form .signup-form-title{
+      display: none;
     }
-  }
+    .signup-form .signup-form-inputs{
+      height: 90%;
+    }
+  } 
   
