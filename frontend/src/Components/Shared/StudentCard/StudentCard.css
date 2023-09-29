@@ -1,0 +1,47 @@
+
+
+.profileImagen{
+    justify-content: center;   
+    height:200px;
+    margin-top: 2px;
+}
+
+.accordionBar{
+    padding-left: 1rem;
+    padding-top: 1rem;
+    display: flex;   
+    width: 16rem;
+    
+}
+
+.infoStudent{
+    margin:1rem ;
+    margin-left: 1rem;
+    justify-content: center;
+ }
+
+.divstudentCard{
+    /* width: 18rem;
+    height: 580px;
+    padding: 1rem;
+    margin: 1rem; */
+
+    max-width: 18rem;
+    
+}
+.Accordion {
+    
+    max-height: 100vh; /* Establece la altura máxima como el 100% de la altura de la ventana */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical si el contenido es demasiado alto */
+  }
+
+.custum-accordion{
+    justify-content: center;
+    
+}
+
+@media screen and (min-width: 900px) {
+    .divstudentCard{
+      padding-right: 4rem;
+    }
+  }
