@@ -12,7 +12,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import UniqueSelection from "./Components/Block/UniqueSelection/UniqueSelection";
 import Library from "./Components/Library/Library";
-
+import Group from "./Components/Group/Group";
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -43,6 +43,15 @@ root.render(
         element={
           <div className='index-background-container'>
             <Library />
+          </div>
+        }
+      />
+      <Route
+        exact
+        path="demo/group"
+        element={
+          <div className=''>
+            <Group />
           </div>
         }
       />
@@ -89,6 +98,18 @@ root.render(
             <div className="index-background-padding">
               <div className="index-background-container ">
                 <Library/>
+
+              </div>
+            </div>
+          }
+        />
+         <Route
+          exact
+          path="/group"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <Group/>
 
               </div>
             </div>

@@ -1,5 +1,6 @@
 import datetime
 import json
+from django.core.exceptions import ValidationError
 from sre_parse import State
 from turtle import title
 from wsgiref import headers
@@ -8,6 +9,7 @@ from .serializers import StudentsGroupsSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from django.db import IntegrityError
 import hashlib
 import sys
 sys.path.append('funread_backend')
@@ -32,7 +34,7 @@ def listed(request):
 
 #Metodo para buscar una variable por nombre
 @api_view(['GET'])
-def search(request):
+def searchStudents(request):
 
     #token verification
     authorization_header = request.headers.get('Authorization')
@@ -42,11 +44,15 @@ def search(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     try:
-        studentsGroups = StudentsGroups.objects.get(groupId=request.data.get('groupId'))
+        studentsGroups = StudentsGroups.objects.filter(groupscreateid=request.data.get('GroupsCreateId')).exclude(isteacher=1)
         print(studentsGroups)
     except StudentsGroups.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = StudentsGroupsSerializer(studentsGroups)
+    except (ValueError, ValidationError):
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    if len(studentsGroups) == 0:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = StudentsGroupsSerializer(studentsGroups, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 #Metodo para agregar un elemento a la lista StudentsGroups
@@ -60,18 +66,19 @@ def add_new(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    print(request.data)
+    #print(request.data)
     data = {
-        'userId': request.data.get('userId'),
-        'isTeacher': request.data.get('isTeacher'),
-        'createdBy': request.data.get('createdBy'),
-        'createdAt': datetime.datetime.now(), 
+        'userid': request.data.get('userId'),
+        'isteacher': request.data.get('isTeacher'),
+        'createdby': request.data.get('createdBy'),
+        'createdat': datetime.datetime.now(),
+        'groupscreateid': request.data.get('groupsCreateid'),
     }
     serializer = StudentsGroupsSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    return Response("teacher or student already registered", status=status.HTTP_400_BAD_REQUEST)
 
 #Elimina un elemento de la lista StudentsGroups
 @api_view(['DELETE'])
