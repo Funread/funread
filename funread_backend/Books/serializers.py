@@ -20,6 +20,7 @@ class BookSerializer(serializers.ModelSerializer):
       instance.lastupdateat = validated_data.get('lastupdateat', instance.lastupdateat)
       instance.state = validated_data.get('state', instance.state)
       instance.sharedbook = validated_data.get('sharedbook', instance.sharedbook)
+      instance.lastupdateby = validated_data.get('lastupdateby', instance.lastupdateby)
       instance.save()
       return instance
 
