@@ -9,6 +9,7 @@ import BookCreator from "./Components/BookCreator/BookCreator";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
+import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -24,16 +25,33 @@ root.render(
         }
       /> 
       {/* Esta parte es para DEMO sin iniciar Sesion */}
-      <Route
-        exact
-        path="demo/bookcreator"
-        element={
-          <div className='index-background-container'>
-            <BookCreator />
-          </div>
-        }
-      />
-
+        <Route
+          exact
+          path="demo/bookcreator"
+          element={
+            <div className='index-background-container'>
+              <BookCreator />
+            </div>
+          }
+        />
+        <Route
+          exact
+          path="demo/join"
+          element={
+            <div className='index-background-container'>
+              <BookCreator />
+            </div>
+          }
+        />
+        <Route //se utiliza est ruta para colocar el componente que genera los links de invitacion
+          exact
+          path="demo/book"
+          element={
+            <div className='index-background-container'>
+              <JoinCreator />
+            </div>
+          }
+        />
 
       <Route element={<ProtectedRoutes/>}>
       {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
