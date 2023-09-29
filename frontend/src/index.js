@@ -41,7 +41,7 @@ root.render(
         exact
         path="demo/library"
         element={
-          <div className=''>
+          <div className='index-background-container'>
             <Library />
           </div>
         }

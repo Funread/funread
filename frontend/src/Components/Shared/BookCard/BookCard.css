@@ -18,3 +18,38 @@
 }
 
 .card:hover {-webkit-transform:scale(1.1);transform:scale(1.1);}
+
+.custom_section_item{
+  transition: 300ms ease-in-out;
+}
+.custom_section_item + .custom_section_item{
+margin-left: -10%;
+}
+
+.custom_section_item:hover{
+  transform: rotate(-4deg);
+}
+.custom_section_item:hover~ .custom_section_item{
+  z-index: 1;
+  translate: 60px;
+}
+
+@media (min-width: 1300px) and (max-width: 3000px) {
+  .custom_section_book {
+    display: flex;
+    gap: 80px;
+    columns: auto 4rem;
+    justify-content: center;
+  }
+  
+}
+@media (min-width: 500px) and (max-width: 1300px) {
+  .custom_section_book {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    columns: auto 4rem;
+    justify-content: center;
+  }
+  
+}
