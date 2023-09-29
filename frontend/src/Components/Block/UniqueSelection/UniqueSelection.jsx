@@ -50,7 +50,7 @@ const UniqueSelection = () => {
 
   return (
     <div className='custom-quiz-background'>
-      <div className='container custom-quiz-container text-center justify-content-center'>
+      <div className='container custom-quiz-container text-center'>
         <div className='row'>
           <div className='col'>
             <div>
