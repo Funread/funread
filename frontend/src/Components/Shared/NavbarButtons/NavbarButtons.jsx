@@ -4,7 +4,7 @@ import './NavbarButtons.css'
 const NavbarButtons = () => {
   return (
     <nav className='navbar'>
-      <div className='buttons'>
+      <div className='buttons-navbar'>
         <ButtonNav title='My Library' />
         <ButtonNav title='Shared Library' />
         <ButtonNav title='My Groups' />
