@@ -11,7 +11,8 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import UniqueSelection from "./Components/Block/UniqueSelection/UniqueSelection";
-
+import Library from "./Components/Library/Library";
+import Group from "./Components/Group/Group";
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -33,6 +34,24 @@ root.render(
         element={
           <div className='index-background-container'>
             <BookCreator />
+          </div>
+        }
+      />
+       <Route
+        exact
+        path="demo/library"
+        element={
+          <div className='index-background-container'>
+            <Library />
+          </div>
+        }
+      />
+      <Route
+        exact
+        path="demo/group"
+        element={
+          <div className=''>
+            <Group />
           </div>
         }
       />
@@ -60,7 +79,7 @@ root.render(
               </div>
           }
         />
-     <Route
+      <Route
           exact
           path="/bookcreator"
           element={
@@ -72,7 +91,31 @@ root.render(
             </div>
           }
         />
- <Route
+          <Route
+          exact
+          path="/library"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <Library/>
+
+              </div>
+            </div>
+          }
+        />
+         <Route
+          exact
+          path="/group"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <Group/>
+
+              </div>
+            </div>
+          }
+        />
+    <Route
           exact
           path="/dashboard"
           element={

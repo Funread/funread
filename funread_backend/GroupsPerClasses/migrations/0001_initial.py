@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('groupsperclassesid', models.AutoField(db_column='GroupsPerClassesId', primary_key=True, serialize=False)),
                 ('classesid', models.ForeignKey(blank=True, db_column='ClassesId', null=True, on_delete=django.db.models.deletion.CASCADE, to='Classes.classes')),
-                ('groupsid', models.ForeignKey(blank=True, db_column='GroupsId', null=True, on_delete=django.db.models.deletion.CASCADE, to='StudentsGroups.studentsgroups')),
+                ('studentsgroupsid', models.ForeignKey(blank=True, db_column='StudentsGroupsId', null=True, on_delete=django.db.models.deletion.CASCADE, to='StudentsGroups.studentsgroups')),
             ],
             options={
                 'db_table': 'groupsperclasses',
