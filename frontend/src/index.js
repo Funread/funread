@@ -36,7 +36,7 @@ root.render(
         exact
         path="demo/bookcreator"
         element={
-          <div className='index-background-container'>
+          <div className=''>
             <BookCreator />
           </div>
         }
