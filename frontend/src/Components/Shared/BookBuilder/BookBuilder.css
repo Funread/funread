@@ -1,4 +1,4 @@
-.custom-form-title {
+.custom-book-builder-form-title {
   border: none;
   border-bottom: 1px solid #000;
   outline: none;
@@ -11,21 +11,21 @@
   margin-bottom: 20px;
 }
 
-.custom-form-title:focus {
+.custom-book-builder-form-title:focus {
   box-shadow: none;
   background-color: transparent;
 }
 
-.custom-text-area {
+.custom-book-builder-text-area {
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.custom-text-area:focus {
+.custom-book-builder-text-area:focus {
   box-shadow: rgba(0, 0, 0, 0.1);
 }
 
-.custom-select {
+.custom-book-builder-select {
   appearance: auto;
   width: 100%;
   margin-top: 15px;
@@ -33,7 +33,7 @@
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.custom-select:focus {
+.custom-book-builder-select:focus {
   box-shadow: none;
 }
 

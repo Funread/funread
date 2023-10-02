@@ -9,6 +9,7 @@ import TapLibrary from '../Shared/TapLibrary/TapLibrary'
 import BookView from '../Shared/BookView/BookView'
 import SidebarBook from '../Shared/SidebarBook/SidebarBook'
 import BookBuilder from '../Shared/BookBuilder/BookBuilder'
+import { ToastContainer } from 'react-toastify'
 
 const Library = () => {
   const [showSidebar, setShowSidebar] = useState(false)
@@ -111,6 +112,7 @@ const Library = () => {
           </div>
         )}
       </div>
+      <ToastContainer position='top-right' />
     </div>
   )
 }

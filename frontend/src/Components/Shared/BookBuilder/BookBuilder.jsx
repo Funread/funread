@@ -25,7 +25,7 @@ const getImage = 'http://localhost:8000/Media/'
 
 const defaultImage = '/imagenes/no-image.png'
 
-const BookBuilder = ({ toggleSidebar }) => {
+const BookBuilder = ({ toggleSidebar, notify }) => {
   const [book, setBook] = useState(initialBookState)
   const [fileImage, setFileImage] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
@@ -184,7 +184,7 @@ const BookBuilder = ({ toggleSidebar }) => {
             />
 
             <Form.Control
-              className={`custom-form-title ${
+              className={`custom-book-builder-form-title ${
                 errorFields.title ? 'error-title' : ''
               }`}
               type='text'
@@ -195,7 +195,7 @@ const BookBuilder = ({ toggleSidebar }) => {
             />
 
             <Form.Control
-              className='custom-text-area'
+              className='custom-book-builder-text-area'
               as='textarea'
               placeholder='Description'
               rows={4}
@@ -205,7 +205,9 @@ const BookBuilder = ({ toggleSidebar }) => {
             />
 
             <Form.Control
-              className={`custom-select ${errorFields.category ? 'error' : ''}`}
+              className={`custom-book-builder-select ${
+                errorFields.category ? 'error' : ''
+              }`}
               as='select'
               name='category'
               value={book.category}

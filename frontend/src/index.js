@@ -57,16 +57,6 @@ root.render(
         }
       />
 
-      <Route
-        exact
-        path='demo/library'
-        element={
-          <div className='index-background-container'>
-            <Library />
-          </div>
-        }
-      />
-
       <Route exact path='demo/quiz' element={<UniqueSelection />} />
 
       <Route element={<ProtectedRoutes />}>
@@ -93,17 +83,6 @@ root.render(
         />
         <Route
           exact
-          path='/library'
-          element={
-            <div className='index-background-padding'>
-              <div className='index-background-container '>
-                <Library />
-              </div>
-            </div>
-          }
-        />
-        <Route
-          exact
           path='/group'
           element={
             <div className='index-background-padding'>
@@ -113,17 +92,7 @@ root.render(
             </div>
           }
         />
-        <Route
-          exact
-          path='/library'
-          element={
-            <div className='index-background-padding'>
-              <div className='index-background-container '>
-                <Library />
-              </div>
-            </div>
-          }
-        />
+        <Route exact path='/library' element={<Library />} />
         <Route
           exact
           path='/dashboard'
