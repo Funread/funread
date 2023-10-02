@@ -7,12 +7,12 @@ import { faGlobe, faLock } from '@fortawesome/free-solid-svg-icons'
 import BookImage from '../BookImage/BookImage'
 import jwt_decode from 'jwt-decode'
 import { useLogin } from '../../../hooks/useLogin'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 const initialBookState = {
   title: '',
   category: 0,
-  portrait: '',
+  portrait: null,
   createdat: null,
   lastupdateat: null,
   state: 0,
@@ -21,7 +21,11 @@ const initialBookState = {
   lastupdateby: null,
 }
 
-const BookBuilder = () => {
+const getImage = 'http://localhost:8000/Media/'
+
+const defaultImage = '/imagenes/no-image.png'
+
+const BookBuilder = ({ toggleSidebar }) => {
   const [book, setBook] = useState(initialBookState)
   const [fileImage, setFileImage] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
@@ -59,6 +63,10 @@ const BookBuilder = () => {
     setFileImage(selectedImage)
   }
 
+  const updateBookPortrait = (fileName) => {
+    setBook({ ...book, portrait: fileName })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -69,8 +77,7 @@ const BookBuilder = () => {
         return
       }
 
-      // Subir imagen y obtener ruta
-      const imageRoute = await uploadImage()
+      const imageRoute = book.portrait ? await uploadImage() : null
 
       // Crear libro con ruta de imagen
       const newBook = { ...book, portrait: imageRoute }
@@ -79,7 +86,15 @@ const BookBuilder = () => {
       const response = await createBook(newBook)
 
       if (response.data && response.status === 201) {
+        const { portrait } = response.data
+
         toast.success('Book created successfully')
+
+        const imageToDisplay = portrait
+          ? `${getImage}${portrait}` // Usar la imagen del servidor
+          : defaultImage // Usar la imagen predeterminada local
+
+        toggleSidebar({ ...newBook, portrait: imageToDisplay })
       } else {
         toast.error('Unable to save the book')
       }
@@ -146,9 +161,6 @@ const BookBuilder = () => {
     <Container className='pe-5'>
       <Row>
         <Col>
-          <div>
-            <ToastContainer />
-          </div>
           <Form onSubmit={handleSubmit}>
             <Radio.Group
               onChange={handleSharedBookChange}
@@ -168,7 +180,7 @@ const BookBuilder = () => {
 
             <BookImage
               onImageSelect={handleImageSelect}
-              portrait={book.portrait}
+              updateBookPortrait={updateBookPortrait}
             />
 
             <Form.Control

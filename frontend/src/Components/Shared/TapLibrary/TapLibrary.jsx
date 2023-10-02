@@ -97,7 +97,7 @@ function TapLibrary({ toggleSidebar }) {
                 <div key={id} className='section_item'>
                   <BookCard
                     id={id}
-                    image={portrait}
+                    portrait={portrait}
                     title={title}
                     category={category}
                     author={author}
@@ -139,7 +139,7 @@ function TapLibrary({ toggleSidebar }) {
           </div>
         </Tab>
       </Tabs>
-      <br/>
+      <br />
     </>
   )
 }

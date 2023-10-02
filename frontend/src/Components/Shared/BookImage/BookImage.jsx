@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudUpload } from '@fortawesome/free-solid-svg-icons'
 
-const BookImage = ({ onImageSelect, portrait }) => {
+const BookImage = ({ onImageSelect, updateBookPortrait }) => {
   const [image, setImage] = useState(null)
   const [fileName, setFileName] = useState('No selected file')
   const fileInputRef = useRef(null)
@@ -16,6 +16,9 @@ const BookImage = ({ onImageSelect, portrait }) => {
       const imageUrl = URL.createObjectURL(file)
       setImage(imageUrl)
       onImageSelect(file) // Pasa el archivo seleccionado al componente padre
+
+      // Llama a la función para actualizar el estado book en BookBuilder
+      updateBookPortrait(file.name)
     }
   }
 
@@ -30,7 +33,7 @@ const BookImage = ({ onImageSelect, portrait }) => {
         type='file'
         name='portrait'
         accept='image/*'
-        value={portrait}
+        // value={fileName}
         onChange={handleImageChange}
         hidden
       />

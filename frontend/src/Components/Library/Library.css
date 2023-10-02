@@ -2,16 +2,15 @@ h4 {
   color: grey;
   text-align: left;
 }
-.library{
+.library {
   scroll-snap-type: x mandatory;
   overflow-y: scroll;
-  overflow-x: hidden;  
+  overflow-x: hidden;
   height: 100vh;
   background-color: whitesmoke;
 }
 
-
-.library{
+.library {
   scroll-snap-align: center;
 }
 
@@ -36,7 +35,6 @@ h4 {
   box-shadow: none;
 }
 
-
 .sidebar-mobile {
   display: block;
 }
@@ -56,7 +54,7 @@ h4 {
 .sidebar-desktop {
   display: none;
   margin-right: 3rem;
- }
+}
 
 @media screen and (min-width: 992px) {
   .sidebar-desktop {
@@ -71,35 +69,36 @@ h4 {
     margin-left: 100px;
     justify-content: center;
   }
-  
 }
 
- .sidenav.col-sm-9 {
-    margin-left: 90px;
-    justify-content: center;
-    padding-right: 2rem;
-  }
+.sidenav.col-sm-9 {
+  margin-left: 90px;
+  justify-content: center;
+  padding-right: 2rem;
+}
 .custom-padding {
   padding-right: 2rem;
 }
 
-.button-search-library{
+.button-search-library {
   outline-style: solid;
-  outline-color:#A9DEF9;
+  outline-color: #a9def9;
   background-color: white;
   color: #000000;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
-.button-search-library:hover {background-color: #A9DEF9;}
+.button-search-library:hover {
+  background-color: #a9def9;
+}
 
 @media (min-width: 200px) and (max-width: 1300px) {
   .sidenav.col-sm-9 {
     margin-left: 90px;
-    justify-content: center;    
+    justify-content: center;
   }
-    .sidenav.col-12 {
+  .sidenav.col-12 {
     margin-left: 90px;
     justify-content: center;
   }
@@ -107,4 +106,3 @@ h4 {
     padding-right: 4rem;
   }
 }
-

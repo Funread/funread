@@ -48,13 +48,16 @@ const MY_BOOKS = [
 
 const RecentBook = ({ toggleSidebar }) => {
   return (
-    <div className='custom_section_book shadow rounded' style={{ width: '100%' }}>
+    <div
+      className='custom_section_book shadow rounded'
+      style={{ width: '100%' }}
+    >
       {MY_BOOKS.map(
         ({ id, portrait, title, category, author, description, color }) => (
           <div key={id} className='custom_section_item my-3'>
             <BookCard
               id={id}
-              image={portrait}
+              portrait={portrait}
               title={title}
               category={category}
               author={author}
@@ -69,4 +72,4 @@ const RecentBook = ({ toggleSidebar }) => {
   )
 }
 
-export default RecentBook;
+export default RecentBook

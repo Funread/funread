@@ -92,7 +92,7 @@ root.render(
           }
         />
 
-        <Route exact path='demo/FE-30' element={<BookBuilder />} />
+        <Route exact path='demo/FE-30' element={<Library />} />
       </Route>
     </Routes>
   </BrowserRouter>
