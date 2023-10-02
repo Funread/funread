@@ -1,5 +1,7 @@
 import './BookCard.css'
-import Card from 'react-bootstrap/Card';
+
+
+
 const BookCard = ({
   id,
   image,
@@ -12,8 +14,9 @@ const BookCard = ({
 }) => {
   return (
 
-       <div
-      className='card'
+    <div
+      className='Book-card'
+
       style={{ width: '235px', borderRadius: '5px', backgroundColor: color, border: 'none'}}
       onClick={() => toggleSidebar({id,
         image,
