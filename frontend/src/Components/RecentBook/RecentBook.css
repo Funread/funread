@@ -1,11 +1,11 @@
-.custom_section_book {
+.custom_section_book_Recent {
   display: flex;
   justify-content: space-between;
   gap: 20px;
   overflow-x: scroll;
 }
 
-.custom_section_item {
+.custom_section_item_Recent {
   flex-grow: 1;
 }
 
