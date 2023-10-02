@@ -48,10 +48,12 @@ const MY_BOOKS = [
 
 const RecentBook = ({ toggleSidebar }) => {
   return (
+
     <div className='custom_section_book_Recent shadow rounded' style={{ width: '100%' }}>
       {MY_BOOKS.map(
         ({ id, portrait, title, category, author, description, color }) => (
           <div key={id} className='custom_section_item_Recent my-3'>
+
             <BookCard
               id={id}
               image={portrait}

@@ -17,6 +17,7 @@
   color: rgb(63, 63, 63);
 }
 
+
 .Book-card:hover {-webkit-transform:scale(1.1);transform:scale(1.1);}
 
 .custom_section_book {
@@ -66,3 +67,4 @@ margin-left: -10%;
   }
   
 }
+

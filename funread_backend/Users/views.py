@@ -14,6 +14,8 @@ from rest_framework.exceptions import AuthenticationFailed
 import datetime
 from datetime import datetime
 from django.conf import settings
+from django.db.models import Q
+from django.core.exceptions import ValidationError
 import sys
 sys.path.append('funread_backend')
 import verifyJwt
@@ -27,8 +29,9 @@ def new_user(request):
         'name': request.data.get('name'),
         'lastname': request.data.get('lastname'),
         'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest(),
-        'createdat': request.data.get('createdat'),
+        'createdat': datetime.now(),
         'actived': request.data.get('actived'),
+        'username': request.data.get('username')
 
     }
     print(data)
@@ -285,3 +288,25 @@ def tokenVerify(request):
         response.data= {'login':True}
 
     return response
+
+@api_view(['GET'])
+def usercompleteSearch(request):
+
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+    try:
+        user = User.objects.filter(Q(lastname=request.data.get('user')) | Q(email=request.data.get('user')) | Q(name=request.data.get('user')) | Q(username=request.data.get('user')))
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if len(user) == 0:
+        try:
+            user = User.objects.filter(userid=request.data.get('user'))
+        except (ValueError, ValidationError):
+             return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = UserSerializer(user, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

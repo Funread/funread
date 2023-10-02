@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StudentsGroups',
             fields=[
-                ('groupsid', models.AutoField(db_column='GroupsId', primary_key=True, serialize=False)),
+                ('studentsgroupsid', models.AutoField(db_column='StudentsGroupsId', primary_key=True, serialize=False)),
                 ('isteacher', models.IntegerField(blank=True, db_column='isTeacher', null=True)),
                 ('createdat', models.DateTimeField(blank=True, db_column='CreatedAt', null=True)),
                 ('createdby', models.ForeignKey(db_column='CreatedBy', on_delete=django.db.models.deletion.CASCADE, related_name='created_student_groups', to='Users.user')),

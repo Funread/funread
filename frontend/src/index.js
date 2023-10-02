@@ -14,6 +14,10 @@ import UniqueSelection from "./Components/Block/UniqueSelection/UniqueSelection"
 import Library from "./Components/Library/Library";
 
 
+
+import Group from "./Components/Group/Group";
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <BrowserRouter>
@@ -47,6 +51,17 @@ root.render(
         }
       />
 
+      <Route
+        exact
+        path="demo/group"
+        element={
+          <div className=''>
+            <Group />
+          </div>
+        }
+      />
+
+
     <Route
         exact
         path="demo/quiz"
@@ -70,7 +85,7 @@ root.render(
               </div>
           }
         />
-     <Route
+      <Route
           exact
           path="/bookcreator"
           element={
@@ -82,7 +97,31 @@ root.render(
             </div>
           }
         />
- <Route
+          <Route
+          exact
+          path="/library"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <Library/>
+
+              </div>
+            </div>
+          }
+        />
+         <Route
+          exact
+          path="/group"
+          element={
+            <div className="index-background-padding">
+              <div className="index-background-container ">
+                <Group/>
+
+              </div>
+            </div>
+          }
+        />
+    <Route
           exact
           path="/dashboard"
           element={
