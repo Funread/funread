@@ -2,12 +2,15 @@
   background-color: rgb(30, 30, 34);
 }
 
-/* 
-@media (max-width: 575.98px) {
-  .navbar-expand-sm > .container,
-  .navbar-expand-sm > .container-fluid, .navbar-expand-sm > .container-sm, .navbar-expand-sm > .container-md, .navbar-expand-sm > .container-lg, .navbar-expand-sm > .container-xl {
-    padding-right: 0;
-    padding-left: 0;
+.buttons-navbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 580px) {
+  .buttons-navbar {
+    width: 75%;
   }
 }
 
@@ -27,7 +30,11 @@
     padding-left: 0.5rem;
   }
   .navbar-expand-sm > .container,
-  .navbar-expand-sm > .container-fluid, .navbar-expand-sm > .container-sm, .navbar-expand-sm > .container-md, .navbar-expand-sm > .container-lg, .navbar-expand-sm > .container-xl {
+  .navbar-expand-sm > .container-fluid,
+  .navbar-expand-sm > .container-sm,
+  .navbar-expand-sm > .container-md,
+  .navbar-expand-sm > .container-lg,
+  .navbar-expand-sm > .container-xl {
     flex-wrap: nowrap;
   }
   .navbar-expand-sm .navbar-nav-scroll {
@@ -69,8 +76,8 @@
   position: absolute;
   transform: scale(0.7);
   transform-origin: top right;
-  right: .25rem;
-  margin-top: -.25rem;
+  right: 0.25rem;
+  margin-top: -0.25rem;
 }
 
 .sidebar .nav-item .nav-link .img-profile,
@@ -229,4 +236,4 @@
 
 .topbar.navbar-light .navbar-nav .nav-item .nav-link:active {
   color: #858796;
-} */
+}

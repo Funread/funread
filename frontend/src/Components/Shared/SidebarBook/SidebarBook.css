@@ -1,28 +1,27 @@
-
-.custom-side-nav-container {
+.custom-side-nav-container_Sidebar {
   background-color: rgb(30, 30, 34);
   height: 100vh;
   position: fixed;
   color: #fff;
   transition: 0.4s;
-  }
+}
 
-.custom-side-nav-container-NX {
+.custom-side-nav-container-NX_Sidebar {
   width: 85px;
 }
 
-.custom-nav-heading,
-.custom-nav-footer {
+.custom-nav-heading_Sidebar,
+.custom-nav-footer_Sidebar {
   display: grid;
 }
 
-.custom-nav-heading {
+.custom-nav-headin_Sidebarg {
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 1fr;
   height: 75px;
 }
 
-.custom-nav-heading svg {
+.custom-nav-heading_Sidebar svg {
   font-size: 20px;
 }
 
@@ -33,15 +32,15 @@
   margin: auto;
 }
 
-.custom-nav-menu {
+.custom-nav-menu_Sidebar {
   grid-template-rows: repeat(7, 1fr);
 }
 
-.custom-menu-item {
+.custom-menu-item_Sidebar {
   height: 69px;
   width: 1em;
   display: flex;
-  color: #A9DEF9;
+  color: #a9def9;
   text-decoration: none;
   text-transform: uppercase;
   margin: auto 20px;
@@ -49,20 +48,20 @@
   position: relative;
 }
 
-.custom-menu-item:hover {
+.custom-menu-item_Sidebar:hover {
   background-color: aliceblue;
 }
 
-.custom-menu-item-NX {
+.custom-menu-item-NX_Sidebar {
   margin: auto;
   width: 4.5em;
 }
 
-.custom-menu-item svg {
+.custom-menu-item_Sidebar svg {
   padding: 0 25px;
 }
 
-.custom-nav-footer {
+.custom-nav-footer_Sidebar {
   width: 100%;
   position: absolute;
   bottom: 0;

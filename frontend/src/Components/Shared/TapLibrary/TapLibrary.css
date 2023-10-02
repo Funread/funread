@@ -1,4 +1,4 @@
-.section_library {
+.section_library_Tap {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
@@ -10,9 +10,9 @@
   transform: translate(1);
 }
 
-.section_item {
- flex-grow: 1;
- flex-basis: 200;
+.section_item_Tap {
+  flex-grow: 1;
+  flex-basis: 200;
   width: 15rem;
   height: 15rem;
 }
@@ -20,25 +20,26 @@
 .nav-link {
   color: #000;
 }
-.section_item {
+
+.section_item_Tap {
   scroll-snap-align: center;
 }
 
-.section_library::-webkit-scrollbar {
+.section_library_Tap::-webkit-scrollbar {
   width: 0px;
 }
 
-.section_library::-webkit-scrollbar-thumb {
+.section_library_Tap::-webkit-scrollbar-thumb {
   background-color: transparent;
   border: none;
   box-shadow: none;
 }
 
-.section_library::-webkit-scrollbar-thumb:hover {
+.section_library_Tap::-webkit-scrollbar-thumb:hover {
   background-color: transparent;
 }
 
-.section_library::-webkit-scrollbar-track {
+.section_library_Tap::-webkit-scrollbar-track {
   background-color: transparent;
   border: none;
   margin: 0;
@@ -46,8 +47,7 @@
 }
 
 @media (min-width: 500px) and (max-width: 1300px) {
-  .section_item {
+  .section_item_Tap {
     margin-left: 4.5rem;
   }
-
 }

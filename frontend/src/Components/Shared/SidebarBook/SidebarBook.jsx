@@ -21,14 +21,14 @@ const SidebarBook = () => {
   ]
 
   return (
-    <div className='custom-side-nav-container custom-side-nav-container-NX'>
-      <div className='custom-nav-upper'>
-        <div className='custom-nav-heading'></div>
-        <div className='custom-nav-menu'>
+    <div className='custom-side-nav-container_Sidebar custom-side-nav-container-NX_Sidebar'>
+      <div className='custom-nav-upper_Sidebar'>
+        <div className='custom-nav-heading_Sidebar'></div>
+        <div className='custom-nav-menu_Sidebar'>
           {menuItems.map(({ text, icon }, index) => (
             <div
               key={index}
-              className='custom-menu-item border-botton custom-menu-item-NX align-items-center'
+              className='custom-menu-item_Sidebar border-botton custom-menu-item-NX_Sidebar align-items-center'
             >
               <FontAwesomeIcon icon={icon} size='xl' />
             </div>
@@ -36,7 +36,7 @@ const SidebarBook = () => {
         </div>
       </div>
       <div className='custom-nav-footer pe-3'>
-        <div className='custom-menu-item border-botton custom-menu-item-NX align-items-center'>
+        <div className='custom-menu-item border-botton_Sidebar custom-menu-item-NX_Sidebar align-items-center'>
           <FontAwesomeIcon icon={faSignOutAlt} size='xl' />
         </div>
       </div>

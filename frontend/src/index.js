@@ -12,6 +12,8 @@ import Dashboard from './Components/Shared/Dashboard/Dashboard'
 import UniqueSelection from './Components/Block/UniqueSelection/UniqueSelection'
 import Library from './Components/Library/Library'
 
+import Group from './Components/Group/Group'
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <BrowserRouter>
@@ -20,7 +22,7 @@ root.render(
         exact
         path='/'
         element={
-          <div className='index-background-container'>
+          <div className='index-background-container landing-page'>
             <LandingPage />
           </div>
         }
@@ -30,11 +32,31 @@ root.render(
         exact
         path='demo/bookcreator'
         element={
-          <div className='index-background-container'>
+          <div className=''>
             <BookCreator />
           </div>
         }
       />
+      <Route
+        exact
+        path='demo/library'
+        element={
+          <div className='index-background-container'>
+            <Library />
+          </div>
+        }
+      />
+
+      <Route
+        exact
+        path='demo/group'
+        element={
+          <div className=''>
+            <Group />
+          </div>
+        }
+      />
+
       <Route
         exact
         path='demo/library'
@@ -82,6 +104,28 @@ root.render(
         />
         <Route
           exact
+          path='/group'
+          element={
+            <div className='index-background-padding'>
+              <div className='index-background-container '>
+                <Group />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          exact
+          path='/library'
+          element={
+            <div className='index-background-padding'>
+              <div className='index-background-container '>
+                <Library />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          exact
           path='/dashboard'
           element={
             <div className='index-background-padding'>
@@ -91,8 +135,6 @@ root.render(
             </div>
           }
         />
-
-        <Route exact path='demo/FE-30' element={<Library />} />
       </Route>
     </Routes>
   </BrowserRouter>

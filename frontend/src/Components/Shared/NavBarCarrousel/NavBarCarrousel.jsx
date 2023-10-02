@@ -6,14 +6,14 @@ import Navbar from 'react-bootstrap/Navbar'
 
 const Carousel = () => {
   return (
-    <Navbar bg='light' data-bs-theme='light'>
-      <div className='container-sm m-0'>
-        <div className='custom_section' style={{ width: '100%'}}>
+    <Navbar bg='light' data-bs-theme='light' className='NavbClass'>
+      <div className='container-fluid m-0'>
+        <div className='custom_section_navbar_carrusel'>
           {[
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
             20,
           ].map((i) => (
-            <div key={i} className='custom_section_item my-3'>
+            <div key={i} className='custom_section_item_page my-3'>
               <div className='page'>
                 <img
                   src={

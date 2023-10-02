@@ -1,4 +1,4 @@
-.section-btn {
+.section-btn-navbar {
     background: transparent;
     border-radius: 10px;
     border: 1px solid #cacaca;
@@ -16,13 +16,13 @@
     margin-bottom: 0.5rem;        
     }
 
-.section-btn:hover {
+.section-btn-navbar:hover {
     background: rgb(74, 74, 83);
     border-color: transparent;
 }
 
 @media only screen and (max-width: 580px) {
-    .section-btn {
+    .section-btn-navbar {
         width: 6em;
         transition: 0.9s;
     }
