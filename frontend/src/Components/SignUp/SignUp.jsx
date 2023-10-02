@@ -157,10 +157,10 @@ function SignUp(props) {
                 </InputGroup.Text>
               </InputGroup>
             </Form.Group>
+            <Button id="singup-submit-button" className="signup-form-button-empty" type="submit">
+              Sign Up
+            </Button>
           </div>
-          <Button id="singup-submit-button" className="signup-form-button-empty" type="submit">
-            Sign Up
-          </Button>
         </Form>
       </div>
     </div>

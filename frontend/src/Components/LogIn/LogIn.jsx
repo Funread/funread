@@ -82,6 +82,7 @@ function LogIn(props) {
    * Asigna un css distinto a los campos con información.
    */
   const isEmpty = (data, id) => {
+    setError(false)
     data !== ""
       ? changeInputColor(id, "#42006d")
       : changeInputColor(id, "#e9e9e9");
@@ -195,9 +196,8 @@ function LogIn(props) {
                 {error ? "Email or Password incorrect":""}
               </Form.Label>
             </Form.Group>
-        
             <Form.Group className="form-group">
-              <div className="mb-3 form-check form-check">
+              <div className="mb-3 form-check">
                 <input
                   type="checkbox"
                   className="form-check-input"
@@ -209,10 +209,10 @@ function LogIn(props) {
                 <label htmlFor="rememberMeCheck">Remember me</label>
               </div>
             </Form.Group>
+            <Button id="submit-button" className="login-form-button-empty" type="submit">
+              Log In
+            </Button>
           </div>
-          <Button id="submit-button" className="login-form-button-empty" type="submit">
-            Log In
-          </Button>
         </Form>
       </div>
     </div>
