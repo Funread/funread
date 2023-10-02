@@ -1,4 +1,4 @@
-import './Sidebar.css'
+import './SidebarLeftTopTop.css'
 import 'bootstrap/js/dist/dropdown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -19,7 +19,7 @@ import NavItem from '../SideNavBarItem/NavItem'
 import SideNavBarFooter from '../SideNavBarFooter/SideNavBarFooter'
 import { useEffect, useState } from 'react'
 
-const Sidebar = () => {
+const SidebarLeftTopTop = () => {
   const [isExpanded, setExpendState] = useState(true)
   const [selectedItem, setSelectedItem] = useState(null)
 
@@ -135,4 +135,4 @@ const Sidebar = () => {
   )
 }
 
-export default Sidebar
+export default SidebarLeftTopTop
