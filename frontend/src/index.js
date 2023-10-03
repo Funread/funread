@@ -16,13 +16,14 @@ import Library from "./Components/Library/Library";
 
 
 import Group from "./Components/Group/Group";
+import Grids from "./Components/Shared/Grids/Grids";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <BrowserRouter>
     <Routes>
-    <Route
+      <Route
         exact
         path='/'
         element={
@@ -30,7 +31,7 @@ root.render(
             <LandingPage />
           </div>
         }
-      /> 
+      />
       {/* Esta parte es para DEMO sin iniciar Sesion */}
       <Route
         exact
@@ -41,7 +42,7 @@ root.render(
           </div>
         }
       />
-       <Route
+      <Route
         exact
         path="demo/library"
         element={
@@ -61,31 +62,30 @@ root.render(
         }
       />
 
-
-    <Route
+      <Route
         exact
         path="demo/quiz"
         element={
-          
-            <UniqueSelection />
-          
+
+          <UniqueSelection />
+
         }
       />
-      
 
 
-      <Route element={<ProtectedRoutes/>}>
-      {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
+
+      <Route element={<ProtectedRoutes />}>
+        {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
         <Route
           exact
           path="/"
           element={
-              <div className="index-background-container ">
-                {/* <BookCreator /> */}
-              </div>
+            <div className="index-background-container ">
+              {/* <BookCreator /> */}
+            </div>
           }
         />
-      <Route
+        <Route
           exact
           path="/bookcreator"
           element={
@@ -97,31 +97,31 @@ root.render(
             </div>
           }
         />
-          <Route
+        <Route
           exact
           path="/library"
           element={
             <div className="index-background-padding">
               <div className="index-background-container ">
-                <Library/>
+                <Library />
 
               </div>
             </div>
           }
         />
-         <Route
+        <Route
           exact
           path="/group"
           element={
             <div className="index-background-padding">
               <div className="index-background-container ">
-                <Group/>
+                <Group />
 
               </div>
             </div>
           }
         />
-    <Route
+        <Route
           exact
           path="/dashboard"
           element={
