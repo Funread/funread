@@ -17,6 +17,7 @@ from django.conf import settings
 import sys
 sys.path.append('funread_backend')
 import verifyJwt
+import random
 
 @api_view(['POST'])
 def newJoin(request):
@@ -28,10 +29,13 @@ def newJoin(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
+    date = datetime.utcnow()
+    code = str(date.year) + str(date.month) + str(date.second) + "{:06d}".format(random.randint(0, 999999))
+    password = "{:04d}".format(random.randint(0, 9999))
     data = {
 
-        'password': request.data.get('password'),
-        #'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest(),
+        'code': code,
+        'password': hashlib.sha256(password.encode('utf-8')).hexdigest(),
         'bookid': request.data.get('bookid'),
         'classesid': request.data.get('classesid')
 
@@ -40,7 +44,7 @@ def newJoin(request):
     serializer = JoinSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response({"code":code,"password":password}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @ api_view(['GET'])
@@ -61,7 +65,7 @@ def listed(request):
 def searchCode(request,code):
     
     try:
-        join = Joins.objects.get(joinid=code)
+        join = Joins.objects.get(code=code)
         print(join)
     except Joins.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND) # devolvemos status de 404 si el join no existe
@@ -71,9 +75,9 @@ def searchCode(request,code):
 def checkJoin(request):
 
     code = request.data.get('code')
-    password = request.data.get('password')
-    #passwordSe = hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest()
-    join = Joins.objects.filter(joinid=code).first()
+    #password = request.data.get('password')
+    password = hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest()
+    join = Joins.objects.filter(code=code).first()
     if join is None:
         raise AuthenticationFailed('Join not found')
     if not join.password.__eq__(password):

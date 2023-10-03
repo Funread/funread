@@ -10,6 +10,7 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
+import JoinValidator from "./Components/JoinValidator/JoinValidator"
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -36,10 +37,10 @@ root.render(
         />
         <Route
           exact
-          path="demo/join"
+          path="/join/:code"
           element={
             <div className='index-background-container'>
-              <BookCreator />
+              <JoinValidator />
             </div>
           }
         />
@@ -48,7 +49,7 @@ root.render(
           path="demo/book"
           element={
             <div className='index-background-container'>
-              <JoinCreator />
+              <JoinCreator id="1" type="book" />
             </div>
           }
         />
