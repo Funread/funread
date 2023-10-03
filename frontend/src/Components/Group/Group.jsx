@@ -11,18 +11,15 @@ import GroupCardProgress from "../Shared/GroupCardProgress/GroupCardProgress";
 import CardNewGroup from "../Shared/CardNewGroup/CardNewGroup";
 
 const Group = () => {
-  const [showSidebar, setShowSidebar] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
 
   const toggleSidebar = (student) => {
     if (!selectedStudent) {
-      setShowSidebar(true);
-      setSelectedStudent(student);
+        setSelectedStudent(student);
       return;
     }
 
-    if (selectedStudent.idStudent === student.idStudent) {
-      setShowSidebar(false);
+    if (selectedStudent.idStudent === student.idStudent) {      
       setSelectedStudent(null);
       return;
     }
@@ -31,19 +28,22 @@ const Group = () => {
 
   return (
     
-      <div className="container-fluid custom-padding text-center group">
-        <div className="row flex-nowrap " style={{ height: "auto" }}>
-          <SidebarBook></SidebarBook>
-          <div className={`sidenav ${showSidebar ? "col-sm-9" : "col-12"}`}>
+      <div className="container-fluid text-center group">
+        <div className="row" style={{ height: "auto" }}>
+        <div className='col-1 p-0'>
+          <SidebarBook/>
+          </div>
+
+          <div className='sidenav col-8'>
             <div
               style={{ maxWidth: "1100px" }}
               className="mx-auto content_group"
             >
-              <Form className="d-flex mt-1 pt-3">
+              <Form className="d-flex mt-1 pt-3 ">
                 <Form.Control
                   type="search"
                   placeholder="Search"
-                  className="me-2"
+                  className="me-2 custom-input-search"
                   aria-label="Search"
                 />
                 <Button variant="outline-success">
@@ -54,45 +54,27 @@ const Group = () => {
                 </Button>
               </Form>
               <CardNewGroup></CardNewGroup>
-              <h4>My Groups</h4>
-              <ListGroups toggleSidebar={toggleSidebar} />
-
-              {selectedStudent && (
-                <div
-                  className="sidebar-mobile mt-4"
-                  style={{ background: "#79ABA8" }}
-                >
-                  <StudentCard
-                    idStudent={selectedStudent?.idStudent}
-                    image={selectedStudent?.image}
-                    name={selectedStudent?.name}
-                    idGroup={selectedStudent?.idGroup}
-                    pendingTasks={selectedStudent?.pendingTasks}
-                    completeTasks={selectedStudent?.completeTasks}
-                  />
-                </div>
-              )}
-
+              <h4 className="custom-group-title">My Groups</h4>
+              <ListGroups toggleSidebar={toggleSidebar} />            
               <GroupCardProgress></GroupCardProgress>
               <br/>
             </div>
           </div>
-          {selectedStudent && (
+        
             <div
-              className="col-sm-3 p-0 sidebar-desktop"
-              style={{ background: "#79ABA8" }}
-            >
-              <StudentCard
-                idStudent={selectedStudent?.idStudent}
-                image={selectedStudent?.image}
-                name={selectedStudent?.name}
-                idGroup={selectedStudent?.idGroup}
-                pendingTasks={selectedStudent?.pendingTasks}
-                completeTasks={selectedStudent?.completeTasks}
-              />
+              className="col-3 shadow rounded mobile-below-tap-group">
+                {selectedStudent && (
+                <StudentCard
+                  idStudent={selectedStudent?.idStudent}
+                  image={selectedStudent?.image}
+                  name={selectedStudent?.name}
+                  idGroup={selectedStudent?.idGroup}
+                  pendingTasks={selectedStudent?.pendingTasks}
+                  completeTasks={selectedStudent?.completeTasks}
+                />
+              )}
             </div>
-          )}
-        </div>
+          </div>
       </div>
     
   );

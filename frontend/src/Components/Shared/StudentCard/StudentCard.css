@@ -18,16 +18,12 @@
     margin:1rem ;
     margin-left: 1rem;
     justify-content: center;
+    color: black;
  }
 
 .divstudentCard{
-    /* width: 18rem;
-    height: 580px;
-    padding: 1rem;
-    margin: 1rem; */
-
-    max-width: 18rem;
-    
+     max-width: 18rem;
+   
 }
 .Accordion {
     
@@ -40,8 +36,3 @@
     
 }
 
-@media screen and (min-width: 900px) {
-    .divstudentCard{
-      padding-right: 4rem;
-    }
-  }
