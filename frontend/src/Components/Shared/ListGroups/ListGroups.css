@@ -4,12 +4,12 @@
 }
 
 .list-group-item-action.active {
-  background-color: #79aba8; /* Cambia el color de fondo cuando el item está activo */
-  border-color: #79aba8; /* Cambia el color del borde cuando el item está activo */
-  color: #ffffff; /* Cambia el color del texto cuando el item está activo */
-}
+    background-color: #79ABA8; /* Cambia el color de fondo cuando el item está activo */
+    border-color: #79ABA8; /* Cambia el color del borde cuando el item está activo */
+    color: #ffffff; /* Cambia el color del texto cuando el item está activo */
+  }
 
-.custom-pill {
-  background-color: #ff5733; /* Cambia el color de fondo del badge según tus preferencias */
-  color: #ffffff; /* Cambia el color del texto del badge según tus preferencias */
-}
+  .custom-pill {
+    background-color: #ff5733; /* Cambia el color de fondo del badge según tus preferencias */
+    color: #ffffff; /* Cambia el color del texto del badge según tus preferencias */
+  }
