@@ -1,6 +1,6 @@
-.section-btn {
+.section-btn-navbar {
     background: transparent;
-    border-radius: 50px;
+    border-radius: 10px;
     border: 1px solid #cacaca;
     color: #cacaca;
     font-size: 12px;
@@ -10,9 +10,21 @@
     align-items: center;
     width: 12em;
     margin: 0 10px;
-}
+    flex-wrap: 1;
+    flex-basis: 200;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;        
+    }
 
-.section-btn:hover {
+.section-btn-navbar:hover {
     background: rgb(74, 74, 83);
     border-color: transparent;
 }
+
+@media only screen and (max-width: 580px) {
+    .section-btn-navbar {
+        width: 6em;
+        transition: 0.9s;
+    }
+  }
+  

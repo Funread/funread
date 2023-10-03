@@ -41,28 +41,30 @@ function LandingPage() {
         <Header />
       </div>
       <div className="landing-page-body">
-          <div className="landing-page-options-section">
-            <div className="landing-page-account-button-container">
-              <button className={"landing-page-button-login" + (!join ? " landing-page-button-login-disable" : "")} onClick={changesJoin}>
-                <div className={"landing-page-button-text" + (!login ? " landing-page-button-text-up" : "")}>
-                  <span>Log In</span>
-                  <span>Sing Up</span>
-                </div>
-              </button>
-              <button className={"landing-page-button-singup" + (!join ? "" : " landing-page-button-singup-disable")} onClick={changesJoin}>Join</button>
+        <div className="landing-page-options-section">
+          <div className="landing-page-account-button-container">
+            <button className={"landing-page-button-login" + (!join ? " landing-page-button-login-disable" : "")} onClick={changesJoin}>
+              <div className={"landing-page-button-text" + (!login ? " landing-page-button-text-up" : "")}>
+                <span>Log In</span>
+                <span>Sing Up</span>
+              </div>
+            </button>
+            <button className={"landing-page-button-singup" + (!join ? "" : " landing-page-button-singup-disable")} onClick={changesJoin}>Join</button>
+          </div>
+          <div className="landing-page-account-section">
+            <div className={"landing-page-login-singup-div" + (!login ? " landing-page-login-singup-div-up" : "") + (join ? " landing-page-login-singup-div-right" : "")}>
+              <LogIn/>
+              <SignUp/>
             </div>
-            <div className="landing-page-account-section">
-              <div className={"landing-page-login-singup-div" + (!login ? " landing-page-login-singup-div-up" : "") + (join ? " landing-page-login-singup-div-right" : "")}>
-                <LogIn/>
-                <span className="landing-page-login-singup-span" onClick={changesLogin}>Don't you have a account?</span>
-                <SignUp/>
-                <span className="landing-page-login-singup-span" onClick={changesLogin}>you already have a account?</span>
-              </div>
-              <div className={"landing-page-join" + (join ? " landing-page-join-left" : "")}>
-                <JoinActivity/>
-              </div>
+            <div className={"landing-page-join" + (join ? " landing-page-join-left" : "")}>
+              <JoinActivity/>
             </div>
           </div>
+        </div>
+        <div className="landing-page-opcions-switch-links">
+          <span>{login?"Not a User?":"Already a user?"}</span>
+          <span className="landing-page-opcions-switch-span" onClick={changesLogin}>{login?"Register now!":"Log In!"}</span>
+        </div>
       </div>
     </div>
   );

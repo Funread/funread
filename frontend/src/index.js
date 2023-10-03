@@ -1,41 +1,65 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import reportWebVitals from "./reportWebVitals";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "react-toastify/dist/ReactToastify.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import BookCreator from "./Components/BookCreator/BookCreator";
-import LandingPage from "./Components/LandingPage/LandingPage";
-import ProtectedRoutes from "./ProtectedRoutes";
-import Dashboard from "./Components/Shared/Dashboard/Dashboard";
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+import reportWebVitals from './reportWebVitals'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'react-toastify/dist/ReactToastify.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import BookCreator from './Components/BookCreator/BookCreator'
+import LandingPage from './Components/LandingPage/LandingPage'
+import ProtectedRoutes from './ProtectedRoutes'
+import Dashboard from './Components/Shared/Dashboard/Dashboard'
+import UniqueSelection from './Components/Block/UniqueSelection/UniqueSelection'
+import Library from './Components/Library/Library'
 import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 import JoinValidator from "./Components/JoinValidator/JoinValidator"
+import Group from './Components/Group/Group'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <BrowserRouter>
     <Routes>
-    <Route
+      <Route
         exact
-        path="/"
+        path='/'
         element={
-          <div className='index-background-container'>
+          <div className='index-background-container landing-page'>
             <LandingPage />
           </div>
         }
-      /> 
+      />
       {/* Esta parte es para DEMO sin iniciar Sesion */}
-        <Route
-          exact
-          path="demo/bookcreator"
-          element={
-            <div className='index-background-container'>
-              <BookCreator />
-            </div>
-          }
-        />
-        <Route
+      <Route
+        exact
+        path='demo/bookcreator'
+        element={
+          <div className=''>
+            <BookCreator />
+          </div>
+        }
+      />
+      <Route
+        exact
+        path='demo/library'
+        element={
+          <div className='index-background-container'>
+            <Library />
+          </div>
+        }
+      />
+
+      <Route
+        exact
+        path='demo/group'
+        element={
+          <div className=''>
+            <Group />
+          </div>
+        }
+      />
+      <Route
           exact
           path="/join/:code"
           element={
@@ -54,34 +78,49 @@ root.render(
           }
         />
 
-      <Route element={<ProtectedRoutes/>}>
-      {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
+
+      <Route exact path='demo/quiz' element={<UniqueSelection />} />
+
+      <Route element={<ProtectedRoutes />}>
+        {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
         <Route
           exact
-          path="/"
+          path='/'
           element={
-              <div className="index-background-container ">
-                {/* <BookCreator /> */}
-              </div>
+            <div className='index-background-container '>
+              {/* <BookCreator /> */}
+            </div>
           }
         />
-     <Route
+        <Route
           exact
-          path="/bookcreator"
+          path='/bookcreator'
           element={
-            <div className="index-background-padding">
-              <div className="index-background-container ">
+            <div className='index-background-padding'>
+              <div className='index-background-container '>
                 <BookCreator />
               </div>
             </div>
           }
         />
- <Route
+        <Route
           exact
-          path="/dashboard"
+          path='/group'
           element={
-            <div className="index-background-padding">
-              <div className="index-background-container ">
+            <div className='index-background-padding'>
+              <div className='index-background-container '>
+                <Group />
+              </div>
+            </div>
+          }
+        />
+        <Route exact path='/library' element={<Library />} />
+        <Route
+          exact
+          path='/dashboard'
+          element={
+            <div className='index-background-padding'>
+              <div className='index-background-container '>
                 <Dashboard />
               </div>
             </div>
@@ -95,4 +134,5 @@ root.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals()
 reportWebVitals()
