@@ -1,17 +1,16 @@
-h4 {
+.custom-library-title {
   color: grey;
   text-align: left;
 }
-.library{
+.library {
   scroll-snap-type: x mandatory;
   overflow-y: scroll;
-  overflow-x: hidden;  
+  overflow-x: hidden;
   height: 100vh;
   background-color: whitesmoke;
 }
 
-
-.library{
+.library {
   scroll-snap-align: center;
 }
 
@@ -36,7 +35,6 @@ h4 {
   box-shadow: none;
 }
 
-
 .sidebar-mobile {
   display: block;
 }
@@ -47,64 +45,41 @@ h4 {
   box-shadow: none;
 }
 
-@media screen and (min-width: 992px) {
-  .sidebar-mobile {
-    display: none;
-  }
-}
-
 .sidebar-desktop {
   display: none;
   margin-right: 3rem;
- }
+}
 
-@media screen and (min-width: 992px) {
-  .sidebar-desktop {
-    display: block;
+@media screen and (max-width: 992px) {
+  .content_library {
+    padding-left: 2rem;
   }
 }
 
-@media (max-width: 991.98px) {
-  .sidenav.col-sm-9 {
-    flex-basis: 91.666667%;
-    max-width: 91.666667%;
-    margin-left: 100px;
-    justify-content: center;
-  }
-  
-}
-
- .sidenav.col-sm-9 {
-    margin-left: 90px;
-    justify-content: center;
-    padding-right: 2rem;
-  }
-.custom-padding {
-  padding-right: 2rem;
-}
-
-.button-search-library{
+.button-search-library {
   outline-style: solid;
-  outline-color:#A9DEF9;
+  outline-color: #a9def9;
   background-color: white;
   color: #000000;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
-.button-search-library:hover {background-color: #A9DEF9;}
-
-@media (min-width: 200px) and (max-width: 1300px) {
-  .sidenav.col-sm-9 {
-    margin-left: 90px;
-    justify-content: center;    
-  }
-    .sidenav.col-12 {
-    margin-left: 90px;
-    justify-content: center;
-  }
-  .content_library {
-    padding-right: 4rem;
-  }
+.button-search-library:hover {
+  background-color: #a9def9;
 }
 
+@media (max-width: 575.98px) {
+  .mobile-below-tap-library {
+    width: 100%;
+    margin-top: 10px;
+    margin-left: 3rem;
+    padding-left: 2rem;
+    padding-right: 3rem;
+  }
+
+  .sidenav.col-8 {
+    flex: 0 0 91.666667%;
+    max-width: 91.666667%;
+  }
+}

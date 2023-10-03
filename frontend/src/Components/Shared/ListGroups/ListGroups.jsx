@@ -100,7 +100,7 @@ const ListGroups = ({ toggleSidebar }) => {
         onSelect={(k) => setKey(k)}>
         <Row>
           <Col sm={6}>
-            <span>Groups List</span>
+            <span className='custom-list-group-span'>Groups List</span>
             <ListGroup variant="flush" className='mt-1'>
               {
                 GROUPS.map(({ id, number_class, grade, subject }) => (
@@ -124,7 +124,7 @@ const ListGroups = ({ toggleSidebar }) => {
             </ListGroup>
           </Col>
           <Col sm={6}>
-            <span>Students List</span>
+            <span className='custom-list-group-span'>Students List</span>
             <Tab.Content>
               {GROUPS.map(({ id }) => (
                 <Tab.Pane eventKey={'#' + id}>

@@ -4,7 +4,6 @@
   align-items: center;
   color: rgb(63, 63, 63);
   gap: 5px;
-
 }
 
 .book-title {
@@ -29,17 +28,16 @@
   color: rgb(75, 69, 69);
 }
 
-
 .button-section {
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  margin-right: 1.5rem;
+  /* margin-right: 1.5rem; */
 }
 
 .button {
   outline-style: solid;
-  outline-color:#A9DEF9;
+  outline-color: #a9def9;
   margin: 0 10px;
   padding: 10px 20px;
   background-color: white;
@@ -48,21 +46,6 @@
   border-radius: 5px;
   cursor: pointer;
 }
-.button:hover {background-color: #A9DEF9;}
-@media screen and (min-width: 987px) {
-    .book-image {
-    padding-right: 2rem;
-  }
-  
-  .book-description {
-    padding-right: 3rem;
-  }
-}
-
-@media screen and (min-width: 987px) and (max-width: 1500px) {
-  .book-header{
-    justify-content: center;
-    max-width: 15rem;
-
-  }
+.button:hover {
+  background-color: #a9def9;
 }
