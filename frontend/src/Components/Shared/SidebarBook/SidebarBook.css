@@ -6,10 +6,6 @@
   transition: 0.4s;
 }
 
-.custom-side-nav-container-NX_Sidebar {
-  width: 85px;
-}
-
 .custom-nav-heading_Sidebar,
 .custom-nav-footer_Sidebar {
   display: grid;

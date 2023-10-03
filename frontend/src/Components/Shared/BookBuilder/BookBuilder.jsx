@@ -25,7 +25,7 @@ const getImage = 'http://localhost:8000/Media/'
 
 const defaultImage = '/imagenes/no-image.png'
 
-const BookBuilder = ({ toggleSidebar, notify }) => {
+const BookBuilder = ({ toggleSidebar }) => {
   const [book, setBook] = useState(initialBookState)
   const [fileImage, setFileImage] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
@@ -158,7 +158,7 @@ const BookBuilder = ({ toggleSidebar, notify }) => {
   }
 
   return (
-    <Container className='pe-5'>
+    <Container>
       <Row>
         <Col>
           <Form onSubmit={handleSubmit}>
@@ -166,7 +166,7 @@ const BookBuilder = ({ toggleSidebar, notify }) => {
               onChange={handleSharedBookChange}
               required
               value={book.sharedbook}
-              style={{ marginTop: '20px', marginBottom: '30px' }}
+              style={{ marginTop: '50px', marginBottom: '30px' }}
             >
               <Radio.Button className='custom-radio-button-wrapper' value={1}>
                 <FontAwesomeIcon icon={faGlobe} className='pe-2' />

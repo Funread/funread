@@ -1,4 +1,4 @@
-h4 {
+.custom-library-title {
   color: grey;
   text-align: left;
 }
@@ -45,39 +45,15 @@ h4 {
   box-shadow: none;
 }
 
-@media screen and (min-width: 992px) {
-  .sidebar-mobile {
-    display: none;
-  }
-}
-
 .sidebar-desktop {
   display: none;
   margin-right: 3rem;
 }
 
-@media screen and (min-width: 992px) {
-  .sidebar-desktop {
-    display: block;
+@media screen and (max-width: 992px) {
+  .content_library {
+    padding-left: 2rem;
   }
-}
-
-@media (max-width: 991.98px) {
-  .sidenav.col-sm-9 {
-    flex-basis: 91.666667%;
-    max-width: 91.666667%;
-    margin-left: 100px;
-    justify-content: center;
-  }
-}
-
-.sidenav.col-sm-9 {
-  margin-left: 90px;
-  justify-content: center;
-  padding-right: 2rem;
-}
-.custom-padding {
-  padding-right: 2rem;
 }
 
 .button-search-library {
@@ -93,16 +69,17 @@ h4 {
   background-color: #a9def9;
 }
 
-@media (min-width: 200px) and (max-width: 1300px) {
-  .sidenav.col-sm-9 {
-    margin-left: 90px;
-    justify-content: center;
+@media (max-width: 575.98px) {
+  .mobile-below-tap-library {
+    width: 100%;
+    margin-top: 10px;
+    margin-left: 3rem;
+    padding-left: 2rem;
+    padding-right: 3rem;
   }
-  .sidenav.col-12 {
-    margin-left: 90px;
-    justify-content: center;
-  }
-  .content_library {
-    padding-right: 4rem;
+
+  .sidenav.col-8 {
+    flex: 0 0 91.666667%;
+    max-width: 91.666667%;
   }
 }

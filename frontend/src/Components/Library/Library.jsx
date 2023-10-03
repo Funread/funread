@@ -12,49 +12,42 @@ import BookBuilder from '../Shared/BookBuilder/BookBuilder'
 import { ToastContainer } from 'react-toastify'
 
 const Library = () => {
-  const [showSidebar, setShowSidebar] = useState(false)
   const [selectedBook, setSelectedBook] = useState(null)
-  const [showForm, setShowForm] = useState(false)
+  const [showForm, setShowForm] = useState(true)
 
   const toggleSidebar = (book) => {
     if (!selectedBook) {
       setShowForm(false)
-      setShowSidebar(true)
       setSelectedBook(book)
       return
     }
 
     if (selectedBook.id === book.id) {
-      setShowSidebar(false)
       setSelectedBook(null)
+      setShowForm(true)
       return
     }
     setSelectedBook(book)
   }
 
   const toggleFormSidebar = () => {
-    if (showSidebar && selectedBook) {
+    if (selectedBook) {
       setSelectedBook(null)
       setShowForm(true)
       return
     }
 
-    if (showSidebar && showForm) {
-      setShowForm(false)
-      setShowSidebar(false)
-      return
-    }
-
     setShowForm(true)
-    setShowSidebar(true)
   }
 
   return (
-    <div className='container-fluid custom-padding text-center library'>
-      <div className='row flex-nowrap' style={{ height: 'auto' }}>
-        <SidebarBook></SidebarBook>
+    <div className='container-fluid text-center library'>
+      <div className='row' style={{ height: 'auto' }}>
+        <div className='col-1 p-0'>
+          <SidebarBook></SidebarBook>
+        </div>
 
-        <div className={`sidenav ${showSidebar ? 'col-sm-9' : 'col-12'}`}>
+        <div className='sidenav col-8'>
           <div
             style={{ maxWidth: '1100px' }}
             className='mx-auto content_library'
@@ -80,37 +73,25 @@ const Library = () => {
               </Button>
             </Form>
 
-            <h4 className='mt-3'>Recent Books</h4>
+            <h4 className='custom-library-title mt-3'>Recent Books</h4>
+
             <RecentBook toggleSidebar={toggleSidebar} />
-            {selectedBook && (
-              <div className='sidebar-mobile mt-3 my-2 shadow rounded'>
-                <BookView
-                  title={selectedBook?.title}
-                  description={selectedBook?.description}
-                  portrait={selectedBook?.portrait}
-                  author={selectedBook?.author}
-                />
-              </div>
-            )}
 
             <TapLibrary toggleSidebar={toggleSidebar} />
           </div>
         </div>
-        {selectedBook && (
-          <div className='col-sm-3 custom-padding sidebar-desktop shadow rounded'>
+        <div className='col-3 shadow rounded mobile-below-tap-library'>
+          {selectedBook && (
             <BookView
               title={selectedBook?.title}
               description={selectedBook?.description}
               portrait={selectedBook?.portrait}
               author={selectedBook?.author}
             />
-          </div>
-        )}
-        {showForm && (
-          <div className='col-sm-3 custom-padding sidebar-desktop shadow rounded'>
-            <BookBuilder toggleSidebar={toggleSidebar} />
-          </div>
-        )}
+          )}
+
+          {showForm && <BookBuilder toggleSidebar={toggleSidebar} />}
+        </div>
       </div>
       <ToastContainer position='top-right' />
     </div>

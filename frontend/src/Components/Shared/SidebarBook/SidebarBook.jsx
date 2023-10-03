@@ -21,8 +21,8 @@ const SidebarBook = () => {
   ]
 
   return (
-    <div className='custom-side-nav-container_Sidebar custom-side-nav-container-NX_Sidebar'>
-      <div className='custom-nav-upper_Sidebar'>
+    <div className='custom-side-nav-container_Sidebar'>
+      <div className='custom-nav-upper_Sidebar pt-5'>
         <div className='custom-nav-heading_Sidebar'></div>
         <div className='custom-nav-menu_Sidebar'>
           {menuItems.map(({ text, icon }, index) => (
