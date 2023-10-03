@@ -11,7 +11,7 @@ const Carousel = () => {
         <div className='custom_section_navbar_carrusel'>
           {[
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20,
+            20,21,22,23,24,25,26,27,28,29,30,
           ].map((i) => (
             <div key={i} className='custom_section_item_page my-3'>
               <div className='page'>
@@ -29,6 +29,7 @@ const Carousel = () => {
         </div>
       </div>
     </Navbar>
+   
   )
 }
 
