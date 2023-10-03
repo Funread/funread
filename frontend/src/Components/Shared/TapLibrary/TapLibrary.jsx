@@ -101,7 +101,7 @@ function TapLibrary({ toggleSidebar }) {
 
                   <BookCard
                     id={id}
-                    image={portrait}
+                    portrait={portrait}
                     title={title}
                     category={category}
                     author={author}
@@ -133,7 +133,7 @@ function TapLibrary({ toggleSidebar }) {
 
                   <BookCard
                     id={id}
-                    image={portrait}
+                    portrait={portrait}
                     title={title}
                     category={category}
                     author={author}
