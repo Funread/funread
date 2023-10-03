@@ -21,8 +21,7 @@ const SidebarBook = () => {
   ]
 
   return (
-
-    <div className='custom-side-nav-container_Sidebar'>
+    <div className='custom-side-nav-container_Sidebar custom-side-nav-container-NX_Sidebar'>
       <div className='custom-nav-upper_Sidebar pt-5'>
         <div className='custom-nav-heading_Sidebar'></div>
         <div className='custom-nav-menu_Sidebar'>
@@ -30,7 +29,6 @@ const SidebarBook = () => {
             <div
               key={index}
               className='custom-menu-item_Sidebar border-botton custom-menu-item-NX_Sidebar align-items-center'
-
             >
               <FontAwesomeIcon icon={icon} size='xl' />
             </div>
@@ -38,9 +36,7 @@ const SidebarBook = () => {
         </div>
       </div>
       <div className='custom-nav-footer pe-3'>
-
         <div className='custom-menu-item border-botton_Sidebar custom-menu-item-NX_Sidebar align-items-center'>
-
           <FontAwesomeIcon icon={faSignOutAlt} size='xl' />
         </div>
       </div>
