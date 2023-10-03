@@ -2,7 +2,7 @@
   height: 57px;
   width: 16em;
   display: flex;
-  color: cornflowerblue;
+  color: #fff;
   text-decoration: none;
   text-transform: uppercase;
   margin: auto 20px;
@@ -10,18 +10,16 @@
   position: relative;
 }
 
-.custom-menu-item:hover {
-  background-color: aliceblue;
-}
-
 .custom-menu-item-NX {
   margin: auto;
   width: 4.5em;
 }
-
+.custom-menu-item:hover {
+  background-color: rgb(44, 44, 51);
+}
 .custom-menu-item svg {
   width: 30px;
-  padding: 0 25px;
+  padding: 0 20px;
 }
 
 .custom-card {
@@ -44,7 +42,13 @@
 }
 
 .icon {
-  font-size: 35px;
+  font-size: 24px;
   text-align: center;
   color: #333;
+}
+
+@media only screen and (max-height: 490px) {
+  .icon-grid {
+    gap: 0;
+  }
 }
