@@ -1,3 +1,4 @@
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
@@ -11,8 +12,10 @@ import ProtectedRoutes from './ProtectedRoutes'
 import Dashboard from './Components/Shared/Dashboard/Dashboard'
 import UniqueSelection from './Components/Block/UniqueSelection/UniqueSelection'
 import Library from './Components/Library/Library'
-
+import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
+import JoinValidator from "./Components/JoinValidator/JoinValidator"
 import Group from './Components/Group/Group'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -56,6 +59,25 @@ root.render(
           </div>
         }
       />
+      <Route
+          exact
+          path="/join/:code"
+          element={
+            <div className='index-background-container'>
+              <JoinValidator />
+            </div>
+          }
+        />
+        <Route //se utiliza est ruta para colocar el componente que genera los links de invitacion
+          exact
+          path="demo/book"
+          element={
+            <div className='index-background-container'>
+              <JoinCreator id="1" type="book" />
+            </div>
+          }
+        />
+
 
       <Route exact path='demo/quiz' element={<UniqueSelection />} />
 
