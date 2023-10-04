@@ -1,7 +1,7 @@
-span{
-    color: grey;
-    text-align: left;
-  }
+.custom-list-group-span {
+  color: grey;
+  text-align: left;
+}
 
 .list-group-item-action.active {
     background-color: #79ABA8; /* Cambia el color de fondo cuando el item está activo */

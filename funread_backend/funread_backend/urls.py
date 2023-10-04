@@ -41,6 +41,7 @@ urlpatterns = [
     path('booksPerClasses/', include('BooksPerClasses.urls')),
     path('groupsPerClasses/', include('GroupsPerClasses.urls')),
     path('Media/', include('Media.urls')),
+    path('join/', include('Joins.urls')),
     path('GroupsCreate/', include('GroupsCreate.urls')),
 ]
 

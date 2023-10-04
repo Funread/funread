@@ -1,6 +1,6 @@
 import './BookView.css'
 
-const BookView = ({ title, description, image, author }) => {
+const BookView = ({ title, description, portrait, author }) => {
   return (
     <div
       className='mx-auto pt-5 text-white justify-content-center'
@@ -12,7 +12,7 @@ const BookView = ({ title, description, image, author }) => {
       </div>
 
       <div className='book-image'>
-        <img src={image} width={170} height={300} alt='portrait' />
+        <img src={portrait} width={170} height={300} alt='portrait' />
       </div>
 
       <div className='book-description'>
