@@ -11,7 +11,7 @@
   
   .react-grid-layout {
     border: 3px solid red;
-    width: 730px;
+    width: 540px;
     height: 530px !important;
   
   }
@@ -20,4 +20,125 @@
   .react-grid-item {
     background-color: lavender;
   
+  }
+
+  
+  @media screen and (max-width: 1300px){
+    
+    .react-grid-layout{
+      width: 454px;
+      height: 100vh 1fr;
+    }
+  }
+
+@media screen and (max-width: 1000px){
+    .react-grid-layout{
+      width: 255px;
+      height: 300px !important
+    }
+  }
+
+  @media screen and (max-width: 750px){
+    .react-grid-layout{
+      width: 550px;
+      height: 100vh 1fr;
+    }
+  }
+
+  @media screen and (max-width: 650px){
+    .react-grid-layout{
+      width: 480px;
+      height: 100vh 1fr;
+    }
+  }
+
+  @media screen and (max-width: 550px){
+    .react-grid-layout{
+      width: 365px;
+      height: 100vh 1fr;
+    }
+  }
+
+
+  @media screen and (max-width: 450px){
+    .react-grid-layout{
+      width: 133px;
+      height: 100vh 1fr;
+    }
+  }
+
+  @media screen and (max-width: 415px){
+    .react-grid-layout{
+      width: 130px;
+      height: 100vh 1fr;
+    }
+  }
+
+  @media screen and (max-width: 400px){
+    .react-grid-layout{
+      width: 265px;
+      height: 100vh 1fr;
+    }
+  }
+
+  @media screen and (max-width: 395px){
+    .react-grid-layout{
+      width: 115px;
+      height: 100vh 1fr;
+    }
+  }
+
+  @media screen and (max-width: 380px){
+    .react-grid-layout{
+      width: 110px;
+      height: 100vh 1fr;
+    }
+  }
+
+  @media screen and (max-width: 365px){
+    .react-grid-layout{
+      width: 105px;
+      height: 100vh 1fr;
+    }
+  }
+
+
+  @media screen and (max-height: 1300px){
+    .react-grid-layout {
+      height: 690px !important;
+    }
+  }
+  @media screen and (max-height: 1100px){
+    .react-grid-layout {
+      height: 690px !important;
+    }
+  }
+
+  @media screen and (max-height: 951px){
+    .react-grid-layout {
+      height: 700px !important;
+    }
+  }
+  @media screen and (max-height: 920px){
+    .react-grid-layout {
+      height: 690px !important;
+    }
+  }
+  
+  @media screen and (max-height: 850px){
+    .react-grid-layout {
+      height: 705px !important;
+    }
+  }
+
+  @media screen and (max-height: 770px){
+    .react-grid-layout {
+      height: 700px !important;
+    }
+  }
+
+  @media screen and (max-height: 670px){
+    .react-grid-layout {
+      height: 700px !important;
+    }
   }
