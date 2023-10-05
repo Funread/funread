@@ -1,6 +1,9 @@
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUser } from "../redux/userSlice";
 
 export const useLogin = () => {
+  const dispatch = useDispatch()
  
   //esta constante se utiliza para hacer el inicio de session, guardando el token obtenido
   const logIn = (email, password) => {
@@ -11,6 +14,7 @@ export const useLogin = () => {
       if (res.status === 200 ) {
         sessionStorage.setItem("jwt",res.data.jwt)
         //si se cambia la forma de alamacenar el token se debera cambiar esto
+        dispatch(addUser(res.data))
         return "success"
       }else if(res.status === 403){
         return "Error de inicio de session"

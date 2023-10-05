@@ -12,128 +12,131 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import UniqueSelection from "./Components/Block/UniqueSelection/UniqueSelection";
 import Library from "./Components/Library/Library";
-
-
-
 import Group from "./Components/Group/Group";
+
+import { Provider } from "react-redux";
+import { store } from "./redux/store"
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <BrowserRouter>
-    <Routes>
-    <Route
-        exact
-        path='/'
-        element={
-          <div className='index-background-container landing-page'>
-            <LandingPage />
-          </div>
-        }
-      /> 
-      {/* Esta parte es para DEMO sin iniciar Sesion */}
-      <Route
-        exact
-        path="demo/bookcreator"
-        element={
-          <div className=''>
-            <BookCreator />
-          </div>
-        }
-      />
-       <Route
-        exact
-        path="demo/library"
-        element={
-          <div className='index-background-container'>
-            <Library />
-          </div>
-        }
-      />
-
-      <Route
-        exact
-        path="demo/group"
-        element={
-          <div className=''>
-            <Group />
-          </div>
-        }
-      />
-
-
-    <Route
-        exact
-        path="demo/quiz"
-        element={
-          
-            <UniqueSelection />
-          
-        }
-      />
-      
-
-
-      <Route element={<ProtectedRoutes/>}>
-      {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
+    <Provider store={store}>
+      <Routes>
         <Route
           exact
-          path="/"
+          path='/'
           element={
-              <div className="index-background-container ">
-                {/* <BookCreator /> */}
-              </div>
+            <div className='index-background-container landing-page'>
+              <LandingPage />
+            </div>
           }
-        />
+          /> 
+        {/* Esta parte es para DEMO sin iniciar Sesion */}
+        <Route
+          exact
+          path="demo/bookcreator"
+          element={
+            <div className=''>
+              <BookCreator />
+            </div>
+          }
+          />
+        <Route
+          exact
+          path="demo/library"
+          element={
+            <div className='index-background-container'>
+              <Library />
+            </div>
+          }
+          />
+
+        <Route
+          exact
+          path="demo/group"
+          element={
+            <div className=''>
+              <Group />
+            </div>
+          }
+          />
+
+
       <Route
           exact
-          path="/bookcreator"
+          path="demo/quiz"
           element={
-            <div className="index-background-padding">
-              <div className="index-background-container ">
-                <BookCreator />
+            
+              <UniqueSelection />
+            
+            }
+            />
+        
 
-              </div>
-            </div>
-          }
-        />
+
+        <Route element={<ProtectedRoutes/>}>
+        {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
           <Route
-          exact
-          path="/library"
-          element={
-            <div className="index-background-padding">
+            exact
+            path="/"
+            element={
               <div className="index-background-container ">
-                <Library/>
+                  {/* <BookCreator /> */}
+                </div>
+            }
+            />
+        <Route
+            exact
+            path="/bookcreator"
+            element={
+              <div className="index-background-padding">
+                <div className="index-background-container ">
+                  <BookCreator />
 
+                </div>
               </div>
-            </div>
-          }
-        />
-         <Route
-          exact
-          path="/group"
-          element={
-            <div className="index-background-padding">
-              <div className="index-background-container ">
-                <Group/>
+            }
+            />
+            <Route
+            exact
+            path="/library"
+            element={
+              <div className="index-background-padding">
+                <div className="index-background-container ">
+                  <Library/>
 
+                </div>
               </div>
-            </div>
-          }
-        />
-    <Route
-          exact
-          path="/dashboard"
-          element={
-            <div className='index-background-padding'>
-              <div className='index-background-container '>
-                <Dashboard />
+            }
+            />
+          <Route
+            exact
+            path="/group"
+            element={
+              <div className="index-background-padding">
+                <div className="index-background-container ">
+                  <Group/>
+
+                </div>
               </div>
-            </div>
-          }
-        />
-      </Route>
-    </Routes>
+            }
+          />
+      <Route
+            exact
+            path="/dashboard"
+            element={
+              <div className='index-background-padding'>
+                <div className='index-background-container '>
+                  <Dashboard />
+                </div>
+              </div>
+            }
+            />
+        </Route>
+      </Routes>
+    </Provider>
   </BrowserRouter>
 )
 

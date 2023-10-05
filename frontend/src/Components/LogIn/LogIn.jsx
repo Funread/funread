@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
 import { InputGroup } from "react-bootstrap";
 
+import { useDispatch } from "react-redux";
+import { addUser } from "../../redux/userSlice";
+
 function LogIn(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -50,16 +53,24 @@ function LogIn(props) {
       console.log('algun error ocure')
       console.error(error)
     }
-    logIn(email, password).then(() => {  
+    logIn(email, password).then((res) => {  
       //Esto debe hacerce para evitar que axiosAuth revise si el token existe antes de terminar el login
       if(axiosAuth() !== null){
-        navigate('/dashboard');
+
+        
+        //navigate('/dashboard');
       }else{
         setError(true)
         setPassword("")
       }
     }
     );
+
+
+
+
+
+
 
     // Esto es un ejemplo de como utilizar el hook useLogin, especificamente la constante axiosAuth
 

@@ -5,11 +5,11 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .api import RolesViewSet
 
 urlpatterns = [
-    path('roles/listAllRoles/' , views.listed),
-    path('roles/searchRoles/<str:role>', views.RolesSearch),
-    path('roles/insertRoles/', views.new_role),
-    path('roles/deleteRoles/<str:role>', views.deleteRole),
-    path('roles/updateRoles/<str:role>',views.roleupdate), 
+    path('listAllRoles/' , views.listed),
+    path('searchRoles/<str:role>', views.RolesSearch),
+    path('insertRoles/', views.new_role),
+    path('deleteRoles/<str:role>', views.deleteRole),
+    path('updateRoles/<str:role>',views.roleupdate), 
     #path('userroles/listAllUserRoles/' , views.listedUserRoles),
     #path('userroles/insertUserRoles/', views.new_Userrole),
     #path('userroles/deleteUserRoles/<str:pk>', views.deleteUserRole),
