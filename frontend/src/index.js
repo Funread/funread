@@ -1,64 +1,82 @@
 
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import reportWebVitals from './reportWebVitals'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'react-toastify/dist/ReactToastify.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import BookCreator from './Components/BookCreator/BookCreator'
-import LandingPage from './Components/LandingPage/LandingPage'
-import ProtectedRoutes from './ProtectedRoutes'
-import Dashboard from './Components/Shared/Dashboard/Dashboard'
-import UniqueSelection from './Components/Block/UniqueSelection/UniqueSelection'
-import Library from './Components/Library/Library'
-import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
-import JoinValidator from "./Components/JoinValidator/JoinValidator"
-import Group from './Components/Group/Group'
+
+import React, { useEffect } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import BookCreator from "./Components/BookCreator/BookCreator";
+import LandingPage from "./Components/LandingPage/LandingPage";
+import ProtectedRoutes from "./ProtectedRoutes";
+import Dashboard from "./Components/Shared/Dashboard/Dashboard";
+import UniqueSelection from "./Components/Block/UniqueSelection/UniqueSelection";
+import Library from "./Components/Library/Library";
+import Group from "./Components/Group/Group";
+
+import { Provider } from "react-redux";
+import { store } from "./redux/store"
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
+
+//este evento se utiliza para guardar el estado de redux, para evitar perder el estado al recargar la pagina (F5)
+const handleBeforeUnload = () => {
+  // Guardar el estado de Redux en localStorage
+  //localStorage.setItem('reduxState', JSON.stringify(store.getState())); //se comento para que de momento no se guarde la informacion sensible
+};
+
+//este porcion de codigo deberia permitir devolver el estado de reducx, pero no funciona por alguna razon
+const persistedState = localStorage.getItem('reduxState'); // este 
+if (persistedState) {
+  store.dispatch({ type: 'REHYDRATE', payload: JSON.parse(persistedState) });
+  localStorage.removeItem('reduxState')
+}
+
 root.render(
   <BrowserRouter>
-    <Routes>
-      <Route
-        exact
-        path='/'
-        element={
-          <div className='index-background-container landing-page'>
-            <LandingPage />
-          </div>
-        }
-      />
-      {/* Esta parte es para DEMO sin iniciar Sesion */}
-      <Route
-        exact
-        path='demo/bookcreator'
-        element={
-          <div className=''>
-            <BookCreator />
-          </div>
-        }
-      />
-      <Route
-        exact
-        path='demo/library'
-        element={
-          <div className='index-background-container'>
-            <Library />
-          </div>
-        }
-      />
+    <Provider store={store}>
+      <Routes>
+        <Route
+          exact
+          path='/'
+          element={
+            <div className='index-background-container landing-page'>
+              <LandingPage />
+            </div>
+          }
+          /> 
+        {/* Esta parte es para DEMO sin iniciar Sesion */}
+        <Route
+          exact
+          path="demo/bookcreator"
+          element={
+            <div className=''>
+              <BookCreator />
+            </div>
+          }
+          />
+        <Route
+          exact
+          path="demo/library"
+          element={
+            <div className='index-background-container'>
+              <Library />
+            </div>
+          }
+          />
 
-      <Route
-        exact
-        path='demo/group'
-        element={
-          <div className=''>
-            <Group />
-          </div>
-        }
-      />
+        <Route
+          exact
+          path="demo/group"
+          element={
+            <div className=''>
+              <Group />
+            </div>
+          }
+          />
       <Route
           exact
           path="/join/:code"
@@ -79,57 +97,84 @@ root.render(
         />
 
 
-      <Route exact path='demo/quiz' element={<UniqueSelection />} />
+      <Route 
+        exact 
+         path='demo/quiz' 
+          element={
+            <UniqueSelection />
+          } 
+       />
 
-      <Route element={<ProtectedRoutes />}>
+
+        <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >
+
+        </Route>
+        <Route element={<ProtectedRoutes roles={['profesor']} /> } >
         {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
-        <Route
-          exact
-          path='/'
-          element={
-            <div className='index-background-container '>
-              {/* <BookCreator /> */}
-            </div>
-          }
-        />
-        <Route
-          exact
-          path='/bookcreator'
-          element={
-            <div className='index-background-padding'>
-              <div className='index-background-container '>
-                <BookCreator />
+          <Route
+            exact
+            path="/"
+            element={
+              <div className="index-background-container ">
+                  {/* <BookCreator /> */}
+                </div>
+            }
+            />
+          <Route
+            exact
+            path="/bookcreator"
+            element={
+              <div className="index-background-padding">
+                <div className="index-background-container ">
+                  <BookCreator />
+
+                </div>
               </div>
-            </div>
-          }
-        />
-        <Route
-          exact
-          path='/group'
-          element={
-            <div className='index-background-padding'>
-              <div className='index-background-container '>
-                <Group />
+            }
+            />
+          <Route
+            exact
+            path="/library"
+            element={
+              <div className="index-background-padding">
+                <div className="index-background-container ">
+                  <Library/>
+
+                </div>
               </div>
-            </div>
-          }
-        />
-        <Route exact path='/library' element={<Library />} />
-        <Route
-          exact
-          path='/dashboard'
-          element={
-            <div className='index-background-padding'>
-              <div className='index-background-container '>
-                <Dashboard />
+            }
+            />
+          <Route
+            exact
+            path="/group"
+            element={
+              <div className="index-background-padding">
+                <div className="index-background-container ">
+                  <Group/>
+
+                </div>
               </div>
-            </div>
-          }
-        />
-      </Route>
-    </Routes>
+            }
+          />
+          <Route
+            exact
+            path="/dashboard"
+            element={
+              <div className='index-background-padding'>
+                <div className='index-background-container '>
+                  <Dashboard />
+                </div>
+              </div>
+            }
+            />
+        </Route>
+      </Routes>
+    </Provider>
   </BrowserRouter>
 )
+
+// Agregar event listener para beforeunload
+window.addEventListener('beforeunload', handleBeforeUnload);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
