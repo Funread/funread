@@ -64,6 +64,8 @@ INSTALLED_APPS = [
     'Media',
     'GroupsCreate',
     'Options'
+    "Joins",
+
     
 
 
@@ -173,7 +175,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": '1234a',
+        "PASSWORD": 'password',
         'PORT': '3306',
         'USER': 'root',
         'OPTIONS': {
