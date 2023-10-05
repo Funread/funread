@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'ClassesLog',
     'TeacherApp',
     'Media',
-    'GroupsCreate'
+    'GroupsCreate',
+    'Options'
     
 
 
@@ -172,7 +173,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'FUNREAD',
         'HOST': 'localhost',
-        "PASSWORD": 'password',
+        "PASSWORD": '1234a',
         'PORT': '3306',
         'USER': 'root',
         'OPTIONS': {

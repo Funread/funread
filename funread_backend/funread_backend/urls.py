@@ -42,6 +42,7 @@ urlpatterns = [
     path('groupsPerClasses/', include('GroupsPerClasses.urls')),
     path('Media/', include('Media.urls')),
     path('GroupsCreate/', include('GroupsCreate.urls')),
+    path('Options/', include('Options.urls')),
 ]
 
 if settings.DEBUG:
