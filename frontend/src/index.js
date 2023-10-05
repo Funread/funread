@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -20,6 +20,20 @@ import { store } from "./redux/store"
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
+
+//este evento se utiliza para guardar el estado de redux, para evitar perder el estado al recargar la pagina (F5)
+const handleBeforeUnload = () => {
+  // Guardar el estado de Redux en localStorage
+  //localStorage.setItem('reduxState', JSON.stringify(store.getState())); //se comento para que de momento no se guarde la informacion sensible
+};
+
+//este porcion de codigo deberia permitir devolver el estado de reducx, pero no funciona por alguna razon
+const persistedState = localStorage.getItem('reduxState'); // este 
+if (persistedState) {
+  store.dispatch({ type: 'REHYDRATE', payload: JSON.parse(persistedState) });
+  localStorage.removeItem('reduxState')
+}
+
 root.render(
   <BrowserRouter>
     <Provider store={store}>
@@ -73,10 +87,10 @@ root.render(
             
             }
             />
-        
+        <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >
 
-
-        <Route element={<ProtectedRoutes/>}>
+        </Route>
+        <Route element={<ProtectedRoutes roles={['profesor']} /> } >
         {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
           <Route
             exact
@@ -87,7 +101,7 @@ root.render(
                 </div>
             }
             />
-        <Route
+          <Route
             exact
             path="/bookcreator"
             element={
@@ -99,7 +113,7 @@ root.render(
               </div>
             }
             />
-            <Route
+          <Route
             exact
             path="/library"
             element={
@@ -123,7 +137,7 @@ root.render(
               </div>
             }
           />
-      <Route
+          <Route
             exact
             path="/dashboard"
             element={
@@ -139,6 +153,9 @@ root.render(
     </Provider>
   </BrowserRouter>
 )
+
+// Agregar event listener para beforeunload
+window.addEventListener('beforeunload', handleBeforeUnload);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
