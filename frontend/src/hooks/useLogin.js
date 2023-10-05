@@ -42,5 +42,11 @@ export const useLogin = () => {
     }
   }
 
-  return {logIn,axiosAuth};
+  const axiosWithoutAuth = () => {
+      return axios.create({
+        baseURL: "http://localhost:8000/"
+      });
+  }
+
+  return {logIn,axiosAuth,axiosWithoutAuth};
 };

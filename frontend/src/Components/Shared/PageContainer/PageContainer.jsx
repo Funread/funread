@@ -1,4 +1,5 @@
 import ContentImage from '../ContentImage/ContentImage'
+import Grids from '../Grids/Grids'
 import './PageContainer.css'
 
 const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
@@ -12,7 +13,7 @@ const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
                 </div>
 
                 <div className='card-body'>
-                    
+                <Grids />
                 </div>
             </div>
         </div>

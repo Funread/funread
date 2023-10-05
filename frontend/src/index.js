@@ -1,4 +1,5 @@
 
+
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -76,17 +77,35 @@ root.render(
             </div>
           }
           />
-
-
       <Route
           exact
-          path="demo/quiz"
+          path="/join/:code"
           element={
-            
-              <UniqueSelection />
-            
-            }
-            />
+            <div className='index-background-container'>
+              <JoinValidator />
+            </div>
+          }
+        />
+        <Route //se utiliza est ruta para colocar el componente que genera los links de invitacion
+          exact
+          path="demo/book"
+          element={
+            <div className='index-background-container'>
+              <JoinCreator id="1" type="book" />
+            </div>
+          }
+        />
+
+
+      <Route 
+        exact 
+         path='demo/quiz' 
+          element={
+            <UniqueSelection />
+          } 
+       />
+
+
         <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >
 
         </Route>
@@ -160,4 +179,5 @@ window.addEventListener('beforeunload', handleBeforeUnload);
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals()
 reportWebVitals()
