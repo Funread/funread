@@ -34,7 +34,7 @@ class UserStatusSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email','password']
+        fields = ['userid','email','name','lastname','username']
         
 class UserPasswordSerializer(serializers.ModelSerializer):
     class Meta:

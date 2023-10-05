@@ -7,8 +7,22 @@ import {
   faSignOutAlt,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons'
+import { useSelector } from 'react-redux/es/hooks/useSelector'
 
 const SidebarBook = () => {
+  const user = useSelector((state) => state.user) // obtenemos el usuario desde el redux
+
+  const hasRole = (role) => { // con base al role proporciona devulve true si el usuario tiene el role, o false is no lo tiene
+    user.roles.forEach(userRole => {
+      if(userRole.role === role){
+          return true;
+      }
+    });
+    return false
+  }
+  // lo de arriba es un ejemplo de como limitar las opciones del menu con base al rol del usuario
+
+
   const menuItems = [
     {
       text: 'Library',
