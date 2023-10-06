@@ -14,6 +14,8 @@ import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import UniqueSelection from "./Components/Block/UniqueSelection/UniqueSelection";
 import Library from "./Components/Library/Library";
 import Group from "./Components/Group/Group";
+import JoinValidator from "./Components/JoinValidator/JoinValidator";
+import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 
 import { Provider } from "react-redux";
 import { store } from "./redux/store"
