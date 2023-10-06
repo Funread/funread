@@ -63,8 +63,9 @@ INSTALLED_APPS = [
     'TeacherApp',
     'Media',
     'GroupsCreate',
-    'Options'
+    'Options',
     "Joins",
+    "Userroles",
 
     
 
