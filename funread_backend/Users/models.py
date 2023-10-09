@@ -8,7 +8,7 @@ class User(models.Model):
     password = models.CharField(max_length=256, db_collation='utf8mb3_general_ci', blank=True, null=True)
     createdat = models.DateTimeField(db_column='CreatedAt', blank=True, null=True)  # Field name made lowercase.
     actived = models.IntegerField(db_column='Actived', blank=True, null=True)  # Field name made lowercase.
-    username = models.CharField(db_column='UserName', unique=True, max_length=200)
+    username = models.CharField(db_column='UserName', unique=True, max_length=200, null=True)
     #roles = models.ManyToManyField(Roles) #crea propiedad de roles many to many en users para poder generar la tabla usando el orm, test
     
 

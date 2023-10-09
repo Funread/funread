@@ -11,7 +11,6 @@ import { InputGroup } from "react-bootstrap";
 
 function JoinActivity(props) {
   const [code, setCode] = useState("");
-  const [error, setError] = useState("")
   const { logIn, axiosAuth,axiosWithoutAuth } = useLogin();
   const navigate = useNavigate();
 
@@ -23,12 +22,11 @@ function JoinActivity(props) {
    */
   const handleSubmit = (event) => {
     event.preventDefault();  // Prevent default form submission behavior
-    setError("")
 
     axiosWithoutAuth().get("join/search/"+code,).then( () => {
       navigate('/join/'+code);
     }).catch((error) => {
-      setError("Invalid code")
+      alert('Invalid code\n\n\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, JoinActivity.jsx:29)')
     })
   };
 
@@ -106,9 +104,6 @@ function JoinActivity(props) {
                 required
               />
             </Form.Group>
-            <Form.Label className="join-validator-font-error">
-              {error}
-            </Form.Label>
             <Button id="join-submit-button" className="join-form-button-empty" type="submit">
               Join
             </Button>
