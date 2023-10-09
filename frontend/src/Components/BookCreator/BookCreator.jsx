@@ -6,6 +6,7 @@ import Carousel from '../Shared/NavBarCarrousel/NavBarCarrousel'
 import PageContainer from '../Shared/PageContainer/PageContainer'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import Grids from '../Shared/Grids/Grids'
 
 const BookCreator = () => {
   return (

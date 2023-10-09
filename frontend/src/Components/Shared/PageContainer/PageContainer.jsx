@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import ContentImage from '../ContentImage/ContentImage'
+import Grids from '../Grids/Grids'
 import './PageContainer.css'
 import { useDrop } from 'react-dnd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -30,6 +31,7 @@ const PageContainer = ({ title }) => {
             </div>
 
             <div className='card-body' ref={drop}>
+              {/* <Grids /> */}
               {board.map((item, index) => (
                 <div key={index} className='dropped-icon'>
                   <FontAwesomeIcon icon={item.icon} />

@@ -34,7 +34,7 @@ const SidebarLeftTopTop = () => {
   useEffect(() => {
     const handleResize = () => {
       // Activa el modo hamburguesa si el ancho de la pantalla es menor a 768px
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 1000) {
         setExpendState(false)
       } else {
         setExpendState(true)

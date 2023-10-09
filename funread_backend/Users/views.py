@@ -1,7 +1,12 @@
 
 import json
 from wsgiref import headers
+from Roles.models import Roles
+from Roles.serializers import RolesSerializer, RolesUpdatedBySerializer
+
+from Userroles.serializers import UserRolesSerializer
 from .models import User 
+from Userroles.models import Userroles
 from .serializers import UserPasswordSerializer, UserSerializer, UserStatusSerializer, LoginSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -253,22 +258,16 @@ def login(request):
     algorithm = settings.SIMPLE_JWT['ALGORITHM']
     token = jwt.encode(payload, signing_key, algorithm)
 
-    #print(data.get('email'))
-    #print(data.get('password'))
-    #emailSe = data.get('email')
-    #passwordSe = data.get('password')
+    roles = Roles.objects.filter(userroles__iduser=user.userid)
 
-    #try:
-    #    user = User.objects.get(email=emailSe, password=passwordSe,actived=1)
-    #except User.DoesNotExist:
-    #    return Response(status=status.HTTP_404_NOT_FOUND)
+    rolesSerializer = RolesSerializer(roles, many=True)
     serializer = LoginSerializer(user)
-    #return Response(serializer.data, status=status.HTTP_200_OK)
 
     response = Response()
     response.data= {
       'jwt': token,
-      'data': serializer.data
+      'data': serializer.data,
+      'roles': rolesSerializer.data
     }
     return response
 
