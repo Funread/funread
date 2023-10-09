@@ -4,13 +4,17 @@ import NavbarButtons from '../Shared/NavbarButtons/NavbarButtons'
 import SidebarLeftTopTop from '../Shared/SidebarLeftTopTop/SidebarLeftTopTop'
 import Carousel from '../Shared/NavBarCarrousel/NavBarCarrousel'
 import PageContainer from '../Shared/PageContainer/PageContainer'
+import Grids from '../Shared/Grids/Grids'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import Grids from '../Shared/Grids/Grids'
+import { TouchBackend } from 'react-dnd-touch-backend'
+import { isMobile } from 'react-device-detect'
 
 const BookCreator = () => {
+  const backend = isMobile ? TouchBackend : HTML5Backend
+
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={backend}>
       <div className='container-fluid bookCreator'>
         <div className='row flex-nowrap contentBookCreator'>
           <SidebarLeftTopTop />
