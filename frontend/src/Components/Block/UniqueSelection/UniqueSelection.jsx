@@ -9,7 +9,7 @@ const MAX_RESPONSES = 6
 
 const UniqueSelection = () => {
   const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill('')) // Inicia con dos respuestas mínimo
-  const [isAddingResponses, setIsAddingResponses] = useState(true) // Estado inicial: agregar respuestas
+  const [isAddingResponses, setIsAddingResponses] = useState(true)
 
   const addResponses = () => {
     if (responses.length < MAX_RESPONSES) {
