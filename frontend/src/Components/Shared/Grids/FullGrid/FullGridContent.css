@@ -16,6 +16,279 @@
   }
   
 
+  @media  (max-width: 1500px){
+    
+    .react-grid-layout{
+      width: 1050px;
+    }
+  }
+
+  @media  (max-width: 1450px){
+    
+    .react-grid-layout{
+      width: 1010px;
+    }
+  }
+
+  @media  (max-width: 1400px){
+    
+    .react-grid-layout{
+      width: 965px;
+    }
+  }
+
+  @media  (max-width: 1350px){
+    
+    .react-grid-layout{
+      width: 925px;
+    }
+  }
+  
+  @media  (max-width: 1300px){
+    
+    .react-grid-layout{
+      width: 904px;
+    }
+  }
+
+  @media screen and (max-width: 1275px){
+    .react-grid-layout{
+      width: 890px;
+      height: 300px !important
+    }
+  }
+
+  @media screen and (max-width: 1269px){
+    .react-grid-layout{
+      width: 860px;
+      height: 300px !important
+    }
+  }
+
+  @media screen and (max-width: 1250px){
+    .react-grid-layout{
+      width: 825px;
+      height: 300px !important
+    }
+  }
+
+  @media screen and (max-width: 1200px){
+    .react-grid-layout{
+      width: 790px;
+      height: 300px !important
+    }
+  }
+
+  @media screen and (max-width: 1150px){
+    .react-grid-layout{
+      width: 755px;
+      height: 300px !important
+    }
+  }
+
+@media screen and (max-width: 1000px){
+    .react-grid-layout{
+      width: 590px;
+      height: 300px !important
+    }
+  }
+
+  @media (max-width: 970px){
+    
+    .react-grid-layout{
+      width: 550px;
+    }
+  }
+
+  @media (max-width: 950px){
+    
+    .react-grid-layout{
+      width: 550px;
+    }
+  }
+
+  @media (max-width: 925px){
+    
+    .react-grid-layout{
+      width: 525px;
+    }
+  }
+
+  @media (max-width: 900px){
+    
+    .react-grid-layout{
+      width: 510px;
+    }
+  }
+
+
+  @media (max-width: 875px){
+    
+    .react-grid-layout{
+      width: 510px;
+    }
+  }
+
+  @media (max-width: 850px){
+    
+    .react-grid-layout{
+      width: 520px;
+    }
+  }
+
+  @media (max-width: 800px){
+    
+    .react-grid-layout{
+      width: 505px;
+    }
+  }
+
+  @media (max-width: 775px){
+    
+    .react-grid-layout{
+      width: 480px;
+    }
+  }
+
+  @media screen and (max-width: 750px){
+    .react-grid-layout{
+      width: 460px;
+    }
+  }
+
+  @media screen and (max-width: 725px){
+    .react-grid-layout{
+      width: 430px;
+    }
+  }
+
+  @media screen and (max-width: 700px){
+    .react-grid-layout{
+      width: 400px;
+    }
+  }
+
+  @media screen and (max-width: 650px){
+    .react-grid-layout{
+      width: 390px;
+    }
+  }
+
+  @media screen and (max-width: 625px){
+    .react-grid-layout{
+      width: 370px;
+    }
+  }
+
+  @media screen and (max-width: 600px){
+    .react-grid-layout{
+      width: 420px;
+    }
+  }
+
+  @media screen and (max-width: 575px){
+    .react-grid-layout{
+      width: 400px;
+    }
+  }
+
+  @media screen and (max-width: 550px){
+    .react-grid-layout{
+      width: 365px;
+    }
+  }
+
+
+  @media (min-width:450px) and (max-width: 500px){
+    .react-grid-layout{
+      width: 300px;
+    }
+  }
+
+  @media screen and (max-width: 450px){
+    .react-grid-layout{
+      width: 270px;
+    }
+  }
+
+  @media screen and (max-width: 415px){
+    .react-grid-layout{
+      width: 257px;
+    }
+  }
+
+  @media screen and (max-width: 401px){
+    .react-grid-layout{
+      width: 235px;
+    }
+  }
+
+  @media screen and (max-width: 395px){
+    .react-grid-layout{
+      width: 230px;
+     
+    }
+  }
+
+  @media screen and (max-width: 380px){
+    .react-grid-layout{
+      width: 222px;
+     
+    }
+  }
+
+  @media screen and (max-width: 365px){
+    .react-grid-layout{
+      width: 212px;
+     
+    }
+  }
+
+
+  @media screen and (max-height: 1300px){
+    .react-grid-layout {
+      height: 1150px !important;
+    }
+  }
+  @media screen and (max-height: 1100px){
+    .react-grid-layout {
+      height: 950px !important;
+    }
+  }
+
+  @media screen and (max-height: 951px){
+    .react-grid-layout {
+      height: 695px !important;
+    }
+  }
+  @media screen and (max-height: 920px){
+    .react-grid-layout {
+      height: 680px !important;
+    }
+  }
+  
+  @media screen and (max-height: 850px){
+    .react-grid-layout {
+      height: 690px !important;
+    }
+  }
+
+  @media screen and (max-height: 770px){
+    .react-grid-layout {
+      height: 700px !important;
+    }
+  }
+
+  @media screen and (max-height: 670px){
+    .react-grid-layout {
+      height: 700px !important;
+    }
+  } 
+ 
+
+
+
+/* 
   
   @media screen and (max-width: 1300px){
     
@@ -94,45 +367,5 @@
       width: 205px;
       height: 100vh 1fr;
     }
-  }
+  }*/
 
-
-  @media screen and (max-height: 1300px){
-    .react-grid-layout {
-      height: 690px !important;
-    }
-  }
-  @media screen and (max-height: 1100px){
-    .react-grid-layout {
-      height: 690px !important;
-    }
-  }
-
-  @media screen and (max-height: 951px){
-    .react-grid-layout {
-      height: 695px !important;
-    }
-  }
-  @media screen and (max-height: 920px){
-    .react-grid-layout {
-      height: 680px !important;
-    }
-  }
-  
-  @media screen and (max-height: 850px){
-    .react-grid-layout {
-      height: 690px !important;
-    }
-  }
-
-  @media screen and (max-height: 770px){
-    .react-grid-layout {
-      height: 700px !important;
-    }
-  }
-
-  @media screen and (max-height: 670px){
-    .react-grid-layout {
-      height: 700px !important;
-    }
-  }

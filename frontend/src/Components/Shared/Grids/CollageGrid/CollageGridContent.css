@@ -10,6 +10,23 @@
     height: 213px !important;
   }
   
+  @media screen and (max-height: 1300px){
+    .react-grid-layout {
+      height: 370px !important;
+    }
+  }
+  @media screen and (max-height: 1100px){
+    .react-grid-layout {
+      height: 300px !important;
+    }
+  }
+
+  @media screen and (max-height: 951px){
+    .react-grid-layout {
+      height: 210px !important;
+    }
+  }
+
   .react-grid-item {
     background-color: lavender;
   }

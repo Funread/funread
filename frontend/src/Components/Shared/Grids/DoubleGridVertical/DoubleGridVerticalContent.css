@@ -23,42 +23,216 @@
   }
 
   
+  @media  (max-width: 1500px){
+    
+    .react-grid-layout{
+      width: 525px;
+    }
+  }
+
+  @media  (max-width: 1450px){
+    
+    .react-grid-layout{
+      width: 502px;
+    }
+  }
+
+  @media  (max-width: 1400px){
+    
+    .react-grid-layout{
+      width: 483px;
+    }
+  }
+
+  @media  (max-width: 1350px){
+    
+    .react-grid-layout{
+      width: 470px;
+    }
+  }
+
   @media screen and (max-width: 1300px){
     
     .react-grid-layout{
       width: 454px;
-      height: 100vh 1fr;
+    }
+  }
+
+
+  @media screen and (max-width: 1275px){
+    .react-grid-layout{
+      width: 450px;
+    }
+  }
+
+  @media screen and (max-width: 1269px){
+    .react-grid-layout{
+      width: 422px;
+    }
+  }
+
+  @media screen and (max-width: 1250px){
+    .react-grid-layout{
+      width: 415px;
+    }
+  }
+
+  @media screen and (max-width: 1200px){
+    .react-grid-layout{
+      width: 396px;
+    }
+  }
+
+  @media screen and (max-width: 1150px){
+    .react-grid-layout{
+      width: 375px;
     }
   }
 
 @media screen and (max-width: 1000px){
     .react-grid-layout{
       width: 255px;
-      height: 300px !important
+    }
+  }
+
+
+  @media screen and (max-width: 1000px){
+    .react-grid-layout{
+      width: 300px;
+    }
+  }
+
+  @media (max-width: 970px){
+    
+    .react-grid-layout{
+      width: 292px;
+    }
+  }
+
+  @media (max-width: 950px){
+    
+    .react-grid-layout{
+      width: 280px;
+    }
+  }
+
+  @media (max-width: 925px){
+    
+    .react-grid-layout{
+      width: 267px;
+    }
+  }
+
+  @media (max-width: 900px){
+    
+    .react-grid-layout{
+      width: 257px;
+    }
+  }
+
+  @media (max-width: 885px){
+    
+    .react-grid-layout{
+      width: 250px;
+    }
+  }
+
+  @media (max-width: 865px){
+    
+    .react-grid-layout{
+      width: 275px;
+    }
+  }
+
+  @media (max-width: 850px){
+    
+    .react-grid-layout{
+      width: 262px;
+    }
+  }
+
+  @media (max-width: 800px){
+    
+    .react-grid-layout{
+      width: 255px;
+    }
+  }
+
+  @media (max-width: 775px){
+    
+    .react-grid-layout{
+      width: 243px;
     }
   }
 
   @media screen and (max-width: 750px){
     .react-grid-layout{
-      width: 550px;
-      height: 100vh 1fr;
+      width: 235px;
+    }
+  }
+
+  @media screen and (max-width: 725px){
+    .react-grid-layout{
+      width: 225px;
+    }
+  }
+
+  @media screen and (max-width: 700px){
+    .react-grid-layout{
+      width: 203px;
     }
   }
 
   @media screen and (max-width: 650px){
     .react-grid-layout{
-      width: 480px;
-      height: 100vh 1fr;
+      width: 196px;
+    }
+  }
+
+  
+  @media screen and (max-width: 600px){
+    .react-grid-layout{
+      width: 195px;
+    }
+  }
+
+  @media screen and (max-width: 625px){
+    .react-grid-layout{
+      width: 190px;
+    }
+  }
+
+
+  @media screen and (max-width: 600px){
+    .react-grid-layout{
+      width: 210px;
+    }
+  }
+
+  @media screen and (max-width: 575px){
+    .react-grid-layout{
+      width: 200px;
     }
   }
 
   @media screen and (max-width: 550px){
     .react-grid-layout{
-      width: 365px;
-      height: 100vh 1fr;
+      width: 180px;
+      
     }
   }
 
+  @media (max-width: 500px){
+    .react-grid-layout{
+      width: 152px;
+    }
+  }
+
+  @media (max-width: 465px){
+    .react-grid-layout{
+      width: 145px;
+    }
+  }
 
   @media screen and (max-width: 450px){
     .react-grid-layout{
@@ -76,8 +250,7 @@
 
   @media screen and (max-width: 400px){
     .react-grid-layout{
-      width: 265px;
-      height: 100vh 1fr;
+      width: 117px;
     }
   }
 
@@ -91,26 +264,24 @@
   @media screen and (max-width: 380px){
     .react-grid-layout{
       width: 110px;
-      height: 100vh 1fr;
     }
   }
 
   @media screen and (max-width: 365px){
     .react-grid-layout{
       width: 105px;
-      height: 100vh 1fr;
     }
   }
 
 
   @media screen and (max-height: 1300px){
     .react-grid-layout {
-      height: 690px !important;
+      height: 1150px !important;
     }
   }
   @media screen and (max-height: 1100px){
     .react-grid-layout {
-      height: 690px !important;
+      height: 950px !important;
     }
   }
 
