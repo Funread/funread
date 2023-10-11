@@ -1,0 +1,17 @@
+.text-selector-translate-container{
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.text-selector-translate-menu-active{
+    display: block;
+}
+.text-selector-translate-menu-desactive{
+    display: none;
+    position: absolute; 
+    background: #f0f0f0; 
+    border: 1px solid #ccc;
+}

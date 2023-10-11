@@ -8,6 +8,7 @@ import LogIn from "../LogIn/LogIn";
 import JoinActivity from "../JoinActivity/JoinActivity"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import TextSelectorTraslate from "../Shared/TextSelectorTraslate/TextSelectorTraslate";
 import { useState } from "react";
 
 import image1 from "./img/imagen1.jpg"
@@ -33,6 +34,7 @@ function LandingPage() {
 
   return (
     <div className="landing-page-container">
+      <TextSelectorTraslate />
       <div className="landing-page-carousel">
         <Carousel Images={[image1,image2,image3,image4,image5,image6]} timeSlideInSeconds={5} controls={false}/>
         <div className="landing-page-carousel-bottom-gradient" />
