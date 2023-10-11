@@ -3,22 +3,20 @@ import "./TextSelectorTraslate.css"
 import { useLogin } from "../../../hooks/useLogin";
 
 function TextSelectorTraslate() {
-    const [Text, setText] = useState('')
-    const [showMenu, setShowMenu] = useState(false)
-    const menuRef = useRef(null)
-
+  const [showMenu, setShowMenu] = useState(false)
+  const menuRef = useRef(null)
+  const [Text, setText] = useState('')
+  
       function showCustomMenu(event,text) {
         event.preventDefault();  // Evita el menú predeterminado del navegador
       
-        setText(text)
-        console.log(text);
-        
         const menu = menuRef.current;
-        menu.style.top = `${event.clientY}px`;
-        menu.style.left = `${event.clientX}px`;
+        if(menu){
+          menu.style.top = `${event.clientY}px`;
+          menu.style.left = `${event.clientX}px`;
+        }
         // Event listener para cerrar el menú cuando se hace clic fuera de él
         setShowMenu(true)
-        console.log(Text); 
         document.addEventListener('click', handleOutsideClick);
       }
 
@@ -34,7 +32,10 @@ function TextSelectorTraslate() {
       document.addEventListener('contextmenu', (event) => {
         const text = window.getSelection().toString();
           if (text) {
+              setText(text)
               showCustomMenu(event,text);  // Llama a showCustomMenu con el evento
+          }else{
+            setShowMenu(false);
           }
       });
       
@@ -43,14 +44,16 @@ function TextSelectorTraslate() {
           document.removeEventListener('contextmenu', showCustomMenu);
           document.removeEventListener('click', handleOutsideClick);
       };
-    }, []);  // Solo se suscribe y cancela la suscripción en el montaje y desmontaje
+    }, [Text]);  // Solo se suscribe y cancela la suscripción en el montaje y desmontaje
 
 
     return(
       <div className="text-selector-translate-container">
         <div id="customMenu" className={showMenu?"text-selector-translate-menu-active":"text-selector-translate-menu-desactive"} ref={menuRef}>
-            <div style={{padding: 10+'px'}}>Opción 1</div>
-            <div style={{padding: 10+'px'}}>Opción 2</div>
+            <div className="text-selector-translate-menu-direction"></div>
+            <button>Escuchar</button>
+            <hr />
+            <button>Traducir</button>
         </div>
       </div>
     );

@@ -5,13 +5,72 @@
     height: 100%;
     pointer-events: none;
 }
+.text-selector-translate-container #customMenu{
+    position: absolute; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    background: #F7EBE8;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 5px #171738a2;
+    transition: .1s;
+}
+.text-selector-translate-menu-direction{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 0;
+    left: 0;
+    background: #F7EBE8;
+    box-shadow: 0px 0px 10px 5px #17173814;
+}
+.text-selector-translate-menu-direction::before,
+.text-selector-translate-menu-direction::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 20px;
+  background-color: #F7EBE8; 
+  border-radius: 50%; 
+}
+.text-selector-translate-menu-direction::before {
+    top: 0;
+    left: -1px;
+  }
+  .text-selector-translate-menu-direction::after {
+    rotate: 90deg;
+    top: -10px;
+    right: 8.3px;
+}
+
+.text-selector-translate-container #customMenu button{
+    border: none;
+    position: relative;
+    z-index: 1001;
+    width: 90%;
+    margin: 5px;
+    background: #ADA7C9;
+    border-radius: 5px;
+    color: #564D80;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: 0.2s;
+}
+.text-selector-translate-container #customMenu button:hover{
+    background: #564D80;
+    color: #F7EBE8;
+}
+.text-selector-translate-container #customMenu hr{
+    margin: 0;
+    width: 80px;
+}
 
 .text-selector-translate-menu-active{
-    display: block;
+    opacity: 100%;
+    pointer-events: all;
 }
 .text-selector-translate-menu-desactive{
-    display: none;
-    position: absolute; 
-    background: #f0f0f0; 
-    border: 1px solid #ccc;
+   opacity: 0%;
+   pointer-events: none;
 }
