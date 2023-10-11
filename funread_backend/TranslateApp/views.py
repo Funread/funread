@@ -1,4 +1,5 @@
 from rest_framework.response import Response
+from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.http import HttpResponse
@@ -8,6 +9,9 @@ import os
 from gtts import gTTS
 import pygame
 import tempfile
+import mimetypes
+import os
+import base64
 
 @api_view(['POST'])
 def google_translate(request):
@@ -44,11 +48,23 @@ def text_to_speech(request):
             audio_file_path = temp_audio_file.name
             tts.save(audio_file_path)
         
-        #La unica razon por la que se utiliza pygame es para reproducir el audio, se puede eliminar 
-        pygame.mixer.init()
-        pygame.mixer.music.load(audio_file_path)
-        pygame.mixer.music.play()
+        # Leer el contenido del archivo de audio en binario
+        with open(audio_file_path, 'rb') as audio_file:
+            audio_binary = audio_file.read()
+            audio_base64 = base64.b64encode(audio_binary).decode('utf-8')
 
-        return JsonResponse({'text_to_speech_audio_url': audio_file_path})
+        # Obtener la extensión del archivo
+        file_extension = os.path.splitext(audio_file_path)[1]
+
+        # Crear una respuesta JSON con el contenido codificado en base64
+        response_data = {
+            'audio_base64': audio_base64,
+            'file_extension': file_extension
+        }
+
+        # Eliminar el archivo temporal
+        os.unlink(audio_file_path)
+
+        return JsonResponse(response_data)
     else:
         return JsonResponse({'error': 'Este endpoint solo admite solicitudes POST.'}, status=400)
