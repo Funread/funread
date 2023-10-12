@@ -22,7 +22,7 @@ export const useLogin = () => {
         return "Error de inicio de session"
       }
     }).catch(error => {
-      return null
+      return error.response.data.detail
     });
   };
 
