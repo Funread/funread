@@ -4,13 +4,25 @@ import AnswerQuiz from './AnswerQuiz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { CreateQuiz } from '../../../api/widgets/quiz'
+import { useDrag } from 'react-dnd'
 
 const MIN_RESPONSES = 2
 const MAX_RESPONSES = 6
 
+const IconType = 'DRAGGABLE_SUBITEM'
+
 const UniqueSelection = ({ saveData }) => {
   const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill('')) // Inicia con dos respuestas mínimo
   const [isAddingResponses, setIsAddingResponses] = useState(true)
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: IconType, // identificador
+    //La funcion collect es opcional
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(), //Ayuda a saber si se está arrastrando o no
+    }),
+  }))
+
   const save = async () => {
     if (saveData) {
       if (saveData) {
@@ -63,7 +75,11 @@ const UniqueSelection = ({ saveData }) => {
   }, [responses])
 
   return (
-    <div className='custom-quiz-background'>
+    <div
+      ref={drag}
+      className='custom-quiz-background'
+      style={{ border: isDragging ? '5px solid pink' : '0px' }}
+    >
       <div className='container custom-quiz-container text-center'>
         <div className='row'>
           <div className='col'>

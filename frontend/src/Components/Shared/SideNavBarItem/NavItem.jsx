@@ -33,7 +33,8 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
           <div className='icon-grid'>
             {subItems.map((subItem, index) => (
               <div className='icon' key={index}>
-                <FontAwesomeIcon icon={subItem} />
+                {subItem}
+                {/* <FontAwesomeIcon icon={subItem} /> */}
               </div>
             ))}
           </div>
