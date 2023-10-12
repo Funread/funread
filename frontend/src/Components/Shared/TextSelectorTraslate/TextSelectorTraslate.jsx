@@ -70,8 +70,8 @@ function TextSelectorTraslate() {
         setLoadingText(false)
         setShowMenu(false)
       })
-      .catch(error => {
-        console.error('Error translated text:', error);
+      .catch(e => {
+        alert('Ha ocurrido un problema al momento de traducir\nERROR:'+e.message)
         setLoadingText(false);
       });
     }
