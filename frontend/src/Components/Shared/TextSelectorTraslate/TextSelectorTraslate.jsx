@@ -15,6 +15,9 @@ function TextSelectorTraslate() {
   const [loadingSpeech, setLoadingSpeech] = useState(false)
   const [loadingText, setLoadingText] = useState(false)
   const { axiosWithoutAuth } = useLogin()
+  const [showLenguages, setShowLenguages] = useState(0)
+  const [voices, setVoices] = useState([]);
+  const [selectedVoice, setSelectedVoice] = useState(null);
 
   
       function showCustomMenu(event) {
@@ -50,7 +53,7 @@ function TextSelectorTraslate() {
             setShowMenu(false);
           }
       });
-      
+        
       // Limpiar el event listener cuando el componente se desmonta
       return () => {
           document.removeEventListener('contextmenu', showCustomMenu);
@@ -75,24 +78,57 @@ function TextSelectorTraslate() {
 
     const textToSpeech = () => {
       setLoadingSpeech(true)
-      axiosWithoutAuth().post('/translate/texttospeech/',{text:Text}).then(res => {
-        const audioBase64 = res.data.audio_base64;
-        const audioUrl = `data:audio/mp3;base64,${audioBase64}`;
-        const audio = new Audio(audioUrl);
-        setLoadingSpeech(false)
-        audio.play();
-      })
-      .catch(error => {
-        console.error('Error fetching audio:', error);
-        setLoadingSpeech(false);
-      });
+      const speech = new SpeechSynthesisUtterance(Text);
+      if(selectedVoice){
+        speech.voice = selectedVoice
+      }
+      window.speechSynthesis.speak(speech);
+      setLoadingSpeech(false)
+
+
+      // axiosWithoutAuth().post('/translate/texttospeech/',{text:Text}).then(res => {
+      //   const audioBase64 = res.data.audio_base64;
+      //   const audioUrl = `data:audio/mp3;base64,${audioBase64}`;
+      //   const audio = new Audio(audioUrl);
+      //   setLoadingSpeech(false)
+      //   audio.play();
+      // })
+      // .catch(error => {
+      //   console.error('Error fetching audio:', error);
+      //   setLoadingSpeech(false);
+      // });
+    };
+
+    const renderVoiceOptions = () => {
+      return voices.map((voice) => (
+        <option key={voice.name} value={voice.name}>
+          {voice.name}
+        </option>
+      ));
+    };
+
+    const handleChangeVoice = (event) => {
+      const selectedVoiceName = event.target.value;
+      const voice = voices.find((v) => v.name === selectedVoiceName);
+      setSelectedVoice(voice);
+      const speech = new SpeechSynthesisUtterance('this is my voice');
+      speech.voice = voice
+      window.speechSynthesis.speak(speech);
     };
 
     return(
       <div className="text-selector-translate-container">
         <div id="customMenu" className={showMenu?"text-selector-translate-menu-active":"text-selector-translate-menu-desactive"} ref={menuRef}>
           <div className="text-selector-translate-menu-direction"></div>
-          <button onClick={() => textToSpeech()}>{loadingSpeech?<Spinner animation="border" size="sm" />:''}Escuchar</button>
+          <div className="text-selector-translate-buttons-text-to-speech">
+            <button onClick={() => textToSpeech()}>
+              {loadingSpeech?<Spinner animation="border" size="sm" />:''}
+              Escuchar
+            </button>
+            <button onClick={() => {setShowLenguages(!showLenguages);setVoices(window.speechSynthesis.getVoices())}}>
+              <span>...</span>
+            </button>
+          </div>
           <hr />
           <button onClick={() => textTranslated()}>{loadingText?<Spinner animation="border" size="sm" />:''}Traducir</button> 
         </div>
@@ -103,6 +139,16 @@ function TextSelectorTraslate() {
             </Tooltip>
           )}
         </Overlay>
+        <Modal show={showLenguages} onHide={() => {setShowLenguages(!showLenguages)}}>
+            <Modal.Header closeButton>
+              <Modal.Title>Selecciona una Voz</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <select id="voiceSelect" value={selectedVoice ? selectedVoice.name : ""} onChange={handleChangeVoice}>
+              {renderVoiceOptions()}
+            </select>
+            </Modal.Body>
+          </Modal>
       </div>
     );
 

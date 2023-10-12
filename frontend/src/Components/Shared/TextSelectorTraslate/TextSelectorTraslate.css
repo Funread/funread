@@ -75,3 +75,23 @@
    pointer-events: none;
    height: 15px;
 }
+
+.text-selector-translate-buttons-text-to-speech{
+    display: flex;
+    width: 95%;
+}
+.text-selector-translate-buttons-text-to-speech button:nth-child(1){
+    margin-right: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+.text-selector-translate-buttons-text-to-speech button:nth-child(2){
+    width: 10% !important;
+    margin-left: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+.text-selector-translate-buttons-text-to-speech button:nth-child(2) span{
+    float: left;
+    transform: rotate(90deg);
+}
