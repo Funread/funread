@@ -1,0 +1,24 @@
+#game{
+    margin-left: 4em;
+}
+
+#buttonsDifficulty{
+    padding-top: 5px;
+}
+
+#modes{
+    padding: 3em;
+    min-height: 500px;
+    max-width: auto;
+    margin-right: 20px;
+    border: 2px solid #016f6f;
+    border-radius: 15px;
+    background-color: rgba(18, 140, 153, 0.998);
+    overflow: auto;
+}
+
+#footerButton{
+    text-align: end;
+    margin-top: 12em;
+}
+
