@@ -1,4 +1,5 @@
 import React from "react";
+import ReactPlayer from "react-player";
 import "./WidgetVideo.css";
 
 function WidgetVideo() {
@@ -23,22 +24,16 @@ function WidgetVideo() {
         className="VideoInput_input "
         type="file"
         onChange={handleFileChange}
-        accept=".mov,.mp4, gif"
+        accept=".mov,.mp4"
       />
-      {/* {!source && (
-        <button className="btn btn-primary md" onClick={handleChoose}>
-          Choose
+      {
+        <button className="btn btn-primary md mt-2" onClick={handleChoose}>
+          Choose...
         </button>
-      )}
-      {source && (
-        <video
-          className="VideoInput_video"
-          width="100%"
-          height="50%"
-          controls
-          src={source}
-        />
-      )} */}
+      }
+      <div className="youtube-box mx-auto mt-2 mb-2">
+        <ReactPlayer url={source} className="video" controls></ReactPlayer>
+      </div>
       <div className="VideoInput_footer mt-3">
         {source || "Nothing selectd"}
       </div>

@@ -1,41 +1,78 @@
-import ReactPlayer from "react-player";
-// import "./DragAndDrop.css";
-import { Card, Button, Nav } from "react-bootstrap";
+import "./Video.css";
+import { Card } from "react-bootstrap";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 import React from "react";
 import WidgetVideoYou from "./WidgetVideoYou";
 import WidgetVideo from "./WidgetVideo";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDesktop } from "@fortawesome/free-solid-svg-icons";
+import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 
 function Video() {
   return (
-    <Card className=" card-text-Video text-center">
-      <h1 className="custum-video-H1">
-        <strong>Video Upload</strong>
+    <div>
+      <h1>
+        <br />
+        <br />
       </h1>
-
-      <Card
-        className="custum-video text-center bg-light mx-auto border border-dark"
+      <Tabs
+        defaultActiveKey="YouTube"
+        className="custum-tabs mx-auto border border-secondary"
         style={{ width: "60%" }}
       >
-        <Card.Header>
-          <Nav>
-            <Nav.Item>
-              {/* <Button className="btn btn-dark">YouTube</Button> */}
-            </Nav.Item>
-            <Nav.Item>
-              {/* <Button className="btn btn-dark">DeskTop</Button> */}
-            </Nav.Item>
-          </Nav>
-        </Card.Header>
-        <Card.Body>
-          <Card.Title style={{ textAlign: "left" }}>YouTube</Card.Title>
-          <Card.Text>
-            <WidgetVideoYou></WidgetVideoYou>
-            <Card.Title style={{ textAlign: "left" }}>Desktop</Card.Title>
-            <WidgetVideo></WidgetVideo>
-          </Card.Text>
-        </Card.Body>
-      </Card>
-    </Card>
+        <Tab
+          className="custum-tab-youtube mx-auto"
+          eventKey="YouTube"
+          title="YouTube"
+          style={{ width: "60%" }}
+        >
+          <Card className="custum-video text-center bg-light mx-auto border border-secondary">
+            <Card.Header>
+              <Card.Body>
+                <Card.Title className="custum-icon-youtube">
+                  <FontAwesomeIcon
+                    className="custum-icon"
+                    size="lg"
+                    icon={faYoutube}
+                    color="red"
+                  />
+                  <strong>YouTube</strong>
+                </Card.Title>
+                <Card.Text>
+                  <WidgetVideoYou></WidgetVideoYou>
+                </Card.Text>
+              </Card.Body>
+            </Card.Header>
+          </Card>
+        </Tab>
+        <Tab
+          className="mx-auto"
+          eventKey="Desktop"
+          title="Desktop"
+          style={{ width: "60%" }}
+        >
+          <Card className="custum-video  bg-light mx-auto border border-secondary">
+            <Card.Header>
+              <Card.Body>
+                <Card.Title className="custum-title-desktop">
+                  {""}
+                  <FontAwesomeIcon
+                    className="custum-icon"
+                    size="lg"
+                    icon={faDesktop}
+                  />
+                  <strong>Desktop</strong>
+                </Card.Title>
+                <Card.Text>
+                  <WidgetVideo></WidgetVideo>
+                </Card.Text>
+              </Card.Body>
+            </Card.Header>
+          </Card>
+        </Tab>
+      </Tabs>
+    </div>
   );
 }
 

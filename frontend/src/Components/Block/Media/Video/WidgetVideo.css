@@ -1,20 +1,16 @@
 
-/* .VideoInput {
+.VideoInput {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
   }
-  
+
+
   .VideoInput_input {
     display: none;
   }
-  
-  .VideoInput_video {
-    display: block;
-    margin: 0;
-  } */
   
   .VideoInput_footer {
     background: #eee;
@@ -23,3 +19,14 @@
     line-height: 40px;
     text-align: center;
   } 
+
+  .youtube-box .video{
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+    width: 50%;
+    height: 200px;
+    margin-right: 50px;
+    background-color: #e4e4e4;
+    
+  }

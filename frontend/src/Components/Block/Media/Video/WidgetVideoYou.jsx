@@ -17,22 +17,26 @@ function WidgetVideoYou() {
   };
   return (
     <div>
-      <form className="form-group form" onSubmit={handleYoutubeSubmit}>
+      <form className="custum-form-group form" onSubmit={handleYoutubeSubmit}>
         <input
           type="text"
           ref={inputRef}
           className="form-control "
-          placeholder="Enter youtube URL"
+          placeholder="Enter YouTube URL"
           required
           onChange={handleYoutubeChange}
         />
-        <button type="submit" className="btn btn-success btn-md mt-2">
+        <button type="submit" className="btn btn-primary btn-md mt-2">
           Upload
         </button>
+        <div className="youtube-box mx-auto mt-2 mb-2">
+          <ReactPlayer
+            url={youtubeURL}
+            className="video"
+            controls
+          ></ReactPlayer>
+        </div>
       </form>
-      <div className="youtube-box mx-auto mt-2">
-        <ReactPlayer url={youtubeURL} className="video" controls></ReactPlayer>
-      </div>
       <div className="VideoInput_footer mt-3">
         {youtubeURL || "Nothing selectd"}
       </div>
