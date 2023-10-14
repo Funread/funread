@@ -1,9 +1,7 @@
 import './GameModes.css'
 import ButtonNav from '../../../NavButton/ButtonNav';
 import Words from './Words';
-import React, { useState, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
+import React, { useState } from 'react'
 
 
 const MIN_RESPONSES = 5
@@ -14,7 +12,6 @@ function GameModes(){
 
   
       const [responses, setResponses] = useState(Array().fill('')) // Inicia con 5 respuestas mínimo
-      const [isAddingResponses, setIsAddingResponses] = useState(true) // Estado inicial: agregar respuestas
     
       const addEasyResponses = () => {
           setResponses((Array(MIN_RESPONSES).fill('')))
@@ -37,16 +34,7 @@ function GameModes(){
         })
       }
     
-      useEffect(() => {
-        if (responses.length === MIN_RESPONSES) {
-          setIsAddingResponses(false)
-        }else if (responses.length === INTER_RESPONSES) {
-          setIsAddingResponses(true)
-        }else if(responses.length === MAX_RESPONSES){
-          setIsAddingResponses(false)
-        }
-      }, [responses])
-
+     
   
 
 
@@ -57,26 +45,17 @@ function GameModes(){
                     <h3>Choose the difficulty level</h3>
                     <div>
                         <div id='buttonsDifficulty'>
-                          <button onClick={addEasyResponses}
-            >               <div className='button-text'> 
-                                {isAddingResponses===false}
-                            </div>
+                          <button onClick={addEasyResponses}>               
                             Easy
                           </button>
                         </div>
                         <div id='buttonsDifficulty'>
-                        <button onClick={addInterResponses}
-            >               <div className='button-text'> 
-                                {isAddingResponses===false}
-                            </div>
+                        <button onClick={addInterResponses}>              
                             Middle
                           </button>
                         </div>
                         <div id='buttonsDifficulty'>
-                        <button onClick={addAdvancedResponses}
-            >               <div className='button-text'> 
-                                {isAddingResponses===true}
-                            </div>
+                        <button onClick={addAdvancedResponses}>               
                             Advanced
                           </button>
                         </div>
