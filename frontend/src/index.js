@@ -19,6 +19,7 @@ import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 
 import { Provider } from "react-redux";
 import { store } from "./redux/store"
+import GameModes from "./Components/Shared/Templates/Widgets/WordSearchGame/GameModes";
 
 
 
@@ -106,6 +107,14 @@ root.render(
             <UniqueSelection />
           } 
        />
+
+      <Route 
+        exact 
+         path='demo/wordsearchgame' 
+          element={
+            <GameModes />
+          } 
+      />
 
 
         <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >
