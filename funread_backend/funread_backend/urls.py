@@ -45,6 +45,7 @@ urlpatterns = [
     path('join/', include('Joins.urls')),
     path('GroupsCreate/', include('GroupsCreate.urls')),
     path('Options/', include('Options.urls')),
+    path('translate/',include('TranslateApp.urls'))
 ]
 
 if settings.DEBUG:
