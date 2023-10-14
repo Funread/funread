@@ -84,19 +84,6 @@ function TextSelectorTraslate() {
       }
       window.speechSynthesis.speak(speech);
       setLoadingSpeech(false)
-
-
-      // axiosWithoutAuth().post('/translate/texttospeech/',{text:Text}).then(res => {
-      //   const audioBase64 = res.data.audio_base64;
-      //   const audioUrl = `data:audio/mp3;base64,${audioBase64}`;
-      //   const audio = new Audio(audioUrl);
-      //   setLoadingSpeech(false)
-      //   audio.play();
-      // })
-      // .catch(error => {
-      //   console.error('Error fetching audio:', error);
-      //   setLoadingSpeech(false);
-      // });
     };
 
     const renderVoiceOptions = () => {
