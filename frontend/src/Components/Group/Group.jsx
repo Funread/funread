@@ -1,83 +1,140 @@
-import "./Group.css";
-import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import SidebarBook from "../Shared/SidebarBook/SidebarBook";
-import ListGroups from "../Shared/ListGroups/ListGroups";
-import StudentCard from "../Shared/StudentCard/StudentCard";
-import GroupCardProgress from "../Shared/GroupCardProgress/GroupCardProgress";
-import CardNewGroup from "../Shared/CardNewGroup/CardNewGroup";
+import './Group.css'
+import React, { useState } from 'react'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
+import SidebarBook from '../Shared/SidebarBook/SidebarBook'
+import ListGroups from '../Shared/ListGroups/ListGroups'
+import StudentCard from '../Shared/StudentCard/StudentCard'
+import GroupCardProgress from '../Shared/GroupCardProgress/GroupCardProgress'
+import CardNewGroup from '../Shared/CardNewGroup/CardNewGroup'
+import GroupBuilder from '../Shared/GroupBuilder/GroupBuilder'
+import { ToastContainer } from 'react-toastify'
+import GroupView from '../Shared/GroupView/GroupView'
 
 const Group = () => {
-  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [selectedStudent, setSelectedStudent] = useState(null)
+  const [selectedGroup, setSelectedGroup] = useState(null)
+  const [groupForm, setGroupForm] = useState(false)
+
+  const showGroupResume = (group) => {
+    if (!selectedGroup) {
+      setGroupForm(false)
+      setSelectedStudent(null)
+      setSelectedGroup(group)
+      return
+    }
+
+    if (selectedGroup.id === group.id) {
+      setSelectedGroup(null)
+      setGroupForm(false)
+      setSelectedStudent(null)
+      return
+    }
+    setSelectedGroup(group)
+  }
 
   const toggleSidebar = (student) => {
     if (!selectedStudent) {
-        setSelectedStudent(student);
-      return;
+      setGroupForm(false)
+      setSelectedGroup(null)
+      setSelectedStudent(student)
+      return
     }
 
-    if (selectedStudent.idStudent === student.idStudent) {      
-      setSelectedStudent(null);
-      return;
+    if (selectedStudent.idStudent === student.idStudent) {
+      setSelectedStudent(null)
+      setGroupForm(false)
+      setSelectedGroup(null)
+      return
     }
-    setSelectedStudent(student);
-  };
+    setSelectedStudent(student)
+  }
+
+  const toggleGroupForm = () => {
+    if (selectedStudent) {
+      setSelectedStudent(null)
+      setSelectedGroup(null)
+      setGroupForm(true)
+      return
+    }
+
+    if (selectedGroup) {
+      setSelectedStudent(null)
+      setSelectedGroup(null)
+      setGroupForm(true)
+      return
+    }
+    setGroupForm(!groupForm)
+  }
 
   return (
-    
-      <div className="container-fluid text-center group">
-        <div className="row" style={{ height: "auto" }}>
+    <div className='container-fluid text-center group'>
+      <div className='row' style={{ height: 'auto' }}>
         <div className='col-1 p-0'>
-          <SidebarBook/>
-          </div>
+          <SidebarBook />
+        </div>
 
-          <div className='sidenav col-8'>
-            <div
-              style={{ maxWidth: "1100px" }}
-              className="mx-auto content_group"
-            >
-              <Form className="d-flex mt-1 pt-3 ">
-                <Form.Control
-                  type="search"
-                  placeholder="Search"
-                  className="me-2 custom-input-search"
-                  aria-label="Search"
+        <div className='sidenav col-8'>
+          <div style={{ maxWidth: '1100px' }} className='mx-auto content_group'>
+            <Form className='d-flex mt-1 pt-3 '>
+              <Form.Control
+                type='search'
+                placeholder='Search'
+                className='me-2 custom-input-search'
+                aria-label='Search'
+              />
+              <Button variant='outline-success'>
+                <FontAwesomeIcon
+                  className='fa-magnifying-glass'
+                  icon={faSearch}
                 />
-                <Button variant="outline-success">
-                  <FontAwesomeIcon
-                    className="fa-magnifying-glass"
-                    icon={faSearch}
-                  />
-                </Button>
-              </Form>
-              <CardNewGroup></CardNewGroup>
-              <h4 className="custom-group-title">My Groups</h4>
-              <ListGroups toggleSidebar={toggleSidebar} />            
-              <GroupCardProgress></GroupCardProgress>
-              <br/>
+              </Button>
+            </Form>
+            {/* <CardNewGroup></CardNewGroup> */}
+            <div className='mt-3 d-flex align-items-center justify-content-between'>
+              <h4 className='custom-group-title'>My Groups</h4>
+              <button
+                className='custom-add-group-button'
+                onClick={toggleGroupForm}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
             </div>
+            <ListGroups
+              toggleSidebar={toggleSidebar}
+              showGroupResume={showGroupResume}
+            />
+            {/* <GroupCardProgress></GroupCardProgress> */}
+            <br />
           </div>
-        
-            <div
-              className="col-3 shadow rounded mobile-below-tap-group">
-                {selectedStudent && (
-                <StudentCard
-                  idStudent={selectedStudent?.idStudent}
-                  image={selectedStudent?.image}
-                  name={selectedStudent?.name}
-                  idGroup={selectedStudent?.idGroup}
-                  pendingTasks={selectedStudent?.pendingTasks}
-                  completeTasks={selectedStudent?.completeTasks}
-                />
-              )}
-            </div>
-          </div>
+        </div>
+
+        <div className='col-3 shadow rounded mobile-below-tap-group'>
+          {selectedStudent && (
+            <StudentCard
+              idStudent={selectedStudent?.idStudent}
+              image={selectedStudent?.image}
+              name={selectedStudent?.name}
+              idGroup={selectedStudent?.idGroup}
+              pendingTasks={selectedStudent?.pendingTasks}
+              completeTasks={selectedStudent?.completeTasks}
+            />
+          )}
+          {groupForm && <GroupBuilder />}
+          {selectedGroup && (
+            <GroupView
+              id={selectedGroup?.id}
+              name={selectedGroup?.name}
+              idimage={selectedGroup?.idimage}
+            />
+          )}
+        </div>
       </div>
-    
-  );
-};
+      <ToastContainer position='top-right' />
+    </div>
+  )
+}
 
-export default Group;
+export default Group
