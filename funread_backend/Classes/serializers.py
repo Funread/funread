@@ -9,10 +9,10 @@ class ClassesSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return Classes.objects.create(**validated_data)
 
-    def update(self, instance , validated_data):
-        instance.name = validated_data.get('name' , instance.name).lower()
-        instance.grade = validated_data.get('grade' , instance.grade)
-        instance.teacherAssigned = validated_data.get('teacherAssigned' , instance.teacherAssigned)
-        instance.lastupdateAt = validated_data.get('lastupdateAt' , instance.lastupdateAt)
-        instance.save()
-        return instance 
+    # def update(self, instance , validated_data):
+    #     instance.name = validated_data.get('name' , instance.name).lower()
+    #     instance.grade = validated_data.get('grade' , instance.grade)
+    #     instance.teacherAssigned = validated_data.get('teacherAssigned' , instance.teacherAssigned)
+    #     instance.lastupdateAt = validated_data.get('lastupdateAt' , instance.lastupdateAt)
+    #     instance.save()
+    #     return instance 
