@@ -1,18 +1,19 @@
 /* Estilos para el contenedor principal */
 .audio-recorder-container {
-    border: 1px solid #000000;
+    border: 2px solid #2b2b2b; /* Borde gris oscuro */
     padding: 20px;
     border-radius: 10px;
-    width: 300px;
+    width: 400px;
     margin: 0 auto;
-    background-color: silver;
+    background-color: #918f8f; /* Fondo gris oscuro */
     text-align: center;
     font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
   }
   
   /* Estilos para el botón de inicio/detención de grabación */
   .audio-recorder-button {
-    background-color: #3e4448;
+    background-color: #800080; /* Morado oscuro */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -23,18 +24,22 @@
   }
   
   .audio-recorder-button:hover {
-    background-color: purple;
+    background-color: #4b0082; /* Morado más claro al pasar el mouse */
   }
   
   /* Estilos para el reproductor de audio */
   .audio-recorder-audio {
     margin-top: 10px;
     width: 100%;
+    background-color:  white; /* Fondo gris oscuro */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave */
   }
   
   /* Estilos para el área de grabación */
   .audio {
-    background-color: #e0e0e0;
+    background-color: #9f9595; /* Fondo gris oscuro */
     width: 100%;
     padding: 10px;
     border-radius: 5px;
@@ -43,23 +48,22 @@
   
   /* Estilos para los controles de audio en HTML5 */
   audio::-webkit-media-controls-panel {
-    background-color: #352e2e53;
-    color: white;
-    border-radius: 0; /* Cambia a bordes rectangulares */
+    background-color:  white; /* Fondo gris oscuro */
+
     font-family: Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave */
   }
   
   /* Cambiar el estilo del botón de reproducción */
   audio::-webkit-media-controls-play-button {
-    background-color: white;
-    color: white;
-    border-radius: 0Ppx; /* Cambia a bordes rectangulares */
+    background-color: #800080; /* Morado oscuro */
+    border-radius: 5px;
   }
   
   /* Cambiar el estilo del botón de pausa */
   audio::-webkit-media-controls-pause-button {
-    background-color: #ff0000;
-    color: white;
-    border-radius: 0; /* Cambia a bordes rectangulares */
+    background-color: #4b0082; /* Morado más claro */
+
+    border-radius: 5px;
   }
   
