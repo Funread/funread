@@ -59,6 +59,7 @@ def listed(request):
 
 
 @api_view(['GET'])
+def searchStudents(request, groupscreateid):
 def searchStudents(request, studentsgroupsid):
     # Token verification
     authorization_header = request.headers.get('Authorization')
@@ -67,11 +68,11 @@ def searchStudents(request, studentsgroupsid):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     try:
-        studentsgroupsid = StudentsGroups.objects.filter(studentsgroupsid=studentsgroupsid)
+        groupscreateid = StudentsGroups.objects.filter(groupscreateid=groupscreateid)
     except StudentsGroups.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    serializer = StudentsGroupsSerializer(studentsgroupsid,many=True)
+    serializer = StudentsGroupsSerializer(groupscreateid,many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
