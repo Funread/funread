@@ -12,8 +12,9 @@ class StudentsGroupsSerializer(serializers.ModelSerializer):
       return StudentsGroups.objects.create(**validated_data)
 
   def update(self, instance, validated_data):
-      instance.userId = validated_data.get('userId', instance.userId)
-      instance.isTeacher = validated_data.get('isTeacher', instance.isTeacher)
-      instance.createdBy = validated_data.get('createdBy', instance.createdBy)
+      instance.userid = validated_data.get('userid', instance.userid)
+      instance.isteacher = validated_data.get('isteacher', instance.isteacher)
+      instance.createdby = validated_data.get('createdby', instance.createdby)
+      instance.groupscreateid=validated_data.get('groupscreateid',instance.groupscreateid)
       instance.save()
       return instance
