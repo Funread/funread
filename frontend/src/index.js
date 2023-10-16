@@ -20,7 +20,7 @@ import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 
 import { Provider } from "react-redux";
 import { store } from "./redux/store"
- import VoiceRecorder from "./Components/Shared/Templates/Widgets/VoiceRecorder";
+ import VoiceRecorder from "./Components/Shared/Templates/Widgets/VoiceRecorder/Voicerecorder";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))

@@ -1,0 +1,65 @@
+/* Estilos para el contenedor principal */
+.audio-recorder-container {
+    border: 1px solid #000000;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    margin: 0 auto;
+    background-color: silver;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Estilos para el botón de inicio/detención de grabación */
+  .audio-recorder-button {
+    background-color: #3e4448;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.2s;
+  }
+  
+  .audio-recorder-button:hover {
+    background-color: purple;
+  }
+  
+  /* Estilos para el reproductor de audio */
+  .audio-recorder-audio {
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  /* Estilos para el área de grabación */
+  .audio {
+    background-color: #e0e0e0;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+  }
+  
+  /* Estilos para los controles de audio en HTML5 */
+  audio::-webkit-media-controls-panel {
+    background-color: #352e2e53;
+    color: white;
+    border-radius: 0; /* Cambia a bordes rectangulares */
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Cambiar el estilo del botón de reproducción */
+  audio::-webkit-media-controls-play-button {
+    background-color: white;
+    color: white;
+    border-radius: 0Ppx; /* Cambia a bordes rectangulares */
+  }
+  
+  /* Cambiar el estilo del botón de pausa */
+  audio::-webkit-media-controls-pause-button {
+    background-color: #ff0000;
+    color: white;
+    border-radius: 0; /* Cambia a bordes rectangulares */
+  }
+  
