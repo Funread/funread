@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from "react-router-dom";
-import { useLogin } from "./hooks/useLogin";
 import { useSelector } from "react-redux";
+import { tokenVerify,axiosAuth } from './api';
 
 const ProtectedRoutes = (props) => {
-    const { axiosAuth } = useLogin();
     const [isAuth, setIsAuth] = useState(null); // Inicialmente establecido como null
     const user = useSelector((state) => state.user)
 
@@ -28,14 +27,14 @@ const ProtectedRoutes = (props) => {
                 setIsAuth(false)
             }else{
                 await rolesCheck();
-                if (axiosAuth && isAuth===true) {
+                if (isAuth===true) {
                     try {
                         // Realizar la verificación de autenticación aquí
-                        const response = await axiosAuth().post("users/tokenVerify/");
-                        const result = response.data.login;
-                        setIsAuth(result); // Establecer el valor de isAuth
+                        tokenVerify().then((res) => {
+                            setIsAuth(res.data.login); // Establecer el valor de isAuth
+                        })
                     } catch (error) {
-                        //console.error("Error verifying token:", error);
+                        console.error("Error verifying token:", error);
                         setIsAuth(false); // En caso de error, establecer como falso
                     }
                 } else {
@@ -45,7 +44,7 @@ const ProtectedRoutes = (props) => {
         };
 
         checkAuth(); // Llamar a la función de verificación de autenticación
-    }, [axiosAuth, props.rol, user.roles]);
+    }, [axiosAuth, isAuth,  props.rol, user.roles]);
 
         // Renderizar basado en el valor de isAuth
     if (isAuth === null) {
