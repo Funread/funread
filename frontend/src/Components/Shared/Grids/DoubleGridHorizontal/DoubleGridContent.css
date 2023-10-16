@@ -27,6 +27,12 @@
       width: 1050px;
     }
   }
+  @media screen and (max-width: 1460px){
+    .react-grid-layout{
+      width: 1035px;
+      height: 300px !important
+    }
+  }
 
   @media  (max-width: 1450px){
     
@@ -71,6 +77,7 @@
       height: 300px !important
     }
   }
+  
 
   @media screen and (max-width: 1250px){
     .react-grid-layout{
@@ -213,16 +220,22 @@
     }
   }
 
+  @media screen and (max-width: 465px){
+    .react-grid-layout{
+      width: 278px;
+      
+    }
+  }
   @media screen and (max-width: 450px){
     .react-grid-layout{
-      width: 267px;
+      width: 265px;
       
     }
   }
 
   @media screen and (max-width: 415px){
     .react-grid-layout{
-      width: 258px;
+      width: 254px;
       
     }
   }
@@ -235,20 +248,31 @@
 
   @media screen and (max-width: 395px){
     .react-grid-layout{
-      width: 228px;
+      width: 225px;
      
     }
   }
 
   @media screen and (max-width: 380px){
     .react-grid-layout{
-      width: 220px;
+      width: 217px;
     }
   }
 
   @media screen and (max-width: 365px){
     .react-grid-layout{
-      width: 210px;
+      width: 206px;
+    }
+  }
+
+  @media screen and (max-width: 300px){
+    .react-grid-layout{
+      width: 130px;
+    }
+  }
+  @media screen and (max-width: 280px){
+    .react-grid-layout{
+      width: 120px;
     }
   }
 

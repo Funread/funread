@@ -198,10 +198,22 @@
     }
   }
 
+  @media screen and (max-width: 530px){
+    .react-grid-layout{
+      width: 350px;
+    }
+  }
 
-  @media (min-width:450px) and (max-width: 500px){
+
+  @media (max-width: 500px){
     .react-grid-layout{
       width: 300px;
+    }
+  }
+
+  @media (max-width: 460px){
+    .react-grid-layout{
+      width: 283px;
     }
   }
 
@@ -213,7 +225,7 @@
 
   @media screen and (max-width: 415px){
     .react-grid-layout{
-      width: 257px;
+      width: 250px;
     }
   }
 
@@ -225,7 +237,7 @@
 
   @media screen and (max-width: 395px){
     .react-grid-layout{
-      width: 230px;
+      width: 223px;
      
     }
   }
@@ -239,12 +251,31 @@
 
   @media screen and (max-width: 365px){
     .react-grid-layout{
-      width: 212px;
+      width: 206px;
      
     }
   }
 
+  @media screen and (max-width: 340px){
+    .react-grid-layout{
+      width: 190px;
+     
+    }
+  }
 
+  @media screen and (max-width: 300px){
+    .react-grid-layout{
+      width: 127px;
+     
+    }
+  }
+  @media screen and (max-width: 282px){
+    .react-grid-layout{
+      width: 118px;
+     
+    }
+  }
+  
   @media screen and (max-height: 1300px){
     .react-grid-layout {
       height: 1150px !important;

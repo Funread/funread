@@ -30,6 +30,12 @@
     }
   }
 
+  @media  (max-width: 1460px){
+    
+    .react-grid-layout{
+      width: 515px;
+    }
+  }
   @media  (max-width: 1450px){
     
     .react-grid-layout{
@@ -147,14 +153,14 @@
   @media (max-width: 850px){
     
     .react-grid-layout{
-      width: 262px;
+      width: 258px;
     }
   }
 
   @media (max-width: 800px){
     
     .react-grid-layout{
-      width: 255px;
+      width: 253px;
     }
   }
 
@@ -237,14 +243,12 @@
   @media screen and (max-width: 450px){
     .react-grid-layout{
       width: 133px;
-      height: 100vh 1fr;
     }
   }
 
   @media screen and (max-width: 415px){
     .react-grid-layout{
-      width: 130px;
-      height: 100vh 1fr;
+      width: 125px;
     }
   }
 
@@ -256,24 +260,42 @@
 
   @media screen and (max-width: 395px){
     .react-grid-layout{
-      width: 115px;
-      height: 100vh 1fr;
+      width: 113px;
+      
     }
   }
 
   @media screen and (max-width: 380px){
     .react-grid-layout{
-      width: 110px;
+      width: 108px;
     }
   }
 
   @media screen and (max-width: 365px){
     .react-grid-layout{
-      width: 105px;
+      width: 103px;
+    }
+  }
+
+  @media screen and (max-width: 340px){
+    .react-grid-layout{
+      width: 93px;
     }
   }
 
 
+  @media screen and (max-width: 301px){
+    .react-grid-layout{
+      width: 65px;
+    }
+  }
+
+  @media screen and (max-width: 280px){
+    .react-grid-layout{
+      width: 60px;
+    }
+  }
+  
   @media screen and (max-height: 1300px){
     .react-grid-layout {
       height: 1150px !important;
