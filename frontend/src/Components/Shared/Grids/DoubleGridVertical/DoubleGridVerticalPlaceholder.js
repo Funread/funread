@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import Content from './DoubleGridVerticalContent'
 
-
-
-
   
 const PlaceHolder = (props) => {
     const [rowCount, setRowCount] = useState(2); 
@@ -14,9 +11,6 @@ const PlaceHolder = (props) => {
       updatedUserData[index] = data;
       setUserData(updatedUserData);
     };
-  
- 
-  
   
     return (
  
