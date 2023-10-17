@@ -1,11 +1,77 @@
 
 .custum-video-H1{
-    margin-top: 60px;
+    /* margin-top: 60px; */
     font-style: italic;
   }
 
-  .card-text-Video{
-    background: none;
+  .custum-card-upload{
+    width: 50%;
+    
+  }
+  .custum-body-upload{
+    text-align: center;
+    
+  }
+
+  .custum-img-upload{
+    width: 260px;
+    border: 2px solid #ddd;
+    margin-bottom: 1em;
+  }
+
+  @media (min-width:300px) and (max-width:400px){
+    .custum-img-upload{
+      width: 147px;
+      border: 2px solid #ddd;
+      margin-bottom: 1em;
+    }
+    .custum-button-upload{
+      display:block;
+      width: 100% !important;
+    }
+  }
+
+  @media (min-width:400px) and (max-width:500px){
+    .custum-img-upload{
+      width: 165px;
+      border: 2px solid #ddd;
+      margin-bottom: 1em;
+    }
+    .custum-button-upload{
+      display:block;
+      width: 100% !important;
+    }
+  }
+
+  @media (min-width:500px) and (max-width:600px){
+    .custum-img-upload{
+      width: 218px;
+      border: 2px solid #ddd;
+      margin-bottom: 1em;
+    }
+    .custum-button-upload{
+      display:block;
+      width: 100% !important;
+    }
+  }
+
+  @media (min-width:600px) and (max-width:700px){
+    .custum-img-upload{
+      width: 260px;
+      border: 2px solid #ddd;
+      margin-bottom: 1em;
+    }
+    .custum-button-upload{
+      display:block;
+      width: 100% !important;
+
+    }
+  }
+
+
+  .custum-button-upload{
+    display:block;
+    width: 50%;
   }
 
   .custum-title-desktop{
@@ -14,8 +80,8 @@
     text-align: center;
   }
 
-  .custum-icon{
-    padding-right: 5px;
+  .custum-icon-upload{
+    padding-right: 7px;
   }
   
    .youtube-box .video{
