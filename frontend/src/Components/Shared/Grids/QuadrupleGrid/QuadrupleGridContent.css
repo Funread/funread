@@ -7,7 +7,7 @@
   
   }
   
-  .react-grid-layout {
+  .ReactGridLayout-QuadrupleGrid {
     border: 3px solid red;
     width: 540px;
     height: 70px !important;
@@ -19,121 +19,377 @@
   
   }
 
-  
+  @media  (max-width: 1500px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 521px;
+    }
+  }
+
+  @media  (max-width: 1450px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 503px;
+    }
+  }
+
+  @media  (max-width: 1400px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 484px;
+    }
+  }
+
+  @media  (max-width: 1350px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 465px;
+    }
+  }
+
   @media screen and (max-width: 1300px){
     
-    .react-grid-layout{
+    .ReactGridLayout-QuadrupleGrid{
       width: 450px;
     }
   }
 
+
+  @media screen and (max-width: 1275px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 450px;
+      
+    }
+  }
+
+  @media screen and (max-width: 1269px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 425px;
+    }
+  }
+
+  @media screen and (max-width: 1250px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 410px;
+      
+    }
+  }
+
+  @media screen and (max-width: 1200px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 395px;
+    }
+  }
+
+  @media screen and (max-width: 1150px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 380px;
+    }
+  }
+
 @media screen and (max-width: 1000px){
-    .react-grid-layout{
+    .ReactGridLayout-QuadrupleGrid{
+      width: 290px;
+    }
+  }
+
+  
+  @media (max-width: 970px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 290px;
+    }
+  }
+
+  @media (max-width: 950px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 280px;
+    }
+  }
+
+  @media (max-width: 925px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 262px;
+    }
+  }
+
+  @media (max-width: 900px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 250px;
+    }
+  }
+
+  
+  @media (max-width: 875px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 252px;
+    }
+  }
+
+  @media (max-width: 867px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 274px;
+    }
+  }
+
+  @media (max-width: 864px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 273px;
+    }
+  }
+
+  @media (max-width: 850px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 270px;
+    }
+  }
+
+  @media (max-width: 840px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 260px;
+    }
+  }
+
+  @media (max-width: 815px){
+    
+    .ReactGridLayout-QuadrupleGrid{
       width: 255px;
     }
   }
 
+  @media (max-width: 800px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 250px;
+    }
+  }
+
+  @media (max-width: 778px){
+    
+    .ReactGridLayout-QuadrupleGrid{
+      width: 240px;
+    }
+  }
+
   @media screen and (max-width: 750px){
-    .react-grid-layout{
-      width: 550px;
-      height: 100vh 1fr;
+    .ReactGridLayout-QuadrupleGrid{
+      width: 230px;
+    }
+  }
+
+  @media screen and (max-width: 725px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 220px;
+    }
+  }
+
+  @media screen and (max-width: 700px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 208px;
+    }
+  }
+
+  @media screen and (max-width: 670px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 200px;
     }
   }
 
   @media screen and (max-width: 650px){
-    .react-grid-layout{
-      width: 480px;
-      height: 100vh 1fr;
+    .ReactGridLayout-QuadrupleGrid{
+      width: 200px;
+    }
+  }
+  @media screen and (max-width: 640px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 190px;
     }
   }
 
-  @media screen and (max-width: 550px){
-    .react-grid-layout{
-      width: 365px;
-      height: 100vh 1fr;
+  @media screen and (max-width: 630px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 185px;
     }
   }
 
+  @media screen and (max-width: 600px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 210px;
+    }
+  }
+
+  @media screen and (max-width: 580px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 200px;
+    }
+  }
+
+  @media screen and (max-width: 562px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 195px;
+    }
+  }
+
+  @media screen and (max-width: 556px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 190px;
+    }
+  }
+
+  @media  (max-width: 530px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 178px;
+    }
+  }
+
+  @media  (max-width: 515px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 172px;
+    }
+  }
+  @media  (max-width: 500px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 150px;
+    }
+  }
+
+  @media (max-width: 475px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 140px;
+    }
+  }
+
+  @media (max-width: 460px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 140px;
+    }
+  }
 
   @media screen and (max-width: 450px){
-    .react-grid-layout{
-      width: 133px;
-      height: 100vh 1fr;
+    .ReactGridLayout-QuadrupleGrid{
+      width: 132px;
+      
+    }
+  }
+
+  @media screen and (max-width: 430px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 128px;
+      
     }
   }
 
   @media screen and (max-width: 415px){
-    .react-grid-layout{
+    .ReactGridLayout-QuadrupleGrid{
       width: 125px;
-      height: 100vh 1fr;
+      
     }
   }
 
   @media screen and (max-width: 400px){
-    .react-grid-layout{
-      width: 265px;
-      height: 100vh 1fr;
+    .ReactGridLayout-QuadrupleGrid{
+      width: 115px;
+    
     }
   }
 
   @media screen and (max-width: 395px){
-    .react-grid-layout{
-      width: 115px;
-      height: 100vh 1fr;
+    .ReactGridLayout-QuadrupleGrid{
+      width: 110px;
+    
     }
   }
 
   @media screen and (max-width: 380px){
-    .react-grid-layout{
-      width: 110px;
-      height: 100vh 1fr;
+    .ReactGridLayout-QuadrupleGrid{
+      width: 108px;
+     
     }
   }
 
   @media screen and (max-width: 365px){
-    .react-grid-layout{
-      width: 105px;
-      height: 100vh 1fr;
+    .ReactGridLayout-QuadrupleGrid{
+      width: 102px;
+      
     }
   }
 
+  @media screen and (max-width: 345px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 95px;
+      
+    }
+  }
+
+  @media screen and (max-width: 325px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 90px;
+      
+    }
+  }
+
+  @media screen and (max-width: 300px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 63px;
+      
+    }
+  }
+
+
+  @media screen and (max-width: 265px){
+    .ReactGridLayout-QuadrupleGrid{
+      width: 55px;
+      
+    }
+  }
 
   @media screen and (max-height: 1300px){
-    .react-grid-layout {
-      height: 350px !important;
-    }
-  }
-  @media screen and (max-height: 1100px){
-    .react-grid-layout {
-      height: 345px !important;
+    .ReactGridLayout-QuadrupleGrid {
+      height: 570px !important;
     }
   }
 
+  @media screen and (max-height: 1100px){
+    .ReactGridLayout-QuadrupleGrid {
+      height: 480px !important;
+    }
+  }
+
+ 
+
   @media screen and (max-height: 951px){
-    .react-grid-layout {
+    .ReactGridLayout-QuadrupleGrid {
       height: 352px !important;
     }
   }
   @media screen and (max-height: 920px){
-    .react-grid-layout {
+    .ReactGridLayout-QuadrupleGrid {
       height: 350px !important;
     }
   }
   
   @media screen and (max-height: 850px){
-    .react-grid-layout {
+    .ReactGridLayout-QuadrupleGrid {
       height: 350px !important;
     }
   }
 
   @media screen and (max-height: 770px){
-    .react-grid-layout {
+    .ReactGridLayout-QuadrupleGrid {
       height: 350px !important;
     }
   }
 
   @media screen and (max-height: 670px){
-    .react-grid-layout {
+    .ReactGridLayout-QuadrupleGrid {
       height: 350px !important;
     }
   }
