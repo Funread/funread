@@ -159,6 +159,22 @@ const ListGroups = ({ toggleSidebar, showGroupResume, newGroups }) => {
       }
     }
   }
+  const handleDelete = async (id) => {
+    try {
+      if (axiosAuth() !== null) {
+        await axiosAuth().post('GroupsCreate/delete_groups/', {
+          idgroup: id,
+        })
+        toast.success('Group was deleted successfully')
+      }
+    } catch (error) {
+      toast.error(
+        'Request Error: An error occurred while processing your request'
+      )
+    }
+
+    console.log('id', id)
+  }
 
   return (
     <>
@@ -195,6 +211,7 @@ const ListGroups = ({ toggleSidebar, showGroupResume, newGroups }) => {
                         data-toggle='tooltip'
                         data-placement='bottom'
                         title='Delete Group'
+                        onClick={() => handleDelete(id)}
                       >
                         <FontAwesomeIcon icon={faTrash} size='xl' />
                       </Badge>

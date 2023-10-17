@@ -8,7 +8,7 @@ import { useLogin } from '../../../hooks/useLogin'
 const initialState = {
   name: '',
   createdby: null,
-  image: 'media/2.png',
+  image: '',
 }
 
 const GroupBuilder = ({ updateGroup }) => {
@@ -41,7 +41,7 @@ const GroupBuilder = ({ updateGroup }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (group.name.trim() === '') {
+    if (group.name.trim() === '' || group.image.trim() === '') {
       setIsEmpty(true)
       return
     }
@@ -68,6 +68,22 @@ const GroupBuilder = ({ updateGroup }) => {
         <Col>
           <h4 className='custom-group-builder-title'>Create New Group</h4>
           <Form onSubmit={handleSubmit}>
+            <div className='book-image'>
+              <img
+                src={'/imagenes/no-image.png'}
+                width={170}
+                height={230}
+                alt='group'
+              />
+            </div>
+            <Form.Control
+              className={`${isEmpty ? 'empty-input' : 'mb-3'}`}
+              type='text'
+              name='image'
+              placeholder='Route Image: media/2.png'
+              onChange={handleChange}
+              value={group.image}
+            />
             <Form.Control
               className={`${isEmpty ? 'empty-input' : 'mb-3'}`}
               type='text'
@@ -78,7 +94,7 @@ const GroupBuilder = ({ updateGroup }) => {
             />
             {isEmpty && (
               <p className='custom-error-p-group-builder'>
-                Group name required
+                There are fields missing
               </p>
             )}
             <button className='custom-save-button' type='submit'>

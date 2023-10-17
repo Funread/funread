@@ -1,12 +1,12 @@
 .custom-group-builder-title {
   margin-top: 3rem;
-  margin-bottom: 3rem;
   color: gray;
 }
 
 .empty-input {
   border: 1px solid #ff0000;
   color: #ff0000;
+  margin-bottom: 1rem;
 }
 
 .custom-error-p-group-builder {

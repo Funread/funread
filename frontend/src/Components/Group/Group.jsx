@@ -3,7 +3,11 @@ import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
+import {
+  faPencilAlt,
+  faPlus,
+  faSearch,
+} from '@fortawesome/free-solid-svg-icons'
 import SidebarBook from '../Shared/SidebarBook/SidebarBook'
 import ListGroups from '../Shared/ListGroups/ListGroups'
 import StudentCard from '../Shared/StudentCard/StudentCard'
@@ -72,15 +76,12 @@ const Group = () => {
                   icon={faSearch}
                 />
               </Button>
+              <Button variant='outline-success' onClick={toggleGroupForm}>
+                <FontAwesomeIcon icon={faPencilAlt} />
+              </Button>
             </Form>
             <div className='mt-3 d-flex align-items-center justify-content-between'>
               <h4 className='custom-group-title'>My Groups</h4>
-              <button
-                className='custom-add-group-button'
-                onClick={toggleGroupForm}
-              >
-                <FontAwesomeIcon icon={faPlus} />
-              </button>
             </div>
             <ListGroups
               toggleSidebar={toggleSidebar}
