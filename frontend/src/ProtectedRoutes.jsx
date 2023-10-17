@@ -56,6 +56,8 @@ const ProtectedRoutes = (props) => {
         return <Outlet />;
     } else {
         // Usuario no autenticado, redirigir
+        alert('Access denied, check if you have the permissions to enter in this page or if you are logged in.\n\n\n(las rutas protegidas necesitan de usuarios con roles, el unico rol por el momento es "profesor")\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, ProtectedRoutes.jsx:59)')
+        setTimeout(() => { window.location.href = '/';}, 2000);
         return <Navigate to="/" />;
     }
 };
