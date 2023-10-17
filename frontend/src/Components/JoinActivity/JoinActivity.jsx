@@ -3,15 +3,12 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./JoinActivity.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope, faEye, faEyeSlash, faSquareCaretRight} from "@fortawesome/free-regular-svg-icons";
+import { faSquareCaretRight} from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "../../hooks/useLogin";
-import { InputGroup } from "react-bootstrap";
+import { searchCode } from "../../api";
 
 function JoinActivity(props) {
   const [code, setCode] = useState("");
-  const { logIn, axiosAuth,axiosWithoutAuth } = useLogin();
   const navigate = useNavigate();
 
   /**
@@ -23,7 +20,7 @@ function JoinActivity(props) {
   const handleSubmit = (event) => {
     event.preventDefault();  // Prevent default form submission behavior
 
-    axiosWithoutAuth().get("join/search/"+code,).then( () => {
+    searchCode(code).then( () => {
       navigate('/join/'+code);
     }).catch((error) => {
       alert('Invalid code\n\n\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, JoinActivity.jsx:29)')
