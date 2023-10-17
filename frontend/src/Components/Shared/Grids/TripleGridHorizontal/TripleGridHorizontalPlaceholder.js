@@ -1,54 +1,47 @@
+import React, { useState } from "react";
+import Content from "./TripleGridHorizontalContent";
 
-import React, { useState } from 'react'
-import Content from './TripleGridHorizontalContent'
+const TripleGridHorizontalPlaceHolder = (props) => {
+  const [rowCount, setRowCount] = useState(2);
+  const [userData, setUserData] = useState([]);
 
+  const changeHandler = (index, data) => {
+    const updatedUserData = [...userData];
+    updatedUserData[index] = data;
+    setUserData(updatedUserData);
+  };
 
-  
-const PlaceHolder = (props) => {
-    const [rowCount, setRowCount] = useState(2); 
-    const [userData, setUserData] = useState([]);
-  
-    const changeHandler = (index, data) => {
-      const updatedUserData = [...userData];
-      updatedUserData[index] = data;
-      setUserData(updatedUserData);
-    };
-  
-
-    return (
-    
-      
-  
-        <div style={{ display: "flex", flexDirection: "row" }}>
-    
-          <div style={{ flex: 1, margin: 10 }}>
-           
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              {[...Array(3)].map((_, rowIndex) => (
+  return (
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ flex: 1, margin: 10 }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {[...Array(3)].map((_, rowIndex) => (
+            <div
+              key={rowIndex}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
+              {[...Array(1)].map((_, colIndex) => (
                 <div
-                  key={rowIndex}
+                  key={colIndex}
                   style={{
-                    
-                    display: "flex",
-                    flexDirection: "row", 
+                    flex: 0,
                   }}
                 >
-                  {[...Array(1)].map((_, colIndex) => (
-                    <div
-                      key={colIndex}
-                      style={{
-                        flex: 0,
-                      }}
-                    >
-                      <Content change={(data) => changeHandler(rowIndex * 3 + colIndex, data)} />
-                    </div>
-                  ))}
+                  <Content
+                    change={(data) =>
+                      changeHandler(rowIndex * 3 + colIndex, data)
+                    }
+                  />
                 </div>
               ))}
             </div>
-          </div>
+          ))}
         </div>
-    
-    );
-  };
-  export default PlaceHolder; 
+      </div>
+    </div>
+  );
+};
+export default TripleGridHorizontalPlaceHolder;
