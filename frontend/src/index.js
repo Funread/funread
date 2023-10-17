@@ -12,6 +12,7 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import UniqueSelection from "./Components/Block/UniqueSelection/UniqueSelection";
+
 import Library from "./Components/Library/Library";
 import Group from "./Components/Group/Group";
 import JoinValidator from "./Components/JoinValidator/JoinValidator";
@@ -19,9 +20,8 @@ import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 
 import { Provider } from "react-redux";
 import { store } from "./redux/store"
-import GameModes from "./Components/Shared/Templates/Widgets/WordSearchGame/GameModes";
 
-
+import GameMode from "./Components/Shared/Templates/Widgets/WordSearchGame/GameModes"
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
@@ -108,14 +108,13 @@ root.render(
           } 
        />
 
-      <Route 
+<Route 
         exact 
          path='demo/wordsearchgame' 
           element={
-            <GameModes />
+            <GameMode />
           } 
-      />
-
+       /> 
 
         <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >
 
@@ -183,6 +182,7 @@ root.render(
     </Provider>
   </BrowserRouter>
 )
+
 
 // Agregar event listener para beforeunload
 window.addEventListener('beforeunload', handleBeforeUnload);
