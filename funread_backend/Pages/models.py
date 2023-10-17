@@ -7,6 +7,7 @@ class Pages(models.Model):
     type = models.IntegerField(db_column='Type')  # Field name made lowercase.
     template = models.IntegerField(db_column='Template')  # Field name made lowercase.
     elementorder = models.IntegerField(db_column='ElementOrder')  # Field name made lowercase.
+    gridid = models.IntegerField(db_column='GridId')
 
     class Meta:
         

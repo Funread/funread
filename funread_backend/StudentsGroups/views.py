@@ -60,7 +60,7 @@ def listed(request):
 
 @api_view(['GET'])
 def searchStudents(request, groupscreateid):
-def searchStudents(request, studentsgroupsid):
+#def searchStudents(request, studentsgroupsid):  <----- no se que es eso, daba error, lo comente por cualquier cosa
     # Token verification
     authorization_header = request.headers.get('Authorization')
     verify = verifyJwt.JWTValidator(authorization_header)

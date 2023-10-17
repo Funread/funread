@@ -26,10 +26,11 @@ def new_page(request):
     
     print(request.data)
     data = {
-        'book': request.data.get('book'),
+        'bookid': request.data.get('bookid'),
         'elementorder': request.data.get('elementorder'),
         'type': request.data.get('type'),
-        'template': request.data.get('template')
+        'template': request.data.get('template'),
+        'gridid': request.data.get('gridid')
     }
     serializer = PageSerializer(data=data)
     if serializer.is_valid():
@@ -76,10 +77,11 @@ def pageChange(request):
 
 
     data = {
-        'book': request.data.get('book'),
+        'bookid': request.data.get('bookid'),
         'elementorder': request.data.get('elementorder'),
         'type': request.data.get('type'),
         'template': request.data.get('template'),
+        'gridid': request.data.get('gridid')
     }
     serializer = PageSerializer(page, data=data)
     if serializer.is_valid():

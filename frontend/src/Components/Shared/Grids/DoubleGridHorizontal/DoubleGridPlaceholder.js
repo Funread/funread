@@ -4,7 +4,7 @@ import Content from './DoubleGridContent'
 
 
   
-const PlaceHolder = (props) => {
+const DoubleGridPlaceholder = (props) => {
     const [rowCount, setRowCount] = useState(2); 
     const [userData, setUserData] = useState([]);
   
@@ -53,4 +53,4 @@ const PlaceHolder = (props) => {
     
     );
   };
-  export default PlaceHolder; 
+  export default DoubleGridPlaceholder; 

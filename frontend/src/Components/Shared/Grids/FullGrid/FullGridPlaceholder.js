@@ -3,7 +3,7 @@ import Content from './FullGridContent'
 
 
 
-const PlaceHolder = (props) => {
+const FullGridPlaceholder = (props) => {
   const [rowCount, setRowCount] = useState(2)
   const [userData, setUserData] = useState({})
 
@@ -57,4 +57,4 @@ const PlaceHolder = (props) => {
 
   );
 };
-export default PlaceHolder; 
+export default FullGridPlaceholder; 

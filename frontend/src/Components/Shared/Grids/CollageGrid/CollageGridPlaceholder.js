@@ -4,7 +4,7 @@ import './CollageGridContent.css';
 
 
 
-const PlaceHolder = (props) => {
+const CollageGridPlaceholder = (props) => {
   const [rowCount, setRowCount] = useState(2)
   const [userData, setUserData] = useState({})
   const changeHandler = (index, data) => {
@@ -89,7 +89,7 @@ const PlaceHolder = (props) => {
 
   );
 };
-export default PlaceHolder; 
+export default CollageGridPlaceholder; 
 
 
 

@@ -4,7 +4,7 @@ import Content from './TripleGridHorizontalContent'
 
 
   
-const PlaceHolder = (props) => {
+const TripleGridHorizontalPlaceholder = (props) => {
     const [rowCount, setRowCount] = useState(2); 
     const [userData, setUserData] = useState([]);
   
@@ -51,4 +51,4 @@ const PlaceHolder = (props) => {
     
     );
   };
-  export default PlaceHolder; 
+  export default TripleGridHorizontalPlaceholder; 

@@ -5,7 +5,7 @@ import Content from './DoubleGridVerticalContent'
 
 
   
-const PlaceHolder = (props) => {
+const DoubleGridVerticalPlaceholder = (props) => {
     const [rowCount, setRowCount] = useState(2); 
     const [userData, setUserData] = useState([]);
   
@@ -53,4 +53,4 @@ const PlaceHolder = (props) => {
     );
   
 };
-  export default PlaceHolder; 
+  export default DoubleGridVerticalPlaceholder; 
