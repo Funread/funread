@@ -1,0 +1,64 @@
+.join-form 
+  max-width: 480px
+  height: 100%
+  border-radius: 20px
+  font-family: Arial, Helvetica, sans-serif
+  display: flex
+  margin-left: auto
+  flex-direction: column
+  margin-bottom: 0
+  &-body 
+    display: flex
+    flex-direction: column
+    max-width: 480px
+    height: 100%
+    padding: 0 12.5% 0 12.5%
+
+  &-content 
+  display: flex 
+  flex-direction: column 
+  height: 100% 
+  
+  &-inputs 
+        display: flex 
+        flex-direction: column 
+        height: calc(100% - 125px - 6%) 
+        justify-content: space-between 
+
+  &-title
+      font-weight: bold
+      font-size: 43px
+      font-family: Arial, Helvetica, sans-serif
+      line-height: 100%
+      color: white
+
+
+.font-size
+  font-size: 14px 
+  color: white 
+#submit-button
+
+ margin: 0 !important
+  height: 40px 
+  min-height: 40px 
+@media (max-height: 520px)
+  .signup-form
+    .signup-form-title
+      display: none
+    .signup-form-subtitle
+      font-weight: normal
+      font-size: 15px
+      margin-bottom: min(20px, 6%)
+      color: white
+      display: none
+    &-control-lg
+      min-width: 100%
+      max-height: 100%
+      border-radius: 10px
+      font-size: 14px
+      border: 2px solid #9D79BC
+      color: #9D79BC
+      box-shadow: none !important
+      & ~ span
+        border: 2px solid #9D79BC
+        border-left: 0

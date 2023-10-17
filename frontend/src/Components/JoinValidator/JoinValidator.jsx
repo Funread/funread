@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import "./JoinValidator.css"
+import "./JoinValidator.sass"
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Modal from 'react-bootstrap/Modal';

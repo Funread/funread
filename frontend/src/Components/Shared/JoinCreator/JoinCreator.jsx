@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./JoinCreator.css"
+import "./JoinCreator.sass"
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

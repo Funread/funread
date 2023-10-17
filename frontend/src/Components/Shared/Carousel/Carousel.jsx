@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import Carousel from 'react-bootstrap/Carousel';
 
-import "./Carousel.css";
+import "./Carousel.sass";
 import image1 from "../../../bg.jpg"
 import image2 from "../../../logoFunread.png"
 import image3 from "../../../placeholderBook.jpg"

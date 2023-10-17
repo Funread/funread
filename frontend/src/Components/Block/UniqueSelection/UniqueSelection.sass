@@ -1,0 +1,91 @@
+.custom-quiz-background 
+	background-image: url('../../../../public/imagenes/quiz/background1.jpg') 
+	background-size: cover 
+	background-repeat: no-repeat 
+	background-position: center 
+	height: 100% 
+.custom-quiz-container 
+	position: absolute 
+	top: 50% 
+	left: 50% 
+	transform: translate(-50%, -50%) 
+	text-align: center 
+	padding: 20px 
+	margin: 0 auto 
+	overflow: hidden 
+	backdrop-filter: blur(5px) 
+	border: 2px solid #016f6f 
+	border-radius: 10px 
+	background-color: rgba(7, 95, 105, 0.258) 
+.responses-grid 
+	display: grid 
+	grid-template-columns: repeat(2, 1fr) 
+	grid-gap: 10px 
+	max-width: 100% 
+	place-items: center 
+
+@media (max-width: 576px)
+.responses-grid
+	grid-template-columns:repeat(1, 1fr)
+
+#cardQuestions
+	margin: 52px
+	place-items: center
+	padding: 1em
+	border: 2px solid rgb(91, 179, 150)
+	border-radius: 5px
+	background-color: #b3edda
+
+ 
+	.custom-input 
+		width: 70% 
+		padding: 10px 
+		margin-left: 2em 
+		background-color: transparent 
+		border: none 
+		font-size: 17px 
+		outline: none 
+		text-align: center 
+	.button-content 
+		display: flex 
+		align-items: center 
+.custom-add-image 
+	margin-left: 10px 
+	display: flex 
+	flex-direction: column 
+	justify-content: center 
+	align-items: center 
+	border: 0 
+	height: 170px 
+	width: 250px 
+	cursor: pointer 
+	background-color: #016f6f 
+	box-shadow: 0 0 5px #003636 
+.custom-button 
+	padding: 20px 
+	height: 50px 
+	background-color: #ff99c8 
+	border: none 
+	color: #fff 
+	cursor: pointer 
+	display: flex 
+	justify-content: center 
+	align-items: center 
+	border-radius: 5px 
+	overflow: visible 
+	outline: none 
+	width: fit-content 
+	transition: background-color 0.3s, transform 0.3s 
+	margin-left: auto 
+	margin-top: 25px 
+	margin-bottom: 15px 
+	
+	&:hover 
+	background-color: #a9def9 
+	color: #000 
+	transform: scale(1.1) 
+	.button-text 
+			display: block 
+.button-text 
+	padding-left: 10px 
+	display: none 

@@ -1,5 +1,5 @@
 import React from 'react'
-import "./Dashboard.css"
+import "./Dashboard.sass"
 import {Carousel, Col, Row, Button}from "react-bootstrap"
 import Container from 'react-bootstrap/Container';
 import HeaderDashboard from '../HeaderDashboard/HeaderDashboard';

@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faUser, faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-import "./SignUp.css";
+import "./SignUp.sass";
 import { useSign } from "../../hooks/useSign";
 import { InputGroup } from "react-bootstrap";
 
