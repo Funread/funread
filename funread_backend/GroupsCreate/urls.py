@@ -4,7 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     path('new_group/', views.new_group),
-    path('listed_groups/', views.listedGroups),
+    path('listedCreateby/<str:createdby>', views.listedCreateby),
     path('delete_groups/', views.deletegroup)
 ]
 

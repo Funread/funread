@@ -17,7 +17,6 @@ function LogIn(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remenber, setRemenber] = useState(false);
-  const [error, setError] = useState(false);
   const [check, setCheck] = useState(true);
   const { logIn, axiosAuth } = useLogin();
   const navigate = useNavigate();
@@ -58,8 +57,8 @@ function LogIn(props) {
       if(axiosAuth() !== null){
         navigate('/dashboard');
       }else{
-        setError(true)
         setPassword("")
+        alert(res+'\n\n\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, LogIn.jsx:61)')
       }
     }
     );
@@ -91,7 +90,6 @@ function LogIn(props) {
    * Asigna un css distinto a los campos con información.
    */
   const isEmpty = (data, id) => {
-    setError(false)
     data !== ""
       ? changeInputColor(id, "#42006d")
       : changeInputColor(id, "#e9e9e9");
@@ -201,9 +199,6 @@ function LogIn(props) {
                   </Button>
                 </InputGroup.Text>
               </InputGroup>
-              <Form.Label className="font-error">
-                {error ? "Email or Password incorrect":""}
-              </Form.Label>
             </Form.Group>
             <Form.Group className="form-group">
               <div className="mb-3 form-check">
