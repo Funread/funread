@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
-import { useLogin } from "../../../hooks/useLogin"
+import { new_join } from "../../../api";
 
 function JoinCreator(props){
     //Contaremos con dos props "id" que sera el id del libro o clase, y "type" que sera la palabra clave para identificar cual foreign usar
@@ -13,7 +13,6 @@ function JoinCreator(props){
     const [code, setCode] =useState("")
     const [password, setPassword] = useState("")
     const [buttonClick, setButtonClick] = useState(0)
-    const { axiosAuth } = useLogin();
     const link = "localhost:3000/join/" // este link puede ser cambio en el futuro
     const invitationText = 
     "we invite you to participate in FUNREAD, our educational platform that aims to improve English language skills.\n\n"+
@@ -28,13 +27,11 @@ function JoinCreator(props){
         if(code!=="" && password!==""){ // si ya creamos una invitacion no tenemos por que crear otra, si el code y password cambiaron quiere decir que ya creamos una invitacion
             setShow(true)
         }else{
-            if(axiosAuth()){
-                axiosAuth().post("join/new-join/",{bookid:checkType("book"),classesid:checkType("classe")}).then((res) => {
-                    setCode(res.data.code)
-                    setPassword(res.data.password)
-                    setShow(true)
-                })
-            }
+            new_join(checkType("book"),checkType("classe")).then((res) => {
+                setCode(res.data.code)
+                setPassword(res.data.password)
+                setShow(true)
+            })
         }
     };
 
