@@ -5,24 +5,24 @@
     max-height: 480px; 
   }
   
-  .react-grid-layout {
+  .ReactGridLayoutCollage {
     border: 2px solid red;
     height: 213px !important;
   }
   
   @media screen and (max-height: 1300px){
-    .react-grid-layout {
+    .ReactGridLayoutCollage {
       height: 370px !important;
     }
   }
   @media screen and (max-height: 1100px){
-    .react-grid-layout {
+    .ReactGridLayoutCollage {
       height: 300px !important;
     }
   }
 
   @media screen and (max-height: 951px){
-    .react-grid-layout {
+    .ReactGridLayoutCollage {
       height: 210px !important;
     }
   }

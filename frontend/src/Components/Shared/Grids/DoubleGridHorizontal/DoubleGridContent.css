@@ -7,7 +7,7 @@
   
   }
   
-  .react-grid-layout {
+  .ReactGridLayoutDoubleGridHorizontal {
     border: 3px solid red;
     width: 1080px;
     height: 270px !important;
@@ -23,12 +23,18 @@
   
   @media  (max-width: 1500px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 1050px;
     }
   }
+  @media  (max-width: 1469px){
+    
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 1040px;
+    }
+  }
   @media screen and (max-width: 1460px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 1035px;
       height: 300px !important
     }
@@ -36,28 +42,34 @@
 
   @media  (max-width: 1450px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 1010px;
+    }
+  }
+  @media  (max-width: 1420px){
+    
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 1000px;
     }
   }
 
   @media  (max-width: 1400px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 965px;
     }
   }
 
   @media  (max-width: 1350px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 925px;
     }
   }
   
   @media screen and (max-width: 1300px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 910px;
       height: 100vh 1fr;
     }
@@ -65,43 +77,63 @@
 
 
   @media screen and (max-width: 1275px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 890px;
       height: 300px !important
     }
   }
 
   @media screen and (max-width: 1269px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 860px;
       height: 300px !important
+    }
+  }
+
+  @media screen and (max-width: 1259px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 846px;
+     
     }
   }
   
 
   @media screen and (max-width: 1250px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 825px;
       height: 300px !important
     }
   }
 
+  @media screen and (max-width: 1215px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 812px;
+    }
+  }
+
   @media screen and (max-width: 1200px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 790px;
       height: 300px !important
     }
   }
 
+  @media screen and (max-width: 1165px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 775px;
+      
+    }
+  }
+
   @media screen and (max-width: 1150px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 755px;
       height: 300px !important
     }
   }
 
 @media screen and (max-width: 1000px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 590px;
     }
   }
@@ -109,28 +141,35 @@
 
   @media (max-width: 970px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 550px;
     }
   }
 
   @media (max-width: 950px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 550px;
     }
   }
 
   @media (max-width: 925px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 525px;
+    }
+  }
+
+  @media (max-width: 919px){
+    
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 542px;
     }
   }
 
   @media (max-width: 900px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 510px;
     }
   }
@@ -138,181 +177,281 @@
 
   @media (max-width: 875px){
     
-    .react-grid-layout{
-      width: 510px;
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 500px;
+    }
+  }
+
+  @media (max-width: 865px){
+    
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 546px;
     }
   }
 
   @media (max-width: 850px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 520px;
+    }
+  }
+
+  @media (max-width: 810px){
+    
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 507px;
     }
   }
 
   @media (max-width: 800px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 505px;
     }
   }
+@media (min-width:780px) and (max-width:786px){
+  .ReactGridLayoutDoubleGridHorizontal{
+    width: 488px;
+  }
+}
 
+@media (max-width: 779px){
+    
+  .ReactGridLayoutDoubleGridHorizontal{
+    width: 485px;
+  }
+}
   @media (max-width: 775px){
     
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 480px;
     }
   }
 
   @media screen and (max-width: 750px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 470px;
+    }
+  }
+
+  @media screen and (max-width: 740px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 455px;
     }
   }
 
 
   @media screen and (max-width: 725px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 430px;
     }
   }
 
-  @media screen and (max-width: 700px){
-    .react-grid-layout{
-      width: 400px;
+  @media screen and (max-width: 712px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 437px;
     }
   }
 
+  @media screen and (max-width: 700px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 400px;
+    }
+  }
+  @media screen and (max-width: 697px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 423px;
+    }
+  }
 
+  @media screen and (max-width: 675px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 415px;
+    }
+  }
+  @media screen and (max-width: 660px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 405px;
+    }
+  }
+  @media screen and (max-width: 655px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 403px;
+    }
+  }
   @media screen and (max-width: 650px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 390px;
     }
   }
 
   @media screen and (max-width: 625px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 370px;
     }
   }
 
   @media screen and (max-width: 600px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 420px;
     }
   }
 
-  @media screen and (max-width: 575px){
-    .react-grid-layout{
+  @media screen and (max-width: 576px){
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 400px;
+    }
+  }
+  @media screen and (max-width: 556px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 390px;
     }
   }
 
   @media screen and (max-width: 550px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 364px;
+    }
+  }
+  @media screen and (max-width: 545px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 376px;
+    }
+  }
+  @media screen and (max-width: 540px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 372px;
+    }
+  }
+  @media screen and (max-width: 524px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 356px;
+    }
+  }
+  @media screen and (max-width: 516px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 350px;
     }
   }
 
   @media screen and (max-width: 500px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 300px;
     }
   }
 
   @media screen and (max-width: 465px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 278px;
       
     }
   }
   @media screen and (max-width: 450px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 265px;
       
     }
   }
 
+  @media screen and (max-width: 425px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 260px;
+      
+    }
+  }
+
   @media screen and (max-width: 415px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 254px;
       
     }
   }
 
+  @media screen and (max-width: 408px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 242px;
+      
+    }
+  }
+
   @media screen and (max-width: 400px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 236px;
     }
   }
 
   @media screen and (max-width: 395px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 225px;
      
     }
   }
 
   @media screen and (max-width: 380px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 217px;
     }
   }
 
   @media screen and (max-width: 365px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 206px;
+    }
+  }
+  @media screen and (max-width: 345px){
+    .ReactGridLayoutDoubleGridHorizontal{
+      width: 194px;
     }
   }
 
   @media screen and (max-width: 300px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 130px;
     }
   }
   @media screen and (max-width: 280px){
-    .react-grid-layout{
+    .ReactGridLayoutDoubleGridHorizontal{
       width: 120px;
     }
   }
 
 
   @media screen and (max-height: 1300px){
-    .react-grid-layout {
+    .ReactGridLayoutDoubleGridHorizontal {
       height: 575px !important;
     }
   }
   @media screen and (max-height: 1100px){
-    .react-grid-layout {
+    .ReactGridLayoutDoubleGridHorizontal {
       height: 475px !important;
     }
   }
 
   @media screen and (max-height: 951px){
-    .react-grid-layout {
+    .ReactGridLayoutDoubleGridHorizontal {
       height: 355px !important;
     }
   }
   @media screen and (max-height: 920px){
-    .react-grid-layout {
+    .ReactGridLayoutDoubleGridHorizontal {
       height: 350px !important;
     }
   }
   
   @media screen and (max-height: 850px){
-    .react-grid-layout {
+    .ReactGridLayoutDoubleGridHorizontal {
       height: 350px !important;
     }
   }
 
   @media screen and (max-height: 770px){
-    .react-grid-layout {
+    .ReactGridLayoutDoubleGridHorizontal {
       height: 345px !important;
     }
   }
 
   @media screen and (max-height: 670px){
-    .react-grid-layout {
+    .ReactGridLayoutDoubleGridHorizontal {
       height: 350px !important;
     }
   }
