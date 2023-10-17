@@ -8,65 +8,46 @@ import SidebarBook from '../Shared/SidebarBook/SidebarBook'
 import ListGroups from '../Shared/ListGroups/ListGroups'
 import StudentCard from '../Shared/StudentCard/StudentCard'
 import GroupCardProgress from '../Shared/GroupCardProgress/GroupCardProgress'
-import CardNewGroup from '../Shared/CardNewGroup/CardNewGroup'
 import GroupBuilder from '../Shared/GroupBuilder/GroupBuilder'
 import { ToastContainer } from 'react-toastify'
 import GroupView from '../Shared/GroupView/GroupView'
 
 const Group = () => {
+  const [groups, setGroups] = useState([])
   const [selectedStudent, setSelectedStudent] = useState(null)
   const [selectedGroup, setSelectedGroup] = useState(null)
   const [groupForm, setGroupForm] = useState(false)
 
   const showGroupResume = (group) => {
-    if (!selectedGroup) {
-      setGroupForm(false)
-      setSelectedStudent(null)
+    if (!selectedGroup || selectedGroup.id !== group.id) {
       setSelectedGroup(group)
-      return
+    } else {
+      setSelectedGroup(null)
     }
 
-    if (selectedGroup.id === group.id) {
-      setSelectedGroup(null)
-      setGroupForm(false)
-      setSelectedStudent(null)
-      return
-    }
-    setSelectedGroup(group)
+    setGroupForm(false)
+    setSelectedStudent(null)
   }
 
   const toggleSidebar = (student) => {
-    if (!selectedStudent) {
-      setGroupForm(false)
-      setSelectedGroup(null)
+    if (selectedStudent && selectedStudent.userid === student.userid) {
+      setSelectedStudent(null)
+    } else {
       setSelectedStudent(student)
-      return
     }
 
-    if (selectedStudent.idStudent === student.idStudent) {
-      setSelectedStudent(null)
-      setGroupForm(false)
-      setSelectedGroup(null)
-      return
-    }
-    setSelectedStudent(student)
+    setGroupForm(false)
+    setSelectedGroup(null)
   }
 
   const toggleGroupForm = () => {
-    if (selectedStudent) {
-      setSelectedStudent(null)
-      setSelectedGroup(null)
-      setGroupForm(true)
-      return
-    }
+    setSelectedStudent(null)
+    setSelectedGroup(null)
+    setGroupForm(!groupForm || selectedGroup || selectedStudent)
+  }
 
-    if (selectedGroup) {
-      setSelectedStudent(null)
-      setSelectedGroup(null)
-      setGroupForm(true)
-      return
-    }
-    setGroupForm(!groupForm)
+  const handleGroupCreated = (newGroup) => {
+    setGroups([...groups, newGroup])
   }
 
   return (
@@ -92,7 +73,6 @@ const Group = () => {
                 />
               </Button>
             </Form>
-            {/* <CardNewGroup></CardNewGroup> */}
             <div className='mt-3 d-flex align-items-center justify-content-between'>
               <h4 className='custom-group-title'>My Groups</h4>
               <button
@@ -105,6 +85,7 @@ const Group = () => {
             <ListGroups
               toggleSidebar={toggleSidebar}
               showGroupResume={showGroupResume}
+              newGroups={groups}
             />
             {/* <GroupCardProgress></GroupCardProgress> */}
             <br />
@@ -114,15 +95,13 @@ const Group = () => {
         <div className='col-3 shadow rounded mobile-below-tap-group'>
           {selectedStudent && (
             <StudentCard
-              idStudent={selectedStudent?.idStudent}
-              image={selectedStudent?.image}
+              idStudent={selectedStudent?.userid}
               name={selectedStudent?.name}
-              idGroup={selectedStudent?.idGroup}
-              pendingTasks={selectedStudent?.pendingTasks}
-              completeTasks={selectedStudent?.completeTasks}
+              lastname={selectedStudent?.lastname}
+              idGroup={selectedStudent?.groupscreateid}
             />
           )}
-          {groupForm && <GroupBuilder />}
+          {groupForm && <GroupBuilder updateGroup={handleGroupCreated} />}
           {selectedGroup && (
             <GroupView
               id={selectedGroup?.id}

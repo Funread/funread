@@ -11,7 +11,7 @@ const initialState = {
   image: 'media/2.png',
 }
 
-const GroupBuilder = () => {
+const GroupBuilder = ({ updateGroup }) => {
   const [group, setGroup] = useState(initialState)
   const [isEmpty, setIsEmpty] = useState(false)
   const token = sessionStorage.getItem('jwt')
@@ -53,6 +53,7 @@ const GroupBuilder = () => {
           group
         )
         toast.success(`${response.data.name} was created successfully`)
+        updateGroup(response.data)
       }
     } catch (error) {
       toast.error(
