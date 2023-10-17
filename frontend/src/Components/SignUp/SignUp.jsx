@@ -8,10 +8,7 @@ import "./SignUp.css";
 import { useSign } from "../../hooks/useSign";
 import { InputGroup } from "react-bootstrap";
 
-import { useSelector } from "react-redux";
-
 function SignUp(props) {
-  const user = useSelector((state) => state.user)
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -36,13 +33,15 @@ function SignUp(props) {
    * Se ejecuta cuando se presiona el botón de Log In.
    * Las variables name, email y password contienen los valores ingresados por el usuario al momento de presionar el boton de Log In.
    */
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    //let info = signUp(name, email, password);
-
-    console.log(user)
-
-
+  const handleSubmit = async (event) => {
+    event.preventDefault(); 
+    const res = await signUp(name, email, password);
+    if(res == 'success'){
+      localStorage.setItem('RemenberEmail',email)
+      window.location.reload();
+    }else{
+      alert(res+'\n\n\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, SignUp.jsx:43)')
+    }
   };
 
   /**

@@ -5,11 +5,8 @@ const moment = require("moment");
 
 export const useSign = () => {
  
-  const signUp = async(name, email, password) => {
-
-    try {
-      
-    const data = await axios({
+  const signUp = (name, email, password) => {
+      return axios({
       method: "post",
       url: "http://localhost:8000/users/new-user/",
       data: {
@@ -19,22 +16,18 @@ export const useSign = () => {
         password: password,
         createdat: moment().format(),
         actived: 1,
+        username: null
       },
-    });
-    if (data.status === 200 ){
-      if (data.data.email === email) {
-        return 'success';
-      }else{
-        return 'El email ya existe, debe ingresar otro';
+    }).then( (res) => {
+      if(res.status === 201){
+        return 'success'
       }
-    }
-  } catch (error) {
-      return error;
-      //console.log('Es posible que  ya exista el correo, debe ingresar otro');
-  }
+    }).catch( (error) => {
+      return error.response.data.email[0]
+    });
   };
 
   return {
-    signUp,
+    signUp
   };
 };
