@@ -1,5 +1,5 @@
 import BookCard from '../Shared/BookCard/BookCard'
-import './RecentBook.css'
+import './RecentBook.sass'
 
 const MY_BOOKS = [
   {

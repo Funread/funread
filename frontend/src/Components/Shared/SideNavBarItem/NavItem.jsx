@@ -1,4 +1,4 @@
-import './NavItem.css'
+import './NavItem.sass'
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 

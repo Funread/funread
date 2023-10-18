@@ -10,7 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import Col from 'react-bootstrap/Col'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './GroupCardProgress.css'
+import './GroupCardProgress.sass'
 
 function GroupCardProgress() {
   return (

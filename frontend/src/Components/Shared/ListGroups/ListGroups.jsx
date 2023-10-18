@@ -1,4 +1,4 @@
-import './ListGroups.css';
+import './ListGroups.sass';
 import React, { useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';

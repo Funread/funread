@@ -1,4 +1,4 @@
-import "./SidebarLeftTopTop.css";
+import "./SidebarLeftTopTop.sass";
 import "bootstrap/js/dist/dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
