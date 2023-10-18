@@ -15,6 +15,7 @@ import Group from "./Components/Group/Group";
 import JoinValidator from "./Components/JoinValidator/JoinValidator";
 import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 import ReverseUniqueSelection from "./Components/Block/ReverseQuiz/ReverseUniqueSelection";
+import Video from "./Components/Block/Media/Video/Video";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
@@ -96,11 +97,20 @@ root.render(
 
         <Route exact path="demo/quiz" element={<UniqueSelection />} />
 
-        <Route
-          exact
-          path="demo/reversequiz"
-          element={<ReverseUniqueSelection />}
-        />
+        <Route exact path="demo/video" element={<Video />} />
+
+<Route
+            exact
+            path="/bookcreator"
+            element={
+              <div className="index-background-padding">
+                <div className="index-background-container ">
+                  <BookCreator />
+
+                </div>
+              </div>
+            }
+            />
 
         <Route
           element={<ProtectedRoutes roles={["profesor", "estudiante"]} />}
@@ -115,18 +125,8 @@ root.render(
                 {/* <BookCreator /> */}
               </div>
             }
-          />
-          <Route
-            exact
-            path="/bookcreator"
-            element={
-              <div className="index-background-padding">
-                <div className="index-background-container ">
-                  <BookCreator />
-                </div>
-              </div>
-            }
-          />
+            />
+       
           <Route
             exact
             path="/library"

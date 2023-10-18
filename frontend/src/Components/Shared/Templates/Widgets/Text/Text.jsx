@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Text.css";
+import "./Text.sass";
 
 function Text(props) {
   const [texto, setTexto] = useState(

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Collage.css";
+import "./Collage.sass";
 
 const images = [
   "https://picsum.photos/300/300?image=20",
