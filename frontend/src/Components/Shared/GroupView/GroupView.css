@@ -1,0 +1,35 @@
+.custom-group-view-select {
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.student-group-view {
+  background-color: #fff;
+  height: 2rem;
+  border: 0.5px solid rgb(199, 196, 196);
+  border-radius: 5px;
+  width: 100%;
+  margin-right: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.custom-span-group-view-student-name {
+  padding-left: 10px;
+  font-size: 13px;
+  color: black;
+}
+
+.custom-group-view-delete-button {
+  border: 0;
+  background-color: #79aba8;
+  color: #fff;
+  height: 2rem;
+  border-radius: 5px;
+}
