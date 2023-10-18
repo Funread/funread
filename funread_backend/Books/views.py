@@ -33,7 +33,8 @@ def new_book(request):
         'lastupdateat': datetime.datetime.now(),
         'state' : request.data.get('state' ),
         'sharedbook' : request.data.get('sharedbook'),
-        'lastupdateby': request.data.get('lastupdateby')
+        'lastupdateby': request.data.get('lastupdateby'),
+        'description': request.data.get('description')
     }
     serializer = BookSerializer(data=data)
     if serializer.is_valid():
@@ -87,6 +88,7 @@ def bookChange(request):
         'updatedby': request.data.get('updatedby'),
         'lastupdateat': datetime.datetime.now(), 
         'state': request.data.get('state'),
+        'description': request.data.get('description')
     }
     serializer = BookSerializer(book, data=data)
     if serializer.is_valid():

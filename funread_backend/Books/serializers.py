@@ -21,13 +21,14 @@ class BookSerializer(serializers.ModelSerializer):
       instance.state = validated_data.get('state', instance.state)
       instance.sharedbook = validated_data.get('sharedbook', instance.sharedbook)
       instance.lastupdateby = validated_data.get('lastupdateby', instance.lastupdateby)
+      instance.description=validated_data.get('description',instance.description)
       instance.save()
       return instance
 
 class BookUpdatedBySerializer(serializers.ModelSerializer):
   class Meta:
     model = Book
-    fields = ['title','category','portrait','updatedby','lastupdateat']
+    fields = ['title','category','portrait','updatedby','lastupdateat', 'description']
 
   def update(self, instance, validated_data):
       instance.title = validated_data.get('title', instance.title)
@@ -35,6 +36,7 @@ class BookUpdatedBySerializer(serializers.ModelSerializer):
       instance.portrait = validated_data.get('portrait', instance.portrait)
       instance.updatedby = validated_data.get('updatedby', instance.updatedby)
       instance.lastupdateat = validated_data.get('lastupdateat', instance.lastupdateat)
+      instance.description = validated_data.get('description',instance.description)
       instance.save()
       return instance
 
