@@ -99,11 +99,25 @@ root.render(
 
         <Route exact path="demo/video" element={<Video />} />
 
-        <Route
-          element={<ProtectedRoutes roles={["profesor", "estudiante"]} />}
-        ></Route>
-        <Route element={<ProtectedRoutes roles={["profesor"]} />}>
-          {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
+<Route
+            exact
+            path="/bookcreator"
+            element={
+              <div className="index-background-padding">
+                <div className="index-background-container ">
+                  <BookCreator />
+
+                </div>
+              </div>
+            }
+            />
+
+
+        <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >
+
+        </Route>
+        <Route element={<ProtectedRoutes roles={['profesor']} /> } >
+        {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
           <Route
             exact
             path="/"
@@ -112,18 +126,8 @@ root.render(
                 {/* <BookCreator /> */}
               </div>
             }
-          />
-          <Route
-            exact
-            path="/bookcreator"
-            element={
-              <div className="index-background-padding">
-                <div className="index-background-container ">
-                  <BookCreator />
-                </div>
-              </div>
-            }
-          />
+            />
+       
           <Route
             exact
             path="/library"

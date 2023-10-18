@@ -1,4 +1,4 @@
-import './ButtonNav.css';
+import './ButtonNav.sass';
 
 const ButtonNav = ({ title }) => {
     return (

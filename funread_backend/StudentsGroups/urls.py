@@ -6,7 +6,7 @@ from .api import StudentsGroupsViewSet
 
 urlpatterns = [
     path('studentsgroups/listAllStudentsGroups/' , views.listed),
-    path('studentsgroups/searchStudentsGroups/', views.searchStudents),
+    path('studentsgroups/searchStudentsGroups/<str:groupscreateid>', views.searchStudents),
     path('studentsgroups/insertnewStudentsGroups/', views.add_new),
     path('studentsgroups/deleteStudentsGroups/', views.delete),
     path('studentsgroups/updateStudentsGroups/',views.update),

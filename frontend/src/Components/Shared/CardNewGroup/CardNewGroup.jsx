@@ -1,6 +1,6 @@
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import "./CardNewGroup.css";
+import "./CardNewGroup.sass";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import React from "react";
