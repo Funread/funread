@@ -14,8 +14,8 @@ import Library from "./Components/Library/Library";
 import Group from "./Components/Group/Group";
 import JoinValidator from "./Components/JoinValidator/JoinValidator";
 import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
+import ReverseUniqueSelection from "./Components/Block/ReverseQuiz/ReverseUniqueSelection";
 import Video from "./Components/Block/Media/Video/Video";
-
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
@@ -112,12 +112,11 @@ root.render(
             }
             />
 
-
-        <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >
-
-        </Route>
-        <Route element={<ProtectedRoutes roles={['profesor']} /> } >
-        {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
+        <Route
+          element={<ProtectedRoutes roles={["profesor", "estudiante"]} />}
+        ></Route>
+        <Route element={<ProtectedRoutes roles={["profesor"]} />}>
+          {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
           <Route
             exact
             path="/"
