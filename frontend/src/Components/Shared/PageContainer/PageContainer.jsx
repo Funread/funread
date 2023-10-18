@@ -1,6 +1,6 @@
 import ContentImage from '../ContentImage/ContentImage'
 import Grids from '../Grids/Grids'
-import './PageContainer.css'
+import './PageContainer.sass'
 
 const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
   return (

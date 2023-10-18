@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Puzzle.css";
+import "./Puzzle.sass";
 import { JigsawPuzzle } from "react-jigsaw-puzzle/lib";
 import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
   

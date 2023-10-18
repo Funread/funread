@@ -107,6 +107,19 @@ root.render(
           } 
        />
 
+<Route
+            exact
+            path="/bookcreator"
+            element={
+              <div className="index-background-padding">
+                <div className="index-background-container ">
+                  <BookCreator />
+
+                </div>
+              </div>
+            }
+            />
+
 
         <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >
 
@@ -122,18 +135,7 @@ root.render(
                 </div>
             }
             />
-          <Route
-            exact
-            path="/bookcreator"
-            element={
-              <div className="index-background-padding">
-                <div className="index-background-container ">
-                  <BookCreator />
-
-                </div>
-              </div>
-            }
-            />
+       
           <Route
             exact
             path="/library"

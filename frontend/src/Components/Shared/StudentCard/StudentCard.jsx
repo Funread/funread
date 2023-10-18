@@ -1,4 +1,4 @@
-import "./StudentCard.css";
+import "./StudentCard.sass";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";

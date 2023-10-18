@@ -7,7 +7,7 @@ import {
   faUser,
   faBars,
 } from "@fortawesome/free-solid-svg-icons";
-import "./HeaderDashboard.css";
+import "./HeaderDashboard.sass";
 
 class HeaderDashboard extends React.Component {
   constructor(props) {

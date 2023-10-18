@@ -1,4 +1,4 @@
-import './SidebarBook.css'
+import './SidebarBook.sass'
 import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
