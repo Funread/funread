@@ -22,6 +22,7 @@ import SideNavBarFooter from '../SideNavBarFooter/SideNavBarFooter'
 import { useEffect, useState } from 'react'
 import UniqueSelection from '../../Widgets/Quiz/UniqueSelection'
 
+
 const SidebarLeftTopTop = () => {
   const [isExpanded, setExpendState] = useState(true)
   const [selectedItem, setSelectedItem] = useState(null)
@@ -73,7 +74,7 @@ const SidebarLeftTopTop = () => {
     {
       text: 'Quiz',
       icon: faPuzzlePiece,
-      subItems: [<UniqueSelection />, <UniqueSelection />],
+      subItems: [<UniqueSelection />],
     },
     {
       text: 'Games',

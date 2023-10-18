@@ -9,6 +9,18 @@
   overflow-y: auto;
 }
 
+.card-header button{
+    background-color: transparent;
+    border: 1px solid #00000062;
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 10px;
+}
+.card-header button:hover{
+  background-color: #b0b0b0b6;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
 /*  
  
 @media screen and (max-width: 1500px) {

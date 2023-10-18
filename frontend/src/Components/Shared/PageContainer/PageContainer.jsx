@@ -26,6 +26,10 @@ const PageContainer = ({ title }) => {
     }),
   }))
 
+  const remove = () => {
+    setDroppedItem(null)
+  } 
+
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -33,7 +37,10 @@ const PageContainer = ({ title }) => {
           <div className='card shadow mb-4 content_page'>
             <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
               <h6 className='m-0 font-weight-bold text-primary'>{title}</h6>
-              <button onClick={save}>save</button>
+              <div>
+                <button onClick={remove}><img src='/escoba.png' alt='Clear'/></button>
+                <button onClick={save}><img src='/expediente.png' alt='Save'/></button>
+              </div>
             </div>
             <div
               className='card-body custom-card-body-page-container'
