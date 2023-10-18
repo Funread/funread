@@ -1,5 +1,5 @@
 import React from "react";
-import "./CreateBookPage2.css";
+import "./CreateBookPage2.sass";
 import Tools from "../Tools/Tools";
 
 function Page2(props) {

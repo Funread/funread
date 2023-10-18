@@ -1,0 +1,102 @@
+
+.custum-video-H1{
+    /* margin-top: 60px; */
+    font-style: italic;
+  }
+
+  .custum-card-upload{
+    width: 50%;
+    
+  }
+  .custum-body-upload{
+    text-align: center;
+    
+  }
+
+  .custum-img-upload{
+    width: 260px;
+    border: 2px solid #ddd;
+    margin-bottom: 1em;
+  }
+
+  @media (min-width:300px) and (max-width:400px){
+    .custum-img-upload{
+      width: 147px;
+      border: 2px solid #ddd;
+      margin-bottom: 1em;
+    }
+    .custum-button-upload{
+      display:block;
+      width: 100% !important;
+    }
+  }
+
+  @media (min-width:400px) and (max-width:500px){
+    .custum-img-upload{
+      width: 165px;
+      border: 2px solid #ddd;
+      margin-bottom: 1em;
+    }
+    .custum-button-upload{
+      display:block;
+      width: 100% !important;
+    }
+  }
+
+  @media (min-width:500px) and (max-width:600px){
+    .custum-img-upload{
+      width: 218px;
+      border: 2px solid #ddd;
+      margin-bottom: 1em;
+    }
+    .custum-button-upload{
+      display:block;
+      width: 100% !important;
+    }
+  }
+
+  @media (min-width:600px) and (max-width:700px){
+    .custum-img-upload{
+      width: 260px;
+      border: 2px solid #ddd;
+      margin-bottom: 1em;
+    }
+    .custum-button-upload{
+      display:block;
+      width: 100% !important;
+
+    }
+  }
+
+
+  .custum-button-upload{
+    display:block;
+    width: 50%;
+  }
+
+  .custum-title-desktop{
+   
+    align-items: center;
+    text-align: center;
+  }
+
+  .custum-icon-upload{
+    padding-right: 7px;
+  }
+  
+   .youtube-box .video{
+    width: 50%;
+    height: 50%;
+    min-height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    min-width: 100%;
+  }
+  
+.custum-tabs{
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: rgb(186, 208, 209) !important;
+  font-weight: bold
+  
+}

@@ -1,5 +1,5 @@
 import ButtonNav from '../NavButton/ButtonNav'
-import './NavbarButtons.css'
+import './NavbarButtons.sass'
 
 const NavbarButtons = () => {
   return (

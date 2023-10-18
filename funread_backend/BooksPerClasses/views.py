@@ -27,13 +27,13 @@ def listed(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    booksPerClasses = BooksPerClasses.objects.all()
+    booksPerClasses = BooksPerClasses.objects.all().exclude(isactive=0)
     serializer = BooksPerClassesSerializer (booksPerClasses, many=True)
     return Response(serializer.data)
 
 #Metodo para buscar una variable por nombre
-@api_view(['GET'])
-def search(request):
+@api_view(['POST'])
+def listedid(request):
 
     #token verification
     authorization_header = request.headers.get('Authorization')
@@ -43,11 +43,10 @@ def search(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     try:
-        booksPerClasses  = BooksPerClasses.objects.get(booksPerClassesId=request.data.get('booksPerClassesId'))
-        print(booksPerClasses)
+        Books = BooksPerClasses.objects.filter(classesid= request.data.get('class')).exclude(isactive=0)
     except BooksPerClasses.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = BooksPerClassesSerializer(booksPerClasses)
+    serializer = BooksPerClassesSerializer(Books, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 #Metodo para agregar un elemento a la lista SharedBooks
@@ -63,8 +62,10 @@ def add_new(request):
     
     print(request.data)
     data = {
-        'bookId': request.data.get('bookId'),
-        'classesId': request.data.get('classesId'),
+        'booksid': request.data.get('booksid'),
+        'classesid': request.data.get('classesid'),
+        'order': request.data.get('order'),
+        'isactive': "1"
     }
     serializer = BooksPerClassesSerializer(data=data)
     if serializer.is_valid():
@@ -73,7 +74,7 @@ def add_new(request):
     return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 #Elimina un elemento de la lista SharedBooks
-@api_view(['DELETE'])
+@api_view(['PUT'])
 def delete(request):
 
     #token verification
@@ -83,10 +84,13 @@ def delete(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    booksPerClasses = BooksPerClasses.objects.get(booksPerClassesId=request.data.get('booksPerClassesId'))
-    booksPerClasses.delete()
-    return Response({"msj":"Succesfully deleted"}, status=status.HTTP_200_OK)
-
+    try:
+        Book = BooksPerClasses.objects.get(booksperclasses= request.data.get('booksPerClassesId'))
+    except BooksPerClasses.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    Book.isactive = 0
+    Book.save()
+    return Response("group successfully deleted", status=status.HTTP_200_OK)
 
 #Metedo que cambia la variable de la lista SharedBooks
 @api_view(['PUT'])
@@ -99,8 +103,14 @@ def update(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    booksPerClasses = BooksPerClasses.objects.get(booksPerClassesId=request.data.get('booksPerClassesId'))
-    serializer = BooksPerClassesSerializer(booksPerClasses, data=request.data)
+    booksPerClasses = BooksPerClasses.objects.get(booksperclasses=request.data.get('booksPerClassesId'))
+    data={
+        'booksid': request.data.get('booksid'),
+        'classesid': request.data.get('classesid'),
+        'order': request.data.get('order'),
+        'isactive': "1"
+    }
+    serializer = BooksPerClassesSerializer(booksPerClasses, data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
