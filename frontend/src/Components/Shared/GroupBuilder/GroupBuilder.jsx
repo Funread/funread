@@ -3,19 +3,19 @@ import jwt_decode from 'jwt-decode'
 import { useEffect, useState } from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { useLogin } from '../../../hooks/useLogin'
+import { newGroup } from '../../../api/group'
 
 const initialState = {
   name: '',
   createdby: null,
   image: '',
+  isactive: true,
 }
 
 const GroupBuilder = ({ updateGroup }) => {
   const [group, setGroup] = useState(initialState)
   const [isEmpty, setIsEmpty] = useState(false)
   const token = sessionStorage.getItem('jwt')
-  const { axiosAuth } = useLogin()
 
   useEffect(() => {
     // Decodifica el JWT cuando el componente se monta
@@ -47,14 +47,15 @@ const GroupBuilder = ({ updateGroup }) => {
     }
 
     try {
-      if (axiosAuth() !== null) {
-        const response = await axiosAuth().post(
-          'GroupsCreate/new_group/',
-          group
-        )
-        toast.success(`${response.data.name} was created successfully`)
-        updateGroup(response.data)
-      }
+      const response = await newGroup(
+        group.name,
+        group.image,
+        group.createdby,
+        group.isactive
+      )
+      toast.success(`${response.data.name} was created successfully`)
+      updateGroup(response.data)
+      setGroup({ ...group, name: '', image: '' })
     } catch (error) {
       toast.error(
         'Request Error: An error occurred while processing your request'

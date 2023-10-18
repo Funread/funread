@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import './ListGroups.sass'
 import jwt_decode from 'jwt-decode'
 import React, { useState, useEffect } from 'react'
@@ -8,8 +7,12 @@ import { ListGroup, Row, Tab, Badge } from 'react-bootstrap'
 import { Select } from 'antd'
 import { faTrash, faEye, faListCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useLogin } from '../../../hooks/useLogin'
-import { useMemo } from 'react'
+import { listedCreatedBy, deleteGroup } from '../../../api/group'
+import { usersList } from '../../../api'
+import {
+  newStudentGroup,
+  listedStudentGroups,
+} from '../../../api/studentGroups'
 import { toast } from 'react-toastify'
 
 const { Option } = Select
@@ -33,8 +36,6 @@ const ListGroups = ({ toggleSidebar, showGroupResume, newGroups }) => {
   const [student, setStudent] = useState(studentInitialState)
   const [students, setStudents] = useState([])
   const token = sessionStorage.getItem('jwt')
-  const { axiosAuth } = useLogin()
-  const axiosAuthFunction = useMemo(() => axiosAuth(), []) //Hace que axiosAuth sea una función memorizada
 
   //Obtener el id del usuario del storage
   useEffect(() => {
@@ -54,10 +55,7 @@ const ListGroups = ({ toggleSidebar, showGroupResume, newGroups }) => {
       const teacherId = teacher.teacher
       if (teacherId) {
         try {
-          const axiosInstance = axiosAuthFunction
-          const response = await axiosInstance.get(
-            `GroupsCreate/listedCreateby/${teacherId}`
-          )
+          const response = await listedCreatedBy(teacherId)
           setGroups(response.data)
         } catch (error) {
           console.log('error', error)
@@ -66,14 +64,13 @@ const ListGroups = ({ toggleSidebar, showGroupResume, newGroups }) => {
     }
 
     fetchData()
-  }, [axiosAuthFunction, teacher, newGroups])
+  }, [teacher, newGroups])
 
   //Se obtienen todos los usuarios. Se debe cambiar por solo los usuarios estudiantes
   useEffect(() => {
     async function fetchData() {
       try {
-        const axiosInstance = axiosAuthFunction
-        const response = await axiosInstance.get('users/list/')
+        const response = await usersList()
         setStudents(response.data)
       } catch (error) {
         console.log('error', error)
@@ -81,16 +78,14 @@ const ListGroups = ({ toggleSidebar, showGroupResume, newGroups }) => {
     }
 
     fetchData()
-  }, [axiosAuthFunction])
+  }, [])
 
   //Se obtienen los estudiantes de cada grupo
   useEffect(() => {
     async function fetchData() {
       try {
-        const axiosInstance = axiosAuthFunction
-        const response = await axiosInstance.get(
-          'studentsgroups/studentsgroups/listAllStudentsGroups'
-        )
+        // const axiosInstance = axiosAuthFunction
+        const response = await listedStudentGroups()
 
         // Conjunto (set) de userIds
         const userIds = new Set(students.map((student) => student.userid))
@@ -117,7 +112,7 @@ const ListGroups = ({ toggleSidebar, showGroupResume, newGroups }) => {
     }
 
     fetchData()
-  }, [axiosAuthFunction, students])
+  }, [students])
 
   //Añade estudiantes a los grupos
   const handleSelect = async (value, groupId) => {
@@ -143,15 +138,16 @@ const ListGroups = ({ toggleSidebar, showGroupResume, newGroups }) => {
 
       setStudent(updatedStudent)
       try {
-        if (axiosAuth() !== null) {
-          await axiosAuth().post(
-            'studentsgroups/studentsgroups/insertnewStudentsGroups/',
-            updatedStudent
-          )
-          setSelectedStudents([...selectedStudents, updatedSelectedOption])
+        await newStudentGroup(
+          updatedStudent.userid,
+          updatedStudent.isteacher,
+          updatedStudent.createdby,
+          updatedStudent.groupscreateid
+        )
 
-          toast.success('Student was added successfully')
-        }
+        setSelectedStudents([...selectedStudents, updatedSelectedOption])
+
+        toast.success('Student was added successfully')
       } catch (error) {
         toast.error(
           'Request Error: An error occurred while processing your request'
@@ -159,21 +155,16 @@ const ListGroups = ({ toggleSidebar, showGroupResume, newGroups }) => {
       }
     }
   }
+
   const handleDelete = async (id) => {
     try {
-      if (axiosAuth() !== null) {
-        await axiosAuth().post('GroupsCreate/delete_groups/', {
-          idgroup: id,
-        })
-        toast.success('Group was deleted successfully')
-      }
+      await deleteGroup(id)
+      toast.success('Group was deleted successfully')
     } catch (error) {
       toast.error(
         'Request Error: An error occurred while processing your request'
       )
     }
-
-    console.log('id', id)
   }
 
   return (

@@ -1,24 +1,20 @@
 import './GroupView.css'
 import { useState, useEffect } from 'react'
-import { useLogin } from '../../../hooks/useLogin'
+import { upload } from '../../../api/media'
 
 const getImage = 'http://localhost:8000/Media/'
 
 const GroupView = ({ name, idimage }) => {
   const [image, setImage] = useState(null)
-  const { axiosAuth } = useLogin()
 
   //Obtener image del grupo
   useEffect(() => {
     async function fetchData() {
       if (idimage) {
         try {
-          if (axiosAuth() !== null) {
-            const imageRoute = await axiosAuth().post('Media/upload/', {
-              name: idimage,
-            })
-            setImage(`${getImage}${imageRoute.data.image_route}`)
-          }
+          const imageRoute = await upload(idimage)
+
+          setImage(`${getImage}${imageRoute.data.image_route}`)
         } catch (error) {
           console.log('error', error)
         }
@@ -26,7 +22,7 @@ const GroupView = ({ name, idimage }) => {
     }
 
     fetchData()
-  }, [axiosAuth, idimage])
+  }, [idimage])
 
   return (
     <div className='mx-auto pt-5 text-white justify-content-center'>

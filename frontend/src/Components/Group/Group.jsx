@@ -84,7 +84,7 @@ const Group = () => {
               showGroupResume={showGroupResume}
               newGroups={groups}
             />
-            {/* <GroupCardProgress></GroupCardProgress> */}
+            <GroupCardProgress></GroupCardProgress>
             <br />
           </div>
         </div>
