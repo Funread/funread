@@ -1,54 +1,66 @@
-
 import React, { useState } from 'react'
 import Content from './TripleGridHorizontalContent'
+import { useDrag } from 'react-dnd'
 
+const widgetType = 'widgetType'
 
-  
 const PlaceHolder = (props) => {
-    const [rowCount, setRowCount] = useState(2); 
-    const [userData, setUserData] = useState([]);
-  
-    const changeHandler = (index, data) => {
-      const updatedUserData = [...userData];
-      updatedUserData[index] = data;
-      setUserData(updatedUserData);
-    };
-  
+  const [rowCount, setRowCount] = useState(2)
+  const [userData, setUserData] = useState([])
 
-    return (
-    
-      
-  
-        <div style={{ display: "flex", flexDirection: "row" }}>
-    
-          <div style={{ flex: 1, margin: 10 }}>
-           
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              {[...Array(3)].map((_, rowIndex) => (
+  const changeHandler = (index, data) => {
+    const updatedUserData = [...userData]
+    updatedUserData[index] = data
+    setUserData(updatedUserData)
+  }
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: widgetType, // identificador
+    item: { type: 'TripleGridHorizontal' },
+    //La funcion collect es opcional
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(), //Ayuda a saber si se está arrastrando o no
+    }),
+  }))
+
+  return (
+    <div
+      ref={drag}
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        border: isDragging ? '5px solid pink' : '0px',
+      }}
+    >
+      <div style={{ flex: 1, margin: 10 }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {[...Array(3)].map((_, rowIndex) => (
+            <div
+              key={rowIndex}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+            >
+              {[...Array(1)].map((_, colIndex) => (
                 <div
-                  key={rowIndex}
+                  key={colIndex}
                   style={{
-                    
-                    display: "flex",
-                    flexDirection: "row", 
+                    flex: 0,
                   }}
                 >
-                  {[...Array(1)].map((_, colIndex) => (
-                    <div
-                      key={colIndex}
-                      style={{
-                        flex: 0,
-                      }}
-                    >
-                      <Content change={(data) => changeHandler(rowIndex * 3 + colIndex, data)} />
-                    </div>
-                  ))}
+                  <Content
+                    change={(data) =>
+                      changeHandler(rowIndex * 3 + colIndex, data)
+                    }
+                  />
                 </div>
               ))}
             </div>
-          </div>
+          ))}
         </div>
-    
-    );
-  };
-  export default PlaceHolder; 
+      </div>
+    </div>
+  )
+}
+export default PlaceHolder

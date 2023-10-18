@@ -5,23 +5,16 @@ import {
   faBars,
   faA,
   faShapes,
-  faImage,
-  faVideo,
-  faVolumeUp,
-  faTextHeight,
-  faTextWidth,
-  faSquare,
-  faCircle,
-  faRectangleAd,
   faGamepad,
   faPhotoVideo,
   faPuzzlePiece,
+  faTh,
 } from '@fortawesome/free-solid-svg-icons'
 import NavItem from '../SideNavBarItem/NavItem'
 import SideNavBarFooter from '../SideNavBarFooter/SideNavBarFooter'
 import { useEffect, useState } from 'react'
 import UniqueSelection from '../../Widgets/Quiz/UniqueSelection'
-
+import TripleGridHorizontal from '../Grids/TripleGridHorizontal/TripleGridHorizontalPlaceholder'
 
 const SidebarLeftTopTop = () => {
   const [isExpanded, setExpendState] = useState(true)
@@ -56,6 +49,11 @@ const SidebarLeftTopTop = () => {
 
   const user = 'FUNREAD'
   const menuItems = [
+    {
+      text: 'Grids',
+      icon: faTh,
+      subItems: [<TripleGridHorizontal />],
+    },
     {
       text: 'Text',
       icon: faA,

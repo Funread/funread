@@ -1,14 +1,19 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import UniqueSelection from '../../Widgets/Quiz/UniqueSelection'
-// import ContentImage from '../ContentImage/ContentImage'
-// import Grids from '../Grids/Grids'
 import './PageContainer.css'
 import { useDrop } from 'react-dnd'
+import TripleGridHorizontal from '../Grids/TripleGridHorizontal/TripleGridHorizontalPlaceholder'
 
-const IconType = 'DRAGGABLE_SUBITEM'
+const widgetType = 'widgetType'
+
+//Objeto para nombrar todos los componentes que serán soltados en el contenedor
+const widgetTypeToComponent = {
+  UniqueSelection: UniqueSelection,
+  TripleGridHorizontal: TripleGridHorizontal,
+}
 
 const PageContainer = ({ title }) => {
-  const [droppedItem, setDroppedItem] = useState(null)
+  const [droppedComponent, setDroppedComponent] = useState(null)
   const [saveData, setSaveData] = useState(null)
 
   const save = (data) => {
@@ -17,9 +22,10 @@ const PageContainer = ({ title }) => {
   }
 
   const [{ isOver }, drop] = useDrop(() => ({
-    accept: IconType, //Tipos que va a aceptar
+    accept: widgetType,
     drop: (item) => {
-      setDroppedItem(item)
+      console.log(item)
+      setDroppedComponent(item.type)
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -27,8 +33,8 @@ const PageContainer = ({ title }) => {
   }))
 
   const remove = () => {
-    setDroppedItem(null)
-  } 
+    setDroppedComponent(null)
+  }
 
   return (
     <div className='container-fluid'>
@@ -38,15 +44,22 @@ const PageContainer = ({ title }) => {
             <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
               <h6 className='m-0 font-weight-bold text-primary'>{title}</h6>
               <div>
-                <button onClick={remove}><img src='/escoba.png' alt='Clear'/></button>
-                <button onClick={save}><img src='/expediente.png' alt='Save'/></button>
+                <button onClick={remove}>
+                  <img src='/escoba.png' alt='Clear' />
+                </button>
+                <button onClick={save}>
+                  <img src='/expediente.png' alt='Save' />
+                </button>
               </div>
             </div>
             <div
               className='card-body custom-card-body-page-container'
               ref={drop}
             >
-              {droppedItem && <UniqueSelection saveData={saveData} />}
+              {widgetTypeToComponent[droppedComponent] &&
+                React.createElement(widgetTypeToComponent[droppedComponent], {
+                  saveData,
+                })}
             </div>
           </div>
         </div>
@@ -56,9 +69,3 @@ const PageContainer = ({ title }) => {
 }
 
 export default PageContainer
-{
-  /* <div className='card-body'></div>
-
-           <div> <Grids /> </div>
-            <UniqueSelection saveData={save} /> */
-}

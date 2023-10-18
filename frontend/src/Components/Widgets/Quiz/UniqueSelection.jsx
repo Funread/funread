@@ -9,14 +9,15 @@ import { useDrag } from 'react-dnd'
 const MIN_RESPONSES = 2
 const MAX_RESPONSES = 6
 
-const IconType = 'DRAGGABLE_SUBITEM'
+const widgetType = 'widgetType'
 
 const UniqueSelection = ({ saveData }) => {
   const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill('')) // Inicia con dos respuestas mínimo
   const [isAddingResponses, setIsAddingResponses] = useState(true)
 
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: IconType, // identificador
+    type: widgetType, // identificador
+    item: { type: 'UniqueSelection' },
     //La funcion collect es opcional
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(), //Ayuda a saber si se está arrastrando o no
