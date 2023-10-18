@@ -1,9 +1,9 @@
 import React from "react";
-import "../../App.sass";
+import "../../App.css";
 import Header from "../Shared/Header/Header";
 import SignUp from "../SignUp/SignUp";
 import Carousel from "../Shared/Carousel/Carousel";
-import "./LandingPage.sass";
+import "./LandingPage.css";
 import LogIn from "../LogIn/LogIn";
 import JoinActivity from "../JoinActivity/JoinActivity"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';

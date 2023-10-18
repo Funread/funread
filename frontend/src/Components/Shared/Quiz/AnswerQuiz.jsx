@@ -1,4 +1,4 @@
-import './AnswerQuiz.sass'
+import './AnswerQuiz.css'
 import React from 'react'
 import { Switch, InputNumber } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

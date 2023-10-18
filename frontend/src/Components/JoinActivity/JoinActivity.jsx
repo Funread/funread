@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "./JoinActivity.sass";
+import "./JoinActivity.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope, faEye, faEyeSlash, faSquareCaretRight} from "@fortawesome/free-regular-svg-icons";
