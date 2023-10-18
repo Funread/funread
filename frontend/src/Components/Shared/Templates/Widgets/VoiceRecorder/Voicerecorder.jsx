@@ -114,8 +114,6 @@ function AudioRecorder() {
          <label>Subir archivo de audio:</label>
          <input className='btn1' type="file" accept="audio/*" />
 
-         <label>O ingrese un enlace de YouTube:</label>
-         <input type="text" placeholder="Enlace de YouTube" />
 
          <button type="submit">Subir</button>
          <button onClick={closeModal}>Cerrar</button>
