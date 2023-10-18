@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import './ListGroups.css'
+import './ListGroups.sass'
 import jwt_decode from 'jwt-decode'
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'

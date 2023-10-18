@@ -1,13 +1,9 @@
-import './Group.css'
+import './Group.sass'
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faPencilAlt,
-  faPlus,
-  faSearch,
-} from '@fortawesome/free-solid-svg-icons'
+import { faPencilAlt, faSearch } from '@fortawesome/free-solid-svg-icons'
 import SidebarBook from '../Shared/SidebarBook/SidebarBook'
 import ListGroups from '../Shared/ListGroups/ListGroups'
 import StudentCard from '../Shared/StudentCard/StudentCard'

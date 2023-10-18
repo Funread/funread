@@ -1,4 +1,4 @@
-import './StudentCard.css'
+import './StudentCard.sass'
 import Image from 'react-bootstrap/Image'
 import Accordion from 'react-bootstrap/Accordion'
 

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Pages } from "../../Components/Pages/Pages";
 import { Col, Row } from "react-bootstrap";
-import "../ContainerWizard/style.css";
+import "../ContainerWizard/style.sass";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faXmark,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Title.css";
+import "./Title.sass";
 
 function Title(props) {
   const [title, setTitle] = useState("Título de página");
