@@ -1,15 +1,42 @@
 import './UniqueSelection.css'
 import React, { useState, useEffect } from 'react'
-import AnswerQuiz from '../../Shared/Quiz/AnswerQuiz'
+import AnswerQuiz from './AnswerQuiz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { CreateQuiz } from '../../../api/widgets/quiz'
+import { useDrag } from 'react-dnd'
 
 const MIN_RESPONSES = 2
 const MAX_RESPONSES = 6
 
-const UniqueSelection = () => {
+const widgetType = 'widgetType'
+
+const UniqueSelection = ({ saveData }) => {
   const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill('')) // Inicia con dos respuestas mínimo
-  const [isAddingResponses, setIsAddingResponses] = useState(true) // Estado inicial: agregar respuestas
+  const [isAddingResponses, setIsAddingResponses] = useState(true)
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: widgetType, // identificador
+    item: { type: 'UniqueSelection' },
+    //La funcion collect es opcional
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(), //Ayuda a saber si se está arrastrando o no
+    }),
+  }))
+
+  const save = async () => {
+    if (saveData) {
+      if (saveData) {
+        console.log('dentro')
+        // const saveOptions = await CreateQuiz(saveData)
+        // CreateQuiz('')
+      }
+    }
+  }
+  useEffect(() => {
+    console.log('aaaa')
+    save()
+  }, [saveData])
 
   const addResponses = () => {
     if (responses.length < MAX_RESPONSES) {
@@ -49,11 +76,15 @@ const UniqueSelection = () => {
   }, [responses])
 
   return (
-    <div className='custom-quiz-background'>
-      <div className='container custom-quiz-container text-center'>
+    <div
+      ref={drag}
+      className='custom-unique-selection-background'
+      style={{ border: isDragging ? '5px solid pink' : '0px' }}
+    >
+      <div className='container custom-unique-selection-container text-center'>
         <div className='row'>
           <div className='col'>
-            <div id='cardQuestions'>
+            {/* <div id='cardQuestions'>
               <div className='row'>
                 <input
                   type='text'
@@ -69,9 +100,9 @@ const UniqueSelection = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className='responses-grid mx-auto mt-5'>
+            <div className='responses-unique-selection-grid mx-auto mt-5'>
               {responses.map((response, index) => (
                 <AnswerQuiz
                   key={index}
@@ -81,20 +112,20 @@ const UniqueSelection = () => {
               ))}
             </div>
             <button
-              className={`custom-button ${
+              className={`custom-unique-selection-button ${
                 isAddingResponses ? 'adding' : 'removing'
               }`}
               onClick={toggleAddingResponses}
             >
-              <div className='button-content'>
-                <div className='button-icon'>
+              <div className='button-unique-selection-content'>
+                <div className='button-unique-selection-icon'>
                   {isAddingResponses ? (
                     <FontAwesomeIcon size='lg' icon={faPlus} />
                   ) : (
                     <FontAwesomeIcon size='lg' icon={faMinus} />
                   )}
                 </div>
-                <div className='button-text'>
+                <div className='button-unique-selection-text'>
                   {isAddingResponses
                     ? 'Add more answers'
                     : 'Remove additional answers'}

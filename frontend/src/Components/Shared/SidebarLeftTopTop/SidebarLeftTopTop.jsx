@@ -1,122 +1,121 @@
-import "./SidebarLeftTopTop.sass";
-import "bootstrap/js/dist/dropdown";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import './SidebarLeftTopTop.sass'
+import 'bootstrap/js/dist/dropdown'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faBars,
   faA,
   faShapes,
-  faImage,
-  faVideo,
-  faVolumeUp,
-  faPieChart,
-  faTextHeight,
-  faTextWidth,
-  faSquare,
-  faCircle,
-  faRectangleAd,
-} from "@fortawesome/free-solid-svg-icons";
-import NavItem from "../SideNavBarItem/NavItem";
-import SideNavBarFooter from "../SideNavBarFooter/SideNavBarFooter";
-import { useEffect, useState } from "react";
+  faGamepad,
+  faPhotoVideo,
+  faPuzzlePiece,
+  faTh,
+} from '@fortawesome/free-solid-svg-icons'
+import NavItem from '../SideNavBarItem/NavItem'
+import SideNavBarFooter from '../SideNavBarFooter/SideNavBarFooter'
+import { useEffect, useState } from 'react'
+import UniqueSelection from '../../Widgets/Quiz/UniqueSelection'
+import TripleGridHorizontal from '../Grids/TripleGridHorizontal/TripleGridHorizontalPlaceholder'
+import CollageGrid from '../Grids/CollageGrid/CollageGridPlaceholder'
+import DoubleGridHorizontal from '../Grids/DoubleGridHorizontal/DoubleGridPlaceholder'
+import DoubleGridVertical from '../Grids/DoubleGridVertical/DoubleGridVerticalPlaceholder'
+import FullGrid from '../Grids/FullGrid/FullGridPlaceholder'
+import QuadrupleGrid from '../Grids/QuadrupleGrid/QuadrupleGridPlaceholder'
 
 const SidebarLeftTopTop = () => {
-  const [isExpanded, setExpendState] = useState(true);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [isExpanded, setExpendState] = useState(true)
+  const [selectedItem, setSelectedItem] = useState(null)
 
   const handleItemClick = (index) => {
     if (selectedItem === index) {
-      setSelectedItem(null); // Se cierra si es la misma card clickeada
+      setSelectedItem(null) // Se cierra si es la misma card clickeada
     } else {
-      setSelectedItem(index); // Abre la tarjeta clickeada.
+      setSelectedItem(index) // Abre la tarjeta clickeada.
     }
-  };
+  }
 
   useEffect(() => {
     const handleResize = () => {
       // Activa el modo hamburguesa si el ancho de la pantalla es menor a 768px
       if (window.innerWidth <= 1000) {
-        setExpendState(false);
+        setExpendState(false)
       } else {
-        setExpendState(true);
+        setExpendState(true)
       }
-    };
+    }
 
     // Escucha cambios en el tamaño de la ventana
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize)
 
     // Limpia el oyente al desmontar el componente
     return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
-  const user = "FUNREAD";
+  const user = 'FUNREAD'
   const menuItems = [
     {
-      text: "Text",
-      icon: faA,
-      subItems: [faTextHeight, faTextWidth],
-    },
-    {
-      text: "Shapes",
-      icon: faShapes,
-      subItems: [faSquare, faCircle, faRectangleAd],
-    },
-    {
-      text: "Images",
-      icon: faImage,
+      text: 'Grids',
+      icon: faTh,
       subItems: [
-        faImage,
-        faImage,
-        faImage,
-        faImage,
-        faImage,
-        faImage,
-        faImage,
-        faImage,
-        faImage,
+        <CollageGrid />,
+        <DoubleGridHorizontal />,
+        <DoubleGridVertical />,
+        <FullGrid />,
+        <QuadrupleGrid />,
+        <TripleGridHorizontal />,
       ],
     },
     {
-      text: "Video",
-      icon: faVideo,
-      subItems: [faVideo, faVideo, faVideo, faVideo, faVideo],
+      text: 'Text',
+      icon: faA,
+      subItems: [],
     },
     {
-      text: "Audio",
-      icon: faVolumeUp,
-      subItems: [faVolumeUp, faVolumeUp, faVolumeUp],
+      text: 'Media',
+      icon: faPhotoVideo,
+      subItems: [],
     },
     {
-      text: "Graphics",
-      icon: faPieChart,
-      subItems: [faPieChart, faPieChart, faPieChart],
+      text: 'Shapes',
+      icon: faShapes,
+      subItems: [],
     },
-  ];
+    {
+      text: 'Quiz',
+      icon: faPuzzlePiece,
+      subItems: [<UniqueSelection />],
+    },
+    {
+      text: 'Games',
+      icon: faGamepad,
+      subItems: [],
+    },
+  ]
 
   return (
     <div
       className={
         isExpanded
-          ? "custom-side-nav-container"
-          : "custom-side-nav-container custom-side-nav-container-NX"
+          ? 'custom-side-nav-container'
+          : 'custom-side-nav-container custom-side-nav-container-NX'
       }
     >
-      <div className="custom-nav-upper">
-        <div className="custom-nav-heading d-flex justify-content-between align-items-center">
+      <div className='custom-nav-upper'>
+        <div className='custom-nav-heading d-flex justify-content-between align-items-center'>
           {isExpanded && (
-            <div className="custom-nav-brand">
+            <div className='custom-nav-brand'>
               <h2>FUNREAD</h2>
             </div>
           )}
           <button
-            className="hamburger"
+            className='hamburger'
             onClick={() => setExpendState(!isExpanded)}
           >
             <FontAwesomeIcon icon={faBars} />
           </button>
         </div>
-        <div className="custom-nav-menu">
+        <div className='custom-nav-menu'>
           {menuItems.map(({ text, icon, subItems }, index) => (
             <NavItem
               key={index}
@@ -132,7 +131,7 @@ const SidebarLeftTopTop = () => {
       </div>
       <SideNavBarFooter user={user} isExpanded={isExpanded} />
     </div>
-  );
-};
+  )
+}
 
-export default SidebarLeftTopTop;
+export default SidebarLeftTopTop
