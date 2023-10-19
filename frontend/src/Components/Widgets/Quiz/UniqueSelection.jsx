@@ -78,10 +78,10 @@ const UniqueSelection = ({ saveData }) => {
   return (
     <div
       ref={drag}
-      className='custom-quiz-background'
+      className='custom-unique-selection-background'
       style={{ border: isDragging ? '5px solid pink' : '0px' }}
     >
-      <div className='container custom-quiz-container text-center'>
+      <div className='container custom-unique-selection-container text-center'>
         <div className='row'>
           <div className='col'>
             {/* <div id='cardQuestions'>
@@ -102,7 +102,7 @@ const UniqueSelection = ({ saveData }) => {
               </div>
             </div> */}
 
-            <div className='responses-grid mx-auto mt-5'>
+            <div className='responses-unique-selection-grid mx-auto mt-5'>
               {responses.map((response, index) => (
                 <AnswerQuiz
                   key={index}
@@ -112,20 +112,20 @@ const UniqueSelection = ({ saveData }) => {
               ))}
             </div>
             <button
-              className={`custom-button ${
+              className={`custom-unique-selection-button ${
                 isAddingResponses ? 'adding' : 'removing'
               }`}
               onClick={toggleAddingResponses}
             >
-              <div className='button-content'>
-                <div className='button-icon'>
+              <div className='button-unique-selection-content'>
+                <div className='button-unique-selection-icon'>
                   {isAddingResponses ? (
                     <FontAwesomeIcon size='lg' icon={faPlus} />
                   ) : (
                     <FontAwesomeIcon size='lg' icon={faMinus} />
                   )}
                 </div>
-                <div className='button-text'>
+                <div className='button-unique-selection-text'>
                   {isAddingResponses
                     ? 'Add more answers'
                     : 'Remove additional answers'}
