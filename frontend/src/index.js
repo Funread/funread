@@ -17,7 +17,8 @@ import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 import ReverseUniqueSelection from "./Components/Block/ReverseQuiz/ReverseUniqueSelection";
 import Video from "./Components/Block/Media/Video/Video";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { store,persistor  } from "./redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -37,131 +38,133 @@ if (persistedState) {
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            <div className="index-background-container landing-page">
-              <LandingPage />
-            </div>
-          }
-        />
-        {/* Esta parte es para DEMO sin iniciar Sesion */}
-        <Route
-          exact
-          path="demo/bookcreator"
-          element={
-            <div className="">
-              <BookCreator />
-            </div>
-          }
-        />
-        <Route
-          exact
-          path="demo/library"
-          element={
-            <div className="index-background-container">
-              <Library />
-            </div>
-          }
-        />
-
-        <Route
-          exact
-          path="demo/group"
-          element={
-            <div className="">
-              <Group />
-            </div>
-          }
-        />
-        <Route
-          exact
-          path="/join/:code"
-          element={
-            <div className="index-background-container">
-              <JoinValidator />
-            </div>
-          }
-        />
-        <Route //se utiliza est ruta para colocar el componente que genera los links de invitacion
-          exact
-          path="demo/book"
-          element={
-            <div className="index-background-container">
-              <JoinCreator id="1" type="book" />
-            </div>
-          }
-        />
-
-        <Route exact path="demo/quiz" element={<UniqueSelection />} />
-
-        <Route exact path="demo/video" element={<Video />} />
-
-<Route
-            exact
-            path="/bookcreator"
-            element={
-              <div className="index-background-padding">
-                <div className="index-background-container ">
-                  <BookCreator />
-
-                </div>
-              </div>
-            }
-            />
-
-        <Route
-          element={<ProtectedRoutes roles={["profesor", "estudiante"]} />}
-        ></Route>
-        <Route element={<ProtectedRoutes roles={["profesor"]} />}>
-          {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
+      <PersistGate loading={null} persistor={persistor}>
+        <Routes>
           <Route
             exact
             path="/"
             element={
-              <div className="index-background-container ">
-                {/* <BookCreator /> */}
+              <div className="index-background-container landing-page">
+                <LandingPage />
               </div>
             }
+          />
+          {/* Esta parte es para DEMO sin iniciar Sesion */}
+          <Route
+            exact
+            path="demo/bookcreator"
+            element={
+              <div className="">
+                <BookCreator />
+              </div>
+            }
+          />
+          <Route
+            exact
+            path="demo/library"
+            element={
+              <div className="index-background-container">
+                <Library />
+              </div>
+            }
+          />
+
+          <Route
+            exact
+            path="demo/group"
+            element={
+              <div className="">
+                <Group />
+              </div>
+            }
+          />
+          <Route
+            exact
+            path="/join/:code"
+            element={
+              <div className="index-background-container">
+                <JoinValidator />
+              </div>
+            }
+          />
+          <Route //se utiliza est ruta para colocar el componente que genera los links de invitacion
+            exact
+            path="demo/book"
+            element={
+              <div className="index-background-container">
+                <JoinCreator id="1" type="book" />
+              </div>
+            }
+          />
+
+          <Route exact path="demo/quiz" element={<UniqueSelection />} />
+
+          <Route exact path="demo/video" element={<Video />} />
+
+          <Route
+              exact
+              path="/bookcreator"
+              element={
+                <div className="index-background-padding">
+                  <div className="index-background-container ">
+                    <BookCreator />
+
+                  </div>
+                </div>
+              }
+              />
+
+          <Route
+            element={<ProtectedRoutes roles={["profesor", "estudiante"]} />}
+          ></Route>
+          <Route element={<ProtectedRoutes roles={["profesor"]} />}>
+            {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
+            <Route
+              exact
+              path="/"
+              element={
+                <div className="index-background-container ">
+                  {/* <BookCreator /> */}
+                </div>
+              }
+              />
+        
+            <Route
+              exact
+              path="/library"
+              element={
+                <div className="index-background-padding">
+                  <div className="index-background-container ">
+                    <Library />
+                  </div>
+                </div>
+              }
             />
-       
-          <Route
-            exact
-            path="/library"
-            element={
-              <div className="index-background-padding">
-                <div className="index-background-container ">
-                  <Library />
+            <Route
+              exact
+              path="/group"
+              element={
+                <div className="index-background-padding">
+                  <div className="index-background-container ">
+                    <Group />
+                  </div>
                 </div>
-              </div>
-            }
-          />
-          <Route
-            exact
-            path="/group"
-            element={
-              <div className="index-background-padding">
-                <div className="index-background-container ">
-                  <Group />
+              }
+            />
+            <Route
+              exact
+              path="/dashboard"
+              element={
+                <div className="index-background-padding">
+                  <div className="index-background-container ">
+                    <Dashboard />
+                  </div>
                 </div>
-              </div>
-            }
-          />
-          <Route
-            exact
-            path="/dashboard"
-            element={
-              <div className="index-background-padding">
-                <div className="index-background-container ">
-                  <Dashboard />
-                </div>
-              </div>
-            }
-          />
-        </Route>
-      </Routes>
+              }
+            />
+          </Route>
+        </Routes>
+      </PersistGate>
     </Provider>
   </BrowserRouter>
 );
