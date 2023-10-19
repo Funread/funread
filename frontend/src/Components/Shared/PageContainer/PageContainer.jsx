@@ -3,6 +3,11 @@ import UniqueSelection from '../../Widgets/Quiz/UniqueSelection'
 import './PageContainer.css'
 import { useDrop } from 'react-dnd'
 import TripleGridHorizontal from '../Grids/TripleGridHorizontal/TripleGridHorizontalPlaceholder'
+import CollageGrid from '../Grids/CollageGrid/CollageGridPlaceholder'
+import DoubleGridHorizontal from '../Grids/DoubleGridHorizontal/DoubleGridPlaceholder'
+import DoubleGridVertical from '../Grids/DoubleGridVertical/DoubleGridVerticalPlaceholder'
+import FullGrid from '../Grids/FullGrid/FullGridPlaceholder'
+import QuadrupleGrid from '../Grids/QuadrupleGrid/QuadrupleGridPlaceholder'
 
 const widgetType = 'widgetType'
 
@@ -10,6 +15,11 @@ const widgetType = 'widgetType'
 const widgetTypeToComponent = {
   UniqueSelection: UniqueSelection,
   TripleGridHorizontal: TripleGridHorizontal,
+  CollageGrid: CollageGrid,
+  DoubleGridHorizontal: DoubleGridHorizontal,
+  DoubleGridVertical: DoubleGridVertical,
+  FullGrid: FullGrid,
+  QuadrupleGrid: QuadrupleGrid,
 }
 
 const PageContainer = ({ title }) => {
