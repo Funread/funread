@@ -1,33 +1,52 @@
-import React, { useState } from "react";
-import Content from "./CollageGridContent";
-import "./CollageGridContent.css";
+import React, { useState } from 'react'
+import Content from './CollageGridContent'
+import './CollageGridContent.css'
+import { useDrag } from 'react-dnd'
+
+const widgetType = 'widgetType'
 
 const CollageGridPlaceHolder = (props) => {
-  const [rowCount, setRowCount] = useState(2);
-  const [userData, setUserData] = useState({});
+  const [rowCount, setRowCount] = useState(2)
+  const [userData, setUserData] = useState({})
   const changeHandler = (index, data) => {
-    setUserData({ ...userData, [index]: [...data] });
-  };
+    setUserData({ ...userData, [index]: [...data] })
+  }
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: widgetType, // identificador
+    item: { type: 'CollageGrid' },
+    //La funcion collect es opcional
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(), //Ayuda a saber si se está arrastrando o no
+    }),
+  }))
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div
+      ref={drag}
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        border: isDragging ? '5px solid pink' : '0px',
+      }}
+    >
       <div style={{ flex: 1, margin: 10 }}>
         {
           // BIG GRID
         }
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            marginTop: "50px",
+            display: 'flex',
+            flexDirection: 'column',
+            marginTop: '50px',
           }}
         >
           {[...Array(1)].map((_, rowIndex) => (
             <div
               key={rowIndex}
               style={{
-                display: "flex",
-                flexDirection: "row",
+                display: 'flex',
+                flexDirection: 'row',
               }}
             >
               {[...Array(1)].map((_, colIndex) => (
@@ -52,13 +71,13 @@ const CollageGridPlaceHolder = (props) => {
           // SMALL GRIDS
         }
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           {[...Array(rowCount)].map((_, rowIndex) => (
             <div
               key={rowIndex}
               style={{
-                display: "flex",
-                flexDirection: "row",
+                display: 'flex',
+                flexDirection: 'row',
               }}
             >
               {[...Array(3)].map((_, colIndex) => (
@@ -80,6 +99,6 @@ const CollageGridPlaceHolder = (props) => {
         </div>
       </div>
     </div>
-  );
-};
-export default CollageGridPlaceHolder;
+  )
+}
+export default CollageGridPlaceHolder
