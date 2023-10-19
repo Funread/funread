@@ -16,6 +16,7 @@ import JoinValidator from "./Components/JoinValidator/JoinValidator";
 import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 import ReverseUniqueSelection from "./Components/Block/ReverseQuiz/ReverseUniqueSelection";
 import Video from "./Components/Block/Media/Video/Video";
+import Gallery from "./Components/Gallery/Gallery"
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
@@ -98,7 +99,7 @@ root.render(
         <Route exact path="demo/quiz" element={<UniqueSelection />} />
 
         <Route exact path="demo/video" element={<Video />} />
-
+        <Route exact path="demo/gallery" element={<Gallery />} />
 <Route
             exact
             path="/bookcreator"
