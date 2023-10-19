@@ -8,7 +8,7 @@ import { faEnvelope, faEye, faEyeSlash } from "@fortawesome/free-regular-svg-ico
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
 import { InputGroup } from "react-bootstrap";
-
+import { axiosAuth } from "../../api/axiosInstances"
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/userSlice";
 
@@ -18,7 +18,7 @@ function LogIn(props) {
   const [password, setPassword] = useState("");
   const [remenber, setRemenber] = useState(false);
   const [check, setCheck] = useState(true);
-  const { logIn, axiosAuth } = useLogin();
+  const { logIn } = useLogin();
   const navigate = useNavigate();
 
   /**

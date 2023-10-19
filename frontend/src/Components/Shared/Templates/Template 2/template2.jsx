@@ -1,5 +1,5 @@
 import React from 'react';
-import "./template2.css";
+import "./template2.sass";
 import Title from '../Widgets/Title/Title';
 import Audio from '../Widgets/Audio/Audio';
 import Text from '../Widgets/Text/Text';

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Toast.css";
+import "./Toast.sass";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

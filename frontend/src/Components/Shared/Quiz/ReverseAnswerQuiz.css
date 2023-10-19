@@ -1,0 +1,60 @@
+.custom-Reversequiz-card {
+    background-color: #d0f4de;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 2px solid rgb(91, 179, 150);
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .custom-Reversequiz-card-header {
+    align-items: center;
+    border-bottom: none;
+    padding-bottom: 10px;
+  }
+  
+  .custom-quiz-card .custom-quiz-card-header::after {
+    display: none;
+  }
+  
+  .Reverseicon-button {
+    background-color: rgb(68, 148, 121);
+    border-color: transparent;
+    border-radius: 4px;
+    box-shadow: 2px 2px rgb(47, 104, 85);
+    margin-right: 7px;
+    width: 90px;
+    height: 100px;
+  }
+  
+  .answer-input {
+    flex-grow: 1;
+    margin-left: 10px;
+  }
+  
+  .answer-input-format {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+  }
+  
+  .answer-input-format:focus {
+    outline: none;
+  }
+  
+  .custom-quiz-card-footer {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  .additional-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .additional-options .ant-switch-checked {
+    background-color: #ff99c8;
+  }
+  

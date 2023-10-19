@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import "./ComponentToolsOfBook.css";
+import "./ComponentToolsOfBook.sass";
 import { Button, Col, Row, Image } from "react-bootstrap";
 import Template1 from "../Templates/Template 1/Template1";
 import Template2 from "../Templates/Template 2/template2";

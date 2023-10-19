@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import Audio_Prueba from "./Audio_Prueba.mp3"
-import "./Audio.css"
+import "./Audio.sass"
 
 function Audio(props) {
 

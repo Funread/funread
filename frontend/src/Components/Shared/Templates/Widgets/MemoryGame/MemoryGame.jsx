@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Image } from 'react-bootstrap';
-import "./MemoryGame.css";
+import "./MemoryGame.sass";
 import logo1 from "../MemoryGame/img/MemoryImage1.png"
 import logo2 from "../MemoryGame/img/MemoryImage2.png"
 import logo3 from "../MemoryGame/img/MemoryImage3.png"
