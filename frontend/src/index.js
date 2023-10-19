@@ -1,24 +1,26 @@
-import React, { useEffect } from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import reportWebVitals from './reportWebVitals'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'react-toastify/dist/ReactToastify.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import BookCreator from './Components/BookCreator/BookCreator'
-import LandingPage from './Components/LandingPage/LandingPage'
-import ProtectedRoutes from './ProtectedRoutes'
-import Dashboard from './Components/Shared/Dashboard/Dashboard'
-import UniqueSelection from './Components/Widgets/Quiz/UniqueSelection'
-import Library from './Components/Library/Library'
-import Group from './Components/Group/Group'
-import JoinValidator from './Components/JoinValidator/JoinValidator'
-import JoinCreator from './Components/Shared/JoinCreator/JoinCreator'
-import ReverseUniqueSelection from './Components/Block/ReverseQuiz/ReverseUniqueSelection'
-import Video from './Components/Block/Media/Video/Video'
-import { Provider } from 'react-redux'
-import { store } from './redux/store'
+import React, { useEffect } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import BookCreator from "./Components/BookCreator/BookCreator";
+import LandingPage from "./Components/LandingPage/LandingPage";
+import ProtectedRoutes from "./ProtectedRoutes";
+import Dashboard from "./Components/Shared/Dashboard/Dashboard";
+import UniqueSelection from "./Components/Block/UniqueSelection/UniqueSelection";
+import Library from "./Components/Library/Library";
+import Group from "./Components/Group/Group";
+import JoinValidator from "./Components/JoinValidator/JoinValidator";
+import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
+import ReverseUniqueSelection from "./Components/Block/ReverseQuiz/ReverseUniqueSelection";
+import Video from "./Components/Block/Media/Video/Video";
+import Voice from "./Components/Shared/Templates/Widgets/VoiceRecorder/Voicerecorder"
 import GameMode from "./Components/Shared/Templates/Widgets/WordSearchGame/GameModes"
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
@@ -99,8 +101,25 @@ root.render(
         />
 
         <Route exact path='demo/quiz' element={<UniqueSelection />} />
+        
+         <Route exact path='demo/quiz' element={<ReverseUniqueSelection />} />
 
-        <Route exact path='demo/video' element={<Video />} />
+        <Route exact path="demo/video" element={<Video />} />
+
+        <Route exact path="demo/voice" element={ <Voice />} />
+
+<Route
+            exact
+            path="/bookcreator"
+            element={
+              <div className="index-background-padding">
+                <div className="index-background-container ">
+                  <BookCreator />
+
+                </div>
+              </div>
+            }
+            />
 
         <Route
           exact
