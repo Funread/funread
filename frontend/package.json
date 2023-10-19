@@ -43,6 +43,7 @@
     "react-widgets": "^5.8.4",
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.69.3",
+    "sourcemap-codec": "^1.4.8",
     "start": "^5.1.0",
     "swiper": "^8.4.2",
     "web-vitals": "^2.1.4"
