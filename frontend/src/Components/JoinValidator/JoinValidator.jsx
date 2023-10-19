@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import "./JoinValidator.css"
+import "./JoinValidator.sass"
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock,faUser } from "@fortawesome/free-solid-svg-icons";
-import { useLogin } from "../../hooks/useLogin"
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { checkJoin,searchCode } from "../../api"
 
 function JoinValidator(props){
     const {code} = useParams()
@@ -18,12 +17,7 @@ function JoinValidator(props){
     const [show, setShow] = useState(false);
     const [error, setError] = useState("");
     const [init, setInit] = useState(false)
-    const { axiosAuth,axiosWithoutAuth } = useLogin();
     const navigate = useNavigate();
-
-    //localhost:3000/join/20231041671754
-    //20231041671754
-    //4441
     
     const passwordLength = (pass) => {
         if(pass.length>=5){
@@ -36,34 +30,29 @@ function JoinValidator(props){
         setError("")
 
         if(user!=="" && password!==""){ // si ya creamos una invitacion no tenemos por que crear otra, si el code y password cambiaron quiere decir que ya creamos una invitacion
-                axiosWithoutAuth().post("join/checkJoin/",{code:code,password:password}).then((res) => {
-                        sessionStorage.setItem("jwt",res.data.jwt)
-                        sessionStorage.setItem("userName",user) //Aca se podria verificar el nombre de usuario o algo
-                        
-                        //para redireccionar se podemos eliminar el codigo de abajo y redireccionar
-                        let s
-                        if(res.data.data.classesId===null)
-                            s = "al libro con id "+res.data.data.bookid
-                        else
-                            s = "a la clase con id "+res.data.data.classesId
+            checkJoin(code, password).then((res) => {
+                sessionStorage.setItem("jwt",res.data.jwt)
+                sessionStorage.setItem("userName",user) //Aca se podria verificar el nombre de usuario o algo
                 
-                        alert("el join es correcto, ahora habria que redireccionar "+s)
-                        //navigate("/readView/"+res.data.data.bookid) aca redireccionamos, puse una url de ejemplo
-                    
-                }).catch(error => {
-                    setError(error.response.data.detail)
-                })
-        }else{
-            if(axiosAuth()){
-                axiosWithoutAuth().post("join/new-join/",).then((res) => {
-                })
-            }
+                //para redireccionar se podemos eliminar el codigo de abajo y redireccionar
+                let s
+                if(res.data.data.classesId===null)
+                    s = "al libro con id "+res.data.data.bookid
+                else
+                    s = "a la clase con id "+res.data.data.classesId
+        
+                alert("el join es correcto, ahora habria que redireccionar "+s)
+                //navigate("/readView/"+res.data.data.bookid) aca redireccionamos, puse una url de ejemplo
+            
+            }).catch(error => {
+                setError(error.response.data.detail)
+            })
         }
     };
 
     useEffect(() => {
         if(init===false){
-            axiosWithoutAuth().get("join/search/"+code,).then().catch((error) => {
+            searchCode(code).then().catch((error) => {
                 if(error.message==="Request failed with status code 404"){
                     setShow(true)
                 }

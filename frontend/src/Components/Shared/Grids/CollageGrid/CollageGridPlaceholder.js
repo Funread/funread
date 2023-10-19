@@ -5,7 +5,7 @@ import { useDrag } from 'react-dnd'
 
 const widgetType = 'widgetType'
 
-const PlaceHolder = (props) => {
+const CollageGridPlaceHolder = (props) => {
   const [rowCount, setRowCount] = useState(2)
   const [userData, setUserData] = useState({})
   const changeHandler = (index, data) => {
@@ -101,4 +101,4 @@ const PlaceHolder = (props) => {
     </div>
   )
 }
-export default PlaceHolder
+export default CollageGridPlaceHolder

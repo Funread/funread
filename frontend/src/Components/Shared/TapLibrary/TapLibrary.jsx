@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import BookCard from '../BookCard/BookCard'
-import './TapLibrary.css'
+import './TapLibrary.sass'
 import { Tabs, Tab } from 'react-bootstrap'
 
 const BOOKS = [

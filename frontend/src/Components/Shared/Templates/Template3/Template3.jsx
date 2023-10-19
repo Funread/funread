@@ -1,5 +1,5 @@
 import React from "react";
-import "./Template3.css";
+import "./Template3.sass";
 import Title from "../Widgets/Title/Title";
 import Collage from "../Widgets/Collage/Collage";
 

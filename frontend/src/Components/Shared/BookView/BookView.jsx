@@ -1,4 +1,4 @@
-import './BookView.css'
+import './BookView.sass'
 
 const BookView = ({ title, description, portrait, author }) => {
   return (

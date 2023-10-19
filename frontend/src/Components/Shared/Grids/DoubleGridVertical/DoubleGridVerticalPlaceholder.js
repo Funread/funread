@@ -4,7 +4,7 @@ import { useDrag } from 'react-dnd'
 
 const widgetType = 'widgetType'
 
-const PlaceHolder = (props) => {
+const DoubleGridVerticalPlaceHolder = (props) => {
   const [rowCount, setRowCount] = useState(2)
   const [userData, setUserData] = useState([])
 
@@ -58,4 +58,4 @@ const PlaceHolder = (props) => {
     </div>
   )
 }
-export default PlaceHolder
+export default DoubleGridVerticalPlaceHolder

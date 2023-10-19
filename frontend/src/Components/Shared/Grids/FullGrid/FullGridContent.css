@@ -5,7 +5,7 @@
     max-height: 480px; 
   }
   
-  .react-grid-layout {
+  .FullGridLayout {
     border: 2px solid red;
     height: 530px !important;
     margin-top: -50px;
@@ -16,38 +16,527 @@
   }
   
 
+  @media (max-width: 1545px){
+    
+    .FullGridLayout{
+      width: 1085px;
+    }
+  }
+
+  @media (max-width: 1512px){
+    
+    .FullGridLayout{
+      width: 1075px;
+    }
+  }
+  @media (max-width: 1500px){
+    
+    .FullGridLayout{
+      width: 1050px;
+    }
+  }
+  @media screen and (max-width: 1465px){
+    .FullGridLayout{
+      width: 1030px;
+     
+    }
+  }
+  @media  (max-width: 1450px){
+    
+    .FullGridLayout{
+      width: 1019px ;
+    }
+  }
+
+  @media  (max-width: 1420px){
+    
+    .FullGridLayout{
+      width: 1000px ;
+    }
+  }
+  @media  (max-width: 1400px){
+    
+    .FullGridLayout{
+      width: 965px ;
+    }
+  }
+  @media  (max-width: 1396px){
+    
+    .FullGridLayout{
+      width: 986px ;
+    }
+  }
+
+  @media  (max-width: 1371px){
+    
+    .FullGridLayout{
+      width: 967px ;
+    }
+  }
+
+  @media  (max-width: 1350px){
+    
+    .FullGridLayout{
+      width: 925px;
+    }
+  }
+
+  @media  (max-width: 1345px){
+    
+    .FullGridLayout{
+      width: 940px;
+    }
+  }
+  
+  @media  (max-width: 1340px){
+    
+    .FullGridLayout{
+      width: 938px;
+    }
+  }
+  @media  (max-width: 1320px){
+    
+    .FullGridLayout{
+      width: 918px;
+    }
+  }
+  @media  (max-width: 1300px){
+    
+    .FullGridLayout{
+      width: 904px;
+    }
+  }
+
+  @media screen and (max-width: 1275px){
+    .FullGridLayout{
+      width: 890px;
+      
+    }
+  }
+
+  @media screen and (max-width: 1269px){
+    .FullGridLayout{
+      width: 860px;
+      height: 300px !important
+    }
+  }
+
+  @media screen and (max-width: 1265px){
+    .FullGridLayout{
+      width: 847px;
+     
+    }
+  }
+
+  @media screen and (max-width: 1250px){
+    .FullGridLayout{
+      width: 820px;
+     
+    }
+  }
+
+  @media screen and (max-width: 1215px){
+    .FullGridLayout{
+      width: 810px;
+     
+    }
+  }
+
+  @media screen and (max-width: 1200px){
+    .FullGridLayout{
+      width: 790px;
+      
+    }
+  }
+
+  @media screen and (max-width: 1160px){
+    .FullGridLayout{
+      width: 776px;
+    }
+  }
+
+  @media screen and (max-width: 1150px){
+    .FullGridLayout{
+      width: 755px;
+     
+    }
+  }
+
+@media screen and (max-width: 1000px){
+    .FullGridLayout{
+      width: 590px;
+      
+    }
+  }
+
+  @media (max-width: 970px){
+    
+    .FullGridLayout{
+      width: 580px;
+    }
+  }
+
+  @media (max-width: 950px){
+    
+    .FullGridLayout{
+      width: 550px;
+    }
+  }
+
+  @media (max-width: 926px){
+    
+    .FullGridLayout{
+      width: 540px;
+    }
+  }
+  @media (max-width: 915px){
+    
+    .FullGridLayout{
+      width: 520px;
+    }
+  }
+
+  @media (max-width: 900px){
+    
+    .FullGridLayout{
+      width: 510px;
+    }
+  }
+
+
+  @media (max-width: 875px){
+    
+    .FullGridLayout{
+      width: 510px;
+    }
+  }
+
+  @media (max-width: 872px){
+    
+    .FullGridLayout{
+      width: 500px;
+    }
+  }
+
+  @media (max-width: 865px){
+    
+    .FullGridLayout{
+      width: 550px;
+    }
+  }
+  @media (max-width: 850px){
+    
+    .FullGridLayout{
+      width: 520px;
+    }
+  }
+
+  @media (max-width: 840px){
+    
+    .FullGridLayout{
+      width: 525px;
+    }
+  }
+
+  @media (max-width: 820px){
+    
+    .FullGridLayout{
+      width: 505px;
+    }
+  }
+
+  @media (max-width: 800px){
+    
+    .FullGridLayout{
+      width: 505px;
+    }
+  }
+
+  @media (max-width: 785px){
+    
+    .FullGridLayout{
+      width: 495px;
+    }
+  }
+
+  @media (max-width: 775px){
+    
+    .FullGridLayout{
+      width: 480px;
+    }
+  }
+
+  @media screen and (max-width: 750px){
+    .FullGridLayout{
+      width: 460px;
+    }
+  }
+
+  @media screen and (max-width: 725px){
+    .FullGridLayout{
+      width: 430px;
+    }
+  }
+
+  @media screen and (max-width: 721px){
+    .FullGridLayout{
+      width: 445px;
+    }
+  }
+
+  @media screen and (max-width: 700px){
+    .FullGridLayout{
+      width: 420px;
+    }
+  }
+
+  @media screen and (max-width: 665px){
+    .FullGridLayout{
+      width: 405px;
+    }
+  }
+
+  @media screen and (max-width: 650px){
+    .FullGridLayout{
+      width: 390px;
+    }
+  }
+  @media screen and (max-width: 640px){
+    .FullGridLayout{
+      width: 383px;
+    }
+  }
+
+  @media screen and (max-width: 625px){
+    .FullGridLayout{
+      width: 370px;
+    }
+  }
+
+  @media screen and (max-width: 600px){
+    .FullGridLayout{
+      width: 420px;
+    }
+  }
+
+  @media screen and (max-width: 590px){
+    .FullGridLayout{
+      width: 406px;
+    }
+  }
+  @media screen and (max-width: 575px){
+    .FullGridLayout{
+      width: 400px;
+    }
+  }
+
+  @media screen and (max-width: 560px){
+    .FullGridLayout{
+      width: 390px;
+    }
+  }
+
+  @media screen and (max-width: 550px){
+    .FullGridLayout{
+      width: 378px;
+    }
+  }
+
+  @media screen and (max-width: 540px){
+    .FullGridLayout{
+      width: 365px;
+    }
+  }
+
+  @media screen and (max-width: 530px){
+    .FullGridLayout{
+      width: 355px;
+    }
+  }
+
+  @media screen and (max-width: 515px){
+    .FullGridLayout{
+      width: 345px;
+    }
+  }
+
+
+  @media (max-width: 500px){
+    .FullGridLayout{
+      width: 300px;
+    }
+  }
+
+  @media (max-width: 480px){
+    .FullGridLayout{
+      width: 290px;
+    }
+  }
+
+  @media (max-width: 470px){
+    .FullGridLayout{
+      width: 285px;
+    }
+  }
+
+  @media (max-width: 460px){
+    .FullGridLayout{
+      width: 283px;
+    }
+  }
+
+  @media (max-width: 455px){
+    .FullGridLayout{
+      width: 280px;
+    }
+  }
+
+  @media screen and (max-width: 450px){
+    .FullGridLayout{
+      width: 270px;
+    }
+  }
+
+  @media screen and (max-width: 430px){
+    .FullGridLayout{
+      width: 254px;
+    }
+  }
+
+  @media screen and (max-width: 415px){
+    .FullGridLayout{
+      width: 248px;
+    }
+  }
+
+  @media screen and (max-width: 401px){
+    .FullGridLayout{
+      width: 235px;
+    }
+  }
+
+  @media screen and (max-width: 396px){
+    .FullGridLayout{
+      width: 223px;
+     
+    }
+  }
+
+  @media screen and (max-width: 380px){
+    .FullGridLayout{
+      width: 222px;
+     
+    }
+  }
+  @media screen and (max-width: 372px){
+    .FullGridLayout{
+      width: 210px;
+     
+    }
+  }
+  @media screen and (max-width: 365px){
+    .FullGridLayout{
+      width: 206px;
+     
+    }
+  }
+
+  @media screen and (max-width: 347px){
+    .FullGridLayout{
+      width: 190px;
+     
+    }
+  }
+
+  @media screen and (max-width: 300px){
+    .FullGridLayout{
+      width: 127px;
+     
+    }
+  }
+  @media screen and (max-width: 282px){
+    .FullGridLayout{
+      width: 118px;
+     
+    }
+  }
+  
+  @media screen and (max-height: 1300px){
+    .FullGridLayout {
+      height: 1150px !important;
+    }
+  }
+  @media screen and (max-height: 1100px){
+    .FullGridLayout {
+      height: 950px !important;
+    }
+  }
+
+  @media screen and (max-height: 951px){
+    .FullGridLayout {
+      height: 695px !important;
+    }
+  }
+  @media screen and (max-height: 920px){
+    .FullGridLayout {
+      height: 680px !important;
+    }
+  }
+  
+  @media screen and (max-height: 850px){
+    .FullGridLayout {
+      height: 690px !important;
+    }
+  }
+
+  @media screen and (max-height: 770px){
+    .FullGridLayout {
+      height: 700px !important;
+    }
+  }
+
+  @media screen and (max-height: 670px){
+    .FullGridLayout {
+      height: 700px !important;
+    }
+  } 
+ 
+
+
+
+/* 
   
   @media screen and (max-width: 1300px){
     
-    .react-grid-layout{
+    .FullGridLayout{
       width: 900px;
       height: 100vh 1fr;
     }
   }
 
 @media screen and (max-width: 1000px){
-    .react-grid-layout{
+    .FullGridLayout{
       width: 510px;
       height: 300px !important
     }
   }
 
   @media screen and (max-width: 750px){
-    .react-grid-layout{
+    .FullGridLayout{
       width: 550px;
       height: 100vh 1fr;
     }
   }
 
   @media screen and (max-width: 650px){
-    .react-grid-layout{
+    .FullGridLayout{
       width: 480px;
       height: 100vh 1fr;
     }
   }
 
   @media screen and (max-width: 550px){
-    .react-grid-layout{
+    .FullGridLayout{
       width: 365px;
       height: 100vh 1fr;
     }
@@ -55,84 +544,44 @@
 
 
   @media screen and (max-width: 450px){
-    .react-grid-layout{
+    .FullGridLayout{
       width: 265px;
       height: 100vh 1fr;
     }
   }
 
   @media screen and (max-width: 415px){
-    .react-grid-layout{
+    .FullGridLayout{
       width: 250px;
       height: 100vh 1fr;
     }
   }
 
   @media screen and (max-width: 400px){
-    .react-grid-layout{
+    .FullGridLayout{
       width: 265px;
       height: 100vh 1fr;
     }
   }
 
   @media screen and (max-width: 395px){
-    .react-grid-layout{
+    .FullGridLayout{
       width: 220px;
       height: 100vh 1fr;
     }
   }
 
   @media screen and (max-width: 380px){
-    .react-grid-layout{
+    .FullGridLayout{
       width: 215px;
       height: 100vh 1fr;
     }
   }
 
   @media screen and (max-width: 365px){
-    .react-grid-layout{
+    .FullGridLayout{
       width: 205px;
       height: 100vh 1fr;
     }
-  }
+  }*/
 
-
-  @media screen and (max-height: 1300px){
-    .react-grid-layout {
-      height: 690px !important;
-    }
-  }
-  @media screen and (max-height: 1100px){
-    .react-grid-layout {
-      height: 690px !important;
-    }
-  }
-
-  @media screen and (max-height: 951px){
-    .react-grid-layout {
-      height: 695px !important;
-    }
-  }
-  @media screen and (max-height: 920px){
-    .react-grid-layout {
-      height: 680px !important;
-    }
-  }
-  
-  @media screen and (max-height: 850px){
-    .react-grid-layout {
-      height: 690px !important;
-    }
-  }
-
-  @media screen and (max-height: 770px){
-    .react-grid-layout {
-      height: 700px !important;
-    }
-  }
-
-  @media screen and (max-height: 670px){
-    .react-grid-layout {
-      height: 700px !important;
-    }
-  }

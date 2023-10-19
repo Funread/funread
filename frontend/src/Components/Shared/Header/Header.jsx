@@ -1,7 +1,7 @@
 import React from "react";
 // import { Navbar, Nav } from "react-bootstrap";
 import logoFunread from "../../../logoFunread.png";
-import "./Header.css";
+import "./Header.sass";
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';

@@ -11,8 +11,8 @@ class BooksPerClassesSerializer(serializers.ModelSerializer):
   def create(self, validated_data):
       return BooksPerClasses.objects.create(**validated_data)
 
-  def update(self, instance, validated_data):
-      instance.bookId = validated_data.get('bookId', instance.bookId)
-      instance.classesId = validated_data.get('classesId', instance.classesId)
-      instance.save()
-      return instance
+  # def update(self, instance, validated_data):
+  #     instance.bookId = validated_data.get('bookId', instance.bookId)
+  #     instance.classesId = validated_data.get('classesId', instance.classesId)
+  #     instance.save()
+  #     return instance

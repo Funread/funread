@@ -1,5 +1,5 @@
 import React from 'react'
-import './BookCreator.css'
+import './BookCreator.sass'
 import NavbarButtons from '../Shared/NavbarButtons/NavbarButtons'
 import SidebarLeftTopTop from '../Shared/SidebarLeftTopTop/SidebarLeftTopTop'
 import Carousel from '../Shared/NavBarCarrousel/NavBarCarrousel'
