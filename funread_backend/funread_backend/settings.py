@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'Options',
     "Joins",
     "Userroles",
+    'Subtitled',
 
     
 
