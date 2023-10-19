@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ImageGallery = () => {
+const ImagenGallery = () => {
   const [images, setImages] = useState([]);
 
   const handleImageUpload = (event) => {
@@ -19,26 +19,29 @@ const ImageGallery = () => {
 
   return (
     <div>
-      <h1>Selecciona una imagen</h1>
+      <h1>Agregue una imagen</h1>
       <input
         type="file"
         accept="image/*"
         onChange={handleImageUpload}
       />
 
-      <div className=' ImagenGallery_GalleryContainer'>
-        {images.map((image, index) => (
-          <div className=' ImagenGallery_Image'
-            key={index}
-            src={image}
-            alt={`Image ${index}`}
-          />
-        ))}
+      <div className="ImagenGallery_scrollable-container">
+        <div className="ImagenGallery_gallery-container">
+          {images.map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt={`Image ${index}`}
+              className="ImagenGallery_image"
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
-export default ImageGallery;
+export default ImagenGallery;
 
 

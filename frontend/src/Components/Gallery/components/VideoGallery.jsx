@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-
 const VideoGallery = () => {
   const [videos, setVideos] = useState([]);
 
@@ -19,15 +18,16 @@ const VideoGallery = () => {
         onChange={handleVideoUpload}
       />
 
-      <div className=' VideoGallery_VideoGalleryContainer '>
+      <div className="VideoGallery_video-gallery-container">
         {videos.map((video, index) => (
-          <div className=' VideoGallery_Video'
+          <video
             key={index}
             controls
+            className="VideoGallery_video"
           >
             <source src={video} type="video/mp4" />
-            El navegador no soporta este video
-          </div>
+            Your browser does not support the video tag.
+          </video>
         ))}
       </div>
     </div>
@@ -35,3 +35,4 @@ const VideoGallery = () => {
 };
 
 export default VideoGallery;
+
