@@ -32,12 +32,13 @@
 
 
 
+/* reproductor de audio  */
 
-
-
-
-
-
+.uploaded-audio-player
+{
+  margin-top: 25px;
+  height: 0px;;
+}
 
 
 
@@ -158,9 +159,10 @@
   color: #2b2b2b; /* Color de texto blanco */
   border: none;
   border-radius: 5px;
-  margin-top: 12px;
+  margin-top: 185px;
   transition: background-color 0.3s;
   width: auto; /* Ajusta el ancho al 100% del modal */
+  margin-left: 12px;
 }
 
 /* Estilos para los botones al pasar el mouse */
