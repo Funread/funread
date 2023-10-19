@@ -3,6 +3,7 @@ import Modal from './Modal';
 import ImageGallery from './ImagenGallery';
 import AudioGallery from './AudioGallery';
 import VideoGallery from './VideoGallery';
+import '../styles/styles.scss';
 
 const Gallery = () => {
     const[modalState1, changeModalState1] = useState(false);
