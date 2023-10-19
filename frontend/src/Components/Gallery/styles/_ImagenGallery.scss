@@ -1,0 +1,16 @@
+// GalleryContainer
+.ImagenGallery_GalleryContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  // Image
+  .ImagenGallery_Image {
+    max-width: 100%;
+    height: auto;
+    margin: 10px;
+  }
+  

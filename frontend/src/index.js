@@ -19,6 +19,8 @@ import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 
 import { Provider } from "react-redux";
 import { store } from "./redux/store"
+import Gallery from "./Components/Gallery/components/Gallery";
+import './Components/Gallery/styles/styles.scss';
 
 
 
@@ -106,6 +108,15 @@ root.render(
             <UniqueSelection />
           } 
        />
+       <Route
+          exact
+          path="demo/GalleryDemo"
+          element={
+            <div className=''>
+              <Gallery />
+            </div>
+          }
+          />
 
 
         <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >

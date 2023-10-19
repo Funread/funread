@@ -1,0 +1,35 @@
+
+    
+    // ContenedorBotones
+.Gallery_ContenedorBotones {
+  padding: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+// Boton
+.Gallery_Boton {
+  display: block;
+  padding: 10px 30px;
+  border-radius: 100px;
+  color: #fff;
+  border: none;
+  background: #1766DC;
+  cursor: pointer;
+  font-family: 'Robot', sans-serif;
+  font-weight: 500;
+  transition: 0.3s ease all;
+
+  &:hover {
+    background: #0066FF;
+  }
+}
+
+// Contenido
+.Gallery_Contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

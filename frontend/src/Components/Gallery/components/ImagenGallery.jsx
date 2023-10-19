@@ -1,19 +1,4 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-
-const GalleryContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-height: 400px; 
-  overflow-y: auto; 
-`;
-
-const Image = styled.img`
-  max-width: 100%;
-  height: auto;
-  margin: 10px;
-`;
 
 const ImageGallery = () => {
   const [images, setImages] = useState([]);
@@ -41,15 +26,15 @@ const ImageGallery = () => {
         onChange={handleImageUpload}
       />
 
-      <GalleryContainer>
+      <div className=' ImagenGallery_GalleryContainer'>
         {images.map((image, index) => (
-          <Image
+          <div className=' ImagenGallery_Image'
             key={index}
             src={image}
             alt={`Image ${index}`}
           />
         ))}
-      </GalleryContainer>
+      </div>
     </div>
   );
 };

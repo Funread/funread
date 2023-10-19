@@ -1,0 +1,16 @@
+// VideoGalleryContainer
+.VideoGallery_VideoGalleryContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  // Video
+  .VideoGallery_Video {
+    max-width: 100%;
+    height: auto;
+    margin: 10px;
+  }
+  

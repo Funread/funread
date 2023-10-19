@@ -34,7 +34,9 @@
     "react-scripts": "5.0.1",
     "react-toastify": "^9.0.8",
     "react-widgets": "^5.8.4",
+    "sass": "^1.69.4",
     "start": "^5.1.0",
+    "styled-components": "^6.1.0",
     "swiper": "^8.4.2",
     "web-vitals": "^2.1.4"
   },

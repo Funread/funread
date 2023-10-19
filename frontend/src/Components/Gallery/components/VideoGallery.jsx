@@ -1,19 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 
-const VideoGalleryContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-height: 400px; 
-  overflow-y: auto; 
-`;
-
-const Video = styled.video`
-  max-width: 100%;
-  height: auto;
-  margin: 10px;
-`;
 
 const VideoGallery = () => {
   const [videos, setVideos] = useState([]);
@@ -33,17 +19,17 @@ const VideoGallery = () => {
         onChange={handleVideoUpload}
       />
 
-      <VideoGalleryContainer>
+      <div className=' VideoGallery_VideoGalleryContainer '>
         {videos.map((video, index) => (
-          <Video
+          <div className=' VideoGallery_Video'
             key={index}
             controls
           >
             <source src={video} type="video/mp4" />
-            Your browser does not support the video tag.
-          </Video>
+            El navegador no soporta este video
+          </div>
         ))}
-      </VideoGalleryContainer>
+      </div>
     </div>
   );
 };
