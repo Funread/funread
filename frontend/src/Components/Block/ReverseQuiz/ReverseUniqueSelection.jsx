@@ -1,13 +1,13 @@
-import './UniqueSelection.css'
+import './ReverseUniqueSelection.css'
 import React, { useState, useEffect } from 'react'
-import AnswerQuiz from '../../Shared/Quiz/AnswerQuiz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
+import ReverseAnswerQuiz from '../../Widgets/Quiz/ReverseAnswerQuiz'
 
 const MIN_RESPONSES = 2
-const MAX_RESPONSES = 6
+const MAX_RESPONSES = 4
 
-const UniqueSelection = () => {
+const ReverseUniqueSelection = () => {
   const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill('')) // Inicia con dos respuestas mínimo
   const [isAddingResponses, setIsAddingResponses] = useState(true) // Estado inicial: agregar respuestas
 
@@ -60,20 +60,20 @@ const UniqueSelection = () => {
                   className='custom-input'
                   placeholder='Start typing your question'
                 />
-                <div className='custom-add-image'>
-                  <div className='image-container'>
+                {/* <div className="custom-add-image">
+                  <div className="image-container">
                     <div>
-                      <img src='/imagenes/quiz/addImage.png' alt='addimage' />
+                      <img src="/imagenes/quiz/addImage.png" alt="addimage" />
                       <p>Find and insert media</p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
 
             <div className='responses-grid mx-auto mt-5'>
               {responses.map((response, index) => (
-                <AnswerQuiz
+                <ReverseAnswerQuiz
                   key={index}
                   value={response}
                   onChange={(value) => handleResponseChange(index, value)}
@@ -108,4 +108,4 @@ const UniqueSelection = () => {
   )
 }
 
-export default UniqueSelection
+export default ReverseUniqueSelection

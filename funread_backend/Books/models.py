@@ -12,7 +12,7 @@ class Book(models.Model):
     lastupdateat = models.DateTimeField(db_column='LastUpdateAt', blank=True, null=True)  # Field name made lowercase.
     state = models.IntegerField(db_column='State')  # Field name made lowercase.
     sharedbook = models.IntegerField(db_column='SharedBook', blank=True, null=True)  # Field name made lowercase.
-
+    description = models.CharField(db_column='Description', max_length=500,blank=True, null=True)
     class Meta:
         
         db_table = 'book'

@@ -1,15 +1,73 @@
-.custom-group-title
+.custom-group-title 
   color: grey
   text-align: left
 
-.group
-  background-color: #f0f0f0
-  padding: 10px
 
-.button
-  background-color: blue
-  color: white
+.library 
+  scroll-snap-type: x mandatory
+  overflow-y: scroll
+  overflow-x: hidden
+  height: 100vh
+  background-color: whitesmoke
+  scroll-snap-align: center
 
-@media screen and (max-width: 768px)
-  .group
-    background-color: #ddd
+  &::-webkit-scrollbar 
+    width: 7px
+  
+
+  &::-webkit-scrollbar-thumb 
+    background-color: transparent
+    border: none
+    box-shadow: none
+
+    &:hover 
+      background-color: transparent
+    
+
+
+  &::-webkit-scrollbar-track 
+    background-color: transparent
+    border: none
+    margin: 0
+    box-shadow: none
+  
+
+  .custom-input-search 
+    border: none
+    outline: none
+    box-shadow: none
+  
+
+  .mobile-below-tap-library
+    
+
+    @media screen and (max-width: 992px) 
+      .content_library
+        padding-left: 2rem
+      
+    
+
+    @media (max-width: 575.98px) 
+      width: 100%
+      margin-top: 10px
+      margin-left: 3rem
+      padding-left: 2rem
+      padding-right: 3rem
+
+      .col-8 
+        flex: 0 0 91.666667%
+        max-width: 91.666667%
+      
+    
+  
+
+
+.button-search-library 
+  &:hover 
+    background-color: #a9def9
+  
+
+
+.content_library 
+  padding-left: 4rem
+
