@@ -1,0 +1,189 @@
+/* Estilos para el contenedor principal */
+
+
+.Principal {
+  background-color: #FCF6BD;
+  height: 500px;
+  width: 500px;
+  margin: 150px auto; 
+  
+}
+
+@media screen and (max-width: 515px) {
+  .Principal{
+  height: 400px;
+  width: 350px;
+  margin: 50% auto;
+ }
+}
+
+.Principal button
+{
+  background-color: #A9DEF9;
+  margin-top: 400px;
+  margin-left: 50px ;
+}
+
+
+.botones
+{
+  margin-left: 120px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Grabadora de voz */
+.audio-recorder-container {
+    border: 2px solid #2b2b2b; /* Borde gris oscuro */
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    margin: 0 auto;
+    background-color: #FCF6BD; /* Fondo gris oscuro */
+    text-align: center;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin-top: 250px;
+
+  }
+  
+  /* Estilos para el botón de inicio/detención de grabación */
+  .audio-recorder-container button {
+    background-color: #A9DEF9; 
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.2s;
+   
+  }
+ 
+  
+  .audio-recorder-container button:hover {
+    background-color: #D0F4DE; /* Morado más claro al pasar el mouse */
+  }
+  
+  /* Estilos para el reproductor de audio */
+  .audio-recorder-audio {
+    margin-top: 10px;
+    width: 100%;
+    background-color:  white; /* Fondo gris oscuro */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  }
+  
+  /* Estilos para el área de grabación */
+  .audio {
+    background-color: #9f9595; /* Fondo gris oscuro */
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+  }
+  
+  /* Estilos para los controles de audio en HTML5 */
+  audio::-webkit-media-controls-panel {
+    background-color:  white; /* Fondo gris oscuro */
+
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  }
+  
+  /* Cambiar el estilo del botón de reproducción */
+  audio::-webkit-media-controls-play-button {
+    background-color: #A9DEF9; /* Morado oscuro */
+    border-radius: 5px;
+  }
+  
+  /* Cambiar el estilo del botón de pausa */
+  audio::-webkit-media-controls-pause-button {
+    background-color: #D0F4DE; /* Morado más claro */
+
+    border-radius: 5px;
+  }
+  
+
+
+
+
+
+/* Estilos para el modal */
+
+.Modal {
+  width: 400px;
+  height: 400px;
+  background-color: #A9DEF9; /* Color de fondo rosa claro */
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #D0F4DE;
+}
+
+/* Resto de los estilos se mantienen igual */
+
+/* Estilos para el formulario y sus elementos */
+.Modal form {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilos para los botones */
+.Modal button {
+  padding: 10px 20px;
+  background-color: #D0F4DE; /* Color de fondo azul claro */
+  color: #2b2b2b; /* Color de texto blanco */
+  border: none;
+  border-radius: 5px;
+  margin-top: 12px;
+  transition: background-color 0.3s;
+  width: auto; /* Ajusta el ancho al 100% del modal */
+}
+
+/* Estilos para los botones al pasar el mouse */
+.Modal button:hover {
+  background-color: #FCF6BD; /* Color de fondo verde claro al pasar el mouse */
+}
+
+/* Estilos para el enlace de YouTube */
+.Modal input[type="text"] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.container {
+  margin-top: 35px;
+}
+
+/* Estilos responsivos */
+@media screen and (max-width: 400px) {
+  .Modal {
+    width: 90%;
+    height: auto;
+  }
+}
