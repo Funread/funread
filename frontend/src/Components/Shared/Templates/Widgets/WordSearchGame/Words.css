@@ -1,0 +1,19 @@
+#words{
+    display: flex;
+    text-align: center;
+    place-content: center;    
+}
+
+#wordsInput{
+    width: 200px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+}
+
+#wordsInput:focus{
+    outline: none;
+}
+
+
+

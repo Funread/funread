@@ -17,8 +17,10 @@ import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 import ReverseUniqueSelection from "./Components/Block/ReverseQuiz/ReverseUniqueSelection";
 import Video from "./Components/Block/Media/Video/Video";
 import Voice from "./Components/Shared/Templates/Widgets/VoiceRecorder/Voicerecorder"
+import GameMode from "./Components/Shared/Templates/Widgets/WordSearchGame/GameModes"
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
@@ -99,6 +101,8 @@ root.render(
         />
 
         <Route exact path='demo/quiz' element={<UniqueSelection />} />
+        
+         <Route exact path='demo/quiz' element={<ReverseUniqueSelection />} />
 
         <Route exact path="demo/video" element={<Video />} />
 
@@ -129,11 +133,19 @@ root.render(
           }
         />
 
-        <Route
-          element={<ProtectedRoutes roles={['profesor', 'estudiante']} />}
-        ></Route>
-        <Route element={<ProtectedRoutes roles={['profesor']} />}>
-          {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
+<Route 
+        exact 
+         path='demo/wordsearchgame' 
+          element={
+            <GameMode />
+          } 
+       /> 
+
+        <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >
+
+        </Route>
+        <Route element={<ProtectedRoutes roles={['profesor']} /> } >
+        {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
           <Route
             exact
             path='/'
@@ -182,6 +194,7 @@ root.render(
     </Provider>
   </BrowserRouter>
 )
+
 
 // Agregar event listener para beforeunload
 window.addEventListener('beforeunload', handleBeforeUnload)
