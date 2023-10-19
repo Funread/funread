@@ -20,6 +20,19 @@
   
   }
 
+
+  @media  (max-width: 1915px){
+    
+    .GridLayoutTripleHorizontal{
+      width: 1850px;
+    }
+  }
+  @media  (max-width: 1900px){
+    
+    .GridLayoutTripleHorizontal{
+      width: 1880px;
+    }
+  }
   @media  (max-width: 1520px){
     
     .GridLayoutTripleHorizontal{
