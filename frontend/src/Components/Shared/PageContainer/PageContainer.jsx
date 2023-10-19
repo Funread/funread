@@ -12,7 +12,7 @@ const PageContainer = ({ title, image, width, height, imageAlt, text }) => {
                     <h6 className='m-0 font-weight-bold text-primary'>{title}</h6>
                 </div>
 
-                <div className='card-body'>
+                <div className='card-body' width={'5000'}>
                 <Grids />
                 </div>
             </div>
