@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "./BookPages.css";
+import "./BookPages.sass";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

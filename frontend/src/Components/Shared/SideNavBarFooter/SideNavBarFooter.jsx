@@ -1,6 +1,6 @@
 // SideNavBarFooter.js
 import React from 'react'
-import './SideNavBarFooter.css'
+import './SideNavBarFooter.sass'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 

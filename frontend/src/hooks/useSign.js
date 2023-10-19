@@ -1,40 +1,22 @@
-import axios from "axios";
+import { new_user } from "../api";
 
 const moment = require("moment");
 
 
 export const useSign = () => {
  
-  const signUp = async(name, email, password) => {
-
-    try {
-      
-    const data = await axios({
-      method: "post",
-      url: "http://localhost:8000/users/new-user/",
-      data: {
-        email: email,
-        name: name,
-        lastname: "Falta propiedad en frontend (Formulario)",
-        password: password,
-        createdat: moment().format(),
-        actived: 1,
-      },
-    });
-    if (data.status === 200 ){
-      if (data.data.email === email) {
-        return 'success';
-      }else{
-        return 'El email ya existe, debe ingresar otro';
+  const signUp = (name, email, password) => {
+      return new_user(name,email,password).then( (res) => {
+      if(res.status === 201){
+        return 'success'
       }
-    }
-  } catch (error) {
-      return error;
-      //console.log('Es posible que  ya exista el correo, debe ingresar otro');
-  }
+    }).catch( (error) => {
+      console.log(error)
+      return error.response.data.email[0]
+    });
   };
 
   return {
-    signUp,
+    signUp
   };
 };

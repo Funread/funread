@@ -1,4 +1,4 @@
-import './BookCard.css'
+import './BookCard.sass'
 
 const BookCard = ({
   id,

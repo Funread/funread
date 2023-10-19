@@ -1,4 +1,4 @@
-import './NavItem.css'
+import './NavItem.sass'
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -30,10 +30,11 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
       </div>
       {isSelected && (
         <div className='custom-card'>
-          <div className='icon-grid'>
+          <div className=''>
             {subItems.map((subItem, index) => (
               <div className='icon' key={index}>
-                <FontAwesomeIcon icon={subItem} />
+                {subItem}
+                {/* <FontAwesomeIcon icon={subItem} /> */}
               </div>
             ))}
           </div>

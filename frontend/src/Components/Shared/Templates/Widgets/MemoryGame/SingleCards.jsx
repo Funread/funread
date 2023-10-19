@@ -1,4 +1,4 @@
-import "./SingleCards.css"
+import "./SingleCards.sass"
 import font from "../MemoryGame/img/MemoryFont.png"
 
 export default function SingleCards({card, handleChoice, flipped, disabled}){
