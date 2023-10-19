@@ -38,20 +38,20 @@ def new_group(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@ api_view(['GET'])
-def listedGroups(request):
-
-    #token verification
+@api_view(['GET'])
+def listedCreateby(request, createdby):
+    # Token verification
     authorization_header = request.headers.get('Authorization')
     verify = verifyJwt.JWTValidator(authorization_header)
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     try:
-        Groups = GroupsCreate.objects.filter(createdby= request.data.get('teacher')).exclude(isactive=0)
+        createdby = GroupsCreate.objects.filter(createdby=createdby)
     except GroupsCreate.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = GorupsCreateSeralizer(Groups, many=True)
+
+    serializer = GorupsCreateSeralizer(createdby, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @ api_view(['POST'])

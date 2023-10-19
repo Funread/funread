@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import "./PopUp.css";
+import "./PopUp.sass";
 import PropTypes from "prop-types";
 import { Row, Col } from "react-bootstrap";
 

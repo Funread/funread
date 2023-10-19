@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, FormSelect } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
-import "./Tools.css";
+import "./Tools.sass";
 
 function Tools(props) {
   const [typographyList, setTypographyList] = useState([

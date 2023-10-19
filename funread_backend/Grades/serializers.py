@@ -11,21 +11,21 @@ class GradeSerializer (serializers.ModelSerializer):
         return Grades.objects.create(**validated_data)
 
     def update(self, instance , validated_data):
-        instance.booksid = validated_data.get('booksid', instance.booksid).lower()
+        instance.booksid = validated_data.get('booksid', instance.booksid)
         instance.progress = validated_data.get('progress', instance.progress)
         instance.grade = validated_data.get('grade', instance.grade)
-        instance.iduser = validated_data.get('iduser', instance.iduser)
+        instance.userid = validated_data.get('userid', instance.userid)
         instance.save()
         return instance
 
-class GradeChangeSerializer (serializers.ModelSerializer):
-    class Meta:
-        model = Grades
-        fields = ['grade']
+# class GradeChangeSerializer (serializers.ModelSerializer):
+#     class Meta:
+#         model = Grades
+#         fields = ['grade']
 
     
-    def update(self, instance , validated_data):
-        instance.Grade = validated_data.get('grade', instance.Grade).lower()
-        instance.save()
-        return instance
+#     def update(self, instance , validated_data):
+#         instance.Grade = validated_data.get('grade', instance.Grade).lower()
+#         instance.save()
+#         return instance
 
