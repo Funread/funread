@@ -9,7 +9,7 @@ import BookCreator from "./Components/BookCreator/BookCreator";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
-import UniqueSelection from "./Components/Block/UniqueSelection/UniqueSelection";
+import UniqueSelection from "./Components/Widgets/Quiz/UniqueSelection";
 import Library from "./Components/Library/Library";
 import Group from "./Components/Group/Group";
 import JoinValidator from "./Components/JoinValidator/JoinValidator";
@@ -102,7 +102,7 @@ root.render(
 
         <Route exact path='demo/quiz' element={<UniqueSelection />} />
         
-         <Route exact path='demo/quiz' element={<ReverseUniqueSelection />} />
+         <Route exact path='demo/quizreverse' element={<ReverseUniqueSelection />} />
 
         <Route exact path="demo/video" element={<Video />} />
 
