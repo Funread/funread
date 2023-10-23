@@ -9,6 +9,8 @@ import { faLock,faUser } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { checkJoin,searchCode } from "../../api"
+import { useDispatch } from "react-redux";
+import { addUser } from "../../redux/userSlice";
 
 function JoinValidator(props){
     const {code} = useParams()
@@ -18,6 +20,7 @@ function JoinValidator(props){
     const [error, setError] = useState("");
     const [init, setInit] = useState(false)
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     
     const passwordLength = (pass) => {
         if(pass.length>=5){
@@ -31,9 +34,16 @@ function JoinValidator(props){
 
         if(user!=="" && password!==""){ // si ya creamos una invitacion no tenemos por que crear otra, si el code y password cambiaron quiere decir que ya creamos una invitacion
             checkJoin(code, password).then((res) => {
-                sessionStorage.setItem("jwt",res.data.jwt)
-                sessionStorage.setItem("userName",user) //Aca se podria verificar el nombre de usuario o algo
-                
+
+                dispatch(addUser({
+                    userId: 0,
+                    email: "desconocido",
+                    name: user,
+                    lastName: "desconocido",
+                    userName: "desconocido",
+                    roles: ['invitado','estudiante'], //sugerencia de los roles que podria tener un inivitado
+                    jwt: res.data.jwt
+            }))
                 //para redireccionar se podemos eliminar el codigo de abajo y redireccionar
                 let s
                 if(res.data.data.classesId===null)
