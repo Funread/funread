@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import UniqueSelection from '../../Widgets/Quiz/UniqueSelection'
+import UniqueSelection from '../../Widgets/Quiz/UniqueSalection/UniqueSelection'
 import './PageContainer.sass'
 import { useDrop } from 'react-dnd'
 import TripleGridHorizontal from '../Grids/TripleGridHorizontal/TripleGridHorizontalPlaceholder'

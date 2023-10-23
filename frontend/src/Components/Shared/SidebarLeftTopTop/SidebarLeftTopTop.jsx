@@ -13,7 +13,7 @@ import {
 import NavItem from '../SideNavBarItem/NavItem'
 import SideNavBarFooter from '../SideNavBarFooter/SideNavBarFooter'
 import { useEffect, useState } from 'react'
-import UniqueSelection from '../../Widgets/Quiz/UniqueSelection'
+import UniqueSelection from '../../Widgets/Quiz/UniqueSalection/UniqueSelection'
 import TripleGridHorizontal from '../Grids/TripleGridHorizontal/TripleGridHorizontalPlaceholder'
 import CollageGrid from '../Grids/CollageGrid/CollageGridPlaceholder'
 import DoubleGridHorizontal from '../Grids/DoubleGridHorizontal/DoubleGridPlaceholder'
