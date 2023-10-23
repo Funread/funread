@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import AnswerQuiz from './AnswerQuiz'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { CreateQuiz } from '../../../api/widgets/quiz'
+import { CreateQuiz } from '../../../../api/widgets/quiz'
 import { useDrag } from 'react-dnd'
 
 const MIN_RESPONSES = 2
