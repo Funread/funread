@@ -1,5 +1,5 @@
 import './GameModes.css'
-import ButtonNav from '../../../NavButton/ButtonNav';
+import ButtonNav from '../../../../Components/Shared/NavButton/ButtonNav';
 import Words from './Words';
 import React, { useState } from 'react'
 
