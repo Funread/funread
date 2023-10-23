@@ -30,10 +30,16 @@ const BookCreator = () => {
       <div className='container-fluid bookCreator'>
         <div className='row flex-nowrap contentBookCreator'>
           <SidebarLeftTopTop />
+
+       
           <div className='col-ms-10 p-0 mx-auto'>
             <NavbarButtons />
+            <div className='scroll'>
             <Carousel slides={slides} onAddSlide={addSlide} />
+
+
             <Slide slides={slides} onRemoveSlides={removeSlide} />
+          </div>
           </div>
         </div>
       </div>

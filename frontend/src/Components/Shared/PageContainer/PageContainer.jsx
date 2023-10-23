@@ -63,8 +63,10 @@ const PageContainer = ({ pageNumber, onRemoveSlides }) => {
   }
 
   return (
+
+    
     <div className='container-fluid'>
-      <div className='row'>
+      <div className='row' >
         <div className='col'>
           <FullScreen handle={handle}>
             <div className='card shadow mb-4 content_page'>
