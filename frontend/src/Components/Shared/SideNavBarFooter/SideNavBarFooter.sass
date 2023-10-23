@@ -1,38 +1,49 @@
 .custom-nav-footer
   width: 100%
-  position: absolute
-  bottom: 0
   grid-template-columns: repeat(auto-fit, minmax(0, 1fr))
-  align-items: center
   gap: 10px
+  margin-top: 800px
+
 
 .custom-nav-details
   display: grid
   grid-template-columns: repeat(auto-fit, minmax(0, 1fr))
   align-items: center
   gap: 10px
+  margin-left: 30px
+  position: fixed
+  
 
 .custom-nav-details svg
   width: 50px
   padding: 0 20px
+  position: fixed
+  margin-left: -65px
+
+ 
 
 .custom-nav-footer-user-name
-  margin-top: -15px
-  font-size: 18px
-  font-weight: 900
+    margin-top: -15px
+    font-size: 18px
+    font-weight: 900
 
 .custom-nav-footer-user-position
   color: rgb(162, 162, 172)
+ 
 
 .logout-icon
-  width: 30px
+  width: 50px
   margin: auto
-  border-radius: 90px
-  padding: 20px
-  margin-left: 5px
+  border-radius: 100px
+  padding: 60px
+  margin-left: -30px
+  position: fixed
+
+  
 
 .logout-icon:hover
   background-color: var(--primary)
+
 
 @media only screen and (max-height: 490px)
   .custom-nav-footer
