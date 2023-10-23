@@ -29,11 +29,14 @@
   display: flex
   overflow-x: auto
   scroll-snap-type: x mandatory
-  justify-content: space-between
   gap: 20px
 
 .custom_section_item_page
   scroll-snap-align: center
+
+.custom-navbar-carrousel-button
+  border: none
+  background-color: transparent
 
 .custom_section_navbar_carrusel::-webkit-scrollbar
   height: 7px
@@ -51,6 +54,11 @@
   border: none
   margin: 0
   box-shadow: none
+
+.NavbClass.sticky
+  position: sticky
+  top: 0
+  z-index: 999
 
 @media (min-width: 2600px) and (max-width: 3000px)
   .NavbClass

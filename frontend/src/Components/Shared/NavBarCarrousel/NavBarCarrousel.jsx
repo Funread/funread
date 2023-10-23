@@ -1,19 +1,21 @@
-import './NavBarCarrousel.sass'
 import React from 'react'
-import Container from 'react-bootstrap/Container'
-import Nav from 'react-bootstrap/Nav'
+import './NavBarCarrousel.sass'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import Navbar from 'react-bootstrap/Navbar'
+import _ from 'lodash'
 
-const Carousel = () => {
+const Carousel = ({ slides, onAddSlide }) => {
+  const handleAddSlide = () => {
+    onAddSlide()
+  }
+
   return (
-    <Navbar bg='light' data-bs-theme='light' className='NavbClass'>
+    <Navbar bg='light' data-bs-theme='light' className='NavbClass sticky'>
       <div className='container-fluid m-0'>
         <div className='custom_section_navbar_carrusel'>
-          {[
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20,21,22,23,24,25,26,27,28,29,30,
-          ].map((i) => (
-            <div key={i} className='custom_section_item_page my-3'>
+          {_.map(slides, (number) => (
+            <div key={number} className='custom_section_item_page my-3'>
               <div className='page'>
                 <img
                   src={
@@ -22,14 +24,19 @@ const Carousel = () => {
                   alt='Imagen'
                   style={{ width: '30px', height: '30px', marginRight: '1px' }}
                 />
-                {i}
+                {number}
               </div>
             </div>
           ))}
+          <button
+            className='custom-navbar-carrousel-button'
+            onClick={handleAddSlide}
+          >
+            <FontAwesomeIcon icon={faPlus} />
+          </button>
         </div>
       </div>
     </Navbar>
-   
   )
 }
 
