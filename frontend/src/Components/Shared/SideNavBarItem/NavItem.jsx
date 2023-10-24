@@ -32,7 +32,7 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
         <div className='custom-card'>
           <div className=''>
             {subItems.map((subItem, index) => (
-              <div className='icon' key={index}>
+              <div className='icon mb-3' key={index}>
                 {subItem}
                 {/* <FontAwesomeIcon icon={subItem} /> */}
               </div>
