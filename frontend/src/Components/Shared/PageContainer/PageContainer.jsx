@@ -1,16 +1,17 @@
-import React, { useState } from 'react'
-import UniqueSelection from '../../Widgets/Quiz/UniqueSalection/UniqueSelection'
 import './PageContainer.sass'
+import React, { useState, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons'
+import { FullScreen, useFullScreenHandle } from 'react-full-screen'
+import UniqueSelection from '../../Widgets/Quiz/UniqueSalection/UniqueSelection'
 import TripleGridHorizontal from '../Grids/TripleGridHorizontal/TripleGridHorizontalPlaceholder'
 import CollageGrid from '../Grids/CollageGrid/CollageGridPlaceholder'
 import DoubleGridHorizontal from '../Grids/DoubleGridHorizontal/DoubleGridPlaceholder'
 import DoubleGridVertical from '../Grids/DoubleGridVertical/DoubleGridVerticalPlaceholder'
 import FullGrid from '../Grids/FullGrid/FullGridPlaceholder'
 import QuadrupleGrid from '../Grids/QuadrupleGrid/QuadrupleGridPlaceholder'
-import { FullScreen, useFullScreenHandle } from 'react-full-screen'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons'
+import html2canvas from 'html2canvas'
 
 const widgetType = 'widgetType'
 
@@ -25,10 +26,26 @@ const widgetTypeToComponent = {
   QuadrupleGrid: QuadrupleGrid,
 }
 
-const PageContainer = ({ pageNumber, onRemoveSlides }) => {
+const PageContainer = ({ pageNumber, onRemoveSlides, onImageCaptured }) => {
   const [buttonVisible, setButtonVisible] = useState(true)
   const [droppedComponent, setDroppedComponent] = useState(null)
   const [saveData, setSaveData] = useState(null)
+
+  useEffect(() => {
+    captureImage()
+  }, [droppedComponent, pageNumber])
+
+  const captureImage = () => {
+    // Captura el contenido del PageContainer
+    html2canvas(document.getElementById('pageContainer')).then((canvas) => {
+      // Convierte el canvas en una imagen
+      const image = new Image()
+      image.src = canvas.toDataURL()
+
+      // Llama a la función proporcionada por BookCreator para pasar la imagen
+      onImageCaptured(pageNumber, image.src)
+    })
+  }
 
   const save = (data) => {
     console.log(data)
@@ -63,10 +80,8 @@ const PageContainer = ({ pageNumber, onRemoveSlides }) => {
   }
 
   return (
-
-    
     <div className='container-fluid'>
-      <div className='row' >
+      <div className='row'>
         <div className='col'>
           <FullScreen handle={handle}>
             <div className='card shadow mb-4 content_page'>
@@ -94,6 +109,7 @@ const PageContainer = ({ pageNumber, onRemoveSlides }) => {
               </div>
 
               <div
+                id='pageContainer'
                 className='card-body custom-card-body-page-container'
                 ref={drop}
               >
