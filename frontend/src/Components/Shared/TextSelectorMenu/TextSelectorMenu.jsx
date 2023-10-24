@@ -4,8 +4,11 @@ import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { useLogin } from "../../../hooks/useLogin";
 import { google_translate } from "../../../api";
+import volume_high from "./img/volume_high.ico"
+import volume_medium from "./img/volume_medium.ico"
+import volume_low from "./img/volume_low.ico"
+import volume_silence from "./img/volume_silence.ico"
 
 
 function TextSelectorMenu() {
@@ -140,15 +143,13 @@ function TextSelectorMenu() {
               {renderVoiceOptions()}
             </select>
             <div className="text-selector-menu-voie-volume-div">
-            <h6>
+            <img src={volume>=0.7?volume_high:
+                      volume>=0.35?volume_medium:
+                      volume>=0.01?volume_low:
+                      volume_silence}
+            alt="audio" className="text-selector-menu-volume-icon" onClick={ () => {if(volume!==0){setVolume(0)}else{setVolume(0.8)}} }/>
 
-            {volume>=0.7?'alto':
-            volume>=0.35?'medio':
-            volume>=0.01?'bajo':
-            'silencio'}
-            </h6>
-
-            <input className="text-selector-menu-voice-volume" type="range" min="0" max="1" step="0.01" onChange={(e) => {setVolume(e.target.value)}}/>
+            <input className="text-selector-menu-voice-volume" type="range" min="0" max="1" step="0.01" value={volume} onChange={(e) => {setVolume(e.target.value)}}/>
             
             <p>{Math.round(volume * 100) + '%'}</p>
             </div>
