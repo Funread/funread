@@ -14,12 +14,7 @@ import NavItem from '../SideNavBarItem/NavItem'
 import SideNavBarFooter from '../SideNavBarFooter/SideNavBarFooter'
 import { useEffect, useState } from 'react'
 import UniqueSelection from '../../Widgets/Quiz/UniqueSalection/UniqueSelection'
-import TripleGridHorizontal from '../Grids/TripleGridHorizontal/TripleGridHorizontalPlaceholder'
-import CollageGrid from '../Grids/CollageGrid/CollageGridPlaceholder'
-import DoubleGridHorizontal from '../Grids/DoubleGridHorizontal/DoubleGridPlaceholder'
-import DoubleGridVertical from '../Grids/DoubleGridVertical/DoubleGridVerticalPlaceholder'
-import FullGrid from '../Grids/FullGrid/FullGridPlaceholder'
-import QuadrupleGrid from '../Grids/QuadrupleGrid/QuadrupleGridPlaceholder'
+import Grids from '../Grids/Grids'
 
 const SidebarLeftTopTop = () => {
   const [isExpanded, setExpendState] = useState(true)
@@ -58,12 +53,12 @@ const SidebarLeftTopTop = () => {
       text: 'Grids',
       icon: faTh,
       subItems: [
-        <CollageGrid />,
-        <DoubleGridHorizontal />,
-        <DoubleGridVertical />,
-        <FullGrid />,
-        <QuadrupleGrid />,
-        <TripleGridHorizontal />,
+        <Grids direction={'horizontal'} numRows={1} />,
+        <Grids direction={'vertical'} numRows={2} />,
+        <Grids direction={'horizontal'} numRows={3} />,
+        <Grids direction={'quadruple'} numRows={4} />,
+        <Grids direction={'horizontal'} numRows={2} />,
+        <Grids direction={'collage'} numRows={7} />,
       ],
     },
     {
