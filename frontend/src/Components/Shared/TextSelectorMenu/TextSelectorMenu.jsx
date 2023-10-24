@@ -1,23 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./TextSelectorTraslate.css"
+import "./TextSelectorMenu.css"
 import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { useLogin } from "../../../hooks/useLogin";
+import { google_translate } from "../../../api";
+
 
 function TextSelectorMenu() {
-  const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(false);
   const [show, setShow] = useState(false);
-  const menuRef = useRef(null)
-  const [Text, setText] = useState('')
-  const [translatedText, setTranslatedText] = useState('')
-  const [loadingSpeech, setLoadingSpeech] = useState(false)
-  const [loadingText, setLoadingText] = useState(false)
-  const { axiosWithoutAuth } = useLogin()
-  const [showLenguages, setShowLenguages] = useState(0)
-  const [voices, setVoices] = useState([]);
+  const menuRef = useRef(null);
+  const [Text, setText] = useState('');
+  const [translatedText, setTranslatedText] = useState('');
+  const [loadingSpeech, setLoadingSpeech] = useState(false);
+  const [loadingText, setLoadingText] = useState(false);
+  const [showLenguages, setShowLenguages] = useState(0);
+  const voices = window.speechSynthesis.getVoices();
   const [selectedVoice, setSelectedVoice] = useState(null);
+  const [volume, setVolume] = useState(0.8);
 
   
       function showCustomMenu(event) {
@@ -64,7 +66,7 @@ function TextSelectorMenu() {
 
     const textTranslated = async () => {
       setLoadingText(true);
-      await axiosWithoutAuth().post('/translate/googleTraslate/',{text:Text,target_language:"es"}).then(res => {
+      google_translate(Text,"es").then(res => {
         setTranslatedText(res.data.translated_text);
         setShow(true);
         setLoadingText(false)
@@ -82,6 +84,8 @@ function TextSelectorMenu() {
       if(selectedVoice){
         speech.voice = selectedVoice
       }
+      //parseFloat
+      speech.volume = volume 
       window.speechSynthesis.speak(speech);
       setLoadingSpeech(false)
     };
@@ -100,6 +104,7 @@ function TextSelectorMenu() {
       setSelectedVoice(voice);
       const speech = new SpeechSynthesisUtterance('this is my voice');
       speech.voice = voice
+      speech.volume = volume 
       window.speechSynthesis.speak(speech);
     };
 
@@ -112,7 +117,7 @@ function TextSelectorMenu() {
               {loadingSpeech?<Spinner animation="border" size="sm" />:''}
               Escuchar
             </button>
-            <button onClick={() => {setShowLenguages(!showLenguages);setVoices(window.speechSynthesis.getVoices())}}>
+            <button onClick={() => {setShowLenguages(!showLenguages);}}>
               <span>...</span>
             </button>
           </div>
@@ -131,9 +136,22 @@ function TextSelectorMenu() {
               <Modal.Title>Selecciona una Voz</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <select id="voiceSelect" value={selectedVoice ? selectedVoice.name : ""} onChange={handleChangeVoice}>
+            <select className="text-selector-menu-voie-selector" value={selectedVoice ? selectedVoice.name : ""} onChange={handleChangeVoice}>
               {renderVoiceOptions()}
             </select>
+            <div className="text-selector-menu-voie-volume-div">
+            <h6>
+
+            {volume>=0.7?'alto':
+            volume>=0.35?'medio':
+            volume>=0.01?'bajo':
+            'silencio'}
+            </h6>
+
+            <input className="text-selector-menu-voice-volume" type="range" min="0" max="1" step="0.01" onChange={(e) => {setVolume(e.target.value)}}/>
+            
+            <p>{Math.round(volume * 100) + '%'}</p>
+            </div>
             </Modal.Body>
           </Modal>
       </div>

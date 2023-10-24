@@ -17,6 +17,7 @@ import ReverseUniqueSelection from "./Components/Widgets/Quiz/ReverseQuiz/Revers
 import Video from "./Components/Widgets/Media/Video/Video";
 import Voice from "./Components/Widgets/Media/VoiceRecorder/Voicerecorder"
 import GameMode from "./Components/Widgets/Game/WordSearchGame/GameModes"
+import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorMenu";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
@@ -37,6 +38,8 @@ if (persistedState) {
 }
 
 root.render(
+  <>
+  <TextSelectorMenu />
   <BrowserRouter>
     <Provider store={store}>
       <Routes>
@@ -190,6 +193,7 @@ root.render(
       </Routes>
     </Provider>
   </BrowserRouter>
+  </>
 )
 
 
