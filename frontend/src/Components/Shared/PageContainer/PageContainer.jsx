@@ -83,7 +83,7 @@ const PageContainer = ({ title }) => {
               </div>
 
               <div
-                className='card-body custom-card-body-page-container'
+                className='card-body custom-card-body-page-container p-0'
                 ref={drop}
               >
                 {droppedComponent &&
