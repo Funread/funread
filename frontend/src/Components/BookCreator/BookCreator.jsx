@@ -31,7 +31,6 @@ const BookCreator = () => {
   const updateImage = (pageNumber, image) => {
     const updatedSlides = slides.map((slide) => {
       if (slide.id === pageNumber) {
-        console.log('bookcreator', slide, image)
         return { ...slide, image }
       }
       return slide
