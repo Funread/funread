@@ -58,7 +58,7 @@ const PageContainer = ({ pageNumber, onRemoveSlides, onImageCaptured }) => {
   }))
 
   const remove = () => {
-    onRemoveSlides()
+    onRemoveSlides(pageNumber)
     // setDroppedComponent(null)
   }
 
