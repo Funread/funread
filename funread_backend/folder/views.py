@@ -63,7 +63,7 @@ def deleteFolder(request, nameFolders):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    folder = Folder.objects.get(nameFolders=nameFolders)
+    folder = Folder.objects.get(namefolders=nameFolders)
     folder.delete()
 
     return Response(status=status.HTTP_200_OK)
