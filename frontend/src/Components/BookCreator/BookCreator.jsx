@@ -12,7 +12,6 @@ import Slide from '../Shared/Slides/Slide'
 const BookCreator = () => {
   const backend = isMobile ? TouchBackend : HTML5Backend
   const [slides, setSlides] = useState([{ id: 1, image: null }])
-  const [capturedImages, setCapturedImages] = useState({})
 
   // Función para agregar una diapositiva
   const addSlide = () => {
@@ -50,11 +49,7 @@ const BookCreator = () => {
           <div className='col-ms-10 p-0 mx-auto'>
             <NavbarButtons />
             <div className='scroll'>
-              <Carousel
-                slides={slides}
-                onAddSlide={addSlide}
-                capturedImages={capturedImages}
-              />
+              <Carousel slides={slides} onAddSlide={addSlide} />
               <Slide
                 slides={slides}
                 onRemoveSlides={removeSlide}
