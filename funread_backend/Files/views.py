@@ -80,7 +80,7 @@ def new_file(request):
     data = {
         'namefile': request.data.get('namefile').lower(),
         'filelocation': request.data.get('filelocation'),
-        'idfolder': request.data.get('idfolder'),
+        'foldersid': request.data.get('foldersid'),
         'uploadby': request.data.get('uploadby'),
         'idtags' : request.data.get('idtags' ),
     }

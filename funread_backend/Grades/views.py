@@ -25,7 +25,7 @@ def creategrade(request):
         'booksid': request.data.get('booksid'),
         'progress': request.data.get('progress'),
         'grade': request.data.get('grade'),
-        'userid': request.data.get('iduser'),
+        'userid': request.data.get('userid'),
         'isactive': 1
         }
     serializer = GradeSerializer(data=data)

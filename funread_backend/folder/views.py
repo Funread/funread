@@ -79,7 +79,7 @@ def FolderSearch(request, nameFolders):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     try:
-        folder = Folder.objects.get(nameFolders=nameFolders)
+        folder = Folder.objects.get(namefolders=nameFolders)
         print(folder)
     except Folder.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -97,7 +97,7 @@ def folderChange(request, nameFolders):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    folder = Folder.objects.get(nameFolders=nameFolders)
+    folder = Folder.objects.get(namefolders=nameFolders)
     serializer = FolderSerializer(folder, data=request.data)
     if serializer.is_valid():
         serializer.save()
