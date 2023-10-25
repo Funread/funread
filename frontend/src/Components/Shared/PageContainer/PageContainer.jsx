@@ -16,7 +16,7 @@ const widgetTypeToComponent = {
   Grids: Grids,
 }
 
-const PageContainer = ({ pageNumber, onRemoveSlides, onImageCaptured }) => {
+const PageContainer = ({ pageNumber, onRemoveSlides, updateImage }) => {
   const [buttonVisible, setButtonVisible] = useState(true)
   const [droppedComponent, setDroppedComponent] = useState(null)
   const [saveData, setSaveData] = useState(null)
@@ -27,14 +27,16 @@ const PageContainer = ({ pageNumber, onRemoveSlides, onImageCaptured }) => {
 
   const captureImage = () => {
     // Captura el contenido del PageContainer
-    html2canvas(document.getElementById('pageContainer')).then((canvas) => {
-      // Convierte el canvas en una imagen
-      const image = new Image()
-      image.src = canvas.toDataURL()
+    html2canvas(document.getElementById(`pageContainer-${pageNumber}`)).then(
+      (canvas) => {
+        // Convierte el canvas en una imagen
+        const image = new Image()
+        image.src = canvas.toDataURL()
 
-      // Llama a la función proporcionada por BookCreator para pasar la imagen
-      onImageCaptured(pageNumber, image.src)
-    })
+        // Llama a la función del BookCreator para pasar la imagen
+        updateImage(pageNumber, image.src)
+      }
+    )
   }
 
   const save = (data) => {
@@ -103,7 +105,7 @@ const PageContainer = ({ pageNumber, onRemoveSlides, onImageCaptured }) => {
               </div>
 
               <div
-                id='pageContainer'
+                id={`pageContainer-${pageNumber}`}
                 className='card-body custom-card-body-page-container p-0'
                 ref={drop}
               >

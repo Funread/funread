@@ -13,13 +13,13 @@ const BookCreator = () => {
   const backend = isMobile ? TouchBackend : HTML5Backend
   const [slides, setSlides] = useState([{ id: 1, image: null }])
 
-  // Función para agregar una diapositiva
+  // Agregar una diapositiva
   const addSlide = () => {
     const newSlideId = Math.max(...slides.map((slide) => slide.id)) + 1
     setSlides([...slides, { id: newSlideId, image: null }])
   }
 
-  // Función para quitar la última diapositiva
+  // Quitar la diapositiva
   const removeSlide = (slideId) => {
     if (slides.length > 1) {
       const newSlides = slides.filter((slide) => slide.id !== slideId)
@@ -27,16 +27,16 @@ const BookCreator = () => {
     }
   }
 
-  const handleImageCaptured = (pageNumber, image) => {
-    // Copia el estado actual de las diapositivas y actualiza la diapositiva con la imagen capturada.
+  // Actualiza la imagen de las diapositivas
+  const updateImage = (pageNumber, image) => {
     const updatedSlides = slides.map((slide) => {
       if (slide.id === pageNumber) {
-        return { id: pageNumber, image: image }
+        console.log('bookcreator', slide, image)
+        return { ...slide, image }
       }
       return slide
     })
 
-    // Actualiza el estado de las diapositivas con la nueva información.
     setSlides(updatedSlides)
   }
 
@@ -53,7 +53,7 @@ const BookCreator = () => {
               <Slide
                 slides={slides}
                 onRemoveSlides={removeSlide}
-                onImageCaptured={handleImageCaptured}
+                updateImage={updateImage}
               />
             </div>
           </div>
