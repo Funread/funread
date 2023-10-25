@@ -1,16 +1,11 @@
 import './PageContainer.sass'
 import React, { useState, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
+import Grids from '../Grids/Grids'
+import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
+import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons'
-import { FullScreen, useFullScreenHandle } from 'react-full-screen'
-import UniqueSelection from '../../Widgets/Quiz/UniqueSalection/UniqueSelection'
-import TripleGridHorizontal from '../Grids/TripleGridHorizontal/TripleGridHorizontalPlaceholder'
-import CollageGrid from '../Grids/CollageGrid/CollageGridPlaceholder'
-import DoubleGridHorizontal from '../Grids/DoubleGridHorizontal/DoubleGridPlaceholder'
-import DoubleGridVertical from '../Grids/DoubleGridVertical/DoubleGridVerticalPlaceholder'
-import FullGrid from '../Grids/FullGrid/FullGridPlaceholder'
-import QuadrupleGrid from '../Grids/QuadrupleGrid/QuadrupleGridPlaceholder'
 import html2canvas from 'html2canvas'
 
 const widgetType = 'widgetType'
@@ -18,12 +13,7 @@ const widgetType = 'widgetType'
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
   UniqueSelection: UniqueSelection,
-  TripleGridHorizontal: TripleGridHorizontal,
-  CollageGrid: CollageGrid,
-  DoubleGridHorizontal: DoubleGridHorizontal,
-  DoubleGridVertical: DoubleGridVertical,
-  FullGrid: FullGrid,
-  QuadrupleGrid: QuadrupleGrid,
+  Grids: Grids,
 }
 
 const PageContainer = ({ pageNumber, onRemoveSlides, onImageCaptured }) => {
@@ -55,8 +45,12 @@ const PageContainer = ({ pageNumber, onRemoveSlides, onImageCaptured }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: widgetType,
     drop: (item) => {
-      console.log(item)
-      setDroppedComponent(item.type)
+      const droppedComponentInfo = {
+        type: item.type,
+        direction: item.direction,
+        rows: item.numRows,
+      }
+      setDroppedComponent(droppedComponentInfo)
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -110,13 +104,19 @@ const PageContainer = ({ pageNumber, onRemoveSlides, onImageCaptured }) => {
 
               <div
                 id='pageContainer'
-                className='card-body custom-card-body-page-container'
+                className='card-body custom-card-body-page-container p-0'
                 ref={drop}
               >
-                {widgetTypeToComponent[droppedComponent] &&
-                  React.createElement(widgetTypeToComponent[droppedComponent], {
-                    saveData,
-                  })}
+                {droppedComponent &&
+                  widgetTypeToComponent[droppedComponent.type] &&
+                  React.createElement(
+                    widgetTypeToComponent[droppedComponent.type],
+                    {
+                      saveData,
+                      direction: droppedComponent.direction,
+                      numRows: droppedComponent.rows,
+                    }
+                  )}
               </div>
             </div>
           </FullScreen>
