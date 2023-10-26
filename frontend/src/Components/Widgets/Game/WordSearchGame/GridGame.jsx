@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './GridGame.css'
 
 function SopaDeLetras({ palabras }) {
   const filas = 12;
@@ -14,42 +15,73 @@ function SopaDeLetras({ palabras }) {
     for (let i = 0; i < filas; i++) {
       const fila = [];
       for (let j = 0; j < columnas; j++) {
-        fila.push(generarLetraAleatoria());
+        fila.push('');
       }
       cuadricula.push(fila);
     }
     return cuadricula;
   }
 
-  function insertarPalabras(cuadricula) {
-    palabras.forEach((palabra) => {
-      const direccion = Math.random() < 0.5 ? "horizontal" : "vertical";
-      const filaInicial = Math.floor(Math.random() * filas);
-      const columnaInicial = Math.floor(Math.random() * columnas);
+  function insertarPalabra(cuadricula, palabra) {
+    let direccion, filaInicial, columnaInicial;
+    do {
+      direccion = Math.random() < 0.5 ? "horizontal" : "vertical";
+      filaInicial = Math.floor(Math.random() * filas);
+      columnaInicial = Math.floor(Math.random() * columnas);
+    } while (!esPosicionDisponible(cuadricula, palabra, direccion, filaInicial, columnaInicial));
 
-      if (direccion === "horizontal") {
-        for (let i = 0; i < palabra.length; i++) {
-          if (columnaInicial + i < columnas) {
-            cuadricula[filaInicial][columnaInicial + i] = palabra[i];
-          }
-        }
-      } else {
-        for (let i = 0; i < palabra.length; i++) {
-          if (filaInicial + i < filas) {
-            cuadricula[filaInicial + i][columnaInicial] = palabra[i];
-          }
+    if (direccion === "horizontal") {
+      for (let i = 0; i < palabra.length; i++) {
+        cuadricula[filaInicial][columnaInicial + i] = palabra[i];
+      }
+    } else {
+      for (let i = 0; i < palabra.length; i++) {
+        cuadricula[filaInicial + i][columnaInicial] = palabra[i];
+      }
+    }
+  }
+
+  function esPosicionDisponible(cuadricula, palabra, direccion, filaInicial, columnaInicial) {
+    if (direccion === "horizontal") {
+      if (columnaInicial + palabra.length > columnas) return false;
+      for (let i = 0; i < palabra.length; i++) {
+        if (cuadricula[filaInicial][columnaInicial + i] !== '') {
+          return false;
         }
       }
-    });
+    } else {
+      if (filaInicial + palabra.length > filas) return false;
+      for (let i = 0; i < palabra.length; i++) {
+        if (cuadricula[filaInicial + i][columnaInicial] !== '') {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   const [cuadricula, setCuadricula] = useState(llenarCuadriculaAleatoria());
 
   useEffect(() => {
-    const nuevaCuadricula = [...cuadricula];
-    insertarPalabras(nuevaCuadricula);
+    const nuevaCuadricula = llenarCuadriculaAleatoria();
+    const palabrasRestantes = [...palabras];
+
+    while (palabrasRestantes.length > 0) {
+      const palabra = palabrasRestantes.pop();
+      insertarPalabra(nuevaCuadricula, palabra);
+    }
+
+    // Rellenar los cuadros vacíos con letras aleatorias
+    for (let i = 0; i < filas; i++) {
+      for (let j = 0; j < columnas; j++) {
+        if (nuevaCuadricula[i][j] === '') {
+          nuevaCuadricula[i][j] = generarLetraAleatoria();
+        }
+      }
+    }
+
     setCuadricula(nuevaCuadricula);
-  }, []);
+  }, [palabras]);
 
   return (
     <div>
@@ -59,7 +91,7 @@ function SopaDeLetras({ palabras }) {
           {cuadricula.map((fila, filaIndex) => (
             <tr key={filaIndex}>
               {fila.map((letra, columnaIndex) => (
-                <td key={columnaIndex} className={palabras.includes(letra) ? 'resaltado' : ''}>
+                <td key={columnaIndex}>
                   {letra}
                 </td>
               ))}
@@ -72,3 +104,6 @@ function SopaDeLetras({ palabras }) {
 }
 
 export default SopaDeLetras;
+
+
+
