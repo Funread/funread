@@ -17,6 +17,7 @@ import ReverseUniqueSelection from "./Components/Widgets/Quiz/ReverseQuiz/Revers
 import Video from "./Components/Widgets/Media/Video/Video";
 import Voice from "./Components/Widgets/Media/VoiceRecorder/Voicerecorder"
 import GameMode from "./Components/Widgets/Game/WordSearchGame/GameModes"
+import Lobby from "./Components/Lobby/Lobby";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
@@ -130,14 +131,20 @@ root.render(
           }
         />
 
-<Route 
+      <Route 
         exact 
          path='demo/wordsearchgame' 
           element={
             <GameMode />
           } 
        /> 
-
+      <Route 
+        exact 
+         path='demo/lobby' 
+          element={
+            <Lobby />
+          } 
+       /> 
         <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >
 
         </Route>
