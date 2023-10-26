@@ -9,7 +9,7 @@ import BookCreator from "./Components/BookCreator/BookCreator";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
-import UniqueSelection from "./Components/Block/UniqueSelection/UniqueSelection";
+import UniqueSelection from "./Components/Widgets/Quiz/UniqueSelection.jsx";
 import Library from "./Components/Library/Library";
 import Group from "./Components/Group/Group";
 import JoinValidator from "./Components/JoinValidator/JoinValidator";

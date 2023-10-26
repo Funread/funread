@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import ReverseAnswerQuiz from '../../Widgets/Quiz/ReverseAnswerQuiz'
 
+
 const MIN_RESPONSES = 2
 const MAX_RESPONSES = 4
 
