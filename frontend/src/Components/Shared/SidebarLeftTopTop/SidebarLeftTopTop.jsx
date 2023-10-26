@@ -1,5 +1,6 @@
 import './SidebarLeftTopTop.sass'
 import 'bootstrap/js/dist/dropdown'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faBars,
@@ -12,8 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import NavItem from '../SideNavBarItem/NavItem'
 import SideNavBarFooter from '../SideNavBarFooter/SideNavBarFooter'
-import { useEffect, useState } from 'react'
-import UniqueSelection from '../../Widgets/Quiz/UniqueSalection/UniqueSelection'
+import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
 import Grids from '../Grids/Grids'
 
 const SidebarLeftTopTop = () => {
