@@ -16,7 +16,7 @@ const Carousel = ({ slides, onAddSlide }) => {
           <div key={slide.id} className='custom_section_item_page my-3'>
             <div className='page'>
               <img
-                src={slide.image || '/imagenes/no-image.png'}
+                src={slide.image || '/imagenes/white.jpg'}
                 alt='Imagen'
                 style={{ width: '30px', height: '30px', marginRight: '1px' }}
               />
