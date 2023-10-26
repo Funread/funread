@@ -2,7 +2,7 @@ import _ from 'lodash'
 import './Slide.sass'
 import PageContainer from '../PageContainer/PageContainer'
 
-const Slide = ({ slides, onRemoveSlides, updateImage }) => {
+const Slide = ({ slides, onRemoveSlides, updateImage, addOrUpdatePage }) => {
   return (
     <>
       {_.map(slides, (slide) => (
@@ -11,6 +11,7 @@ const Slide = ({ slides, onRemoveSlides, updateImage }) => {
           pageNumber={slide.id}
           onRemoveSlides={onRemoveSlides}
           updateImage={updateImage}
+          addOrUpdatePage={addOrUpdatePage}
         />
       ))}
     </>

@@ -16,7 +16,12 @@ const widgetTypeToComponent = {
   Grids: Grids,
 }
 
-const PageContainer = ({ pageNumber, onRemoveSlides, updateImage }) => {
+const PageContainer = ({
+  pageNumber,
+  onRemoveSlides,
+  updateImage,
+  addOrUpdatePage,
+}) => {
   const [buttonVisible, setButtonVisible] = useState(true)
   const [droppedComponent, setDroppedComponent] = useState(null)
   const [saveData, setSaveData] = useState(null)
@@ -52,6 +57,11 @@ const PageContainer = ({ pageNumber, onRemoveSlides, updateImage }) => {
         direction: item.direction,
         rows: item.numRows,
       }
+      addOrUpdatePage(
+        pageNumber,
+        droppedComponentInfo.direction,
+        droppedComponentInfo.rows
+      )
       setDroppedComponent(droppedComponentInfo)
     },
     collect: (monitor) => ({

@@ -25,9 +25,7 @@
   cursor: auto
 
 .custom_section_navbar_carrusel
-  width: 100%
   display: flex
-  overflow-x: auto
   scroll-snap-type: x mandatory
   gap: 20px
 
@@ -60,72 +58,18 @@
   top: 0
   z-index: 999
 
-@media (min-width: 2600px) and (max-width: 3000px)
-  .NavbClass
-    width: 89%
+.navbar-carousel-custom-container 
+  background-color: #fff
+  display: flex
+  max-width: 100%
+  overflow: hidden
+  overflow-x: auto
+  container-type: inline-size
+  position: sticky
+  top: 0
+  z-index: 999
 
-@media (min-width: 2450px) and (max-width: 2600px)
-  .NavbClass
-    width: 88%
-
-@media (min-width: 2250px) and (max-width: 2450px)
-  .NavbClass
-    width: 87.5%
-
-@media (min-width: 2000px) and (max-width: 2250px)
-  .NavbClass
-    width: 86%
-
-@media (min-width: 1800px) and (max-width: 2000px)
-  .NavbClass
-    width: 85%
-
-@media (min-width: 1600px) and (max-width: 1800px)
-  .NavbClass
-    width: 83%
-
-@media (min-width: 1450px) and (max-width: 1600px)
-  .NavbClass
-    width: 81%
-
-@media (min-width: 1285px) and (max-width: 1450px)
-  .NavbClass
-    width: 78.5%
-
-@media (min-width: 1190px) and (max-width: 1285px)
-  .NavbClass
-    width: 76%
-
-@media (min-width: 1130px) and (max-width: 1190px)
-  .NavbClass
+@media screen and (max-width: 580px)
+  .custom_section_navbar_carrusel
     width: 75%
 
-@media (min-width: 1000px) and (max-width: 1130px)
-  .NavbClass
-    width: 73%
-
-@media (min-width: 900px) and (max-width: 1000px)
-  .NavbClass
-    width: 70%
-
-@media (min-width: 800px) and (max-width: 900px)
-  .NavbClass
-    width: 67%
-
-@media (min-width: 766px) and (max-width: 800px)
-  .NavbClass
-    width: 62%
-
-@media (min-width: 560px) and (max-width: 766px)
-  .NavbClass
-    width: 89%
-
-@media (min-width: 470px) and (max-width: 560px)
-  .NavbClass
-    width: 87%
-    padding-right: 1rem
-
-@media (min-width: 350px) and (max-width: 470px)
-  .NavbClass
-    width: 84%
-    padding-right: 3rem
