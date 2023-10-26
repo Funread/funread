@@ -2,7 +2,8 @@ import './GameModes.css'
 import ButtonNav from '../../../../Components/Shared/NavButton/ButtonNav';
 import Words from './Words';
 import React, { useState } from 'react'
-
+import GridGame from './GridGame';
+import SopaDeLetras from './GridGame';
 
 const MIN_RESPONSES = 5
 const INTER_RESPONSES = 10
@@ -39,6 +40,8 @@ function GameModes(){
         // Accede a las respuestas en el estado 'responses' y realiza la acción deseada.
         console.log(responses); // Puedes cambiar esto para guardar las respuestas en tu base de datos, enviarlas al servidor, etc.
       }
+
+      const palabras = ["hola", "mundo", "react", "sopa"];
 
 
     return(
@@ -80,6 +83,8 @@ function GameModes(){
                     <ButtonNav title={'Save'} onClick={saveResponses} />
                 </div>
                 </div>
+                {/*<GridGame palabras={palabras}></GridGame>*/}
+                <SopaDeLetras palabras={palabras} />
             </div>
         </div>
     );
