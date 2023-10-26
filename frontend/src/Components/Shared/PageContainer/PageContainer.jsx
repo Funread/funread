@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import UniqueSelection from '../../Widgets/Quiz/UniqueSalection/UniqueSelection'
 import './PageContainer.sass'
+import React, { useState, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
 import Grids from '../Grids/Grids'
+import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons'
+import html2canvas from 'html2canvas'
 
 const widgetType = 'widgetType'
 
@@ -15,10 +16,33 @@ const widgetTypeToComponent = {
   Grids: Grids,
 }
 
-const PageContainer = ({ title }) => {
+const PageContainer = ({
+  pageNumber,
+  onRemoveSlides,
+  updateImage,
+  addOrUpdatePage,
+}) => {
   const [buttonVisible, setButtonVisible] = useState(true)
   const [droppedComponent, setDroppedComponent] = useState(null)
   const [saveData, setSaveData] = useState(null)
+
+  useEffect(() => {
+    captureImage()
+  }, [droppedComponent, pageNumber])
+
+  const captureImage = () => {
+    // Captura el contenido del PageContainer
+    html2canvas(document.getElementById(`pageContainer-${pageNumber}`)).then(
+      (canvas) => {
+        // Convierte el canvas en una imagen
+        const image = new Image()
+        image.src = canvas.toDataURL()
+
+        // Llama a la función del BookCreator para pasar la imagen
+        updateImage(pageNumber, image.src)
+      }
+    )
+  }
 
   const save = (data) => {
     console.log(data)
@@ -33,6 +57,11 @@ const PageContainer = ({ title }) => {
         direction: item.direction,
         rows: item.numRows,
       }
+      addOrUpdatePage(
+        pageNumber,
+        droppedComponentInfo.direction,
+        droppedComponentInfo.rows
+      )
       setDroppedComponent(droppedComponentInfo)
     },
     collect: (monitor) => ({
@@ -41,7 +70,8 @@ const PageContainer = ({ title }) => {
   }))
 
   const remove = () => {
-    setDroppedComponent(null)
+    onRemoveSlides(pageNumber)
+    // setDroppedComponent(null)
   }
 
   const handle = useFullScreenHandle()
@@ -62,7 +92,9 @@ const PageContainer = ({ title }) => {
           <FullScreen handle={handle}>
             <div className='card shadow mb-4 content_page'>
               <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
-                <h6 className='m-0 font-weight-bold text-primary'>{title}</h6>
+                <h6 className='m-0 font-weight-bold text-primary'>
+                  {'Activity ' + pageNumber}
+                </h6>
                 <div className='d-flex'>
                   <button onClick={remove}>
                     <img src='/escoba.png' alt='Clear' />
@@ -83,6 +115,7 @@ const PageContainer = ({ title }) => {
               </div>
 
               <div
+                id={`pageContainer-${pageNumber}`}
                 className='card-body custom-card-body-page-container p-0'
                 ref={drop}
               >
