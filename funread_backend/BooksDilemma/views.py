@@ -116,10 +116,10 @@ def search_dimesion(request, bookcategoryid):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     try:
-        bookdimension = BookDimension.objects.get(bookcategoryid=bookcategoryid)
+        bookdimension = BookDimension.objects.filter(bookcategoryid=bookcategoryid)
     except BookDimension.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = BookDimensionSerializer(bookdimension)
+    serializer = BookDimensionSerializer(bookdimension, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
@@ -190,10 +190,10 @@ def search_dilemma(request,bookdimensionid):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     try:
-        bookdilemma = BookDilemma.objects.get(bookdimensionid=bookdimensionid)
+        bookdilemma = BookDilemma.objects.filter(bookdimensionid=bookdimensionid)
     except BookDilemma.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = BookDilemmaSerializer(bookdilemma)
+    serializer = BookDilemmaSerializer(bookdilemma, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
@@ -239,8 +239,8 @@ def change_dilemma(request):
 
     try:
         bookdilemmaid = request.data.get('bookdilemmaid')
-        bookdilemma = BookCategory.objects.get(bookdilemmaid=bookdilemmaid)
-    except BookCategory.DoesNotExist:
+        bookdilemma = BookDilemma.objects.get(bookdilemmaid=bookdilemmaid)
+    except BookDilemma.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     data = {
@@ -255,7 +255,7 @@ def change_dilemma(request):
 
 #  Metodos de DilemmaPerBook ------------------------------------------------------------------------------------
 @api_view(['GET'])
-def search_dilemmaperbook(request,dilemmaperbookid):
+def search_dilemmaperbook(request,bookid):
     #token verification
     authorization_header = request.headers.get('Authorization')
     verify = verifyJwt.JWTValidator(authorization_header)
@@ -263,7 +263,12 @@ def search_dilemmaperbook(request,dilemmaperbookid):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    try:
+        dilemmasperbook = DilemmaPerBook.objects.filter(bookid=bookid)
+    except DilemmaPerBook.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = DilemmaPerBookSerializer(dilemmasperbook, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def list_dilemmaperbook(request):
@@ -308,8 +313,8 @@ def change_dilemmaperbook(request):
 
     try:
         dilemmaperbookid = request.data.get('dilemmaperbookid')
-        dilemmaperbook = BookCategory.objects.get(dilemmaperbookid=dilemmaperbookid)
-    except BookCategory.DoesNotExist:
+        dilemmaperbook = DilemmaPerBook.objects.get(dilemmaperbookid=dilemmaperbookid)
+    except DilemmaPerBook.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     data = {
@@ -322,11 +327,53 @@ def change_dilemmaperbook(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#  Metodos extras ------------------------------------------------------------------------------------
+#  Metodos extras -----------------------------------------------------------------------------------
 @api_view(['GET'])
-def get_dilemmas_per_book(request,getdilemmasperbook):
-    return 'a'
+def get_category_per_book(request,bookid):
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+     # Obtener los dilemas relacionados con el libro
+    try:
+        dilemmasperbook = DilemmaPerBook.objects.filter(bookid=bookid)
+        dilemmasperbook_serializer = DilemmaPerBookSerializer(dilemmasperbook, many=True)
+    except DilemmaPerBook.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
-@api_view(['GET'])
-def get_category_per_book(request,getcategoryperbook):
-    return 'a'
+    # Obtener las dimensiones de los dilemas
+    try:
+        dilemmas_ids = [dilemmasperbook['bookdilemmaid'] for dilemmasperbook in dilemmasperbook_serializer.data]
+        dilemmas = BookDilemma.objects.filter(pk__in=dilemmas_ids)
+        dilemmas_serializer = BookDilemmaSerializer(dilemmas, many=True)
+    except BookDilemma.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    # Obtener las dimensiones de los dilemas
+    try:
+        dimension_ids = [dilemma['bookdimensionid'] for dilemma in dilemmas_serializer.data]
+        dimensions = BookDimension.objects.filter(pk__in=dimension_ids)
+        dimensions_serializer = BookDimensionSerializer(dimensions, many=True)
+    except BookDimension.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    # Obtener las categorías de las dimensiones
+    try:
+        category_ids = [dimension['bookcategoryid'] for dimension in dimensions_serializer.data]
+        categories = BookCategory.objects.filter(pk__in=category_ids)
+        categories_serializer = BookCategorySerializer(categories, many=True)
+    except BookCategory.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    response_data = {
+        'bookid': bookid,
+        'dilemmas': dilemmas_serializer.data,
+        'dimensions': dimensions_serializer.data,
+        'categories': categories_serializer.data
+    }
+
+    return Response(response_data,status=status.HTTP_200_OK)
+

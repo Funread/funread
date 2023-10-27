@@ -4,10 +4,10 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns=[
-    path('searchdilemma/<str:bookdilemmaid>',views.search_dilemma),
-    path('searchdimension/<str:bookdimensionid>',views.search_dimesion),
+    path('searchdilemma/<str:bookdimensionid>',views.search_dilemma),
+    path('searchdimension/<str:bookcategoryid>',views.search_dimesion),
     path('searchcategory/<str:bookcategoryid>',views.search_category),
-    path('searchdilemmaperbook/<str:dilemmaperbookid>',views.search_dilemmaperbook),
+    path('searchdilemmaperbook/<str:bookid>',views.search_dilemmaperbook),
     path('listdilemma/',views.list_dilemma),
     path('listdimension/',views.list_dimesion),
     path('listcategory/',views.list_category),
@@ -20,7 +20,6 @@ urlpatterns=[
     path('changedimension/',views.change_dimesion),
     path('changecategory/',views.change_category),
     path('changedilemmaperbook/',views.change_dilemmaperbook),
-    path('getdilemmasperbook/<str:bookid>',views.get_dilemmas_per_book),
     path('getcategoryperbook/<str:bookid>',views.get_category_per_book),
 ]
 

@@ -4,7 +4,7 @@ from Users.serializers import UserSerializer
 from .models import BookCategory,BookDimension,BookDilemma,DilemmaPerBook
 
 class BookCategorySerializer(serializers.ModelSerializer):
-
+  
   class Meta:
     model = BookCategory
     fields = '__all__'
