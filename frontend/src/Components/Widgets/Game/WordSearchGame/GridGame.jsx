@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './GridGame.css'
+import './GridGame.css';
 
 function SopaDeLetras({ palabras }) {
   const filas = 12;
