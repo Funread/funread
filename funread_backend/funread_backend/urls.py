@@ -45,7 +45,7 @@ urlpatterns = [
     path('join/', include('Joins.urls')),
     path('GroupsCreate/', include('GroupsCreate.urls')),
     path('Options/', include('Options.urls')),
-    path('bookdilemma/',include('BookDilemma.urls')),
+    path('bookdilemma/',include('BooksDilemma.urls')),
 ]
 
 if settings.DEBUG:

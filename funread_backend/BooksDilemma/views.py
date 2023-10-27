@@ -3,8 +3,8 @@ import json
 from sre_parse import State
 from turtle import title
 from wsgiref import headers
-from .models import Book
-from .serializers import BookSerializer, BookUpdatedBySerializer, bookStateSerializer
+from .models import BookCategory,BookDimension,BookDilemma,DilemmaPerBook 
+from .serializers import BookCategorySerializer,BookDimensionSerializer,BookDilemmaSerializer,DilemmaPerBookSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -14,23 +14,23 @@ sys.path.append('funread_backend')
 import verifyJwt
 
 # Create your views here.
-@api_view(['GET'])
-def bookSearch(request, title):
+# @api_view(['GET'])
+# def bookSearch(request, title):
 
-    #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+#     #token verification
+#     authorization_header = request.headers.get('Authorization')
+#     verify = verifyJwt.JWTValidator(authorization_header)
+#     es_valido = verify.validar_token()
+#     if es_valido==False:
+#         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    try:
-        print(title)
-        book = Book.objects.get(title=title)
-    except Book.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = BookSerializer(book)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+#     try:
+#         print(title)
+#         book = Book.objects.get(title=title)
+#     except Book.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+#     serializer = BookSerializer(book)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 #  Metodos de Category ------------------------------------------------------------------------------------
@@ -53,8 +53,10 @@ def list_category(request):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-    return 'a'
+    
+    bookcategory = BookCategory.objects.all()
+    serializer = BookCategorySerializer(bookcategory, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def new_category(request):
@@ -99,7 +101,9 @@ def list_dimesion(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    bookdimension = BookDimension.objects.all()
+    serializer = BookDimensionSerializer(bookdimension, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def new_dimesion(request):
@@ -144,7 +148,9 @@ def list_dilemma(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    bookdilemma = BookDilemma.objects.all()
+    serializer = BookDilemmaSerializer(bookdilemma, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def new_dilemma(request):
@@ -189,7 +195,9 @@ def list_dilemmaperbook(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    dilemmaperbook = DilemmaPerBook.objects.all()
+    serializer = DilemmaPerBookSerializer(dilemmaperbook, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def new_dilemmaperbook(request):
