@@ -35,7 +35,7 @@ import verifyJwt
 
 #  Metodos de Category ------------------------------------------------------------------------------------
 @api_view(['GET'])
-def search_category(request, bookdilemmaid):
+def search_category(request, bookcategoryid):
     #token verification
     authorization_header = request.headers.get('Authorization')
     verify = verifyJwt.JWTValidator(authorization_header)
@@ -43,7 +43,12 @@ def search_category(request, bookdilemmaid):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    try:
+        bookcategory = BookCategory.objects.get(bookcategoryid=bookcategoryid)
+    except BookCategory.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = BookCategorySerializer(bookcategory)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def list_category(request):
@@ -67,7 +72,14 @@ def new_category(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    data = {
+        'name': request.data.get('name')
+    }
+    serializer = BookCategorySerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
 def change_category(request):
@@ -78,11 +90,24 @@ def change_category(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    try:
+        bookcategoryid = request.data.get('bookcategoryid')
+        bookcategory = BookCategory.objects.get(bookcategoryid=bookcategoryid)
+    except BookCategory.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    data = {
+        'name': request.data.get('name')
+    }
+    serializer = BookCategorySerializer(bookcategory, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #  Metodos de Dimension ------------------------------------------------------------------------------------
 @api_view(['GET'])
-def search_dimesion(request, bookdimensionid):
+def search_dimesion(request, bookcategoryid):
     #token verification
     authorization_header = request.headers.get('Authorization')
     verify = verifyJwt.JWTValidator(authorization_header)
@@ -90,7 +115,12 @@ def search_dimesion(request, bookdimensionid):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    try:
+        bookdimension = BookDimension.objects.get(bookcategoryid=bookcategoryid)
+    except BookDimension.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = BookDimensionSerializer(bookdimension)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def list_dimesion(request):
@@ -114,7 +144,15 @@ def new_dimesion(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    data = {
+        'name': request.data.get('name'),
+        'bookcategoryid': request.data.get('bookcategoryid')
+    }
+    serializer = BookDimensionSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
 def change_dimesion(request):
@@ -125,11 +163,25 @@ def change_dimesion(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    try:
+        bookdimensionid = request.data.get('bookdimensionid')
+        bookdimension = BookDimension.objects.get(bookdimensionid=bookdimensionid)
+    except BookCategory.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    data = {
+        'name': request.data.get('name'),
+        'bookcategoryid': request.data.get('bookcategoryid')
+    }
+    serializer = BookDimensionSerializer(bookdimension, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #  Metodos de Dilemma ------------------------------------------------------------------------------------
 @api_view(['GET'])
-def search_dilemma(request,bookdilemmaid):
+def search_dilemma(request,bookdimensionid):
     #token verification
     authorization_header = request.headers.get('Authorization')
     verify = verifyJwt.JWTValidator(authorization_header)
@@ -137,7 +189,12 @@ def search_dilemma(request,bookdilemmaid):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    try:
+        bookdilemma = BookDilemma.objects.get(bookdimensionid=bookdimensionid)
+    except BookDilemma.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = BookDilemmaSerializer(bookdilemma)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def list_dilemma(request):
@@ -161,7 +218,15 @@ def new_dilemma(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    data = {
+        'dilemma': request.data.get('dilemma'),
+        'bookdimensionid': request.data.get('bookdimensionid')
+    }
+    serializer = BookDilemmaSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
 def change_dilemma(request):
@@ -172,7 +237,21 @@ def change_dilemma(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    try:
+        bookdilemmaid = request.data.get('bookdilemmaid')
+        bookdilemma = BookCategory.objects.get(bookdilemmaid=bookdilemmaid)
+    except BookCategory.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    data = {
+        'dilemma': request.data.get('dilemma'),
+        'bookdimensionid': request.data.get('bookdimensionid')
+    }
+    serializer = BookDilemmaSerializer(bookdilemma, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #  Metodos de DilemmaPerBook ------------------------------------------------------------------------------------
 @api_view(['GET'])
@@ -208,7 +287,15 @@ def new_dilemmaperbook(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    data = {
+        'bookdilemmaid': request.data.get('bookdilemmaid'),
+        'bookid': request.data.get('bookid')
+    }
+    serializer = DilemmaPerBookSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
 def change_dilemmaperbook(request):
@@ -219,7 +306,21 @@ def change_dilemmaperbook(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return 'a'
+    try:
+        dilemmaperbookid = request.data.get('dilemmaperbookid')
+        dilemmaperbook = BookCategory.objects.get(dilemmaperbookid=dilemmaperbookid)
+    except BookCategory.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    data = {
+        'bookdilemmaid': request.data.get('bookdilemmaid'),
+        'bookid': request.data.get('bookid')
+    }
+    serializer = DilemmaPerBookSerializer(dilemmaperbook, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #  Metodos extras ------------------------------------------------------------------------------------
 @api_view(['GET'])

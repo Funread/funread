@@ -16,15 +16,15 @@ class BookDimension(models.Model):
         db_table = 'bookdimension'
 
 class BookDilemma(models.Model):
-    bookdilemmaid = models.AutoField(db_column='BookDilemmaID', primary_key=True)
+    bookdilemmaid = models.AutoField(db_column='BookDilemmaID', primary_key=True,)
     dilemma = models.CharField(db_column='Dilemma', max_length=500)
-    bookdimensionid = models.ForeignKey(BookCategory, db_column='BookDimensionID', related_name='DilemmaPerBook_book_dimension_dilemma', null=False, on_delete=models.CASCADE, to_field='bookdimensionid')
+    bookdimensionid = models.ForeignKey(BookDimension, db_column='BookDimensionID', related_name='DilemmaPerBook_book_dimension_dilemma', null=False, on_delete=models.CASCADE, to_field='bookdimensionid')
     class Meta:
         db_table = 'bookdilemma'
 
 class DilemmaPerBook(models.Model):
     dilemmaperbookid = models.AutoField(db_column='DilemmaPerBookID', primary_key=True)
-    bookdilemmaid = models.ForeignKey(BookCategory, db_column='BookDilemmaID', related_name='DilemmaPerBook_book_dilemma_dilemma', null=False, on_delete=models.CASCADE, to_field='bookdimensionid')
+    bookdilemmaid = models.ForeignKey(BookDilemma, db_column='BookDilemmaID', related_name='DilemmaPerBook_book_dilemma_dilemma', null=False, on_delete=models.CASCADE, to_field='bookdilemmaid')
     bookid = models.ForeignKey(Book, db_column='BookID', related_name='DilemmaPerBook_book_id_book', null=False, on_delete=models.CASCADE, to_field='bookid')
     class Meta:
         db_table = 'dilemmaperbook'
