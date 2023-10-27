@@ -1,7 +1,12 @@
 tbody, td, tfoot, th, thead, tr {
-  border-color: gray;
+  border-color: rgb(56, 205, 243);
   border-style: solid;
   border-width: 1px;
   padding: 10px;
   text-align: center;
+}
+
+td{
+  text-transform: uppercase;
+  color: rgb(255, 255, 255);
 }

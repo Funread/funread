@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './GridGame.css';
 
-function SopaDeLetras({ palabras }) {
+function GridGame({ palabras }) {
   const filas = 12;
   const columnas = 16;
 
@@ -85,7 +85,7 @@ function SopaDeLetras({ palabras }) {
 
   return (
     <div>
-      <h1>Sopa de Letras</h1>
+      <h1>Word Search Game</h1>
       <table>
         <tbody>
           {cuadricula.map((fila, filaIndex) => (
@@ -103,7 +103,7 @@ function SopaDeLetras({ palabras }) {
   );
 }
 
-export default SopaDeLetras;
+export default GridGame;
 
 
 

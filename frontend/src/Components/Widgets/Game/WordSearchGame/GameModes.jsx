@@ -1,9 +1,7 @@
 import './GameModes.css';
-import ButtonNav from '../../../../Components/Shared/NavButton/ButtonNav';
 import Words from './Words';
 import React, { useState } from 'react';
 import GridGame from './GridGame';
-import SopaDeLetras from './GridGame';
 
 const MIN_RESPONSES = 5;
 const INTER_RESPONSES = 10;
@@ -71,11 +69,6 @@ function GameModes() {
               </button>
             </div>
           </div>
-          <div id='footerButton' style={{marginTop:'14em'}}>
-            <ButtonNav title={'Siguiente'}  />
-          </div>
-        </div>
-        <div className='col-7' id='modes'>
           <h3>Ingresa las palabras a buscar</h3>
           <div className='responses-grid mx-auto mt-5'>
             {responses.map((response, index) => (
@@ -90,7 +83,9 @@ function GameModes() {
             <ButtonNav title={'Guardar'} onClick={saveResponses} />
           </div>
         </div>
-        <SopaDeLetras palabras={palabras} />
+        <div className='col-7' id='modes'>
+          <GridGame palabras={palabras} />
+        </div>
       </div>
     </div>
   );
