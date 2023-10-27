@@ -2,6 +2,10 @@ import React, { useState, useRef } from 'react';
 import Modal from 'react-modal';
 import './voice.css';
 import { FaMicrophone, FaUpload } from 'react-icons/fa';
+import { useDrag } from 'react-dnd'
+
+const widgetType = 'widgetType'
+
 
 // Componente AudioPlayer
 function AudioPlayer({ audioUrl }) {
@@ -12,6 +16,8 @@ function AudioPlayer({ audioUrl }) {
     </audio>
   );
 }
+
+
 
 function AudioRecorder() {
   // Estado para controlar si se está grabando audio
@@ -127,7 +133,23 @@ function AudioRecorder() {
     }
   };
 
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: widgetType, 
+    item: { type: 'AudioRecorder' },
+    //La funcion collect es opcional
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(), 
+    }),
+  }))
+  
+
   return (
+
+    <div
+    ref={drag}
+    style={{ border: isDragging ? '5px solid pink' : '0px' }}
+  >
+
     <div className="Principal">
       <div className="botones">
         {/* Botón para abrir el modal de subida de audio */}
@@ -190,6 +212,7 @@ function AudioRecorder() {
           </div>
         </Modal>
       </div>
+    </div>
     </div>
   );
 }

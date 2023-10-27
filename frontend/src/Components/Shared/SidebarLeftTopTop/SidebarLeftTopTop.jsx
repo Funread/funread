@@ -15,6 +15,9 @@ import NavItem from '../SideNavBarItem/NavItem'
 import SideNavBarFooter from '../SideNavBarFooter/SideNavBarFooter'
 import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
 import Grids from '../Grids/Grids'
+import ReverseUniqueSelection from '../../Widgets/Quiz/ReverseQuiz/ReverseUniqueSelection'
+import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
+import Video from '../../Widgets/Media/Video/Video'
 
 const SidebarLeftTopTop = () => {
   const [isExpanded, setExpendState] = useState(true)
@@ -69,7 +72,10 @@ const SidebarLeftTopTop = () => {
     {
       text: 'Media',
       icon: faPhotoVideo,
-      subItems: [],
+      subItems: [
+        <AudioRecorder />,
+        <Video />,
+      ],
     },
     {
       text: 'Shapes',
@@ -79,7 +85,11 @@ const SidebarLeftTopTop = () => {
     {
       text: 'Quiz',
       icon: faPuzzlePiece,
-      subItems: [<UniqueSelection />],
+      subItems: [
+        <UniqueSelection />,
+        <ReverseUniqueSelection />
+      ],
+
     },
     {
       text: 'Games',

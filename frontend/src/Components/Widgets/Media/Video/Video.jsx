@@ -12,13 +12,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDesktop } from "@fortawesome/free-solid-svg-icons";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { useDrag } from 'react-dnd'
+
+
+const widgetType = 'widgetType'
 
 function Video() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: widgetType, // identificador
+    item: { type: 'Video' },
+    //La funcion collect es opcional
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(), //Ayuda a saber si se está arrastrando o no
+    }),
+  }))
   return (
+
+    <div
+      ref={drag}
+      
+      style={{ border: isDragging ? '5px solid pink' : '0px' }}
+    >
     <>
       <div>
         <h1>
@@ -115,6 +134,7 @@ function Video() {
         </Modal.Footer>
       </Modal>
     </>
+    </div>
   );
 }
 

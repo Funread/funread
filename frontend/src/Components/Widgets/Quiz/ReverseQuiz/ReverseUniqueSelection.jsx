@@ -3,13 +3,25 @@ import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import ReverseAnswerQuiz from './ReverseAnswerQuiz'
+import { useDrag } from 'react-dnd'
 
 const MIN_RESPONSES = 2
 const MAX_RESPONSES = 4
 
+const widgetType = 'widgetType'
 const ReverseUniqueSelection = () => {
   const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill('')) // Inicia con dos respuestas mínimo
   const [isAddingResponses, setIsAddingResponses] = useState(true) // Estado inicial: agregar respuestas
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: widgetType, 
+    item: { type: 'ReverseUniqueSelection' },
+    //La funcion collect es opcional
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(), 
+    }),
+  }))
+
 
   const addResponses = () => {
     if (responses.length < MAX_RESPONSES) {
@@ -49,6 +61,13 @@ const ReverseUniqueSelection = () => {
   }, [responses])
 
   return (
+
+    <div
+      ref={drag}
+      className='custom-unique-selection-background'
+      style={{ border: isDragging ? '5px solid pink' : '0px' }}
+    >
+
     <div className='custom-quiz-background'>
       <div className='container custom-quiz-container text-center'>
         <div className='row'>
@@ -104,6 +123,7 @@ const ReverseUniqueSelection = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

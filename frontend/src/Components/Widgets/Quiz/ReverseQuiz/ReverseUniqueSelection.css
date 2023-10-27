@@ -5,7 +5,8 @@
     background-position: center;
     height: 100%;
   }
-  
+
+
   .custom-quiz-container {
     position: absolute;
     top: 50%;
@@ -112,3 +113,4 @@
     display: block;
   }
   
+

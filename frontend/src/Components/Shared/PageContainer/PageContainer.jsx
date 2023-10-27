@@ -2,11 +2,14 @@ import './PageContainer.sass'
 import React, { useState, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
 import Grids from '../Grids/Grids'
+import ReverseUniqueSelection from '../../Widgets/Quiz/ReverseQuiz/ReverseUniqueSelection'
 import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas'
+import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
+import Video from '../../Widgets/Media/Video/Video'
 
 const widgetType = 'widgetType'
 
@@ -14,6 +17,9 @@ const widgetType = 'widgetType'
 const widgetTypeToComponent = {
   UniqueSelection: UniqueSelection,
   Grids: Grids,
+  ReverseUniqueSelection:ReverseUniqueSelection,
+  AudioRecorder:AudioRecorder,
+  Video: Video,
 }
 
 const PageContainer = ({
