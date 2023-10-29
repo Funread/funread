@@ -18,69 +18,64 @@ function GridGame({ palabras, filas, columnas }) {
     }
     return cuadricula;
   }
+
+  function esPosicionOcupada(cuadricula, direccion, filaInicial, columnaInicial, palabra) {
+    for (let i = 0; i < palabra.length; i++) {
+      if (direccion === "horizontal" && cuadricula[filaInicial][columnaInicial + i] !== '') {
+        return true;
+      } else if (direccion === "vertical" && cuadricula[filaInicial + i][columnaInicial] !== '') {
+        return true;
+      } else if (direccion === "diagonal" && cuadricula[filaInicial + i][columnaInicial + i] !== '') {
+        return true;
+      }
+    }
+    return false;
+  }
+
   function insertarPalabra(cuadricula, palabra) {
     let direccion, filaInicial, columnaInicial;
-    // Agrega una probabilidad adicional para elegir si la palabra estará al revés
-    const isReversed = Math.random() < 0.5;
-    if (isReversed) {
-      palabra = palabra.split('').reverse().join('');
-    }
-    
-    do {
-      const random = Math.random();
-      if (random < 0.25) {
-        direccion = "horizontal";
-      } else if (random < 0.5) {
-        direccion = "vertical";
-      } else if (random < 0.75) {
-        direccion = "diagonal";
-      } else {
-        direccion = "reversa"; // Nueva dirección para palabras al revés
-      }
-      filaInicial = Math.floor(Math.random() * filas);
-      columnaInicial = Math.floor(Math.random() * columnas);
-    } while (!esPosicionDisponible(cuadricula, palabra, direccion, filaInicial, columnaInicial));
-  
-    if (direccion === "horizontal" || direccion === "reversa") {
-      for (let i = 0; i < palabra.length; i++) {
-        cuadricula[filaInicial][columnaInicial + i] = palabra[i];
-      }
-    } else if (direccion === "vertical") {
-      for (let i = 0; i < palabra.length; i++) {
-        cuadricula[filaInicial + i][columnaInicial] = palabra[i];
-      }
-    } else if (direccion === "diagonal") {
-      for (let i = 0; i < palabra.length; i++) {
-        cuadricula[filaInicial + i][columnaInicial + i] = palabra[i];
-      }
-    }
-  }
-  
 
-  function esPosicionDisponible(cuadricula, palabra, direccion, filaInicial, columnaInicial) {
-    if (direccion === "horizontal") {
-      if (columnaInicial + palabra.length > columnas) return false;
-      for (let i = 0; i < palabra.length; i++) {
-        if (cuadricula[filaInicial][columnaInicial + i] !== '') {
-          return false;
-        }
+    // Elegir una dirección al azar con igual probabilidad
+    const random = Math.random();
+    if (random < 0.33) {
+      direccion = "horizontal";
+    } else if (random < 0.66) {
+      direccion = "vertical";
+    } else {
+      direccion = "diagonal";
+    }
+
+    // Definir isReversed para invertir la palabra si es necesario
+    let isReversed = false;
+    if (direccion !== "vertical" && Math.random() < 0.5) {
+      palabra = palabra.split('').reverse().join('');
+      isReversed = true;
+    }
+
+    // Calcular las coordenadas iniciales
+    do {
+      if (direccion === "horizontal") {
+        filaInicial = Math.floor(Math.random() * filas);
+        columnaInicial = Math.floor(Math.random() * (columnas - palabra.length + 1));
+      } else if (direccion === "vertical") {
+        filaInicial = Math.floor(Math.random() * (filas - palabra.length + 1));
+        columnaInicial = Math.floor(Math.random() * columnas);
+      } else {
+        filaInicial = Math.floor(Math.random() * (filas - palabra.length + 1));
+        columnaInicial = Math.floor(Math.random() * (columnas - palabra.length + 1));
       }
-    } else if (direccion === "vertical") {
-      if (filaInicial + palabra.length > filas) return false;
-      for (let i = 0; i < palabra.length; i++) {
-        if (cuadricula[filaInicial + i][columnaInicial] !== '') {
-          return false;
-        }
-      }
-    } else if (direccion === "diagonal") {
-      if (filaInicial + palabra.length > filas || columnaInicial + palabra.length > columnas) return false;
-      for (let i = 0; i < palabra.length; i++) {
-        if (cuadricula[filaInicial + i][columnaInicial + i] !== '') {
-          return false;
-        }
+    } while (esPosicionOcupada(cuadricula, direccion, filaInicial, columnaInicial, palabra));
+
+    // Insertar la palabra en la dirección especificada
+    for (let i = 0; i < palabra.length; i++) {
+      if (direccion === "horizontal") {
+        cuadricula[filaInicial][columnaInicial + i] = isReversed ? palabra[palabra.length - 1 - i] : palabra[i];
+      } else if (direccion === "vertical") {
+        cuadricula[filaInicial + i][columnaInicial] = isReversed ? palabra[palabra.length - 1 - i] : palabra[i];
+      } else {
+        cuadricula[filaInicial + i][columnaInicial + i] = isReversed ? palabra[palabra.length - 1 - i] : palabra[i];
       }
     }
-    return true;
   }
 
   const [cuadricula, setCuadricula] = useState(llenarCuadriculaAleatoria());
