@@ -9,18 +9,25 @@ const MAX_RESPONSES = 15;
 
 function GameModes() {
   const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill(''));
-  const [palabras, setPalabras] = useState([]); // Nuevo estado para las palabras guardadas
-
+  const [palabras, setPalabras] = useState([]);
+  const [filas, setFilas] = useState(10); 
+  const [columnas, setColumnas] = useState(14); 
   const addEasyResponses = () => {
     setResponses(Array(MIN_RESPONSES).fill(''));
+    setFilas(10);
+    setColumnas(12);
   }
 
   const addInterResponses = () => {
     setResponses(Array(INTER_RESPONSES).fill(''));
+    setFilas(12); 
+    setColumnas(17); 
   }
 
   const addAdvancedResponses = () => {
     setResponses(Array(MAX_RESPONSES).fill(''));
+    setFilas(15); // Cambiar el número de filas según la dificultad
+    setColumnas(24); // Cambiar el número de columnas según la dificultad
   }
 
   const handleResponseChange = (index, value) => {
@@ -33,11 +40,8 @@ function GameModes() {
   }
 
   const saveResponses = () => {
-    // Filtra las respuestas en blanco y elimina las líneas correspondientes
     const updatedResponses = responses.filter((response) => response.trim() !== '');
     setResponses(updatedResponses);
-
-    // Almacena las respuestas limpias en el estado de palabras
     setPalabras(updatedResponses);
   }
 
@@ -69,7 +73,7 @@ function GameModes() {
               </button>
             </div>
           </div>
-          <h3>Ingresa las palabras a buscar</h3>
+          <h3 className='titulo' >Ingresa las palabras a buscar</h3>
           <div className='responses-grid mx-auto mt-5'>
             {responses.map((response, index) => (
               <Words
@@ -84,7 +88,7 @@ function GameModes() {
           </div>
         </div>
         <div className='col-7' id='modes'>
-          <GridGame palabras={palabras} />
+          <GridGame palabras={palabras} filas={filas} columnas={columnas} />
         </div>
       </div>
     </div>

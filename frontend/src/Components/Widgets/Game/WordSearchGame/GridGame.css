@@ -10,3 +10,7 @@ td{
   text-transform: uppercase;
   color: rgb(255, 255, 255);
 }
+
+.found-word {
+  background-color: green;
+}

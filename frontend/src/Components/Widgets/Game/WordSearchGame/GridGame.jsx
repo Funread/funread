@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './GridGame.css';
 
-function GridGame({ palabras }) {
-  const filas = 12;
-  const columnas = 16;
+function GridGame({ palabras, filas, columnas }) {
+
 
   function generarLetraAleatoria() {
     const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -81,7 +80,7 @@ function GridGame({ palabras }) {
     }
 
     setCuadricula(nuevaCuadricula);
-  }, [palabras]);
+  }, [palabras, filas, columnas]);
 
   return (
     <div>
