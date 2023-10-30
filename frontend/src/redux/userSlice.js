@@ -16,7 +16,6 @@ export const userSlice = createSlice({
     reducers:{
         addUser: (state, action) => {
             const {jwt, data, roles} = action.payload;
-
             state.userId = data.userid;
             state.email = data.email;
             state.name = data.name;
