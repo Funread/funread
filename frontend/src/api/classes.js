@@ -32,10 +32,12 @@ export async function classesChange(name,grade,teacherAssigned,createdat,lastupd
     })
 }
 
-export async function deleteclasses() {
-    return axiosAuth().get('classes/deleteClasses')
+export async function deleteclasses(classesId) {
+    return axiosAuth().post('classes/deleteClasses/',{
+        classesId: classesId
+    })
 }
 
-export async function listedclassesid() {
-    return axiosAuth().get('classes/listedClassesid')
+export async function listedclassesid(group) {
+    return axiosAuth().get('classes/listedClassesid/' + group)
 }
