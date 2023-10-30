@@ -15,10 +15,12 @@ class PageSerializer(serializers.ModelSerializer):
 
   def update(self, instance, validated_data):
       instance.pageid = validated_data.get('pageid', instance.pageid)
-      instance.book = validated_data.get('book', instance.book)
+      instance.bookid = validated_data.get('bookid', instance.bookid)
       instance.elementorder = validated_data.get('elementorder', instance.elementorder)
       instance.type = validated_data.get('type', instance.type)
       instance.template = validated_data.get('template', instance.template)
+      instance.gridDirection = validated_data.get('gridDirection', instance.gridDirection)
+      instance.gridNumRows = validated_data.get('gridNumRows', instance.gridNumRows)
       instance.save()
       return instance
 

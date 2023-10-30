@@ -7,6 +7,7 @@ export * from "./books"
 export * from "./group"
 export * from "./media"
 export * from "./studentGroups"
+export * from "./translate"
 // export * from "./"
 // export * from "./"
 // export * from "./"
@@ -27,3 +28,5 @@ export * from "./studentGroups"
 // export * from "./"
 // export * from "./"
 // export * from "./"
+
+

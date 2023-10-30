@@ -1,0 +1,31 @@
+.layout
+  height: 100%
+  display: grid
+  gap: 8px
+
+.layout.horizontal
+  grid-template-rows: repeat(auto-fit, minmax(100px, 1fr))
+  grid-template-columns: 1fr
+
+.layout.vertical
+  grid-template-rows: 1fr
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr))
+
+.layout.quadruple
+  grid-template-rows: repeat(2, 1fr)
+  grid-template-columns: repeat(2, 1fr)
+
+.layout.collage
+  grid-template-rows: repeat(auto-fill, 1fr)
+  grid-template-columns: repeat(3, 1fr)
+
+.layout.collage div:first-child 
+  grid-row: span 3
+  grid-column: span 3
+
+
+.layout div
+  border: 1px solid red
+
+.layout.dragStyle
+  border: 5px solid pink

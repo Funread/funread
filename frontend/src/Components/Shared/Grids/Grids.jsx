@@ -1,26 +1,30 @@
-import React from "react";
+import React from 'react'
+import './Grids.sass'
+import { useDrag } from 'react-dnd'
 
-import "./Grids.css";
-import CollageGridPlaceHolder from "./CollageGrid/CollageGridPlaceholder";
-import DoubleGridHorizontalPlaceHolder from "./DoubleGridHorizontal/DoubleGridPlaceholder";
-import DoubleGridVertical from "./DoubleGridVertical/DoubleGridVerticalPlaceholder";
-import FullGridPlaceHolder from "./FullGrid/FullGridPlaceholder";
-import QuadrupleGridPlaceHolder from "./QuadrupleGrid/QuadrupleGridPlaceholder";
-import TripleGridHorizontalPlaceHolder from "./TripleGridHorizontal/TripleGridHorizontalPlaceholder";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-function Grids() {
+const widgetType = 'widgetType'
+
+const Grids = ({ direction, numRows }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: widgetType,
+    item: { type: 'Grids', direction: direction, numRows: numRows },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }))
+
   return (
-    <div className="Grids">
-      <DndProvider backend={HTML5Backend}>
-        <TripleGridHorizontalPlaceHolder></TripleGridHorizontalPlaceHolder>
-        {/* <QuadrupleGridPlaceHolder></QuadrupleGridPlaceHolder> */}
-        {/* <FullGridPlaceHolder></FullGridPlaceHolder> */}
-        {/* <DoubleGridVertical></DoubleGridVertical> */}
-        {/* <DoubleGridHorizontalPlaceHolder></DoubleGridHorizontalPlaceHolder> */}
-      </DndProvider>
-    </div>
-  );
+    <section
+      ref={drag}
+      className={
+        isDragging ? `dragStyle layout ${direction}` : `layout ${direction}`
+      }
+    >
+      {[...Array(numRows).keys()].map((i) => (
+        <div key={i}>{i + 1}</div>
+      ))}
+    </section>
+  )
 }
 
-export default Grids;
+export default Grids

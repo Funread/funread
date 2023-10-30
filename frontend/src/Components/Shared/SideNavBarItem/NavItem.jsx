@@ -30,10 +30,11 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
       </div>
       {isSelected && (
         <div className='custom-card'>
-          <div className='icon-grid'>
+          <div className=''>
             {subItems.map((subItem, index) => (
-              <div className='icon' key={index}>
-                <FontAwesomeIcon icon={subItem} />
+              <div className='icon mb-3' key={index}>
+                {subItem}
+                {/* <FontAwesomeIcon icon={subItem} /> */}
               </div>
             ))}
           </div>

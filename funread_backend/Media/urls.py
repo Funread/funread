@@ -5,7 +5,8 @@ from rest_framework.urlpatterns import format_suffix_patterns
 urlpatterns = [
     path('save/', views.save_Image),
     path('upload/', views.upload),
-    path('list/', views.listed)
+    path('list/', views.listed),
+    path('change/', views.change_Image)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
