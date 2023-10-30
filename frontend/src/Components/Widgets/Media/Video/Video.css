@@ -81,9 +81,12 @@
   }
 
   .custum-icon-upload{
-    padding-right: 7px;
+    padding-right: 8px;
   }
   
+  .custum-icon-gallery{
+  padding-right: 5px;
+  }
    .youtube-box .video{
     width: 50%;
     height: 50%;

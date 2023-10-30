@@ -9,15 +9,28 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDesktop } from "@fortawesome/free-solid-svg-icons";
+import { faDesktop, faImage } from "@fortawesome/free-solid-svg-icons";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
+import Gallery from "../../../GalleryCollage/Gallery";
 
 function Video() {
+  //const [contentType, setContentType] = useState();
   const [show, setShow] = useState(false);
+  const [selectedVideo, setSelectedImage] = useState();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleImageChange = (newImage) => {
+    setSelectedImage(newImage);
+  };
+
+  // const handleSaveChanges = () => {
+  //   console.log("Selected video saved:", selectedVideo);
+  //   setShowGallery(false);
+  // };
+
   return (
     <>
       <div>
@@ -50,7 +63,7 @@ function Video() {
         </Card>
       </div>
 
-      <Modal className="" show={show} onHide={handleClose}>
+      <Modal className="" show={show} onHide={handleClose} size="lg">
         <Modal.Header className="bg bg-light" closeButton>
           <Modal.Title className="">Video Upload</Modal.Title>
         </Modal.Header>
@@ -98,6 +111,32 @@ function Video() {
                     </Card.Title>
                     <Card.Text>
                       <WidgetVideo></WidgetVideo>
+                    </Card.Text>
+                  </Card.Body>
+                </Card.Header>
+              </Card>
+            </Tab>
+            <Tab
+              className="custum-tab-Gallery mx-auto"
+              eventKey="Gallery"
+              title="Gallery"
+            >
+              <Card className="custum-video text-center bg-light border border-secondary">
+                <Card.Header>
+                  <Card.Body>
+                    <Card.Title className="custum-icon-youtube">
+                      <FontAwesomeIcon
+                        className="custum-icon-gallery"
+                        size="lg"
+                        icon={faImage}
+                      />
+                      <strong>Gallery</strong>
+                    </Card.Title>
+                    <Card.Text>
+                      <Gallery
+                        mediaType="videos"
+                        onImageSelect={handleImageChange}
+                      />
                     </Card.Text>
                   </Card.Body>
                 </Card.Header>
