@@ -18,19 +18,13 @@ import Video from "./Components/Widgets/Media/Video/Video";
 import Voice from "./Components/Widgets/Media/VoiceRecorder/Voicerecorder"
 import GameMode from "./Components/Widgets/Game/WordSearchGame/GameModes"
 import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorMenu";
+import UniqueSelection from "./Components/Widgets/Quiz/UniqueSelection/UniqueSelection";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store,persistor  } from "./redux/store";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-
-//este evento se utiliza para guardar el estado de redux, para evitar perder el estado al recargar la pagina (F5)
-const handleBeforeUnload = () => {
-  // Guardar el estado de Redux en localStorage
-  //localStorage.setItem('reduxState', JSON.stringify(store.getState())); //se comento para que de momento no se guarde la informacion sensible
-}
-
 //este porcion de codigo deberia permitir devolver el estado de reducx, pero no funciona por alguna razon
 const persistedState = localStorage.getItem('reduxState') // este
 if (persistedState) {
@@ -165,6 +159,7 @@ root.render(
                 <div className='index-background-container '>
                   <Dashboard />
                 </div>
+              </div> 
             }
           />
 
@@ -189,10 +184,6 @@ root.render(
   </BrowserRouter>
   </>
 )
-
-
-// Agregar event listener para beforeunload
-window.addEventListener('beforeunload', handleBeforeUnload)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
