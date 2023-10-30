@@ -17,8 +17,10 @@ import ReverseUniqueSelection from "./Components/Widgets/Quiz/ReverseQuiz/Revers
 import Video from "./Components/Widgets/Media/Video/Video";
 import Voice from "./Components/Widgets/Media/VoiceRecorder/Voicerecorder"
 import GameMode from "./Components/Widgets/Game/WordSearchGame/GameModes"
+import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorMenu";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { store,persistor  } from "./redux/store";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -37,10 +39,13 @@ if (persistedState) {
 }
 
 root.render(
+  <>
+  <TextSelectorMenu />
   <BrowserRouter>
     <Provider store={store}>
-      <Routes>
-        <Route
+      <PersistGate loading={null} persistor={persistor}>
+        <Routes>
+          <Route
           exact
           path='/'
           element={
@@ -104,33 +109,10 @@ root.render(
         <Route exact path="demo/video" element={<Video />} />
 
         <Route exact path="demo/voice" element={ <Voice />} />
+          
+        <Route exact path="demo/quiz" element={<UniqueSelection />} />
 
-<Route
-            exact
-            path="/bookcreator"
-            element={
-              <div className="index-background-padding">
-                <div className="index-background-container ">
-                  <BookCreator />
-
-                </div>
-              </div>
-            }
-            />
-
-        <Route
-          exact
-          path='/bookcreator'
-          element={
-            <div className='index-background-padding'>
-              <div className='index-background-container '>
-                <BookCreator />
-              </div>
-            </div>
-          }
-        />
-
-<Route 
+      <Route 
         exact 
          path='demo/wordsearchgame' 
           element={
@@ -164,6 +146,7 @@ root.render(
               </div>
             }
           />
+
           <Route
             exact
             path='/group'
@@ -172,7 +155,6 @@ root.render(
                 <div className='index-background-container '>
                   <Group />
                 </div>
-              </div>
             }
           />
           <Route
@@ -183,13 +165,29 @@ root.render(
                 <div className='index-background-container '>
                   <Dashboard />
                 </div>
-              </div>
             }
           />
-        </Route>
-      </Routes>
+
+          <Route
+              exact
+              path="/bookcreator"
+              element={
+                <div className="index-background-padding">
+                  <div className="index-background-container ">
+                    <BookCreator />
+
+                  </div>
+                </div>
+              }
+              />
+
+         
+          </Route>
+        </Routes>
+      </PersistGate>
     </Provider>
   </BrowserRouter>
+  </>
 )
 
 
