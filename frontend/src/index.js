@@ -17,6 +17,7 @@ import ReverseUniqueSelection from "./Components/Widgets/Quiz/ReverseQuiz/Revers
 import Video from "./Components/Widgets/Media/Video/Video";
 import Voice from "./Components/Widgets/Media/VoiceRecorder/Voicerecorder"
 import GameMode from "./Components/Widgets/Game/WordSearchGame/GameModes"
+import Register from "./Components/Register/Register"
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
@@ -137,6 +138,8 @@ root.render(
             <GameMode />
           } 
        /> 
+
+       <Route exact path='/demo/register' element={<Register />}/>
 
         <Route element={<ProtectedRoutes roles={['profesor','estudiante']} /> } >
 

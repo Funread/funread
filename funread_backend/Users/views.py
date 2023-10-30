@@ -7,7 +7,7 @@ from Roles.serializers import RolesSerializer, RolesUpdatedBySerializer
 from Userroles.serializers import UserRolesSerializer
 from .models import User 
 from Userroles.models import Userroles
-from .serializers import UserPasswordSerializer, UserSerializer, UserStatusSerializer, LoginSerializer
+from .serializers import UserPasswordSerializer, UserUpdateSerializer, UserSerializer, UserStatusSerializer, LoginSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -87,12 +87,11 @@ def userChange(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     data = {
-        'email': request.data.get('new_email'),
         'name': request.data.get('name'),
         'lastname': request.data.get('lastname'),
-        'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest(),
+        'username': request.data.get('username'),
     }
-    serializer = UserSerializer(user, data=data)
+    serializer = UserUpdateSerializer(user, data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -53,9 +53,11 @@ function LogIn(props) {
       console.error(error)
     }
     logIn(email, password).then((res) => {  
-      //Esto debe hacerce para evitar que axiosAuth revise si el token existe antes de terminar el login
-      if(axiosAuth() !== null){
-        navigate('/dashboard');
+      
+      if(res == 'success'){
+        navigate('/dashboard')
+      }else if(res == 'noRoles'){
+        navigate('/demo/register') //cambiar la ruta en el futuro
       }else{
         setPassword("")
         alert(res+'\n\n\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, LogIn.jsx:61)')

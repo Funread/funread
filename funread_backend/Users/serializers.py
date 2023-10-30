@@ -17,8 +17,26 @@ class UserSerializer(serializers.ModelSerializer):
         instance.email = validated_data.get('email', instance.email)
         instance.lastname = validated_data.get('lastname', instance.lastname)
         instance.password = validated_data.get('password', instance.password)
+        instance.username = validated_data.get('username', instance.username)
         instance.save()
         return instance
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = User
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        return User.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.lastname = validated_data.get('lastname', instance.lastname)
+        instance.username = validated_data.get('username', instance.username)
+        instance.save()
+        return instance
+
 
 
 class UserStatusSerializer(serializers.ModelSerializer):
