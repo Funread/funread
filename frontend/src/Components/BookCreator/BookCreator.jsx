@@ -1,38 +1,133 @@
-import React, { useState } from 'react';
 import './BookCreator.sass'
-import NavbarButtons from '../Shared/NavbarButtons/NavbarButtons'
-import SidebarLeftTopTop from '../Shared/SidebarLeftTopTop/SidebarLeftTopTop'
-import Carousel from '../Shared/NavBarCarrousel/NavBarCarrousel'
-import PageContainer from '../Shared/PageContainer/PageContainer'
+import React, { useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { isMobile } from 'react-device-detect'
+import NavbarButtons from '../Shared/NavbarButtons/NavbarButtons'
+import SidebarLeftTopTop from '../Shared/SidebarLeftTopTop/SidebarLeftTopTop'
+import Carousel from '../Shared/NavBarCarrousel/NavBarCarrousel'
+import Slide from '../Shared/Slides/Slide'
+import { newPage } from '../../api/pages'
+import { ToastContainer, toast } from 'react-toastify'
 
+const initialPage = {
+  bookid: 1,
+  type: 0,
+  template: 0,
+  elementorder: 0,
+  gridDirection: null,
+  gridNumRows: null,
+  pageNumber: null,
+}
 
 const BookCreator = () => {
-
   const backend = isMobile ? TouchBackend : HTML5Backend
+  const [slides, setSlides] = useState([{ id: 1, image: null }])
+  const [pages, setPages] = useState([])
+  const [savedPages, setSavedPages] = useState(new Set())
 
+  // Agregar una diapositiva
+  const addSlide = () => {
+    const newSlideId = Math.max(...slides.map((slide) => slide.id)) + 1
+    setSlides([...slides, { id: newSlideId, image: null }])
+  }
+
+  // Quitar la diapositiva
+  const removeSlide = (slideId) => {
+    if (slides.length > 1) {
+      const newSlides = slides.filter((slide) => slide.id !== slideId)
+      setSlides(newSlides)
+
+      const newPages = pages.filter((page) => page.pageNumber !== slideId)
+      setPages(newPages)
+    }
+  }
+
+  // Actualiza la imagen de las diapositivas
+  const updateImage = (pageNumber, image) => {
+    const updatedSlides = slides.map((slide) => {
+      if (slide.id === pageNumber) {
+        return { ...slide, image }
+      }
+      return slide
+    })
+
+    setSlides(updatedSlides)
+  }
+
+  const addOrUpdatePage = (pageNumber, direction, numRows) => {
+    setPages((prevPages) => {
+      const updatedPages = prevPages.slice() // Se clona el estado anterior
+
+      const existingPageIndex = updatedPages.findIndex(
+        (page) => page.pageNumber === pageNumber
+      )
+
+      if (existingPageIndex !== -1) {
+        const existingPage = updatedPages[existingPageIndex]
+        existingPage.gridDirection = direction
+        existingPage.gridNumRows = numRows
+      } else {
+        updatedPages.push({
+          ...initialPage,
+          pageNumber,
+          gridDirection: direction,
+          gridNumRows: numRows,
+        })
+      }
+
+      return updatedPages
+    })
+  }
+
+  const saveSlides = async (e) => {
+    e.preventDefault()
+
+    if (pages.length > 0) {
+      for (const page of pages) {
+        if (!savedPages.has(page.pageNumber)) {
+          try {
+            await newPage(
+              page.bookid,
+              page.type,
+              page.template,
+              page.elementorder,
+              page.gridDirection,
+              page.gridNumRows
+            )
+            toast.success(`Page ${page.pageNumber} added successfully`)
+            savedPages.add(page.pageNumber)
+          } catch (error) {
+            toast.error(
+              'Request Error: An error occurred while processing your request'
+            )
+          }
+        }
+      }
+    }
+  }
 
   return (
     <DndProvider backend={backend}>
       <div className='container-fluid bookCreator'>
         <div className='row flex-nowrap contentBookCreator'>
           <SidebarLeftTopTop />
-          <div className='col-ms-10 p-0 mx-auto'>
-            <NavbarButtons />
-            <Carousel />
 
-        
-   
-                
-
-            <PageContainer  title={'Activity 3'} />
-
-         
+          <div className='col p-0 mx-auto'>
+            <NavbarButtons saveSlides={saveSlides} />
+            <div className='scroll'>
+              <Carousel slides={slides} onAddSlide={addSlide} />
+              <Slide
+                slides={slides}
+                onRemoveSlides={removeSlide}
+                updateImage={updateImage}
+                addOrUpdatePage={addOrUpdatePage}
+              />
+            </div>
+          </div>
         </div>
-        </div>
+        <ToastContainer position='top-right' />
       </div>
     </DndProvider>
   )

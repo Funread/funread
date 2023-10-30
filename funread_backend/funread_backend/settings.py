@@ -66,7 +66,8 @@ INSTALLED_APPS = [
     'Options',
     "Joins",
     "Userroles",
-    "BooksDilemma"
+    "BooksDilemma",
+    "TranslateApp",
 
     
 
