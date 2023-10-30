@@ -32,15 +32,16 @@
 
 .icon-grid
   display: grid
-  grid-template-columns: repeat(auto-fit, minmax(30px, 2fr))
+  grid-template-columns: repeat(2, 1fr)
   gap: 10px
   justify-content: center
   align-content: center
 
-.icon
-  font-size: 24px
-  text-align: center
-  color: #333
+.grid-item 
+  width: 100%
+  height: auto
+  object-fit: cover
+
 
 @media only screen and (max-height: 490px)
   .icon-grid

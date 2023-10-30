@@ -1,137 +1,117 @@
 /* Estilos para el contenedor principal */
 
-
 .Principal {
-  background-color: #FCF6BD;
+  background-color: #fcf6bd;
   height: 500px;
   width: 500px;
-  margin: 150px auto; 
-  
+  margin: 150px auto;
 }
 
 @media screen and (max-width: 515px) {
-  .Principal{
-  height: 400px;
-  width: 350px;
-  margin: 50% auto;
- }
+  .Principal {
+    height: 400px;
+    width: 350px;
+    margin: 50% auto;
+  }
 }
 
-.Principal button
-{
-  background-color: #A9DEF9;
+.Principal button {
+  background-color: #a9def9;
   margin-top: 400px;
-  margin-left: 50px ;
+  margin-left: 50px;
 }
 
-
-.botones
-{
-  margin-left: 120px;
+.custom-voice-recorder-card {
+  border: none;
 }
 
-
-
+.custom-voice-recorder-body {
+  display: flex;
+  justify-content: center;
+}
 /* reproductor de audio  */
 
-.uploaded-audio-player
-{
+.uploaded-audio-player {
   margin-top: 25px;
-  height: 0px;;
+  height: 0px;
 }
-
-
-
-
-
-
-
-
 
 /* Grabadora de voz */
 .audio-recorder-container {
-    border: 2px solid #2b2b2b; /* Borde gris oscuro */
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    margin: 0 auto;
-    background-color: #FCF6BD; /* Fondo gris oscuro */
-    text-align: center;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    margin-top: 250px;
+  border: 2px solid #2b2b2b; /* Borde gris oscuro */
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  margin: 0 auto;
+  background-color: #fcf6bd; /* Fondo gris oscuro */
+  text-align: center;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  margin-top: 250px;
+}
 
-  }
-  
-  /* Estilos para el botón de inicio/detención de grabación */
-  .audio-recorder-container button {
-    background-color: #A9DEF9; 
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-    transition: background-color 0.2s;
-   
-  }
- 
-  
-  .audio-recorder-container button:hover {
-    background-color: #D0F4DE; /* Morado más claro al pasar el mouse */
-  }
-  
-  /* Estilos para el reproductor de audio */
-  .audio-recorder-audio {
-    margin-top: 10px;
-    width: 100%;
-    background-color:  white; /* Fondo gris oscuro */
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave */
-  }
-  
-  /* Estilos para el área de grabación */
-  .audio {
-    background-color: #9f9595; /* Fondo gris oscuro */
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    margin: 10px 0;
-  }
-  
-  /* Estilos para los controles de audio en HTML5 */
-  audio::-webkit-media-controls-panel {
-    background-color:  white; /* Fondo gris oscuro */
+/* Estilos para el botón de inicio/detención de grabación */
+.audio-recorder-container button {
+  background-color: #a9def9;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.2s;
+}
 
-    font-family: Arial, sans-serif;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave */
-  }
-  
-  /* Cambiar el estilo del botón de reproducción */
-  audio::-webkit-media-controls-play-button {
-    background-color: #A9DEF9; /* Morado oscuro */
-    border-radius: 5px;
-  }
-  
-  /* Cambiar el estilo del botón de pausa */
-  audio::-webkit-media-controls-pause-button {
-    background-color: #D0F4DE; /* Morado más claro */
+.audio-recorder-container button:hover {
+  background-color: #d0f4de; /* Morado más claro al pasar el mouse */
+}
 
-    border-radius: 5px;
-  }
-  
+/* Estilos para el reproductor de audio */
+.audio-recorder-audio {
+  margin-top: 10px;
+  width: 100%;
+  background-color: white; /* Fondo gris oscuro */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
 
+/* Estilos para el área de grabación */
+.audio {
+  background-color: #9f9595; /* Fondo gris oscuro */
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
 
+/* Estilos para los controles de audio en HTML5 */
+audio::-webkit-media-controls-panel {
+  background-color: white; /* Fondo gris oscuro */
 
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
 
+/* Cambiar el estilo del botón de reproducción */
+audio::-webkit-media-controls-play-button {
+  background-color: #a9def9; /* Morado oscuro */
+  border-radius: 5px;
+}
+
+/* Cambiar el estilo del botón de pausa */
+audio::-webkit-media-controls-pause-button {
+  background-color: #d0f4de; /* Morado más claro */
+
+  border-radius: 5px;
+}
 
 /* Estilos para el modal */
 
 .Modal {
   width: 400px;
   height: 400px;
-  background-color: #A9DEF9; /* Color de fondo rosa claro */
+  background-color: #a9def9; /* Color de fondo rosa claro */
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   text-align: center;
@@ -139,7 +119,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 2px solid #D0F4DE;
+  border: 2px solid #d0f4de;
 }
 
 /* Resto de los estilos se mantienen igual */
@@ -155,7 +135,7 @@
 /* Estilos para los botones */
 .Modal button {
   padding: 10px 20px;
-  background-color: #D0F4DE; /* Color de fondo azul claro */
+  background-color: #d0f4de; /* Color de fondo azul claro */
   color: #2b2b2b; /* Color de texto blanco */
   border: none;
   border-radius: 5px;
@@ -167,11 +147,11 @@
 
 /* Estilos para los botones al pasar el mouse */
 .Modal button:hover {
-  background-color: #FCF6BD; /* Color de fondo verde claro al pasar el mouse */
+  background-color: #fcf6bd; /* Color de fondo verde claro al pasar el mouse */
 }
 
 /* Estilos para el enlace de YouTube */
-.Modal input[type="text"] {
+.Modal input[type='text'] {
   width: 100%;
   padding: 5px;
   border: 1px solid #ccc;

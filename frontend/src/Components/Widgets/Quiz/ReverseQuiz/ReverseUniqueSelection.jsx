@@ -14,14 +14,13 @@ const ReverseUniqueSelection = () => {
   const [isAddingResponses, setIsAddingResponses] = useState(true) // Estado inicial: agregar respuestas
 
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: widgetType, 
+    type: widgetType,
     item: { type: 'ReverseUniqueSelection' },
     //La funcion collect es opcional
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(), 
+      isDragging: !!monitor.isDragging(),
     }),
   }))
-
 
   const addResponses = () => {
     if (responses.length < MAX_RESPONSES) {
@@ -61,69 +60,60 @@ const ReverseUniqueSelection = () => {
   }, [responses])
 
   return (
-
     <div
       ref={drag}
       className='custom-unique-selection-background'
       style={{ border: isDragging ? '5px solid pink' : '0px' }}
     >
-
-    <div className='custom-quiz-background'>
-      <div className='container custom-quiz-container text-center'>
-        <div className='row'>
-          <div className='col'>
-            <div id='cardQuestions'>
+      <div className='custom-quiz-background'>
+        <div className='container custom-quiz-container text-center'>
+          <div className='row'>
+            <div className='col'>
+              {/* <div id='cardQuestions'>
               <div className='row'>
                 <input
                   type='text'
                   className='custom-input'
                   placeholder='Start typing your question'
                 />
-                {/* <div className="custom-add-image">
-                  <div className="image-container">
-                    <div>
-                      <img src="/imagenes/quiz/addImage.png" alt="addimage" />
-                      <p>Find and insert media</p>
-                    </div>
-                  </div>
-                </div> */}
-              </div>
-            </div>
 
-            <div className='responses-grid mx-auto mt-5'>
-              {responses.map((response, index) => (
-                <ReverseAnswerQuiz
-                  key={index}
-                  value={response}
-                  onChange={(value) => handleResponseChange(index, value)}
-                />
-              ))}
-            </div>
-            <button
-              className={`custom-button ${
-                isAddingResponses ? 'adding' : 'removing'
-              }`}
-              onClick={toggleAddingResponses}
-            >
-              <div className='button-content'>
-                <div className='button-icon'>
-                  {isAddingResponses ? (
-                    <FontAwesomeIcon size='lg' icon={faPlus} />
-                  ) : (
-                    <FontAwesomeIcon size='lg' icon={faMinus} />
-                  )}
-                </div>
-                <div className='button-text'>
-                  {isAddingResponses
-                    ? 'Add more answers'
-                    : 'Remove additional answers'}
-                </div>
               </div>
-            </button>
+            </div> */}
+
+              <div className='responses-grid mx-auto mt-5'>
+                {responses.map((response, index) => (
+                  <ReverseAnswerQuiz
+                    key={index}
+                    value={response}
+                    onChange={(value) => handleResponseChange(index, value)}
+                  />
+                ))}
+              </div>
+              <button
+                className={`custom-button ${
+                  isAddingResponses ? 'adding' : 'removing'
+                }`}
+                onClick={toggleAddingResponses}
+              >
+                <div className='button-content'>
+                  <div className='button-icon'>
+                    {isAddingResponses ? (
+                      <FontAwesomeIcon size='lg' icon={faPlus} />
+                    ) : (
+                      <FontAwesomeIcon size='lg' icon={faMinus} />
+                    )}
+                  </div>
+                  <div className='button-text'>
+                    {isAddingResponses
+                      ? 'Add more answers'
+                      : 'Remove additional answers'}
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   )
 }

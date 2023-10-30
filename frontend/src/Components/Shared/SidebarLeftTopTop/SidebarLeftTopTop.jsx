@@ -56,12 +56,36 @@ const SidebarLeftTopTop = () => {
       text: 'Grids',
       icon: faTh,
       subItems: [
-        <Grids direction={'horizontal'} numRows={1} />,
-        <Grids direction={'vertical'} numRows={2} />,
-        <Grids direction={'horizontal'} numRows={3} />,
-        <Grids direction={'quadruple'} numRows={4} />,
-        <Grids direction={'horizontal'} numRows={2} />,
-        <Grids direction={'collage'} numRows={7} />,
+        {
+          id: 1,
+          image: '/imagenes/grids/fullgrid.png',
+          widget: <Grids direction={'horizontal'} numRows={1} />,
+        },
+        {
+          id: 2,
+          image: '/imagenes/grids/verticaldoublegrid.png',
+          widget: <Grids direction={'vertical'} numRows={2} />,
+        },
+        {
+          id: 3,
+          image: '/imagenes/grids/horizontaltriplegrid.png',
+          widget: <Grids direction={'horizontal'} numRows={3} />,
+        },
+        {
+          id: 4,
+          image: '/imagenes/grids/quadruplegrid.png',
+          widget: <Grids direction={'quadruple'} numRows={4} />,
+        },
+        {
+          id: 5,
+          image: '/imagenes/grids/horizontaldoublegrid.png',
+          widget: <Grids direction={'horizontal'} numRows={2} />,
+        },
+        {
+          id: 6,
+          image: '/imagenes/grids/collagegrid.png',
+          widget: <Grids direction={'collage'} numRows={7} />,
+        },
       ],
     },
     {
@@ -73,8 +97,16 @@ const SidebarLeftTopTop = () => {
       text: 'Media',
       icon: faPhotoVideo,
       subItems: [
-        <AudioRecorder />,
-        <Video />,
+        {
+          id: 1,
+          image: '/imagenes/widgets/audio.png',
+          widget: <AudioRecorder />,
+        },
+        {
+          id: 2,
+          image: '/imagenes/widgets/video.png',
+          widget: <Video />,
+        },
       ],
     },
     {
@@ -86,10 +118,17 @@ const SidebarLeftTopTop = () => {
       text: 'Quiz',
       icon: faPuzzlePiece,
       subItems: [
-        <UniqueSelection />,
-        <ReverseUniqueSelection />
+        {
+          id: 1,
+          image: '/imagenes/widgets/quiz.png',
+          widget: <UniqueSelection />,
+        },
+        {
+          id: 2,
+          image: '/imagenes/widgets/reverseQuiz.png',
+          widget: <ReverseUniqueSelection />,
+        },
       ],
-
     },
     {
       text: 'Games',
