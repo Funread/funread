@@ -6,7 +6,7 @@ import { faCheck, faClose, faStar } from '@fortawesome/free-solid-svg-icons'
 
 const AnswerQuiz = ({ value, onChange }) => {
   return (
-    <div className='custom-quiz-card'>
+    <div className='custom-answer-quiz-card'>
       <div className='custom-quiz-card-header'>
         <button className='icon-button'>
           <img src='/imagenes/quiz/rubik.png' alt='icon' />

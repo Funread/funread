@@ -1,4 +1,4 @@
-.custom-quiz-card {
+.custom-answer-quiz-card {
   background-color: #d0f4de;
   border-radius: 5px;
   overflow: hidden;
@@ -14,7 +14,7 @@
   padding-bottom: 10px;
 }
 
-.custom-quiz-card .custom-quiz-card-header::after {
+.custom-answer-quiz-card .custom-quiz-card-header::after {
   display: none;
 }
 
