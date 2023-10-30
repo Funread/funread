@@ -109,8 +109,8 @@ function GridGame({ palabras, filas, columnas }) {
           {cuadricula.map((fila, filaIndex) => (
             <tr key={filaIndex}>
               {fila.map((letra, columnaIndex) => (
-                <td key={columnaIndex}>
-                  {letra}
+                 <td key={columnaIndex} className={esLetraDePalabra(letra) ? 'highlighted-word' : ''}>
+                 {letra}
                 </td>
               ))}
             </tr>
@@ -119,6 +119,16 @@ function GridGame({ palabras, filas, columnas }) {
       </table>
     </div>
   );
+
+  function esLetraDePalabra(letra) {
+    for (const palabra of palabras) {
+      if (palabra.includes(letra)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
 
 export default GridGame;

@@ -13,3 +13,7 @@ td{
 .saved-word {
   color: rgb(138, 31, 31); /* Cambia el color según tus preferencias */
 }
+.highlighted-word
+{
+  color: red;
+}
