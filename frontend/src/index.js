@@ -149,6 +149,7 @@ root.render(
                 <div className='index-background-container '>
                   <Group />
                 </div>
+              </div>
             }
           />
           <Route
@@ -170,7 +171,6 @@ root.render(
                 <div className="index-background-padding">
                   <div className="index-background-container ">
                     <BookCreator />
-
                   </div>
                 </div>
               }
