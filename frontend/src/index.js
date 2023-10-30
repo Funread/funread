@@ -149,7 +149,6 @@ root.render(
                 <div className='index-background-container '>
                   <Group />
                 </div>
-              </div>
             }
           />
           <Route
