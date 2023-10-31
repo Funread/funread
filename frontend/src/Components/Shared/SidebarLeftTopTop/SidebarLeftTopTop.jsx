@@ -15,6 +15,7 @@ import NavItem from '../SideNavBarItem/NavItem'
 import SideNavBarFooter from '../SideNavBarFooter/SideNavBarFooter'
 import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
 import Grids from '../Grids/Grids'
+import Text from '../../Widgets/Text/Text'
 
 const SidebarLeftTopTop = () => {
   const [isExpanded, setExpendState] = useState(true)
@@ -64,7 +65,7 @@ const SidebarLeftTopTop = () => {
     {
       text: 'Text',
       icon: faA,
-      subItems: [],
+      subItems: [<Text />],
     },
     {
       text: 'Media',
