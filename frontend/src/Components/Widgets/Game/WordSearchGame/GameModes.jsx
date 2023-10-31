@@ -80,25 +80,25 @@ function GameModes() {
     <div id='game'>
       <div className='row'>
         <div className='col-4' id='modes'>
-          <h3>Elige el nivel de dificultad</h3>
+          <h3>Choose the difficulty level</h3>
           <div>
             <div id='buttonsDifficulty'>
               <button onClick={addEasyResponses}>               
-                Fácil
+                Easy
               </button>
             </div>
             <div id='buttonsDifficulty'>
               <button onClick={addInterResponses}>              
-                Intermedio
+                Medium
               </button>
             </div>
             <div id='buttonsDifficulty'>
               <button onClick={addAdvancedResponses}>               
-                Avanzado
+                Hard
               </button>
             </div>
           </div>
-          <h3 className='titulo' >Ingresa las palabras a buscar</h3>
+          <h3 className='titulo' >Enter the words to search</h3>
           <div className='responses-grid mx-auto mt-5'>
             {responses.map((response, index) => (
               <Words
@@ -109,7 +109,7 @@ function GameModes() {
             ))}
           </div>
           <div id='footerButton'>
-            <ButtonNav title={'Guardar'} onClick={saveResponses} />
+            <ButtonNav title={'Save'} onClick={saveResponses} />
           </div>
         </div>
         <div className='col-7' id='modes'>
