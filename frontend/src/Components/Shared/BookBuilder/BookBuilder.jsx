@@ -77,10 +77,8 @@ const BookBuilder = ({ toggleSidebar }) => {
         return
       }
 
-      const imageRoute = book.portrait ? await uploadImage() : null
-
       // Crear libro con ruta de imagen
-      const newBook = { ...book, portrait: imageRoute }
+      const newBook = { ...book, portrait: fileImage ? fileImage.name : null }
 
       // Enviar libro al servidor
       const response = await createBook(newBook)
@@ -91,7 +89,7 @@ const BookBuilder = ({ toggleSidebar }) => {
         toast.success('Book created successfully')
 
         const imageToDisplay = portrait
-          ? `${getImage}${portrait}` // Usar la imagen del servidor
+          ? `<span class="math-inline">\{getImage\}</span>{portrait}` // Usar la imagen del servidor
           : defaultImage // Usar la imagen predeterminada local
 
         toggleSidebar({ ...newBook, portrait: imageToDisplay })
@@ -118,6 +116,7 @@ const BookBuilder = ({ toggleSidebar }) => {
           updatedErrorFields[field] = true
         }
       })
+
       setErrorFields(updatedErrorFields)
 
       return false
@@ -142,7 +141,11 @@ const BookBuilder = ({ toggleSidebar }) => {
       throw new Error('Error getting the image route')
     }
 
+
+    
     return response2.data.image_route
+
+   
   }
 
   const uploadImageFile = async () => {
