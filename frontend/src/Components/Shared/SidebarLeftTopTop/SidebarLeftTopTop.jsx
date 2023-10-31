@@ -18,6 +18,7 @@ import Grids from '../Grids/Grids'
 import ReverseUniqueSelection from '../../Widgets/Quiz/ReverseQuiz/ReverseUniqueSelection'
 import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
 import Video from '../../Widgets/Media/Video/Video'
+import Box from '../../Widgets/Text/TextBox'
 
 const SidebarLeftTopTop = () => {
   const [isExpanded, setExpendState] = useState(true)
@@ -91,7 +92,13 @@ const SidebarLeftTopTop = () => {
     {
       text: 'Text',
       icon: faA,
-      subItems: [],
+      subItems: [
+        {
+          id: 1,
+          image: '/imagenes/grids/collagegrid.png',
+          widget: <Box />,
+        },
+      ],
     },
     {
       text: 'Media',
