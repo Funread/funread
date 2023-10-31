@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './Grids.sass'
 import { useDrop } from 'react-dnd'
 import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
@@ -14,13 +14,43 @@ const widgetTypeToComponent = {
 }
 
 const Grids = ({ direction, numRows }) => {
-  const [droppedWidgets, setDroppedWidgets] = useState([])
+  const [droppedWidgets, setDroppedWidgets] = useState(Array(numRows).fill([]))
+  const divID = useRef()
 
-  const [{ isOver }, drop] = useDrop(() => ({
+  useEffect(() => {
+    const parentsDiv = document.querySelectorAll('.custom-grid-component')
+    const dropEventListeners = []
+
+    parentsDiv.forEach((parentDiv) => {
+      const dropEventListener = (event) => {
+        event.preventDefault()
+        divID.current = event.srcElement.id
+      }
+      parentDiv.addEventListener('drop', dropEventListener)
+      dropEventListeners.push({ parentDiv, dropEventListener })
+    })
+
+    // Elimina los event listeners cuando se desmonte el componente
+    return () => {
+      dropEventListeners.forEach(({ parentDiv, dropEventListener }) => {
+        parentDiv.removeEventListener('drop', dropEventListener)
+      })
+    }
+  }, [])
+
+  const [, drop] = useDrop(() => ({
     accept: Object.keys(widgetTypeToComponent),
     drop: (droppedWidget) => {
-      // Agrega el widget soltado a la lista de widgets en el estado
-      setDroppedWidgets((prevWidgets) => [...prevWidgets, droppedWidget])
+      if (divID.current !== null) {
+        setDroppedWidgets((prevDroppedWidgets) => {
+          const updatedDroppedWidgets = [...prevDroppedWidgets]
+          updatedDroppedWidgets[divID.current] = [
+            ...(prevDroppedWidgets[divID.current] || []),
+            droppedWidget,
+          ]
+          return updatedDroppedWidgets
+        })
+      }
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -30,23 +60,19 @@ const Grids = ({ direction, numRows }) => {
   return (
     <section className={`layout ${direction}`} ref={drop}>
       {Array.from({ length: numRows }).map((_, index) => (
-        <div className='custom-grid-component' key={index}>
-          {index < droppedWidgets.length ? (
-            // Renderiza el componente correspondiente al tipo del widget soltado
-            React.createElement(
-              widgetTypeToComponent[droppedWidgets[index].type],
-              {
-                key: `widget-${index}`,
-                ...droppedWidgets[index],
-              }
-            )
-          ) : (
-            // Renderiza un espacio vacío si no hay widget en esa posición
-            <div
-              className='empty-widget-slot'
-              key={`empty-slot-${index}`}
-            ></div>
-          )}
+        <div id={index} className='custom-grid-component' key={index}>
+          {Array.isArray(droppedWidgets[index]) &&
+            droppedWidgets[index].map(
+              (widget, widgetIndex) =>
+                widgetTypeToComponent[widget.type] && (
+                  <div key={widgetIndex}>
+                    {React.createElement(
+                      widgetTypeToComponent[widget.type],
+                      {}
+                    )}
+                  </div>
+                )
+            )}
         </div>
       ))}
     </section>
