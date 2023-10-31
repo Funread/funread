@@ -6,11 +6,13 @@ import Grids from '../Grids/Grids'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons'
+import Text from '../../Widgets/Text/Text'
 
 const widgetType = 'widgetType'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
+  Text: Text,
   UniqueSelection: UniqueSelection,
   Grids: Grids,
 }
