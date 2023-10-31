@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useDrag, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import './Text.sass';
 
 
-const widgetType = 'widgetType';
+const widgetType = 'widgetType'
 
 const Box = ({ roleMipsun, onBoxTextChange }) => {
   const [text, setText] = useState(roleMipsun);
@@ -24,11 +23,10 @@ const Box = ({ roleMipsun, onBoxTextChange }) => {
   };
 
   return (
-    <div ref={drag} className="divStyle"> 
+    <div ref={drag} > 
       <textarea
         value={text}
-        onChange={handleTextChange}
-        className="inputStyle" 
+        onChange={handleTextChange} 
       />
     </div>
   );
