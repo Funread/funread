@@ -4,11 +4,9 @@ import { useDrop } from 'react-dnd'
 import Grids from '../Grids/Grids'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons'
+import { faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas'
 import { ToastContainer, toast } from 'react-toastify'
-
-const widgetType = 'Grids'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
@@ -43,7 +41,7 @@ const PageContainer = ({
   }
 
   const [, drop] = useDrop(() => ({
-    accept: widgetType,
+    accept: Object.keys(widgetTypeToComponent),
     drop: (item) => {
       if (item.type === 'Grids') {
         const droppedComponentInfo = {
@@ -93,10 +91,6 @@ const PageContainer = ({
                   {'Activity ' + pageNumber}
                 </h6>
                 <div className='d-flex'>
-                  <button onClick={remove}>
-                    <img src='/escoba.png' alt='Clear' />
-                  </button>
-
                   {!handle.active && (
                     <div className='fullscreen-buttons'>
                       <button id='buttonExpand' onClick={handleEnterFullScreen}>
@@ -105,6 +99,13 @@ const PageContainer = ({
                       </button>
                     </div>
                   )}
+
+                  <button
+                    onClick={remove}
+                    className='custom-delete-buttom-page-container'
+                  >
+                    <FontAwesomeIcon size='lg' icon={faTrash} />
+                  </button>
                 </div>
               </div>
 
