@@ -7,20 +7,34 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas'
 import { ToastContainer, toast } from 'react-toastify'
+import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
+const widgetType = 'widgetType';
+
 const widgetTypeToComponent = {
+  UniqueSelection: UniqueSelection,
   Grids: Grids,
-}
+};
+
 
 const PageContainer = ({
   pageNumber,
   onRemoveSlides,
   updateImage,
-  addOrUpdatePage,
+  addOrUpdatePage,title
 }) => {
-  const [buttonVisible, setButtonVisible] = useState(true)
-  const [droppedComponent, setDroppedComponent] = useState(null)
+  const [buttonVisible, setButtonVisible] = useState(true);
+  const [droppedComponent, setDroppedComponent] = useState(null);
+  const [saveData, setSaveData] = useState(null);
+  const [isEditingEnabled, setIsEditingEnabled] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+    const save = (data) => {
+    console.log(data);
+    setSaveData(true);
+  };
+
 
   useEffect(() => {
     captureImage()
@@ -69,16 +83,39 @@ const PageContainer = ({
     // setDroppedComponent(null)
   }
 
+
+  
+
   const handle = useFullScreenHandle()
 
   const toggleButtonVisibility = (isVisible) => {
-    setButtonVisible(isVisible)
-  }
+    setButtonVisible(isVisible);
+  };
+
+
+ 
 
   const handleEnterFullScreen = () => {
-    toggleButtonVisibility(false)
-    handle.enter()
-  }
+    toggleButtonVisibility(false);
+    handle.enter();
+    setIsFullscreen(true);
+    setIsEditingEnabled(false);
+  };
+
+  const toggleFullScreen = () => {
+    if (isFullscreen) {
+      handleExitFullScreen();
+    } else {
+      handleEnterFullScreen();
+    }
+  };
+
+  const handleExitFullScreen = () => {
+    toggleButtonVisibility(true);
+    handle.exit();
+  };
+
+
 
   return (
     <div className='container-fluid'>
