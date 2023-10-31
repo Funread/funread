@@ -1,3 +1,6 @@
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.image import MIMEImage
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 import json
@@ -12,6 +15,7 @@ import verifyJwt
 
 import smtplib
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 # Create your views here.
 
 
@@ -169,26 +173,44 @@ def updateMailControl(request):
 @api_view(['POST'])
 def sendEmail(request):
     # Configuración
-    smtp_server = 'smtp.example.com'
-    smtp_port = 587  # Puerto SMTP
-    smtp_username = 'tu_email@example.com'
-    smtp_password = 'tu_contraseña'
+    smtp_username = ''
+    smtp_password = ''
 
-    # Crear el mensaje
-    message = MIMEText('Este es el contenido del correo electrónico.')
-    message['Subject'] = 'Asunto del correo'
-    message['From'] = 'tu_email@example.com'
-    message['To'] = 'destinatario@example.com'
+    message = MIMEMultipart()
+    message['Subject'] = request.data.get('subjet')
+    message['From'] = smtp_username
+    message['To'] = request.data.get('to')
+    #Agregamos contenido
+    message.attach(MIMEText(request.data.get('message')))
+
+
+    #intente agregar el logo de funread al correo pero no salio muy bien, dejo el codigo que consegui
+    # with open('./Mailer/logoFunread.png', 'rb') as image_file:
+    #     image = MIMEImage(image_file.read())
+    #     image.add_header('Content-ID', '<logo_image>')
+    #     message.attach(image)
+
+    # # Cuerpo del mensaje con la imagen
+    # html_body = """
+    # <html>
+    # <body>
+    #     <p>Este es el contenido del correo electrónico.</p>
+    #     <img src="cid:logo_image">
+    # </body>
+    # </html>
+    # """
+    # html_part = MIMEText(html_body, 'html')
+    # message.attach(html_part)
 
     # Conectar al servidor SMTP
-    server = smtplib.SMTP(smtp_server, smtp_port)
+    server = smtplib.SMTP('smtp.gmail.com', 587 )
     server.starttls()  # Iniciar cifrado TLS
     server.login(smtp_username, smtp_password)
 
     # Enviar el correo
-    server.sendmail(smtp_username, 'destinatario@example.com', message.as_string())
+    server.sendmail(smtp_username, request.data.get('to'), message.as_string())
 
     # Cerrar la conexión
     server.quit()
 
-    return Response({"Se han eliminado los datos con exito"},status=status.HTTP_200_OK)
+    return Response({"Se envio con exito"},status=status.HTTP_200_OK)

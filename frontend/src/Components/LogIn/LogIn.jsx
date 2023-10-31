@@ -11,6 +11,7 @@ import { InputGroup } from "react-bootstrap";
 import { axiosAuth } from "../../api/axiosInstances"
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/userSlice";
+import { sendMail } from "../../api";
 
 
 function LogIn(props) {
@@ -56,6 +57,7 @@ function LogIn(props) {
     logIn(email, password).then((res) => {  
       //Esto debe hacerce para evitar que axiosAuth revise si el token existe antes de terminar el login
       if(axiosAuth() !== null){
+        sendMail("Estimado/a [Nickname],\n\n¡Te damos la más cordial bienvenida a FUNREAD! Estamos emocionados de tenerte a bordo y queremos agradecerte por unirte a nuestra comunidad de aprendizaje de inglés.\n\nTu participación en FUNREAD es fundamental, y confiamos en que te desempeñarás excepcionalmente en el(los) rol(es) que has elegido. Ya sea que seas un ayudante, estudiante, profesor, director, padre de familia o cualquier otro rol que hayas seleccionado, tu contribución será valiosa para el éxito de nuestra plataforma.\n\nEn FUNREAD, te ofrecemos una experiencia única para aprender y mejorar tus habilidades en inglés. Nuestros recursos y herramientas están diseñados para que puedas alcanzar tus metas de aprendizaje de la manera más efectiva y divertida.\n\nUna vez más, gracias por unirte a FUNREAD. Estamos seguros de que tendrás una experiencia enriquecedora con nosotros. ¡Estamos emocionados de verte alcanzar tus objetivos de aprendizaje de inglés!\n\nSi tienes alguna pregunta o necesitas asistencia, no dudes en comunicarte con nosotros. ¡Te deseamos mucho éxito en tu viaje de aprendizaje de inglés!\n\nSaludos cordiales,\nEquipo de FUNREAD",'¡Bienvenido a FUNREAD, USER!',"anthony.michael.g.s@gmail.com")
         navigate('/dashboard');
       }else{
         setPassword("")
