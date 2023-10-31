@@ -1,96 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import UniqueSelection from '../../Widgets/Quiz/UniqueSalection/UniqueSelection';
-import './PageContainer.sass';
-import { useDrop } from 'react-dnd';
-import Grids from '../Grids/Grids';
-import { FullScreen, useFullScreenHandle } from 'react-full-screen';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
+import './PageContainer.sass'
+import React, { useState, useEffect } from 'react'
+import { useDrop } from 'react-dnd'
+import Grids from '../Grids/Grids'
+import { FullScreen, useFullScreenHandle } from 'react-full-screen'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
+import html2canvas from 'html2canvas'
+import { ToastContainer, toast } from 'react-toastify'
 
-const widgetType = 'widgetType';
-
+//Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
-  UniqueSelection: UniqueSelection,
   Grids: Grids,
-};
+}
 
+const PageContainer = ({
+  pageNumber,
+  onRemoveSlides,
+  updateImage,
+  addOrUpdatePage,
+}) => {
+  const [buttonVisible, setButtonVisible] = useState(true)
+  const [droppedComponent, setDroppedComponent] = useState(null)
 
-const PageContainer = ({ title }) => {
-  const [buttonVisible, setButtonVisible] = useState(true);
-  const [droppedComponent, setDroppedComponent] = useState(null);
-  const [saveData, setSaveData] = useState(null);
-  const [isEditingEnabled, setIsEditingEnabled] = useState(true);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  useEffect(() => {
+    captureImage()
+  }, [droppedComponent, pageNumber])
 
-  const save = (data) => {
-    console.log(data);
-    setSaveData(true);
-  };
+  const captureImage = () => {
+    // Captura el contenido del PageContainer
+    html2canvas(document.getElementById(`pageContainer-${pageNumber}`)).then(
+      (canvas) => {
+        // Convierte el canvas en una imagen
+        const image = new Image()
+        image.src = canvas.toDataURL()
 
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: widgetType,
+        // Llama a la función del BookCreator para pasar la imagen
+        updateImage(pageNumber, image.src)
+      }
+    )
+  }
+
+  const [, drop] = useDrop(() => ({
+    accept: Object.keys(widgetTypeToComponent),
     drop: (item) => {
-      const droppedComponentInfo = {
-        type: item.type,
-        direction: item.direction,
-        rows: item.numRows,
-      };
-      setDroppedComponent(droppedComponentInfo);
+      if (item.type === 'Grids') {
+        const droppedComponentInfo = {
+          type: item.type,
+          direction: item.direction,
+          rows: item.numRows,
+        }
+        addOrUpdatePage(
+          pageNumber,
+          droppedComponentInfo.direction,
+          droppedComponentInfo.rows
+        )
+        setDroppedComponent(droppedComponentInfo)
+      } else {
+        toast.error('You must select a grid first')
+      }
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
-  }));
+  }))
 
   const remove = () => {
-    setDroppedComponent(null);
-  };
+    onRemoveSlides(pageNumber)
+    // setDroppedComponent(null)
+  }
 
-
-
-  const handle = useFullScreenHandle();
+  const handle = useFullScreenHandle()
 
   const toggleButtonVisibility = (isVisible) => {
-    setButtonVisible(isVisible);
-  };
-
-
- 
+    setButtonVisible(isVisible)
+  }
 
   const handleEnterFullScreen = () => {
-    toggleButtonVisibility(false);
-    handle.enter();
-    setIsFullscreen(true);
-    setIsEditingEnabled(false);
-  };
-
-  const toggleFullScreen = () => {
-    if (isFullscreen) {
-      handleExitFullScreen();
-    } else {
-      handleEnterFullScreen();
-    }
-  };
-
-  const handleExitFullScreen = () => {
-    toggleButtonVisibility(true);
-    handle.exit();
-  };
-  
-  // Agregar un manejador de eventos para habilitar ediciones al salir del modo de pantalla completa
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      if (!document.fullscreenElement && isFullscreen) {
-        // Detectar que hemos salido del modo pantalla completa
-        setIsFullscreen(false);
-        setIsEditingEnabled(true); // Habilitar la edición al salir del modo pantalla completa
-      }
-    };
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-    };
-  }, [isFullscreen]);
+    toggleButtonVisibility(false)
+    handle.enter()
+  }
 
   return (
     <div className='container-fluid'>
@@ -99,45 +87,50 @@ const PageContainer = ({ title }) => {
           <FullScreen handle={handle}>
             <div className='card shadow mb-4 content_page'>
               <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
-                <h6 className='m-0 font-weight-bold text-primary'>{title}</h6>
+                <h6 className='m-0 font-weight-bold text-primary'>
+                  {'Activity ' + pageNumber}
+                </h6>
                 <div className='d-flex'>
-                  <button onClick={remove}>
-                    <img src='/escoba.png' alt='Clear' />
-                  </button>
-                  <button onClick={save}>
-                    <img src='/expediente.png' alt='Save' />
-                  </button>
-                  {isFullscreen ? (
-                    <button id='buttonExitFullscreen' onClick={handleExitFullScreen}>
-                      <img src='/hide.png' alt='hide' />
-                    </button>
-                  ) : (
-                    <button id='buttonExpand' onClick={handleEnterFullScreen}>
-                      <img src='/view.png' alt='view' />
-                    </button>
+                  {!handle.active && (
+                    <div className='fullscreen-buttons'>
+                      <button id='buttonExpand' onClick={handleEnterFullScreen}>
+                        <FontAwesomeIcon icon={faExpandArrowsAlt} />
+                        <i className='fa fa-expand'></i>
+                      </button>
+                    </div>
                   )}
+
+                  <button
+                    onClick={remove}
+                    className='custom-delete-buttom-page-container'
+                  >
+                    <FontAwesomeIcon size='lg' icon={faTrash} />
+                  </button>
                 </div>
               </div>
 
-              <div className={`card-body custom-card-body-page-container p-0 ${isFullscreen ? 'fullscreen' : ''}`} ref={drop}>
+              <div
+                id={`pageContainer-${pageNumber}`}
+                className='card-body custom-card-body-page-container p-0'
+                ref={drop}
+              >
                 {droppedComponent &&
                   widgetTypeToComponent[droppedComponent.type] &&
                   React.createElement(
                     widgetTypeToComponent[droppedComponent.type],
                     {
-                      saveData,
                       direction: droppedComponent.direction,
                       numRows: droppedComponent.rows,
-                      isEditingEnabled,
                     }
                   )}
               </div>
             </div>
           </FullScreen>
+          <ToastContainer position='top-right' />
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PageContainer;
+export default PageContainer
