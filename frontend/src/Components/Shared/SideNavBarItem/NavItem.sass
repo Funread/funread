@@ -30,18 +30,28 @@
   overflow-y: scroll
   max-height: 200px
 
+.custom-card::-webkit-scrollbar
+  width: 1px
+
+.custom-card::-webkit-scrollbar-thumb 
+  background-color: #000
+  border-radius: 5px
+
 .icon-grid
   display: grid
-  grid-template-columns: repeat(auto-fit, minmax(30px, 2fr))
+  grid-template-columns: repeat(2, 1fr)
   gap: 10px
   justify-content: center
   align-content: center
 
-.icon
-  font-size: 24px
-  text-align: center
-  color: #333
+.icon-grid-no-expanded-sidebar
+  display: flex 
+  flex-direction: column
+  gap:10px
+  justify-content: center
+  align-content: center
 
-@media only screen and (max-height: 490px)
-  .icon-grid
-    gap: 0
+.grid-item 
+  width: 100%
+  height: auto
+  object-fit: cover
