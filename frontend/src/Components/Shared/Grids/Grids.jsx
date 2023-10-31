@@ -5,12 +5,14 @@ import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
 import ReverseUniqueSelection from '../../Widgets/Quiz/ReverseQuiz/ReverseUniqueSelection'
 import Video from '../../Widgets/Media/Video/Video'
 import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
+import Box from '../../Widgets/Text/TextBox'
 
 const widgetTypeToComponent = {
   UniqueSelection: UniqueSelection,
   ReverseUniqueSelection: ReverseUniqueSelection,
   Video: Video,
   AudioRecorder: AudioRecorder,
+  Box: Box,
 }
 
 const Grids = ({ direction, numRows }) => {
