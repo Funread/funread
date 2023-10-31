@@ -6,12 +6,14 @@ import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons'
+import Text from '../../Widgets/Text/Text'
 import html2canvas from 'html2canvas'
 
 const widgetType = 'widgetType'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
+  Text: Text,
   UniqueSelection: UniqueSelection,
   Grids: Grids,
 }
