@@ -17,7 +17,7 @@ const SidebarImages = ({ item }) => {
 
   return (
     <section ref={drag} className={isDragging ? 'drag-images-style' : ''}>
-      <img src={item.image} width={110} alt='' />
+      <img src={item.image} className='sidebar-image-size' alt='' />
     </section>
   )
 }

@@ -31,7 +31,11 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
       </div>
       {isSelected && (
         <div className='custom-card'>
-          <div className='icon-grid'>
+          <div
+            className={`${
+              isExpanded ? 'icon-grid' : 'icon-grid-no-expanded-sidebar'
+            }`}
+          >
             {subItems.map((subItem, index) => (
               <div key={index} className='grid-item'>
                 <SidebarImages key={index} item={subItem} />
