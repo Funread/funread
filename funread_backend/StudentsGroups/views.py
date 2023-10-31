@@ -25,7 +25,7 @@ def listed(request):
     if es_valido == False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    studentsGroups = StudentsGroups.objects.all().exclude(isteacher=1)
+    studentsGroups = StudentsGroups.objects.all().exclude(isteacher=1).exclude(isactive=0)
     serializer = StudentsGroupsSerializer(studentsGroups, many=True)
     return Response(serializer.data)
 
@@ -38,7 +38,7 @@ def listedPerGroups(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     try:
-        groupscreateid = StudentsGroups.objects.filter(groupscreateid=request.data.get('GroupsCreateId')).exclude(isteacher=1)
+        groupscreateid = StudentsGroups.objects.filter(groupscreateid=request.data.get('GroupsCreateId')).exclude(isteacher=1).exclude(isactive=0)
     except StudentsGroups.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = StudentsGroupsSerializer(groupscreateid,many=True)
@@ -62,6 +62,7 @@ def add_new(request):
         'createdby': request.data.get('createdby'),
         'createdat': datetime.datetime.now(),
         'groupscreateid': request.data.get('groupscreateid'),
+        'isactive' : 1
     }
     serializer = StudentsGroupsSerializer(data=data)
     if serializer.is_valid():
@@ -70,7 +71,7 @@ def add_new(request):
     return Response("teacher or student already registered", status=status.HTTP_400_BAD_REQUEST)
 
 # Elimina un elemento de la lista StudentsGroups
-@api_view(['DELETE'])
+@api_view(['PUT'])
 def delete(request):
 
     # token verification
@@ -80,9 +81,15 @@ def delete(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    studentsGroups = StudentsGroups.objects.get(groupId=request.data.get('groupId'))
-    studentsGroups.delete()
-    return Response({"msj":"Succesfully Deleted"}, status=status.HTTP_200_OK)
+    try:
+        Student = StudentsGroups.objects.get(studentsgroupsid= request.data.get('idstudent'))
+    except StudentsGroups.DoesNotExist:
+        return Response("the student does not exist", status=status.HTTP_404_NOT_FOUND)
+    if Student.isteacher == 1:
+        return Response("the student does not exist", status=status.HTTP_404_NOT_FOUND)
+    Student.isactive = 0
+    Student.save()
+    return Response("student successfully deleted", status=status.HTTP_200_OK)
 
 
 # Metedo que cambia la variable de la lista StudentsGroups

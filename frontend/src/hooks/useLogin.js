@@ -13,8 +13,6 @@ export const useLogin = () => {
 
     return login(email, password).then((res) => {
         if (res.status === 200 ) {
-          sessionStorage.setItem("jwt",res.data.jwt)
-          //si se cambia la forma de alamacenar el token se debera cambiar esto
           dispatch(addUser(res.data))
           return "success"
         }else if(res.status === 403){

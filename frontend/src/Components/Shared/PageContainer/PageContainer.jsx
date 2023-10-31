@@ -2,17 +2,14 @@ import './PageContainer.sass'
 import React, { useState, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
 import Grids from '../Grids/Grids'
-import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons'
+import { faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas'
-
-const widgetType = 'widgetType'
+import { ToastContainer, toast } from 'react-toastify'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
-  UniqueSelection: UniqueSelection,
   Grids: Grids,
 }
 
@@ -24,7 +21,6 @@ const PageContainer = ({
 }) => {
   const [buttonVisible, setButtonVisible] = useState(true)
   const [droppedComponent, setDroppedComponent] = useState(null)
-  const [saveData, setSaveData] = useState(null)
 
   useEffect(() => {
     captureImage()
@@ -44,25 +40,24 @@ const PageContainer = ({
     )
   }
 
-  const save = (data) => {
-    console.log(data)
-    setSaveData(true)
-  }
-
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: widgetType,
+  const [, drop] = useDrop(() => ({
+    accept: Object.keys(widgetTypeToComponent),
     drop: (item) => {
-      const droppedComponentInfo = {
-        type: item.type,
-        direction: item.direction,
-        rows: item.numRows,
+      if (item.type === 'Grids') {
+        const droppedComponentInfo = {
+          type: item.type,
+          direction: item.direction,
+          rows: item.numRows,
+        }
+        addOrUpdatePage(
+          pageNumber,
+          droppedComponentInfo.direction,
+          droppedComponentInfo.rows
+        )
+        setDroppedComponent(droppedComponentInfo)
+      } else {
+        toast.error('You must select a grid first')
       }
-      addOrUpdatePage(
-        pageNumber,
-        droppedComponentInfo.direction,
-        droppedComponentInfo.rows
-      )
-      setDroppedComponent(droppedComponentInfo)
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -96,13 +91,6 @@ const PageContainer = ({
                   {'Activity ' + pageNumber}
                 </h6>
                 <div className='d-flex'>
-                  <button onClick={remove}>
-                    <img src='/escoba.png' alt='Clear' />
-                  </button>
-                  <button onClick={save}>
-                    <img src='/expediente.png' alt='Save' />
-                  </button>
-
                   {!handle.active && (
                     <div className='fullscreen-buttons'>
                       <button id='buttonExpand' onClick={handleEnterFullScreen}>
@@ -111,6 +99,13 @@ const PageContainer = ({
                       </button>
                     </div>
                   )}
+
+                  <button
+                    onClick={remove}
+                    className='custom-delete-buttom-page-container'
+                  >
+                    <FontAwesomeIcon size='lg' icon={faTrash} />
+                  </button>
                 </div>
               </div>
 
@@ -124,7 +119,6 @@ const PageContainer = ({
                   React.createElement(
                     widgetTypeToComponent[droppedComponent.type],
                     {
-                      saveData,
                       direction: droppedComponent.direction,
                       numRows: droppedComponent.rows,
                     }
@@ -132,6 +126,7 @@ const PageContainer = ({
               </div>
             </div>
           </FullScreen>
+          <ToastContainer position='top-right' />
         </div>
       </div>
     </div>
