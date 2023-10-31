@@ -95,7 +95,7 @@ const SidebarLeftTopTop = () => {
       subItems: [
         {
           id: 1,
-          image: '/imagenes/grids/collagegrid.png',
+          image: '/imagenes/widgets/text.png',
           widget: <Box />,
         },
       ],
