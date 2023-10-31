@@ -65,7 +65,7 @@ const SidebarLeftTopTop = () => {
     {
       text: 'Text',
       icon: faA,
-      subItems: [],
+      subItems: [<Text />],
     },
     {
       text: 'Media',
