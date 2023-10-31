@@ -9,6 +9,9 @@ from rest_framework import status
 import sys
 sys.path.append('funread_backend')
 import verifyJwt
+
+import smtplib
+from email.mime.text import MIMEText
 # Create your views here.
 
 
@@ -163,3 +166,29 @@ def updateMailControl(request):
     
     return Response({"Se han eliminado los datos con exito"},status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+def sendEmail(request):
+    # Configuración
+    smtp_server = 'smtp.example.com'
+    smtp_port = 587  # Puerto SMTP
+    smtp_username = 'tu_email@example.com'
+    smtp_password = 'tu_contraseña'
+
+    # Crear el mensaje
+    message = MIMEText('Este es el contenido del correo electrónico.')
+    message['Subject'] = 'Asunto del correo'
+    message['From'] = 'tu_email@example.com'
+    message['To'] = 'destinatario@example.com'
+
+    # Conectar al servidor SMTP
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls()  # Iniciar cifrado TLS
+    server.login(smtp_username, smtp_password)
+
+    # Enviar el correo
+    server.sendmail(smtp_username, 'destinatario@example.com', message.as_string())
+
+    # Cerrar la conexión
+    server.quit()
+
+    return Response({"Se han eliminado los datos con exito"},status=status.HTTP_200_OK)

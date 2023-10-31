@@ -19,7 +19,6 @@ from .serializers import UserSerializer
 @api_view(['POST'])
 def new_userrole(request):
     
-    print(request.data)
     data = {
         'iduser': request.data.get('iduser'),
         'idrole': request.data.get('idrole')
