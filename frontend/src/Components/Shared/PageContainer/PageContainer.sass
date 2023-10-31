@@ -5,17 +5,27 @@
   margin-top: 1%
 
 #buttonExpand
-  background-color: #3498db
-  color: #fff
-  padding: 10px 20px
-  border: none
-  border-radius: 5px
+  padding: 7px 13px
   cursor: pointer
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3)
+
+#buttonExitFullscreen
+  padding: 7px 13px
+  cursor: pointer
+
 
 .custom-card-body-page-container
   overflow: hidden
   overflow-y: hidden 
+
+
+.custom-card-body-page-container.fullscreen 
+  pointer-events: none
+
+
+
+
+
+
 
 @media screen and (display-mode: fullscreen) 
   .content_page
