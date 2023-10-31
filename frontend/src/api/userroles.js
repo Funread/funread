@@ -1,8 +1,8 @@
 import { axiosAuth } from './axiosInstances'
 
 export async function new_userrole(iduser,idrole) {
-    return axiosAuth().get('/userroles/insertUserRoles/',{
+    return axiosAuth().post('/userroles/insertUserRoles/',{
         iduser:iduser,
-        idrole,idrole
+        idrole:idrole
     })
 }

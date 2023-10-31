@@ -25,7 +25,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['name','lastname','username']
     
     def create(self, validated_data):
         return User.objects.create(**validated_data)

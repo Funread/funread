@@ -8,7 +8,7 @@ import { faEnvelope, faEye, faEyeSlash } from "@fortawesome/free-regular-svg-ico
 import { useNavigate } from "react-router-dom";
 import { list_All_Roles, updateUser,new_userrole } from "../../api"; 
 import { useSelector, useDispatch } from "react-redux";
-import { addUser } from "../../redux/userSlice";
+import { updateUserSlice } from "../../redux/userSlice";
 
 function Register(props) {
   const navigate = useNavigate();
@@ -17,15 +17,22 @@ function Register(props) {
   const [username,setUsername] = useState('')
   const [roles,setRoles] = useState([])
   const [selectedRoles, setSelectedRoles] = useState([]);
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
 
-  const handleSubmit = () => {
-    updateUser(name,lastname,username).then(
+  const handleSubmit = (event) => {
+    event.preventDefault(); 
+    updateUser(user.email,name,lastname,username).then( (res) => {
       selectedRoles.forEach(role => {
-        new_userrole().then().catch((err)=> {
-
+        new_userrole(user.userId, role.rolesid).then(
+        ).catch((err)=> {
+          alert('Ha ocurrido un error al agregar roles\n\n'+err.response.data.detail+'\n\n Register.jsx(line:23)')
         })
       })
+      const updatedData = {name:name,lastname:lastname,username:username,roles:selectedRoles}
+      dispatch(updateUserSlice(updatedData))
+      navigate('/dashboard')
+    }
     ).catch((err) => {
       alert('Ha ocurrido un error al actualizar el usuario\n\n'+err.response.data.detail+'\n\n Register.jsx(line:23)')
     })
@@ -58,9 +65,8 @@ function Register(props) {
               key={role.rolesid}
               type="checkbox"
               value={role.rolesid}
-              checked={selectedRoles.includes(role.rolesid)}
-              onChange={(e) => {e.target.checked?setSelectedRoles([...selectedRoles, role.rolesid]):setSelectedRoles(selectedRoles.filter((id) => id !== role.rolesid))}}
-              onClick={console.log(selectedRoles)}
+              checked={selectedRoles.includes(role)}
+              onChange={(e) => {e.target.checked?setSelectedRoles([...selectedRoles, role]):setSelectedRoles(selectedRoles.filter((role) => role !== role))}}
               label={role.role}
             />
         ))}

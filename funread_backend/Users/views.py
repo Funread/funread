@@ -77,11 +77,7 @@ def userChange(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     try:
-        dataRequest = {
-            'email': request.data.get('email'),
-        }
-        emailSe = dataRequest.get('email')
-        print(emailSe)
+        emailSe = request.data.get('email')
         user = User.objects.get(email=emailSe)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
