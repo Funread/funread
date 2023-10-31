@@ -5,7 +5,8 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     path('listAllUserRoles/' , views.listAll),
-    path('insertUserRoles/', views.new_userrole)
+    path('insertUserRoles/', views.new_userrole),
+    path('listedStudents/', views.listedStudents)
     # path('userroles/deleteUserRoles/<str:pk>', views.deleteUserRole),
     # path('userroles/searchUserRoles/<str:pk>', views.UserRolesSearch),
     # path('userroles/updateUserRoles/<str:pk>',views.userroleupdate),

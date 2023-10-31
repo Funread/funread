@@ -16,7 +16,8 @@ const SideNavBarFooter = ({ user, isExpanded }) => {
           </div>
         </div>
       )}
-      <FontAwesomeIcon className='logout-icon' icon={faSignOutAlt} />
+      <FontAwesomeIcon className='logout-icon' icon={faSignOutAlt}  />
+
     </div>
   )
 }
