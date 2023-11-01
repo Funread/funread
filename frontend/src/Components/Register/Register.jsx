@@ -93,7 +93,7 @@ function Register(props) {
           <Form onSubmit={handleSubmit} className="register-form-content">
             <h1 className="register-form-title">Finish you register</h1>
             <h5 className="register-form-subtitle">
-              Add your information and start exploring FUNRED.
+              Add your information and start exploring FUNREAD.
             </h5>
             <div className="register-form-inputs">
               <Form.Group className="form-group">
