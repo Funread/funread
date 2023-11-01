@@ -9,7 +9,7 @@ import './Lobby.sass';
 
 const Lobby = () => {
     return (
-        <>
+        <div className='lobby'>
             <Navbar className="custom-navbar">
                 <Container>
                     <Navbar.Brand href="#home">FUNREAD</Navbar.Brand>
@@ -174,7 +174,7 @@ const Lobby = () => {
             </div>
         <section className='imageParallax'></section>
 
-        </>
+        </div>
     );
 }
 export default Lobby;

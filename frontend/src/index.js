@@ -182,7 +182,13 @@ root.render(
                 </div>
               }
               />
-
+              <Route
+                exact
+                path='/lobby'
+                element={
+                  <Lobby />
+                }
+              />
          
           </Route>
         </Routes>
