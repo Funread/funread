@@ -1,7 +1,9 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import SidebarBook from '../Shared/SidebarBook/SidebarBook';
 import './Lobby.sass';
+
 
 const Lobby = () => {
     return (
@@ -10,13 +12,14 @@ const Lobby = () => {
                 <Container>
                     <Navbar.Brand href="#home">FUNREAD</Navbar.Brand>
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Sobre Nosotros</Nav.Link>
-                        <Nav.Link href="#features">Contactanos</Nav.Link>
-                        <Nav.Link href="#pricing">Investigadores</Nav.Link>
+                        <Nav.Link href="#home">About Us</Nav.Link>                       
+                        <Nav.Link href="#pricing">Investigators</Nav.Link>
+                        <Nav.Link href="#features">Contact</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
-            <div className="container">
+            <section className='imageParallax'></section>
+            <div className="lobby">
                 <div className="row">
                     <div className="col-md-12">
                         <div className="Title">
@@ -24,6 +27,9 @@ const Lobby = () => {
                         </div>
                     </div>
                 </div>
+
+                <section className='imageParallax'></section>
+            
                 <div className="row">
                     <div className="col-md-6">
                         <div className="header-content-left">
@@ -45,6 +51,7 @@ const Lobby = () => {
                         </div>
                     </div>
                 </div>
+                <section className='imageParallax'></section>
                 <div className="row">
                     <div className="col-md-6">
                         <div className="header-content-left">
@@ -69,11 +76,18 @@ const Lobby = () => {
                         </div>
                     </div>
                 </div>
-                <div className="row">
+                <section className='imageParallax'></section>
+                <div className="row ">
+                    <div className="col-12 d-flex justify-content-center align-items-center">
+                        <h2>Investigators</h2>
+                    </div>
+                </div>
+                <section className='imageParallax'></section>
+                <div className="row mb-2">
                     <div className="col-12"> 
                         <div className="formulario">
                             <form action="">
-                                <h2>En que te podemos ayudar</h2>
+                                <h2>How can we help you?</h2>
                                 <div className="input-wrapper">
                                     <input type="text" name="name" id="name" required />
                                     <label htmlFor="name">Name</label>
@@ -92,6 +106,8 @@ const Lobby = () => {
                     </div>
                 </div>
             </div>
+        <section className='imageParallax'></section>
+
         </>
     );
 }
