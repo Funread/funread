@@ -43,12 +43,13 @@ const Lobby = () => {
                     </div>
                     <div className="col-md-6 d-flex justify-content-center align-items-center">
                         <div className="header-content-right">
-                            <h2>Titulo</h2>
+                            <h2>Objective</h2>
                             <p>
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi
-                                molestiae deserunt tempora non officiis illo soluta vero? Eveniet odio
-                                natus iusto. Nisi repellat omnis laudantium nihil. Iure ratione animi
-                                natus.
+                               To design the FUNREAD application for
+                               its implementation as a pedagogical
+                               mediation tool to improve the English
+                               language skills of sixth grade students
+                               at the Jesus of Nazareth School in Liberia.
                             </p>
                         </div>
                     </div>
