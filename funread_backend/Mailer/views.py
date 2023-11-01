@@ -173,8 +173,8 @@ def updateMailControl(request):
 @api_view(['POST'])
 def sendEmail(request):
     # Configuración
-    smtp_username = ''
-    smtp_password = ''
+    smtp_username = 'tony22gonzalez@gmail.com'
+    smtp_password = 'tgja zlob phes vufv'#'contraseña obtenida de la verificacion a dos pasos'
 
     message = MIMEMultipart()
     message['Subject'] = request.data.get('subjet')
