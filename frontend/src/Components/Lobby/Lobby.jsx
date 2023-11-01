@@ -2,7 +2,9 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import SidebarBook from '../Shared/SidebarBook/SidebarBook';
+
 import './Lobby.sass';
+
 
 
 const Lobby = () => {
@@ -14,7 +16,7 @@ const Lobby = () => {
                     <Nav className="me-auto">
                         <Nav.Link href="#home">About Us</Nav.Link>                       
                         <Nav.Link href="#pricing">Investigators</Nav.Link>
-                        <Nav.Link href="#features">Contact</Nav.Link>
+                        <Nav.Link href="#features">Contact Us</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
@@ -78,8 +80,72 @@ const Lobby = () => {
                 </div>
                 <section className='imageParallax'></section>
                 <div className="row ">
-                    <div className="col-12 d-flex justify-content-center align-items-center">
+                    <div className="d-flex flex-column justify-content-center align-items-center">
                         <h2>Investigators</h2>
+
+                        <div className="col-12 flex-wrap investigators">
+                            <div className='my-2 p-3 d-flex flex-column justify-content-center align-items-center'>
+                                <img
+                                    src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+                                    className="rounded-circle mb-3"
+                                    style={{ width: "150px" }}
+                                    alt="Avatar"
+                                />
+
+                                <h5 >
+                                <strong>Ana Marcela Montenegro Sánchez</strong>
+                                </h5>
+                                <p className="text-muted">
+                                    Principal Investigator
+                                </p>
+                            </div>
+                            <div className='my-2 p-3 d-flex flex-column justify-content-center align-items-center'>
+                                <img
+                                    src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+                                    className="rounded-circle mb-3"
+                                    style={{ width: "150px" }}
+                                    alt="Avatar"
+                                />
+
+                                <h5 className="mb-2">
+                                    <strong>Razziel Acevedo Álvarez</strong>
+                                </h5>
+                                <p className="text-muted">
+                                    Collaborator Investigator
+                                </p>
+                            </div>
+
+                            <div className='my-2 p-3 d-flex flex-column justify-content-center align-items-center'>
+                                <img
+                                    src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+                                    className="rounded-circle mb-3"
+                                    style={{ width: "150px" }}
+                                    alt="Avatar"
+                                />
+
+                                <h5 className="mb-2">
+                                    <strong>Lang Ying Hernández Chavez</strong>
+                                </h5>
+                                <p className="text-muted">
+                                    Collaborator Investigator
+                                </p>
+                            </div>
+
+                            <div className='my-2 p-3 d-flex flex-column justify-content-center align-items-center'>
+                                <img
+                                    src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+                                    className="rounded-circle mb-3"
+                                    style={{ width: "150px" }}
+                                    alt="Avatar"
+                                />
+                                <h5 className="mb-2">
+                                    <strong>Roberto Enrique Rojas Alfaro</strong>
+                                </h5>
+                                <p className="text-muted">
+                                    Collaborator Investigator
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <section className='imageParallax'></section>

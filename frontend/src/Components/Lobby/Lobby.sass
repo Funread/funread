@@ -7,73 +7,74 @@
   img
     width: 80%
     height: auto
-
-.header-content-right
   h2, p
     text-align: center
+
+.header-content-right 
+  h2, p
+    text-align: center
+
+.investigators
+  h5,p
+    text-align: center
+   
 
 .Title
   h1
     text-align: center
 
-form
+.row
   display: flex
-  flex-direction: column
-  gap: 20px
-  max-width: 70%  
-  width: 100%
-  margin: 0 auto
+  justify-content: center
 
-  .row
-    display: flex
+.formulario
+    max-width: 100%  
     justify-content: center
-
-  .formulario
-    max-width: 90%  
-    justify-content: center
-
     form
       display: flex
       flex-direction: column
       gap: 20px
+      max-width: 70%  
+      width: 100%
+      margin: 0 auto 
+   
+      .input-wrapper
+        display: flex
+        flex-direction: column
+        gap: 5px
+        position: relative
 
-  .input-wrapper
-    display: flex
-    flex-direction: column
-    gap: 5px
-    position: relative
+        label
+          background-color: #fff
+          position: absolute
+          left: 20px
+          top: 10px
+          padding: 0 2px
+          transition: ease-in-out 1s
+          pointer-events: none
 
-    label
-      background-color: #fff
-      position: absolute
-      left: 20px
-      top: 10px
-      padding: 0 2px
-      transition: ease-in-out 1s
-      pointer-events: none
+        input, textarea
+          background-color: transparent
+          padding: 12px 20px
+          border: 1px solid #4d4d4d
+          border-radius: 20px
+          font-size: 16px
+          outline: none
+          font-family: 'Poppins', sans-serif
 
-    input, textarea
-      background-color: transparent
-      padding: 12px 20px
-      border: 1px solid #4d4d4d
-      border-radius: 20px
-      font-size: 16px
-      outline: none
-      font-family: 'Poppins', sans-serif
+        input:focus + label, textarea:focus + label
+          top: -12px
 
-    input:focus + label, textarea:focus + label
-      top: -12px
+        input:valid + label, textarea:valid + label
+          top: -12px
 
-    input:valid + label, textarea:valid + label
-      top: -12px
+        input[type="submit"]
+          transition: ease-in-out 2s
+          cursor: pointer
 
-    input[type="submit"]
-      transition: ease-in-out 2s
-      cursor: pointer
-
-      &:hover
-        background-color: #f1ecec
-        color: white
+          &:hover
+            background-color: #f1ecec
+            color: white
 
 .col-md-6 
   display: flex
@@ -89,3 +90,30 @@ form
   background-repeat: no-repeat
   background-image: url('../../../public/imagenes/lobby.jpeg') 
   opacity: 0.5
+
+.investigators
+  display: flex
+  justify-content: center 
+
+
+// @media (max-width: 800px) 
+//     .investigators
+//         display: flex
+//         justify-content: center 
+//         width: 100% 
+//         overflow-x: scroll
+//         &::-webkit-scrollbar
+//             height: none 
+//         &::-webkit-scrollbar-thumb 
+//             background-color: transparent
+//             border: none 
+//             box-shadow: none 
+//         &::-webkit-scrollbar-track
+//             background-color: transparent 
+//             border: none 
+//             margin: 0 
+//             box-shadow: none
+
+      
+
+      
