@@ -85,15 +85,22 @@ const PageContainer = ({
       <div className='row'>
         <div className='col'>
           <FullScreen handle={handle}>
-            <div className='card shadow mb-4 content_page'>
+            <div className='card shadow mb-4 content_page shadow rounded'>
               <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
-                <h6 className='m-0 font-weight-bold text-primary'>
+                <h6 className='m-0 font-weight-bold text-info'>
                   {'Activity ' + pageNumber}
                 </h6>
                 <div className='d-flex'>
+                  <button id="btnDivs" onClick={remove} style={{backgroundColor: 'rgb(206, 189, 242)'}}>
+                    <img src='/escoba.png' alt='Clear' />
+                  </button>
+                  <button id="btnDivs" onClick={save} style={{backgroundColor: 'rgb(255, 185, 204)'}}>
+                    <img src='/expediente.png' alt='Save' />
+                  </button>
+
                   {!handle.active && (
                     <div className='fullscreen-buttons'>
-                      <button id='buttonExpand' onClick={handleEnterFullScreen}>
+                      <button id='btnDivs' onClick={handleEnterFullScreen} style={{backgroundColor: 'rgb(182, 214, 242)'}}>
                         <FontAwesomeIcon icon={faExpandArrowsAlt} />
                         <i className='fa fa-expand'></i>
                       </button>
