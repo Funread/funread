@@ -19,7 +19,7 @@ function Gallery(props) {
           <Modal.Title>Galeria</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ImageGallery mediaType={props.mediaType} />
+          <ImageGallery mediaType={"imagen"} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

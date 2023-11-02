@@ -1,62 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./GalleryImage.css";
+import { list, upload } from "../../api/media";
 
-const ImageGallery = ({ mediaType, onImageSelect }) => {
+const ImageGallery = ({ onImageSelect }) => {
+  const [images, setImages] = useState([]);
+
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const getImage = "http://localhost:8000/Media/"; // Ruta base de las imágenes
+
+  // const handleImageSelection = async (selectedImage) => {
+  //   try {
+  //     const uploadedImage = await upload(selectedImage.id); // Suponiendo que upload puede cargar una imagen
+  //     onImageSelect(uploadedImage.data); // Pasa la imagen cargada a Widget
+  //   } catch (error) {
+  //     console.error("Error al cargar la imagen:", error);
+  //   }
+  // };
+
   const handleImageClick = (image) => {
-    setSelectedImage(image);
-    onImageSelect(image);
+    if (selectedImage === image) {
+      setSelectedImage(null); // Deselecciona la imagen si se hace clic nuevamente
+    } else {
+      setSelectedImage(image); // Selecciona la imagen al hacer clic
+    }
   };
 
-  // Ruta a las imágenes y videos en la carpeta "public"
-  const mediaList = [
-    "/imagenes/quiz/background1.jpg",
-    "/imagenes/PruebaGalleria/imagen1.jpg",
-    "/imagenes/PruebaGalleria/imagen2.jpg",
-    "/imagenes/PruebaGalleria/imagen3.jpg",
-    "/imagenes/PruebaGalleria/imagen4.jpg",
-    "/imagenes/PruebaGalleria/imagen5.jpg",
-    "/imagenes/PruebaGalleria/imagen6.jpg",
-    "/imagenes/PruebaGalleria/2mayo.mp4",
-  ];
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const imagesResponse = await list(); // Utiliza la función list para obtener las imágenes.
 
-  const filteredMedia = mediaList.filter((media) =>
-    mediaType === "images"
-      ? media.endsWith(".jpg") ||
-        media.endsWith(".png") ||
-        media.endsWith(".gif")
-      : mediaType === "videos"
-      ? media.endsWith(".mp4") || media.endsWith(".avi")
-      : false
-  );
+        console.log("Imágenes en la base de datos:", imagesResponse.data);
+
+        const imagesData = imagesResponse.data;
+
+        for (const image of imagesData) {
+          const imageRoute = await upload(image.id); // Utiliza la función upload para cargar imágenes.
+          console.log("Imagen cargada:", imageRoute.data);
+
+          image.image_route = imageRoute.data.image_route; // se asigna la ruta de la imagen en Upload a la propiedad image_route de la imagen
+        }
+
+        setImages(imagesData);
+      } catch (error) {
+        console.error("Error al obtener las imágenes o cargarlas:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
-    <div>
-      <div className="image-gallery">
-        {filteredMedia.map((listPath, index) =>
-          mediaType === "images" ? (
-            <img
-              key={index}
-              src={process.env.PUBLIC_URL + listPath}
-              alt={`Imagen ${index + 1}`}
-              className={selectedImage === listPath ? "selected" : ""}
-              onClick={() => handleImageClick(listPath)}
-            />
-          ) : mediaType === "videos" ? (
-            <video
-              key={index}
-              src={process.env.PUBLIC_URL + listPath}
-              autoPlay
-              muted
-              className={`ListVideo ${
-                selectedImage === listPath ? "selected" : ""
-              }`}
-              onClick={() => handleImageClick(listPath)}
-            />
-          ) : null
-        )}
-      </div>
+    <div className="image-gallery">
+      {images.map((image, index) => (
+        <img
+          key={index}
+          src={`${getImage}${image.image_route}`} // Utiliza la constante getImage
+          alt={`Image ${index + 1}`}
+          className={selectedImage === image ? "selected" : ""}
+          onClick={() => {
+            handleImageClick(image);
+            onImageSelect(image); // Llama a la función de devolución de llamada con la imagen seleccionada
+          }}
+        />
+      ))}
     </div>
   );
 };
