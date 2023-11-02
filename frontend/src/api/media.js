@@ -7,19 +7,9 @@ export async function upload(name) {
 }
 
 export async function save(image) {
-  return axiosAuth().post('Media/save/',image )
-   
-
- 
+  return axiosAuth().post('Media/save/', image)
 }
 
-
-
-export async function showimage(imageRoute) {
-  return axiosAuth().post('Media/',imageRoute )
-   
-
- 
+export async function getImage(imageRoute) {
+  return axiosAuth().get('Media/' + imageRoute)
 }
-
-
