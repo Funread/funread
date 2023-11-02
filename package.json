@@ -1,7 +1,1 @@
-{
-  "dependencies": {
-    "react-dnd-touch-backend": "^16.0.1",
-    "resolve-url-loader": "^5.0.0",
-    "source-map-loader": "^4.0.1"
-  }
-}
+
