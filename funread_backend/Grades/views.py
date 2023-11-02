@@ -142,10 +142,11 @@ def deletegrade(request):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         Grade = Grades.objects.get(gradesid= request.data.get('idgrade'))
     except Grades.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     Grade.isactive = 0
     Grade.save()
-    return Response("group successfully deleted", status=status.HTTP_200_OK)
+    return Response("grade successfully deleted", status=status.HTTP_200_OK)
