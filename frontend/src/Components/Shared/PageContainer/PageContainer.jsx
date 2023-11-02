@@ -91,12 +91,12 @@ const PageContainer = ({
                   {'Activity ' + pageNumber}
                 </h6>
                 <div className='d-flex'>
-                  <button id="btnDivs" onClick={remove} style={{backgroundColor: 'rgb(206, 189, 242)'}}>
+                  {/*<button id="btnDivs" onClick={remove} style={{backgroundColor: 'rgb(206, 189, 242)'}}>
                     <img src='/escoba.png' alt='Clear' />
                   </button>
                   <button id="btnDivs" onClick={save} style={{backgroundColor: 'rgb(255, 185, 204)'}}>
                     <img src='/expediente.png' alt='Save' />
-                  </button>
+                  </button>*/}
 
                   {!handle.active && (
                     <div className='fullscreen-buttons'>
@@ -109,7 +109,7 @@ const PageContainer = ({
 
                   <button
                     onClick={remove}
-                    className='custom-delete-buttom-page-container'
+                    id='btnDivs' style={{backgroundColor: 'rgb(255, 185, 204)'}}
                   >
                     <FontAwesomeIcon size='lg' icon={faTrash} />
                   </button>
