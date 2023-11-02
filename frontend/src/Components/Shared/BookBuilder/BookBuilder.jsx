@@ -8,6 +8,8 @@ import BookImage from '../BookImage/BookImage'
 import jwt_decode from 'jwt-decode'
 import { useLogin } from '../../../hooks/useLogin'
 import { toast } from 'react-toastify'
+import { save, showimage, upload } from '../../../api'
+
 
 const initialBookState = {
   title: '',
@@ -88,10 +90,13 @@ const BookBuilder = ({ toggleSidebar }) => {
 
         toast.success('Book created successfully')
 
-        const imageToDisplay = portrait
-          ? `<span class="math-inline">\{getImage\}</span>{portrait}` // Usar la imagen del servidor
-          : defaultImage // Usar la imagen predeterminada local
+        const imageToDisplay = portrait 
 
+        ? `${getImage}${portrait}` // Usar la imagen del servidor
+
+
+        : defaultImage // Usar la imagen predeterminada local
+      
         toggleSidebar({ ...newBook, portrait: imageToDisplay })
       } else {
         toast.error('Unable to save the book')
@@ -149,15 +154,21 @@ const BookBuilder = ({ toggleSidebar }) => {
   }
 
   const uploadImageFile = async () => {
-    return await axiosAuth().post('Media/save/', formatFileImage)
+    return await save(formatFileImage)
   }
 
   const getImageRoute = async (imageName) => {
-    return await axiosAuth().post('Media/upload/', { name: imageName })
+    return await  upload(imageName)
   }
 
-  const createBook = async (newBook) => {
-    return await axiosAuth().post('books/new-book/', newBook)
+  const showImageBook = async (portrait) => {
+    return await  showimage(portrait)
+  }
+
+
+  const createBook = async (new_book) => {
+    return await new_book(new_book.title ,new_book.category,new_book.newportrait,new_book.createdat,new_book.lastupdateat,new_book.state,new_book.sharedbook,new_book.createdby,new_book.lastupdateby)  
+    
   }
 
   return (
