@@ -1,6 +1,7 @@
 import './NavItem.sass'
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import SidebarImages from '../SidebarImages/SidebarImages'
 
 const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
   const [selectedItem, setSelectedItem] = useState(false)
@@ -30,11 +31,14 @@ const NavItem = ({ text, icon, subItems, isExpanded, isSelected, onClick }) => {
       </div>
       {isSelected && (
         <div className='custom-card'>
-          <div className=''>
+          <div
+            className={`${
+              isExpanded ? 'icon-grid' : 'icon-grid-no-expanded-sidebar'
+            }`}
+          >
             {subItems.map((subItem, index) => (
-              <div className='icon mb-3' key={index}>
-                {subItem}
-                {/* <FontAwesomeIcon icon={subItem} /> */}
+              <div key={index} className='grid-item'>
+                <SidebarImages key={index} item={subItem} />
               </div>
             ))}
           </div>
