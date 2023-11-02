@@ -12,19 +12,21 @@ import {
 function TapLibrary({ toggleSidebar }) {
 const [key, setKey] = useState('mylibrary')
 const [publishedBooks, setPublishedBooks] = useState([])
-useEffect(() => {
-  async function fetchData() {
-    try { 
+useEffect(async () => {
+  const response = await listed()
+  console.log('publishedBooks', response)
+   async function fetchData() {
+     try { 
       
-      const response = await listed_PublishedBooks()
-      setPublishedBooks(response.data)
+       const response = await listed()
+       setPublishedBooks(response.data)
+       console.log('publishedBooks', publishedBooks)
+     } catch (error) {
+       console.log('error', error)
+     }
+   }
 
-    } catch (error) {
-      console.log('error', error)
-    }
-  }
-
-  fetchData()
+   fetchData()
 }, [])
 
 return (
@@ -46,7 +48,7 @@ return (
                 category,
                 author,
                 description,
-                color,
+                
               }) => (
 
                 <div key={id} className='section_item_Tap'>
@@ -58,7 +60,7 @@ return (
                     category={category}
                     author={author}
                     description={description}
-                    color={color}
+                    color={"#D0F4DE"}
                     toggleSidebar={toggleSidebar}
                   />
                 </div>
@@ -78,7 +80,7 @@ return (
                 category,
                 author,
                 description,
-                color,
+               
               }) => (
 
                 <div key={id} className='section_item_Tap'>
@@ -89,7 +91,7 @@ return (
                     title={title}
                     category={category}
                     author={author}
-                    color={color}
+                    color={"#D0F4DE"}
                     description={description}
                     toggleSidebar={toggleSidebar}
                   />
