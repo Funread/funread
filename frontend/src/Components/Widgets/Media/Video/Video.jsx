@@ -1,5 +1,5 @@
 import "./Video.css";
-import { Card, CardFooter } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import React from "react";
@@ -9,37 +9,31 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDesktop, faImage } from "@fortawesome/free-solid-svg-icons";
+import { faDesktop } from "@fortawesome/free-solid-svg-icons";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import Gallery from "../../../GalleryCollage/Gallery";
+import { useDrag } from "react-dnd";
+
+const widgetType = "widgetType";
 
 function Video() {
-  //const [contentType, setContentType] = useState();
   const [show, setShow] = useState(false);
-  const [selectedVideo, setSelectedImage] = useState();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleImageChange = (newImage) => {
-    setSelectedImage(newImage);
-  };
-
-  // const handleSaveChanges = () => {
-  //   console.log("Selected video saved:", selectedVideo);
-  //   setShowGallery(false);
-  // };
-
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: widgetType, // identificador
+    item: { type: "Video" },
+    //La funcion collect es opcional
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(), //Ayuda a saber si se está arrastrando o no
+    }),
+  }));
   return (
-    <>
+    <div ref={drag} style={{ border: isDragging ? "5px solid pink" : "0px" }}>
       <div>
-        <h1>
-          <br />
-          <br />
-        </h1>
         <Card className="custum-card-upload mx-auto">
-          <Card.Header></Card.Header>
           <Card.Body className="custum-body-upload">
             <img
               className="custum-img-upload"
@@ -59,7 +53,6 @@ function Video() {
               Upload Video
             </Button>
           </Card.Body>
-          <CardFooter></CardFooter>
         </Card>
       </div>
 
@@ -153,7 +146,7 @@ function Video() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }
 

@@ -13,3 +13,11 @@ export async function save_Image(image) {
 export async function list() {
   return axiosAuth().get("Media/list/");
 }
+
+export async function save(image) {
+  return axiosAuth().post('Media/save/', image)
+}
+
+export async function getImage(imageRoute) {
+  return axiosAuth().get('Media/' + imageRoute)
+}
