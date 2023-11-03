@@ -72,5 +72,5 @@ def deletegroup(request):
     except GroupsCreate.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     Groups.isactive = 0
-    Groups.delete()
+    Groups.save()
     return Response("group successfully deleted", status=status.HTTP_200_OK)
