@@ -1,5 +1,7 @@
 import './BookCard.sass'
 
+const getImage = 'http://localhost:8000/Media/'
+
 const BookCard = ({
   id,
   portrait,
@@ -10,6 +12,8 @@ const BookCard = ({
   color,
   toggleSidebar,
 }) => {
+  const imageCard = `${getImage}${portrait}`
+
   return (
     <div
       className='Book-card'
@@ -35,7 +39,7 @@ const BookCard = ({
         <div style={{ padding: '20px 0 20px 20px' }}>
           <img
             className='card-img'
-            src={portrait}
+            src={imageCard}
             alt='Portrait'
             style={{ width: '90px', height: '160px', borderRadius: '0px' }}
           />
