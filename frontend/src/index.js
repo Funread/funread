@@ -21,6 +21,7 @@ import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorM
 import UniqueSelection from "./Components/Widgets/Quiz/UniqueSelection/UniqueSelection";
 import Gallery from "./Components/GalleryCollage/Gallery";
 import WidgetImage from "./Components/Widgets/Media/Images/WidgetImage";
+import Lobby from "./Components/Lobby/Lobby";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
@@ -186,6 +187,14 @@ root.render(
                       <BookCreator />
                     </div>
                   </div>
+                }
+              />
+
+              <Route
+                exact
+                path="/lobby"
+                element={
+                   <Lobby/>                  
                 }
               />
             </Route>
