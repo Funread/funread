@@ -114,19 +114,7 @@ root.render(
 
             <Route exact path="demo/image" element={<WidgetImage />} />
 
-            <Route
-              exact
-              path="demo/wordsearchgame"
-              element={
-                <div className="index-background-padding">
-                  <div className="index-background-container ">
-                    <BookCreator />
-                  </div>
-                </div>
-              }
-            />
-
-            <Route exact path="demo/wordsearchgame" element={<GameMode />} />
+             <Route exact path="demo/wordsearchgame" element={<GameMode />} />
 
             <Route
               element={<ProtectedRoutes roles={["profesor", "estudiante"]} />}
