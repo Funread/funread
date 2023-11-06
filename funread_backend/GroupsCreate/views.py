@@ -23,15 +23,19 @@ def new_group(request):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
+
+    image = 0
+    if request.data.get('image') is not None:
+        image = int(os.path.splitext(request.data.get('new_image').split('/')[-1])[0])
+    else:
+        image = 1
     data = {
         'name': request.data.get('name'),
-        'idimage': os.path.splitext(request.data.get('image').split('/')[-1])[0],
+        'idimage': image,
         'createdby': request.data.get('createdby'),
         'createdat': datetime.datetime.now(),
         'isactive' : 1
     }
-    print(data)
     serializer = GorupsCreateSeralizer(data=data)
     if serializer.is_valid():
         serializer.save()
