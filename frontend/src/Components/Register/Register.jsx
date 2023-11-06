@@ -36,7 +36,7 @@ function Register(props) {
       })
       const updatedData = {name:name,lastname:lastname,username:username,roles:selectedRoles}
       dispatch(updateUserSlice(updatedData))
-      navigate('/dashboard')
+      navigate('/lobby')
     }
     ).catch((err) => {
       if(err.response.status == 401){
