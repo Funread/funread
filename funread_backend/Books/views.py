@@ -136,7 +136,7 @@ def listed_NotPublishedBooks(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    book = Book.objects.filter(state=1)
+    book = Book.objects.filter(sharedbook=2)
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
