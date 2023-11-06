@@ -25,7 +25,7 @@ def creategrade(request):
         'booksid': request.data.get('booksid'),
         'progress': request.data.get('progress'),
         'grade': request.data.get('grade'),
-        'userid': request.data.get('iduser'),
+        'userid': request.data.get('userid'),
         'isactive': 1
         }
     serializer = GradeSerializer(data=data)
@@ -142,10 +142,11 @@ def deletegrade(request):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         Grade = Grades.objects.get(gradesid= request.data.get('idgrade'))
     except Grades.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     Grade.isactive = 0
     Grade.save()
-    return Response("group successfully deleted", status=status.HTTP_200_OK)
+    return Response("grade successfully deleted", status=status.HTTP_200_OK)
