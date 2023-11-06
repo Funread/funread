@@ -43,9 +43,9 @@ class BookUpdatedBySerializer(serializers.ModelSerializer):
 class bookStateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ['state']
+        fields = ['sharedbook']
 
     def update(self, instance, validated_data):
-        instance.state = validated_data.get('state', instance.state)
+        instance.sharedbook = validated_data.get('sharedbook', instance.sharedbook)
         instance.save()
         return instance
