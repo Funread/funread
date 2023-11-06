@@ -22,6 +22,7 @@ import UniqueSelection from "./Components/Widgets/Quiz/UniqueSelection/UniqueSel
 import Gallery from "./Components/GalleryCollage/Gallery";
 import WidgetImage from "./Components/Widgets/Media/Images/WidgetImage";
 import Lobby from "./Components/Lobby/Lobby";
+import Register from "./Components/Register/Register";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
@@ -116,9 +117,11 @@ root.render(
 
              <Route exact path="demo/wordsearchgame" element={<GameMode />} />
 
-            <Route
-              element={<ProtectedRoutes roles={["profesor", "estudiante"]} />}
-            ></Route>
+            {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
+
+
+            <Route exact path="register" element={<Register />} />  
+
             <Route element={<ProtectedRoutes roles={["profesor"]} />}>
               {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
               <Route
