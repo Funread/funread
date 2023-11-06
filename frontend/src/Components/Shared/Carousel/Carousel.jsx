@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 
 class ImagesCarousel extends React.Component {
 
-  //props = [timeSlideInSeconds, ]
+  //props = [timeSlideInSeconds, Images, controls]
 
   //Es necesario pasar un arreglo de imagenes, imagenes como tal objetos, no las rutas, para que se carguen en el carusel, se debe llamar "Images"
   imagesDisplay = this.props.Images.map((image,index) => {
@@ -23,9 +23,12 @@ class ImagesCarousel extends React.Component {
 
   render() {
     return (
-        <Carousel className="carousel-width-heigt-fix" controls={this.props.controls!=null?this.props.controls:true}>
-            {this.imagesDisplay}
+      <>
+      <Carousel className="carousel-width-heigt-fix" controls={this.props.controls!=null?this.props.controls:true}>
+        {this.imagesDisplay}
       </Carousel>
+      <div className="carousel-bottom-gradient" />
+      </>
     );
   }
 }
