@@ -12,7 +12,9 @@ const BookCard = ({
   color,
   toggleSidebar,
 }) => {
-  const imageCard = `${getImage}${portrait}`
+  const imageCard = portrait
+    ? `${getImage}${portrait}`
+    : './imagenes/no-image.png'
 
   return (
     <div
