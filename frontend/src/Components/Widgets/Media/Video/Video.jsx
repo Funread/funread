@@ -9,10 +9,12 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage} from "@fortawesome/free-solid-svg-icons";
 import { faDesktop } from "@fortawesome/free-solid-svg-icons";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { useDrag } from "react-dnd";
+import Gallery from "../../../GalleryCollage/Gallery";
 
 const widgetType = "widgetType";
 
@@ -128,7 +130,6 @@ function Video() {
                     <Card.Text>
                       <Gallery
                         mediaType="videos"
-                        onImageSelect={handleImageChange}
                       />
                     </Card.Text>
                   </Card.Body>
