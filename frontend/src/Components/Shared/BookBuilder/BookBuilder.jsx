@@ -1,24 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import './BookBuilder.sass'
 import { Radio } from 'antd'
 import { Container, Row, Col, Form } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe, faLock } from '@fortawesome/free-solid-svg-icons'
-import BookImage from '../BookImage/BookImage'
-import jwt_decode from 'jwt-decode'
-import { useLogin } from '../../../hooks/useLogin'
 import { toast } from 'react-toastify'
+import { save, upload } from '../../../api'
+import { new_book } from '../../../api/books'
+import BookImage from '../BookImage/BookImage'
 
 const initialBookState = {
   title: '',
   category: 0,
   portrait: null,
-  createdat: null,
-  lastupdateat: null,
+  createdby: null,
+  updatedby: null,
   state: 0,
   sharedbook: 0,
-  createdby: null,
   lastupdateby: null,
+  description: '',
 }
 
 const getImage = 'http://localhost:8000/Media/'
@@ -32,23 +33,7 @@ const BookBuilder = ({ toggleSidebar }) => {
   const [errorFields, setErrorFields] = useState({})
   const formatFileImage = new FormData()
   formatFileImage.append('image', fileImage)
-  const { axiosAuth } = useLogin()
-
-  const token = sessionStorage.getItem('jwt')
-
-  useEffect(() => {
-    // Decodifica el JWT cuando el componente se monta
-    if (token) {
-      const decodedToken = jwt_decode(token)
-
-      // Actualiza el estado del libro con la información del JWT
-      setBook((prevData) => ({
-        ...prevData,
-        createdby: decodedToken.user_id,
-        lastupdateby: decodedToken.user_id,
-      }))
-    }
-  }, [token])
+  const user = useSelector((state) => state.user)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -76,11 +61,16 @@ const BookBuilder = ({ toggleSidebar }) => {
       if (!isValid) {
         return
       }
-
       const imageRoute = book.portrait ? await uploadImage() : null
 
       // Crear libro con ruta de imagen
-      const newBook = { ...book, portrait: imageRoute }
+      const newBook = {
+        ...book,
+        portrait: imageRoute,
+        createdby: user.userId,
+        updatedby: user.userId,
+        lastupdateby: user.userId,
+      }
 
       // Enviar libro al servidor
       const response = await createBook(newBook)
@@ -118,6 +108,7 @@ const BookBuilder = ({ toggleSidebar }) => {
           updatedErrorFields[field] = true
         }
       })
+
       setErrorFields(updatedErrorFields)
 
       return false
@@ -146,15 +137,25 @@ const BookBuilder = ({ toggleSidebar }) => {
   }
 
   const uploadImageFile = async () => {
-    return await axiosAuth().post('Media/save/', formatFileImage)
+    return await save(formatFileImage)
   }
 
   const getImageRoute = async (imageName) => {
-    return await axiosAuth().post('Media/upload/', { name: imageName })
+    return await upload(imageName)
   }
 
   const createBook = async (newBook) => {
-    return await axiosAuth().post('books/new-book/', newBook)
+    return await new_book(
+      newBook.title,
+      newBook.category,
+      newBook.portrait,
+      newBook.createdby,
+      newBook.updatedby,
+      newBook.state,
+      newBook.sharedbook,
+      newBook.lastupdateby,
+      newBook.description
+    )
   }
 
   return (
@@ -199,9 +200,9 @@ const BookBuilder = ({ toggleSidebar }) => {
               as='textarea'
               placeholder='Description'
               rows={4}
-              name='content'
-              // value={book.content}
-              // onChange={handleInputChange}
+              name='description'
+              value={book.description}
+              onChange={handleChange}
             />
 
             <Form.Control

@@ -1,0 +1,62 @@
+
+
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 25px;
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+
+.ListVideo {
+  width: 240px; /* Cambia el ancho como desees */
+  height: 150px; /* Cambia la altura como desees */
+  cursor: pointer;
+  border: 2.4px solid transparent;
+}
+
+.ListVideo.selected{
+  transform: scale(1.1);
+  border-color: #007bff; 
+  box-shadow: 0 0 12px rgba(0, 123, 255, 0.5); 
+ 
+}
+.image-gallery img {
+  border-radius: 10px;
+  cursor: pointer;
+  width: 240px; 
+  height: 150px; 
+  border: 2.4px solid transparent; 
+  transition: border-color 0.3s; 
+}
+
+.image-gallery img.selected {
+  transform: scale(1.1);
+  border-color: #007bff; /* Cambia el color del borde de las imágenes seleccionadas a azul (#007bff) */
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Agrega una sombra suave a las imágenes seleccionadas */
+}
+
+.transparent-tabs {
+  background: transparent;
+  border: none;
+}
+
+.transparent-tabs .nav-link {
+  background-color: transparent;
+  border: none;
+  color: #000; /* Cambia el color del texto de las pestañas según tus preferencias */
+}
+
+.transparent-tabs .nav-link.active {
+  background-color: transparent;
+  border: none;
+  color: #007bff; /* Cambia el color del texto de la pestaña activa según tus preferencias */
+}
+
+/* Estilo de las pestañas al hacer hover */
+.nav-link:hover {
+  background-color: #f5f5f5; /* Cambia el color de fondo al hacer hover */
+ 
+}
+
+
