@@ -34,7 +34,8 @@ def new_tags(request):
     
     print(request.data)
     data = {
-        'description': request.data.get('description').lower(),
+        'description': request.data.get('description'),
+        'descriptionn': request.data.get('descriptionn'),
     }
     serializer = TagsSerializer(data=data)
     if serializer.is_valid():

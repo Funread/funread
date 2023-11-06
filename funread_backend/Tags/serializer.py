@@ -9,9 +9,9 @@ class TagsSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def create(self, validated_data):
-        return Tags.objects.create(**validated_data)
+         return Tags.objects.create(**validated_data)
 
     def update(self, instance , validated_data):
-        instance.description = validated_data.get('description' , instance.description).lower()
-        instance.save()
-        return instance
+         instance.description = validated_data.get('description' , instance.description)
+         instance.save()
+         return instance
