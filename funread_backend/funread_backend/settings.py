@@ -176,9 +176,9 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'FUNREAD',
+        'NAME': 'funread',
         'HOST': 'localhost',
-        "PASSWORD": 'password',
+        "PASSWORD": 'Bryant2728.',
         'PORT': '3306',
         'USER': 'root',
         'OPTIONS': {
