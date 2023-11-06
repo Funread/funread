@@ -122,7 +122,7 @@ def listed_PublishedBooks(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    book = Book.objects.filter(state=2)
+    book = Book.objects.filter(sharedbook=1)
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
@@ -150,7 +150,7 @@ def listed_PrivateBooks(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    book = Book.objects.filter(state=0)
+    book = Book.objects.filter(sharedbook=0)
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
@@ -173,7 +173,7 @@ def modifyStateToPrivate(request):
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     data = {
-        'state': 0,
+        'sharedbook': 0,
     }
     serializer = bookStateSerializer(book, data=data)
     if serializer.is_valid():
@@ -200,7 +200,7 @@ def modifyStateToPublish(request):
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     data = {
-        'state': 2,
+        'sharedbook': 1,
     }
     serializer = bookStateSerializer(book, data=data)
     if serializer.is_valid():

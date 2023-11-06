@@ -8,3 +8,6 @@ django-cors-headers==3.11.0
 Pillow==10.0.1
 whitenoise==6.0.0
 mysqlclient==2.1.1
+pygame==2.5.1
+gTTS==2.3.2
+googletrans==4.0.0rc1
