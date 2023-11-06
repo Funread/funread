@@ -28,3 +28,12 @@ export async function new_user(name, email, password) {
 export async function usersList() {
   return axiosAuth().get('/users/list/')
 }
+
+export async function updateUser(email,name,lastname,username) {
+  return axiosAuth().put('users/change/',{
+    email:email,
+    name:name,
+    lastname:lastname,
+    username:username
+  })
+}
