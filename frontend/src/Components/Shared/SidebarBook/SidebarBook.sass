@@ -1,7 +1,7 @@
 .custom-side-nav-container_Sidebar
   background-color: rgb(30, 30, 34)
   height: 100vh
-  position: fixed
+  position: sticky
   color: #fff
   transition: 0.4s
 
@@ -27,6 +27,8 @@
 
 .custom-nav-menu_Sidebar
   grid-template-rows: repeat(7, 1fr)
+  display: flex
+  flex-direction: column
 
 .custom-menu-item_Sidebar
   height: 69px
@@ -38,8 +40,9 @@
   margin: auto 20px
   border-radius: 10px
   position: relative
+  cursor: pointer
 
-.custom-menu-item_Sidebar:hover
+.custom-menu-item-Sidebar:hover
   background-color: aliceblue
 
 .custom-menu-item-NX_Sidebar
@@ -50,7 +53,47 @@
   padding: 0 25px
 
 .custom-nav-footer_Sidebar
+  display: flex
   width: 100%
   position: absolute
   bottom: 0
   align-items: center
+
+// Vista de celulares
+@media (max-width: 768px)
+  .custom-side-nav-container_Sidebar
+    position: fixed
+    bottom: 0
+    height: 12%
+    width: 100%
+    display: flex
+    flex-direction: column
+    justify-content: flex-end 
+    align-items: center
+  
+  .custom-nav-upper_Sidebar
+    display: flex
+
+  .custom-nav-menu_Sidebar
+    margin-top: 50px
+    height: 72% 
+    display: flex
+    flex-direction: row
+    justify-content: space-between 
+    align-items: center
+
+  .custom-nav-footer.pe-3
+    display: flex
+    margin-left: 120%
+
+  .custom-menu-item_Sidebar
+    margin: 10px 0
+
+  .custom-menu-item-NX_Sidebar
+    display: flex
+    margin: 20px 10px 
+    margin-left: auto 
+    cursor: pointer
+    
+    
+    
