@@ -1,13 +1,11 @@
 import './BookView.sass'
 
-const getImage = 'http://localhost:8000/Media/'
+const getImage = 'http://localhost:8000'
 
 const BookView = ({ title, description, portrait, author }) => {
   const bookImage = portrait
     ? `${getImage}${portrait}`
     : './imagenes/no-image.png'
-
-  console.log('portrait', portrait)
 
   return (
     <div

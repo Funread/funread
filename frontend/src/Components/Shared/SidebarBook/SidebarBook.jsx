@@ -9,40 +9,37 @@ import {
   faHome,
 } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'
 
 const SidebarBook = () => {
-  const user = useSelector((state) => state.user) 
-  const navigate = useNavigate();
+  const user = useSelector((state) => state.user)
+  const navigate = useNavigate()
 
-  const hasRole = (role) => { 
-    user.roles.forEach(userRole => {
-      if(userRole.role === role){
-          return true;
+  const hasRole = (role) => {
+    user.roles.forEach((userRole) => {
+      if (userRole.role === role) {
+        return true
       }
-    });
+    })
     return false
   }
-
-
 
   const menuItems = [
     {
       text: 'Lobby',
       icon: faHome,
-      url:'/lobby'
+      url: '/lobby',
     },
     {
       text: 'Library',
       icon: faBookOpen,
-      url:'/demo/library'
+      url: '/library',
     },
     {
       text: 'Groups',
       icon: faUserGroup,
-      url:'/demo/group'
+      url: '/group',
     },
-            
   ]
 
   return (
@@ -55,7 +52,11 @@ const SidebarBook = () => {
               key={index}
               className='custom-menu-item_Sidebar border-botton custom-menu-item-NX_Sidebar align-items-center'
             >
-              <FontAwesomeIcon icon={icon} size='xl' onClick={() =>  navigate(url)}/>
+              <FontAwesomeIcon
+                icon={icon}
+                size='xl'
+                onClick={() => navigate(url)}
+              />
             </div>
           ))}
         </div>

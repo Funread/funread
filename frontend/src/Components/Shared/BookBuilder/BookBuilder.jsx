@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import './BookBuilder.sass'
-import _ from 'lodash'
 import { Radio } from 'antd'
 import { Container, Row, Col, Form } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe, faLock } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
-import { save, upload } from '../../../api'
+import { save_Image, upload } from '../../../api'
 import { new_book } from '../../../api/books'
 import BookImage from '../BookImage/BookImage'
 import {
@@ -16,7 +15,6 @@ import {
   searchDilemmaByDimension,
   searchDimensionByCategory,
 } from '../../../api/bookDilemma'
-import { Select } from 'antd'
 import CustomSelect from '../CustomSelect/CustomSelect'
 
 const initialBookState = {
@@ -46,8 +44,6 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   const [fileImage, setFileImage] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
   const [errorFields, setErrorFields] = useState({})
-  const formatFileImage = new FormData()
-  formatFileImage.append('image', fileImage)
   const user = useSelector((state) => state.user)
 
   useEffect(() => {
@@ -89,6 +85,7 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
       // if (!isValid) {
       //   return
       // }
+
       const imageRoute = book.portrait ? await uploadImage() : null
 
       // Crear libro con ruta de imagen
@@ -100,24 +97,21 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
         lastupdateby: user.userId,
       }
 
-      // Enviar libro al servidor
+      console.log('newBook', newBook)
+
+      // // Enviar libro al servidor
       const response = await createBook(newBook)
 
       if (response.data && response.status === 201) {
-        const { portrait } = response.data
+        // const { portrait } = response.data
 
         //Añadir los dilemas al libro creado
         for (const dilemma of selectedDilemmas) {
           await addDilemmasPerBook(dilemma, response.data.bookid)
         }
-
         toast.success('Book created successfully')
 
-        const imageToDisplay = portrait
-          ? `${getImage}${portrait}` // Usar la imagen del servidor
-          : defaultImage // Usar la imagen predeterminada local
-
-        toggleSidebar({ ...newBook, portrait: imageToDisplay })
+        toggleSidebar({ ...newBook })
         updateBook(newBook)
       } else {
         toast.error('Unable to save the book')
@@ -154,7 +148,7 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   }
 
   const uploadImage = async () => {
-    const response1 = await uploadImageFile()
+    const response1 = await saveImageFile()
 
     if (!response1.data || !response1.data.name) {
       throw new Error('Error uploading the image')
@@ -163,15 +157,15 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
     const imageName = response1.data.name
     const response2 = await getImageRoute(imageName)
 
-    if (!response2.data || !response2.data.image_route) {
+    if (!response2.data || !response2.data.file_route) {
       throw new Error('Error getting the image route')
     }
 
-    return response2.data.image_route
+    return response2.data.file_route
   }
 
-  const uploadImageFile = async () => {
-    return await save(formatFileImage)
+  const saveImageFile = async () => {
+    return await save_Image(fileImage)
   }
 
   const getImageRoute = async (imageName) => {

@@ -1,6 +1,6 @@
 import './BookCard.sass'
 
-const getImage = 'http://localhost:8000/Media/'
+const getImage = 'http://localhost:8000'
 
 const BookCard = ({
   id,
