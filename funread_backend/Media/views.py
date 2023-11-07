@@ -96,6 +96,48 @@ def listed(request):
     serializer = MediaSeralizer(user, many=True)
     return Response(serializer.data)
 
+@ api_view(['GET'])
+def listed_Images(request):
+
+    # token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido == False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    user = Media.objects.filter(type=1)
+    serializer = MediaSeralizer(user, many=True)
+    return Response(serializer.data)
+
+@ api_view(['GET'])
+def listed_Audios(request):
+
+    # token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido == False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    user = Media.objects.filter(type=2)
+    serializer = MediaSeralizer(user, many=True)
+    return Response(serializer.data)
+
+@ api_view(['GET'])
+def listed_Videos(request):
+
+    # token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido == False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    user = Media.objects.filter(type=3)
+    serializer = MediaSeralizer(user, many=True)
+    return Response(serializer.data)
+
 @api_view(['PUT'])
 def change_file(request):
 
