@@ -12,6 +12,7 @@ import BookBuilder from '../Shared/BookBuilder/BookBuilder'
 import { ToastContainer } from 'react-toastify'
 
 const Library = () => {
+  const [books, setBooks] = useState([])
   const [selectedBook, setSelectedBook] = useState(null)
   const [showForm, setShowForm] = useState(true)
 
@@ -38,6 +39,10 @@ const Library = () => {
     }
 
     setShowForm(true)
+  }
+
+  const handleUpdateBooks = (newBook) => {
+    setBooks([...books, newBook])
   }
 
   return (
@@ -77,7 +82,7 @@ const Library = () => {
 
             <RecentBook toggleSidebar={toggleSidebar} />
 
-            <TapLibrary toggleSidebar={toggleSidebar} />
+            <TapLibrary toggleSidebar={toggleSidebar} newBooks={books} />
           </div>
         </div>
         <div className='col-3 shadow rounded mobile-below-tap-library'>
@@ -90,7 +95,12 @@ const Library = () => {
             />
           )}
 
-          {showForm && <BookBuilder toggleSidebar={toggleSidebar} />}
+          {showForm && (
+            <BookBuilder
+              toggleSidebar={toggleSidebar}
+              updateBook={handleUpdateBooks}
+            />
+          )}
         </div>
       </div>
       <ToastContainer position='top-right' />

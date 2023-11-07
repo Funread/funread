@@ -5,7 +5,7 @@ import { Tabs, Tab } from 'react-bootstrap'
 import { listed_PrivateBooks, listed_PublishedBooks } from '../../../api/books'
 import Message from '../CustomMessage/CustomMessage'
 
-function TapLibrary({ toggleSidebar }) {
+function TapLibrary({ toggleSidebar, newBooks }) {
   const [key, setKey] = useState('mylibrary')
   const [publishedBooks, setPublishedBooks] = useState([])
   const [privateBooks, setPrivateBooks] = useState([])
@@ -29,11 +29,11 @@ function TapLibrary({ toggleSidebar }) {
     }
 
     fetchData()
-  }, [])
+  }, [newBooks])
 
   const renderBooks = (books) => {
     if (isLoading) {
-      return <p>Loading...</p>
+      return <Message message={'Loading...'} />
     }
 
     if (books.length === 0) {
@@ -69,12 +69,12 @@ function TapLibrary({ toggleSidebar }) {
       >
         <Tab eventKey='mylibrary' title='My library' className='tab'>
           <div className='section_library_Tap shadow p-3 bg-body rounded'>
-            {renderBooks(publishedBooks)}
+            {renderBooks(privateBooks)}
           </div>
         </Tab>
         <Tab eventKey='publiclibrary' title='Public Library' className='tab'>
           <div className='section_library_Tap shadow p-3 mb-5 bg-body rounded '>
-            {renderBooks(privateBooks)}
+            {renderBooks(publishedBooks)}
           </div>
         </Tab>
       </Tabs>
