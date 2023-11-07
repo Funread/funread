@@ -13,7 +13,7 @@ sys.path.append('funread_backend')
 
 
 @ api_view(['POST'])
-def save_Image(request):
+def save_File(request):
 
     # token verification
     authorization_header = request.headers.get('Authorization')
@@ -22,30 +22,31 @@ def save_Image(request):
     if es_valido == False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    if 'image' not in request.data:
-        raise Exception("upload image please")
-    image_request = request.FILES.get('image')
-    if image_request:
-        name_img = image_request.name
-        extension = name_img.split('.')[-1]
+    if 'file' not in request.data:
+        raise Exception("upload file please")
+    file_request = request.FILES.get('file')
+    if file_request:
+        name_file = file_request.name
+        extension = name_file.split('.')[-1]
         data = {
             'name': 'name',
             'extension': extension,
-            'image': image_request
+            'file': file_request
         }
     serializer = MediaSeralizer(data=data)
+    print(serializer.is_valid())
     if serializer.is_valid():
         id = 0
         try:
-            imagebefore = Media.objects.latest('id')
-            id = imagebefore.id
+            filebefore = Media.objects.latest('id')
+            id = filebefore.id
         except Media.DoesNotExist: pass
         validate_data = serializer.validated_data
-        image = Media(**validate_data)
-        image.name = str(id+1)
-        image.image.name = str(id+1) + '.' + image.extension
-        image.save()
-        serializer_response = MediaSeralizer(image)
+        file = Media(**validate_data)
+        file.name = str(id+1)
+        file.file.name = str(id+1) + '.' + file.extension
+        file.save()
+        serializer_response = MediaSeralizer(file)
         return Response(serializer_response.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -63,14 +64,14 @@ def upload(request):
         raise Exception("invalid data")
     if request.method == 'POST':
         try:
-            imagedata = Media.objects.get(id=request.data.get('name'))
+            filedata = Media.objects.get(id=request.data.get('name'))
         except Media.DoesNotExist:
-            message_error1 = {'Error': 'image not found'}
+            message_error1 = {'Error': 'file not found'}
             return JsonResponse(message_error1, status=status.HTTP_404_NOT_FOUND)
-        ruta_completa = os.path.join(settings.MEDIA_ROOT, str(imagedata.image))
+        ruta_completa = os.path.join(settings.MEDIA_ROOT, str(filedata.file))
         try:
-            with open(ruta_completa, 'rb') as imagen:
-                mensaje = {'image_route': str(imagedata.image)}
+            with open(ruta_completa, 'rb') as filen:
+                mensaje = {'file_route': str(filedata.file)}
                 return JsonResponse(mensaje)
         except FileNotFoundError:
             message_error2 = {'Error': 'invalid route'}
@@ -92,7 +93,7 @@ def listed(request):
     return Response(serializer.data)
 
 @api_view(['PUT'])
-def change_Image(request):
+def change_file(request):
 
     #token verification
     authorization_header = request.headers.get('Authorization')
@@ -101,29 +102,29 @@ def change_Image(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    if 'image' not in request.data:
-        raise Exception("upload image please")
-    image_request = request.FILES.get('image')
-    if 'idimage' not in request.data:
+    if 'file' not in request.data:
+        raise Exception("upload file please")
+    file_request = request.FILES.get('file')
+    if 'idfile' not in request.data:
         raise Exception("please enter the id")
     try:
-        old_image = Media.objects.get(id=request.data.get('idimage'))
+        old_file = Media.objects.get(id=request.data.get('idfile'))
     except Media.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    if image_request:
-        name_img = image_request.name
+    if file_request:
+        name_img = file_request.name
         extension = name_img.split('.')[-1]
-        image_request.name = str(old_image.name)+'.'+extension
+        file_request.name = str(old_file.name)+'.'+extension
         data = {
-            'name': old_image.name,
+            'name': old_file.name,
             'extension': extension,
-            'image': image_request
+            'file': file_request
         }
-    serializer = MediaSeralizer(old_image, data=data)
+    serializer = MediaSeralizer(old_file, data=data)
     if serializer.is_valid():
-        ruta_oldimage = os.path.join(settings.MEDIA_ROOT, str(old_image.image.name))
-        print(ruta_oldimage)
-        os.remove(ruta_oldimage)
+        ruta_oldfile = os.path.join(settings.MEDIA_ROOT, str(old_file.file.name))
+        print(ruta_oldfile)
+        os.remove(ruta_oldfile)
         serializer.save()
-        return Response("image updated successfully", status=status.HTTP_200_OK)
+        return Response("file updated successfully", status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
