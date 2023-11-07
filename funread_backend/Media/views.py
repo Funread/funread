@@ -28,10 +28,14 @@ def save_File(request):
     if file_request:
         name_file = file_request.name
         extension = name_file.split('.')[-1]
+        type = get_file_type(extension)
+        if (type == 0):
+            return Response({'message':'Bad file extension: only png, jpg, jpeg, gif, bmp, webp, tiff, mp3, wav, ogg, flac, aac, midi, wma, cd, aif, aifc, aiff, pcm, m4a, mp4, avi, mkv, mov, wmv, flv'}, status=status.HTTP_400_BAD_REQUEST)
         data = {
             'name': 'name',
             'extension': extension,
-            'file': file_request
+            'file': file_request,
+            'type':type
         }
     serializer = MediaSeralizer(data=data)
     print(serializer.is_valid())
@@ -71,7 +75,7 @@ def upload(request):
         ruta_completa = os.path.join(settings.MEDIA_ROOT, str(filedata.file))
         try:
             with open(ruta_completa, 'rb') as filen:
-                mensaje = {'file_route': str(filedata.file)}
+                mensaje = {'file_route': '/Media/'+str(filedata.file)}
                 return JsonResponse(mensaje)
         except FileNotFoundError:
             message_error2 = {'Error': 'invalid route'}
@@ -112,13 +116,17 @@ def change_file(request):
     except Media.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if file_request:
-        name_img = file_request.name
-        extension = name_img.split('.')[-1]
+        name_file = file_request.name
+        extension = name_file.split('.')[-1]
         file_request.name = str(old_file.name)+'.'+extension
+        type = get_file_type(extension)
+        if (type == 0):
+            return Response({'message':'Bad file extension: only png, jpg, jpeg, gif, bmp, webp, tiff, mp3, wav, ogg, flac, aac, midi, wma, cd, aif, aifc, aiff, pcm, m4a, mp4, avi, mkv, mov, wmv, flv'}, status=status.HTTP_400_BAD_REQUEST)
         data = {
             'name': old_file.name,
             'extension': extension,
-            'file': file_request
+            'file': file_request,
+            'type': type
         }
     serializer = MediaSeralizer(old_file, data=data)
     if serializer.is_valid():
@@ -128,3 +136,20 @@ def change_file(request):
         serializer.save()
         return Response("file updated successfully", status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def get_file_type(extension):
+    image_extensions = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'tiff'}
+    audio_extensions = {'mp3', 'wav', 'ogg', 'flac', 'aac','midi','wma','cd','aif','aifc','aiff','pcm','m4a'}
+    video_extensions = {'mp4', 'avi', 'mkv', 'mov', 'wmv', 'flv'}
+
+    lowercase_extension = extension.lower()  # Convierte la extensión a minúsculas para ser insensible a mayúsculas/minúsculas.
+
+    if lowercase_extension in image_extensions:
+        return 1  # Es una imagen
+    elif lowercase_extension in audio_extensions:
+        return 2  # Es audio
+    elif lowercase_extension in video_extensions:
+        return 3  # Es video
+    else:
+        return 0  #

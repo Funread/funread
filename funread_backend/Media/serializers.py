@@ -13,5 +13,6 @@ class MediaSeralizer(serializers.ModelSerializer):
             instance.name = validated_data.get('name', instance.name)
             instance.extension = validated_data.get('extension', instance.extension)
             instance.file = validated_data.get('file', instance.file)
+            instance.type = validated_data.get('type', instance.type)
             instance.save()
             return instance
