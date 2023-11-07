@@ -1,7 +1,7 @@
 .custom-side-nav-container_Sidebar
   background-color: rgb(30, 30, 34)
   height: 100vh
-  position: sticky
+  position: fixed
   color: #fff
   transition: 0.4s
   z-index: 1
@@ -83,10 +83,11 @@
     justify-content: space-between 
     align-items: center
 
-  .custom-nav-footer.pe-3
+  .custom-nav-footer
     display: flex
-    margin-left: 3rem
-    margin-top: 2rem
+    margin-left: 17rem
+    margin-top: 6rem
+    width: 12%
 
   .custom-menu-item_Sidebar
     margin: 10px 0
@@ -98,17 +99,16 @@
     margin-left: auto 
     cursor: pointer
     
-@media (max-height: 500px)
+@media (max-height: 500px) and (max-width: 768px)
   .custom-side-nav-container_Sidebar
-   height: 15%
+   height: 17%
   .custom-menu-item_Sidebar
     margin: 1px 0
     // height: 40px
   .custom-nav-menu_Sidebar
     margin-top: 28rem
-
-  .custom-nav-footer.pe-3
-    margin-top: 5rem 
+  .custom-menu-item_Sidebar
+    height: 30px
 
 
     

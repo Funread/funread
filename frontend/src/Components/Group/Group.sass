@@ -10,6 +10,9 @@
   height: 100vh
   background-color: whitesmoke
   scroll-snap-align: center
+  .col-8
+    @media (max-width: 684.98px)
+      width: 100%
 
   &::-webkit-scrollbar 
     width: 7px
@@ -38,36 +41,27 @@
     box-shadow: none
   
 
-  .mobile-below-tap-group 
-    height: 100vh
-
-    @media screen and (max-width: 992px) 
-      .content_group 
-        padding-left: 2rem
-      
-    
-
-    @media (max-width: 575.98px) 
-      width: 100%
-      margin-top: 10px
-      margin-left: 3rem
-      padding-left: 2rem
-      padding-right: 3rem
-
-      .col-8 
-        flex: 0 0 91.666667%
-        max-width: 91.666667%
-      
-    
+.mobile-below-tap-group
+  .position_side
+    @media (min-width: 684.98px)
+      position: fixed    
+      height: 100vh    
+  @media (max-width: 684.98px) 
+    width: 100%
+    margin-top: 10px
+    padding-left: 3rem
+    padding-right: 3rem 
+    margin-bottom: 4rem     
   
-
-
+  
 .button-search-library 
   &:hover 
     background-color: #a9def9
-  
-
-
+   
 .content_group 
-  padding-left: 4rem
+  padding-left: 2rem
+  @media (max-width: 684.98px)
+    width: 100%
+    padding-left: 1rem
+    margin-bottom: 4rem
 
