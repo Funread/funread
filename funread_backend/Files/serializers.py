@@ -15,7 +15,7 @@ class FileSerializer(serializers.ModelSerializer):
   def update(self, instance, validated_data):
       instance.namefile = validated_data.get('namefile', instance.namefile).lower()
       instance.filelocation = validated_data.get('filelocation', instance.filelocation)
-      instance.idfolder = validated_data.get('idfolder', instance.idfolder)
+      instance.foldersid = validated_data.get('foldersid', instance.foldersid)
       instance.uploadby = validated_data.get('uploadby', instance.uploadby)
       instance.idtags = validated_data.get('idtags', instance.idtags)
       instance.save()

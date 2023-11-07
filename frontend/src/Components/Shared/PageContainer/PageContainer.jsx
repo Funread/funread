@@ -2,19 +2,14 @@ import './PageContainer.sass'
 import React, { useState, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
 import Grids from '../Grids/Grids'
-import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons'
-import Text from '../../Widgets/Text/Text'
+import { faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas'
-
-const widgetType = 'widgetType'
+import { ToastContainer, toast } from 'react-toastify'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
-  Text: Text,
-  UniqueSelection: UniqueSelection,
   Grids: Grids,
 }
 
@@ -26,7 +21,6 @@ const PageContainer = ({
 }) => {
   const [buttonVisible, setButtonVisible] = useState(true)
   const [droppedComponent, setDroppedComponent] = useState(null)
-  const [saveData, setSaveData] = useState(null)
 
   useEffect(() => {
     captureImage()
@@ -46,25 +40,24 @@ const PageContainer = ({
     )
   }
 
-  const save = (data) => {
-    console.log(data)
-    setSaveData(true)
-  }
-
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: widgetType,
+  const [, drop] = useDrop(() => ({
+    accept: Object.keys(widgetTypeToComponent),
     drop: (item) => {
-      const droppedComponentInfo = {
-        type: item.type,
-        direction: item.direction,
-        rows: item.numRows,
+      if (item.type === 'Grids') {
+        const droppedComponentInfo = {
+          type: item.type,
+          direction: item.direction,
+          rows: item.numRows,
+        }
+        addOrUpdatePage(
+          pageNumber,
+          droppedComponentInfo.direction,
+          droppedComponentInfo.rows
+        )
+        setDroppedComponent(droppedComponentInfo)
+      } else {
+        toast.error('You must select a grid first')
       }
-      addOrUpdatePage(
-        pageNumber,
-        droppedComponentInfo.direction,
-        droppedComponentInfo.rows
-      )
-      setDroppedComponent(droppedComponentInfo)
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -92,27 +85,34 @@ const PageContainer = ({
       <div className='row'>
         <div className='col'>
           <FullScreen handle={handle}>
-            <div className='card shadow mb-4 content_page'>
+            <div className='card shadow mb-4 content_page shadow rounded'>
               <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
-                <h6 className='m-0 font-weight-bold text-primary'>
+                <h6 className='m-0 font-weight-bold text-info'>
                   {'Activity ' + pageNumber}
                 </h6>
                 <div className='d-flex'>
-                  <button onClick={remove}>
+                  {/*<button id="btnDivs" onClick={remove} style={{backgroundColor: 'rgb(206, 189, 242)'}}>
                     <img src='/escoba.png' alt='Clear' />
                   </button>
-                  <button onClick={save}>
+                  <button id="btnDivs" onClick={save} style={{backgroundColor: 'rgb(255, 185, 204)'}}>
                     <img src='/expediente.png' alt='Save' />
-                  </button>
+                  </button>*/}
 
                   {!handle.active && (
                     <div className='fullscreen-buttons'>
-                      <button id='buttonExpand' onClick={handleEnterFullScreen}>
+                      <button id='btnDivs' onClick={handleEnterFullScreen} style={{backgroundColor: 'rgb(182, 214, 242)'}}>
                         <FontAwesomeIcon icon={faExpandArrowsAlt} />
                         <i className='fa fa-expand'></i>
                       </button>
                     </div>
                   )}
+
+                  <button
+                    onClick={remove}
+                    id='btnDivs' style={{backgroundColor: 'rgb(255, 185, 204)'}}
+                  >
+                    <FontAwesomeIcon size='lg' icon={faTrash} />
+                  </button>
                 </div>
               </div>
 
@@ -126,7 +126,6 @@ const PageContainer = ({
                   React.createElement(
                     widgetTypeToComponent[droppedComponent.type],
                     {
-                      saveData,
                       direction: droppedComponent.direction,
                       numRows: droppedComponent.rows,
                     }
@@ -134,6 +133,7 @@ const PageContainer = ({
               </div>
             </div>
           </FullScreen>
+          <ToastContainer position='top-right' />
         </div>
       </div>
     </div>

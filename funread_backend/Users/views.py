@@ -87,10 +87,10 @@ def userChange(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     data = {
-        'email': request.data.get('new_email'),
+        'email': request.data.get('email'),
         'name': request.data.get('name'),
         'lastname': request.data.get('lastname'),
-        'password': hashlib.sha256(request.data.get('password').encode('utf-8')).hexdigest(),
+        'username': request.data.get('username')
     }
     serializer = UserSerializer(user, data=data)
     if serializer.is_valid():

@@ -16,7 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get('name', instance.name)
         instance.email = validated_data.get('email', instance.email)
         instance.lastname = validated_data.get('lastname', instance.lastname)
-        instance.password = validated_data.get('password', instance.password)
+        instance.username = validated_data.get('username', instance.username)
         instance.save()
         return instance
 

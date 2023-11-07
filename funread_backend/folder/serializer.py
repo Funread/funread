@@ -13,7 +13,7 @@ class FolderSerializer(serializers.ModelSerializer):
         return Folder.objects.create(**validated_data)
 
     def update(self, instance , validated_data):
-        instance.nameFolders = validated_data.get('nameFolders' , instance.nameFolders).lower()
+        instance.namefolders = validated_data.get('namefolders' , instance.namefolders).lower()
         instance.createdBy = validated_data.get('createdBy' , instance.createdBy)
         instance.save()
         return instance
