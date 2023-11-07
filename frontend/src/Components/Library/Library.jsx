@@ -86,21 +86,23 @@ const Library = () => {
           </div>
         </div>
         <div className='col-3 shadow rounded mobile-below-tap-library'>
-          {selectedBook && (
-            <BookView
-              title={selectedBook?.title}
-              description={selectedBook?.description}
-              portrait={selectedBook?.portrait}
-              author={selectedBook?.author}
-            />
-          )}
+          <div className='position_side'>
+            {selectedBook && (
+              <BookView
+                title={selectedBook?.title}
+                description={selectedBook?.description}
+                portrait={selectedBook?.portrait}
+                author={selectedBook?.author}
+              />
+            )}
 
-          {showForm && (
-            <BookBuilder
-              toggleSidebar={toggleSidebar}
-              updateBook={handleUpdateBooks}
-            />
-          )}
+            {showForm && (
+              <BookBuilder
+                toggleSidebar={toggleSidebar}
+                updateBook={handleUpdateBooks}
+              />
+            )}
+          </div>
         </div>
       </div>
       <ToastContainer position='top-right' />
