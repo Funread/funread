@@ -87,6 +87,24 @@ function GroupCardProgress() {
           </Card.Body>
         </Card>
       </Col>
+      <Col>
+        <Card className='border mt-1 mx-auto custum-card' bg='white'>
+          <Card.Body>
+            <Card.Text >
+              <FontAwesomeIcon
+                className='fa-BookPages'
+                size='2xl'
+                icon={faFile}
+              ></FontAwesomeIcon>
+              <Card.Text className='custum-text-authors'>
+                <strong>230361</strong>
+                <br />
+                Books Read
+              </Card.Text>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      </Col>
     </Row>
   )
 }

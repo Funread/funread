@@ -6,6 +6,7 @@ import {
   faBookOpen,
   faSignOutAlt,
   faUserGroup,
+  faHome,
 } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import { useNavigate } from "react-router-dom"
@@ -27,6 +28,11 @@ const SidebarBook = () => {
 
   const menuItems = [
     {
+      text: 'Lobby',
+      icon: faHome,
+      url:'/lobby'
+    },
+    {
       text: 'Library',
       icon: faBookOpen,
       url:'/demo/library'
@@ -36,6 +42,7 @@ const SidebarBook = () => {
       icon: faUserGroup,
       url:'/demo/group'
     },
+            
   ]
 
   return (

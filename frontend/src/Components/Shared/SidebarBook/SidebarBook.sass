@@ -4,6 +4,7 @@
   position: sticky
   color: #fff
   transition: 0.4s
+  z-index: 1
 
 .custom-side-nav-container-NX_Sidebar
   width: 85px
@@ -84,16 +85,30 @@
 
   .custom-nav-footer.pe-3
     display: flex
-    margin-left: 120%
+    margin-left: 3rem
+    margin-top: 2rem
 
   .custom-menu-item_Sidebar
     margin: 10px 0
+    height: 40px
 
   .custom-menu-item-NX_Sidebar
     display: flex
-    margin: 20px 10px 
+    margin: 15px 5px 
     margin-left: auto 
     cursor: pointer
     
-    
+@media (max-height: 500px)
+  .custom-side-nav-container_Sidebar
+   height: 15%
+  .custom-menu-item_Sidebar
+    margin: 1px 0
+    // height: 40px
+  .custom-nav-menu_Sidebar
+    margin-top: 28rem
+
+  .custom-nav-footer.pe-3
+    margin-top: 5rem 
+
+
     
