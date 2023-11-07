@@ -1,7 +1,12 @@
-import {axiosAuth } from "./axiosInstances";
+import { axiosAuth } from "../axiosInstances"
 
-export async function new_code(value) {
-    return axiosAuth().post('widget/insertWidget/', {
+
+export async function newCode(widgetitemid, value, type, pageid, widgetid) {
+    return axiosAuth().post('widget/insertWidgetItem/', {
+      widgetitemid: widgetitemid,
       value: value,
+      type: type,
+      pageid: pageid,
+      widgetid: widgetid,
     }) 
   }
