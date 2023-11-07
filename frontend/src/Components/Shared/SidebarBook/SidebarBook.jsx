@@ -6,13 +6,16 @@ import {
   faBookOpen,
   faSignOutAlt,
   faUserGroup,
+  faHome,
 } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
+import { useNavigate } from "react-router-dom"
 
 const SidebarBook = () => {
-  const user = useSelector((state) => state.user) // obtenemos el usuario desde el redux
+  const user = useSelector((state) => state.user) 
+  const navigate = useNavigate();
 
-  const hasRole = (role) => { // con base al role proporciona devulve true si el usuario tiene el role, o false is no lo tiene
+  const hasRole = (role) => { 
     user.roles.forEach(userRole => {
       if(userRole.role === role){
           return true;
@@ -20,18 +23,26 @@ const SidebarBook = () => {
     });
     return false
   }
-  // lo de arriba es un ejemplo de como limitar las opciones del menu con base al rol del usuario
+
 
 
   const menuItems = [
     {
+      text: 'Lobby',
+      icon: faHome,
+      url:'/lobby'
+    },
+    {
       text: 'Library',
       icon: faBookOpen,
+      url:'/demo/library'
     },
     {
       text: 'Groups',
       icon: faUserGroup,
+      url:'/demo/group'
     },
+            
   ]
 
   return (
@@ -39,12 +50,12 @@ const SidebarBook = () => {
       <div className='custom-nav-upper_Sidebar pt-5'>
         <div className='custom-nav-heading_Sidebar'></div>
         <div className='custom-nav-menu_Sidebar'>
-          {menuItems.map(({ text, icon }, index) => (
+          {menuItems.map(({ text, icon, url }, index) => (
             <div
               key={index}
               className='custom-menu-item_Sidebar border-botton custom-menu-item-NX_Sidebar align-items-center'
             >
-              <FontAwesomeIcon icon={icon} size='xl' />
+              <FontAwesomeIcon icon={icon} size='xl' onClick={() =>  navigate(url)}/>
             </div>
           ))}
         </div>
