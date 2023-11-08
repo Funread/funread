@@ -28,6 +28,7 @@ const Library = () => {
       setShowForm(true)
       return
     }
+
     setSelectedBook(book)
   }
 

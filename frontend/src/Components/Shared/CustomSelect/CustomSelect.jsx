@@ -13,13 +13,17 @@ const CustomSelect = ({
 }) => {
   return (
     <Select
+      showSearch
       className={`${classNameStyle}`}
       name={name}
       value={value}
       onChange={onChange}
       mode={mode}
+      placeholder={placeholder}
     >
-      <Select.Option value=''>{placeholder}</Select.Option>
+      <Select.Option disabled value={''}>
+        {placeholder}
+      </Select.Option>
       {options.map((option) => (
         <Select.Option key={option.key} value={option.value}>
           {option.label}

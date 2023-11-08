@@ -41,11 +41,11 @@ function TapLibrary({ toggleSidebar, newBooks }) {
     }
 
     return books.map(
-      ({ id, portrait, title, category, author, description }, index) => (
+      ({ bookid, portrait, title, category, author, description }, index) => (
         <div key={index} className='section_item_Tap'>
           <BookCard
             key={index}
-            id={id}
+            id={bookid}
             portrait={portrait}
             title={title}
             category={category}

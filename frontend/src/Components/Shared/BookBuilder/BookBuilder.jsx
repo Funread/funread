@@ -34,9 +34,9 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   const [categories, setCategories] = useState([])
   const [dimensions, setDimensions] = useState([])
   const [dilemmas, setDilemmas] = useState([])
-  const [selectedDilemmas, setSelectedDilemmas] = useState([])
-  const [selectedDimension, setSelectedDimension] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedDimension, setSelectedDimension] = useState('')
+  const [selectedDilemmas, setSelectedDilemmas] = useState([])
   const [fileImage, setFileImage] = useState(null)
   const [missingFields, setMissingFields] = useState({})
   const user = useSelector((state) => state.user)
@@ -185,6 +185,9 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   }
 
   const handleCategoryChange = async (selectedValue) => {
+    setSelectedCategory('')
+    setSelectedDimension('')
+    setBook({ ...book, category: selectedValue })
     setSelectedCategory(selectedValue)
     try {
       const dimensionsResponse = await searchDimensionByCategory(selectedValue)
@@ -273,7 +276,7 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
                 label: category.name,
               }))}
               name='category'
-              value={book.category}
+              value={selectedCategory}
               onChange={handleCategoryChange}
               placeholder='Category'
             />
