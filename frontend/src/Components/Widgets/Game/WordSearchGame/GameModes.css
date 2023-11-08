@@ -85,6 +85,8 @@
         transition: 0.9s;
     }
 
+    
+
     #modes{
         width: fit-content;
         place-content: center;
@@ -103,6 +105,11 @@
     }
 
     #buttonsDifficulty button {
+        width: 6em;
+        transition: 0.9s;
+    }
+
+    #footerButton button {
         width: 6em;
         transition: 0.9s;
     }
