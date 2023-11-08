@@ -23,8 +23,16 @@
 #footerButton{
     text-align: end;
     padding-top: 65px;
+}
 
-    
+#footerButton button{
+    margin-top: 1em;
+    width: 150px;
+    height: 35px;
+    background: transparent;
+    border-radius: 10px;
+    border: 1px solid #060e2e;
+    color: #060e2e;
 }
 
 
@@ -54,6 +62,12 @@
     background: #4cffff;
     border: 1px solid transparent;
     color: #000000;
+}
+
+#footerButton button:hover{
+    background: #060e2e;
+    border: 1px solid transparent;
+    color: #fff;
 }
 
 @media only screen and (min-width: 460px) {
