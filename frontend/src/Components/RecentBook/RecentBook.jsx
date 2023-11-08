@@ -5,7 +5,7 @@ const MY_BOOKS = [
   {
     id: 1,
     title: 'The Hunger Games',
-    category: 'Fiction',
+    category: '1',
     portrait: null,
     author: 'Suzanne Collins',
     description:
@@ -15,7 +15,7 @@ const MY_BOOKS = [
   {
     id: 2,
     title: 'Pride and Prejudice',
-    category: 'Novel',
+    category: '1',
     portrait: null,
     author: 'Jane Austin',
     description:
@@ -25,7 +25,7 @@ const MY_BOOKS = [
   {
     id: 3,
     title: 'To Kill a Mockingbird',
-    category: 'Southern Gothic',
+    category: '1',
     portrait: null,
     author: 'Harper Lee',
     description:
@@ -35,7 +35,7 @@ const MY_BOOKS = [
   {
     id: 4,
     title: 'To Kill a Mockingbird',
-    category: 'Southern Gothic',
+    category: '1',
     portrait: null,
     author: 'Harper Lee',
     description:

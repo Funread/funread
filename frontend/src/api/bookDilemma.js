@@ -1,9 +1,11 @@
 import { axiosAuth } from './axiosInstances'
-//agregar una funcion por cada endpoint necesario, asegurarse de usar el async-await, ya que son peticiones a la api
-// const moment = require('moment')
 
 export async function listCategories() {
   return axiosAuth().get('bookdilemma/listcategory/')
+}
+
+export async function searchCategory(categoryId) {
+  return axiosAuth().get('bookdilemma/searchcategory/' + categoryId)
 }
 
 export async function searchDimensionByCategory(categoryId) {

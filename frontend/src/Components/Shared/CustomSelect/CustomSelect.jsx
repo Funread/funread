@@ -3,6 +3,7 @@ import './CustomSelect.sass'
 import { Select } from 'antd'
 
 const CustomSelect = ({
+  classNameStyle,
   options,
   name,
   value,
@@ -12,7 +13,7 @@ const CustomSelect = ({
 }) => {
   return (
     <Select
-      className={`custom-book-builder-select`}
+      className={`${classNameStyle}`}
       name={name}
       value={value}
       onChange={onChange}

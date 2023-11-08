@@ -1,6 +1,8 @@
+import './BookBuilder.sass'
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import './BookBuilder.sass'
+import BookImage from '../BookImage/BookImage'
+import CustomSelect from '../CustomSelect/CustomSelect'
 import { Radio } from 'antd'
 import { Container, Row, Col, Form } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,18 +10,16 @@ import { faGlobe, faLock } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
 import { save_Image, upload } from '../../../api'
 import { new_book } from '../../../api/books'
-import BookImage from '../BookImage/BookImage'
 import {
   listCategories,
   newDilemaPerBook,
   searchDilemmaByDimension,
   searchDimensionByCategory,
 } from '../../../api/bookDilemma'
-import CustomSelect from '../CustomSelect/CustomSelect'
 
 const initialBookState = {
   title: '',
-  category: 2,
+  category: '',
   portrait: null,
   createdby: null,
   updatedby: null,
@@ -28,10 +28,6 @@ const initialBookState = {
   lastupdateby: null,
   description: '',
 }
-
-const getImage = 'http://localhost:8000/Media/'
-
-const defaultImage = '/imagenes/no-image.png'
 
 const BookBuilder = ({ toggleSidebar, updateBook }) => {
   const [book, setBook] = useState(initialBookState)
@@ -42,8 +38,7 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   const [selectedDimension, setSelectedDimension] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
   const [fileImage, setFileImage] = useState(null)
-  const [errorMessage, setErrorMessage] = useState('')
-  const [errorFields, setErrorFields] = useState({})
+  const [missingFields, setMissingFields] = useState({})
   const user = useSelector((state) => state.user)
 
   useEffect(() => {
@@ -81,10 +76,10 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
 
     try {
       // Validar campos
-      // const isValid = validateForm()
-      // if (!isValid) {
-      //   return
-      // }
+      const isValid = validateForm()
+      if (!isValid) {
+        return
+      }
 
       const imageRoute = book.portrait ? await uploadImage() : null
 
@@ -97,14 +92,10 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
         lastupdateby: user.userId,
       }
 
-      console.log('newBook', newBook)
-
       // // Enviar libro al servidor
       const response = await createBook(newBook)
 
       if (response.data && response.status === 201) {
-        // const { portrait } = response.data
-
         //Añadir los dilemas al libro creado
         for (const dilemma of selectedDilemmas) {
           await addDilemmasPerBook(dilemma, response.data.bookid)
@@ -124,27 +115,30 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   }
 
   const validateForm = () => {
-    const requiredFields = ['title', 'category']
-    const missingFields = requiredFields.filter((field) => !book[field])
+    const missing = {}
 
-    if (missingFields.length > 0) {
-      setErrorMessage('There are missing fields')
-
-      const updatedErrorFields = {}
-      requiredFields.forEach((field) => {
-        if (!book[field]) {
-          updatedErrorFields[field] = true
-        }
-      })
-
-      setErrorFields(updatedErrorFields)
-
-      return false
+    if (!book.title) {
+      missing.title = true
     }
 
-    setErrorMessage('')
-    setErrorFields({})
-    return true
+    if (!book.description) {
+      missing.description = true
+    }
+
+    if (selectedCategory === '') {
+      missing.category = true
+    }
+
+    if (selectedDimension === '') {
+      missing.dimension = true
+    }
+
+    if (selectedDilemmas.length === 0) {
+      missing.dilemma = true
+    }
+
+    setMissingFields(missing)
+    return Object.keys(missing).length === 0
   }
 
   const uploadImage = async () => {
@@ -242,7 +236,7 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
 
             <Form.Control
               className={`custom-book-builder-form-title ${
-                errorFields.title ? 'error-title' : ''
+                missingFields.title ? 'error-title' : ''
               }`}
               type='text'
               name='title'
@@ -250,9 +244,14 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
               value={book.title}
               onChange={handleChange}
             />
+            {missingFields.title && (
+              <p className='error-message'>You need to fill this field.</p>
+            )}
 
             <Form.Control
-              className='custom-book-builder-text-area'
+              className={`custom-book-builder-text-area ${
+                missingFields.description ? 'error' : ''
+              }`}
               as='textarea'
               placeholder='Description'
               rows={4}
@@ -260,45 +259,73 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
               value={book.description}
               onChange={handleChange}
             />
+            {missingFields.description && (
+              <p className='error-message'>You need to fill this field.</p>
+            )}
 
             <CustomSelect
+              classNameStyle={`custom-book-builder-select ${
+                missingFields.category ? 'error' : ''
+              }`}
               options={categories.map((category) => ({
                 key: category.bookcategoryid,
                 value: category.bookcategoryid,
                 label: category.name,
               }))}
               name='category'
-              value={selectedCategory}
+              value={book.category}
               onChange={handleCategoryChange}
               placeholder='Category'
             />
+            {missingFields.category && (
+              <p className='error-message'>You need to fill this field.</p>
+            )}
 
-            <CustomSelect
-              options={dimensions.map((dimension) => ({
-                key: dimension.bookdimensionid,
-                value: dimension.bookdimensionid,
-                label: dimension.name,
-              }))}
-              name='dimension'
-              value={selectedDimension}
-              onChange={handleDimensionChange}
-              placeholder='Dimension'
-            />
+            {selectedCategory && (
+              <>
+                <CustomSelect
+                  classNameStyle={`custom-book-builder-select ${
+                    missingFields.dimension ? 'error' : ''
+                  }`}
+                  options={dimensions.map((dimension) => ({
+                    key: dimension.bookdimensionid,
+                    value: dimension.bookdimensionid,
+                    label: dimension.name,
+                  }))}
+                  name='dimension'
+                  value={selectedDimension}
+                  onChange={handleDimensionChange}
+                  placeholder='Dimension'
+                />
+                {missingFields.dimension && (
+                  <p className='error-message'>You need to fill this field.</p>
+                )}
+              </>
+            )}
 
-            <CustomSelect
-              options={dilemmas.map((dilemma) => ({
-                key: dilemma.bookdilemmaid,
-                value: dilemma.bookdilemmaid,
-                label: dilemma.dilemma,
-              }))}
-              mode='multiple'
-              name='dilemma'
-              value={selectedDilemmas}
-              onChange={handleDilemmaChange}
-              placeholder='Dilemma'
-            />
+            {selectedDimension && (
+              <>
+                <CustomSelect
+                  classNameStyle={`custom-book-builder-select ${
+                    missingFields.dilemma ? 'error' : ''
+                  }`}
+                  options={dilemmas.map((dilemma) => ({
+                    key: dilemma.bookdilemmaid,
+                    value: dilemma.bookdilemmaid,
+                    label: dilemma.dilemma,
+                  }))}
+                  mode='multiple'
+                  name='dilemma'
+                  value={selectedDilemmas}
+                  onChange={handleDilemmaChange}
+                  placeholder='Dilemma'
+                />
+                {missingFields.dilemma && (
+                  <p className='error-message'>You need to fill this field.</p>
+                )}
+              </>
+            )}
 
-            {errorMessage && <p className='error-message'>{errorMessage}</p>}
             <button className='custom-save-button' type='submit'>
               Save
             </button>
