@@ -14,6 +14,7 @@ import {
 import NavItem from '../SideNavBarItem/NavItem'
 import SideNavBarFooter from '../SideNavBarFooter/SideNavBarFooter'
 import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
+import CodeBlock from '../../Widgets/CodeBlock/CodeBlock'
 import Grids from '../Grids/Grids'
 import ReverseUniqueSelection from '../../Widgets/Quiz/ReverseQuiz/ReverseUniqueSelection'
 import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
@@ -142,6 +143,11 @@ const SidebarLeftTopTop = () => {
       icon: faGamepad,
       subItems: [],
     },
+    {
+      text: 'Code HTML',
+      icon: faA,
+      subItems: [<CodeBlock/>],
+    }
   ]
 
   return (

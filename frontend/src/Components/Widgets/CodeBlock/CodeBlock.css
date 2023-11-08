@@ -1,0 +1,26 @@
+.custom-book-builder-text-area{
+
+}
+
+.custom-save-button-HTML{
+    margin-top: 30px;
+    margin-bottom: 50px;
+    margin-right: 150px;
+    margin-left: 50px;
+    background-color: #000;
+    width: 100px;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px #a09a9a;
+    border: none;
+    color: #fff;
+    padding: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.custom-save-button-HTML:hover {
+    background-color: #ff99c8;
+    color: #000;
+    border-color: #ff99c8;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   }
