@@ -14,6 +14,7 @@ import {
   listedStudentGroups,
 } from '../../../api/studentGroups'
 import { toast } from 'react-toastify'
+import CustomMessage from '../CustomMessage/CustomMessage'
 
 const { Option } = Select
 
@@ -28,7 +29,12 @@ const studentInitialState = {
   groupscreateid: null,
 }
 
-const ListGroups = ({ toggleSidebar, showGroupResume, newGroups }) => {
+const ListGroups = ({
+  toggleSidebar,
+  showGroupResume,
+  newGroups,
+  toggleGroupClasses,
+}) => {
   const [key, setKey] = useState('#1')
   const [teacher, setTeacher] = useState(initialState)
   const [groups, setGroups] = useState([])
@@ -174,92 +180,101 @@ const ListGroups = ({ toggleSidebar, showGroupResume, newGroups }) => {
         activeKey={key}
         onSelect={(k) => setKey(k)}
       >
-        <Row>
-          <Col sm={6}>
-            <span className='custom-list-group-span'>Groups List</span>
-            <ListGroup variant='flush' className='mt-1'>
-              {groups.map(({ id, name, idimage }) => (
-                <div key={id}>
-                  <ListGroup.Item
-                    action
-                    eventKey={'#' + id}
-                    className='d-flex justify-content-between align-items-start'
-                    onClick={() => showGroupResume({ id, name, idimage })}
-                  >
-                    Name: {name}
-                    <div>
-                      <Badge
-                        bg='dark'
-                        data-toggle='tooltip'
-                        data-placement='bottom'
-                        title='Assign Task'
+        {groups.length === 0 ? (
+          <CustomMessage message={'No groups have been created'} />
+        ) : (
+          <Row>
+            <Col sm={6}>
+              <span className='custom-list-group-span'>Groups List</span>
+              <ListGroup variant='flush' className='mt-1'>
+                {groups.map(({ id, name, idimage }) => (
+                  <div key={id}>
+                    <ListGroup.Item
+                      action
+                      eventKey={'#' + id}
+                      className='d-flex justify-content-between align-items-start'
+                      // onClick={() => showGroupResume({ id, name, idimage })}
+                    >
+                      <div
+                        onClick={() => showGroupResume({ id, name, idimage })}
                       >
-                        <FontAwesomeIcon icon={faListCheck} size='xl' />
-                      </Badge>
-                      <Badge
-                        bg='dark'
-                        className='mx-1'
-                        data-toggle='tooltip'
-                        data-placement='bottom'
-                        title='Delete Group'
-                        onClick={() => handleDelete(id)}
-                      >
-                        <FontAwesomeIcon icon={faTrash} size='xl' />
-                      </Badge>
-                    </div>
-                  </ListGroup.Item>
-                </div>
-              ))}
-            </ListGroup>
-          </Col>
-          <Col sm={6}>
-            <span className='custom-list-group-span'>Students List</span>
-            <Tab.Content>
-              {groups.map(({ id }) => (
-                <Tab.Pane eventKey={'#' + id} key={id}>
-                  <Select
-                    className='custom-group-view-select mt-3 mb-3'
-                    placeholder='Select a student'
-                    onSelect={(value) => handleSelect(value, id)}
-                  >
-                    {_.map(students, (student) => (
-                      <Option key={student.userid} value={student.userid}>
-                        {student.name + ' ' + student.lastname}
-                      </Option>
-                    ))}
-                  </Select>
-                  <ListGroup variant='flush' className='mt-1'>
-                    {selectedStudents
-                      .filter((student) => student.groupscreateid === id)
-                      .map(({ userid, groupscreateid, name, lastname }) => (
-                        <div key={userid}>
-                          <ListGroup.Item
-                            action
-                            className='d-flex justify-content-between align-items-start'
-                          >
-                            {name + ' ' + lastname}
-                            <Badge
-                              bg='dark'
-                              onClick={() =>
-                                toggleSidebar({
-                                  userid,
-                                  groupscreateid,
-                                  name,
-                                  lastname,
-                                })
-                              }
-                            >
-                              <FontAwesomeIcon icon={faEye} size='xl' />
-                            </Badge>
-                          </ListGroup.Item>
-                        </div>
+                        Name: {name}
+                      </div>
+                      <div>
+                        <Badge
+                          bg='dark'
+                          data-toggle='tooltip'
+                          data-placement='bottom'
+                          title='Assign Task'
+                          onClick={toggleGroupClasses}
+                        >
+                          <FontAwesomeIcon icon={faListCheck} size='xl' />
+                        </Badge>
+                        <Badge
+                          bg='dark'
+                          className='mx-1'
+                          data-toggle='tooltip'
+                          data-placement='bottom'
+                          title='Delete Group'
+                          onClick={() => handleDelete(id)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} size='xl' />
+                        </Badge>
+                      </div>
+                    </ListGroup.Item>
+                  </div>
+                ))}
+              </ListGroup>
+            </Col>
+            <Col sm={6}>
+              <span className='custom-list-group-span'>Students List</span>
+              <Tab.Content>
+                {groups.map(({ id }) => (
+                  <Tab.Pane eventKey={'#' + id} key={id}>
+                    <Select
+                      className='custom-group-view-select mt-3 mb-3'
+                      placeholder='Select a student'
+                      onSelect={(value) => handleSelect(value, id)}
+                    >
+                      {_.map(students, (student) => (
+                        <Option key={student.userid} value={student.userid}>
+                          {student.name + ' ' + student.lastname}
+                        </Option>
                       ))}
-                  </ListGroup>
-                </Tab.Pane>
-              ))}
-            </Tab.Content>
-          </Col>
-        </Row>
+                    </Select>
+                    <ListGroup variant='flush' className='mt-1'>
+                      {selectedStudents
+                        .filter((student) => student.groupscreateid === id)
+                        .map(({ userid, groupscreateid, name, lastname }) => (
+                          <div key={userid}>
+                            <ListGroup.Item
+                              action
+                              className='d-flex justify-content-between align-items-start'
+                            >
+                              {name + ' ' + lastname}
+                              <Badge
+                                bg='dark'
+                                onClick={() =>
+                                  toggleSidebar({
+                                    userid,
+                                    groupscreateid,
+                                    name,
+                                    lastname,
+                                  })
+                                }
+                              >
+                                <FontAwesomeIcon icon={faEye} size='xl' />
+                              </Badge>
+                            </ListGroup.Item>
+                          </div>
+                        ))}
+                    </ListGroup>
+                  </Tab.Pane>
+                ))}
+              </Tab.Content>
+            </Col>
+          </Row>
+        )}
       </Tab.Container>
     </>
   )
