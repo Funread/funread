@@ -59,11 +59,11 @@ const SidebarBook = () => {
               />
             </div>
           ))}
-        </div>
-      </div>
-      <div className='custom-nav-footer pe-3'>
-        <div className='custom-menu-item border-botton_Sidebar custom-menu-item-NX_Sidebar align-items-center'>
-          <FontAwesomeIcon icon={faSignOutAlt} size='xl' />
+          <div className='custom-nav-footer pe-3'>
+            <div className='border-botton_Sidebar custom-menu-item-NX_Sidebar align-items-center'>
+              <FontAwesomeIcon icon={faSignOutAlt} size='xl' />
+            </div>
+          </div>
         </div>
       </div>
     </div>
