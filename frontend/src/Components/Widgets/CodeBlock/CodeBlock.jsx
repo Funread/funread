@@ -13,7 +13,7 @@ const initialState = {
   widgetid: null,
 }
 
-const CodeBlock= ({ updateGroup }) => {
+const CodeBlock= ({ CodeBlock}) => {
   const [Code, setCode] = useState(initialState)
   const [isEmpty, setIsEmpty] = useState(false)
   const token = sessionStorage.getItem('jwt')
@@ -23,10 +23,10 @@ const CodeBlock= ({ updateGroup }) => {
     if (token) {
       const decodedToken = jwt_decode(token)
 
-      // Actualiza el estado del grupo con la información del JWT
+      // Actualiza el estado del code con la información del JWT
       setCode((prevData) => ({
         ...prevData,
-        createdby: decodedToken.user_id,
+        widgetid: decodedToken.user_id,
       }))
     }
   }, [token])
@@ -56,7 +56,7 @@ const CodeBlock= ({ updateGroup }) => {
         Code.widgetid
       )
       toast.success(`${response.data.value} was created successfully`)
-      updateGroup(response.data)
+      CodeBlock(response.data)
       setCode({ ...Code, value: ''})
     } catch (error) {
       toast.error(
@@ -83,7 +83,7 @@ const CodeBlock= ({ updateGroup }) => {
               rows={5}
               name='value'
               onChange={handleChange}
-              value={Code.value}
+              //value={Code.value}
             />
             <button className='custom-save-button-HTML' type='submit'>
               Save
