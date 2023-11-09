@@ -10,6 +10,7 @@ import Carousel from '../Shared/NavBarCarrousel/NavBarCarrousel'
 import Slide from '../Shared/Slides/Slide'
 import { newPage } from '../../api/pages'
 import { ToastContainer, toast } from 'react-toastify'
+import { useLocation } from "react-router-dom";
 
 const initialPage = {
   bookid: 1,
@@ -26,6 +27,8 @@ const BookCreator = () => {
   const [slides, setSlides] = useState([{ id: 1, image: null }])
   const [pages, setPages] = useState([])
   const [savedPages, setSavedPages] = useState(new Set())
+  const location = useLocation();
+  console.log(location.state.data);
 
   // Agregar una diapositiva
   const addSlide = () => {
