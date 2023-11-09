@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react'
 import './Grids.sass'
 import { useDrop } from 'react-dnd'
@@ -63,7 +64,7 @@ const Grids = ({ direction, numRows }) => {
     <section className={`layout ${direction}`} ref={drop}>
       {Array.from({ length: numRows }).map((_, index) => (
         <div id={index} className='custom-grid-component' key={index}>
-          {Array.isArray(droppedWidgets[index]) &&
+          {Array.isArray(droppedWidgets[index]) && //sobreescritura
             droppedWidgets[index].map(
               (widget, widgetIndex) =>
                 widgetTypeToComponent[widget.type] && (

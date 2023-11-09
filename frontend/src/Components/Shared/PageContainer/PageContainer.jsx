@@ -7,33 +7,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas'
 import { ToastContainer, toast } from 'react-toastify'
-import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
+import AnswerQuiz from '../../Widgets/Quiz/UniqueSelection/AnswerQuiz'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
-const widgetType = 'widgetType';
-
 const widgetTypeToComponent = {
-  UniqueSelection: UniqueSelection,
   Grids: Grids,
-};
-
+}
 
 const PageContainer = ({
   pageNumber,
   onRemoveSlides,
   updateImage,
-  addOrUpdatePage,title
+  addOrUpdatePage,
 }) => {
-  const [buttonVisible, setButtonVisible] = useState(true);
-  const [droppedComponent, setDroppedComponent] = useState(null);
-  const [saveData, setSaveData] = useState(null);
-  const [isEditingEnabled, setIsEditingEnabled] = useState(true);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-
-    const save = (data) => {
-    console.log(data);
-    setSaveData(true);
-  };
+  const [buttonVisible, setButtonVisible] = useState(true)
+  const [droppedComponent, setDroppedComponent] = useState(null)
+  //Se crea la constante
+  const [selectedWidget, setSelectedWidget] = useState(null)
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [originalContent, setOriginalContent] = useState(null);
+  const [fullScreenButtonVisible, setFullScreenButtonVisible] = useState(false);
 
 
   useEffect(() => {
@@ -83,40 +76,41 @@ const PageContainer = ({
     // setDroppedComponent(null)
   }
 
-
-  
-
   const handle = useFullScreenHandle()
 
   const toggleButtonVisibility = (isVisible) => {
-    setButtonVisible(isVisible);
-  };
-
-
- 
+    setButtonVisible(isVisible)
+  }
 
   const handleEnterFullScreen = () => {
     toggleButtonVisibility(false);
     handle.enter();
-    setIsFullscreen(true);
-    setIsEditingEnabled(false);
-  };
-
-  const toggleFullScreen = () => {
-    if (isFullscreen) {
-      handleExitFullScreen();
-    } else {
-      handleEnterFullScreen();
+    setSelectedWidget(true);
+    setIsFullScreen(true);
+    setFullScreenButtonVisible(true);
+    // Verifica si el elemento con el ID existe antes de acceder a su 'innerHTML'
+    const pageContainerElement = document.getElementById(`pageContainer-${pageNumber}`);
+    if (pageContainerElement) {
+      // Guarda el contenido original antes de entrar en modo de pantalla completa
+      setOriginalContent(pageContainerElement.innerHTML);
     }
   };
+
+
 
   const handleExitFullScreen = () => {
     toggleButtonVisibility(true);
     handle.exit();
-  };
-
-
-
+    setSelectedWidget(null);
+    setIsFullScreen(false);
+    // Verifica si el elemento con el ID existe antes de restaurar su 'innerHTML'
+    const pageContainerElement = document.getElementById(`pageContainer-${pageNumber}`);
+    if (pageContainerElement) {
+      // Restaura el contenido original al salir del modo de pantalla completa
+      pageContainerElement.innerHTML = originalContent;
+      setFullScreenButtonVisible(false);
+    };
+  }
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -128,46 +122,62 @@ const PageContainer = ({
                   {'Activity ' + pageNumber}
                 </h6>
                 <div className='d-flex'>
-                  {/*<button id="btnDivs" onClick={remove} style={{backgroundColor: 'rgb(206, 189, 242)'}}>
-                    <img src='/escoba.png' alt='Clear' />
-                  </button>
-                  <button id="btnDivs" onClick={save} style={{backgroundColor: 'rgb(255, 185, 204)'}}>
-                    <img src='/expediente.png' alt='Save' />
-                  </button>*/}
-
                   {!handle.active && (
                     <div className='fullscreen-buttons'>
-                      <button id='btnDivs' onClick={handleEnterFullScreen} style={{backgroundColor: 'rgb(182, 214, 242)'}}>
+                      <button
+                        id='btnDivs'
+                        onClick={handleEnterFullScreen}
+                        style={{ backgroundColor: 'rgb(182, 214, 242)' }}
+                      >
                         <FontAwesomeIcon icon={faExpandArrowsAlt} />
                         <i className='fa fa-expand'></i>
                       </button>
                     </div>
                   )}
-
                   <button
                     onClick={remove}
-                    id='btnDivs' style={{backgroundColor: 'rgb(255, 185, 204)'}}
+                    id='btnDivs'
+                    style={{ backgroundColor: 'rgb(255, 185, 204)' }}
                   >
                     <FontAwesomeIcon size='lg' icon={faTrash} />
                   </button>
+
+
+                  <button
+                    id='btnDivs'
+                    onClick={handleExitFullScreen}
+                    style={{ backgroundColor: 'rgb(182, 214, 242)' }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} /> 
+                    <i className='fa fa-EyeSlash'></i> 
+                  </button>
+
                 </div>
               </div>
-
-              <div
-                id={`pageContainer-${pageNumber}`}
-                className='card-body custom-card-body-page-container p-0'
-                ref={drop}
-              >
-                {droppedComponent &&
-                  widgetTypeToComponent[droppedComponent.type] &&
-                  React.createElement(
-                    widgetTypeToComponent[droppedComponent.type],
-                    {
-                      direction: droppedComponent.direction,
-                      numRows: droppedComponent.rows,
-                    }
+              {isFullScreen ? (
+                <div className='custom-answer-quiz-card'>
+                  {selectedWidget && (
+                    <AnswerQuiz  isFullScreen={isFullScreen}
+                    footer={selectedWidget?.footer || null}  />
                   )}
-              </div>
+                </div>
+              ) : (
+                <div
+                  id={`pageContainer-${pageNumber}`}
+                  className='card-body custom-card-body-page-container p-0'
+                  ref={drop}
+                >
+                  {droppedComponent &&
+                    widgetTypeToComponent[droppedComponent.type] &&
+                    React.createElement(
+                      widgetTypeToComponent[droppedComponent.type],
+                      {
+                        direction: droppedComponent.direction,
+                        numRows: droppedComponent.rows,
+                      }
+                    )}
+                </div>
+              )}
             </div>
           </FullScreen>
           <ToastContainer position='top-right' />
