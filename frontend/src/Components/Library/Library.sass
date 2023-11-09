@@ -11,6 +11,10 @@
   background-color: whitesmoke
   scroll-snap-align: center
 
+  .col-8
+    @media (max-width: 575.98px)
+      width: 100%
+
   &::-webkit-scrollbar 
     width: 7px
   
@@ -38,36 +42,27 @@
     box-shadow: none
   
 
-  .mobile-below-tap-library
+.mobile-below-tap-library  
+  .position_side
+    @media (min-width: 575.98px)
+      height: 100vh
+  @media (max-width: 575.98px) 
+    width: 100%
+    padding-left: 2rem
+    padding-right: 3rem
+    margin-bottom: 4rem     
+
+
+.content_library
+  padding-left: 2rem
+  @media (max-width: 575.98px) 
+    width: 100%
+    padding-left: 1rem  
+    margin-bottom: 4rem
     
-
-    @media screen and (max-width: 992px) 
-      .content_library
-        padding-left: 2rem
-      
-    
-
-    @media (max-width: 575.98px) 
-      width: 100%
-      margin-top: 10px
-      margin-left: 3rem
-      padding-left: 2rem
-      padding-right: 3rem
-
-      .col-8 
-        flex: 0 0 91.666667%
-        max-width: 91.666667%
-      
-    
-  
-
-
+     
 .button-search-library 
   &:hover 
     background-color: #a9def9
   
-
-
-.content_library 
-  padding-left: 4rem
 

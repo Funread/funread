@@ -19,6 +19,13 @@ from .serializers import UserSerializer
 @api_view(['POST'])
 def new_userrole(request):
     
+    #token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     print(request.data)
     data = {
         'iduser': request.data.get('iduser'),
