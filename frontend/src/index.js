@@ -111,6 +111,8 @@ root.render(
 
             <Route exact path="demo/quiz" element={<UniqueSelection />} />
 
+            <Route exact path="demo/lobby" element={<Lobby />} />
+
             <Route exact path="demo/Gallery2" element={<Gallery />} />
 
             <Route exact path="demo/image" element={<WidgetImage />} />
