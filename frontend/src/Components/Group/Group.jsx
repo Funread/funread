@@ -11,7 +11,8 @@ import GroupCardProgress from '../Shared/GroupCardProgress/GroupCardProgress'
 import GroupBuilder from '../Shared/GroupBuilder/GroupBuilder'
 import { ToastContainer } from 'react-toastify'
 import GroupView from '../Shared/GroupView/GroupView'
-import GroupClasses from '../Shared/GroupClasses/GroupClasses'
+import Classes from '../Shared/Classes/Classes'
+import ClassBuilder from '../Shared/ClassBuilder/ClassBuilder'
 
 const Group = () => {
   const [groups, setGroups] = useState([])
@@ -19,6 +20,7 @@ const Group = () => {
   const [selectedGroup, setSelectedGroup] = useState(null)
   const [groupForm, setGroupForm] = useState(false)
   const [groupClasses, setGroupClasses] = useState(false)
+  const [groupId, setGroupId] = useState(null)
 
   const showGroupResume = (group) => {
     if (!selectedGroup || selectedGroup.id !== group.id) {
@@ -51,7 +53,8 @@ const Group = () => {
     setGroupForm(!groupForm || selectedGroup || selectedStudent)
   }
 
-  const toggleGroupClasses = () => {
+  const toggleGroupClasses = (id) => {
+    setGroupId(id)
     setGroupClasses(!groupClasses)
     setGroupForm(false)
     setSelectedStudent(null)
@@ -97,6 +100,7 @@ const Group = () => {
               toggleGroupClasses={toggleGroupClasses}
               newGroups={groups}
             />
+            <Classes />
             <GroupCardProgress></GroupCardProgress>
             <br />
           </div>
@@ -121,7 +125,7 @@ const Group = () => {
               />
             )}
 
-            {groupClasses && <GroupClasses />}
+            {groupClasses && <ClassBuilder groupId={groupId} />}
           </div>
         </div>
       </div>

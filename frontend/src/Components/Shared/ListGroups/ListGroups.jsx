@@ -206,7 +206,7 @@ const ListGroups = ({
                           data-toggle='tooltip'
                           data-placement='bottom'
                           title='Assign Task'
-                          onClick={toggleGroupClasses}
+                          onClick={() => toggleGroupClasses(id)}
                         >
                           <FontAwesomeIcon icon={faListCheck} size='xl' />
                         </Badge>
