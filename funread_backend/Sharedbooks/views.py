@@ -6,6 +6,8 @@ from turtle import title
 from wsgiref import headers
 from .models import SharedBooks
 from .serializers import  SharedBooksSerializer
+from django.db import OperationalError
+from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
