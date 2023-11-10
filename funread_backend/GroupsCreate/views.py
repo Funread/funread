@@ -1,3 +1,4 @@
+from django.db import OperationalError
 from django.shortcuts import render
 import datetime
 from django.conf import settings
@@ -50,13 +51,20 @@ def listedCreateby(request, createdby):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         createdby = GroupsCreate.objects.filter(createdby=createdby)
-    except GroupsCreate.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    serializer = GorupsCreateSeralizer(createdby, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+        if createdby.exists():
+            serializer = GorupsCreateSeralizer(createdby, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
+    
 
 @ api_view(['POST'])
 def deletegroup(request):
@@ -71,6 +79,11 @@ def deletegroup(request):
         Groups = GroupsCreate.objects.get(id= request.data.get('idgroup'))
     except GroupsCreate.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
     Groups.isactive = 0
     Groups.save()
     return Response("group successfully deleted", status=status.HTTP_200_OK)

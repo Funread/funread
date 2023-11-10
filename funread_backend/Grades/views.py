@@ -9,6 +9,9 @@ import sys
 sys.path.append('funread_backend')
 import verifyJwt
 
+from django.http import JsonResponse
+from django.db import OperationalError
+
 # Create your views here.
 #---------------------POST para insertar------------------
 @api_view(['POST'])
@@ -61,6 +64,11 @@ def gradechange(request):
         grade = Grades.objects.get(gradesid=idgrade)
     except Grades.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
     bookid = grade.booksid.pk
     userid = grade.userid.pk
     if request.data.get('bookid') is not None:
@@ -127,12 +135,18 @@ def readgradeid(request):
     # serializer = GradeSerializer(grade, many=True)
     # return Response(serializer.data)
     try:
-        GradesInst = Grades.objects.filter(userid= request.data.get('student')).exclude(isactive=0)
-    except Grades.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = GradeSerializer(GradesInst, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
+        GradesInst = Grades.objects.filter(userid=request.data.get('student')).exclude(isactive=0)
+        if GradesInst.exists():
+            serializer = GradeSerializer(GradesInst, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
+    
 @ api_view(['PUT'])
 def deletegrade(request):
 
@@ -147,6 +161,11 @@ def deletegrade(request):
         Grade = Grades.objects.get(gradesid= request.data.get('idgrade'))
     except Grades.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
     Grade.isactive = 0
     Grade.save()
     return Response("grade successfully deleted", status=status.HTTP_200_OK)

@@ -14,6 +14,10 @@ import sys
 sys.path.append('funread_backend')
 import verifyJwt
 
+from django.http import JsonResponse
+from django.db import OperationalError
+
+
 # Create your views here.
 #----------------Metodo que me devuelve la lista de objetos---------------#
 @ api_view(['GET'])
@@ -46,6 +50,11 @@ def filesearch(request, namefile):
         print()
     except File.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
     serializer = FileSerializer(file)
     return Response(serializer.data, status=status.HTTP_200_OK)
 

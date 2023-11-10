@@ -16,6 +16,9 @@ import sys
 sys.path.append('funread_backend')
 import verifyJwt
 
+from django.http import JsonResponse
+from django.db import OperationalError
+
 # Create your views here.
 
 @api_view(['POST'])
@@ -83,6 +86,12 @@ def FolderSearch(request, nameFolders):
         print(folder)
     except Folder.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
+
     serializer = FolderSerializer(folder)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
