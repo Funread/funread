@@ -29,7 +29,6 @@ const BookCreator = () => {
   const [savedPages, setSavedPages] = useState(new Set())
   const location = useLocation();
   const book=location.state.data;
-  console.log(location.state.data);
    initialPage.bookid=book.bookid;
  
   // Agregar una diapositiva
