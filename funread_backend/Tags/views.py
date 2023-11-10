@@ -41,7 +41,7 @@ def new_tags(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    return Response("Descripcion ya existe", status=status.HTTP_400_BAD_REQUEST)
 
 #-------------------Method GET------------------------------------------------#
 @ api_view(['GET'])
