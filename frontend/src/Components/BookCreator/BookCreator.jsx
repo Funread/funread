@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { useLocation } from "react-router-dom";
 
 const initialPage = {
-  bookid: 1,
+  bookid: 0,
   type: 0,
   template: 0,
   elementorder: 0,
@@ -28,8 +28,10 @@ const BookCreator = () => {
   const [pages, setPages] = useState([])
   const [savedPages, setSavedPages] = useState(new Set())
   const location = useLocation();
+  const book=location.state.data;
   console.log(location.state.data);
-
+   initialPage.bookid=book.bookid;
+ 
   // Agregar una diapositiva
   const addSlide = () => {
     const newSlideId = Math.max(...slides.map((slide) => slide.id)) + 1
@@ -118,7 +120,10 @@ const BookCreator = () => {
           <SidebarLeftTopTop />
 
           <div className='col p-0 mx-auto'>
-            <NavbarButtons saveSlides={saveSlides} />
+            <NavbarButtons
+             saveSlides={saveSlides}
+             titleBook={book.title}
+             />
             <div className='scroll'>
               <Carousel slides={slides} onAddSlide={addSlide} />
               <Slide
