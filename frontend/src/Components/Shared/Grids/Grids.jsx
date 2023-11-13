@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react'
 import './Grids.sass'
 import { useDrop } from 'react-dnd'
@@ -6,6 +7,7 @@ import ReverseUniqueSelection from '../../Widgets/Quiz/ReverseQuiz/ReverseUnique
 import Video from '../../Widgets/Media/Video/Video'
 import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
 import Box from '../../Widgets/Text/TextBox'
+import { ToastContainer, toast } from 'react-toastify'
 
 const widgetTypeToComponent = {
   UniqueSelection: UniqueSelection,
@@ -16,7 +18,9 @@ const widgetTypeToComponent = {
 }
 
 const Grids = ({ direction, numRows }) => {
-  const [droppedWidgets, setDroppedWidgets] = useState(Array(numRows).fill([]))
+  const [droppedWidgets, setDroppedWidgets] = useState(Array.from({ length: numRows }, () => []))
+  const [isDroppable, setIsDroppable] = useState(true);
+
   const divID = useRef()
 
   useEffect(() => {
@@ -41,9 +45,25 @@ const Grids = ({ direction, numRows }) => {
   }, [])
 
   const [, drop] = useDrop(() => ({
+
+
     accept: Object.keys(widgetTypeToComponent),
+
     drop: (droppedWidget) => {
-      if (divID.current !== null) {
+      if (droppedWidget.type === 'UniqueSelection' && ( direction === 'collage' || direction === 'quadruple')) {
+
+        toast.error('Try another grid');
+        setIsDroppable(false);
+        return;
+      }
+      if (droppedWidget.type === 'ReverseUniqueSelection' && (direction === 'collage' || direction === 'quadruple')) {
+
+        toast.error('Try another grid');
+        setIsDroppable(false);
+        return;
+      }
+
+      else if(divID.current !== null) {
         setDroppedWidgets((prevDroppedWidgets) => {
           const updatedDroppedWidgets = [...prevDroppedWidgets]
           updatedDroppedWidgets[divID.current] = [
@@ -51,33 +71,35 @@ const Grids = ({ direction, numRows }) => {
             droppedWidget,
           ]
           return updatedDroppedWidgets
+
         })
+        setIsDroppable(true);
       }
+
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
+
   }))
 
   return (
+
+
     <section className={`layout ${direction}`} ref={drop}>
       {Array.from({ length: numRows }).map((_, index) => (
-        <div id={index} className='custom-grid-component' key={index}>
-          {Array.isArray(droppedWidgets[index]) &&
-            droppedWidgets[index].map(
-              (widget, widgetIndex) =>
-                widgetTypeToComponent[widget.type] && (
-                  <div key={widgetIndex}>
-                    {React.createElement(
-                      widgetTypeToComponent[widget.type],
-                      {}
-                    )}
-                  </div>
-                )
+        <div id={index} className={`custom-grid-component`} key={index}>
+          {droppedWidgets[index] && // Check if the array exists
+            droppedWidgets[index][0] && // Check if the array has at least one element
+            React.createElement(
+              widgetTypeToComponent[droppedWidgets[index][0].type],
+              {},
             )}
         </div>
       ))}
     </section>
+
+
   )
 }
 
