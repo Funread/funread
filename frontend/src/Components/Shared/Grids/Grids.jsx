@@ -6,6 +6,7 @@ import ReverseUniqueSelection from '../../Widgets/Quiz/ReverseQuiz/ReverseUnique
 import Video from '../../Widgets/Media/Video/Video'
 import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
 import Box from '../../Widgets/Text/TextBox'
+import CodeBlock from '../../Widgets/CodeBlock/CodeBlock'
 
 const widgetTypeToComponent = {
   UniqueSelection: UniqueSelection,
@@ -13,7 +14,9 @@ const widgetTypeToComponent = {
   Video: Video,
   AudioRecorder: AudioRecorder,
   Box: Box,
+  CodeBlock: CodeBlock,
 }
+
 
 const Grids = ({ direction, numRows }) => {
   const [droppedWidgets, setDroppedWidgets] = useState(Array(numRows).fill([]))
