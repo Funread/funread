@@ -29,9 +29,13 @@ def listed(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    sharedBooks = SharedBooks.objects.all()
-    serializer = SharedBooksSerializer (sharedBooks, many=True)
-    return Response(serializer.data)
+    try:
+        sharedBooks = SharedBooks.objects.all()
+        serializer = SharedBooksSerializer (sharedBooks, many=True)
+        return Response(serializer.data)
+    except OperationalError:
+       return JsonResponse({"error": "La base de datos no está disponible en este momento. Intentelo de nuevo más tarde."},status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
 
 #Metodo para buscar una variable por nombre
 @api_view(['GET'])
