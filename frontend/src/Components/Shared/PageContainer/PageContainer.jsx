@@ -4,10 +4,12 @@ import { useDrop } from 'react-dnd'
 import Grids from '../Grids/Grids'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { fa0, faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas'
 import { ToastContainer, toast } from 'react-toastify'
 import AnswerQuiz from '../../Widgets/Quiz/UniqueSelection/AnswerQuiz'
+import UniqueSelection from '../../Widgets/Quiz/UniqueSelection/UniqueSelection'
+import Box from '../../Widgets/Text/TextBox'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
@@ -88,29 +90,9 @@ const PageContainer = ({
     setSelectedWidget(true);
     setIsFullScreen(true);
     setFullScreenButtonVisible(true);
-    // Verifica si el elemento con el ID existe antes de acceder a su 'innerHTML'
-    const pageContainerElement = document.getElementById(`pageContainer-${pageNumber}`);
-    if (pageContainerElement) {
-      // Guarda el contenido original antes de entrar en modo de pantalla completa
-      setOriginalContent(pageContainerElement.innerHTML);
-    }
+
   };
-
-
-
-  const handleExitFullScreen = () => {
-    toggleButtonVisibility(true);
-    handle.exit();
-    setSelectedWidget(null);
-    setIsFullScreen(false);
-    // Verifica si el elemento con el ID existe antes de restaurar su 'innerHTML'
-    const pageContainerElement = document.getElementById(`pageContainer-${pageNumber}`);
-    if (pageContainerElement) {
-      // Restaura el contenido original al salir del modo de pantalla completa
-      pageContainerElement.innerHTML = originalContent;
-      setFullScreenButtonVisible(false);
-    };
-  }
+  console.log(FullScreen)
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -143,23 +125,13 @@ const PageContainer = ({
                   </button>
 
 
-                  <button
-                    id='btnDivs'
-                    onClick={handleExitFullScreen}
-                    style={{ backgroundColor: 'rgb(182, 214, 242)' }}
-                  >
-                    <FontAwesomeIcon icon={faTrash} /> 
-                    <i className='fa fa-EyeSlash'></i> 
-                  </button>
-
                 </div>
               </div>
               {isFullScreen ? (
-                <div className='custom-answer-quiz-card'>
-                  {selectedWidget && (
-                    <AnswerQuiz  isFullScreen={isFullScreen}
-                    footer={selectedWidget?.footer || null}  />
-                  )}
+                <div  id={`pageContainer-${pageNumber}`}
+                className='card-body custom-card-body-page-container p-0'>
+                  <Box Screen={isFullScreen} />
+
                 </div>
               ) : (
                 <div
@@ -177,14 +149,17 @@ const PageContainer = ({
                       }
                     )}
                 </div>
+
               )}
             </div>
           </FullScreen>
           <ToastContainer position='top-right' />
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 
 export default PageContainer
+
+

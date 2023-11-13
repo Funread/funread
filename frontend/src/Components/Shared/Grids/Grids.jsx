@@ -7,6 +7,7 @@ import ReverseUniqueSelection from '../../Widgets/Quiz/ReverseQuiz/ReverseUnique
 import Video from '../../Widgets/Media/Video/Video'
 import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
 import Box from '../../Widgets/Text/TextBox'
+import { ToastContainer, toast } from 'react-toastify'
 
 const widgetTypeToComponent = {
   UniqueSelection: UniqueSelection,
@@ -42,8 +43,12 @@ const Grids = ({ direction, numRows }) => {
   }, [])
 
   const [, drop] = useDrop(() => ({
+   
+
     accept: Object.keys(widgetTypeToComponent),
+    
     drop: (droppedWidget) => {
+      
       if (divID.current !== null) {
         setDroppedWidgets((prevDroppedWidgets) => {
           const updatedDroppedWidgets = [...prevDroppedWidgets]
@@ -62,6 +67,8 @@ const Grids = ({ direction, numRows }) => {
 
   return (
     <section className={`layout ${direction}`} ref={drop}>
+
+    
       {Array.from({ length: numRows }).map((_, index) => (
         <div id={index} className='custom-grid-component' key={index}>
           {Array.isArray(droppedWidgets[index]) && //sobreescritura
@@ -78,7 +85,9 @@ const Grids = ({ direction, numRows }) => {
             )}
         </div>
       ))}
+       
     </section>
+    
   )
 }
 

@@ -11,7 +11,7 @@ const MAX_RESPONSES = 6
 
 const widgetType = 'widgetType'
 
-const UniqueSelection = ({ saveData }) => {
+const UniqueSelection = ({ saveData, isFullScreen,header }) => {
   const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill('')) // Inicia con dos respuestas mínimo
   const [isAddingResponses, setIsAddingResponses] = useState(true)
 
@@ -101,41 +101,51 @@ const UniqueSelection = ({ saveData }) => {
                 </div>
               </div>
             </div> */}
-
+  {header !== null && (
             <div className='responses-unique-selection-grid mx-auto mt-3'>
               {responses.map((response, index) => (
                 <AnswerQuiz
                   key={index}
                   value={response}
                   onChange={(value) => handleResponseChange(index, value)}
+                  isFullScreen={isFullScreen}
                 />
               ))}
             </div>
-            <button
-              className={`custom-unique-selection-button ${
-                isAddingResponses ? 'adding' : 'removing'
-              }`}
-              onClick={toggleAddingResponses}
-            >
-              <div className='button-unique-selection-content'>
-                <div className='button-unique-selection-icon'>
-                  {isAddingResponses ? (
-                    <FontAwesomeIcon size='lg' icon={faPlus} />
-                  ) : (
-                    <FontAwesomeIcon size='lg' icon={faMinus} />
-                  )}
+ )}
+
+            {isFullScreen ? null : (
+              <button
+                className={`custom-unique-selection-button ${isAddingResponses ? 'adding' : 'removing'
+                  }`}
+                onClick={toggleAddingResponses}
+              >
+                <div className='button-unique-selection-content'>
+                  <div className='button-unique-selection-icon'>
+                    {isAddingResponses ? (
+                      <FontAwesomeIcon size='lg' icon={faPlus} />
+                    ) : (
+                      <FontAwesomeIcon size='lg' icon={faMinus} />
+                    )}
+                  </div>
+                  <div className='button-unique-selection-text'>
+                    {isAddingResponses
+                      ? 'Add more answers'
+                      : 'Remove additional answers'}
+                  </div>
                 </div>
-                <div className='button-unique-selection-text'>
-                  {isAddingResponses
-                    ? 'Add more answers'
-                    : 'Remove additional answers'}
-                </div>
-              </div>
-            </button>
+              </button>
+
+            )}
+
+            
           </div>
         </div>
       </div>
+
     </div>
+
+   
   )
 }
 

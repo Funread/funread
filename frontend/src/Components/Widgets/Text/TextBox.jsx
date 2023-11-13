@@ -3,7 +3,7 @@ import { useDrag } from 'react-dnd'
 
 const widgetType = 'widgetType'
 
-const Box = () => {
+const Box = (Screen) => {
   const [text, setText] = useState('Lorem Ipsum')
 
   const [{ isDragging }, drag] = useDrag({
@@ -18,12 +18,25 @@ const Box = () => {
     const newText = e.target.value
     setText(newText)
   }
+console.log(Screen)
+
 
   return (
     <div ref={drag}>
-      <textarea value={text} onChange={handleTextChange} />
+
+      {Screen ? (
+     <textarea value={text} onChange={handleTextChange} />
+      
+      ):
+
+       (
+
+        <p> {text} </p>
+       
+   
+      )
+      }
     </div>
   )
 }
-
 export default Box

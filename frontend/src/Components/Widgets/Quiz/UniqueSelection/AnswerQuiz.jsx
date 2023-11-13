@@ -8,7 +8,7 @@ const AnswerQuiz = ({ value, onChange,header,footer,isFullScreen }) => {
   return (
     <div className='custom-answer-quiz-card'>
 
-        <div className={`custom-quiz-card-header ${isFullScreen ? 'fullscreen' : ''}`}>
+        <div className='custom-quiz-card-header'>
           <button className='icon-button'>
             <img src='/imagenes/quiz/rubik.png' alt='icon' />
           </button>
@@ -22,10 +22,10 @@ const AnswerQuiz = ({ value, onChange,header,footer,isFullScreen }) => {
             />
           </div>
         </div>
+ 
 
 
-
-    {footer !== null && (
+{isFullScreen ? null : (
         <div className='custom-quiz-card-footer'>
        
             <div className='additional-options'>
