@@ -33,7 +33,7 @@ const ListGroups = ({
   toggleSidebar,
   showGroupResume,
   newGroups,
-  toggleGroupClasses,
+  handleClassesComponent,
 }) => {
   const [key, setKey] = useState('#1')
   const [teacher, setTeacher] = useState(initialState)
@@ -206,7 +206,7 @@ const ListGroups = ({
                           data-toggle='tooltip'
                           data-placement='bottom'
                           title='Assign Task'
-                          onClick={() => toggleGroupClasses(id)}
+                          onClick={() => handleClassesComponent(id)}
                         >
                           <FontAwesomeIcon icon={faListCheck} size='xl' />
                         </Badge>

@@ -59,7 +59,7 @@ const ClassesList = () => {
                   <FontAwesomeIcon icon={faEllipsisVertical} />
                 </button>
               </div>
-              <hr className='m-0' />
+
               <BookDropArea
                 activityId={activity.classesId}
                 droppedBooks={droppedBooks[activity.classesId] || []}

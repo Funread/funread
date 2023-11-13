@@ -21,6 +21,7 @@ const Group = () => {
   const [groupForm, setGroupForm] = useState(false)
   const [groupClasses, setGroupClasses] = useState(false)
   const [groupId, setGroupId] = useState(null)
+  const [showClasses, setShowClasses] = useState(false)
 
   const showGroupResume = (group) => {
     if (!selectedGroup || selectedGroup.id !== group.id) {
@@ -53,8 +54,7 @@ const Group = () => {
     setGroupForm(!groupForm || selectedGroup || selectedStudent)
   }
 
-  const toggleGroupClasses = (id) => {
-    setGroupId(id)
+  const toggleGroupClasses = () => {
     setGroupClasses(!groupClasses)
     setGroupForm(false)
     setSelectedStudent(null)
@@ -63,6 +63,11 @@ const Group = () => {
 
   const handleGroupCreated = (newGroup) => {
     setGroups([...groups, newGroup])
+  }
+
+  const handleClassesComponent = (id) => {
+    setGroupId(id)
+    setShowClasses(!showClasses)
   }
 
   return (
@@ -97,10 +102,11 @@ const Group = () => {
             <ListGroups
               toggleSidebar={toggleSidebar}
               showGroupResume={showGroupResume}
-              toggleGroupClasses={toggleGroupClasses}
               newGroups={groups}
+              handleClassesComponent={handleClassesComponent}
             />
-            <Classes />
+            {showClasses && <Classes toggleGroupClasses={toggleGroupClasses} />}
+
             <GroupCardProgress></GroupCardProgress>
             <br />
           </div>
