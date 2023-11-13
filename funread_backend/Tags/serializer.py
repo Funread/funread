@@ -12,5 +12,6 @@ class TagsSerializer(serializers.ModelSerializer):
         return Tags.objects.create(**validated_data)
 
     def update(self, instance , validated_data):
-        instance.description = validated_data.get('description' , instance.description).lower()
+        instance.description = validated_data.get('description' , instance.description)
+        instance.descriptionn = validated_data.get('descriptionn' , instance.descriptionn)
         instance.save()
