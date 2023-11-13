@@ -19,6 +19,7 @@ import ReverseUniqueSelection from '../../Widgets/Quiz/ReverseQuiz/ReverseUnique
 import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
 import Video from '../../Widgets/Media/Video/Video'
 import Box from '../../Widgets/Text/TextBox'
+import WidgetTypeEnum from '../../Utils/Enums/WidgetTypeEnum'
 
 const SidebarLeftTopTop = () => {
   const [isExpanded, setExpendState] = useState(true)
@@ -97,6 +98,7 @@ const SidebarLeftTopTop = () => {
           id: 1,
           image: '/imagenes/widgets/text.png',
           widget: <Box />,
+          widgetType: WidgetTypeEnum.Text,
         },
       ],
     },
@@ -108,11 +110,13 @@ const SidebarLeftTopTop = () => {
           id: 1,
           image: '/imagenes/widgets/audio.png',
           widget: <AudioRecorder />,
+          widgetType: WidgetTypeEnum.Media,
         },
         {
           id: 2,
           image: '/imagenes/widgets/video.png',
           widget: <Video />,
+          widgetType: WidgetTypeEnum.Media,
         },
       ],
     },
@@ -129,11 +133,13 @@ const SidebarLeftTopTop = () => {
           id: 1,
           image: '/imagenes/widgets/quiz.png',
           widget: <UniqueSelection />,
+          widgetType: WidgetTypeEnum.Quiz,
         },
         {
           id: 2,
           image: '/imagenes/widgets/reverseQuiz.png',
           widget: <ReverseUniqueSelection />,
+          widgetType: WidgetTypeEnum.Quiz,
         },
       ],
     },
