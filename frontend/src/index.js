@@ -23,6 +23,7 @@ import Gallery from "./Components/GalleryCollage/Gallery";
 import WidgetImage from "./Components/Widgets/Media/Images/WidgetImage";
 import Lobby from "./Components/Lobby/Lobby";
 import Register from "./Components/Register/Register";
+import OpenaiDive from "./Components/OpenaiDive/OpenaiDive";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
@@ -116,6 +117,8 @@ root.render(
             <Route exact path="demo/image" element={<WidgetImage />} />
 
              <Route exact path="demo/wordsearchgame" element={<GameMode />} />
+
+             <Route exact path="demo/openai" element={<OpenaiDive />} />
 
             {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
 
