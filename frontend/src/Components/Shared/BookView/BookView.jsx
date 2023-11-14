@@ -1,14 +1,27 @@
-import './BookView.sass'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import './BookView.sass'
+import BookPreview from '../BookPreview/BookPreview'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faX } from '@fortawesome/free-solid-svg-icons'
 
 const getImage = 'http://localhost:8000'
 
 const BookView = ({ book }) => {
   const navigate = useNavigate()
-
   const bookImage = book.portrait
     ? `${getImage}${book.portrait}`
     : './imagenes/no-image.png'
+
+  const [modoPresentacion, setModoPresentacion] = useState(false)
+
+  const activarModoPresentacion = () => {
+    setModoPresentacion(true)
+  }
+
+  const desactivarModoPresentacion = () => {
+    setModoPresentacion(false)
+  }
 
   const handleEditBook = () => {
     navigate('/bookcreator', {
@@ -39,7 +52,21 @@ const BookView = ({ book }) => {
         className='button-section'
         style={{ marginTop: 'auto', marginBottom: '30px' }}
       >
-        <button className='button'>Botón 1</button>
+        <button className='button-preview' onClick={activarModoPresentacion}>
+          Preview
+        </button>
+
+        {modoPresentacion && (
+          <div className='modal-overlay-preview'>
+            <button
+              className='close-button'
+              onClick={desactivarModoPresentacion}
+            >
+              <FontAwesomeIcon size='lg' icon={faX} />
+            </button>
+            <BookPreview title={book.title} />
+          </div>
+        )}
         <button className='button' onClick={handleEditBook}>
           Edit
         </button>

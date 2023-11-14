@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./index.sass";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,7 +21,7 @@ import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorM
 import UniqueSelection from "./Components/Widgets/Quiz/UniqueSelection/UniqueSelection";
 import Gallery from "./Components/GalleryCollage/Gallery";
 import WidgetImage from "./Components/Widgets/Media/Images/WidgetImage";
-import Lobby from "./Components/Lobby/Lobby";
+import About from "./Components/About/About";
 import Register from "./Components/Register/Register";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -111,6 +111,8 @@ root.render(
 
             <Route exact path="demo/quiz" element={<UniqueSelection />} />
 
+            <Route exact path="about" element={<About />} />
+
             <Route exact path="demo/Gallery2" element={<Gallery />} />
 
             <Route exact path="demo/image" element={<WidgetImage />} />
@@ -181,13 +183,8 @@ root.render(
                 }
               />
 
-              <Route
-                exact
-                path="/lobby"
-                element={
-                   <Lobby/>                  
-                }
-              />
+              
+             
             </Route>
           </Routes>
         </PersistGate>
