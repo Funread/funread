@@ -8,9 +8,10 @@ const Carousel = ({ slides, onAddSlide }) => {
   const handleAddSlide = () => {
     onAddSlide()
   }
-
-  function handleClick(id) {
-    window.location.href = `#pageContainer-${id}`;
+  
+  function handleClick(id) {    
+    const move = document.querySelector(`#pageContainer-${id}`)
+    move.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
   return (
     <div className='container-fluid m-0 navbar-carousel-custom-container'>

@@ -22,12 +22,15 @@ def google_translate(request):
         if not text_to_translate:
             return JsonResponse({'error': 'Debes proporcionar un texto para traducir.'}, status=400)
         
+        #Agregamos palabras extra para garantizar el limite de palabras
+        text_to_translate += ' 123 123'
+
         # Traducir el texto
         translator = Translator()
         translation = translator.translate(text_to_translate, dest=target_language)
         translated_text = translation.text
         
-        return JsonResponse({'translated_text': translated_text})
+        return JsonResponse({'translated_text': translated_text[:-8]})
     else:
         return JsonResponse({'error': 'Este endpoint solo admite solicitudes POST.'}, status=400)
     

@@ -1,6 +1,12 @@
 import './BookView.sass'
 
+const getImage = 'http://localhost:8000'
+
 const BookView = ({ title, description, portrait, author }) => {
+  const bookImage = portrait
+    ? `${getImage}${portrait}`
+    : './imagenes/no-image.png'
+
   return (
     <div
       className='mx-auto pt-5 text-white justify-content-center'
@@ -12,7 +18,7 @@ const BookView = ({ title, description, portrait, author }) => {
       </div>
 
       <div className='book-image'>
-        <img src={portrait} width={170} height={300} alt='portrait' />
+        <img src={bookImage} width={170} height={300} alt='portrait' />
       </div>
 
       <div className='book-description'>
