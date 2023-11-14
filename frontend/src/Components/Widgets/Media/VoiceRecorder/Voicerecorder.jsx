@@ -1,10 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Modal from 'react-modal';
 import './voice.css';
 import { FaMicrophone, FaUpload } from 'react-icons/fa';
-import { useDrag } from 'react-dnd'
-
-const widgetType = 'widgetType';
 
 // Componente AudioPlayer
 function AudioPlayer({ audioUrl, updateAudioDuration }) {
@@ -15,7 +12,7 @@ function AudioPlayer({ audioUrl, updateAudioDuration }) {
 
   return (
     <audio className='audio-recorder-audio' controls onTimeUpdate={handleTimeUpdate}>
-      <source src={audioUrl} type='audio/wav' />
+      <source src={audioUrl} type='audio/mp3' />
       Tu navegador no admite la reproducción de audio.
     </audio>
   );
@@ -29,28 +26,41 @@ function AudioRecorder() {
   const mediaRecorder = useRef(null);
   const audioChunks = useRef([]);
   const audioElement = useRef(null);
-  const recordedAudio = useRef(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const recordedAudio = useRef(null);const [modalIsOpen, setModalIsOpen] = useState(false);
   const [uploadModalIsOpen, setUploadModalIsOpen] = useState(false);
   const [uploadedAudio, setUploadedAudio] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
   const [audioKey, setAudioKey] = useState(0);
 
+  useEffect(() => {
+    let intervalId;
+
+    if (recording) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer + 1);
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [recording]);
+
   const openModal = () => {
     setModalIsOpen(true);
-  }
+  };
 
   const openUploadModal = () => {
     setUploadModalIsOpen(true);
-  }
+  };
 
   const closeModal = () => {
     setModalIsOpen(false);
-  }
+  };
 
   const closeUploadModal = () => {
     setUploadModalIsOpen(false);
-  }
+  };
 
   const updateAudioDuration = (duration) => {
     setAudioDuration(duration);
@@ -69,75 +79,101 @@ function AudioRecorder() {
         setErrorMessage('El archivo seleccionado no es un archivo de audio válido.');
       }
     }
-  }
+  };
+
+  const handleTimeUpdate = (e) => {
+    const duration = e.target.duration;
+    updateAudioDuration(duration);
+  };
 
   const startRecording = () => {
     audioChunks.current = [];
     setTimer(0);
     setAudioUrl(null);
-
+  
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
         mediaRecorder.current = new MediaRecorder(stream);
-
+  
         mediaRecorder.current.ondataavailable = (e) => {
           if (e.data.size > 0) {
             audioChunks.current.push(e.data);
           }
-        }
-
-        mediaRecorder.current.onstart = () => {
-          setAudioDuration(0);
-        }
-
+        };
+  
         mediaRecorder.current.onstop = () => {
-          clearInterval(timerInterval);
-          const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
+          const audioBlob = new Blob(audioChunks.current, { type: 'audio/mp3' });
           const newAudioUrl = URL.createObjectURL(audioBlob);
-          setAudioUrl(newAudioUrl);
-          audioElement.current.src = newAudioUrl;
-          
-          // Forzar la actualización del reproductor de audio
-          audioElement.current.currentTime = 0;
-          
-          setRecording(false);
-          recordedAudio.current = audioBlob;
-        }
+  
+          // Comienza la carga asíncrona
+          fetch(newAudioUrl)
+            .then(response => response.blob())
+            .then(blob => {
+             
 
-        // Mover la lógica de inicio de grabación y temporizador después de actualizar audioUrl
+              setAudioUrl(newAudioUrl);
+              audioElement.current.src = newAudioUrl;
+              audioElement.current.load();
+  
+              audioElement.current.onloadedmetadata = () => {
+                setAudioDuration(audioElement.current.duration);
+              };
+  
+              setRecording(false);
+            })
+            .catch(error => {
+              console.error('Error durante la carga asíncrona:', error);
+              setErrorMessage('Error durante la carga asíncrona.');
+            });
+        };
+
         setRecording(true);
-
-        const timerInterval = setInterval(() => {
-          setTimer((prevTimer) => prevTimer + 1);
-        }, 1000);
-
         mediaRecorder.current.start();
       })
       .catch((error) => {
         console.error('Error al acceder al micrófono:', error);
         setErrorMessage('Error al acceder al micrófono. Asegúrate de otorgar los permisos necesarios.');
       });
-  }
+  };
+  
 
-  const stopRecording = () => {
-    if (mediaRecorder.current) {
-      mediaRecorder.current.stop();
-    }
-  }
 
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: widgetType,
-    item: { type: 'AudioRecorder' },
-    //La funcion collect es opcional
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }))
+
+
+
+const stopRecording = () => {
+  if (mediaRecorder.current) {
+    mediaRecorder.current.stop();
+
+    const audioBlob = new Blob(audioChunks.current, { type: 'audio/mp3' });
+    const newAudioUrl = URL.createObjectURL(audioBlob);
+
+    setAudioUrl(newAudioUrl);
+    setRecording(false);
+
+    // Cargar el audio
+    audioElement.current.src = newAudioUrl;
+    audioElement.current.load();
+
+    // Acceder automáticamente a la duración del audio cuando esté disponible
+    audioElement.current.onloadedmetadata = () => {
+      setAudioDuration(audioElement.current.duration);
+    };
+
+    // Capturar evento de carga completa (opcional)
+    audioElement.current.addEventListener('canplaythrough', () => {
+      console.log('El audio está completamente cargado y listo para reproducirse.');
+    });
+  }
+};
+
+
+
 
 
   return (
-    <div  ref={drag} style={{ border: isDragging ? '5px solid pink' : '0px' }}>
+    <div>
       <div className='card custom-voice-recorder-card'>
         <div className='custom-voice-recorder-body'>
           <button onClick={openUploadModal}>
@@ -154,8 +190,9 @@ function AudioRecorder() {
                 className='audio-recorder-audio'
                 controls
                 ref={audioElement}
+                onTimeUpdate={handleTimeUpdate}
               ></audio>
-             
+              <div className='timer'>Tiempo: {timer} segundos</div>
               <button
                 className='audio-recorder-button'
                 onClick={recording ? stopRecording : startRecording}
@@ -188,15 +225,10 @@ function AudioRecorder() {
                 {uploadedAudio && (
                   <div className='uploaded-audio-player'>
                     <h3>Audio cargado:</h3>
-                    <AudioPlayer  key={audioKey} audioUrl={uploadedAudio} updateAudioDuration={updateAudioDuration} />
+                    <AudioPlayer key={audioKey} audioUrl={uploadedAudio} updateAudioDuration={updateAudioDuration} />
                   </div>
                 )}
-                {audioUrl && (
-                  <div className='recorded-audio-player'>
-                    <h3>Audio grabado:</h3>
-                    <AudioPlayer audioUrl={audioUrl} updateAudioDuration={updateAudioDuration} />
-                  </div>
-                )}
+              
                 <div className='bot'>
                   <button className='sub' type='submit'>
                     Subir
@@ -211,7 +243,7 @@ function AudioRecorder() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default AudioRecorder;
