@@ -1,20 +1,17 @@
 import './CodeBlock.sass'
 import React, { useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { useDrag } from 'react-dnd'
-
-const widgetType = 'widgetType'
 
 const CodeBlock = ({ onWidgetChange, widgetId }) => {
   const [codeHTML, setCodeHTML] = useState('')
 
-  const [, drag] = useDrag({
-    type: widgetType,
-    item: { type: 'CodeBlock' },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  })
+  // const [, drag] = useDrag({
+  //   type: widgetType,
+  //   item: { type: 'CodeBlock' },
+  //   collect: (monitor) => ({
+  //     isDragging: !!monitor.isDragging(),
+  //   }),
+  // })
 
   const handleCodeChange = (e) => {
     const newCode = e.target.value
@@ -23,7 +20,7 @@ const CodeBlock = ({ onWidgetChange, widgetId }) => {
   }
 
   return (
-    <div ref={drag}>
+    <div>
       <Container>
         <Row>
           <Col>
@@ -34,9 +31,6 @@ const CodeBlock = ({ onWidgetChange, widgetId }) => {
                 placeholder='<p>Hello World!</p>'
                 onChange={handleCodeChange}
               />
-              <button className='custom-save-button-HTML' type='submit'>
-                Save
-              </button>
             </div>
           </Col>
         </Row>

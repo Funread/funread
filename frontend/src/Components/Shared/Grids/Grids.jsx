@@ -55,6 +55,11 @@ const Grids = ({ direction, numRows, widgetChange }) => {
           const updatedDroppedWidgets = [...prevDroppedWidgets]
           updatedDroppedWidgets[divID.current] = widgetWithId
 
+          console.log(
+            'divID.current - updatedDroppedWidgets',
+            divID.current,
+            updatedDroppedWidgets
+          )
           return updatedDroppedWidgets
         })
       }
@@ -72,22 +77,19 @@ const Grids = ({ direction, numRows, widgetChange }) => {
     <section className={`layout ${direction}`} ref={drop}>
       {Array.from({ length: numRows }).map((_, index) => (
         <div id={index} className='custom-grid-component' key={index}>
-          {widgetTypeToComponent[droppedWidgets[index]?.type] && (
-            <div>
-              {React.createElement(
-                widgetTypeToComponent[droppedWidgets[index].type],
-                {
-                  onWidgetChange: (data) =>
-                    widgetChange({
-                      ...data,
-                      widgetId: droppedWidgets[index].widgetId,
-                      order: index,
-                    }),
-                  widgetId: droppedWidgets[index].widgetId,
-                }
-              )}
-            </div>
-          )}
+          {widgetTypeToComponent[droppedWidgets[index]?.type] &&
+            React.createElement(
+              widgetTypeToComponent[droppedWidgets[index].type],
+              {
+                onWidgetChange: (data) =>
+                  widgetChange({
+                    ...data,
+                    widgetId: droppedWidgets[index].widgetId,
+                    order: index,
+                  }),
+                // widgetId: droppedWidgets[index].widgetId,
+              }
+            )}
         </div>
       ))}
     </section>
