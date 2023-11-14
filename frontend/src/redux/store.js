@@ -6,7 +6,7 @@ import userReducer from "./userSlice"
 
 // Configura un transformador de cifrado con una clave secreta
 const encryptor = encryptTransform({
-    secretKey: "j6WW6v8hc-zF}1}Wl&{)+Jadz3&!Uki&Zw'-wsJlJR}&gzzLkZ"
+    secretKey: process.env.REACT_APP_REDUX_ENCRYPT_KEY
     });
   
   const persistConfig = {

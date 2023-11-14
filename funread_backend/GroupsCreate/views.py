@@ -54,9 +54,12 @@ def listedCreateby(request, createdby):
         createdby = GroupsCreate.objects.filter(createdby=createdby)
     except GroupsCreate.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
-    serializer = GorupsCreateSeralizer(createdby, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    print(createdby)
+    if createdby.exists():
+        serializer = GorupsCreateSeralizer(createdby, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response("Archivo no encotrado", status=status.HTTP_404_NOT_FOUND)
 
 @ api_view(['POST'])
 def deletegroup(request):

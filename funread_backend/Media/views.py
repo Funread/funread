@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from .serializers import MediaSeralizer
 from .models import Media
 from rest_framework import status
+from Subtitled.views import save_subtitled
 import os
 import sys
 sys.path.append('funread_backend')
@@ -50,6 +51,8 @@ def save_File(request):
         file.name = str(id+1)
         file.file.name = str(id+1) + '.' + file.extension
         file.save()
+        if type == 3:
+            response = save_subtitled(file.file)
         serializer_response = MediaSeralizer(file)
         return Response(serializer_response.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -163,7 +166,7 @@ def change_file(request):
         file_request.name = str(old_file.name)+'.'+extension
         type = get_file_type(extension)
         if (type == 0):
-            return Response({'message':'Bad file extension: only png, jpg, jpeg, gif, bmp, webp, tiff, mp3, wav, ogg, flac, aac, midi, wma, cd, aif, aifc, aiff, pcm, m4a, mp4, avi, mkv, mov, wmv, flv'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message':'Bad file extension: only png, jpg, jpeg, gif, bmp, webp, tiff, mp3, wav, ogg, flac, aac, midi, wma, cd, aif, aifc, aiff, pcm, m4a, mp4, avi, mkv, mov, wmv, flv, opus'}, status=status.HTTP_400_BAD_REQUEST)
         data = {
             'name': old_file.name,
             'extension': extension,
@@ -182,7 +185,7 @@ def change_file(request):
 
 def get_file_type(extension):
     image_extensions = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'tiff'}
-    audio_extensions = {'mp3', 'wav', 'ogg', 'flac', 'aac','midi','wma','cd','aif','aifc','aiff','pcm','m4a'}
+    audio_extensions = {'mp3', 'wav', 'ogg', 'flac', 'aac','midi','wma','cd','aif','aifc','aiff','pcm','m4a','opus'}
     video_extensions = {'mp4', 'avi', 'mkv', 'mov', 'wmv', 'flv'}
 
     lowercase_extension = extension.lower()  # Convierte la extensión a minúsculas para ser insensible a mayúsculas/minúsculas.
