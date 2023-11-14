@@ -7,6 +7,11 @@
   margin: 150px auto;
 }
 
+
+
+
+
+
 @media screen and (max-width: 515px) {
   .Principal {
     height: 400px;
@@ -36,6 +41,22 @@
   height: 0px;
 }
 
+
+
+
+.timer
+{
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 7px;
+  width: 250px;
+  margin-left: 40px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  
+}
+
+
 /* Grabadora de voz */
 .audio-recorder-container {
   border: 2px solid #2b2b2b; /* Borde gris oscuro */
@@ -60,6 +81,7 @@
   cursor: pointer;
   margin-right: 10px;
   transition: background-color 0.2s;
+  margin-top: 10px;
 }
 
 .audio-recorder-container button:hover {
