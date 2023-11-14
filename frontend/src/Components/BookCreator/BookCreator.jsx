@@ -28,8 +28,8 @@ const BookCreator = () => {
   const [pages, setPages] = useState([])
   const [savedPages, setSavedPages] = useState(new Set())
   const location = useLocation();
-  const book=location.state.data;
-   initialPage.bookid=book.bookid;
+  //const book=location.state.data;
+   //initialPage.bookid=book.bookid;
  
   // Agregar una diapositiva
   const addSlide = () => {
@@ -121,7 +121,7 @@ const BookCreator = () => {
           <div className='col p-0 mx-auto'>
             <NavbarButtons
              saveSlides={saveSlides}
-             titleBook={book.title}
+            // titleBook={book.title}
              />
             <div className='scroll'>
               <Carousel slides={slides} onAddSlide={addSlide} />
