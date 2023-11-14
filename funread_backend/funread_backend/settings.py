@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     "Userroles",
     "BooksDilemma",
     "TranslateApp",
-
+    'Subtitled',
     
 
 
