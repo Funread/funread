@@ -18,6 +18,7 @@ const PageContainer = ({
   onRemoveSlides,
   updateImage,
   addOrUpdatePage,
+  widgetChange,
 }) => {
   const [buttonVisible, setButtonVisible] = useState(true)
   const [droppedComponent, setDroppedComponent] = useState(null)
@@ -100,7 +101,11 @@ const PageContainer = ({
 
                   {!handle.active && (
                     <div className='fullscreen-buttons'>
-                      <button id='btnDivs' onClick={handleEnterFullScreen} style={{backgroundColor: 'rgb(182, 214, 242)'}}>
+                      <button
+                        id='btnDivs'
+                        onClick={handleEnterFullScreen}
+                        style={{ backgroundColor: 'rgb(182, 214, 242)' }}
+                      >
                         <FontAwesomeIcon icon={faExpandArrowsAlt} />
                         <i className='fa fa-expand'></i>
                       </button>
@@ -109,7 +114,8 @@ const PageContainer = ({
 
                   <button
                     onClick={remove}
-                    id='btnDivs' style={{backgroundColor: 'rgb(255, 185, 204)'}}
+                    id='btnDivs'
+                    style={{ backgroundColor: 'rgb(255, 185, 204)' }}
                   >
                     <FontAwesomeIcon size='lg' icon={faTrash} />
                   </button>
@@ -128,6 +134,7 @@ const PageContainer = ({
                     {
                       direction: droppedComponent.direction,
                       numRows: droppedComponent.rows,
+                      widgetChange: widgetChange,
                     }
                   )}
               </div>

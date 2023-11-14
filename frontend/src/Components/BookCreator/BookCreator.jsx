@@ -11,6 +11,7 @@ import Slide from '../Shared/Slides/Slide'
 import { newPage } from '../../api/pages'
 import { ToastContainer, toast } from 'react-toastify'
 import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const initialPage = {
   bookid: 0,
@@ -27,6 +28,7 @@ const BookCreator = () => {
   const [slides, setSlides] = useState([{ id: 1, image: null }])
   const [pages, setPages] = useState([])
   const [savedPages, setSavedPages] = useState(new Set())
+  const [widgetSeleted, setWidgetSelected] = useState([])
   const location = useLocation()
   const book = location.state.data
   initialPage.bookid = book.bookid
@@ -92,6 +94,7 @@ const BookCreator = () => {
       for (const page of pages) {
         if (!savedPages.has(page.pageNumber)) {
           try {
+            console.log(page)
             await newPage(
               page.bookid,
               page.type,
@@ -112,6 +115,22 @@ const BookCreator = () => {
     }
   }
 
+  const widgetChange = (newValue) => {
+    setWidgetSelected((prevWidgets) => {
+      // Filtra los widgets que no están en la misma posición que el nuevo widget
+      const updatedWidgets = prevWidgets.filter(
+        (widget) => widget.order !== newValue.order
+      )
+
+      // Agrega el nuevo widget al array actualizado
+      return [...updatedWidgets, newValue]
+    })
+  }
+
+  useEffect(() => {
+    console.log(widgetSeleted)
+  }, [widgetSeleted])
+
   return (
     <DndProvider backend={backend}>
       <div className='container-fluid bookCreator'>
@@ -127,6 +146,7 @@ const BookCreator = () => {
                 onRemoveSlides={removeSlide}
                 updateImage={updateImage}
                 addOrUpdatePage={addOrUpdatePage}
+                widgetChange={widgetChange}
               />
             </div>
           </div>
