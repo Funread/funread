@@ -1,4 +1,4 @@
-import { axiosAuth } from '../axiosInstances'
+import { axiosAuth } from './axiosInstances'
 
 export async function newWidgetItem(page, widget, type, value) {
   return axiosAuth().post('widget/widget/insertWidgetItem/', {

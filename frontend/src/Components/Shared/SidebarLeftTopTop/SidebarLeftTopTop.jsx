@@ -20,6 +20,7 @@ import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
 import Video from '../../Widgets/Media/Video/Video'
 import Box from '../../Widgets/Text/TextBox'
 import WidgetTypeEnum from '../../Utils/Enums/WidgetTypeEnum'
+import CodeBlock from '../../Widgets/CodeBlock/CodeBlock'
 
 const SidebarLeftTopTop = () => {
   const [isExpanded, setExpendState] = useState(true)
@@ -147,6 +148,17 @@ const SidebarLeftTopTop = () => {
       text: 'Games',
       icon: faGamepad,
       subItems: [],
+    },
+    {
+      text: 'Code Block',
+      icon: faA,
+      subItems: [
+        {
+          id: 1,
+          image: '/imagenes/widgets/widgetItem.png',
+          widget: <CodeBlock />,
+        },
+      ],
     },
   ]
 
