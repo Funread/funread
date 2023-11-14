@@ -39,10 +39,10 @@ const BookView = ({ book }) => {
         className='button-section'
         style={{ marginTop: 'auto', marginBottom: '30px' }}
       >
+        <button className='button'>Botón 1</button>
         <button className='button' onClick={handleEditBook}>
           Edit
         </button>
-        <button className='button'>Botón 2</button>
       </div>
     </div>
   )
