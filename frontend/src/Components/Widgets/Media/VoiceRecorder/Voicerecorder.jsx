@@ -2,8 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import Modal from 'react-modal';
 import './voice.css';
 import { FaMicrophone, FaUpload } from 'react-icons/fa';
+import { useDrag } from "react-dnd";
 
-// Componente AudioPlayer
+
+
+const widgetType = "widgetType";
+
 function AudioPlayer({ audioUrl, updateAudioDuration }) {
   const handleTimeUpdate = (e) => {
     const duration = e.target.duration;
@@ -168,12 +172,19 @@ const stopRecording = () => {
   }
 };
 
-
+const [{ isDragging }, drag] = useDrag(() => ({
+  type: widgetType,
+  item: { type: 'AudioRecorder' },
+  //La funcion collect es opcional
+  collect: (monitor) => ({
+    isDragging: !!monitor.isDragging(),
+  }),
+}))
 
 
 
   return (
-    <div>
+    <div   ref={drag} style={{ border: isDragging ? '5px solid pink' : '0px' }}>
       <div className='card custom-voice-recorder-card'>
         <div className='custom-voice-recorder-body'>
           <button onClick={openUploadModal}>
