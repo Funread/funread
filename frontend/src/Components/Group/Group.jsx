@@ -89,23 +89,25 @@ const Group = () => {
           </div>
         </div>
 
-        <div className='col-3 shadow rounded mobile-below-tap-group'>
-          {selectedStudent && (
-            <StudentCard
-              idStudent={selectedStudent?.userid}
-              name={selectedStudent?.name}
-              lastname={selectedStudent?.lastname}
-              idGroup={selectedStudent?.groupscreateid}
-            />
-          )}
-          {groupForm && <GroupBuilder updateGroup={handleGroupCreated} />}
-          {selectedGroup && (
-            <GroupView
-              id={selectedGroup?.id}
-              name={selectedGroup?.name}
-              idimage={selectedGroup?.idimage}
-            />
-          )}
+        <div className='col-3 mobile-below-tap-group'>
+          <div className='position_side shadow rounded'>
+            {selectedStudent && (
+              <StudentCard
+                idStudent={selectedStudent?.userid}
+                name={selectedStudent?.name}
+                lastname={selectedStudent?.lastname}
+                idGroup={selectedStudent?.groupscreateid}
+              />
+            )}
+            {groupForm && <GroupBuilder updateGroup={handleGroupCreated} />}
+            {selectedGroup && (
+              <GroupView
+                id={selectedGroup?.id}
+                name={selectedGroup?.name}
+                idimage={selectedGroup?.idimage}
+              />
+            )}
+          </div>
         </div>
       </div>
       <ToastContainer position='top-right' />
