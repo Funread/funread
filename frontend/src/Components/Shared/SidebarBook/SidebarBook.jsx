@@ -25,11 +25,7 @@ const SidebarBook = () => {
   }
 
   const menuItems = [
-    {
-      text: 'Lobby',
-      icon: faHome,
-      url: '/lobby',
-    },
+    
     {
       text: 'Library',
       icon: faBookOpen,
