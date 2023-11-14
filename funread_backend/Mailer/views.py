@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework import status
 import sys
 sys.path.append('funread_backend')
+import os
+from dotenv import load_dotenv
 import verifyJwt
 # Create your views here.
 
@@ -169,8 +171,8 @@ def updateMailControl(request):
 @api_view(['POST'])
 def sendEmail(request):
     # Configuración
-    smtp_username = 'funreadgreen@gmail.com'
-    smtp_password = 'vjbw ruvh oppe htbk'#'contraseña obtenida de la verificacion a dos pasos'
+    smtp_username = os.environ.get("MAIL_USER")
+    smtp_password = os.environ.get("MAIL_PASSWORD")#'vjbw ruvh oppe htbk'#'contraseña obtenida de la verificacion a dos pasos'
 
     message = MIMEMultipart()
     message['Subject'] = request.data.get('subjet')
