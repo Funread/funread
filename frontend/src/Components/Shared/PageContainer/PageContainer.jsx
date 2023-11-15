@@ -133,6 +133,7 @@ const PageContainer = ({
                   id={`pageContainer-${pageNumber}`}
                   className='card-body custom-card-body-page-container p-0'
                   ref={drop}
+                  
                 >
                 
                   {droppedComponent &&
