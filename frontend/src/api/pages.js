@@ -17,3 +17,7 @@ export async function newPage(
     gridNumRows: gridNumRows,
   })
 }
+
+export async function listallPages() {
+  return axiosAuth().get('pages/ listallPages/')
+}

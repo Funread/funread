@@ -17,9 +17,10 @@ const widgetTypeToComponent = {
   CodeBlock: CodeBlock,
 }
 
-
-const Grids = ({ direction, numRows }) => {
-  const [droppedWidgets, setDroppedWidgets] = useState(Array(numRows).fill([]))
+const Grids = ({ direction, numRows, widgetChange, pageNumber }) => {
+  const [droppedWidgets, setDroppedWidgets] = useState(
+    Array(numRows).fill(null)
+  )
   const divID = useRef()
 
   useEffect(() => {
@@ -47,12 +48,13 @@ const Grids = ({ direction, numRows }) => {
     accept: Object.keys(widgetTypeToComponent),
     drop: (droppedWidget) => {
       if (divID.current !== null) {
+        // Generar un ID único para el widget
+        const widgetWithId = { ...droppedWidget, widgetId: generateUniqueId() }
+
         setDroppedWidgets((prevDroppedWidgets) => {
           const updatedDroppedWidgets = [...prevDroppedWidgets]
-          updatedDroppedWidgets[divID.current] = [
-            ...(prevDroppedWidgets[divID.current] || []),
-            droppedWidget,
-          ]
+          updatedDroppedWidgets[divID.current] = widgetWithId
+
           return updatedDroppedWidgets
         })
       }
@@ -62,21 +64,27 @@ const Grids = ({ direction, numRows }) => {
     }),
   }))
 
+  const generateUniqueId = () => {
+    return Math.random().toString(36).substring(7)
+  }
+
   return (
     <section className={`layout ${direction}`} ref={drop}>
       {Array.from({ length: numRows }).map((_, index) => (
         <div id={index} className='custom-grid-component' key={index}>
-          {Array.isArray(droppedWidgets[index]) &&
-            droppedWidgets[index].map(
-              (widget, widgetIndex) =>
-                widgetTypeToComponent[widget.type] && (
-                  <div key={widgetIndex}>
-                    {React.createElement(
-                      widgetTypeToComponent[widget.type],
-                      {}
-                    )}
-                  </div>
-                )
+          {widgetTypeToComponent[droppedWidgets[index]?.type] &&
+            React.createElement(
+              widgetTypeToComponent[droppedWidgets[index].type],
+              {
+                onWidgetChange: (data) =>
+                  widgetChange({
+                    ...data,
+                    widgetId: droppedWidgets[index].widgetId,
+                    widgetType: droppedWidgets[index].widgetType,
+                    pageNumber: pageNumber,
+                    order: index,
+                  }),
+              }
             )}
         </div>
       ))}
