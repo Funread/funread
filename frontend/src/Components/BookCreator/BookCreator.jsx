@@ -9,6 +9,7 @@ import SidebarLeftTopTop from '../Shared/SidebarLeftTopTop/SidebarLeftTopTop'
 import Carousel from '../Shared/NavBarCarrousel/NavBarCarrousel'
 import Slide from '../Shared/Slides/Slide'
 import { newPage } from '../../api/pages'
+import { newWidgetItem } from '../../api/widget'
 import { ToastContainer, toast } from 'react-toastify'
 import { useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
@@ -27,11 +28,12 @@ const BookCreator = () => {
   const backend = isMobile ? TouchBackend : HTML5Backend
   const [slides, setSlides] = useState([{ id: 1, image: null }])
   const [pages, setPages] = useState([])
+  const [widgets, setWidgets]= useState([])
   const [savedPages, setSavedPages] = useState(new Set())
   const [widgetSeleted, setWidgetSelected] = useState([])
   const location = useLocation()
   const book = location.state.data
-  initialPage.bookid = book.bookid
+  initialPage.bookid = book.id
 
   // Agregar una diapositiva
   const addSlide = () => {
@@ -94,8 +96,7 @@ const BookCreator = () => {
       for (const page of pages) {
         if (!savedPages.has(page.pageNumber)) {
           try {
-            console.log(page)
-            await newPage(
+            const response = await newPage(
               page.bookid,
               page.type,
               page.template,
@@ -103,6 +104,10 @@ const BookCreator = () => {
               page.gridDirection,
               page.gridNumRows
             )
+            console.log(response.data)
+            //guardar aqui el widget de la pagina
+            //await newWidgetItem()
+
             toast.success(`Page ${page.pageNumber} added successfully`)
             savedPages.add(page.pageNumber)
           } catch (error) {

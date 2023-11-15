@@ -8,3 +8,7 @@ export async function newWidgetItem(page, widget, type, value) {
     value: value,
   })
 }
+
+export async function listedWidgetItems() {
+  return axiosAuth().get('widget/widget/listallWidgetItems/')
+}
