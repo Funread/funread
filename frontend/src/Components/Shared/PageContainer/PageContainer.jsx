@@ -19,15 +19,15 @@ const PageContainer = ({
   onRemoveSlides,
   updateImage,
   addOrUpdatePage,
+  widgetChange,
 }) => {
   const [buttonVisible, setButtonVisible] = useState(true)
   const [droppedComponent, setDroppedComponent] = useState(null)
   //Se crea la constante
   const [selectedWidget, setSelectedWidget] = useState(null)
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [originalContent, setOriginalContent] = useState(null);
-  const [fullScreenButtonVisible, setFullScreenButtonVisible] = useState(false);
-
+  const [isFullScreen, setIsFullScreen] = useState(false)
+  const [originalContent, setOriginalContent] = useState(null)
+  const [fullScreenButtonVisible, setFullScreenButtonVisible] = useState(false)
 
   useEffect(() => {
     captureImage()
@@ -71,9 +71,6 @@ const PageContainer = ({
     }),
   }))
 
-
-
-
   const remove = () => {
     onRemoveSlides(pageNumber)
     // setDroppedComponent(null)
@@ -86,15 +83,12 @@ const PageContainer = ({
   }
 
   const handleEnterFullScreen = () => {
-    toggleButtonVisibility(false);
-    handle.enter();
-    setSelectedWidget(true);
-    setIsFullScreen(true);
-    setFullScreenButtonVisible(true);
-  };
-
-
-
+    toggleButtonVisibility(false)
+    handle.enter()
+    setSelectedWidget(true)
+    setIsFullScreen(true)
+    setFullScreenButtonVisible(true)
+  }
 
   return (
     <div className='container-fluid'>
@@ -128,25 +122,24 @@ const PageContainer = ({
                   </button>
                 </div>
               </div>
-              
-                <div
-                  id={`pageContainer-${pageNumber}`}
-                  className='card-body custom-card-body-page-container p-0'
-                  ref={drop}
-                  
-                >
-                
-                  {droppedComponent &&
-                    widgetTypeToComponent[droppedComponent.type] &&
-                    React.createElement(
-                      widgetTypeToComponent[droppedComponent.type],
-                      {
-                        direction: droppedComponent.direction,
-                        numRows: droppedComponent.rows,
-                      }
-                    )}
-                </div>
-           
+
+              <div
+                id={`pageContainer-${pageNumber}`}
+                className='card-body custom-card-body-page-container p-0'
+                ref={drop}
+              >
+                {droppedComponent &&
+                  widgetTypeToComponent[droppedComponent.type] &&
+                  React.createElement(
+                    widgetTypeToComponent[droppedComponent.type],
+                    {
+                      direction: droppedComponent.direction,
+                      numRows: droppedComponent.rows,
+                      pageNumber: pageNumber,
+                      widgetChange: widgetChange,
+                    }
+                  )}
+              </div>
             </div>
           </FullScreen>
           <ToastContainer position='top-right' />

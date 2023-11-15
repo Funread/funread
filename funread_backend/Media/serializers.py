@@ -12,6 +12,7 @@ class MediaSeralizer(serializers.ModelSerializer):
         def update(self, instance , validated_data):
             instance.name = validated_data.get('name', instance.name)
             instance.extension = validated_data.get('extension', instance.extension)
-            instance.image = validated_data.get('image', instance.image)
+            instance.file = validated_data.get('file', instance.file)
+            instance.type = validated_data.get('type', instance.type)
             instance.save()
             return instance
