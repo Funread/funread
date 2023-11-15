@@ -17,7 +17,7 @@ const widgetTypeToComponent = {
   CodeBlock: CodeBlock,
 }
 
-const Grids = ({ direction, numRows, widgetChange }) => {
+const Grids = ({ direction, numRows, widgetChange, pageNumber }) => {
   const [droppedWidgets, setDroppedWidgets] = useState(
     Array(numRows).fill(null)
   )
@@ -55,11 +55,6 @@ const Grids = ({ direction, numRows, widgetChange }) => {
           const updatedDroppedWidgets = [...prevDroppedWidgets]
           updatedDroppedWidgets[divID.current] = widgetWithId
 
-          console.log(
-            'divID.current - updatedDroppedWidgets',
-            divID.current,
-            updatedDroppedWidgets
-          )
           return updatedDroppedWidgets
         })
       }
@@ -85,9 +80,10 @@ const Grids = ({ direction, numRows, widgetChange }) => {
                   widgetChange({
                     ...data,
                     widgetId: droppedWidgets[index].widgetId,
+                    widgetType: droppedWidgets[index].widgetType,
+                    pageNumber: pageNumber,
                     order: index,
                   }),
-                // widgetId: droppedWidgets[index].widgetId,
               }
             )}
         </div>

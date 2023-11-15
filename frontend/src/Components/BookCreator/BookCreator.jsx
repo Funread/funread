@@ -1,18 +1,17 @@
 import './BookCreator.sass'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { isMobile } from 'react-device-detect'
+import { ToastContainer, toast } from 'react-toastify'
 import NavbarButtons from '../Shared/NavbarButtons/NavbarButtons'
 import SidebarLeftTopTop from '../Shared/SidebarLeftTopTop/SidebarLeftTopTop'
 import Carousel from '../Shared/NavBarCarrousel/NavBarCarrousel'
 import Slide from '../Shared/Slides/Slide'
 import { newPage } from '../../api/pages'
-import { newWidgetItem } from '../../api/widget'
-import { ToastContainer, toast } from 'react-toastify'
-import { useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { newWidgetItem, listedWidgets } from '../../api/widget'
 
 const initialPage = {
   bookid: 0,
@@ -28,12 +27,24 @@ const BookCreator = () => {
   const backend = isMobile ? TouchBackend : HTML5Backend
   const [slides, setSlides] = useState([{ id: 1, image: null }])
   const [pages, setPages] = useState([])
-  const [widgets, setWidgets]= useState([])
+  const [widgets, setWidgets] = useState([])
   const [savedPages, setSavedPages] = useState(new Set())
   const [widgetSeleted, setWidgetSelected] = useState([])
   const location = useLocation()
   const book = location.state.data
   initialPage.bookid = book.id
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await listedWidgets()
+        setWidgets(response.data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+    fetchData()
+  }, [])
 
   // Agregar una diapositiva
   const addSlide = () => {
@@ -80,6 +91,7 @@ const BookCreator = () => {
         updatedPages.push({
           ...initialPage,
           pageNumber,
+          elementorder: pageNumber,
           gridDirection: direction,
           gridNumRows: numRows,
         })
@@ -104,10 +116,26 @@ const BookCreator = () => {
               page.gridDirection,
               page.gridNumRows
             )
-            console.log(response.data)
-            //guardar aqui el widget de la pagina
-            //await newWidgetItem()
 
+            const widgetsPageNumber =
+              widgetSeleted[response.data.elementorder].data
+
+            for (const widget of widgetsPageNumber) {
+              try {
+                widget.pageid = response.data.pageid
+                widget.widget = getWidgetId(widget)
+
+                const res = await newWidgetItem(
+                  widget.pageid,
+                  widget.widget,
+                  widget.widgetType,
+                  widget.data
+                )
+                console.log('res', res)
+              } catch (error) {
+                console.log(error)
+              }
+            }
             toast.success(`Page ${page.pageNumber} added successfully`)
             savedPages.add(page.pageNumber)
           } catch (error) {
@@ -122,19 +150,70 @@ const BookCreator = () => {
 
   const widgetChange = (newValue) => {
     setWidgetSelected((prevWidgets) => {
+      // Crea una copia del estado actual
+      const updatedWidgets = { ...prevWidgets }
+
+      // Verifica si ya hay widgets para la página actual
+      if (!updatedWidgets[newValue.pageNumber]) {
+        updatedWidgets[newValue.pageNumber] = { data: [] }
+      }
+
       // Filtra los widgets que no están en la misma posición que el nuevo widget
-      const updatedWidgets = prevWidgets.filter(
-        (widget) => widget.order !== newValue.order
-      )
+      updatedWidgets[newValue.pageNumber].data = updatedWidgets[
+        newValue.pageNumber
+      ].data.filter((widget) => widget.order !== newValue.order)
 
       // Agrega el nuevo widget al array actualizado
-      return [...updatedWidgets, newValue]
+      updatedWidgets[newValue.pageNumber].data.push(newValue)
+
+      return updatedWidgets
     })
   }
 
-  useEffect(() => {
-    console.log(widgetSeleted)
-  }, [widgetSeleted])
+  const getWidgetId = (widgetItem) => {
+    if (widgets) {
+      for (const widget of widgets) {
+        switch (widgetItem.type) {
+          case 'Box':
+            if (widget.name === 'Description') {
+              return widget.widgetid
+            }
+            break
+
+          case 'AudioRecorder':
+            if (widget.name === 'Audio') {
+              return widget.widgetid
+            }
+            break
+
+          case 'Video':
+            if (widget.name === 'Video') {
+              return widget.widgetid
+            }
+            break
+
+          case 'CodeBlock':
+            if (widget.name === 'Code') {
+              return widget.widgetid
+            }
+            break
+
+          case 'UniqueSelection' || 'ReverseUniqueSelection':
+            if (widget.name === 'Quiz') {
+              return widget.widgetid
+            }
+            break
+
+          default:
+            return 'No options'
+        }
+      }
+    }
+  }
+
+  // useEffect(() => {
+  //   console.log(widgetSeleted)
+  // }, [widgetSeleted])
 
   return (
     <DndProvider backend={backend}>

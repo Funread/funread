@@ -157,6 +157,7 @@ const SidebarLeftTopTop = () => {
           id: 1,
           image: '/imagenes/widgets/widgetItem.png',
           widget: <CodeBlock />,
+          widgetType: WidgetTypeEnum.Code,
         },
       ],
     },

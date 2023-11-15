@@ -134,6 +134,7 @@ const PageContainer = ({
                     {
                       direction: droppedComponent.direction,
                       numRows: droppedComponent.rows,
+                      pageNumber: pageNumber,
                       widgetChange: widgetChange,
                     }
                   )}
