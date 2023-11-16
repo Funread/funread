@@ -25,23 +25,29 @@ def new_group(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    image = 0
-    if request.data.get('image') is not None:
-        image = int(os.path.splitext(request.data.get('new_image').split('/')[-1])[0])
-    else:
-        image = 1
-    data = {
-        'name': request.data.get('name'),
-        'idimage': image,
-        'createdby': request.data.get('createdby'),
-        'createdat': datetime.datetime.now(),
-        'isactive' : 1
-    }
-    serializer = GorupsCreateSeralizer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        image = 0
+        if request.data.get('image') is not None:
+            image = int(os.path.splitext(request.data.get('new_image').split('/')[-1])[0])
+        else:
+            image = 1
+        data = {
+            'name': request.data.get('name'),
+            'idimage': image,
+            'createdby': request.data.get('createdby'),
+            'createdat': datetime.datetime.now(),
+            'isactive' : 1
+        }
+        serializer = GorupsCreateSeralizer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
 
 @api_view(['GET'])
 def listedCreateby(request, createdby):

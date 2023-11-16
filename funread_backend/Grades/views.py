@@ -23,20 +23,24 @@ def creategrade(request):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    data = {
-        'booksid': request.data.get('booksid'),
-        'progress': request.data.get('progress'),
-        'grade': request.data.get('grade'),
-        'userid': request.data.get('userid'),
-        'isactive': 1
-        }
-    serializer = GradeSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status = status.HTTP_201_CREATED)
-    return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-
+    try:
+        data = {
+            'booksid': request.data.get('booksid'),
+            'progress': request.data.get('progress'),
+            'grade': request.data.get('grade'),
+            'userid': request.data.get('userid'),
+            'isactive': 1
+            }
+        serializer = GradeSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+            return JsonResponse(
+                {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE
+            )
 
 
 #---------------------PUT para cambiar------------------
@@ -116,10 +120,15 @@ def readgrade(request):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    grade=Grades.objects.all().exclude(isactive=0)
-    serializer = GradeSerializer(grade, many=True)
-    return Response(serializer.data)
+    try:
+        grade=Grades.objects.all().exclude(isactive=0)
+        serializer = GradeSerializer(grade, many=True)
+        return Response(serializer.data)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
 
 @api_view(['POST'])
 def readgradeid(request):
