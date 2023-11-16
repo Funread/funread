@@ -175,7 +175,7 @@ DATABASES = {
     #       'authMechanism': 'SCRAM-SHA-1' # for cloud db
     #     }
     # }
-    'default': {
+     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ.get("SETTINGS_DATABSE_NAME"),
         'HOST': os.environ.get("SETTINGS_DATABSE_HOST"),
