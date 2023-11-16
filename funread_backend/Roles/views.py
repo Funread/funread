@@ -13,6 +13,7 @@ import hashlib
 import sys
 sys.path.append('funread_backend')
 import verifyJwt
+from django.db import OperationalError
 
 # Create your views here.
 
@@ -21,32 +22,38 @@ import verifyJwt
 def listed(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try: 
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    role = Roles.objects.all()
-    serializer = RolesSerializer(role, many=True)
-    return Response(serializer.data)
+     role = Roles.objects.all()
+     serializer = RolesSerializer(role, many=True)
+     return Response(serializer.data)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 #Metodo para buscar una variable por nombre
 @api_view(['GET'])
 def RolesSearch(request, role):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    try:
-        roles = Roles.objects.get(role=role)
-        print(roles)
+    
+     roles = Roles.objects.get(role=role)
+     print(roles)
     except Roles.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     serializer = RolesSerializer(roles)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -55,36 +62,42 @@ def RolesSearch(request, role):
 def new_role(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    print(request.data)
-    data = {
+     print(request.data)
+     data = {
         'role': request.data.get('role').lower(),
-    }
-    serializer = RolesSerializer(data=data)
-    if serializer.is_valid():
+     }
+     serializer = RolesSerializer(data=data)
+     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+     return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 #Elimina un elemento de la lista Roles
 @api_view(['DELETE'])
 def deleteRole(request, role):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    role = Roles.objects.get(role=role)
-    role.delete()
-    return Response(status=status.HTTP_200_OK)
+     role = Roles.objects.get(role=role)
+     role.delete()
+     return Response(status=status.HTTP_200_OK)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 #Metodo para mostrar todos los elementos de la lista UserRoles
@@ -132,18 +145,21 @@ def deleteRole(request, role):
 def roleupdate(request, role):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    role = Roles.objects.get(role=role)
-    serializer = RolesSerializer(role, data=request.data)
-    if serializer.is_valid():
+     role = Roles.objects.get(role=role)
+     serializer = RolesSerializer(role, data=request.data)
+     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 #Elimina un elemento de la lista UserRoles
