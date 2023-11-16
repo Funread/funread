@@ -12,21 +12,22 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'z*q#84&=4o14&)-z@uy-*dox9%_o7@%e*ls3obq8@8$u^m+5x9'
+SECRET_KEY = os.environ.get("SETTINGS_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [os.environ.get("SETTINGS_ALLOWED_HOSTS")]
 
 
 # Application definition
@@ -68,7 +69,7 @@ INSTALLED_APPS = [
     "Userroles",
     "BooksDilemma",
     "TranslateApp",
-
+    'Subtitled',
     
 
 
@@ -113,10 +114,10 @@ MIDDLEWARE = [
 # CORS_ORIGIN_ALLOW_ALL=True
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+    os.environ.get("SETTINGS_CORS_ALLOWED_HOSTS"),
 ]
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
+    os.environ.get("EJEMSETTINGS_CORS_ALLOWED_HOSTSPLOA"),
 ]
 
 CORS_ALLOW_METHODS = [
@@ -174,7 +175,7 @@ DATABASES = {
     #       'authMechanism': 'SCRAM-SHA-1' # for cloud db
     #     }
     # }
-    'default': {
+     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ.get("SETTINGS_DATABSE_NAME"),
         'HOST': os.environ.get("SETTINGS_DATABSE_HOST"),

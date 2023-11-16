@@ -12,43 +12,51 @@ import hashlib
 import sys
 sys.path.append('funread_backend')
 import verifyJwt
+from django.db import OperationalError
 
 @api_view(['POST'])
 def new_widget(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    print(request.data)
-    data = {
+     print(request.data)
+     data = {
         'type': request.data.get('type'),
         'name': request.data.get('name')
-    }
-    serializer = WidgetSerializer(data=data)
-    if serializer.is_valid():
+     }
+     serializer = WidgetSerializer(data=data)
+     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+     
+     
 @api_view(['GET'])
 def widgetSearch(request, widgetid):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    try:
-        widget = Widget.objects.get(widgetid=widgetid)
-        print(widget)
+    
+     widget = Widget.objects.get(widgetid=widgetid)
+     print(widget)
     except Widget.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     serializer = WidgetSerializer(widget)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -56,85 +64,102 @@ def widgetSearch(request, widgetid):
 def widgetChange(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    try:
-        dataRequest = {
+    
+     dataRequest = {
             'widgetid': request.data.get('widgetid'),
-        }
-        widgetidSe = dataRequest.get('widgetid')
-        widget = Widget.objects.get(widgetid=widgetidSe)
+     }
+     widgetidSe = dataRequest.get('widgetid')
+     widget = Widget.objects.get(widgetid=widgetidSe)
     except Widget.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-    data = {
+    try:
+     data = {
         'type': request.data.get('type'),
         'name': request.data.get('name')
-    }
-    serializer = WidgetSerializer(widget, data=data)
-    if serializer.is_valid():
+     }
+     serializer = WidgetSerializer(widget, data=data)
+     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @ api_view(['GET'])
 def listedWidget(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    widget = Widget.objects.all()
-    serializer = WidgetSerializer(widget, many=True)
-    return Response(serializer.data)
+     widget = Widget.objects.all()
+     serializer = WidgetSerializer(widget, many=True)
+     return Response(serializer.data)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
 def new_widgetItem(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    print(request.data)
-    data = {
+     print(request.data)
+     data = {
         'page': request.data.get('page'),
         'widget': request.data.get('widget'),
         'type': request.data.get('type'),
         'value': request.data.get('value')
-    }
-    serializer = WidgetItemSerializer(data=data)
-    if serializer.is_valid():
+     }
+     serializer = WidgetItemSerializer(data=data)
+     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+     
+     
 @api_view(['GET'])
 def widgetItemSearch(request, widgetitemid):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     try:
-        widgetitem = WidgetItem.objects.get(widgetitemid=widgetitemid)
-        print(widgetitem)
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+    
+     widgetitem = WidgetItem.objects.get(widgetitemid=widgetitemid)
+     print(widgetitem)
     except WidgetItem.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     serializer = WidgetItemSerializer(widgetitem)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -142,46 +167,54 @@ def widgetItemSearch(request, widgetitemid):
 def widgetItemChange(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    try:
-        dataRequest = {
+    
+     dataRequest = {
             'widgetitemid': request.data.get('widgetitemid'),
-        }
-        widgetitemidSe = dataRequest.get('widgetitemid')
-        widgetitem = WidgetItem.objects.get(widgetitemid=widgetitemidSe)
+     }
+     widgetitemidSe = dataRequest.get('widgetitemid')
+     widgetitem = WidgetItem.objects.get(widgetitemid=widgetitemidSe)
     except WidgetItem.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-    data = {
+    try:
+     data = {
         'page': request.data.get('page'),
         'widget': request.data.get('widget'),
         'type': request.data.get('type'),
         'value': request.data.get('value')
-    }
-    serializer = WidgetItemSerializer(widgetitem, data=data)
-    if serializer.is_valid():
+     }
+     serializer = WidgetItemSerializer(widgetitem, data=data)
+     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @ api_view(['GET'])
 def listedWidgetItems(request):
     
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    widgetitem = WidgetItem.objects.all()
-    serializer = WidgetItemSerializer(widgetitem, many=True)
-    return Response(serializer.data)
+     widgetitem = WidgetItem.objects.all()
+     serializer = WidgetItemSerializer(widgetitem, many=True)
+     return Response(serializer.data)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

@@ -34,7 +34,7 @@ class Header extends React.Component {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">About Us</Nav.Link>
+                  <Nav.Link href="/about">About Us</Nav.Link>
                   <Nav.Link href="#action2">Study Programs</Nav.Link>
                   <Nav.Link href="#action3">Recent Reports</Nav.Link>
                 </Nav>
