@@ -88,14 +88,7 @@ const Library = () => {
         </div>
         <div className='col-3 shadow rounded mobile-below-tap-library'>
           <div className='position_side'>
-            {selectedBook && (
-              <BookView
-                title={selectedBook?.title}
-                description={selectedBook?.description}
-                portrait={selectedBook?.portrait}
-                author={selectedBook?.author}
-              />
-            )}
+            {selectedBook && <BookView book={selectedBook} />}
 
             {showForm && (
               <BookBuilder

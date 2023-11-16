@@ -1,3 +1,5 @@
+import './Words.css'
+
 const Words = ({ value, onChange, isWordFound, isSavedWord }) => {
   return (
     <div id='words'>

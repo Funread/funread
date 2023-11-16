@@ -5,7 +5,7 @@ import ImageGallery from "../../../GalleryCollage/ListGallery";
 import { Content } from "antd/es/layout/layout";
 import { save_Image } from "../../../../api/media";
 
-const Widget = ({ onImageSelect }) => {
+const WidgetImage = ({ onImageSelect }) => {
   const [showModal, setShowModal] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -75,6 +75,7 @@ const Widget = ({ onImageSelect }) => {
                 alt="Descripción de la imagen de la galería"
                 className="custom-imagePrincipal-widgetImage"
                 //onClick={() => setSelectedImage(null)}
+                
               />
             </div>
           ) : selectedFile ? (
@@ -185,4 +186,4 @@ const Widget = ({ onImageSelect }) => {
   );
 };
 
-export default Widget;
+export default WidgetImage;
