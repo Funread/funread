@@ -62,7 +62,7 @@ def listedCreateby(request, createdby):
         createdby = GroupsCreate.objects.filter(createdby=createdby)
         if createdby.exists():
             serializer = GorupsCreateSeralizer(createdby, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response("Archivo no encontrado", status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:

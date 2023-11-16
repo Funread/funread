@@ -2,30 +2,27 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import SidebarBook from '../Shared/SidebarBook/SidebarBook';
-import logo from '../../logoFunread.png'
-import './Lobby.sass';
-
-
+import './About.sass';
 
 const Lobby = () => {
     return (
         <div className='container-fluid text-center lobby'>
-            
             <div className='row' style={{ height: 'auto' }}>
-                <div className='col-1 p-0'>
-                    <SidebarBook></SidebarBook>
-                </div>
+                
+                <div className='col-9 content_lobby'>
 
-                <div className='col-8 content_lobby'>                
                     <div className="Title">
-                        <h2>FUNREAD</h2>
+
+                        <div className="image">
+                        </div>
+                        <h1>FUNREAD</h1>
                     </div>
                     <section className='imageParallax'></section>
                     <div className="row ">
                         <div className="col-md-6">
                             <div className="header-content-left">
                                 <img
-                                    src="https://static.vecteezy.com/system/resources/previews/023/985/139/non_2x/school-materials-clip-art-cartoon-books-free-png.png"
+                                    src="https://www.pngall.com/wp-content/uploads/2018/05/Books-PNG-Clipart.png"
                                     alt="Descripción de la imagen"
                                 />
                             </div>
@@ -49,13 +46,13 @@ const Lobby = () => {
                             <div className="header-content-left">
                                 <h2>Description</h2>
                                 <p>
-                                FUNREAD is a pedagogical mediation tool in the dual
-                                 modality (face-to-face and distance education) 
-                                 in order to improve English language skills 
-                                 (e.g., vocabulary, pronunciation, grammar and
-                                  reading comprehension with emphasis on the general 
-                                  idea and details of reading comprehension) 
-                                  of sixth grade students at the Jesus of Nazareth School in Liberia.
+                                    FUNREAD is a pedagogical mediation tool in the dual
+                                    modality (face-to-face and distance education)
+                                    in order to improve English language skills
+                                    (e.g., vocabulary, pronunciation, grammar and
+                                    reading comprehension with emphasis on the general
+                                    idea and details of reading comprehension)
+                                    of sixth grade students at the Jesus of Nazareth School in Liberia.
                                 </p>
                             </div>
                         </div>
@@ -63,14 +60,14 @@ const Lobby = () => {
                             <div className="header-content-right">
                                 <h2></h2>
                                 <p>
-                                For its design, a didactic unit within the sixth 
-                                grade curriculum is taken as a basis and three 
-                                gamification mechanics (e.g., ranking, points, prizes) 
-                                are implemented. In addition, the application will be
-                                based on cartoons that incorporate aspects that highlight 
-                                social justice and cultural diversity (ethnicity, social class, 
-                                disability, language, gender, age, nationality, religion,
-                                and sexual identity) within the Costa Rican environment. 
+                                    For its design, a didactic unit within the sixth
+                                    grade curriculum is taken as a basis and three
+                                    gamification mechanics (e.g., ranking, points, prizes)
+                                    are implemented. In addition, the application will be
+                                    based on cartoons that incorporate aspects that highlight
+                                    social justice and cultural diversity (ethnicity, social class,
+                                    disability, language, gender, age, nationality, religion,
+                                    and sexual identity) within the Costa Rican environment.
                                 </p>
                             </div>
                         </div>
@@ -101,8 +98,9 @@ const Lobby = () => {
                                         style={{ width: "150px" }}
                                         alt="Avatar"
                                     />
+
                                     <h5 className="mb-2">
-                                        <strong>Razziel Acevedo Álvarez</strong>
+                                        <strong>Lang Ying Hernández Chavez</strong>
                                     </h5>
                                     <p className="text-muted">
                                         Collaborator Investigator
@@ -116,7 +114,7 @@ const Lobby = () => {
                                         alt="Avatar"
                                     />
                                     <h5 className="mb-2">
-                                        <strong>Lang Ying Hernández Chavez</strong>
+                                        <strong>Razziel Acevedo Álvarez</strong>
                                     </h5>
                                     <p className="text-muted">
                                         Collaborator Investigator
@@ -159,14 +157,15 @@ const Lobby = () => {
                                 <textarea name="message" id="message" rows="5" required></textarea>
                                 <label htmlFor="message">Message</label>
                             </div>
-                            <input type="submit" value="Send" />
+                            <input type="submit" value="Send" className="pbutton" />
+
                         </form>
                     </div>
 
                 </div>
             </div>
         </div>
-        
+
     );
 }
 export default Lobby;

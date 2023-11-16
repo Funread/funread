@@ -1,0 +1,99 @@
+.register-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.register-carousel-container{
+    width: 100%;
+    height: 100%;
+    background: #181D27;
+    position: absolute;
+    z-index: 1;
+    overflow: hidden;
+}
+.register-form{
+    width: 40%;
+    min-width: 300px;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.148);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border: rgba(0, 0, 0, 0.16) 1px solid;
+    border-radius: 20px;
+    padding: 15px;
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+.register-checkboxes{
+    width: 30%;
+    min-width: 134px;
+}
+
+.register-form .register-form-inputs .font-size {
+    margin-top: 15px;
+    font-weight: 600;
+    margin-left: 10px;
+    font-size: 15px;
+    color: white !important;
+}
+
+.register-form hr{
+    margin: 0px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+    height: 2px;
+    width: 90%;
+}
+
+.register-form-group-center-items{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-form .register-form-button-empty {
+    min-width: 100%;
+    height: 12%;
+    font-size: 14px;
+    border-radius: 10px;
+    background: #5d4b6a;
+    border-style: solid;
+    border-color: #5d4b6a;
+    color: white;
+    box-shadow: none !important;
+    pointer-events: none;
+  }
+  
+  .register-form .register-form-button-filled {
+    min-width: 100%;
+    height: 12%;
+    font-size: 14px;
+    border-radius: 10px;
+    background: #42006d;
+    border-style: solid;
+    border-color: #42006d;
+    color: white;
+  }
+
+  .register-form  .register-form-inputs{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .register-roles-div-flex{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-bottom: 20px;
+    justify-content: space-around;
+    align-items: center;
+  }

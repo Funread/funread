@@ -66,13 +66,10 @@ const Group = () => {
                 className='me-2 custom-input-search'
                 aria-label='Search'
               />
-              <Button variant='outline-success'>
-                <FontAwesomeIcon
-                  className='fa-magnifying-glass'
-                  icon={faSearch}
-                />
+              <Button className='button-search-library' variant='outline-success'>
+                <FontAwesomeIcon className='fa-magnifying-glass' icon={faSearch} />
               </Button>
-              <Button variant='outline-success' onClick={toggleGroupForm}>
+              <Button className='button-edit-library' variant='outline-success' onClick={toggleGroupForm}>
                 <FontAwesomeIcon icon={faPencilAlt} />
               </Button>
             </Form>
@@ -89,23 +86,25 @@ const Group = () => {
           </div>
         </div>
 
-        <div className='col-3 shadow rounded mobile-below-tap-group'>
-          {selectedStudent && (
-            <StudentCard
-              idStudent={selectedStudent?.userid}
-              name={selectedStudent?.name}
-              lastname={selectedStudent?.lastname}
-              idGroup={selectedStudent?.groupscreateid}
-            />
-          )}
-          {groupForm && <GroupBuilder updateGroup={handleGroupCreated} />}
-          {selectedGroup && (
-            <GroupView
-              id={selectedGroup?.id}
-              name={selectedGroup?.name}
-              idimage={selectedGroup?.idimage}
-            />
-          )}
+        <div className='col-3 mobile-below-tap-group'>
+          <div className='position_side shadow rounded'>
+            {selectedStudent && (
+              <StudentCard
+                idStudent={selectedStudent?.userid}
+                name={selectedStudent?.name}
+                lastname={selectedStudent?.lastname}
+                idGroup={selectedStudent?.groupscreateid}
+              />
+            )}
+            {groupForm && <GroupBuilder updateGroup={handleGroupCreated} />}
+            {selectedGroup && (
+              <GroupView
+                id={selectedGroup?.id}
+                name={selectedGroup?.name}
+                idimage={selectedGroup?.idimage}
+              />
+            )}
+          </div>
         </div>
       </div>
       <ToastContainer position='top-right' />
