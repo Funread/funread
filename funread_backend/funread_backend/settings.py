@@ -176,11 +176,11 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'funread',
-        'HOST': 'localhost',
-        "PASSWORD": 'Bryant2728.',
-        'PORT': '3306',
-        'USER': 'root',
+        'NAME': os.environ.get("SETTINGS_DATABSE_NAME"),
+        'HOST': os.environ.get("SETTINGS_DATABSE_HOST"),
+        "PASSWORD": os.environ.get("SETTINGS_DATABSE_PASSWORD"),
+        'PORT': os.environ.get("SETTINGS_DATABSE_PORT"),
+        'USER': os.environ.get("SETTINGS_DATABSE_USER"),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
