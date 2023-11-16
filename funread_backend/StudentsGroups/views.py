@@ -82,7 +82,7 @@ def delete(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     try:
-        Student = StudentsGroups.objects.get(studentsgroupsid= request.data.get('idstudent'))
+        Student = StudentsGroups.objects.get(userid= request.data.get('idstudent'))
     except StudentsGroups.DoesNotExist:
         return Response("the student does not exist", status=status.HTTP_404_NOT_FOUND)
     if Student.isteacher == 1:

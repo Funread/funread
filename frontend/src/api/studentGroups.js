@@ -31,7 +31,7 @@ export async function deleteStudentGroup(userId) {
   return axiosAuth().put(
     'studentsgroups/studentsgroups/deleteStudentsGroups/',
     {
-      userid: userId,
+      idstudent: userId,
     }
   )
 }
