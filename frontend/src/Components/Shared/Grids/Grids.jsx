@@ -7,6 +7,8 @@ import Video from '../../Widgets/Media/Video/Video'
 import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
 import Box from '../../Widgets/Text/TextBox'
 import CodeBlock from '../../Widgets/CodeBlock/CodeBlock'
+import WidgetImage from '../../Widgets/Media/Images/WidgetImage'
+import GameModes from '../../Widgets/Game/WordSearchGame/GameModes'
 
 const widgetTypeToComponent = {
   UniqueSelection: UniqueSelection,
@@ -15,6 +17,9 @@ const widgetTypeToComponent = {
   AudioRecorder: AudioRecorder,
   Box: Box,
   CodeBlock: CodeBlock,
+  WidgetImage: WidgetImage,
+  GameModes: GameModes,
+
 }
 
 const Grids = ({ direction, numRows, widgetChange, pageNumber }) => {
