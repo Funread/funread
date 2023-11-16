@@ -177,14 +177,17 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get("SETTINGS_DATABSE_NAME"),
-        'HOST': os.environ.get("SETTINGS_DATABSE_HOST"),
-        "PASSWORD": os.environ.get("SETTINGS_DATABSE_PASSWORD"),
-        'PORT': os.environ.get("SETTINGS_DATABSE_PORT"),
-        'USER': os.environ.get("SETTINGS_DATABSE_USER"),
+        'NAME': os.environ.get("SETTINGS_DATABASE_NAME",'funread'),
+        'HOST': os.environ.get("SETTINGS_DATABASE_HOST", 'localhost'),
+        'PORT': os.environ.get("SETTINGS_DATABASE_PORT"),
+        'USER': os.environ.get("SETTINGS_DATABASE_USER",'root'),
+        'PASSWORD': os.environ.get("SETTINGS_DATABASE_PASSWORD",'12345678'),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
+
+
+
     }
 }
 
