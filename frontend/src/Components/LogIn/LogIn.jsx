@@ -55,7 +55,7 @@ function LogIn(props) {
     logIn(email, password).then((res) => {  
       //Esto debe hacerce para evitar que axiosAuth revise si el token existe antes de terminar el login
       if(res == "success"){
-        navigate('/lobby');
+        navigate('/library');
       }else if(res == "noRoles"){
         navigate('/register');
       }

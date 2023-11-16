@@ -1,157 +1,195 @@
-import React, { useState, useRef } from 'react'
-import Modal from 'react-modal'
-import './voice.css'
-import { FaMicrophone, FaUpload } from 'react-icons/fa'
-import { useDrag } from 'react-dnd'
+import React, { useState, useRef, useEffect } from 'react';
+import Modal from 'react-modal';
+import './voice.css';
+import { FaMicrophone, FaUpload } from 'react-icons/fa';
+import { useDrag } from "react-dnd";
 
-const widgetType = 'widgetType'
 
-// Componente AudioPlayer
-function AudioPlayer({ audioUrl }) {
+
+const widgetType = "widgetType";
+
+function AudioPlayer({ audioUrl, updateAudioDuration }) {
+  const handleTimeUpdate = (e) => {
+    const duration = e.target.duration;
+    updateAudioDuration(duration);
+  };
+
   return (
-    <audio className='audio-recorder-audio' controls>
-      <source src={audioUrl} type='audio/wav' />
+    <audio className='audio-recorder-audio' controls onTimeUpdate={handleTimeUpdate}>
+      <source src={audioUrl} type='audio/mp3' />
       Tu navegador no admite la reproducción de audio.
     </audio>
-  )
+  );
 }
 
 function AudioRecorder() {
-  // Estado para controlar si se está grabando audio
-  const [recording, setRecording] = useState(false)
-  // Estado para rastrear la duración de la grabación
-  const [timer, setTimer] = useState(0)
-  // Estado para mostrar un mensaje de error
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [audioDuration, setAudioDuration] = useState(0);
+  const [recording, setRecording] = useState(false);
+  const [timer, setTimer] = useState(0);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const mediaRecorder = useRef(null);
+  const audioChunks = useRef([]);
+  const audioElement = useRef(null);
+  const recordedAudio = useRef(null);const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [uploadModalIsOpen, setUploadModalIsOpen] = useState(false);
+  const [uploadedAudio, setUploadedAudio] = useState(null);
+  const [audioUrl, setAudioUrl] = useState(null);
+  const [audioKey, setAudioKey] = useState(0);
 
-  // Referencia al objeto MediaRecorder
-  const mediaRecorder = useRef(null)
-  // Almacenar fragmentos de audio
-  const audioChunks = useRef([])
-  // Referencia al elemento de audio para reproducir grabaciones
-  const audioElement = useRef(null)
-  // Blob para la grabación de audio
-  const recordedAudio = useRef(null)
+  useEffect(() => {
+    let intervalId;
 
-  // Estado para controlar la apertura y cierre del modal de grabación
-  const [modalIsOpen, setModalIsOpen] = useState(false)
-  // Estado para controlar la apertura y cierre del modal de subida de audio
-  const [uploadModalIsOpen, setUploadModalIsOpen] = useState(false)
+    if (recording) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer + 1);
+      }, 1000);
+    }
 
-  // Estado para el archivo de audio cargado
-  const [uploadedAudio, setUploadedAudio] = useState(null)
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [recording]);
 
-  // Función para abrir el modal de grabación
   const openModal = () => {
-    setModalIsOpen(true)
-  }
+    setModalIsOpen(true);
+  };
 
-  // Función para abrir el modal de subida de audio
   const openUploadModal = () => {
-    setUploadModalIsOpen(true)
-  }
+    setUploadModalIsOpen(true);
+  };
 
-  // Función para cerrar el modal de grabación
   const closeModal = () => {
-    setModalIsOpen(false)
-  }
+    setModalIsOpen(false);
+  };
 
-  // Función para cerrar el modal de subida de audio
   const closeUploadModal = () => {
-    setUploadModalIsOpen(false)
-  }
+    setUploadModalIsOpen(false);
+  };
 
-  // Función para manejar la subida de un archivo de audio
+  const updateAudioDuration = (duration) => {
+    setAudioDuration(duration);
+  };
+
   const handleAudioUpload = (event) => {
-    const file = event.target.files[0] // Obtener el primer archivo seleccionado
+    const file = event.target.files[0];
     if (file) {
-      // Verificar que el archivo sea de tipo "audio"
       if (file.type.startsWith('audio/')) {
-        const audioUrl = URL.createObjectURL(file)
-        setUploadedAudio(audioUrl)
-        closeUploadModal() // Cerrar el modal de subida de audio
+        const audioUrl = URL.createObjectURL(file);
+        setUploadedAudio(audioUrl);
+        setAudioKey((prevKey) => prevKey + 1);
+
+        closeUploadModal();
       } else {
-        setErrorMessage(
-          'El archivo seleccionado no es un archivo de audio válido.'
-        )
+        setErrorMessage('El archivo seleccionado no es un archivo de audio válido.');
       }
     }
-  }
+  };
 
-  // Función para iniciar la grabación de audio
+  const handleTimeUpdate = (e) => {
+    const duration = e.target.duration;
+    updateAudioDuration(duration);
+  };
+
   const startRecording = () => {
-    // Limpiar fragmentos de audio y reiniciar el temporizador
-    audioChunks.current = []
-    setTimer(0)
-
-    // Obtener acceso al micrófono
+    audioChunks.current = [];
+    setTimer(0);
+    setAudioUrl(null);
+  
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
-        // Inicializar el objeto MediaRecorder con el flujo de audio
-        mediaRecorder.current = new MediaRecorder(stream)
-
-        // Manejar eventos de los fragmentos de audio disponibles
+        mediaRecorder.current = new MediaRecorder(stream);
+  
         mediaRecorder.current.ondataavailable = (e) => {
           if (e.data.size > 0) {
-            audioChunks.current.push(e.data)
+            audioChunks.current.push(e.data);
           }
-        }
-
-        // Manejar evento de finalización de la grabación
+        };
+  
         mediaRecorder.current.onstop = () => {
-          clearInterval(timerInterval) // Detener el temporizador
-          const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' })
-          const audioUrl = URL.createObjectURL(audioBlob)
-          audioElement.current.src = audioUrl
-          setRecording(false)
+          const audioBlob = new Blob(audioChunks.current, { type: 'audio/mp3' });
+          const newAudioUrl = URL.createObjectURL(audioBlob);
+  
+          // Comienza la carga asíncrona
+          fetch(newAudioUrl)
+            .then(response => response.blob())
+            .then(blob => {
+             
 
-          // Aquí puedes guardar el archivo de audio si es necesario.
-          recordedAudio.current = audioBlob
-        }
+              setAudioUrl(newAudioUrl);
+              audioElement.current.src = newAudioUrl;
+              audioElement.current.load();
+  
+              audioElement.current.onloadedmetadata = () => {
+                setAudioDuration(audioElement.current.duration);
+              };
+  
+              setRecording(false);
+            })
+            .catch(error => {
+              console.error('Error durante la carga asíncrona:', error);
+              setErrorMessage('Error durante la carga asíncrona.');
+            });
+        };
 
-        // Iniciar la grabación y el temporizador
-        mediaRecorder.current.start()
-        setRecording(true)
-
-        const timerInterval = setInterval(() => {
-          setTimer((prevTimer) => prevTimer + 1)
-        }, 1000)
+        setRecording(true);
+        mediaRecorder.current.start();
       })
       .catch((error) => {
-        console.error('Error al acceder al micrófono:', error)
-        // Puedes agregar un mensaje de error en la interfaz de usuario aquí
-        setErrorMessage(
-          'Error al acceder al micrófono. Asegúrate de otorgar los permisos necesarios.'
-        )
-      })
-  }
+        console.error('Error al acceder al micrófono:', error);
+        setErrorMessage('Error al acceder al micrófono. Asegúrate de otorgar los permisos necesarios.');
+      });
+  };
+  
 
-  // Función para detener la grabación
-  const stopRecording = () => {
-    if (mediaRecorder.current) {
-      mediaRecorder.current.stop()
-    }
-  }
 
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: widgetType,
-    item: { type: 'AudioRecorder' },
-    //La funcion collect es opcional
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }))
+
+
+
+const stopRecording = () => {
+  if (mediaRecorder.current) {
+    mediaRecorder.current.stop();
+
+    const audioBlob = new Blob(audioChunks.current, { type: 'audio/mp3' });
+    const newAudioUrl = URL.createObjectURL(audioBlob);
+
+    setAudioUrl(newAudioUrl);
+    setRecording(false);
+
+    // Cargar el audio
+    audioElement.current.src = newAudioUrl;
+    audioElement.current.load();
+
+    // Acceder automáticamente a la duración del audio cuando esté disponible
+    audioElement.current.onloadedmetadata = () => {
+      setAudioDuration(audioElement.current.duration);
+    };
+
+    // Capturar evento de carga completa (opcional)
+    audioElement.current.addEventListener('canplaythrough', () => {
+      console.log('El audio está completamente cargado y listo para reproducirse.');
+    });
+  }
+};
+
+const [{ isDragging }, drag] = useDrag(() => ({
+  type: widgetType,
+  item: { type: 'AudioRecorder' },
+  //La funcion collect es opcional
+  collect: (monitor) => ({
+    isDragging: !!monitor.isDragging(),
+  }),
+}))
+
+
 
   return (
-    <div ref={drag} style={{ border: isDragging ? '5px solid pink' : '0px' }}>
+    <div   ref={drag} style={{ border: isDragging ? '5px solid pink' : '0px' }}>
       <div className='card custom-voice-recorder-card'>
         <div className='custom-voice-recorder-body'>
-          {/* Botón para abrir el modal de subida de audio */}
           <button onClick={openUploadModal}>
             <FaMicrophone size={32} />
           </button>
-          {/* Modal de grabación de audio */}
           <Modal
             isOpen={uploadModalIsOpen}
             onRequestClose={closeUploadModal}
@@ -159,16 +197,13 @@ function AudioRecorder() {
           >
             <div className='audio-recorder-container'>
               {errorMessage && <p className='error-message'>{errorMessage}</p>}
-              {/* Elemento de audio para reproducir grabaciones */}
               <audio
                 className='audio-recorder-audio'
                 controls
                 ref={audioElement}
+                onTimeUpdate={handleTimeUpdate}
               ></audio>
-              <div className='timer'>
-                Duración de Grabación: {timer} segundos
-              </div>
-              {/* Botón para iniciar o detener la grabación */}
+              <div className='timer'>Tiempo: {timer} segundos</div>
               <button
                 className='audio-recorder-button'
                 onClick={recording ? stopRecording : startRecording}
@@ -179,11 +214,9 @@ function AudioRecorder() {
             </div>
           </Modal>
 
-          {/* Botón para abrir el modal de subida de audio */}
           <button onClick={openModal}>
             <FaUpload size={32} />
           </button>
-          {/* Modal de subida de audio */}
           <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
@@ -203,9 +236,10 @@ function AudioRecorder() {
                 {uploadedAudio && (
                   <div className='uploaded-audio-player'>
                     <h3>Audio cargado:</h3>
-                    <AudioPlayer audioUrl={uploadedAudio} />
+                    <AudioPlayer key={audioKey} audioUrl={uploadedAudio} updateAudioDuration={updateAudioDuration} />
                   </div>
                 )}
+              
                 <div className='bot'>
                   <button className='sub' type='submit'>
                     Subir
@@ -220,7 +254,7 @@ function AudioRecorder() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default AudioRecorder
+export default AudioRecorder;

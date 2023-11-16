@@ -9,6 +9,7 @@ const SidebarImages = ({ item }) => {
       type: item.widget.type.name,
       direction: item.widget.props.direction,
       numRows: item.widget.props.numRows,
+      widgetType: item.widgetType,
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
