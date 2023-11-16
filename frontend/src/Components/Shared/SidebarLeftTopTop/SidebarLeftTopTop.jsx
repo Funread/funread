@@ -19,6 +19,10 @@ import ReverseUniqueSelection from '../../Widgets/Quiz/ReverseQuiz/ReverseUnique
 import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
 import Video from '../../Widgets/Media/Video/Video'
 import Box from '../../Widgets/Text/TextBox'
+import WidgetTypeEnum from '../../Utils/Enums/WidgetTypeEnum'
+import CodeBlock from '../../Widgets/CodeBlock/CodeBlock'
+import GameModes from '../../Widgets/Game/WordSearchGame/GameModes'
+import WidgetImage from '../../Widgets/Media/Images/WidgetImage'
 
 const SidebarLeftTopTop = () => {
   const [isExpanded, setExpendState] = useState(true)
@@ -97,6 +101,7 @@ const SidebarLeftTopTop = () => {
           id: 1,
           image: '/imagenes/widgets/text.png',
           widget: <Box />,
+          widgetType: WidgetTypeEnum.Text,
         },
       ],
     },
@@ -108,11 +113,19 @@ const SidebarLeftTopTop = () => {
           id: 1,
           image: '/imagenes/widgets/audio.png',
           widget: <AudioRecorder />,
+          widgetType: WidgetTypeEnum.Media,
         },
         {
           id: 2,
           image: '/imagenes/widgets/video.png',
           widget: <Video />,
+          widgetType: WidgetTypeEnum.Media,
+        },
+        {
+          id: 3,
+          image: '/imagenes/widgets/image.png',
+          widget: <WidgetImage />,
+          widgetType: WidgetTypeEnum.Media,
         },
       ],
     },
@@ -129,18 +142,39 @@ const SidebarLeftTopTop = () => {
           id: 1,
           image: '/imagenes/widgets/quiz.png',
           widget: <UniqueSelection />,
+          widgetType: WidgetTypeEnum.Quiz,
         },
         {
           id: 2,
           image: '/imagenes/widgets/reverseQuiz.png',
           widget: <ReverseUniqueSelection />,
+          widgetType: WidgetTypeEnum.Quiz,
         },
       ],
     },
     {
       text: 'Games',
       icon: faGamepad,
-      subItems: [],
+      subItems: [
+        {
+          id: 1,
+          image: '/imagenes/widgets/wordsearchgame.png',
+          widget: <GameModes/>,
+          widgetType: WidgetTypeEnum.Games,
+        },
+      ],
+    },
+    {
+      text: 'Code Block',
+      icon: faA,
+      subItems: [
+        {
+          id: 1,
+          image: '/imagenes/widgets/widgetItem.png',
+          widget: <CodeBlock />,
+          widgetType: WidgetTypeEnum.Code,
+        },
+      ],
     },
   ]
 
