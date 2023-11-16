@@ -33,7 +33,6 @@ def new_tags(request):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
     try:
         print(request.data)
         data = {
