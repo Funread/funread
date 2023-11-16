@@ -13,21 +13,36 @@ function GameModes() {
   const [filas, setFilas] = useState(10); 
   const [columnas, setColumnas] = useState(14); 
   const addEasyResponses = () => {
+    if(responses[0]!=""){
+      responses.splice(0,responses.length);
+    }
     setResponses(Array(MIN_RESPONSES).fill(''));
     setFilas(10);
     setColumnas(12);
+    console.log(responses.length)
+    console.log(responses)
   }
 
   const addInterResponses = () => {
+    if(responses[0]!=""){
+      responses.splice(0,responses.length);
+    }
     setResponses(Array(INTER_RESPONSES).fill(''));
     setFilas(12); 
     setColumnas(17); 
+    console.log(responses.length)
+    console.log(responses)
   }
 
   const addAdvancedResponses = () => {
+    if(responses[0]!=""){
+      responses.splice(0,responses.length);
+    }
     setResponses(Array(MAX_RESPONSES).fill(''));
     setFilas(15); // Cambiar el número de filas según la dificultad
     setColumnas(24); // Cambiar el número de columnas según la dificultad
+    console.log(responses.length)
+    console.log(responses)
   }
 
   const handleResponseChange = (index, value) => {
