@@ -235,3 +235,4 @@ def sendEmail(request):
      return Response({"Se envio con exito"},status=status.HTTP_200_OK)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+

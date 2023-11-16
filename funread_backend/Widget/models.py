@@ -15,7 +15,7 @@ class WidgetItem(models.Model):
     widgetitemid = models.AutoField(db_column='WidgetItemId', primary_key=True)  # Field name made lowercase.
     pageid = models.ForeignKey(Pages, db_column='PageId', blank=True, null=True, on_delete=models.CASCADE, to_field='pageid')  # Field name made lowercase.
     widgetid = models.ForeignKey(Widget, db_column='WidgetId', blank=True, null=True, on_delete=models.CASCADE, to_field='widgetid')  # Field name made lowercase.
-    value = models.IntegerField(db_column='Value', blank=True,  null=True)  # Field name made lowercase.
+    value = models.CharField(db_column='Value', blank=True,  null=True, max_length=1000)  # Field name made lowercase.
     type = models.IntegerField(db_column='Type', blank=True,  null=True)  # Field name made lowercase.
 
     class Meta:

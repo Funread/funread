@@ -16,7 +16,6 @@ export const userSlice = createSlice({
     reducers:{
         addUser: (state, action) => {
             const {jwt, data, roles} = action.payload;
-
             state.userId = data.userid;
             state.email = data.email;
             state.name = data.name;
@@ -24,8 +23,7 @@ export const userSlice = createSlice({
             state.userName = data.username;
             state.roles = roles;
             state.jwt = jwt;
-        }
-        ,
+        },
         deleteUser: (state, action) => {
             state.userId = 0;
             state.email = "";
@@ -34,9 +32,16 @@ export const userSlice = createSlice({
             state.userName = "";
             state.roles = null;
             state.jwt = "";
+        },
+        updateUserSlice: (state, action) => {
+            const {name, lastname, username, roles} = action.payload;
+            state.name = name;
+            state.lastName = lastname;
+            state.userName = username;
+            state.roles = roles;
         }
     }
 })
 
-export const { addUser, deleteUser } = userSlice.actions;
+export const { addUser, deleteUser,updateUserSlice } = userSlice.actions;
 export default userSlice.reducer;

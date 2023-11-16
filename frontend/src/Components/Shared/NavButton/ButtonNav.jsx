@@ -1,11 +1,11 @@
-import './ButtonNav.css';
+import './ButtonNav.sass'
 
-const ButtonNav = ({ title }) => {
-    return (
-        
-      <button className="section-btn-navbar">{title}</button>
- 
-    );
-};
+const ButtonNav = ({ title, onClickHandler }) => {
+  return (
+    <button onClick={onClickHandler} className='section-btn-navbar'>
+      {title}
+    </button>
+  )
+}
 
-export default ButtonNav; 
+export default ButtonNav

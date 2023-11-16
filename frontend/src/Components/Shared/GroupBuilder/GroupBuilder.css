@@ -1,0 +1,18 @@
+.custom-group-builder-title {
+  margin-top: 3rem;
+  color: gray;
+}
+
+.empty-input {
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  margin-bottom: 1rem;
+}
+
+.custom-error-p-group-builder {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: small;
+  color: #ff0000;
+}

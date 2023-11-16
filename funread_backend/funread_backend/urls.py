@@ -45,6 +45,9 @@ urlpatterns = [
     path('join/', include('Joins.urls')),
     path('GroupsCreate/', include('GroupsCreate.urls')),
     path('Options/', include('Options.urls')),
+    path('bookdilemma/',include('BooksDilemma.urls')),
+    path('translate/',include('TranslateApp.urls')),
+    path('Subtitled/',include('Subtitled.urls'))
 ]
 
 if settings.DEBUG:

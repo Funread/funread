@@ -1,0 +1,75 @@
+.book-header
+	display: flex
+	flex-direction: column
+	align-items: center
+	color: rgb(63, 63, 63)
+	gap: 5px
+.book-title
+	font-size: 24px
+	font-weight: bold
+	color: rgb(63, 63, 63)
+.book-author
+	font-size: 18px
+	font-style: italic
+.book-image
+	margin-top: 20px
+
+.book-description
+	padding: 35px
+	margin-top: 40px
+	text-align: justify
+	color: rgb(75, 69, 69)
+
+.button-section
+	display: flex
+	justify-content: center
+	margin-top: 20px
+
+.button-preview
+	outline-style: solid
+	outline-color: #134462
+	font-weight: bold
+	margin: 0 10px
+	padding: 10px 20px
+	background-color: rgb(41, 103, 228)
+	color: white
+	border: none
+	border-radius: 5px
+	cursor: pointer
+	box-shadow: 0 5px 14px rgb(53, 52, 52)
+	&:hover
+		background-color: #2647a3
+
+/* Estilo del modal */
+.modal-overlay-preview
+	position: fixed
+	top: 0
+	left: 0
+	width: 100%
+	height: 100%
+	background-color: rgba(0, 0, 0, 0.8)
+	display: grid
+	place-items: center
+	padding: 20px
+	align-items: center
+	z-index: 1000
+	grid-template-rows: auto 1fr
+
+.close-button
+	background-color: #FF99C8
+	color: #fff
+	padding: 10px 15px
+	border: none
+	border-radius: 50%
+	font-size: 21px
+	width: 53px
+	height: 53px
+	cursor: pointer
+	margin-top: 11px
+	justify-self: right
+	transition: background-color 0.3s, box-shadow 0.4s
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 10) inset
+
+	&:hover
+		background-color: #E4C1F9
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 10) inset

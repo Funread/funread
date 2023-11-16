@@ -1,6 +1,6 @@
 // SideNavBarFooter.js
 import React from 'react'
-import './SideNavBarFooter.css'
+import './SideNavBarFooter.sass'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
@@ -16,7 +16,8 @@ const SideNavBarFooter = ({ user, isExpanded }) => {
           </div>
         </div>
       )}
-      <FontAwesomeIcon className='logout-icon' icon={faSignOutAlt} />
+      <FontAwesomeIcon className='logout-icon' icon={faSignOutAlt}  />
+
     </div>
   )
 }

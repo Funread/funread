@@ -1,54 +1,58 @@
-import { useEffect, useState } from 'react'
-import './BookBuilder.css'
+import './BookBuilder.sass'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import BookImage from '../BookImage/BookImage'
+import CustomSelect from '../CustomSelect/CustomSelect'
 import { Radio } from 'antd'
 import { Container, Row, Col, Form } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe, faLock } from '@fortawesome/free-solid-svg-icons'
-import BookImage from '../BookImage/BookImage'
-import jwt_decode from 'jwt-decode'
-import { useLogin } from '../../../hooks/useLogin'
 import { toast } from 'react-toastify'
+import { save_Image, upload } from '../../../api'
+import { new_book } from '../../../api/books'
+import {
+  listCategories,
+  newDilemaPerBook,
+  searchDilemmaByDimension,
+  searchDimensionByCategory,
+} from '../../../api/bookDilemma'
 
 const initialBookState = {
   title: '',
-  category: 0,
+  category: '',
   portrait: null,
-  createdat: null,
-  lastupdateat: null,
+  createdby: null,
+  updatedby: null,
   state: 0,
   sharedbook: 0,
-  createdby: null,
   lastupdateby: null,
+  description: '',
 }
 
-const getImage = 'http://localhost:8000/Media/'
-
-const defaultImage = '/imagenes/no-image.png'
-
-const BookBuilder = ({ toggleSidebar }) => {
+const BookBuilder = ({ toggleSidebar, updateBook }) => {
   const [book, setBook] = useState(initialBookState)
+  const [categories, setCategories] = useState([])
+  const [dimensions, setDimensions] = useState([])
+  const [dilemmas, setDilemmas] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedDimension, setSelectedDimension] = useState('')
+  const [selectedDilemmas, setSelectedDilemmas] = useState([])
   const [fileImage, setFileImage] = useState(null)
-  const [errorMessage, setErrorMessage] = useState('')
-  const [errorFields, setErrorFields] = useState({})
-  const formatFileImage = new FormData()
-  formatFileImage.append('image', fileImage)
-  const { axiosAuth } = useLogin()
-
-  const token = sessionStorage.getItem('jwt')
+  const [missingFields, setMissingFields] = useState({})
+  const user = useSelector((state) => state.user)
 
   useEffect(() => {
-    // Decodifica el JWT cuando el componente se monta
-    if (token) {
-      const decodedToken = jwt_decode(token)
-
-      // Actualiza el estado del libro con la información del JWT
-      setBook((prevData) => ({
-        ...prevData,
-        createdby: decodedToken.user_id,
-        lastupdateby: decodedToken.user_id,
-      }))
+    async function fetchData() {
+      try {
+        const categoriesResponse = await listCategories()
+        setCategories(categoriesResponse.data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
     }
-  }, [token])
+
+    fetchData()
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -80,21 +84,26 @@ const BookBuilder = ({ toggleSidebar }) => {
       const imageRoute = book.portrait ? await uploadImage() : null
 
       // Crear libro con ruta de imagen
-      const newBook = { ...book, portrait: imageRoute }
+      const newBook = {
+        ...book,
+        portrait: imageRoute,
+        createdby: user.userId,
+        updatedby: user.userId,
+        lastupdateby: user.userId,
+      }
 
-      // Enviar libro al servidor
+      // // Enviar libro al servidor
       const response = await createBook(newBook)
 
       if (response.data && response.status === 201) {
-        const { portrait } = response.data
-
+        //Añadir los dilemas al libro creado
+        for (const dilemma of selectedDilemmas) {
+          await addDilemmasPerBook(dilemma, response.data.bookid)
+        }
         toast.success('Book created successfully')
 
-        const imageToDisplay = portrait
-          ? `${getImage}${portrait}` // Usar la imagen del servidor
-          : defaultImage // Usar la imagen predeterminada local
-
-        toggleSidebar({ ...newBook, portrait: imageToDisplay })
+        toggleSidebar({ ...newBook })
+        updateBook(newBook)
       } else {
         toast.error('Unable to save the book')
       }
@@ -106,30 +115,34 @@ const BookBuilder = ({ toggleSidebar }) => {
   }
 
   const validateForm = () => {
-    const requiredFields = ['title', 'category']
-    const missingFields = requiredFields.filter((field) => !book[field])
+    const missing = {}
 
-    if (missingFields.length > 0) {
-      setErrorMessage('There are missing fields')
-
-      const updatedErrorFields = {}
-      requiredFields.forEach((field) => {
-        if (!book[field]) {
-          updatedErrorFields[field] = true
-        }
-      })
-      setErrorFields(updatedErrorFields)
-
-      return false
+    if (!book.title) {
+      missing.title = true
     }
 
-    setErrorMessage('')
-    setErrorFields({})
-    return true
+    if (!book.description) {
+      missing.description = true
+    }
+
+    if (selectedCategory === '') {
+      missing.category = true
+    }
+
+    if (selectedDimension === '') {
+      missing.dimension = true
+    }
+
+    if (selectedDilemmas.length === 0) {
+      missing.dilemma = true
+    }
+
+    setMissingFields(missing)
+    return Object.keys(missing).length === 0
   }
 
   const uploadImage = async () => {
-    const response1 = await uploadImageFile()
+    const response1 = await saveImageFile()
 
     if (!response1.data || !response1.data.name) {
       throw new Error('Error uploading the image')
@@ -138,23 +151,64 @@ const BookBuilder = ({ toggleSidebar }) => {
     const imageName = response1.data.name
     const response2 = await getImageRoute(imageName)
 
-    if (!response2.data || !response2.data.image_route) {
+    if (!response2.data || !response2.data.file_route) {
       throw new Error('Error getting the image route')
     }
 
-    return response2.data.image_route
+    return response2.data.file_route
   }
 
-  const uploadImageFile = async () => {
-    return await axiosAuth().post('Media/save/', formatFileImage)
+  const saveImageFile = async () => {
+    return await save_Image(fileImage)
   }
 
   const getImageRoute = async (imageName) => {
-    return await axiosAuth().post('Media/upload/', { name: imageName })
+    return await upload(imageName)
   }
 
   const createBook = async (newBook) => {
-    return await axiosAuth().post('books/new-book/', newBook)
+    return await new_book(
+      newBook.title,
+      newBook.category,
+      newBook.portrait,
+      newBook.createdby,
+      newBook.updatedby,
+      newBook.state,
+      newBook.sharedbook,
+      newBook.lastupdateby,
+      newBook.description
+    )
+  }
+
+  const addDilemmasPerBook = async (dilemma, bookId) => {
+    return await newDilemaPerBook(dilemma, bookId)
+  }
+
+  const handleCategoryChange = async (selectedValue) => {
+    setSelectedCategory('')
+    setSelectedDimension('')
+    setBook({ ...book, category: selectedValue })
+    setSelectedCategory(selectedValue)
+    try {
+      const dimensionsResponse = await searchDimensionByCategory(selectedValue)
+      setDimensions(dimensionsResponse.data)
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleDimensionChange = async (selectedValue) => {
+    setSelectedDimension(selectedValue)
+    try {
+      const dilemmasResponse = await searchDilemmaByDimension(selectedValue)
+      setDilemmas(dilemmasResponse.data)
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleDilemmaChange = (selectedValues) => {
+    setSelectedDilemmas(selectedValues)
   }
 
   return (
@@ -185,7 +239,7 @@ const BookBuilder = ({ toggleSidebar }) => {
 
             <Form.Control
               className={`custom-book-builder-form-title ${
-                errorFields.title ? 'error-title' : ''
+                missingFields.title ? 'error-title' : ''
               }`}
               type='text'
               name='title'
@@ -193,33 +247,88 @@ const BookBuilder = ({ toggleSidebar }) => {
               value={book.title}
               onChange={handleChange}
             />
+            {missingFields.title && (
+              <p className='error-message'>You need to fill this field.</p>
+            )}
 
             <Form.Control
-              className='custom-book-builder-text-area'
+              className={`custom-book-builder-text-area ${
+                missingFields.description ? 'error' : ''
+              }`}
               as='textarea'
               placeholder='Description'
               rows={4}
-              name='content'
-              // value={book.content}
-              // onChange={handleInputChange}
-            />
-
-            <Form.Control
-              className={`custom-book-builder-select ${
-                errorFields.category ? 'error' : ''
-              }`}
-              as='select'
-              name='category'
-              value={book.category}
+              name='description'
+              value={book.description}
               onChange={handleChange}
-            >
-              <option value=''>Class</option>
-              <option value={1}>Fiction</option>
-              <option value={2}>History</option>
-              <option value={3}>Fantasy</option>
-            </Form.Control>
+            />
+            {missingFields.description && (
+              <p className='error-message'>You need to fill this field.</p>
+            )}
 
-            {errorMessage && <p className='error-message'>{errorMessage}</p>}
+            <CustomSelect
+              classNameStyle={`custom-book-builder-select ${
+                missingFields.category ? 'error' : ''
+              }`}
+              options={categories.map((category) => ({
+                key: category.bookcategoryid,
+                value: category.bookcategoryid,
+                label: category.name,
+              }))}
+              name='category'
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+              placeholder='Category'
+            />
+            {missingFields.category && (
+              <p className='error-message'>You need to fill this field.</p>
+            )}
+
+            {selectedCategory && (
+              <>
+                <CustomSelect
+                  classNameStyle={`custom-book-builder-select ${
+                    missingFields.dimension ? 'error' : ''
+                  }`}
+                  options={dimensions.map((dimension) => ({
+                    key: dimension.bookdimensionid,
+                    value: dimension.bookdimensionid,
+                    label: dimension.name,
+                  }))}
+                  name='dimension'
+                  value={selectedDimension}
+                  onChange={handleDimensionChange}
+                  placeholder='Dimension'
+                />
+                {missingFields.dimension && (
+                  <p className='error-message'>You need to fill this field.</p>
+                )}
+              </>
+            )}
+
+            {selectedDimension && (
+              <>
+                <CustomSelect
+                  classNameStyle={`custom-book-builder-select ${
+                    missingFields.dilemma ? 'error' : ''
+                  }`}
+                  options={dilemmas.map((dilemma) => ({
+                    key: dilemma.bookdilemmaid,
+                    value: dilemma.bookdilemmaid,
+                    label: dilemma.dilemma,
+                  }))}
+                  mode='multiple'
+                  name='dilemma'
+                  value={selectedDilemmas}
+                  onChange={handleDilemmaChange}
+                  placeholder='Dilemma'
+                />
+                {missingFields.dilemma && (
+                  <p className='error-message'>You need to fill this field.</p>
+                )}
+              </>
+            )}
+
             <button className='custom-save-button' type='submit'>
               Save
             </button>

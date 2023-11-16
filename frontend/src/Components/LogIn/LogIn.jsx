@@ -8,7 +8,7 @@ import { faEnvelope, faEye, faEyeSlash } from "@fortawesome/free-regular-svg-ico
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
 import { InputGroup } from "react-bootstrap";
-
+import { axiosAuth } from "../../api/axiosInstances"
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/userSlice";
 
@@ -18,7 +18,7 @@ function LogIn(props) {
   const [password, setPassword] = useState("");
   const [remenber, setRemenber] = useState(false);
   const [check, setCheck] = useState(true);
-  const { logIn, axiosAuth } = useLogin();
+  const { logIn } = useLogin();
   const navigate = useNavigate();
 
   /**
@@ -54,14 +54,15 @@ function LogIn(props) {
     }
     logIn(email, password).then((res) => {  
       //Esto debe hacerce para evitar que axiosAuth revise si el token existe antes de terminar el login
-      if(axiosAuth() !== null){
-        navigate('/dashboard');
-      }else{
-        setPassword("")
-        alert(res+'\n\n\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, LogIn.jsx:61)')
+      if(res == "success"){
+        navigate('/library');
+      }else if(res == "noRoles"){
+        navigate('/register');
       }
-    }
-    );
+    }).catch((e) => {
+      setPassword("")
+      alert(e.message+'\n\n\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, LogIn.jsx:61)')
+    });
 
 
 

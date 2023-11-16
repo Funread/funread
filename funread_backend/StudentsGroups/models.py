@@ -9,6 +9,7 @@ class StudentsGroups(models.Model):
     createdby = models.ForeignKey(User, db_column='CreatedBy', related_name='created_student_groups', on_delete=models.CASCADE, to_field='userid')  # Field name made lowercase.
     createdat = models.DateTimeField(db_column='CreatedAt', blank=True, null=True)  # Field name made lowercase.
     groupscreateid = models.ForeignKey(GroupsCreate, db_column='GroupsCreateId', related_name='groupscreate', on_delete=models.CASCADE, to_field='id')
+    isactive = models.IntegerField(blank=True, null=True)
 
     class Meta:
         

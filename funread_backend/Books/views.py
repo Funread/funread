@@ -33,7 +33,8 @@ def new_book(request):
         'lastupdateat': datetime.datetime.now(),
         'state' : request.data.get('state' ),
         'sharedbook' : request.data.get('sharedbook'),
-        'lastupdateby': request.data.get('lastupdateby')
+        'lastupdateby': request.data.get('lastupdateby'),
+        'description': request.data.get('description')
     }
     serializer = BookSerializer(data=data)
     if serializer.is_valid():
@@ -87,6 +88,7 @@ def bookChange(request):
         'updatedby': request.data.get('updatedby'),
         'lastupdateat': datetime.datetime.now(), 
         'state': request.data.get('state'),
+        'description': request.data.get('description')
     }
     serializer = BookSerializer(book, data=data)
     if serializer.is_valid():
@@ -120,7 +122,7 @@ def listed_PublishedBooks(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    book = Book.objects.filter(state=2)
+    book = Book.objects.filter(sharedbook=1)
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
@@ -134,7 +136,7 @@ def listed_NotPublishedBooks(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    book = Book.objects.filter(state=1)
+    book = Book.objects.filter(sharedbook=2)
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
@@ -148,7 +150,7 @@ def listed_PrivateBooks(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    book = Book.objects.filter(state=0)
+    book = Book.objects.filter(sharedbook=0)
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
@@ -171,7 +173,7 @@ def modifyStateToPrivate(request):
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     data = {
-        'state': 0,
+        'sharedbook': 0,
     }
     serializer = bookStateSerializer(book, data=data)
     if serializer.is_valid():
@@ -198,7 +200,7 @@ def modifyStateToPublish(request):
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     data = {
-        'state': 2,
+        'sharedbook': 1,
     }
     serializer = bookStateSerializer(book, data=data)
     if serializer.is_valid():

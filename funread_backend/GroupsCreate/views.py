@@ -23,36 +23,43 @@ def new_group(request):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
+
+    image = 0
+    if request.data.get('image') is not None:
+        image = int(os.path.splitext(request.data.get('new_image').split('/')[-1])[0])
+    else:
+        image = 1
     data = {
         'name': request.data.get('name'),
-        'idimage': os.path.splitext(request.data.get('image').split('/')[-1])[0],
+        'idimage': image,
         'createdby': request.data.get('createdby'),
         'createdat': datetime.datetime.now(),
         'isactive' : 1
     }
-    print(data)
     serializer = GorupsCreateSeralizer(data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@ api_view(['GET'])
-def listedGroups(request):
-
-    #token verification
+@api_view(['GET'])
+def listedCreateby(request, createdby):
+    # Token verification
     authorization_header = request.headers.get('Authorization')
     verify = verifyJwt.JWTValidator(authorization_header)
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     try:
-        Groups = GroupsCreate.objects.filter(createdby= request.data.get('teacher')).exclude(isactive=0)
+        createdby = GroupsCreate.objects.filter(createdby=createdby)
     except GroupsCreate.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = GorupsCreateSeralizer(Groups, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    print(createdby)
+    if createdby.exists():
+        serializer = GorupsCreateSeralizer(createdby, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response("Archivo no encotrado", status=status.HTTP_404_NOT_FOUND)
 
 @ api_view(['POST'])
 def deletegroup(request):

@@ -1,0 +1,150 @@
+.lobby
+  background-color: whitesmoke
+  // overflow-y: scroll
+  overflow-x: hidden
+  height: 100vh
+
+  
+
+.custom-navbar
+  background-color: white
+  position: fixed
+
+.header-content-left
+  img
+    width: 80%
+    height: auto
+  h2, p
+    text-align: center
+
+.header-content-right 
+  h2, p
+    text-align: center
+
+.investigators
+  h5,p
+    text-align: center
+   
+
+.Title
+  margin-top: 1rem
+  display: flex
+  text-align: center
+  justify-content: center
+  margin-bottom: 1rem
+  h1
+    text-align: center
+    margin-top: 1rem
+
+
+.formulario
+    max-width: 100%  
+    justify-content: center
+    margin-top: 3rem
+    height: 100vh
+    
+    @media (min-width: 850.98px)
+      position: fixed 
+
+    form
+      display: flex
+      flex-direction: column
+      gap: 20px
+      max-width: 70%  
+      width: 100%
+      margin: 0 auto 
+   
+      .input-wrapper
+        display: flex
+        flex-direction: column
+        gap: 5px
+        position: relative
+       
+
+        label
+          background-color: whitesmoke
+          position: absolute
+          left: 20px
+          top: 10px
+          padding: 0 2px
+          transition: ease-in-out 1s
+          pointer-events: none
+
+        input, textarea
+          background-color: transparent
+          padding: 12px 20px
+          border: 1px solid #4d4d4d
+          border-radius: 20px
+          font-size: 16px
+          outline: none
+          font-family: 'Poppins', sans-serif
+
+        input:focus + label, textarea:focus + label
+          top: -12px
+
+        input:valid + label, textarea:valid + label
+          top: -12px
+
+        input[type="submit"]
+          transition: ease-in-out 2s
+          cursor: pointer
+
+          &:hover
+            background-color: #f1ecec
+            color: white
+
+.col-md-6 
+  display: flex
+  justify-content: center
+  padding: 2rem
+
+
+.imageParallax
+  height: 5rem
+  width: 100%
+  background-size: cover
+  background-attachment: fixed
+  background-position: center
+  background-repeat: no-repeat
+  background-image: url('../../../public/imagenes/lobby.jpeg') 
+  opacity: 0.5
+  color: #fff
+  padding: 10px 20px
+  border: none
+  cursor: pointer
+  font-size: 16px
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2)
+
+.investigators
+  display: flex
+  justify-content: center 
+
+.content_lobby
+    @media (max-width: 850.98px) 
+      width: 100%
+      margin-top: 10px
+      padding-left: 2rem
+      padding-right: 3rem
+
+.mobile-below-tap-lobby         
+    @media (max-width: 850.98px) 
+      width: 100%
+      margin-top: 10px
+      padding-left: 2rem
+      padding-right: 3rem
+.pbutton
+  background-color: #ff99c8
+  border: #ff99c8
+
+.image
+   background-image: url('../../../public/imagenes/libro.png')
+   background-repeat: no-repeat
+   background-size: cover
+   width: 6rem
+   height: 5rem
+   
+
+
+      
+
+      

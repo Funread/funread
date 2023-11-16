@@ -8,6 +8,7 @@ class Grades(models.Model):
     progress = models.IntegerField(db_column='Progress', blank=True, null=True)  # Field name made lowercase.
     grade = models.FloatField(db_column='Grade', blank=True, null=True)  # Field name made lowercase.
     userid = models.ForeignKey(User, db_column='UserId', on_delete=models.CASCADE, to_field='userid')  # Field name made lowercase.
+    isactive = models.IntegerField(blank=True, null=True)
 
     class Meta:
         

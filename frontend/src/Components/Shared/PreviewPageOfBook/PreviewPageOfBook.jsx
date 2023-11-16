@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./PreviewPageOfBook.css";
+import "./PreviewPageOfBook.sass";
 
 function PreviewPageOfBook(props) {
   return <div className="preview-page">{props.pageTemplate}</div>;

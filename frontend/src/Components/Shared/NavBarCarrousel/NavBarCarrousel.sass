@@ -1,0 +1,76 @@
+.page
+  position: relative
+  display: block
+  margin: 0 2px
+  min-height: 20px
+  min-width: 20px
+  border-radius: 10px
+  text-align: center
+  line-height: 20px
+  color: gray
+  text-decoration: none
+  margin-left: 0.5rem
+
+.page-item a.page-link:hover
+  background-color: #cccccc
+
+.page-item.active .page-link
+  font-weight: 700
+  color: #ffffff
+  background-color: #007bff
+
+.page-item.disabled .page-link
+  color: #6c757d
+  pointer-events: none
+  cursor: auto
+
+.custom_section_navbar_carrusel
+  display: flex
+  scroll-snap-type: x mandatory
+  gap: 20px
+
+.custom_section_item_page
+  scroll-snap-align: center
+
+.custom-navbar-carrousel-button
+  border: none
+  background-color: transparent
+
+.custom_section_navbar_carrusel::-webkit-scrollbar
+  height: 7px
+  
+
+.custom_section_navbar_carruselcustom_section::-webkit-scrollbar-thumb
+  background-color: transparent
+  border: none
+  box-shadow: none
+
+.custom_section_navbar_carrusel::-webkit-scrollbar-thumb:hover
+  background-color: rgb(172, 172, 172)
+
+.custom_section_navbar_carrusel::-webkit-scrollbar-track
+  background-color: transparent
+  border: none
+  margin: 0
+  box-shadow: none
+
+.NavbClass.sticky
+  position: sticky
+  top: 0
+  z-index: 999
+
+.navbar-carousel-custom-container 
+  background-color: rgb(247, 249, 249)
+  display: flex
+  max-width: 100%
+  overflow: hidden
+  overflow-x: auto
+  container-type: inline-size
+  position: sticky
+  top: 0
+  z-index: 999
+
+@media screen and (max-width: 580px)
+  .custom_section_navbar_carrusel
+    width: 75%
+

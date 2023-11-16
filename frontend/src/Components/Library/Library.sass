@@ -1,0 +1,68 @@
+.custom-group-title 
+  color: grey
+  text-align: left
+
+
+.library 
+  scroll-snap-type: x mandatory
+  overflow-y: scroll
+  overflow-x: hidden
+  height: 100vh
+  background-color: whitesmoke
+  scroll-snap-align: center
+
+  .col-8
+    @media (max-width: 575.98px)
+      width: 100%
+
+  &::-webkit-scrollbar 
+    width: 7px
+  
+
+  &::-webkit-scrollbar-thumb 
+    background-color: transparent
+    border: none
+    box-shadow: none
+
+    &:hover 
+      background-color: transparent
+    
+
+
+  &::-webkit-scrollbar-track 
+    background-color: transparent
+    border: none
+    margin: 0
+    box-shadow: none
+  
+
+  .custom-input-search 
+    border: none
+    outline: none
+    box-shadow: none
+  
+
+.mobile-below-tap-library  
+  .position_side
+    @media (min-width: 575.98px)
+      height: 100vh
+  @media (max-width: 575.98px) 
+    width: 100%
+    padding-left: 2rem
+    padding-right: 3rem
+    margin-bottom: 4rem     
+
+
+.content_library
+  padding-left: 2rem
+  @media (max-width: 575.98px) 
+    width: 100%
+    padding-left: 1rem  
+    margin-bottom: 4rem
+    
+     
+.button-search-library 
+  &:hover 
+    background-color: #a9def9
+  
+   

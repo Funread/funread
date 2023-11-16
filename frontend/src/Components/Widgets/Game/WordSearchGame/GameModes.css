@@ -1,0 +1,122 @@
+#game{
+    margin-left: 4em;
+}
+
+#buttonsDifficulty{
+    padding-top: 5px;
+}
+
+
+#modes{
+    padding: 3em;
+    min-height: 500px;
+    max-width: auto;
+    margin-right: 20px;
+    border: 2px solid #016f6f;
+    border-radius: 15px;
+    background-color: rgba(18, 140, 153, 0.998);
+    overflow: auto;
+    text-align: center;
+    margin-top: 15px;
+}
+
+#footerButton{
+    text-align: end;
+    padding-top: 65px;
+}
+
+#footerButton button{
+    margin-top: 1em;
+    width: 150px;
+    height: 35px;
+    background: transparent;
+    border-radius: 10px;
+    border: 1px solid #060e2e;
+    color: #060e2e;
+}
+
+
+.titulo
+{
+  padding-top: 35px;
+}
+
+
+#buttonsDifficulty button{
+    /*color: #90fe36;*/
+    margin-top: 1em;
+    width: 150px;
+    height: 35px;
+    /*border-radius: 8px;
+    backdrop-filter: blur(8px);
+    border: 2px solid #7fb114;
+    overflow: hidden;
+    background-color: rgba(135, 153, 18, 0.626);*/
+    background: transparent;
+    border-radius: 10px;
+    border: 1px solid #4cffff;
+    color: #0ad8d8;
+}
+
+#buttonsDifficulty button:hover{
+    background: #4cffff;
+    border: 1px solid transparent;
+    color: #000000;
+}
+
+#footerButton button:hover{
+    background: #060e2e;
+    border: 1px solid transparent;
+    color: #fff;
+}
+
+@media only screen and (min-width: 460px) {
+    .responses-grid {
+        /*grid-template-columns: repeat(1, 1fr);*/
+        place-content: center;
+      }
+
+    #game{
+        margin-right: 3em;
+    }
+
+    #buttonsDifficulty button {
+        width: 6em;
+        transition: 0.9s;
+    }
+
+    
+
+    #modes{
+        width: fit-content;
+        place-content: center;
+    }
+
+  }
+
+  @media only screen and (min-width: 345px) {
+    .responses-grid {
+        /*grid-template-columns: repeat(1, 1fr);*/
+        place-content: center;
+      }
+
+    #game{
+        margin-right: 3em;
+    }
+
+    #buttonsDifficulty button {
+        width: 6em;
+        transition: 0.9s;
+    }
+
+    #footerButton button {
+        width: 6em;
+        transition: 0.9s;
+    }
+
+    #modes{
+        width: fit-content;
+        place-content: center;
+    }
+  }
+
