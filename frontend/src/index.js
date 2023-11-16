@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./index.sass";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,15 +13,9 @@ import Library from "./Components/Library/Library";
 import Group from "./Components/Group/Group";
 import JoinValidator from "./Components/JoinValidator/JoinValidator";
 import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
-import ReverseUniqueSelection from "./Components/Widgets/Quiz/ReverseQuiz/ReverseUniqueSelection";
-import Video from "./Components/Widgets/Media/Video/Video";
-import Voice from "./Components/Widgets/Media/VoiceRecorder/Voicerecorder";
-import GameMode from "./Components/Widgets/Game/WordSearchGame/GameModes";
+import About from "./Components/About/About";
+import Register from "./Components/Register/Register";
 import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorMenu";
-import UniqueSelection from "./Components/Widgets/Quiz/UniqueSelection/UniqueSelection";
-import Gallery from "./Components/GalleryCollage/Gallery";
-import WidgetImage from "./Components/Widgets/Media/Images/WidgetImage";
-import Lobby from "./Components/Lobby/Lobby";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
@@ -98,27 +92,13 @@ root.render(
               }
             />
 
-            <Route
-              exact
-              path="demo/quizreverse"
-              element={<ReverseUniqueSelection />}
-            />
+            <Route exact path="about" element={<About />} />
 
-            <Route exact path="demo/video" element={<Video />} />
+            {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
 
-            <Route exact path="demo/voice" element={<Voice />} />
 
-            <Route exact path="demo/quiz" element={<UniqueSelection />} />
+            <Route exact path="register" element={<Register />} />
 
-            <Route exact path="demo/Gallery2" element={<Gallery />} />
-
-            <Route exact path="demo/image" element={<WidgetImage />} />
-
-             <Route exact path="demo/wordsearchgame" element={<GameMode />} />
-
-            <Route
-              element={<ProtectedRoutes roles={["profesor", "estudiante"]} />}
-            ></Route>
             <Route element={<ProtectedRoutes roles={["profesor"]} />}>
               {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
               <Route
@@ -175,14 +155,6 @@ root.render(
                       <BookCreator />
                     </div>
                   </div>
-                }
-              />
-
-              <Route
-                exact
-                path="/lobby"
-                element={
-                   <Lobby/>                  
                 }
               />
             </Route>

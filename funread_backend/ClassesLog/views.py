@@ -26,7 +26,7 @@ def createclasseslog(request):
         
         'classesid': request.data.get('classesid'),
         'userid': request.data.get('userid'),
-        'createat': request.data.get('createat'),
+        'createdat': request.data.get('createdat'),
         'description': request.data.get('description').lower()
         
         }

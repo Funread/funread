@@ -13,7 +13,7 @@ import hashlib
 import sys
 sys.path.append('funread_backend')
 import verifyJwt
-
+from django.db import OperationalError
 # Create your views here.
 
 #Metodo para mostrar todos los elementos de la lista TagsPerPage
@@ -21,32 +21,38 @@ import verifyJwt
 def listed(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    groupsPerClasses = GroupsPerClasses.objects.all()
-    serializer = GroupsPerClassesSerializer (groupsPerClasses, many=True)
-    return Response(serializer.data)
+     groupsPerClasses = GroupsPerClasses.objects.all()
+     serializer = GroupsPerClassesSerializer (groupsPerClasses, many=True)
+     return Response(serializer.data)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 #Metodo para buscar una variable por nombre
 @api_view(['GET'])
 def search(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    try:
+    
         groupsPerClasses  = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
         print(groupsPerClasses)
     except GroupsPerClasses.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     serializer = GroupsPerClassesSerializer(groupsPerClasses)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -55,37 +61,43 @@ def search(request):
 def add_new(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    print(request.data)
-    data = {
+     print(request.data)
+     data = {
         'groupId': request.data.get('groupId'),
         'classesId': request.data.get('classesId'),
-    }
-    serializer = GroupsPerClassesSerializer(data=data)
-    if serializer.is_valid():
+     }
+     serializer = GroupsPerClassesSerializer(data=data)
+     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+     return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 #Elimina un elemento de la lista SharedBooks
 @api_view(['DELETE'])
 def delete(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    groupsPerClasses = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
-    groupsPerClasses.delete()
-    return Response({"msj":"Succesfully deleted"}, status=status.HTTP_200_OK)
+     groupsPerClasses = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
+     groupsPerClasses.delete()
+     return Response({"msj":"Succesfully deleted"}, status=status.HTTP_200_OK)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 #Metedo que cambia la variable de la lista SharedBooks
@@ -93,15 +105,18 @@ def delete(request):
 def update(request):
 
     #token verification
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    groupsPerClasses  = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
-    serializer = GroupsPerClassesSerializer(groupsPerClasses, data=request.data)
-    if serializer.is_valid():
+     groupsPerClasses  = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
+     serializer = GroupsPerClassesSerializer(groupsPerClasses, data=request.data)
+     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
