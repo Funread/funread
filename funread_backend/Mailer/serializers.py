@@ -14,7 +14,7 @@ class MailSerializer (serializers.ModelSerializer):
 class MailControlSerializer (serializers.ModelSerializer):
     class Meta:
         model = MailControl
-        fields = ['idControl', 'date', 'category', 'status']
+        fields = ['idControl', 'date', 'category', 'status','EmailFrom']
 
     def create(self, validated_data):
         return MailControl.objects.create(**validated_data)
@@ -22,4 +22,4 @@ class MailControlSerializer (serializers.ModelSerializer):
 class MailControlStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = MailControl
-        fields = ['category', 'status']
+        fields = ['category', 'status', 'emailFrom' ]

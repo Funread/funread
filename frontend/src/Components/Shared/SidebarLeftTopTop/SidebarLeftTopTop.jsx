@@ -21,6 +21,8 @@ import Video from '../../Widgets/Media/Video/Video'
 import Box from '../../Widgets/Text/TextBox'
 import WidgetTypeEnum from '../../Utils/Enums/WidgetTypeEnum'
 import CodeBlock from '../../Widgets/CodeBlock/CodeBlock'
+import GameModes from '../../Widgets/Game/WordSearchGame/GameModes'
+import WidgetImage from '../../Widgets/Media/Images/WidgetImage'
 
 const SidebarLeftTopTop = () => {
   const [isExpanded, setExpendState] = useState(true)
@@ -119,6 +121,12 @@ const SidebarLeftTopTop = () => {
           widget: <Video />,
           widgetType: WidgetTypeEnum.Media,
         },
+        {
+          id: 3,
+          image: '/imagenes/widgets/image.png',
+          widget: <WidgetImage />,
+          widgetType: WidgetTypeEnum.Media,
+        },
       ],
     },
     {
@@ -147,7 +155,14 @@ const SidebarLeftTopTop = () => {
     {
       text: 'Games',
       icon: faGamepad,
-      subItems: [],
+      subItems: [
+        {
+          id: 1,
+          image: '/imagenes/widgets/wordsearchgame.png',
+          widget: <GameModes/>,
+          widgetType: WidgetTypeEnum.Games,
+        },
+      ],
     },
     {
       text: 'Code Block',
