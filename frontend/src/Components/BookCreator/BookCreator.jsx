@@ -75,7 +75,7 @@ const BookCreator = () => {
     setSlides(updatedSlides)
   }
 
-  const addOrUpdatePage = (pageNumber, direction, numRows) => {
+  const addOrUpdatePage = (pageNumber, pageIndex, direction, numRows) => {
     setPages((prevPages) => {
       const updatedPages = prevPages.slice() // Se clona el estado anterior
 
@@ -91,7 +91,7 @@ const BookCreator = () => {
         updatedPages.push({
           ...initialPage,
           pageNumber,
-          elementorder: pageNumber,
+          elementorder: pageIndex,
           gridDirection: direction,
           gridNumRows: numRows,
         })

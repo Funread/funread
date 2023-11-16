@@ -15,6 +15,7 @@ const widgetTypeToComponent = {
 
 const PageContainer = ({
   pageNumber,
+  pageIndex,
   onRemoveSlides,
   updateImage,
   addOrUpdatePage,
@@ -44,21 +45,18 @@ const PageContainer = ({
   const [, drop] = useDrop(() => ({
     accept: Object.keys(widgetTypeToComponent),
     drop: (item) => {
-      if (item.type === 'Grids') {
-        const droppedComponentInfo = {
-          type: item.type,
-          direction: item.direction,
-          rows: item.numRows,
-        }
-        addOrUpdatePage(
-          pageNumber,
-          droppedComponentInfo.direction,
-          droppedComponentInfo.rows
-        )
-        setDroppedComponent(droppedComponentInfo)
-      } else {
-        toast.error('You must select a grid first')
+      const droppedComponentInfo = {
+        type: item.type,
+        direction: item.direction,
+        rows: item.numRows,
       }
+      addOrUpdatePage(
+        pageNumber,
+        pageIndex,
+        droppedComponentInfo.direction,
+        droppedComponentInfo.rows
+      )
+      setDroppedComponent(droppedComponentInfo)
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -89,16 +87,9 @@ const PageContainer = ({
             <div className='card shadow mb-4 content_page shadow rounded'>
               <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
                 <h6 className='m-0 font-weight-bold text-info'>
-                  {'Activity ' + pageNumber}
+                  {'Activity ' + pageIndex}
                 </h6>
                 <div className='d-flex'>
-                  {/*<button id="btnDivs" onClick={remove} style={{backgroundColor: 'rgb(206, 189, 242)'}}>
-                    <img src='/escoba.png' alt='Clear' />
-                  </button>
-                  <button id="btnDivs" onClick={save} style={{backgroundColor: 'rgb(255, 185, 204)'}}>
-                    <img src='/expediente.png' alt='Save' />
-                  </button>*/}
-
                   {!handle.active && (
                     <div className='fullscreen-buttons'>
                       <button
@@ -134,7 +125,7 @@ const PageContainer = ({
                     {
                       direction: droppedComponent.direction,
                       numRows: droppedComponent.rows,
-                      pageNumber: pageNumber,
+                      pageNumber: pageIndex,
                       widgetChange: widgetChange,
                     }
                   )}

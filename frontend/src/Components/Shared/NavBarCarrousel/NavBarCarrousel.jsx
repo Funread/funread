@@ -8,15 +8,15 @@ const Carousel = ({ slides, onAddSlide }) => {
   const handleAddSlide = () => {
     onAddSlide()
   }
-  
-  function handleClick(id) {    
+
+  function handleClick(id) {
     const move = document.querySelector(`#pageContainer-${id}`)
     move.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
   return (
     <div className='container-fluid m-0 navbar-carousel-custom-container'>
       <div className='custom_section_navbar_carrusel'>
-        {_.map(slides, (slide) => (
+        {_.map(slides, (slide, index) => (
           <div
             key={slide.id}
             className='custom_section_item_page my-3'
@@ -28,7 +28,7 @@ const Carousel = ({ slides, onAddSlide }) => {
                 alt='Imagen'
                 style={{ width: '30px', height: '30px', marginRight: '1px' }}
               />
-              {slide.id}
+              {index + 1}
             </div>
           </div>
         ))}
