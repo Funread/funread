@@ -3,6 +3,7 @@ import jwt_decode from 'jwt-decode'
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import Col from 'react-bootstrap/Col'
+import { useSelector } from 'react-redux'
 import { ListGroup, Row, Tab, Badge } from 'react-bootstrap'
 import { Select } from 'antd'
 import { faTrash, faEye, faListCheck } from '@fortawesome/free-solid-svg-icons'
@@ -12,6 +13,7 @@ import { usersList } from '../../../api'
 import {
   newStudentGroup,
   listedStudentGroups,
+  deleteStudentGroup,
 } from '../../../api/studentGroups'
 import { toast } from 'react-toastify'
 import CustomMessage from '../CustomMessage/CustomMessage'
@@ -35,6 +37,7 @@ const ListGroups = ({
   newGroups,
   handleClassesComponent,
 }) => {
+  const user = useSelector((state) => state.user)
   const [key, setKey] = useState('#1')
   const [teacher, setTeacher] = useState(initialState)
   const [groups, setGroups] = useState([])
@@ -44,7 +47,8 @@ const ListGroups = ({
   const token = sessionStorage.getItem('jwt')
 
   //Obtener el id del usuario del storage
-  useEffect(() => {
+  {
+    /*useEffect(() => {
     // Decodifica el JWT cuando el componente se monta
     if (token) {
       const decodedToken = jwt_decode(token)
@@ -53,24 +57,27 @@ const ListGroups = ({
       setTeacher({ teacher: userId })
       setStudent((prevData) => ({ ...prevData, createdby: userId }))
     }
-  }, [token])
+  }, [token])*/
+  }
 
   //Listar los grupos
   useEffect(() => {
     async function fetchData() {
-      const teacherId = teacher.teacher
-      if (teacherId) {
-        try {
-          const response = await listedCreatedBy(teacherId)
-          setGroups(response.data)
-        } catch (error) {
-          console.log('error', error)
+      try {
+        const response = await listedCreatedBy(user.userId)
+        const activeGroups = response.data.filter(
+          (group) => group.isactive === 1
+        )
+        setGroups(activeGroups)
+        {
+          /*setGroups(response.data)*/
         }
+      } catch (error) {
+        console.log('error', error)
       }
     }
-
     fetchData()
-  }, [teacher, newGroups])
+  }, [newGroups])
 
   //Se obtienen todos los usuarios. Se debe cambiar por solo los usuarios estudiantes
   useEffect(() => {
@@ -166,6 +173,20 @@ const ListGroups = ({
     try {
       await deleteGroup(id)
       toast.success('Group was deleted successfully')
+      const response = await listedCreatedBy(user.userId)
+      const activeGroups = response.data.filter((group) => group.isactive === 1)
+      setGroups(activeGroups)
+    } catch (error) {
+      toast.error(
+        'Request Error: An error occurred while processing your request'
+      )
+    }
+  }
+
+  const handleStudentDelete = async (id) => {
+    try {
+      await deleteStudentGroup(id)
+      toast.success('Student was deleted successfully')
     } catch (error) {
       toast.error(
         'Request Error: An error occurred while processing your request'
@@ -252,19 +273,32 @@ const ListGroups = ({
                               className='d-flex justify-content-between align-items-start'
                             >
                               {name + ' ' + lastname}
-                              <Badge
-                                bg='dark'
-                                onClick={() =>
-                                  toggleSidebar({
-                                    userid,
-                                    groupscreateid,
-                                    name,
-                                    lastname,
-                                  })
-                                }
-                              >
-                                <FontAwesomeIcon icon={faEye} size='xl' />
-                              </Badge>
+                              <div>
+                                <Badge
+                                  bg='dark'
+                                  onClick={() =>
+                                    toggleSidebar({
+                                      userid,
+                                      groupscreateid,
+                                      name,
+                                      lastname,
+                                    })
+                                  }
+                                >
+                                  <FontAwesomeIcon icon={faEye} size='xl' />
+                                </Badge>
+
+                                <Badge
+                                  bg='dark'
+                                  className='mx-1'
+                                  data-toggle='tooltip'
+                                  data-placement='bottom'
+                                  title='Delete Student'
+                                  onClick={() => handleStudentDelete(userid)}
+                                >
+                                  <FontAwesomeIcon icon={faTrash} size='xl' />
+                                </Badge>
+                              </div>
                             </ListGroup.Item>
                           </div>
                         ))}

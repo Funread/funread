@@ -27,11 +27,11 @@ export async function studentGroupSearch(groupId) {
   )
 }
 
-export async function deleteStudentGroup(groupId) {
+export async function deleteStudentGroup(userId) {
   return axiosAuth().put(
     'studentsgroups/studentsgroups/deleteStudentsGroups/',
     {
-      groupId: groupId,
+      idstudent: userId,
     }
   )
 }
