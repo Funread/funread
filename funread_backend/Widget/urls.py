@@ -22,12 +22,12 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns=[
     
-    path('widget/searchWidget/<str:widgetid>', views.widgetSearch),
-    path('widget/updateWidget/', views.widgetChange),
-    path('widget/listallWidgets/', views.listedWidget),
-    path('widget/insertWidget/', views.new_widget),
-    path('widget/searchWidgetItem/<str:widgetitemid>', views.widgetItemSearch),
-    path('widget/updateWidgetitem/', views.widgetItemChange),
-    path('widget/listallWidgetItems/', views.listedWidgetItems),
-    path('widget/insertWidgetItem/', views.new_widgetItem)
+    path('searchWidget/<str:widgetid>', views.widgetSearch),
+    path('updateWidget/', views.widgetChange),
+    path('listallWidgets/', views.listedWidget),
+    path('insertWidget/', views.new_widget),
+    path('searchWidgetItem/<str:widgetitemid>', views.widgetItemSearch),
+    path('updateWidgetitem/', views.widgetItemChange),
+    path('listallWidgetItems/', views.listedWidgetItems),
+    path('insertWidgetItem/', views.new_widgetItem)
 ]
