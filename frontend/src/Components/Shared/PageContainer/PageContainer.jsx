@@ -6,7 +6,7 @@ import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
@@ -15,7 +15,7 @@ const widgetTypeToComponent = {
 
 const PageContainer = ({
   pageNumber,
-  pageIndex,
+  order,
   onRemoveSlides,
   updateImage,
   addOrUpdatePage,
@@ -52,7 +52,6 @@ const PageContainer = ({
       }
       addOrUpdatePage(
         pageNumber,
-        pageIndex,
         droppedComponentInfo.direction,
         droppedComponentInfo.rows
       )
@@ -87,7 +86,7 @@ const PageContainer = ({
             <div className='card shadow mb-4 content_page shadow rounded'>
               <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
                 <h6 className='m-0 font-weight-bold text-info'>
-                  {'Activity ' + pageIndex}
+                  {`Activity ${order}`}
                 </h6>
                 <div className='d-flex'>
                   {!handle.active && (
@@ -125,7 +124,7 @@ const PageContainer = ({
                     {
                       direction: droppedComponent.direction,
                       numRows: droppedComponent.rows,
-                      pageNumber: pageIndex,
+                      pageOrder: order,
                       widgetChange: widgetChange,
                     }
                   )}

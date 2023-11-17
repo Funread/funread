@@ -16,7 +16,7 @@ const Carousel = ({ slides, onAddSlide }) => {
   return (
     <div className='container-fluid m-0 navbar-carousel-custom-container'>
       <div className='custom_section_navbar_carrusel'>
-        {_.map(slides, (slide, index) => (
+        {_.map(slides, (slide) => (
           <div
             key={slide.id}
             className='custom_section_item_page my-3'
@@ -28,7 +28,7 @@ const Carousel = ({ slides, onAddSlide }) => {
                 alt='Imagen'
                 style={{ width: '30px', height: '30px', marginRight: '1px' }}
               />
-              {index + 1}
+              {slide.order}
             </div>
           </div>
         ))}

@@ -11,11 +11,11 @@ const Slide = ({
 }) => {
   return (
     <>
-      {_.map(slides, (slide, index) => (
+      {_.map(slides, (slide) => (
         <PageContainer
           key={slide.id}
           pageNumber={slide.id}
-          pageIndex={index + 1}
+          order={slide.order}
           onRemoveSlides={onRemoveSlides}
           updateImage={updateImage}
           addOrUpdatePage={addOrUpdatePage}

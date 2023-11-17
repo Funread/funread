@@ -25,7 +25,7 @@ const initialPage = {
 
 const BookCreator = () => {
   const backend = isMobile ? TouchBackend : HTML5Backend
-  const [slides, setSlides] = useState([{ id: 1, image: null }])
+  const [slides, setSlides] = useState([{ id: 1, image: null, order: 1 }])
   const [pages, setPages] = useState([])
   const [widgets, setWidgets] = useState([])
   const [savedPages, setSavedPages] = useState(new Set())
@@ -48,15 +48,37 @@ const BookCreator = () => {
 
   // Agregar una diapositiva
   const addSlide = () => {
-    const newSlideId = Math.max(...slides.map((slide) => slide.id)) + 1
-    setSlides([...slides, { id: newSlideId, image: null }])
+    setSlides((prevSlides) => {
+      const lastSlide = prevSlides[prevSlides.length - 1]
+      const newSlideId = lastSlide ? lastSlide.id + 1 : 1
+
+      const newSlide = {
+        id: newSlideId,
+        image: null,
+        order: prevSlides.length + 1,
+      }
+
+      // Añadir la nueva diapositiva y actualizar los números de orden
+      const updatedSlides = [...prevSlides, newSlide].map((slide, index) => ({
+        ...slide,
+        order: index + 1,
+      }))
+
+      return updatedSlides
+    })
   }
 
   // Quitar la diapositiva
   const removeSlide = (slideId) => {
     if (slides.length > 1) {
       const newSlides = slides.filter((slide) => slide.id !== slideId)
-      setSlides(newSlides)
+
+      const updatedSlides = newSlides.map((slide, index) => ({
+        ...slide,
+        order: index + 1,
+      }))
+
+      setSlides(updatedSlides)
 
       const newPages = pages.filter((page) => page.pageNumber !== slideId)
       setPages(newPages)
@@ -75,28 +97,29 @@ const BookCreator = () => {
     setSlides(updatedSlides)
   }
 
-  const addOrUpdatePage = (pageNumber, pageIndex, direction, numRows) => {
+  const addOrUpdatePage = (pageNumber, direction, numRows) => {
     setPages((prevPages) => {
       const updatedPages = prevPages.slice() // Se clona el estado anterior
-
       const existingPageIndex = updatedPages.findIndex(
         (page) => page.pageNumber === pageNumber
       )
+
+      const newElementOrder = updatedPages.length + 1 // Calcular nuevo order
 
       if (existingPageIndex !== -1) {
         const existingPage = updatedPages[existingPageIndex]
         existingPage.gridDirection = direction
         existingPage.gridNumRows = numRows
+        existingPage.elementorder = newElementOrder // Actualizar elementorder
       } else {
         updatedPages.push({
           ...initialPage,
           pageNumber,
-          elementorder: pageIndex,
+          elementorder: newElementOrder,
           gridDirection: direction,
           gridNumRows: numRows,
         })
       }
-
       return updatedPages
     })
   }
