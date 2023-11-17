@@ -86,13 +86,10 @@ const Group = () => {
                 className='me-2 custom-input-search'
                 aria-label='Search'
               />
-              <Button variant='outline-success'>
-                <FontAwesomeIcon
-                  className='fa-magnifying-glass'
-                  icon={faSearch}
-                />
+              <Button className='button-search-library' variant='outline-success'>
+                <FontAwesomeIcon className='fa-magnifying-glass' icon={faSearch} />
               </Button>
-              <Button variant='outline-success' onClick={toggleGroupForm}>
+              <Button className='button-edit-library' variant='outline-success' onClick={toggleGroupForm}>
                 <FontAwesomeIcon icon={faPencilAlt} />
               </Button>
             </Form>

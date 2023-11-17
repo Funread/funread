@@ -16,7 +16,6 @@ import {
   searchDilemmaByDimension,
   searchDimensionByCategory,
 } from '../../../api/bookDilemma'
-import { useNavigate } from 'react-router-dom'
 
 const initialBookState = {
   title: '',
@@ -41,7 +40,6 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   const [fileImage, setFileImage] = useState(null)
   const [missingFields, setMissingFields] = useState({})
   const user = useSelector((state) => state.user)
-  const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchData() {
@@ -106,12 +104,6 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
 
         toggleSidebar({ ...newBook })
         updateBook(newBook)
-
-        navigate('/bookcreator', {
-          state: {
-            data: response.data,
-          }
-        });
       } else {
         toast.error('Unable to save the book')
       }
