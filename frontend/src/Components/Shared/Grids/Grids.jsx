@@ -6,6 +6,9 @@ import ReverseUniqueSelection from '../../Widgets/Quiz/ReverseQuiz/ReverseUnique
 import Video from '../../Widgets/Media/Video/Video'
 import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
 import Box from '../../Widgets/Text/TextBox'
+import CodeBlock from '../../Widgets/CodeBlock/CodeBlock'
+import WidgetImage from '../../Widgets/Media/Images/WidgetImage'
+import GameModes from '../../Widgets/Game/WordSearchGame/GameModes'
 
 const widgetTypeToComponent = {
   UniqueSelection: UniqueSelection,
@@ -13,10 +16,15 @@ const widgetTypeToComponent = {
   Video: Video,
   AudioRecorder: AudioRecorder,
   Box: Box,
+  CodeBlock: CodeBlock,
+  WidgetImage: WidgetImage,
+  GameModes: GameModes,
 }
 
-const Grids = ({ direction, numRows }) => {
-  const [droppedWidgets, setDroppedWidgets] = useState(Array(numRows).fill([]))
+const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
+  const [droppedWidgets, setDroppedWidgets] = useState(
+    Array(numRows).fill(null)
+  )
   const divID = useRef()
 
   useEffect(() => {
@@ -44,12 +52,13 @@ const Grids = ({ direction, numRows }) => {
     accept: Object.keys(widgetTypeToComponent),
     drop: (droppedWidget) => {
       if (divID.current !== null) {
+        // Generar un ID único para el widget
+        const widgetWithId = { ...droppedWidget, widgetId: generateUniqueId() }
+
         setDroppedWidgets((prevDroppedWidgets) => {
           const updatedDroppedWidgets = [...prevDroppedWidgets]
-          updatedDroppedWidgets[divID.current] = [
-            ...(prevDroppedWidgets[divID.current] || []),
-            droppedWidget,
-          ]
+          updatedDroppedWidgets[divID.current] = widgetWithId
+
           return updatedDroppedWidgets
         })
       }
@@ -59,21 +68,27 @@ const Grids = ({ direction, numRows }) => {
     }),
   }))
 
+  const generateUniqueId = () => {
+    return Math.random().toString(36).substring(7)
+  }
+
   return (
     <section className={`layout ${direction}`} ref={drop}>
       {Array.from({ length: numRows }).map((_, index) => (
         <div id={index} className='custom-grid-component' key={index}>
-          {Array.isArray(droppedWidgets[index]) &&
-            droppedWidgets[index].map(
-              (widget, widgetIndex) =>
-                widgetTypeToComponent[widget.type] && (
-                  <div key={widgetIndex}>
-                    {React.createElement(
-                      widgetTypeToComponent[widget.type],
-                      {}
-                    )}
-                  </div>
-                )
+          {widgetTypeToComponent[droppedWidgets[index]?.type] &&
+            React.createElement(
+              widgetTypeToComponent[droppedWidgets[index].type],
+              {
+                onWidgetChange: (data) =>
+                  widgetChange({
+                    ...data,
+                    widgetId: droppedWidgets[index].widgetId,
+                    widgetType: droppedWidgets[index].widgetType,
+                    pageNumber: pageOrder,
+                    order: index,
+                  }),
+              }
             )}
         </div>
       ))}
