@@ -1,27 +1,29 @@
 import React, { useState } from 'react'
-import { useDrag } from 'react-dnd'
 
-const widgetType = 'widgetType'
+const Box = ({ onWidgetChange }) => {
+  const [text, setText] = useState('')
 
-const Box = () => {
-  const [text, setText] = useState('Lorem Ipsum')
-
-  const [{ isDragging }, drag] = useDrag({
-    type: widgetType,
-    item: { type: 'Box' },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  })
+  // const [, drag] = useDrag({
+  //   type: widgetType,
+  //   item: { type: 'Box' },
+  //   collect: (monitor) => ({
+  //     isDragging: !!monitor.isDragging(),
+  //   }),
+  // })
 
   const handleTextChange = (e) => {
     const newText = e.target.value
     setText(newText)
+    onWidgetChange({ type: 'Box', data: newText })
   }
 
   return (
-    <div ref={drag}>
-      <textarea value={text} onChange={handleTextChange} />
+    <div>
+      <textarea
+        placeholder='Lorem Ipsum'
+        value={text}
+        onChange={handleTextChange}
+      />
     </div>
   )
 }
