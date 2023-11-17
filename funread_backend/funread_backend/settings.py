@@ -175,7 +175,7 @@ DATABASES = {
     #       'authMechanism': 'SCRAM-SHA-1' # for cloud db
     #     }
     # }
-    'default': {
+      'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ.get("SETTINGS_DATABASE_NAME",'funread'),
         'HOST': os.environ.get("SETTINGS_DATABASE_HOST", 'localhost'),
@@ -185,6 +185,9 @@ DATABASES = {
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
+
+
+
     }
 }
 
