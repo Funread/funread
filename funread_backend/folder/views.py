@@ -16,6 +16,9 @@ import sys
 sys.path.append('funread_backend')
 import verifyJwt
 
+from django.http import JsonResponse
+from django.db import OperationalError
+
 # Create your views here.
 
 @api_view(['POST'])
@@ -27,18 +30,23 @@ def new_folder(request):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+    try:
+        print(request.data)
+        data = {
+            'namefolders': request.data.get('nameFolders').lower(),
+            'createdBy': request.data.get('createdBy'),
+        }
+        serializer = FolderSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
     
-    print(request.data)
-    data = {
-        'namefolders': request.data.get('nameFolders').lower(),
-        'createdBy': request.data.get('createdBy'),
-    }
-    serializer = FolderSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-
 @ api_view(['GET'])
 def listed(request):
 
@@ -48,10 +56,15 @@ def listed(request):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    folder = Folder.objects.all()
-    serializer = FolderSerializer(folder, many=True)
-    return Response(serializer.data)
+    try:
+        folder = Folder.objects.all()
+        serializer = FolderSerializer(folder, many=True)
+        return Response(serializer.data)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
 
 @api_view(['DELETE'])
 def deleteFolder(request, nameFolders):
@@ -62,11 +75,17 @@ def deleteFolder(request, nameFolders):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    folder = Folder.objects.get(namefolders=nameFolders)
-    folder.delete()
+    try: 
+        
+        folder = Folder.objects.get(namefolders=nameFolders)
+        folder.delete()
 
-    return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_200_OK)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
 
 @api_view(['GET'])
 def FolderSearch(request, nameFolders):
@@ -83,6 +102,12 @@ def FolderSearch(request, nameFolders):
         print(folder)
     except Folder.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
+
     serializer = FolderSerializer(folder)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -96,14 +121,18 @@ def folderChange(request, nameFolders):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    folder = Folder.objects.get(namefolders=nameFolders)
-    serializer = FolderSerializer(folder, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    try: 
+        folder = Folder.objects.get(namefolders=nameFolders)
+        serializer = FolderSerializer(folder, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )   
 
 
 

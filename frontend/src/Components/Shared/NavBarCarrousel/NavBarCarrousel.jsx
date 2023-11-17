@@ -8,8 +8,8 @@ const Carousel = ({ slides, onAddSlide }) => {
   const handleAddSlide = () => {
     onAddSlide()
   }
-  
-  function handleClick(id) {    
+
+  function handleClick(id) {
     const move = document.querySelector(`#pageContainer-${id}`)
     move.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
@@ -28,7 +28,7 @@ const Carousel = ({ slides, onAddSlide }) => {
                 alt='Imagen'
                 style={{ width: '30px', height: '30px', marginRight: '1px' }}
               />
-              {slide.id}
+              {slide.order}
             </div>
           </div>
         ))}
