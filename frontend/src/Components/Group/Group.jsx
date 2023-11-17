@@ -11,12 +11,17 @@ import GroupCardProgress from '../Shared/GroupCardProgress/GroupCardProgress'
 import GroupBuilder from '../Shared/GroupBuilder/GroupBuilder'
 import { ToastContainer } from 'react-toastify'
 import GroupView from '../Shared/GroupView/GroupView'
+import Classes from '../Shared/Classes/Classes'
+import ClassBuilder from '../Shared/ClassBuilder/ClassBuilder'
 
 const Group = () => {
   const [groups, setGroups] = useState([])
   const [selectedStudent, setSelectedStudent] = useState(null)
   const [selectedGroup, setSelectedGroup] = useState(null)
   const [groupForm, setGroupForm] = useState(false)
+  const [groupClasses, setGroupClasses] = useState(false)
+  const [groupId, setGroupId] = useState(null)
+  const [showClasses, setShowClasses] = useState(false)
 
   const showGroupResume = (group) => {
     if (!selectedGroup || selectedGroup.id !== group.id) {
@@ -27,6 +32,7 @@ const Group = () => {
 
     setGroupForm(false)
     setSelectedStudent(null)
+    setGroupClasses(false)
   }
 
   const toggleSidebar = (student) => {
@@ -36,18 +42,32 @@ const Group = () => {
       setSelectedStudent(student)
     }
 
+    setGroupClasses(false)
     setGroupForm(false)
     setSelectedGroup(null)
   }
 
   const toggleGroupForm = () => {
+    setGroupClasses(false)
     setSelectedStudent(null)
     setSelectedGroup(null)
     setGroupForm(!groupForm || selectedGroup || selectedStudent)
   }
 
+  const toggleGroupClasses = () => {
+    setGroupClasses(!groupClasses)
+    setGroupForm(false)
+    setSelectedStudent(null)
+    setSelectedGroup(null)
+  }
+
   const handleGroupCreated = (newGroup) => {
     setGroups([...groups, newGroup])
+  }
+
+  const handleClassesComponent = (id) => {
+    setGroupId(id)
+    setShowClasses(!showClasses)
   }
 
   return (
@@ -80,7 +100,10 @@ const Group = () => {
               toggleSidebar={toggleSidebar}
               showGroupResume={showGroupResume}
               newGroups={groups}
+              handleClassesComponent={handleClassesComponent}
             />
+            {showClasses && <Classes toggleGroupClasses={toggleGroupClasses} />}
+
             <GroupCardProgress></GroupCardProgress>
             <br />
           </div>
@@ -104,6 +127,8 @@ const Group = () => {
                 idimage={selectedGroup?.idimage}
               />
             )}
+
+            {groupClasses && <ClassBuilder groupId={groupId} />}
           </div>
         </div>
       </div>
