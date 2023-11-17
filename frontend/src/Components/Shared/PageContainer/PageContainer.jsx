@@ -6,7 +6,7 @@ import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
@@ -15,6 +15,7 @@ const widgetTypeToComponent = {
 
 const PageContainer = ({
   pageNumber,
+  order,
   onRemoveSlides,
   updateImage,
   addOrUpdatePage,
@@ -44,21 +45,17 @@ const PageContainer = ({
   const [, drop] = useDrop(() => ({
     accept: Object.keys(widgetTypeToComponent),
     drop: (item) => {
-      if (item.type === 'Grids') {
-        const droppedComponentInfo = {
-          type: item.type,
-          direction: item.direction,
-          rows: item.numRows,
-        }
-        addOrUpdatePage(
-          pageNumber,
-          droppedComponentInfo.direction,
-          droppedComponentInfo.rows
-        )
-        setDroppedComponent(droppedComponentInfo)
-      } else {
-        toast.error('You must select a grid first')
+      const droppedComponentInfo = {
+        type: item.type,
+        direction: item.direction,
+        rows: item.numRows,
       }
+      addOrUpdatePage(
+        pageNumber,
+        droppedComponentInfo.direction,
+        droppedComponentInfo.rows
+      )
+      setDroppedComponent(droppedComponentInfo)
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -89,16 +86,9 @@ const PageContainer = ({
             <div className='card shadow mb-4 content_page shadow rounded'>
               <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
                 <h6 className='m-0 font-weight-bold text-info'>
-                  {'Activity ' + pageNumber}
+                  {`Activity ${order}`}
                 </h6>
                 <div className='d-flex'>
-                  {/*<button id="btnDivs" onClick={remove} style={{backgroundColor: 'rgb(206, 189, 242)'}}>
-                    <img src='/escoba.png' alt='Clear' />
-                  </button>
-                  <button id="btnDivs" onClick={save} style={{backgroundColor: 'rgb(255, 185, 204)'}}>
-                    <img src='/expediente.png' alt='Save' />
-                  </button>*/}
-
                   {!handle.active && (
                     <div className='fullscreen-buttons'>
                       <button
@@ -134,7 +124,7 @@ const PageContainer = ({
                     {
                       direction: droppedComponent.direction,
                       numRows: droppedComponent.rows,
-                      pageNumber: pageNumber,
+                      pageOrder: order,
                       widgetChange: widgetChange,
                     }
                   )}
