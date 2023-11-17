@@ -29,9 +29,10 @@ class WidgetItemSerializer(serializers.ModelSerializer):
 
   def update(self, instance, validated_data):
       instance.widgetitemid = validated_data.get('widgetitemid', instance.widgetitemid)
-      instance.page = validated_data.get('page', instance.page)
-      instance.widget = validated_data.get('widget', instance.widget)
+      instance.pageid = validated_data.get('pageid', instance.pageid)
+      instance.widgetid = validated_data.get('widgetid', instance.widgetid)
       instance.value = validated_data.get('value', instance.value)
       instance.type = validated_data.get('type', instance.type)
+      instance.elementorder = validated_data.get('elementorder', instance.elementorder)
       instance.save()
       return instance

@@ -127,10 +127,11 @@ def new_widgetItem(request):
     
      print(request.data)
      data = {
-        'page': request.data.get('page'),
-        'widget': request.data.get('widget'),
+        'pageid': request.data.get('pageid'),
+        'widgetid': request.data.get('widgetid'),
         'type': request.data.get('type'),
-        'value': request.data.get('value')
+        'value': request.data.get('value'),
+        'elementorder': request.data.get('elementorder')
      }
      serializer = WidgetItemSerializer(data=data)
      if serializer.is_valid():
@@ -187,10 +188,11 @@ def widgetItemChange(request):
 
     try:
      data = {
-        'page': request.data.get('page'),
-        'widget': request.data.get('widget'),
+        'pageid': request.data.get('pageid'),
+        'widgetid': request.data.get('widgetid'),
         'type': request.data.get('type'),
-        'value': request.data.get('value')
+        'value': request.data.get('value'),
+        'elementorder': request.data.get('elementorder')
      }
      serializer = WidgetItemSerializer(widgetitem, data=data)
      if serializer.is_valid():

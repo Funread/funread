@@ -16,7 +16,7 @@ torch==2.0.1
 tiktoken==0.3.3
 moviepy==1.0.3
 librosa==0.10.1
+git+https://github.com/openai/whisper.git #instalar whisper
 
-#Si ocurre algun problema con los requirements usar estos dos comandos
-#pip install git+https://github.com/openai/whisper.git
+#Si ocurre algun problema con whisper usar este dos comandos
 #pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
