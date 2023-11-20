@@ -45,7 +45,7 @@ function Register(props) {
         alert('El token del usuario expiro, loguese de nuevo\n\n'+err.response.data.detail+'\n\n Register.jsx(line:42)')
         navigate('/')
       }
-      alert('Ha ocurrido un error al actualizar el usuario\n\n'+err.response.data.detail+'\n\n Register.jsx(line:44)')
+      alert('Ha ocurrido un error al actualizar el usuario\n\n'+err.response.data.username+'\n\n Register.jsx(line:44)')
     })
   }
 
