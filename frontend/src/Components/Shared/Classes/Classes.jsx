@@ -1,5 +1,6 @@
 import './Classes.sass'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
@@ -10,35 +11,43 @@ import DraggableBookCard from '../DraggableBookCard/DraggableBookCard'
 import CustomMessage from '../CustomMessage/CustomMessage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { listed, usersList } from '../../../api'
 
-const books = [
-  {
-    bookid: 1,
-    title: 'Book 1',
-    portrait: 'media',
-    createdby: 'Author name 1',
-  },
-  {
-    bookid: 2,
-    title: 'Book 2',
-    portrait: 'media',
-    createdby: 'Author name 2',
-  },
-  {
-    bookid: 3,
-    title: 'Book 3',
-    portrait: 'media',
-    createdby: 'Author name 3',
-  },
-  {
-    bookid: 4,
-    title: 'Book 4',
-    portrait: 'media',
-    createdby: 'Author name 4',
-  },
-]
 const Classes = ({ toggleGroupClasses }) => {
+  const user = useSelector((state) => state.user)
   const backend = isMobile ? TouchBackend : HTML5Backend
+  const [books, setBooks] = useState(null)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const bookList = await listed()
+        const allUsers = await usersList()
+
+        // Se filtran libros públicos o los publicados por ese profesor
+        const filteredBooks = bookList.data
+          .filter(
+            (book) => book.sharedbook === 1 || book.createdby === user.userId
+          )
+          .map((book) => {
+            const createdByUser = allUsers.data.find(
+              (user) => user.userid === book.createdby
+            )
+            const username = createdByUser
+              ? `${createdByUser.name} ${createdByUser.lastname}`
+              : ''
+
+            // Devolver un nuevo objeto con el username
+            return { ...book, username }
+          })
+        setBooks(filteredBooks)
+      } catch (error) {
+        console.log('error', error)
+      }
+    }
+
+    fetchData()
+  }, [user.userId])
 
   return (
     <DndProvider backend={backend}>
@@ -48,7 +57,7 @@ const Classes = ({ toggleGroupClasses }) => {
             <h5>Book list</h5>
 
             <hr className='mt-0' />
-            {books.length === 0 ? (
+            {books && books.length === 0 ? (
               <CustomMessage message={'There are no books entered'} />
             ) : (
               _.map(books, (book) => (

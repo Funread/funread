@@ -29,7 +29,7 @@ const DraggableBookCard = ({ book }) => {
             <span className='single-line-text'>{book.title}</span>
           </div>
           <div>
-            <span className='author single-line-text'>{book.createdby}</span>
+            <span className='author single-line-text'>{book.username}</span>
           </div>
         </div>
       </div>
