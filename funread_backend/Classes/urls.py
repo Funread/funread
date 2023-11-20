@@ -5,10 +5,10 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
 
-    path('classes/createClasses', views.createclasses),
-    path('classes/listedClasses', views.listedclasses),
-    path('classes/changeClasses', views.classesChange),
-    path('classes/deleteClasses', views.deleteclasses),
-    path('classes/listedClassesid', views.listedclassesid),
-   
+    path('createClasses/', views.createclasses),
+    path('listedClasses/', views.listedclasses),
+    path('changeClasses/', views.classesChange),
+    path('deleteClasses/', views.deleteclasses),
+    path('listedClassesid/', views.listedclassesid),
+    path('lidtedClassesPerGroup/<str:groupid>',views.listedClassPerGroup)
 ]
