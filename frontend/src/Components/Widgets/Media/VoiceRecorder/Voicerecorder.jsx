@@ -223,7 +223,7 @@ const [{ isDragging }, drag] = useDrag(() => ({
             contentLabel='Subir Audio'
             className='Modal'
           >
-            <div className='container'>
+            <div className='voice-recorder-custom-container'>
               <h2>Subir Audio</h2>
               <form>
                 <label>Subir archivo de audio:</label>
