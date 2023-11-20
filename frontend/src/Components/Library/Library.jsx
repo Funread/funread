@@ -10,11 +10,13 @@ import BookView from '../Shared/BookView/BookView'
 import SidebarBook from '../Shared/SidebarBook/SidebarBook'
 import BookBuilder from '../Shared/BookBuilder/BookBuilder'
 import { ToastContainer } from 'react-toastify'
+import { bookSearch } from '../../api'
 
 const Library = () => {
   const [books, setBooks] = useState([])
   const [selectedBook, setSelectedBook] = useState(null)
   const [showForm, setShowForm] = useState(true)
+  const [title, setTitle] = useState("")
 
   const toggleSidebar = (book) => {
     if (!selectedBook) {
@@ -46,6 +48,25 @@ const Library = () => {
     setBooks([...books, newBook])
   }
 
+  const handleGetBookTitle = (event) => {
+    setTitle(event.target.value)
+  }
+
+  const handlesubmit = async (event) => {
+    event.preventDefault() 
+    try{
+      const response = await bookSearch(title)
+      if (response && response.data){
+        console.log('libro encontrado',response.data)
+      }else {
+        console.log("No se ha podido obtener el libro")
+      }
+
+    }catch (error){
+      console.log('No se econtro el libro');
+    }
+  }
+
   return (
     <div className='container-fluid text-center library'>
       <div className='row' style={{ height: 'auto' }}>
@@ -64,11 +85,14 @@ const Library = () => {
                 placeholder='Search'
                 className='me-2 custom-input-search '
                 aria-label='Search'
+                value={title}
+                onChange={handleGetBookTitle}
               />
               <Button className='button-search-library'>
                 <FontAwesomeIcon
                   className='fa-magnifying-glass'
                   icon={faSearch}
+                  onClick={handlesubmit}
                 />
               </Button>
               <Button
