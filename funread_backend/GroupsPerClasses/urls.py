@@ -1,8 +1,6 @@
-from rest_framework import routers
 from  GroupsPerClasses import views
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .api import GroupsPerClassesViewSet
 
 urlpatterns = [
     path('groupsPerClasses/listAllGroupsPerClasses/' , views.listed),
@@ -10,6 +8,7 @@ urlpatterns = [
     path('groupsPerClasses/insertnewGroupsPerClasses/', views.add_new),
     path('groupsPerClasses/deleteGroupsPerClasses/', views.delete),
     path('groupsPerClasses/updateGroupsPerClasses/',views.update),
+    path('groupsPerClasses/listedPerGroups/',views.listedPerGroups),
     
 ]
 

@@ -28,7 +28,7 @@ def new_group(request):
     try:
         image = 0
         if request.data.get('image') is not None:
-            image = int(os.path.splitext(request.data.get('new_image').split('/')[-1])[0])
+            image = int(os.path.splitext(request.data.get('image').split('/')[-1])[0])
         else:
             image = 1
         data = {

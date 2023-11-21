@@ -46,9 +46,8 @@ def search(request):
      if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    
-        groupsPerClasses  = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
-        print(groupsPerClasses)
+     groupsPerClasses  = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
+     print(groupsPerClasses)
     except GroupsPerClasses.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
@@ -120,3 +119,25 @@ def update(request):
      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+def listedPerGroups(request):
+
+    #token verification
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+     groupsPerClasses  = GroupsPerClasses.objects.filter(groupscreatedid=request.data.get('groupscreatedid'))
+    except GroupsPerClasses.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    if groupsPerClasses.exists():
+       serializer = GroupsPerClassesSerializer(groupsPerClasses, many=True)
+    else:
+       return Response("No hay registros", status=status.HTTP_404_NOT_FOUND)
+    return Response(serializer.data, status=status.HTTP_200_OK)
