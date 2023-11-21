@@ -1,6 +1,6 @@
 import Grids from '../../Shared/Grids/Grids'
 
-export const GridEnum = (gridDirection, gridRows) => {
+export const gridEnum = (gridDirection, gridRows) => {
   const grid = `${gridDirection}_${gridRows}`
 
   switch (grid) {

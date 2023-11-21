@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { fullBook } from '../../../api/books'
+import { gridEnum } from '../../Utils/Enums/GridEnum' //Metodo para obtener el grid
 
 const BookPreview = ({ bookid }) => {
   // Array de imágenes
