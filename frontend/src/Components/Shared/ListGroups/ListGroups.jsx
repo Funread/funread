@@ -39,6 +39,10 @@ const ListGroups = ({
   const [student, setStudent] = useState(studentInitialState)
   const [students, setStudents] = useState([])
 
+  useEffect(() => {
+    setStudent((prevData) => ({ ...prevData, createdby: user.userId }))
+  }, [user.userId])
+
   //Listar los grupos
   useEffect(() => {
     async function fetchData() {
@@ -75,7 +79,6 @@ const ListGroups = ({
   useEffect(() => {
     async function fetchData() {
       try {
-        // const axiosInstance = axiosAuthFunction
         const response = await listedStudentGroups()
 
         // Conjunto (set) de userIds
@@ -128,6 +131,7 @@ const ListGroups = ({
       }
 
       setStudent(updatedStudent)
+      console.log(updatedStudent)
       try {
         await newStudentGroup(
           updatedStudent.userid,
