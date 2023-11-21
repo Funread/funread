@@ -10,7 +10,7 @@ export async function newClass(
   groupscreateid,
   isactive
 ) {
-  return axiosAuth().post('classes/classes/createClasses', {
+  return axiosAuth().post('classes/createClasses', {
     name: name,
     grade: grade,
     teacherassigned: teacherassigned,

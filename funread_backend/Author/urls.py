@@ -5,11 +5,11 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .api import AuthorListViewSet
 
 urlpatterns = [
-    path('AuthorList/listAllAuthor/' , views.listed),
-    path('AuthorList/searchAuthorList/', views.AuthorListSearch),
-    path('AuthorList/insertAuthorList/', views.new_Authorlist),
-    path('AuthorList/deleteAuthorList/', views.deleteAuthorList),
-    path('AuthorList/updateAuthorList/',views.AuthorListupdate), 
+    path('listAllAuthor/' , views.listed),
+    path('searchAuthorList/', views.AuthorListSearch),
+    path('insertAuthorList/', views.new_Authorlist),
+    path('deleteAuthorList/', views.deleteAuthorList),
+    path('updateAuthorList/',views.AuthorListupdate), 
     
 ]
 
