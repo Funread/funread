@@ -12,7 +12,7 @@ class GroupsPerClassesSerializer(serializers.ModelSerializer):
       return GroupsPerClasses.objects.create(**validated_data)
 
   def update(self, instance, validated_data):
-      instance.groupId = validated_data.get('groupId', instance.groupId)
-      instance.classesId = validated_data.get('classesId', instance.classesId)
+      instance.studentsgroupsid = validated_data.get('studentsgroupsid', instance.studentsgroupsid)
+      instance.classesid = validated_data.get('classesid', instance.classesid)
       instance.save()
       return instance
