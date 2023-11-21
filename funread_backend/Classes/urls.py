@@ -10,5 +10,5 @@ urlpatterns = [
     path('changeClasses/', views.classesChange),
     path('deleteClasses/', views.deleteclasses),
     path('listedClassesid/', views.listedclassesid),
-    path('lidtedClassesPerGroup/<str:groupid>',views.listedClassPerGroup)
+    path('listedClassesPerGroup/<str:groupid>',views.listedClassPerGroup)
 ]
