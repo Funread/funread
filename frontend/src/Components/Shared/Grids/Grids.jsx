@@ -21,7 +21,14 @@ const widgetTypeToComponent = {
   GameModes: GameModes,
 }
 
-const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
+const Grids = ({
+  direction,
+  numRows,
+  pageOrder,
+  widgetChange,
+  modeStudent,
+  listedWidgets,
+}) => {
   const [droppedWidgets, setDroppedWidgets] = useState(
     Array(numRows).fill(null)
   )
@@ -73,26 +80,52 @@ const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
   }
 
   return (
-    <section className={`layout ${direction}`} ref={drop}>
-      {Array.from({ length: numRows }).map((_, index) => (
-        <div id={index} className='custom-grid-component' key={index}>
-          {widgetTypeToComponent[droppedWidgets[index]?.type] &&
-            React.createElement(
-              widgetTypeToComponent[droppedWidgets[index].type],
-              {
-                onWidgetChange: (data) =>
-                  widgetChange({
-                    ...data,
-                    widgetId: droppedWidgets[index].widgetId,
-                    widgetType: droppedWidgets[index].widgetType,
-                    pageNumber: pageOrder,
-                    order: index,
-                  }),
-              }
-            )}
-        </div>
-      ))}
-    </section>
+    <>
+      {modeStudent ? (
+        <section className={`layout ${direction}`} ref={drop}>
+          {Array.from({ length: numRows }).map((_, index) => (
+            <div id={index} className='custom-grid-component' key={index}>
+              {widgetTypeToComponent[droppedWidgets[index]?.type] &&
+                React.createElement(
+                  widgetTypeToComponent[droppedWidgets[index].type],
+                  {
+                    onWidgetChange: (data) =>
+                      widgetChange({
+                        ...data,
+                        widgetId: droppedWidgets[index].widgetId,
+                        widgetType: droppedWidgets[index].widgetType,
+                        pageNumber: pageOrder,
+                        order: index,
+                      }),
+                  }
+                )}
+            </div>
+          ))}
+        </section>
+      ) : (
+        <section className={`layout ${direction}`}>
+          {Array.from({ length: numRows }).map((_, index) => (
+            <div id={index} className='custom-grid-component' key={index}>
+              {listedWidgets.map()}
+              {/* {widgetTypeToComponent[droppedWidgets[index]?.type] &&
+                React.createElement(
+                  widgetTypeToComponent[droppedWidgets[index].type],
+                  {
+                    onWidgetChange: (data) =>
+                      widgetChange({
+                        ...data,
+                        widgetId: droppedWidgets[index].widgetId,
+                        widgetType: droppedWidgets[index].widgetType,
+                        pageNumber: pageOrder,
+                        order: index,
+                      }),
+                  }
+                )} */}
+            </div>
+          ))}
+        </section>
+      )}
+    </>
   )
 }
 

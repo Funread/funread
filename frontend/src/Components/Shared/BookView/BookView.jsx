@@ -30,6 +30,7 @@ const BookView = ({ book }) => {
       },
     })
   }
+
   return (
     <div
       className='mx-auto pt-5 text-white justify-content-center'
@@ -64,7 +65,7 @@ const BookView = ({ book }) => {
             >
               <FontAwesomeIcon size='lg' icon={faX} />
             </button>
-            <BookPreview title={book.title} />
+            <BookPreview bookid={book.id} />
           </div>
         )}
         <button className='button' onClick={handleEditBook}>
