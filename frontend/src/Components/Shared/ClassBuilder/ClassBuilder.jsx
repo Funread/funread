@@ -71,6 +71,7 @@ const ClassBuilder = ({ groupId }) => {
       <Row>
         <Col>
           <ToastContainer position='top-right' />
+          <h5 className='title'>New class</h5>
           <Form>
             <FormControl
               className='margin'

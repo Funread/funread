@@ -1,10 +1,12 @@
 import { axiosAuth } from './axiosInstances'
+const moment = require('moment')
 
 export async function newGroup(name, image, createdby, isactive) {
   return axiosAuth().post('GroupsCreate/new_group/', {
     name: name,
-    image: image,
+    idimage: image,
     createdby: createdby,
+    createdat: moment().format(),
     isactive: isactive,
   })
 }
