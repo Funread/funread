@@ -57,6 +57,8 @@ export async function deleteclasses(classesId) {
   })
 }
 
-export async function listedclassesid(group) {
-  return axiosAuth().get('classes/listedClassesid/' + group)
+export async function listedClassesId(group) {
+  return axiosAuth().post('classes/listedClassesid/', {
+    group: group,
+  })
 }

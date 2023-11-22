@@ -18,7 +18,7 @@ const classInitialState = {
   isactive: 1,
 }
 
-const ClassBuilder = ({ groupId }) => {
+const ClassBuilder = ({ groupId, updateActivity }) => {
   const [activity, setActivity] = useState(classInitialState)
   const user = useSelector((state) => state.user)
 
@@ -44,7 +44,6 @@ const ClassBuilder = ({ groupId }) => {
 
   const handleSave = async (e) => {
     e.preventDefault()
-    console.log(activity)
 
     try {
       const response = await newClass(
@@ -57,8 +56,8 @@ const ClassBuilder = ({ groupId }) => {
         activity.isactive
       )
       toast.success('Class created successfully')
+      updateActivity(response.data.data)
       setActivity(classInitialState)
-      console.log(response)
     } catch (error) {
       toast.error(
         'Request Error: An error occurred while processing your request'

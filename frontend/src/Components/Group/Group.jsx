@@ -22,6 +22,7 @@ const Group = () => {
   const [groupClasses, setGroupClasses] = useState(false)
   const [groupId, setGroupId] = useState(null)
   const [showClasses, setShowClasses] = useState(false)
+  const [activities, setActivities] = useState([])
 
   const showGroupResume = (group) => {
     if (!selectedGroup || selectedGroup.id !== group.id) {
@@ -70,6 +71,10 @@ const Group = () => {
     setShowClasses(!showClasses)
   }
 
+  const handleActiviyCreated = (newActivity) => {
+    setActivities([...activities, newActivity])
+  }
+
   return (
     <div className='container-fluid text-center group'>
       <div className='row' style={{ height: 'auto' }}>
@@ -86,10 +91,20 @@ const Group = () => {
                 className='me-2 custom-input-search'
                 aria-label='Search'
               />
-              <Button className='button-search-library' variant='outline-success'>
-                <FontAwesomeIcon className='fa-magnifying-glass' icon={faSearch} />
+              <Button
+                className='button-search-library'
+                variant='outline-success'
+              >
+                <FontAwesomeIcon
+                  className='fa-magnifying-glass'
+                  icon={faSearch}
+                />
               </Button>
-              <Button className='button-edit-library' variant='outline-success' onClick={toggleGroupForm}>
+              <Button
+                className='button-edit-library'
+                variant='outline-success'
+                onClick={toggleGroupForm}
+              >
                 <FontAwesomeIcon icon={faPencilAlt} />
               </Button>
             </Form>
@@ -102,7 +117,13 @@ const Group = () => {
               newGroups={groups}
               handleClassesComponent={handleClassesComponent}
             />
-            {showClasses && <Classes toggleGroupClasses={toggleGroupClasses} />}
+            {showClasses && (
+              <Classes
+                groupId={groupId}
+                toggleGroupClasses={toggleGroupClasses}
+                newActivities={activities}
+              />
+            )}
 
             <GroupCardProgress></GroupCardProgress>
             <br />
@@ -128,7 +149,12 @@ const Group = () => {
               />
             )}
 
-            {groupClasses && <ClassBuilder groupId={groupId} />}
+            {groupClasses && (
+              <ClassBuilder
+                groupId={groupId}
+                updateActivity={handleActiviyCreated}
+              />
+            )}
           </div>
         </div>
       </div>
