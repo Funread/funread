@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { listed, usersList } from '../../../api'
 
-const Classes = ({ toggleGroupClasses }) => {
+const Classes = ({ groupId, toggleGroupClasses, newActivities }) => {
   const user = useSelector((state) => state.user)
   const backend = isMobile ? TouchBackend : HTML5Backend
   const [books, setBooks] = useState(null)
@@ -73,7 +73,7 @@ const Classes = ({ toggleGroupClasses }) => {
               </button>
             </div>
             <hr className='mt-0' />
-            <ClassesList />
+            <ClassesList groupId={groupId} newActivities={newActivities} />
           </div>
         </div>
       </div>
