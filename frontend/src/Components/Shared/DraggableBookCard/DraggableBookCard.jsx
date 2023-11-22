@@ -28,12 +28,12 @@ const DraggableBookCard = ({ book }) => {
     >
       <div className='justify-card-content'>
         <img src={bookImage} width={30} height={30} alt='Book Cover' />
-        <div className='draggable-book-details'>
+        <div className='draggable-book-details single-line-text'>
           <div>
-            <span className='single-line-text'>{book.title}</span>
+            <span>{book.title}</span>
           </div>
           <div>
-            <span className='author single-line-text'>{book.username}</span>
+            <span className='author'>{book.username}</span>
           </div>
         </div>
       </div>
