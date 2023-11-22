@@ -40,8 +40,6 @@ def listed(request):
 @api_view(['GET'])
 def search(request):
 
-
-     
     #token verification
     try:
       authorization_header = request.headers.get('Authorization')
@@ -50,14 +48,14 @@ def search(request):
       if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-        tagsPerPage  = TagsPerPage.objects.get(tagsPerPageId=request.data.get('tagsPerPageId'))
-        print(tagsPerPage)
+      tagsperpage_id = request.query_params.get('tagsperpageId')
+      tagsPerPage = TagsPerPage.objects.get(tagsperpageId=tagsperpage_id)
+      serializer = TagsPerPageSerializer(tagsPerPage)
+      return Response(serializer.data, status=status.HTTP_200_OK)
     except TagsPerPage.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": "El dato buscado no existe"},status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    serializer = TagsPerPageSerializer(tagsPerPage)
-    return Response(serializer.data, status=status.HTTP_200_OK)
 
 #Metodo para agregar un elemento a la lista SharedBooks
 @api_view(['POST'])
@@ -96,9 +94,12 @@ def delete(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    tagsPerPage = TagsPerPage.objects.get(tagsPerPageId=request.data.get('tagsPerPageId'))
+    
+    tagsPerPage = TagsPerPage.objects.get(tagsperpageId=request.data.get('tagsperpageId'))
     tagsPerPage.delete()
     return Response({"msj":"Succesfully deleted"}, status=status.HTTP_200_OK)
+ except TagsPerPage.DoesNotExist:
+       return Response({"error": "El objeto no existe."}, status=status.HTTP_404_NOT_FOUND)
  except OperationalError:
     return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
@@ -116,7 +117,7 @@ def update(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    tagsPerPage = TagsPerPage.objects.get(tagsPerPageId=request.data.get('tagsPerPageId'))
+    tagsPerPage = TagsPerPage.objects.get(tagsperpageId=request.data.get('tagsperpageId'))
     serializer = TagsPerPageSerializer(tagsPerPage, data=request.data)
     if serializer.is_valid():
         serializer.save()

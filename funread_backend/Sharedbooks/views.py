@@ -72,10 +72,17 @@ def add_new(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     try:
+
+        
         print(request.data)
+
+        book_id = request.data.get('bookid')
+        user_id = request.data.get('userid')
+
+        print(f"bookid: {book_id}, bookid: {user_id}")
         data = {
-            'bookId': request.data.get('bookId'),
-            'userId': request.data.get('userId'),
+            'bookid': request.data.get('bookid'),
+            'userid': request.data.get('userid'),
         }
         serializer = SharedBooksSerializer(data=data)
         if serializer.is_valid():
@@ -100,6 +107,8 @@ def delete(request):
         sharedbooks = SharedBooks.objects.get(sharedbooksid=request.data.get('sharedbooksid'))
         sharedbooks.delete()
         return Response({"msj":"Succesfully deleted"}, status=status.HTTP_200_OK)
+    except SharedBooks.DoesNotExist:
+       return Response({"error": "El objeto no existe."}, status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
        return JsonResponse({"error": "La base de datos no está disponible en este momento. Intentelo de nuevo más tarde."},status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
