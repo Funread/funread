@@ -9,8 +9,9 @@ import TapLibrary from '../Shared/TapLibrary/TapLibrary'
 import BookView from '../Shared/BookView/BookView'
 import SidebarBook from '../Shared/SidebarBook/SidebarBook'
 import BookBuilder from '../Shared/BookBuilder/BookBuilder'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import { bookSearch } from '../../api'
+
 
 const Library = () => {
   const [books, setBooks] = useState([])
@@ -55,17 +56,32 @@ const Library = () => {
   const handlesubmit = async (event) => {
     event.preventDefault() 
     try{
-      const response = await bookSearch(title)
-      if (response && response.data){
-        console.log('libro encontrado',response.data)
-      }else {
-        console.log("No se ha podido obtener el libro")
-      }
+       const response = await bookSearch(title)
+       
+        if (response && response.data){
 
-    }catch (error){
-      console.log('No se econtro el libro');
-    }
-  }
+          toggleSidebar(response.data)
+          
+
+          setTitle('')
+
+          toast.success(`Libro encontrado correctamente`)
+          
+          
+        }else {
+          toast.error(`Error al buscar el libro`)
+        }
+
+     }catch (error){
+       toast.error(`Error al buscar el libro`);
+     }  
+     handleGetBookTitle({ target: { value: "" } });
+     
+
+}
+
+
+
 
   return (
     <div className='container-fluid text-center library'>
@@ -82,7 +98,7 @@ const Library = () => {
             <Form className='d-flex mt-1 pt-3'>
               <Form.Control
                 type='search'
-                placeholder='Search'
+                placeholder='Search for title'
                 className='me-2 custom-input-search '
                 aria-label='Search'
                 value={title}
@@ -108,6 +124,7 @@ const Library = () => {
             <RecentBook toggleSidebar={toggleSidebar} />
 
             <TapLibrary toggleSidebar={toggleSidebar} newBooks={books} />
+
           </div>
         </div>
         <div className='col-3 shadow rounded mobile-below-tap-library'>
