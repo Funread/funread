@@ -69,12 +69,12 @@ const UniqueSelection = ({ onWidgetChange }) => {
       };  
       return newResponses;
     });
-    
-     onWidgetChange({ type: 'UniqueSelection', data: {data: responses} })
-
+  
   }
 
+  
   useEffect(() => {
+    onWidgetChange({ type: 'UniqueSelection', data: { data: responses } });
     if (responses.length === MIN_RESPONSES) {
       setIsAddingResponses(true)
     } else if (responses.length === MAX_RESPONSES) {
