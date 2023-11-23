@@ -11,7 +11,7 @@ const MAX_RESPONSES = 6
 
 const widgetType = 'widgetType'
 
-const UniqueSelection = ({ saveData }) => {
+const UniqueSelection = ({ onWidgetChange }) => {
   const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill('')) // Inicia con dos respuestas mínimo
   const [isAddingResponses, setIsAddingResponses] = useState(true)
 
@@ -23,20 +23,6 @@ const UniqueSelection = ({ saveData }) => {
       isDragging: !!monitor.isDragging(), //Ayuda a saber si se está arrastrando o no
     }),
   }))
-
-  const save = async () => {
-    if (saveData) {
-      if (saveData) {
-        console.log('dentro')
-        // const saveOptions = await CreateQuiz(saveData)
-        // CreateQuiz('')
-      }
-    }
-  }
-  useEffect(() => {
-    console.log('aaaa')
-    save()
-  }, [saveData])
 
   const addResponses = () => {
     if (responses.length < MAX_RESPONSES) {
@@ -65,6 +51,8 @@ const UniqueSelection = ({ saveData }) => {
       newResponses[index] = value
       return newResponses
     })
+    onWidgetChange({ type: 'UniqueSelection', data: {data: responses} })
+    
   }
 
   useEffect(() => {

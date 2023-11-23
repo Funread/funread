@@ -86,7 +86,7 @@ const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
                     widgetId: droppedWidgets[index].widgetId,
                     widgetType: droppedWidgets[index].widgetType,
                     pageNumber: pageOrder,
-                    order: index,
+                    elementorder: index,
                   }),
               }
             )}
