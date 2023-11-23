@@ -247,3 +247,21 @@ def modifyStateToPublish(request):
      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+def search_by_title(request):
+    #token verification
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+     
+     title = request.data.get('title')
+    
+     book = Book.objects.filter(title__icontains=title)
+     serializer = BookSerializer(book, many=True)
+     return Response(serializer.data)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
