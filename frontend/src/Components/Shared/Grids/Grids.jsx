@@ -82,6 +82,21 @@ const Grids = ({
   return (
     <>
       {modeStudent ? (
+        //modo estudiante o vista previa
+        <section className={`layout ${direction}`}>
+          {Array.from({ length: numRows }).map((_, index) => (
+            <div id={index} className='custom-grid-component' key={index}>
+              {/* {listedWidgets.map(
+                (widget) =>
+                  widget.elementorder === index && (
+                    //Aqui debería ir el widget
+                    <p>Widget</p>
+                  )
+              )} */}
+            </div>
+          ))}
+        </section>
+      ) : (
         <section className={`layout ${direction}`} ref={drop}>
           {Array.from({ length: numRows }).map((_, index) => (
             <div id={index} className='custom-grid-component' key={index}>
@@ -99,21 +114,6 @@ const Grids = ({
                       }),
                   }
                 )}
-            </div>
-          ))}
-        </section>
-      ) : (
-        //modo estudiante o vista previa
-        <section className={`layout ${direction}`}>
-          {Array.from({ length: numRows }).map((_, index) => (
-            <div id={index} className='custom-grid-component' key={index}>
-              {listedWidgets.map(
-                (widget) =>
-                  widget.elementorder === index && (
-                    //Aqui debería ir el widget
-                    <p>Widget</p>
-                  )
-              )}
             </div>
           ))}
         </section>
