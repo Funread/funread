@@ -4,9 +4,11 @@ import './TapLibrary.sass'
 import { Tabs, Tab } from 'react-bootstrap'
 import { listed_PrivateBooks, listed_PublishedBooks } from '../../../api/books'
 import Message from '../CustomMessage/CustomMessage'
+import { useSelector } from 'react-redux'
 
 function TapLibrary({ toggleSidebar, newBooks }) {
   const [key, setKey] = useState('mylibrary')
+  const user = useSelector((state) => state.user)
   const [publishedBooks, setPublishedBooks] = useState([])
   const [privateBooks, setPrivateBooks] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -19,8 +21,12 @@ function TapLibrary({ toggleSidebar, newBooks }) {
           listed_PrivateBooks(),
         ])
 
+        const filteredBooks = privateResponse.data.filter((book) => {
+          return book.createdby === user.userId
+        })
+
         setPublishedBooks(publishedResponse.data)
-        setPrivateBooks(privateResponse.data)
+        setPrivateBooks(filteredBooks)
       } catch (error) {
         console.error('Error fetching data:', error)
       } finally {
