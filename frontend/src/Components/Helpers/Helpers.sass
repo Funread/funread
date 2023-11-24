@@ -1,0 +1,25 @@
+.section_helpers
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  gap: 20px
+  padding: 5 25px // Ajusta el espacio lateral según tu diseño
+  max-width: 1200px
+
+.helpers_row
+  display: flex
+  justify-content: center
+  gap: 20px
+  width: 100%
+  max-width: 1200px // Ajusta el margen según tu diseño
+
+.item_helpers
+  flex: 1 0 calc(25% - 20px)
+  width: 100%
+  margin: 0 10px // Ajusta el espacio entre elementos
+  box-sizing: border-box
+
+  & + .item_helpers
+    margin-left: 0
+    margin-right: 0
+    margin-left: calc(-5% + 10px) // Ajusta el margen izquierdo para el segundo elemento en adelante
