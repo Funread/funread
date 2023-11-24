@@ -61,7 +61,7 @@ def listedStudents(request):
      if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-        StudentsRoles = Userroles.objects.filter(idrole=2)
+     StudentsRoles = Userroles.objects.filter(idrole=2)
     except Userroles.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
