@@ -374,6 +374,7 @@ def get_all_book_relations(request, bookid):
 
     return Response(response_data,status=status.HTTP_200_OK)
   
+
 @api_view(['GET'])
 def search_by_title(request):
     #token verification
@@ -391,3 +392,4 @@ def search_by_title(request):
         return Response(serializer.data)
     except OperationalError:
             return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
