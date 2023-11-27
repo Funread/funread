@@ -4,7 +4,7 @@ from sre_parse import State
 from turtle import title
 from wsgiref import headers
 from .models import Pages
-from .serializers import PageSerializer, getTemplate
+from .serializers import PageSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -125,23 +125,5 @@ def listed(request):
      page = Pages.objects.all()
      serializer = PageSerializer(page, many=True)
      return Response(serializer.data)
-    except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)  
-
-@ api_view(['GET'])
-def Template(request, templateerquest):
-
-    #token verification
-    try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-     template = getTemplate()
-     mayusTemplate = templateerquest.upper()
-     serializer = template.gettemplate(mayusTemplate)
-     return Response(serializer)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -6,13 +6,13 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 
 urlpatterns = [
-    path('Institute/CreateInstitute', views.createInstitute), 
-    path('Institute/listInstitute', views.listedInstitute),
-    path('Institute/UpdateInstitute', views.instituteChange),
-    path('Institute/deleteIntitute', views.deleteInstitute),
+    path('CreateInstitute', views.createInstitute), 
+    path('listInstitute', views.listedInstitute),
+    path('UpdateInstitute', views.instituteChange),
+    path('deleteIntitute', views.deleteInstitute),
     
-    path('InstituteMembers/CreateMembers', views.createMembers),
-    path('InstituteMembers/ListedMembers', views.listedMembers),
-    path('InstituteMembers/ChangeMembers', views.memberChange),
-    path('InstituteMembers/DeleteMembers', views.deleteMembers)
+    path('Members/CreateMembers', views.createMembers),
+    path('Members/ListedMembers', views.listedMembers),
+    path('Members/ChangeMembers', views.memberChange),
+    path('Members/DeleteMembers', views.deleteMembers)
 ]
