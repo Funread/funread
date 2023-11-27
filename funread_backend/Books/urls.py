@@ -14,6 +14,7 @@ urlpatterns=[
     path('new-book/', views.new_book),
     path('modify-state-private/', views.modifyStateToPrivate),
     path('modify-state-publish/',views.modifyStateToPublish),
+    path('search-by-title/',views.search_by_title),
     path('full-book/<str:bookid>',views.get_all_book_relations)
 ]
 
