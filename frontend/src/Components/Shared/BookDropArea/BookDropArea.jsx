@@ -8,7 +8,14 @@ const BookDropArea = ({ activityId, droppedBooks, onDrop }) => {
   const [, drop] = useDrop(() => ({
     accept: 'books',
     drop: (item) => {
-      onDrop(item.book)
+      const droppedBookIds = droppedBooks.map(
+        (droppedBook) => droppedBook.bookid
+      )
+
+      // Verificar si el libro ya está en la lista antes de agregarlo
+      if (!droppedBookIds.includes(item.book.bookid)) {
+        onDrop(item.book)
+      }
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),

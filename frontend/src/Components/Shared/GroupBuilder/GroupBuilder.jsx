@@ -9,7 +9,7 @@ const initialState = {
   name: '',
   createdby: null,
   image: '',
-  isactive: true,
+  isactive: 1,
 }
 
 const GroupBuilder = ({ updateGroup }) => {
