@@ -5,11 +5,11 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .api import BooksPerClassesViewSet
 
 urlpatterns = [
-    path('booksPerClasses/listAllBooksPerClasses/' , views.listed),
-    path('booksPerClasses/listBooksPerClassesid/', views.listedid),
-    path('booksPerClasses/insertnewBooksPerClasses/', views.add_new),
-    path('booksPerClasses/deleteBooksPerClasses/', views.delete),
-    path('booksPerClasses/updateBooksPerClasses/',views.update),
+    path('listAllBooksPerClasses/' , views.listed),
+    path('listBooksPerClassesid/', views.listedid),
+    path('insertnewBooksPerClasses/', views.add_new),
+    path('deleteBooksPerClasses/', views.delete),
+    path('updateBooksPerClasses/',views.update),
     
 ]
 
