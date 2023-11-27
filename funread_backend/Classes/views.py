@@ -1,6 +1,8 @@
 from django.shortcuts import render
 import json
 from wsgiref import headers
+from GroupsPerClasses.models import GroupsPerClasses
+from GroupsPerClasses.serializers import GroupsPerClassesSerializer
 from .models import Classes
 from .serializers import ClassesSerializer
 from rest_framework.response import Response
@@ -130,5 +132,32 @@ def listedclassesid(request):
         
         serializer = ClassesSerializer(ClassesGet, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    except OperationalError:
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+def listedClassPerGroup(request,groupid):
+    # Token verification
+    try:
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if es_valido == False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        try:
+            groupsperclasses = GroupsPerClasses.objects.filter(studentsgroupsid=groupid)
+            groupsperclasses_serializer = GroupsPerClassesSerializer(groupsperclasses, many=True)
+        except GroupsPerClasses.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            classes_ids = [groupsperclasses['classesid'] for groupsperclasses in groupsperclasses_serializer.data]
+            classes = Classes.objects.filter(pk__in=classes_ids)
+            dilemmas_serializer = ClassesSerializer(classes, many=True)
+        except Classes.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(dilemmas_serializer.data, status=status.HTTP_200_OK)
     except OperationalError:
         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
