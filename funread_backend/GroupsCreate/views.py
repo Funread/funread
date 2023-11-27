@@ -94,3 +94,21 @@ def deletegroup(request):
     Groups.isactive = 0
     Groups.save()
     return Response("group successfully deleted", status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def search_by_name(request):
+    #token verification
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+     
+     name = request.data.get('name')
+    
+     groupscreate = GroupsCreate.objects.filter(name__icontains=name)
+     serializer = GorupsCreateSeralizer(groupscreate, many=True)
+     return Response(serializer.data)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
