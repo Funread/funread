@@ -1,8 +1,8 @@
 import './DraggableBookCard.sass'
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook } from '@fortawesome/free-solid-svg-icons'
 import { useDrag } from 'react-dnd'
+
+const getImage = 'http://localhost:8000'
 
 const DraggableBookCard = ({ book }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -15,6 +15,10 @@ const DraggableBookCard = ({ book }) => {
     }),
   }))
 
+  const bookImage = book.portrait
+    ? `${getImage}${book.portrait}`
+    : './imagenes/no-image.png'
+
   return (
     <div
       ref={drag}
@@ -23,13 +27,13 @@ const DraggableBookCard = ({ book }) => {
       } `}
     >
       <div className='justify-card-content'>
-        <FontAwesomeIcon size='2x' icon={faBook} />
-        <div className='draggable-book-details'>
+        <img src={bookImage} width={30} height={30} alt='Book Cover' />
+        <div className='draggable-book-details single-line-text'>
           <div>
-            <span className='single-line-text'>{book.title}</span>
+            <span>{book.title}</span>
           </div>
           <div>
-            <span className='author single-line-text'>{book.createdby}</span>
+            <span className='author'>{book.username}</span>
           </div>
         </div>
       </div>
