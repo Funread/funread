@@ -26,7 +26,7 @@ def transcriber(file):
     audio_path = os.path.join(settings.MEDIA_ROOT, "audio.mp3")
     audio_clip.write_audiofile(audio_path, codec="mp3")
     audio_data, sample_rate = librosa.load(audio_path)
-    model = whisper.load_model("medium")
+    model = whisper.load_model("base.en")
     transcription = model.transcribe(audio_data)
     video_clip.close()
     audio_clip.close()
