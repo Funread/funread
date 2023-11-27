@@ -28,7 +28,7 @@ function GameModes() {
       responses.splice(0,responses.length);
     }
     setResponses(Array(INTER_RESPONSES).fill(''));
-    setFilas(12); 
+    setFilas(10); 
     setColumnas(17); 
     console.log(responses.length)
     console.log(responses)
@@ -40,7 +40,7 @@ function GameModes() {
     }
     setResponses(Array(MAX_RESPONSES).fill(''));
     setFilas(15); // Cambiar el número de filas según la dificultad
-    setColumnas(24); // Cambiar el número de columnas según la dificultad
+    setColumnas(23); // Cambiar el número de columnas según la dificultad
     console.log(responses.length)
     console.log(responses)
   }
