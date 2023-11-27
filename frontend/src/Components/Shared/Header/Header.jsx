@@ -37,6 +37,7 @@ class Header extends React.Component {
                   <Nav.Link href="/about">About Us</Nav.Link>
                   <Nav.Link href="#action2">Study Programs</Nav.Link>
                   <Nav.Link href="#action3">Recent Reports</Nav.Link>
+                  <Nav.Link href="#action4">Collaborators</Nav.Link>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
