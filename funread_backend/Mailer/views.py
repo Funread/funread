@@ -76,15 +76,15 @@ def listByEmail(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     
-        dataRequest = {
-            'emailFrom': request.data.get('emailFrom'),
-        }
-        print(request.data)
-        emailSe = dataRequest.get('emailFrom')
-        mail = Mail.objects.filter(emailFrom=emailSe)
-        print(mail)
-        serializer = MailSerializer(mail, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+     dataRequest = {
+        'emailFrom': request.data.get('emailFrom'),
+     }
+     print(request.data)
+     emailSe = dataRequest.get('emailFrom')
+     mail = Mail.objects.filter(emailFrom=emailSe)
+     print(mail)
+     serializer = MailSerializer(mail, many=True)
+     return Response(serializer.data, status=status.HTTP_200_OK)
     except Mail.DoesNotExist:
         return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
@@ -103,15 +103,15 @@ def listByMailControl(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     
-        dataRequest = {
-            'emailFrom': request.data.get('emailFrom'),
-        }
-        print(request.data)
-        emailSe = dataRequest.get('emailFrom')
-        mailcontrol = MailControl.objects.filter(emailFrom=emailSe)
-        print(mailcontrol)
-        serializer = MailControlSerializer(mailcontrol, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+     dataRequest = {
+        'emailFrom': request.data.get('emailFrom'),
+     }
+     print(request.data)
+     emailSe = dataRequest.get('emailFrom')
+     mailcontrol = MailControl.objects.filter(emailFrom=emailSe)
+     print(mailcontrol)
+     serializer = MailControlSerializer(mailcontrol, many=True)
+     return Response(serializer.data, status=status.HTTP_200_OK)
     except MailControl.DoesNotExist:
         return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
@@ -175,13 +175,13 @@ def updateMailControl(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     
-        dataRequest = {
-            'idControl': request.data.get('idControl'),
-        }
-        emailSe = dataRequest.get('idControl')
-        print(emailSe)
-        mailControl = MailControl.objects.filter(
-            idControl=emailSe).update(status="dlt")
+     dataRequest = {
+        'idControl': request.data.get('idControl'),
+     }
+     emailSe = dataRequest.get('idControl')
+     print(emailSe)
+     mailControl = MailControl.objects.filter(
+        idControl=emailSe).update(status="dlt")
     except MailControl.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:

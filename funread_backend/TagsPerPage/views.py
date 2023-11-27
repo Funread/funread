@@ -50,8 +50,8 @@ def search(request):
       if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-        tagsPerPage  = TagsPerPage.objects.get(tagsPerPageId=request.data.get('tagsPerPageId'))
-        print(tagsPerPage)
+      tagsPerPage  = TagsPerPage.objects.get(tagsPerPageId=request.data.get('tagsPerPageId'))
+      print(tagsPerPage)
     except TagsPerPage.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:

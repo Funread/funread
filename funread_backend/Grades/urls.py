@@ -6,11 +6,11 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 #---------------------las urls van en base de la carpeta del view------------------
 urlpatterns = [
-    path('grades/creategrade',views.creategrade), 
-    path('grades/gradechange/', views.gradechange),
-    path('grades/deletegrade', views.deletegrade),
-    path('grades/listgrade', views.readgrade),
-    path('grades/listgradeperstudent', views.readgradeid),
+    path('creategrade',views.creategrade), 
+    path('gradechange/', views.gradechange),
+    path('deletegrade', views.deletegrade),
+    path('listgrade', views.readgrade),
+    path('listgradeperstudent', views.readgradeid),
 
 ]
 
