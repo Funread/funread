@@ -11,7 +11,6 @@ urlpatterns=[
     path('changePage/', views.pageChange),
     path('listallPages/', views.listed),
     path('insertPage/', views.new_page),
-    path('getTemplate<str:templateerquest>', views.Template)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
