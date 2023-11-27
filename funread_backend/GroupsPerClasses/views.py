@@ -69,8 +69,8 @@ def add_new(request):
     
      print(request.data)
      data = {
-        'groupId': request.data.get('groupId'),
-        'classesId': request.data.get('classesId'),
+        'studentsgroupsid': request.data.get('studentsgroupsid'),
+        'classesid': request.data.get('classesid'),
      }
      serializer = GroupsPerClassesSerializer(data=data)
      if serializer.is_valid():

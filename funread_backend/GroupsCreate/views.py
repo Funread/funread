@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from .serializers import GorupsCreateSeralizer
 from .models import GroupsCreate
+from Media.models import Media
 from rest_framework import status
 import os
 import sys
@@ -26,17 +27,17 @@ def new_group(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     try:
-        image = 0
-        if request.data.get('image') is not None:
-            image = int(os.path.splitext(request.data.get('image').split('/')[-1])[0])
-        else:
-            image = 1
+        idimage = request.data.get('idimage', 1)
+
+        if not Media.objects.filter(id=idimage).exists():
+            idimage = 1
+
         data = {
             'name': request.data.get('name'),
-            'idimage': image,
+            'idimage': idimage,
             'createdby': request.data.get('createdby'),
             'createdat': datetime.datetime.now(),
-            'isactive' : 1
+            'isactive': 1
         }
         serializer = GorupsCreateSeralizer(data=data)
         if serializer.is_valid():
