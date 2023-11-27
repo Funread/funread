@@ -3,6 +3,13 @@ import json
 from sre_parse import State
 from turtle import title
 from wsgiref import headers
+
+from BooksDilemma.models import BookCategory, BookDilemma, BookDimension, DilemmaPerBook
+from BooksDilemma.serializers import BookCategorySerializer, BookDilemmaSerializer, BookDimensionSerializer, DilemmaPerBookSerializer
+from Pages.models import Pages
+from Pages.serializers import PageSerializer
+from Widget.models import WidgetItem
+from Widget.serializers import WidgetItemSerializer
 from .models import Book
 from .serializers import BookSerializer, BookUpdatedBySerializer, bookStateSerializer
 from rest_framework.response import Response
@@ -247,3 +254,90 @@ def modifyStateToPublish(request):
      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+def get_all_book_relations(request, bookid):
+       #token verification
+    try:
+     authorization_header = request.headers.get('Authorization')
+     verify = verifyJwt.JWTValidator(authorization_header)
+     es_valido = verify.validar_token()
+     if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+     book = Book.objects.get(bookid=bookid)
+    except Book.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    book_serializer = BookSerializer(book)
+
+     # Obtener los dilemas relacionados con el libro
+    try:
+        dilemmasperbook = DilemmaPerBook.objects.filter(bookid=bookid)
+        dilemmasperbook_serializer = DilemmaPerBookSerializer(dilemmasperbook, many=True)
+    except DilemmaPerBook.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    # Obtener las dimensiones de los dilemas
+    try:
+        dilemmas_ids = [dilemmasperbook['bookdilemmaid'] for dilemmasperbook in dilemmasperbook_serializer.data]
+        dilemmas = BookDilemma.objects.filter(pk__in=dilemmas_ids)
+        dilemmas_serializer = BookDilemmaSerializer(dilemmas, many=True)
+    except BookDilemma.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    # Obtener las dimensiones de los dilemas
+    try:
+        dimension_ids = [dilemma['bookdimensionid'] for dilemma in dilemmas_serializer.data]
+        dimensions = BookDimension.objects.filter(pk__in=dimension_ids)
+        dimensions_serializer = BookDimensionSerializer(dimensions, many=True)
+    except BookDimension.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    # Obtener las categorías de las dimensiones
+    try:
+        category_ids = [dimension['bookcategoryid'] for dimension in dimensions_serializer.data]
+        categories = BookCategory.objects.filter(pk__in=category_ids)
+        categories_serializer = BookCategorySerializer(categories, many=True)
+    except BookCategory.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    try:
+        pages = Pages.objects.filter(bookid=bookid)
+    except Pages.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    pages_serializer = PageSerializer(pages, many=True)
+
+
+    try:  
+      pages_ids = [page['pageid'] for page in pages_serializer.data]
+      widgetitem = WidgetItem.objects.filter(pageid__in=pages_ids)
+    except WidgetItem.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    widgets_serializer = WidgetItemSerializer(widgetitem, many=True)
+
+
+
+
+    response_data = {
+        'book_details':book_serializer.data,
+        'book_context':{
+          'dilemmas': dilemmas_serializer.data,
+          'dimensions': dimensions_serializer.data,
+          'categories': categories_serializer.data
+        },
+        'book_content': [
+            {
+                'page': page_serializer,
+                'widgetitems': [widget for widget in widgets_serializer.data if widget['pageid'] == page_serializer['pageid']]
+            }
+            for page_serializer in pages_serializer.data
+        ]
+    }
+
+    return Response(response_data,status=status.HTTP_200_OK)
