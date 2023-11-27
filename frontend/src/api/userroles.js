@@ -6,3 +6,7 @@ export async function new_userrole(iduser,idrole) {
         idrole:idrole
     })
 }
+
+export async function listedStudents() {
+    return axiosAuth().get('/userroles/listedStudents/')
+  }

@@ -8,6 +8,7 @@ import { Select } from 'antd'
 import { faTrash, faEye, faListCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { listedCreatedBy, deleteGroup } from '../../../api/group'
+import { listedStudents } from '../../../api/userroles'
 import { usersList } from '../../../api'
 import {
   newStudentGroup,
@@ -61,11 +62,11 @@ const ListGroups = ({
     fetchData()
   }, [newGroups, user.userId])
 
-  //Se obtienen todos los usuarios. Se debe cambiar por solo los usuarios estudiantes
+  //Se obtienen todos los estudiantes. Filtrar solo los activos
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await usersList()
+        const response = await listedStudents()
         setStudents(response.data)
       } catch (error) {
         console.log('error', error)
