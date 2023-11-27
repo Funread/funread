@@ -144,20 +144,17 @@ const BookCreator = () => {
               widgetSeleted[response.data.elementorder].data
 
             for (const widget of widgetsPageNumber) {
-              try {
-                widget.pageid = response.data.pageid
-                widget.widget = getWidgetId(widget)
+              widget.pageid = response.data.pageid
+              widget.widget = getWidgetId(widget)
 
-                const res = await newWidgetItem(
-                  widget.pageid,
-                  widget.widget,
-                  widget.widgetType,
-                  widget.data
-                )
-                console.log('res', res)
-              } catch (error) {
-                console.log(error)
-              }
+              const res = await newWidgetItem(
+                widget.pageid,
+                widget.widget,
+                widget.widgetType,
+                widget.data,
+                widget.elementorder
+              )
+              console.log('res', res)
             }
             toast.success(`Page ${page.pageNumber} added successfully`)
             savedPages.add(page.pageNumber)
@@ -215,6 +212,12 @@ const BookCreator = () => {
             }
             break
 
+          case 'WidgetImage':
+            if (widget.name === 'Image') {
+              return widget.widgetid
+            }
+            break
+
           case 'CodeBlock':
             if (widget.name === 'Code') {
               return widget.widgetid
@@ -234,9 +237,9 @@ const BookCreator = () => {
     }
   }
 
-  // useEffect(() => {
-  //   console.log(widgetSeleted)
-  // }, [widgetSeleted])
+  useEffect(() => {
+    console.log(widgetSeleted)
+  }, [widgetSeleted])
 
   return (
     <DndProvider backend={backend}>

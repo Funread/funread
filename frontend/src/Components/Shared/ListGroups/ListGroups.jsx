@@ -1,5 +1,4 @@
 import './ListGroups.sass'
-import jwt_decode from 'jwt-decode'
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import Col from 'react-bootstrap/Col'
@@ -20,10 +19,6 @@ import CustomMessage from '../CustomMessage/CustomMessage'
 
 const { Option } = Select
 
-const initialState = {
-  teacher: null,
-}
-
 const studentInitialState = {
   userid: null,
   isteacher: 0,
@@ -39,45 +34,32 @@ const ListGroups = ({
 }) => {
   const user = useSelector((state) => state.user)
   const [key, setKey] = useState('#1')
-  const [teacher, setTeacher] = useState(initialState)
   const [groups, setGroups] = useState([])
   const [selectedStudents, setSelectedStudents] = useState([])
   const [student, setStudent] = useState(studentInitialState)
   const [students, setStudents] = useState([])
-  const token = sessionStorage.getItem('jwt')
 
-  //Obtener el id del usuario del storage
-  {
-    /*useEffect(() => {
-    // Decodifica el JWT cuando el componente se monta
-    if (token) {
-      const decodedToken = jwt_decode(token)
-      const userId = decodedToken.user_id
-
-      setTeacher({ teacher: userId })
-      setStudent((prevData) => ({ ...prevData, createdby: userId }))
-    }
-  }, [token])*/
-  }
+  useEffect(() => {
+    setStudent((prevData) => ({ ...prevData, createdby: user.userId }))
+  }, [user.userId])
 
   //Listar los grupos
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await listedCreatedBy(user.userId)
-        const activeGroups = response.data.filter(
-          (group) => group.isactive === 1
-        )
-        setGroups(activeGroups)
-        {
-          /*setGroups(response.data)*/
+        if (response.data !== 'Archivo no encontrado') {
+          const activeGroups = response.data.filter(
+            (group) => group.isactive === 1
+          )
+          setGroups(activeGroups)
         }
       } catch (error) {
         console.log('error', error)
       }
     }
     fetchData()
-  }, [newGroups])
+  }, [newGroups, user.userId])
 
   //Se obtienen todos los usuarios. Se debe cambiar por solo los usuarios estudiantes
   useEffect(() => {
@@ -97,7 +79,6 @@ const ListGroups = ({
   useEffect(() => {
     async function fetchData() {
       try {
-        // const axiosInstance = axiosAuthFunction
         const response = await listedStudentGroups()
 
         // Conjunto (set) de userIds
@@ -150,6 +131,7 @@ const ListGroups = ({
       }
 
       setStudent(updatedStudent)
+      console.log(updatedStudent)
       try {
         await newStudentGroup(
           updatedStudent.userid,
@@ -214,7 +196,6 @@ const ListGroups = ({
                       action
                       eventKey={'#' + id}
                       className='d-flex justify-content-between align-items-start'
-                      // onClick={() => showGroupResume({ id, name, idimage })}
                     >
                       <div
                         onClick={() => showGroupResume({ id, name, idimage })}

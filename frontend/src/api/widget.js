@@ -1,11 +1,12 @@
 import { axiosAuth } from './axiosInstances'
 
-export async function newWidgetItem(page, widget, type, value) {
+export async function newWidgetItem(page, widget, type, value, elementorder) {
   return axiosAuth().post('widget/insertWidgetItem/', {
-    page: page,
-    widget: widget,
+    pageid: page,
+    widgetid: widget,
     type: type,
     value: value,
+    elementorder: elementorder,
   })
 }
 
