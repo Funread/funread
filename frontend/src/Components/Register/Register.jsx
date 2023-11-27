@@ -38,7 +38,7 @@ function Register(props) {
       const updatedData = {name:name,lastname:lastname,username:username,roles:selectedRoles}
       dispatch(updateUserSlice(updatedData))
       sendMail('¡Bienvenido a FUNREAD, '+user.name+' '+user.lastname+'!', user.email, 'Estimado/a '+user.name+',\n\n¡Te damos la más cordial bienvenida a FUNREAD! Estamos emocionados de tenerte a bordo y queremos agradecerte por unirte a nuestra comunidad de aprendizaje de inglés.\n\nTu participación en FUNREAD es fundamental, y confiamos en que te desempeñarás excepcionalmente en el(los) rol(es) que has elegido. Tu contribución será valiosa para el éxito de nuestra plataforma.\n\nEn FUNREAD, te ofrecemos una experiencia única para aprender y mejorar tus habilidades en inglés. Nuestros recursos y herramientas están diseñados para que puedas alcanzar tus metas de aprendizaje de la manera más efectiva y divertida.\n\nUna vez más, gracias por unirte a FUNREAD. Estamos seguros de que tendrás una experiencia enriquecedora con nosotros. ¡Estamos emocionados de verte alcanzar tus objetivos de aprendizaje de inglés!\n\nSi tienes alguna pregunta o necesitas asistencia, no dudes en comunicarte con nosotros. ¡Te deseamos mucho éxito en tu viaje de aprendizaje de inglés!\n\nSaludos cordiales,\nEquipo de FUNREAD')
-      navigate('/lobby')
+      navigate('/library')
     }
     ).catch((err) => {
       if(err.response.status == 401){
