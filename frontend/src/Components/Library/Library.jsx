@@ -9,12 +9,15 @@ import TapLibrary from '../Shared/TapLibrary/TapLibrary'
 import BookView from '../Shared/BookView/BookView'
 import SidebarBook from '../Shared/SidebarBook/SidebarBook'
 import BookBuilder from '../Shared/BookBuilder/BookBuilder'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
+import { bookSearch } from '../../api'
+
 
 const Library = () => {
   const [books, setBooks] = useState([])
   const [selectedBook, setSelectedBook] = useState(null)
   const [showForm, setShowForm] = useState(true)
+  const [title, setTitle] = useState("")
 
   const toggleSidebar = (book) => {
     if (!selectedBook) {
@@ -46,6 +49,40 @@ const Library = () => {
     setBooks([...books, newBook])
   }
 
+  const handleGetBookTitle = (event) => {
+    setTitle(event.target.value)
+  }
+
+  const handlesubmit = async (event) => {
+    event.preventDefault() 
+    try{
+       const response = await bookSearch(title)
+       
+        if (response && response.data){
+
+          toggleSidebar(response.data)
+          
+
+          setTitle('')
+
+          toast.success(`Libro encontrado correctamente`)
+          
+          
+        }else {
+          toast.error(`Error al buscar el libro`)
+        }
+
+     }catch (error){
+       toast.error(`Error al buscar el libro`);
+     }  
+     handleGetBookTitle({ target: { value: "" } });
+     
+
+}
+
+
+
+
   return (
     <div className='container-fluid text-center library'>
       <div className='row' style={{ height: 'auto' }}>
@@ -61,14 +98,17 @@ const Library = () => {
             <Form className='d-flex mt-1 pt-3'>
               <Form.Control
                 type='search'
-                placeholder='Search'
+                placeholder='Search for title'
                 className='me-2 custom-input-search '
                 aria-label='Search'
+                value={title}
+                onChange={handleGetBookTitle}
               />
               <Button className='button-search-library'>
                 <FontAwesomeIcon
                   className='fa-magnifying-glass'
                   icon={faSearch}
+                  onClick={handlesubmit}
                 />
               </Button>
               <Button
@@ -84,6 +124,7 @@ const Library = () => {
             <RecentBook toggleSidebar={toggleSidebar} />
 
             <TapLibrary toggleSidebar={toggleSidebar} newBooks={books} />
+
           </div>
         </div>
         <div className='col-3 shadow rounded mobile-below-tap-library'>
