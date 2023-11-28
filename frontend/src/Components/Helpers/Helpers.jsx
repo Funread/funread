@@ -196,11 +196,11 @@ const Helpers = () => {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="/about">About Us</Nav.Link>
-                  <Nav.Link href="#action2">Study Programs</Nav.Link>
-                  <Nav.Link href="#action3">Recent Reports</Nav.Link>
+                <Nav.Link href="/about">About Us</Nav.Link> 
+                  <Nav.Link href="demo/helpers">Collaborators</Nav.Link>
                   <Nav.Link href="/">Log In</Nav.Link>
-                  <Nav.Link href="#action5">Collaborators</Nav.Link>
+                  <Nav.Link href="#action3">Recent Reports</Nav.Link>
+                  <Nav.Link href="#action2">Study Programs</Nav.Link>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

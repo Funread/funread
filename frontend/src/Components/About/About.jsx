@@ -22,12 +22,13 @@ const Lobby = () => {
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="/about"className="transparent-btn">About Us</Nav.Link>
-                <Nav.Link href="#action2"className="transparent-btn">Study Programs</Nav.Link>
-                <Nav.Link href="#action3"className="transparent-btn">Recent Reports</Nav.Link>
-                <Nav.Link href="" className="transparent-btn">Collaborators</Nav.Link>
-                <Nav.Link href="/" className="transparent-btn">Log In</Nav.Link>
+              <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Link href="/about">About Us</Nav.Link> 
+                  <Nav.Link href="demo/helpers">Collaborators</Nav.Link>
+                  <Nav.Link href="/">Log In</Nav.Link>
+                  <Nav.Link href="#action3">Recent Reports</Nav.Link>
+                  <Nav.Link href="#action2">Study Programs</Nav.Link>
+                  
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
@@ -43,8 +44,6 @@ const Lobby = () => {
                 <div className='col-9 content_lobby'>
 
                     <div className="Title">
-                    
-
                         <div className="image">
                         </div>
                         <h1>FUNREAD</h1>
