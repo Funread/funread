@@ -10,11 +10,15 @@ const RV_ImageWithText = ({ textbackgroundColor, textColor }) => {
   };
 
   return (
+    <div>
     <div className="image-container">
          <img src="/imagenes/Libro1/1.png" alt="Mi Imagen" className="imagen" />
-    <div className="rv_text-image-container"  style={style} >
-       <h1><strong>From Bullying to Friendship: The Costa Rican Connection</strong></h1>
+         <div className="rv_text-image-container"  style={style} >
+         <h1><strong>From Bullying to Friendship: The Costa Rican Connection</strong></h1>
     </div>
+   
+    </div>
+    
   </div>
   );
 };

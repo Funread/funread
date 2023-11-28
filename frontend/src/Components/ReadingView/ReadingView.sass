@@ -1,18 +1,37 @@
-.imagen-container 
-  max-width: 100% 
-  max-height: 80vh 
-  margin: 0 auto
+.presentation-container
+  position: relative
+  width: 100%
+  height: 100vh
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  background: white
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3)
+  border-radius: 10px
+  overflow: hidden
 
-.imagen 
-  width: 100% 
-  height: auto
+.top-menu
+  position: absolute
+  top: 0
+  width: 100%
+  display: flex
+  justify-content: space-between
+  padding: 10px
+  background-color: rgba(255, 255, 255, 0.5)
 
-.page-conteiner
-  max-height: 100vh 
-  overflow: hidden 
+  button
+    background: none
+    border: 1px solid white
+    padding: 5px 10px
+    cursor: pointer
+    &:hover
+      background: rgba(255, 255, 255, 0.8)
 
-.hoja
-  max-height: calc(100vh - 20px) 
-  overflow: hidden 
-  padding: 10px 
- 
+.slide-content
+  flex-grow: 1
+  width: 80%
+  margin: 20px
+  padding: 20px
+  background: #f0f0f0
+  border-radius: 10px

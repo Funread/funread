@@ -5,23 +5,33 @@ import RV_ImageWithText from './Widgets/Media/RV_ImageWithText';
  
 
 function ReadingView() {
+  const goToNextPage = () => {
+    // Lógica para ir a la siguiente página
+  };
+
+  const goToPreviousPage = () => {
+    // Lógica para ir a la página anterior
+  };
+
+  const exitPresentation = () => {
+    // Lógica para salir de la presentación
+  };
   return (
-    <div className="page-conteiner">
-    <div className="row justify-content-center">
-      <div className="col-xl-12">
-        <div className="hoja">
-         
-         
-         <RV_ImageWithText textbackgroundColor="#355377" textColor="#FFFFFF" />
-         
-        </div>
-        <div className="d-flex justify-content-between">
-          <button className="btn btn-primary">Atrás</button>
-          <button className="btn btn-primary">Siguiente</button>
-        </div>
+    <div className="presentation-container">
+      <div className="top-menu">
+        <button onClick={(function() {
+  console.log('This will run right away!');
+})}>Atrás</button>
+      <button onClick={(function() {
+  console.log('This will run right away!');
+})}>Atrás</button>   <button onClick={(function() {
+  console.log('This will run right away!');
+})}>Atrás</button>
+      </div>
+      <div className="slide-content">
+      <RV_ImageWithText textbackgroundColor="#355377" textColor="#FFFFFF" />
       </div>
     </div>
-  </div>
   );
 }
 
