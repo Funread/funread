@@ -42,8 +42,9 @@ def save_File(request):
             'file': file_request,
             'type':type
         }
+        print(data)
     serializer = MediaSeralizer(data=data)
-    print(serializer.is_valid())
+    print('data valida: ',serializer.is_valid())
     if serializer.is_valid():
         id = 0  
         try:
