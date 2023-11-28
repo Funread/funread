@@ -170,6 +170,9 @@ const ListGroups = ({
     try {
       await deleteStudentGroup(id)
       toast.success('Student was deleted successfully')
+      const response = await listedCreatedBy(user.userId)
+      const activeStudents = response.data.filter((student) => student.isactive === 1)
+      setStudents(activeStudents)
     } catch (error) {
       toast.error(
         'Request Error: An error occurred while processing your request'
