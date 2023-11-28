@@ -53,19 +53,22 @@ def listAll(request):
 
 @api_view(['GET'])
 def listedStudents(request):
-    # Token verification
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-        StudentsRoles = Userroles.objects.filter(idrole=2)
+        # Token verification
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()     
+        if not es_valido:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        active_students = User.objects.filter(actived=1)
+        student_roles = Userroles.objects.filter(iduser__in=active_students, idrole=2)
+
+        serializer = UserRolesSerializer(student_roles, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     except Userroles.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    user_objects = [Userroles.iduser for Userroles in StudentsRoles]
-    serializer = UserSerializer(user_objects,many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
