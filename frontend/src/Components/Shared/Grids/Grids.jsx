@@ -21,7 +21,14 @@ const widgetTypeToComponent = {
   GameModes: GameModes,
 }
 
-const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
+const Grids = ({
+  direction,
+  numRows,
+  pageOrder,
+  widgetChange,
+  updateWidgetDrop,
+  updateWidgetDropData,
+}) => {
   const [droppedWidgets, setDroppedWidgets] = useState(
     Array(numRows).fill(null)
   )
@@ -61,6 +68,7 @@ const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
 
           return updatedDroppedWidgets
         })
+        updateWidgetDrop(widgetWithId)
       }
     },
     collect: (monitor) => ({
@@ -88,6 +96,7 @@ const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
                     pageNumber: pageOrder,
                     order: index,
                   }),
+                updateWidgetDropData,
               }
             )}
         </div>

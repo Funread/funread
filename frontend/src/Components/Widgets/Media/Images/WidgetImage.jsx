@@ -7,7 +7,7 @@ import { save_Image } from '../../../../api/media'
 
 const getImage = 'http://localhost:8000'
 
-const WidgetImage = ({ onWidgetChange }) => {
+const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
   const [showModal, setShowModal] = useState(false)
   const [showGallery, setShowGallery] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -32,11 +32,13 @@ const WidgetImage = ({ onWidgetChange }) => {
 
     setShowGallery(false)
     onWidgetChange({ type: 'WidgetImage', data: selectedImage.file_route })
+    updateWidgetDropData(selectedImage)
   }
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     setSelectedFile(file)
+    updateWidgetDropData(file)
   }
 
   const SaveChangesBD = async () => {
