@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import "./WidgetVideoYou.css";
 
-function WidgetVideoYou() {
+function WidgetVideoYou({handlefile}) {
   const inputRef = React.useRef();
   const [youtubeVideo, setYoutubeVideo] = useState("");
   const [youtubeURL, setYoutubeURL] = useState("");
@@ -14,6 +14,7 @@ function WidgetVideoYou() {
   const handleYoutubeSubmit = (e) => {
     e.preventDefault();
     setYoutubeURL(youtubeVideo);
+    handlefile(youtubeVideo);
   };
   return (
     <div>

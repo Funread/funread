@@ -2,7 +2,7 @@ import React from "react";
 import ReactPlayer from "react-player";
 import "./WidgetVideo.css";
 
-function WidgetVideo() {
+function WidgetVideo({handlefile}) {
   const inputRef = React.useRef();
 
   const [source, setSource] = React.useState();
@@ -11,6 +11,7 @@ function WidgetVideo() {
     const file = event.target.files[0];
     const url = URL.createObjectURL(file);
     setSource(url);
+    handlefile(file);
   };
 
   const handleChoose = (event) => {
@@ -24,7 +25,7 @@ function WidgetVideo() {
         className="VideoInput_input "
         type="file"
         onChange={handleFileChange}
-        accept=".mov,.mp4"
+        accept=".mp4, .avi, .mkv, .mov, .wmv, .flv"
       />
       {
         <button className="btn btn-primary md mt-2" onClick={handleChoose}>
