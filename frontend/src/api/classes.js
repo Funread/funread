@@ -10,10 +10,11 @@ export async function newClass(
   groupscreateid,
   isactive
 ) {
-  return axiosAuth().post('classes/classes/createClasses', {
+
+  return axiosAuth().post('classes/createClasses', {
     name: name,
     grade: grade,
-    teacherassigned: teacherassigned,
+    teacherAssigned: teacherassigned,
     createdat: moment().format(),
     lastupdateat: moment().format(),
     startdate: startdate,
@@ -52,11 +53,13 @@ export async function classesChange(
 }
 
 export async function deleteclasses(classesId) {
-  return axiosAuth().post('classes/deleteClasses/', {
+  return axiosAuth().post('classes/deleteClasses', {
     classesId: classesId,
   })
 }
 
-export async function listedclassesid(group) {
-  return axiosAuth().get('classes/listedClassesid/' + group)
+export async function listedClassesId(group) {
+  return axiosAuth().post('classes/listedClassesid', {
+    group: group,
+  })
 }
