@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Modal, FormControl } from 'react-bootstrap'
 import './WidgetImage.sass'
 import ImageGallery from '../../../GalleryCollage/ListGallery'
@@ -7,14 +7,17 @@ import { save_Image } from '../../../../api/media'
 
 const getImage = 'http://localhost:8000'
 
-const WidgetImage = ({ onWidgetChange }) => {
+const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
   const [showModal, setShowModal] = useState(false)
   const [showGallery, setShowGallery] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
   const [selectedFile, setSelectedFile] = useState()
 
   const handleShow = () => setShowModal(true)
-  const handleClose = () => setShowModal(false)
+  const handleClose = () => {
+    updateWidgetDropData(selectedFile)
+    setShowModal(false)
+  }
 
   const handleShowGallery = () => {
     setShowGallery(true)
