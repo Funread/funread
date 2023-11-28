@@ -49,7 +49,7 @@ class BookDilemmaSerializer(serializers.ModelSerializer):
       return instance
   
 class DilemmaPerBookSerializer(serializers.ModelSerializer):
-  bookid = BookSerializer()
+  # bookid = BookSerializer()
   
   class Meta:
     model = DilemmaPerBook
