@@ -5,11 +5,11 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .api import TagsPerPageViewSet
 
 urlpatterns = [
-    path('tagsPerPage/listAllTagsPerPage/' , views.listed),
-    path('tagsPerPage/searchTagsPerPage/', views.search),
-    path('tagsPerPage/insertnewTagsPerPage/', views.add_new),
-    path('tagsPerPage/deleteTagsPerPage/', views.delete),
-    path('tagsPerPage/updateTagsPerPage/',views.update),
+    path('listAllTagsPerPage/' , views.listed),
+    path('searchTagsPerPage/', views.search),
+    path('insertnewTagsPerPage/', views.add_new),
+    path('deleteTagsPerPage/', views.delete),
+    path('updateTagsPerPage/',views.update),
     
 ]
 

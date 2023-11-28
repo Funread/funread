@@ -15,6 +15,7 @@ const Slide = ({
         <PageContainer
           key={slide.id}
           pageNumber={slide.id}
+          order={slide.order}
           onRemoveSlides={onRemoveSlides}
           updateImage={updateImage}
           addOrUpdatePage={addOrUpdatePage}

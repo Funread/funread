@@ -16,6 +16,7 @@ const widgetTypeToComponent = {
 
 const PageContainer = ({
   pageNumber,
+  order,
   onRemoveSlides,
   updateImage,
   addOrUpdatePage,
@@ -50,21 +51,17 @@ const PageContainer = ({
   const [, drop] = useDrop(() => ({
     accept: Object.keys(widgetTypeToComponent),
     drop: (item) => {
-      if (item.type === 'Grids') {
-        const droppedComponentInfo = {
-          type: item.type,
-          direction: item.direction,
-          rows: item.numRows,
-        }
-        addOrUpdatePage(
-          pageNumber,
-          droppedComponentInfo.direction,
-          droppedComponentInfo.rows
-        )
-        setDroppedComponent(droppedComponentInfo)
-      } else {
-        toast.error('You must select a grid first')
+      const droppedComponentInfo = {
+        type: item.type,
+        direction: item.direction,
+        rows: item.numRows,
       }
+      addOrUpdatePage(
+        pageNumber,
+        droppedComponentInfo.direction,
+        droppedComponentInfo.rows
+      )
+      setDroppedComponent(droppedComponentInfo)
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -98,7 +95,7 @@ const PageContainer = ({
             <div className='card shadow mb-4 content_page shadow rounded'>
               <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
                 <h6 className='m-0 font-weight-bold text-info'>
-                  {'Activity ' + pageNumber}
+                  {`Activity ${order}`}
                 </h6>
                 <div className='d-flex'>
                   {!handle.active && (
@@ -135,7 +132,7 @@ const PageContainer = ({
                     {
                       direction: droppedComponent.direction,
                       numRows: droppedComponent.rows,
-                      pageNumber: pageNumber,
+                      pageOrder: order,
                       widgetChange: widgetChange,
                     }
                   )}

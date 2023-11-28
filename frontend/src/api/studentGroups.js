@@ -7,7 +7,7 @@ export async function newStudentGroup(
   groupscreateid
 ) {
   return axiosAuth().post(
-    'studentsgroups/studentsgroups/insertnewStudentsGroups/',
+    'studentsgroups/insertnewStudentsGroups/',
     {
       userid: userid,
       isteacher: isteacher,
@@ -18,20 +18,20 @@ export async function newStudentGroup(
 }
 
 export async function listedStudentGroups() {
-  return axiosAuth().get('studentsgroups/studentsgroups/listAllStudentsGroups/')
+  return axiosAuth().get('studentsgroups/listAllStudentsGroups/')
 }
 
 export async function studentGroupSearch(groupId) {
   return axiosAuth().get(
-    'studentsgroups/studentsgroups/searchStudentsGroups/' + groupId
+    'studentsgroups/searchStudentsGroups/' + groupId
   )
 }
 
-export async function deleteStudentGroup(groupId) {
+export async function deleteStudentGroup(userId) {
   return axiosAuth().put(
-    'studentsgroups/studentsgroups/deleteStudentsGroups/',
+    'studentsgroups/deleteStudentsGroups/',
     {
-      groupId: groupId,
+      idstudent: userId,
     }
   )
 }

@@ -8,6 +8,8 @@ import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
 import Box from '../../Widgets/Text/TextBox'
 import CodeBlock from '../../Widgets/CodeBlock/CodeBlock'
 import { ToastContainer, toast } from 'react-toastify'
+import WidgetImage from '../../Widgets/Media/Images/WidgetImage'
+import GameModes from '../../Widgets/Game/WordSearchGame/GameModes'
 
 const widgetTypeToComponent = {
   UniqueSelection: UniqueSelection,
@@ -16,9 +18,11 @@ const widgetTypeToComponent = {
   AudioRecorder: AudioRecorder,
   Box: Box,
   CodeBlock: CodeBlock,
+  WidgetImage: WidgetImage,
+  GameModes: GameModes,
 }
 
-const Grids = ({ direction, numRows, widgetChange, pageNumber }) => {
+const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
   const [droppedWidgets, setDroppedWidgets] = useState(
     Array(numRows).fill(null)
   )
@@ -107,7 +111,7 @@ const Grids = ({ direction, numRows, widgetChange, pageNumber }) => {
                     ...data,
                     widgetId: droppedWidgets[index].widgetId,
                     widgetType: droppedWidgets[index].widgetType,
-                    pageNumber: pageNumber,
+                    pageNumber: pageOrder,
                     order: index,
                   }),
               }

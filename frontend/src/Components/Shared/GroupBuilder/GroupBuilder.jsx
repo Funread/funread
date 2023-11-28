@@ -1,34 +1,28 @@
 import './GroupBuilder.css'
-import jwt_decode from 'jwt-decode'
 import { useEffect, useState } from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { newGroup } from '../../../api/group'
+import { useSelector } from 'react-redux'
 
 const initialState = {
   name: '',
   createdby: null,
   image: '',
-  isactive: true,
+  isactive: 1,
 }
 
 const GroupBuilder = ({ updateGroup }) => {
+  const user = useSelector((state) => state.user)
   const [group, setGroup] = useState(initialState)
   const [isEmpty, setIsEmpty] = useState(false)
-  const token = sessionStorage.getItem('jwt')
 
   useEffect(() => {
-    // Decodifica el JWT cuando el componente se monta
-    if (token) {
-      const decodedToken = jwt_decode(token)
-
-      // Actualiza el estado del grupo con la información del JWT
-      setGroup((prevData) => ({
-        ...prevData,
-        createdby: decodedToken.user_id,
-      }))
-    }
-  }, [token])
+    setGroup((prevData) => ({
+      ...prevData,
+      createdby: user.userId,
+    }))
+  }, [user.userId])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -81,7 +75,7 @@ const GroupBuilder = ({ updateGroup }) => {
               className={`${isEmpty ? 'empty-input' : 'mb-3'}`}
               type='text'
               name='image'
-              placeholder='Route Image: media/2.png'
+              placeholder='Id Image: 1'
               onChange={handleChange}
               value={group.image}
             />

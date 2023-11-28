@@ -18,72 +18,72 @@ function GroupCardProgress() {
       <Col>
         <Card className='border mt-1 custum-card' bg='white'>
           <Card.Body>
-            <Card.Text>
+            <div>
               <FontAwesomeIcon
                 className='fa-bookss'
                 size='2xl'
                 icon={faBook}
               ></FontAwesomeIcon>
-              <Card.Text className='custum-text-authors'>
+              <div className='custum-text-authors'>
                 <strong>13</strong>
                 <br />
                 Complete Task
-              </Card.Text>
-            </Card.Text>
+              </div>
+            </div>
           </Card.Body>
         </Card>
       </Col>
       <Col>
         <Card className='border mt-1 custum-card' bg='white'>
           <Card.Body>
-            <Card.Text >
+            <div>
               <FontAwesomeIcon
                 className='fa-user'
                 size='2xl'
                 icon={faUser}
               ></FontAwesomeIcon>
-              <Card.Text className='custum-text-authors'>
+              <div className='custum-text-authors'>
                 <strong>76</strong>
                 <br />
                 Total Students
-              </Card.Text>
-            </Card.Text>
+              </div>
+            </div>
           </Card.Body>
         </Card>
       </Col>
       <Col>
         <Card className='border mt-1 custum-card' bg='white'>
           <Card.Body>
-            <Card.Text >
+            <div>
               <FontAwesomeIcon
                 className='fa-readmes'
                 size='2xl'
                 icon={faBookReader}
               ></FontAwesomeIcon>
-              <Card.Text className='custum-text-authors'>
+              <div className='custum-text-authors'>
                 <strong>12</strong>
                 <br />
                 Pending task
-              </Card.Text>
-            </Card.Text>
+              </div>
+            </div>
           </Card.Body>
         </Card>
       </Col>
       <Col>
         <Card className='border mt-1 mx-auto custum-card' bg='white'>
           <Card.Body>
-            <Card.Text >
+            <div>
               <FontAwesomeIcon
                 className='fa-BookPages'
                 size='2xl'
                 icon={faFile}
               ></FontAwesomeIcon>
-              <Card.Text className='custum-text-authors'>
+              <div className='custum-text-authors'>
                 <strong>230361</strong>
                 <br />
                 Books Read
-              </Card.Text>
-            </Card.Text>
+              </div>
+            </div>
           </Card.Body>
         </Card>
       </Col>

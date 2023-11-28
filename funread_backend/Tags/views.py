@@ -11,6 +11,8 @@ from .serializer import TagsSerializer
 from sre_parse import State
 from turtle import title
 from wsgiref import headers
+from django.db import OperationalError
+from django.http import JsonResponse
 import datetime
 import json
 import sys
@@ -31,16 +33,20 @@ def new_tags(request):
     es_valido = verify.validar_token()
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    print(request.data)
-    data = {
-        'description': request.data.get('description').lower(),
-    }
-    serializer = TagsSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        print(request.data)
+        data = {
+            'description': request.data.get('description'),
+            'descriptionn': request.data.get('descriptionn')
+        }
+        serializer = TagsSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+       return JsonResponse({"error": "La base de datos no está disponible en este momento. Intentelo de nuevo más tarde."},status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
 
 #-------------------Method GET------------------------------------------------#
 @ api_view(['GET'])
@@ -53,9 +59,13 @@ def listed(request):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    folder = Tags.objects.all()
-    serializer = TagsSerializer(folder, many=True)
-    return Response(serializer.data)
+    try:
+        folder = Tags.objects.all()
+        serializer = TagsSerializer(folder, many=True)
+        return Response(serializer.data)
+    except OperationalError:
+       return JsonResponse({"error": "La base de datos no está disponible en este momento. Intentelo de nuevo más tarde."},status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
 
 @api_view(['GET'])
 def tagsSearch(request, description):
@@ -68,12 +78,16 @@ def tagsSearch(request, description):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     try:
-        tags = Tags.objects.get(description=description)
-        print(Tags)
-    except Tags.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = TagsSerializer(tags)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            tags = Tags.objects.get(description=description)
+            print(Tags)
+        except Tags.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = TagsSerializer(tags)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except OperationalError:
+       return JsonResponse({"error": "La base de datos no está disponible en este momento. Intentelo de nuevo más tarde."},status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
 
 #-----------------------Metodo PUT----------------------------------#
 @api_view(['PUT'])
@@ -86,9 +100,12 @@ def tagsChange(request, description):
     if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    file = Tags.objects.get(description=description)
-    serializer = TagsSerializer(file, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        file = Tags.objects.get(description=description)
+        serializer = TagsSerializer(file, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+       return JsonResponse({"error": "La base de datos no está disponible en este momento. Intentelo de nuevo más tarde."},status=status.HTTP_503_SERVICE_UNAVAILABLE)

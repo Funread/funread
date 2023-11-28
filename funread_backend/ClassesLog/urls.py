@@ -5,9 +5,9 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
 
-    path('classeslog/createclasseslog', views.createclasseslog),
-    path('classeslog/listedclasseslog', views.listedclasseslog),
-    path('classeslog/changeclasseslog', views.classeslogchange),
-    path('classeslog/deleteclasseslog', views.deleteclasseslog)
+    path('createclasseslog', views.createclasseslog),
+    path('listedclasseslog', views.listedclasseslog),
+    path('changeclasseslog', views.classeslogchange),
+    path('deleteclasseslog', views.deleteclasseslog)
     
 ]
