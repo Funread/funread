@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Modal, FormControl } from 'react-bootstrap'
 import './WidgetImage.sass'
 import ImageGallery from '../../../GalleryCollage/ListGallery'
@@ -14,7 +14,10 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
   const [selectedFile, setSelectedFile] = useState()
 
   const handleShow = () => setShowModal(true)
-  const handleClose = () => setShowModal(false)
+  const handleClose = () => {
+    updateWidgetDropData(selectedFile)
+    setShowModal(false)
+  }
 
   const handleShowGallery = () => {
     setShowGallery(true)
@@ -32,13 +35,11 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
 
     setShowGallery(false)
     onWidgetChange({ type: 'WidgetImage', data: selectedImage.file_route })
-    updateWidgetDropData(selectedImage)
   }
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     setSelectedFile(file)
-    updateWidgetDropData(file)
   }
 
   const SaveChangesBD = async () => {
