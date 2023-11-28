@@ -1,12 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import  BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './ReadingView.sass';
 import RV_ImageWithText from './Widgets/Media/RV_ImageWithText';
  
 
-function ReadingView() {
+function ReadingView() 
   return (
-    <div className="page-conteiner">
+    <div className="container">
     <div className="row justify-content-center">
       <div className="col-xl-12">
         <div className="hoja">
