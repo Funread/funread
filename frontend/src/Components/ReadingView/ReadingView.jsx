@@ -21,12 +21,12 @@ function ReadingView() {
       <div className="top-menu">
         <button onClick={(function() {
   console.log('This will run right away!');
-})}>Atrás</button>
+})}>Back</button>
       <button onClick={(function() {
   console.log('This will run right away!');
 })}>Atrás</button>   <button onClick={(function() {
   console.log('This will run right away!');
-})}>Atrás</button>
+})}>Next</button>
       </div>
       <div className="slide-content">
       <RV_ImageWithText textbackgroundColor="#355377" textColor="#FFFFFF" />
