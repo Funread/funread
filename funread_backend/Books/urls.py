@@ -8,6 +8,7 @@ urlpatterns=[
     path('search/<str:title>', views.bookSearch),
     path('change/', views.bookChange),
     path('list/', views.listed),
+    path('listDetails/', views.listedDetails),
     path('list-published/', views.listed_PublishedBooks),
     path('list-notPublished/', views.listed_NotPublishedBooks),
     path('list-private/', views.listed_PrivateBooks),
