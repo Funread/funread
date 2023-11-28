@@ -15,14 +15,44 @@ import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { useDrag } from "react-dnd";
 import Gallery from "../../../GalleryCollage/Gallery";
+import { save_Image } from '../../../../api/media'
+import { ToastContainer, toast } from 'react-toastify'
 
 const widgetType = "widgetType";
 
 function Video() {
   const [show, setShow] = useState(false);
-
+  const [selectedFile, setSelectedFile] = useState()
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleFile = (file) => {
+    setSelectedFile(file);
+  }
+
+  const SaveChangesBD = async () => {
+    if(selectedFile instanceof File){ //si no se entra a este if quiere decir que el selectedFile es un string (link de youtube) no se necesita guardar en la base de datos
+      try {
+        if (selectedFile) {
+          const response = await save_Image(selectedFile)
+          setShow(false)
+          toast.success(
+            'Video enviada exitosamente a la base de datos:',
+          )
+        } else {
+          toast.error('No se ha seleccionado un archivo de video.')
+        }
+      } catch (error) {
+        toast.error('Error al guardar la imagen')
+        console.error('Error al guardar la imagen:', error)
+      }
+    }else if(selectedFile == null){
+      toast.error('No se ha seleccionado un archivo de video.')
+    }else{
+      console.log('link de youtube: ',selectedFile) //eliminar este console
+      setShow(false)
+    }
+  }
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: widgetType, // identificador
@@ -85,7 +115,7 @@ function Video() {
                       <strong>YouTube</strong>
                     </Card.Title>
                     <Card.Text>
-                      <WidgetVideoYou></WidgetVideoYou>
+                      <WidgetVideoYou handlefile={handleFile}></WidgetVideoYou>
                     </Card.Text>
                   </Card.Body>
                 </Card.Header>
@@ -105,7 +135,7 @@ function Video() {
                       <strong>Desktop</strong>
                     </Card.Title>
                     <Card.Text>
-                      <WidgetVideo></WidgetVideo>
+                      <WidgetVideo handlefile={handleFile}></WidgetVideo>
                     </Card.Text>
                   </Card.Body>
                 </Card.Header>
@@ -142,7 +172,7 @@ function Video() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="success" onClick={handleClose}>
+          <Button variant="success" onClick={SaveChangesBD}>
             Save Changes
           </Button>
         </Modal.Footer>
