@@ -22,8 +22,15 @@ const widgetTypeToComponent = {
   GameModes: GameModes,
 }
 
-const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
-  
+const Grids = ({
+  direction,
+  numRows,
+  pageOrder,
+  widgetChange,
+  updateWidgetDrop,
+  updateWidgetDropData,
+}) => {
+
   const [droppedWidgets, setDroppedWidgets] = useState(
     Array(numRows).fill(null)
   )
@@ -70,11 +77,14 @@ const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
             return updatedDroppedWidgets
           })
           setIsDroppable(true)
+          updateWidgetDrop(widgetWithId)
+          
         }
       }else{
         toast.error('That component cannot be placed there, try another grid to use it.')
         setIsDroppable(false)
-        return
+        
+        //return
       }
     },
     collect: (monitor) => ({
@@ -133,6 +143,7 @@ const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
                     pageNumber: pageOrder,
                     order: index,
                   }),
+                updateWidgetDropData,
               }
             )}
         </div>

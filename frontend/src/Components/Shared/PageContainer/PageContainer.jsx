@@ -1,5 +1,5 @@
 import './PageContainer.sass'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useDrop } from 'react-dnd'
 import Grids from '../Grids/Grids'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
@@ -24,29 +24,32 @@ const PageContainer = ({
 }) => {
   const [buttonVisible, setButtonVisible] = useState(true)
   const [droppedComponent, setDroppedComponent] = useState(null)
+
   //Se crea la constante
   const [selectedWidget, setSelectedWidget] = useState(null)
   const [isFullScreen, setIsFullScreen] = useState(false)
   const [originalContent, setOriginalContent] = useState(null)
   const [fullScreenButtonVisible, setFullScreenButtonVisible] = useState(false)
 
+  const [droppedWidget, setDroppedWidget] = useState([])
+  const [droppedWidgetData, setDroppedWidgetData] = useState([])
+  const pageContainerRef = useRef(null)
+
+
   useEffect(() => {
-    captureImage()
-  }, [droppedComponent, pageNumber])
-
-  const captureImage = () => {
     // Captura el contenido del PageContainer
-    html2canvas(document.getElementById(`pageContainer-${pageNumber}`)).then(
-      (canvas) => {
-        // Convierte el canvas en una imagen
-        const image = new Image()
-        image.src = canvas.toDataURL()
-
-        // Llama a la función del BookCreator para pasar la imagen
-        updateImage(pageNumber, image.src)
-      }
-    )
-  }
+    html2canvas(pageContainerRef.current).then((canvas) => {
+      const image = new Image()
+      image.src = canvas.toDataURL()
+      updateImage(pageNumber, image.src)
+    })
+  }, [
+    droppedComponent,
+    pageNumber,
+    updateImage,
+    droppedWidget,
+    droppedWidgetData,
+  ])
 
   const [, drop] = useDrop(() => ({
     accept: Object.keys(widgetTypeToComponent),
@@ -87,6 +90,14 @@ const PageContainer = ({
     setFullScreenButtonVisible(true)
   }
 
+  const updateDroppedWidgetState = (widgets) => {
+    setDroppedWidget([...droppedWidget, widgets])
+  }
+
+  const updateDroppedWidgetData = (data) => {
+    setDroppedWidgetData([...droppedWidgetData, data])
+  }
+
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -123,7 +134,10 @@ const PageContainer = ({
               <div
                 id={`pageContainer-${pageNumber}`}
                 className='card-body custom-card-body-page-container p-0'
-                ref={drop}
+                ref={(el) => {
+                  pageContainerRef.current = el
+                  drop(el)
+                }}
               >
                 {droppedComponent &&
                   widgetTypeToComponent[droppedComponent.type] &&
@@ -134,6 +148,8 @@ const PageContainer = ({
                       numRows: droppedComponent.rows,
                       pageOrder: order,
                       widgetChange: widgetChange,
+                      updateWidgetDrop: updateDroppedWidgetState,
+                      updateWidgetDropData: updateDroppedWidgetData,
                     }
                   )}
               </div>
