@@ -13,6 +13,7 @@ class Book(models.Model):
     state = models.IntegerField(db_column='State')  # Field name made lowercase.
     sharedbook = models.IntegerField(db_column='SharedBook', blank=True, null=True)  # Field name made lowercase.
     description = models.CharField(db_column='Description', max_length=500,blank=True, null=True)
+    lastconsultation = models.DateTimeField(db_column='LastConsultation', blank=True, null=True)
     class Meta:
         
         db_table = 'book'

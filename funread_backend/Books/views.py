@@ -23,6 +23,7 @@ import sys
 sys.path.append('funread_backend')
 import verifyJwt
 from django.db import OperationalError
+from django.http import JsonResponse
 
 
 
@@ -43,12 +44,12 @@ def new_book(request):
         'portrait': request.data.get('portrait'),
         'createdby': request.data.get('createdby'),
         'createdat': datetime.datetime.now(),
-        'updatedby': request.data.get('updatedby'),
         'lastupdateat': datetime.datetime.now(),
         'state' : request.data.get('state' ),
         'sharedbook' : request.data.get('sharedbook'),
         'lastupdateby': request.data.get('lastupdateby'),
-        'description': request.data.get('description')
+        'description': request.data.get('description'),
+        'lastconsultation': datetime.datetime.now()
      }
      serializer = BookSerializer(data=data)
      if serializer.is_valid():
@@ -69,7 +70,6 @@ def bookSearch(request, title):
      if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    
      print(title)
      book = Book.objects.get(title=title)
     except Book.DoesNotExist:
@@ -77,6 +77,8 @@ def bookSearch(request, title):
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     serializer = BookSerializer(book)
+    book.lastconsultation = datetime.datetime.now()
+    book.save()
     return Response(serializer.data, status=status.HTTP_200_OK)
    
 
@@ -134,9 +136,11 @@ def listed(request):
     
      book = Book.objects.all()
      serializer = BookSerializer(book, many=True)
+     Book.objects.all().update(lastconsultation=datetime.datetime.now())
      return Response(serializer.data)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
 @ api_view(['GET'])
 def listedDetails(request):
 
@@ -151,6 +155,7 @@ def listedDetails(request):
      # Utilizamos select_related para obtener la información relacionada en una sola consulta
      books = Book.objects.all()
      book_serializer = BookSerializer(books, many=True)
+     Book.objects.all().update(lastconsultation=datetime.datetime.now())
     except OperationalError:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
@@ -199,6 +204,7 @@ def listed_PublishedBooks(request):
     
      book = Book.objects.filter(sharedbook=1)
      serializer = BookSerializer(book, many=True)
+     Book.objects.filter(sharedbook=1).update(lastconsultation=datetime.datetime.now())
      return Response(serializer.data)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -216,6 +222,7 @@ def listed_NotPublishedBooks(request):
     
      book = Book.objects.filter(sharedbook=2)
      serializer = BookSerializer(book, many=True)
+     Book.objects.filter(sharedbook=2).update(lastconsultation=datetime.datetime.now())
      return Response(serializer.data)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -233,6 +240,7 @@ def listed_PrivateBooks(request):
     
      book = Book.objects.filter(sharedbook=0)
      serializer = BookSerializer(book, many=True)
+     Book.objects.filter(sharedbook=0).update(lastconsultation=datetime.datetime.now())
      return Response(serializer.data)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -320,7 +328,8 @@ def get_all_book_relations(request, bookid):
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     book_serializer = BookSerializer(book)
-
+    book.lastconsultation = datetime.datetime.now()
+    book.save()
      # Obtener los dilemas relacionados con el libro
     try:
         dilemmasperbook = DilemmaPerBook.objects.filter(bookid=bookid)
@@ -404,7 +413,30 @@ def search_by_title(request):
 
         book = Book.objects.filter(title__icontains=title)
         serializer = BookSerializer(book, many=True)
+        Book.objects.filter(title__icontains=title).update(lastconsultation=datetime.datetime.now())
         return Response(serializer.data)
     except OperationalError:
             return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+@api_view(['POST'])
+def listedLastConsultation(request):
+    # Token verification
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+    try:
+        books = Book.objects.filter(createdby=request.data.get('userid')).order_by('-lastconsultation')[:5]
+        if books.exists():
+            serializer = BookSerializer(books, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response("Archivo no encontrado",status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return JsonResponse(
+            {"error": "La base de datos no está disponible en este momento. Intente de nuevo más tarde."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
