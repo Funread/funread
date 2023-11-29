@@ -5,23 +5,70 @@
 
 .contentBookCreator
   height: auto
-    
+
 .scroll
-  max-height: 900px 
+  max-height: 900px
   overflow-y: auto
 
 .scroll::-webkit-scrollbar
   width: 1px
 
-.scroll::-webkit-scrollbar-thumb 
+.scroll::-webkit-scrollbar-thumb
   background-color: transparent
   border-radius: 5px
 
-@media screen and (min-height: 970px) 
-  .contentBookCreator 
+@media screen and (min-height: 970px)
+  .contentBookCreator
     height: 100vh
 
+.book-creator-wrapper
+  position: relative
 
+.bottom-buttons-container
+  position: fixed
+  display: flex
+  bottom: 0
+  left: 0
+  width: 100%
+  padding: 20px
+  background-color: rgba(0, 0, 0, 0.8)
+  justify-content: center
 
+.bottom-buttons-container button:hover
+  box-shadow: inset 0px 0px 10px 0px rgba(255, 255, 255, 0.712)
 
+.bottom-buttons-container button
+  background-color: black
+  color: white
+  padding: 10px 20px
+  background-color: rgba(128, 121, 121, 0.67)
+  border-radius: 5px
+  border: 5px
+  cursor: pointer
+  transition: box-shadow 0.3s ease
 
+.bottom-buttons-container button:disabled
+  opacity: 0.5
+  cursor: not-allowed
+
+.Fulscreen-Bookcreator
+  // height: 100vh
+
+@media screen and (display-mode: fullscreen)
+  .Fulscreen-Bookcreator
+    overflow: hidden
+
+.slide-number
+  color: white
+  margin-top: 5px
+  margin-right: 45px
+  margin-left: 45px
+  background-color: transparent
+  padding: 5px 10px
+  border-radius: 5px
+  font-size: 18px
+
+.disabled-button
+  pointer-events: none
+  opacity: 0.5
+  cursor: not-allowed

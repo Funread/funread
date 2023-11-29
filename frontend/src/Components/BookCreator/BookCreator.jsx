@@ -1,17 +1,23 @@
-import './BookCreator.sass'
-import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { TouchBackend } from 'react-dnd-touch-backend'
-import { isMobile } from 'react-device-detect'
-import { ToastContainer, toast } from 'react-toastify'
-import NavbarButtons from '../Shared/NavbarButtons/NavbarButtons'
-import SidebarLeftTopTop from '../Shared/SidebarLeftTopTop/SidebarLeftTopTop'
-import Carousel from '../Shared/NavBarCarrousel/NavBarCarrousel'
-import Slide from '../Shared/Slides/Slide'
-import { newPage } from '../../api/pages'
-import { newWidgetItem, listedWidgets } from '../../api/widget'
+import "./BookCreator.sass";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from "react-dnd-touch-backend";
+import { isMobile } from "react-device-detect";
+import { ToastContainer, toast } from "react-toastify";
+import NavbarButtons from "../Shared/NavbarButtons/NavbarButtons";
+import SidebarLeftTopTop from "../Shared/SidebarLeftTopTop/SidebarLeftTopTop";
+import Carousel from "../Shared/NavBarCarrousel/NavBarCarrousel";
+import Slide from "../Shared/Slides/Slide";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import { newPage } from "../../api/pages";
+import { newWidgetItem, listedWidgets } from "../../api/widget";
 
 const initialPage = {
   bookid: 0,
@@ -21,96 +27,118 @@ const initialPage = {
   gridDirection: null,
   gridNumRows: null,
   pageNumber: null,
-}
+};
 
 const BookCreator = () => {
-  const backend = isMobile ? TouchBackend : HTML5Backend
-  const [slides, setSlides] = useState([{ id: 1, image: null, order: 1 }])
-  const [pages, setPages] = useState([])
-  const [widgets, setWidgets] = useState([])
-  const [savedPages, setSavedPages] = useState(new Set())
-  const [widgetSeleted, setWidgetSelected] = useState([])
-  const location = useLocation()
-  const book = location.state.data
-  initialPage.bookid = book.id
+  const backend = isMobile ? TouchBackend : HTML5Backend;
+  const [slides, setSlides] = useState([{ id: 1, image: null, order: 1 }]);
+  const [pages, setPages] = useState([]);
+  const [widgets, setWidgets] = useState([]);
+  const [savedPages, setSavedPages] = useState(new Set());
+  const [widgetSeleted, setWidgetSelected] = useState([]);
+  const location = useLocation();
+  const book = location.state.data;
+  initialPage.bookid = book.id;
+
+  const [currentSlide, setCurrentSlide] = useState(1);
+
+  const handleClick = (direction) => {
+    let index = currentSlide;
+
+    if (direction === "prev") {
+      index = Math.max(1, index - 1);
+    } else if (direction === "next") {
+      index = Math.min(slides.length, index + 1);
+    }
+
+    // console.log("Updated Index:", index);
+    // console.log("slides length:", slides.length);
+
+    const move = document.querySelector(`#pageContainer-${index}`);
+    if (move) {
+      move.scrollIntoView({ behavior: "smooth", block: "end" });
+      setCurrentSlide(index);
+      console.log(`Slide con index: ${index}`);
+    }
+  };
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await listedWidgets()
-        setWidgets(response.data)
+        const response = await listedWidgets();
+        setWidgets(response.data);
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error("Error fetching data:", error);
       }
     }
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   // Agregar una diapositiva
   const addSlide = () => {
     setSlides((prevSlides) => {
-      const lastSlide = prevSlides[prevSlides.length - 1]
-      const newSlideId = lastSlide ? lastSlide.id + 1 : 1
+      const lastSlide = prevSlides[prevSlides.length - 1];
+      const newSlideId = lastSlide ? lastSlide.id + 1 : 1;
 
       const newSlide = {
         id: newSlideId,
         image: null,
         order: prevSlides.length + 1,
-      }
+      };
 
       // Añadir la nueva diapositiva y actualizar los números de orden
       const updatedSlides = [...prevSlides, newSlide].map((slide, index) => ({
         ...slide,
         order: index + 1,
-      }))
+      }));
 
-      return updatedSlides
-    })
-  }
+      return updatedSlides;
+    });
+  };
 
   // Quitar la diapositiva
   const removeSlide = (slideId) => {
     if (slides.length > 1) {
-      const newSlides = slides.filter((slide) => slide.id !== slideId)
+      const newSlides = slides.filter((slide) => slide.id !== slideId);
 
       const updatedSlides = newSlides.map((slide, index) => ({
         ...slide,
         order: index + 1,
-      }))
+      }));
 
-      setSlides(updatedSlides)
+      setSlides(updatedSlides);
 
-      const newPages = pages.filter((page) => page.pageNumber !== slideId)
-      setPages(newPages)
+      const newPages = pages.filter((page) => page.pageNumber !== slideId);
+      setPages(newPages);
     }
-  }
+  };
 
   // Actualiza la imagen de las diapositivas
   const updateImage = (pageNumber, image) => {
     const updatedSlides = slides.map((slide) => {
       if (slide.id === pageNumber) {
-        return { ...slide, image }
+        return { ...slide, image };
       }
-      return slide
-    })
+      return slide;
+    });
 
-    setSlides(updatedSlides)
-  }
+    setSlides(updatedSlides);
+  };
 
   const addOrUpdatePage = (pageNumber, direction, numRows) => {
     setPages((prevPages) => {
-      const updatedPages = prevPages.slice() // Se clona el estado anterior
+      const updatedPages = prevPages.slice(); // Se clona el estado anterior
       const existingPageIndex = updatedPages.findIndex(
         (page) => page.pageNumber === pageNumber
-      )
+      );
 
-      const newElementOrder = updatedPages.length + 1 // Calcular nuevo order
+      const newElementOrder = updatedPages.length + 1; // Calcular nuevo order
 
       if (existingPageIndex !== -1) {
-        const existingPage = updatedPages[existingPageIndex]
-        existingPage.gridDirection = direction
-        existingPage.gridNumRows = numRows
-        existingPage.elementorder = newElementOrder // Actualizar elementorder
+        const existingPage = updatedPages[existingPageIndex];
+        existingPage.gridDirection = direction;
+        existingPage.gridNumRows = numRows;
+        existingPage.elementorder = newElementOrder; // Actualizar elementorder
       } else {
         updatedPages.push({
           ...initialPage,
@@ -118,14 +146,14 @@ const BookCreator = () => {
           elementorder: newElementOrder,
           gridDirection: direction,
           gridNumRows: numRows,
-        })
+        });
       }
-      return updatedPages
-    })
-  }
+      return updatedPages;
+    });
+  };
 
   const saveSlides = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (pages.length > 0) {
       for (const page of pages) {
@@ -138,14 +166,14 @@ const BookCreator = () => {
               page.elementorder,
               page.gridDirection,
               page.gridNumRows
-            )
+            );
 
             const widgetsPageNumber =
-              widgetSeleted[response.data.elementorder].data
+              widgetSeleted[response.data.elementorder].data;
 
             for (const widget of widgetsPageNumber) {
-              widget.pageid = response.data.pageid
-              widget.widget = getWidgetId(widget)
+              widget.pageid = response.data.pageid;
+              widget.widget = getWidgetId(widget);
 
               const res = await newWidgetItem(
                 widget.pageid,
@@ -153,118 +181,171 @@ const BookCreator = () => {
                 widget.widgetType,
                 widget.data,
                 widget.elementorder
-              )
-              console.log('res', res)
+              );
+              console.log("res", res);
             }
-            toast.success(`Page ${page.pageNumber} added successfully`)
-            savedPages.add(page.pageNumber)
+            toast.success(`Page ${page.pageNumber} added successfully`);
+            savedPages.add(page.pageNumber);
           } catch (error) {
             toast.error(
-              'Request Error: An error occurred while processing your request'
-            )
+              "Request Error: An error occurred while processing your request"
+            );
           }
         }
       }
     }
-  }
+  };
 
   const widgetChange = (newValue) => {
     setWidgetSelected((prevWidgets) => {
       // Crea una copia del estado actual
-      const updatedWidgets = { ...prevWidgets }
+      const updatedWidgets = { ...prevWidgets };
 
       // Verifica si ya hay widgets para la página actual
       if (!updatedWidgets[newValue.pageNumber]) {
-        updatedWidgets[newValue.pageNumber] = { data: [] }
+        updatedWidgets[newValue.pageNumber] = { data: [] };
       }
 
       // Filtra los widgets que no están en la misma posición que el nuevo widget
       updatedWidgets[newValue.pageNumber].data = updatedWidgets[
         newValue.pageNumber
-      ].data.filter((widget) => widget.order !== newValue.order)
+      ].data.filter((widget) => widget.order !== newValue.order);
 
       // Agrega el nuevo widget al array actualizado
-      updatedWidgets[newValue.pageNumber].data.push(newValue)
+      updatedWidgets[newValue.pageNumber].data.push(newValue);
 
-      return updatedWidgets
-    })
-  }
+      return updatedWidgets;
+    });
+  };
 
   const getWidgetId = (widgetItem) => {
     if (widgets) {
       for (const widget of widgets) {
         switch (widgetItem.type) {
-          case 'Box':
-            if (widget.name === 'Description') {
-              return widget.widgetid
+          case "Box":
+            if (widget.name === "Description") {
+              return widget.widgetid;
             }
-            break
+            break;
 
-          case 'AudioRecorder':
-            if (widget.name === 'Audio') {
-              return widget.widgetid
+          case "AudioRecorder":
+            if (widget.name === "Audio") {
+              return widget.widgetid;
             }
-            break
+            break;
 
-          case 'Video':
-            if (widget.name === 'Video') {
-              return widget.widgetid
+          case "Video":
+            if (widget.name === "Video") {
+              return widget.widgetid;
             }
-            break
+            break;
 
-          case 'WidgetImage':
-            if (widget.name === 'Image') {
-              return widget.widgetid
+          case "WidgetImage":
+            if (widget.name === "Image") {
+              return widget.widgetid;
             }
-            break
+            break;
 
-          case 'CodeBlock':
-            if (widget.name === 'Code') {
-              return widget.widgetid
+          case "CodeBlock":
+            if (widget.name === "Code") {
+              return widget.widgetid;
             }
-            break
+            break;
 
-          case 'UniqueSelection' || 'ReverseUniqueSelection':
-            if (widget.name === 'Quiz') {
-              return widget.widgetid
+          case "UniqueSelection" || "ReverseUniqueSelection":
+            if (widget.name === "Quiz") {
+              return widget.widgetid;
             }
-            break
+            break;
 
           default:
-            return 'No options'
+            return "No options";
         }
       }
     }
-  }
+  };
 
   useEffect(() => {
-    console.log(widgetSeleted)
-  }, [widgetSeleted])
+    console.log(widgetSeleted);
+  }, [widgetSeleted]);
+
+  const handle = useFullScreenHandle();
+
+  const [buttonVisible, setButtonVisible] = useState(false);
+
+  const toggleButtonVisibility = (isVisible) => {
+    setButtonVisible(isVisible);
+  };
+
+  const handleEnterFullScreen = () => {
+    toggleButtonVisibility(true);
+    handle.enter();
+  };
 
   return (
     <DndProvider backend={backend}>
-      <div className='container-fluid bookCreator'>
-        <div className='row flex-nowrap contentBookCreator'>
+      <div className="container-fluid bookCreator">
+        <div className="row flex-nowrap contentBookCreator">
           <SidebarLeftTopTop />
 
-          <div className='col p-0 mx-auto'>
-            <NavbarButtons saveSlides={saveSlides} titleBook={book.title} />
-            <div className='scroll'>
+          <div className="col p-0 mx-auto">
+            <NavbarButtons
+              saveSlides={saveSlides}
+              titleBook={book.title}
+              handleEnterFullScreen={handleEnterFullScreen}
+            />
+            <div className="scroll">
               <Carousel slides={slides} onAddSlide={addSlide} />
-              <Slide
-                slides={slides}
-                onRemoveSlides={removeSlide}
-                updateImage={updateImage}
-                addOrUpdatePage={addOrUpdatePage}
-                widgetChange={widgetChange}
-              />
+              <FullScreen className="Fulscreen-Bookcreator" handle={handle}>
+                <Slide
+                  slides={slides}
+                  onRemoveSlides={removeSlide}
+                  updateImage={updateImage}
+                  addOrUpdatePage={addOrUpdatePage}
+                  widgetChange={widgetChange}
+                />
+
+                <div className="book-creator-wrapper">
+                  {handle.active && (
+                    <div className="full-screen-content">
+                      <div className="bottom-buttons-container">
+                        <button
+                          onClick={() => handleClick("prev")}
+                          className={
+                            currentSlide === 1 ? "disabled-button" : ""
+                          }
+                        >
+                          <FontAwesomeIcon icon={faChevronLeft} /> Prev
+                        </button>
+
+                        {handle.active && (
+                          <span className="slide-number">
+                            Page {currentSlide} of {slides.length}
+                          </span>
+                        )}
+
+                        <button
+                          onClick={() => handleClick("next")}
+                          className={
+                            currentSlide === slides.length
+                              ? "disabled-button"
+                              : ""
+                          }
+                        >
+                          Next <FontAwesomeIcon icon={faChevronRight} />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </FullScreen>
             </div>
           </div>
         </div>
-        <ToastContainer position='top-right' />
+        <ToastContainer position="top-right" />
       </div>
     </DndProvider>
-  )
-}
+  );
+};
 
-export default BookCreator
+export default BookCreator;
