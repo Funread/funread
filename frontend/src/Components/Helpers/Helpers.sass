@@ -6,7 +6,18 @@
   padding: 5px 20px // Ajusta el espacio lateral según tu diseño
   max-width: 100%
   position: relative
-  z-index: 2 // Asegura que las tarjetas estén por encima de la imagen de fondo
+  z-index: 1 // Asegura que las tarjetas estén por encima de la imagen de fondo
+
+.LogoLin
+
+  flex-wrap: wrap
+  position: relative
+  display: inline-block
+  width: 30px
+  height: 30px
+  margin-top: 20px
+  margin-bottom: 20px
+  margin-left: -15px
 
 .backgroundContainer
   
@@ -14,21 +25,24 @@
   width: 100%
   height: 600px // Ajusta la altura según tus necesidades
   overflow: hidden
-  z-index: 1 // Imagen de fondo detrás de las tarjetas
+  z-index: 0 // Imagen de fondo detrás de las tarjetas
   background-color: gray
   background-image: './colaboradores.jpg'
 
 .title-container
+    z-index: 2
     position: absolute
-    top: 150px
+    top: 50px
     left: 50%
     transform: translate(-50%, 0)
     color: white
-    font-size: 87px
+    font-size: 70px
     font-weight: bold
     font-family: 'Calibri', sans-serif
     padding: 10px
-    backdrop-filter: blur(10px) // Agrega esta línea para el efecto borroso oscuro
+    backdrop-filter: blur(2px) // Agrega esta línea para el efecto borroso oscuro
+    text-shadow: 0 10px 5px black
+
 .helpers_row
   display: flex
   justify-content: center
@@ -39,7 +53,8 @@
 .item_helpers
   flex: 0 0 calc(25% - 20px)
   width: 100%
-  margin: 200px -15px 10px  // especio de las cards
+
+  margin-bottom: 0px
   box-sizing: border-box
   margin-left: calc(-2% + 20px)
   text-align: center
@@ -50,6 +65,7 @@
     height: 20px  // Altura del espacio adicional
   
 .card-title
+  
   margin-top: 20px
   & + .item_helpers
     margin-left: 0
@@ -72,7 +88,7 @@
   width: 230px
 
 .loading-page-header
-  width: 250px !important
+  width: 200px !important
 
 .loading-page-header
   .offcanvas-header
@@ -88,6 +104,7 @@
 .loading-page-header
   .offcanvas-header
   .btn-close::after
+
     content: ''
     position: absolute
     background: white
@@ -99,6 +116,7 @@
 .loading-page-header
   .offcanvas-header
   .btn-close::before
+    
     content: ''
     position: absolute
     background: white
@@ -114,28 +132,33 @@
 .landing-page-header
   .offcanvas-body
   .nav-link
+    
     color: aliceblue
 
 @media (max-width: 767px)
 .loading-page-header
     .offcanvas-body
     .nav-link
+      
       border-top: 1px solid rgba(0, 0, 0, 0.138)
       transition: 0.4s
 
 .loading-page-header
     .offcanvas-body
     .nav-link:hover
+     
       transform: scale(1.4)
       transition: 0.4s
       translate: 40px
 
 .header-navbar-container
+  
   position: fixed
   width: 100%
   z-index: 1000
-  background-color: transparent !important
+  backdrop-filter: blur(2px)
   margin: 0 
+  margin-bottom: -30
   padding: 0  
 
 .navbar 
@@ -145,5 +168,8 @@
 .loading-page-header
     .offcanvas-body
     .nav-link
+      background-color:black 
       color: white !important
+      font-weight: bold
+      text-shadow: 0 2px 2px black
   
