@@ -1,0 +1,175 @@
+.section_helpers
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  gap: 20px
+  padding: 5px 20px // Ajusta el espacio lateral según tu diseño
+  max-width: 100%
+  position: relative
+  z-index: 1 // Asegura que las tarjetas estén por encima de la imagen de fondo
+
+.LogoLin
+
+  flex-wrap: wrap
+  position: relative
+  display: inline-block
+  width: 30px
+  height: 30px
+  margin-top: 20px
+  margin-bottom: 20px
+  margin-left: -15px
+
+.backgroundContainer
+  
+  position: absolute// Cambiado de relative a absolute
+  width: 100%
+  height: 600px // Ajusta la altura según tus necesidades
+  overflow: hidden
+  z-index: 0 // Imagen de fondo detrás de las tarjetas
+  background-color: gray
+  background-image: './colaboradores.jpg'
+
+.title-container
+    z-index: 2
+    position: absolute
+    top: 50px
+    left: 50%
+    transform: translate(-50%, 0)
+    color: white
+    font-size: 70px
+    font-weight: bold
+    font-family: 'Calibri', sans-serif
+    padding: 10px
+    backdrop-filter: blur(2px) // Agrega esta línea para el efecto borroso oscuro
+    text-shadow: 0 10px 5px black
+
+.helpers_row
+  display: flex
+  justify-content: center
+  gap: 20px
+  width: 100%
+  max-width: 1200px // Ajusta el margen según tu diseño
+
+.item_helpers
+  flex: 0 0 calc(25% - 20px)
+  width: 100%
+
+  margin-bottom: 0px
+  box-sizing: border-box
+  margin-left: calc(-2% + 20px)
+  text-align: center
+  
+  &:before
+    content: ''
+    display: block
+    height: 20px  // Altura del espacio adicional
+  
+.card-title
+  
+  margin-top: 20px
+  & + .item_helpers
+    margin-left: 0
+    margin-right: 0
+    margin-left: calc(-5% + 10px) // Ajusta el margen izquierdo para el segundo elemento en adelante
+
+
+.header-navbar-container
+  display: flex
+  flex-direction: column
+  padding-right: 20px
+  padding-left: 20px
+  padding-top: 5px
+  background-color: transparent
+
+.header-navbar-brand
+  padding: 0
+
+.header-navbar-logo-funread
+  width: 230px
+
+.loading-page-header
+  width: 200px !important
+
+.loading-page-header
+  .offcanvas-header
+  .btn-close
+    width: 25px
+    height: 25px
+    background: red
+    border: none
+    border-radius: 10px
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15)
+    background: #e62222
+
+.loading-page-header
+  .offcanvas-header
+  .btn-close::after
+
+    content: ''
+    position: absolute
+    background: white
+    width: 25px
+    height: 3px
+    transform: translate(-10px, 8px)
+    rotate: 45deg
+
+.loading-page-header
+  .offcanvas-header
+  .btn-close::before
+    
+    content: ''
+    position: absolute
+    background: white
+    width: 25px
+    height: 3px
+    transform: translate(-8px, -10px)
+    rotate: -45deg
+
+.landing-page-header
+.bg-body-tertiary
+    background-color: transparent !important
+
+.landing-page-header
+  .offcanvas-body
+  .nav-link
+    
+    color: aliceblue
+
+@media (max-width: 767px)
+.loading-page-header
+    .offcanvas-body
+    .nav-link
+      
+      border-top: 1px solid rgba(0, 0, 0, 0.138)
+      transition: 0.4s
+
+.loading-page-header
+    .offcanvas-body
+    .nav-link:hover
+     
+      transform: scale(1.4)
+      transition: 0.4s
+      translate: 40px
+
+.header-navbar-container
+  
+  position: fixed
+  width: 100%
+  z-index: 1000
+  backdrop-filter: blur(2px)
+  margin: 0 
+  margin-bottom: -30
+  padding: 0  
+
+.navbar 
+    width: 100%
+    padding: 0
+
+.loading-page-header
+    .offcanvas-body
+    .nav-link
+      background-color:black 
+      color: white !important
+      font-weight: bold
+      text-shadow: 0 2px 2px black
+  
