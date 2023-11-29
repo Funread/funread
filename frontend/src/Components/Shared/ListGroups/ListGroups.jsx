@@ -174,8 +174,11 @@ const ListGroups = ({
       console.log(studentId.studentsgroupsid) 
       await deleteStudentGroup(studentId.studentsgroupsid)
       toast.success('Student was deleted successfully')
-      const updatedList = await listedStudentGroups()
-      setSelectedStudents(updatedList.data)
+       setSelectedStudents((prevStudents) =>
+      prevStudents.filter(
+        (student) => !(student.userid === userid && student.groupscreateid === id)
+      )
+    );
     } catch (error) {
       toast.error(
         'Request Error: An error occurred while processing your request'
