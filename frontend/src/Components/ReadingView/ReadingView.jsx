@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './ReadingView.sass';
 import Page from './Page';
@@ -6,7 +6,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 function ReadingView() {
   const handle = useFullScreenHandle();
-  
+ 
   const goToNextPage = () => {
     // Lógica para ir a la siguiente página
   };

@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReadingView from "./Components/ReadingView/ReadingView";
+import ModalReadingView from "./Components/ReadingView/ModalReadingView";
 import BookCreator from "./Components/BookCreator/BookCreator";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
@@ -70,6 +71,16 @@ root.render(
               element={
                 <div className="">
                   <ReadingView />
+                </div>
+              }
+            />
+
+<Route
+              exact
+              path="demo/ModalReadingView"
+              element={
+                <div className="">
+                  <ModalReadingView />
                 </div>
               }
             />
