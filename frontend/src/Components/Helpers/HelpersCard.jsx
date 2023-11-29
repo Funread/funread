@@ -20,11 +20,11 @@ const HelpersCard = ({
     <div className='HelpersCard'
     style={{
       width: '260px',
-      borderRadius: '0',
+      borderRadius: '5%',
       backgroundColor: '#EFEFEF',
       border: '20px solid white',
-      marginTop: '150px',
-      marginLeft: '35px',
+      marginTop: '125px',
+      marginLeft: '25px',
       display: 'flex',
       flexDirection: 'column',  // Ajuste para distribuir el contenido verticalmente
       height: '75%',  // Ocupa el 100% de la altura de la tarjeta
@@ -37,7 +37,7 @@ const HelpersCard = ({
             className='card-im'
             src={"https://cdn-icons-png.flaticon.com/512/6596/6596121.png"}
             alt='Portrait'
-            style={{ width: '90px', height:'80px', borderRadius: '0px' }}
+            style={{ width: '90px', height:'80px', borderRadius: '0px', marginRight: '10px', }}
           />
         </div>
         <div className='card-body d-flex flex-column justify-content-between'>
