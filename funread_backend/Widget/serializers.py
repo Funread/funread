@@ -18,6 +18,8 @@ class WidgetSerializer(serializers.ModelSerializer):
       instance.name = validated_data.get('name', instance.name)
       instance.save()
       return instance
+  
+  
 class WidgetItemSerializer(serializers.ModelSerializer):
 
   class Meta:
