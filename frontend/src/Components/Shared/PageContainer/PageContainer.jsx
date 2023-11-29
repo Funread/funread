@@ -6,7 +6,8 @@ import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
+import AnswerQuiz from '../../Widgets/Quiz/UniqueSelection/AnswerQuiz'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
@@ -23,9 +24,17 @@ const PageContainer = ({
 }) => {
   const [buttonVisible, setButtonVisible] = useState(true)
   const [droppedComponent, setDroppedComponent] = useState(null)
+
+  //Se crea la constante
+  const [selectedWidget, setSelectedWidget] = useState(null)
+  const [isFullScreen, setIsFullScreen] = useState(false)
+  const [originalContent, setOriginalContent] = useState(null)
+  const [fullScreenButtonVisible, setFullScreenButtonVisible] = useState(false)
+
   const [droppedWidget, setDroppedWidget] = useState([])
   const [droppedWidgetData, setDroppedWidgetData] = useState([])
   const pageContainerRef = useRef(null)
+
 
   useEffect(() => {
     // Captura el contenido del PageContainer
@@ -76,6 +85,9 @@ const PageContainer = ({
   const handleEnterFullScreen = () => {
     toggleButtonVisibility(false)
     handle.enter()
+    setSelectedWidget(true)
+    setIsFullScreen(true)
+    setFullScreenButtonVisible(true)
   }
 
   const updateDroppedWidgetState = (widgets) => {
@@ -109,7 +121,6 @@ const PageContainer = ({
                       </button>
                     </div>
                   )}
-
                   <button
                     onClick={remove}
                     id='btnDivs'

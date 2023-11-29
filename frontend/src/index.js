@@ -10,6 +10,7 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import Library from "./Components/Library/Library";
+import Helpers from "./Components/Helpers/Helpers";
 import Group from "./Components/Group/Group";
 import JoinValidator from "./Components/JoinValidator/JoinValidator";
 import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
@@ -61,6 +62,15 @@ root.render(
               element={
                 <div className="">
                   <Library />
+                </div>
+              }
+            />
+             <Route
+              exact
+              path="demo/helpers"
+              element={
+                <div className="">
+                  <Helpers />
                 </div>
               }
             />

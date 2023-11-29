@@ -1,0 +1,45 @@
+
+h1
+ font-size: 12px
+ margin-left: 20px
+ margin-rigth:20px
+ align-text: center
+
+ .card-title 
+ margin-top: 35px
+ 
+ .item_helpers
+  flex: 0 0 calc(25% - 20px)
+  width: 100%
+  margin: 0 5px 20px // Ajusta el espacio entre elementos y agrega margen inferior
+  box-sizing: border-box
+  text-align: center // Centra el contenido de cada tarjeta
+
+.card-title
+  margin-top: 20px
+
+.HelpersCard
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+  transition: box-shadow 0.3s ease-in-out
+  border-radius: 10px
+
+  &:hover
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2)
+    
+  height: 300px
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  margin-bottom: 10px
+  padding-bottom: 5px  // Ajusta el valor del padding en la parte inferior
+  position: relative
+
+  &::after
+    content: ''  // Crea un pseudo-elemento para simular el borde blanco
+    position: absolute
+    bottom: 0
+    left: 0
+    right: 0
+
+    height: 40px  // Ajusta el tamaño del borde blanco en la parte inferior
+    background-color: white  // Color del borde blanco
