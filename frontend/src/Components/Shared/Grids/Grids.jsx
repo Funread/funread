@@ -23,6 +23,7 @@ const widgetTypeToComponent = {
 }
 
 const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
+  
   const [droppedWidgets, setDroppedWidgets] = useState(
     Array(numRows).fill(null)
   )
@@ -53,46 +54,64 @@ const Grids = ({ direction, numRows, pageOrder, widgetChange }) => {
     }
   }, [direction, numRows])
 
+
   const [, drop] = useDrop(() => ({
     accept: Object.keys(widgetTypeToComponent),
     drop: (droppedWidget) => {
-      if (
-        droppedWidget.type === 'UniqueSelection' &&
-        (direction === 'horizontal',
-        numRows === 2 || direction === 'horizontal',
-        numRows === 3 || direction === 'collage' || direction === 'quadruple')
-      ) {
-        toast.error('Try another grid')
+      if(canDrop(droppedWidget.type,droppedWidget.widgetType,direction,numRows)){
+        if (divID.current !== null) {
+          // Generar un ID único para el widget
+          const widgetWithId = { ...droppedWidget, widgetId: generateUniqueId() }
+  
+          setDroppedWidgets((prevDroppedWidgets) => {
+            const updatedDroppedWidgets = [...prevDroppedWidgets]
+            updatedDroppedWidgets[divID.current] = widgetWithId
+  
+            return updatedDroppedWidgets
+          })
+          setIsDroppable(true)
+        }
+      }else{
+        toast.error('That component cannot be placed there, try another grid to use it.')
         setIsDroppable(false)
         return
-      }
-      if (
-        droppedWidget.type === 'ReverseUniqueSelection' &&
-        (direction === 'horizontal',
-        numRows === 2 || direction === 'horizontal',
-        numRows === 3 || direction === 'collage' || direction === 'quadruple')
-      ) {
-        toast.error('Try another grid')
-        setIsDroppable(false)
-        return
-      }
-      if (divID.current !== null) {
-        // Generar un ID único para el widget
-        const widgetWithId = { ...droppedWidget, widgetId: generateUniqueId() }
-
-        setDroppedWidgets((prevDroppedWidgets) => {
-          const updatedDroppedWidgets = [...prevDroppedWidgets]
-          updatedDroppedWidgets[divID.current] = widgetWithId
-
-          return updatedDroppedWidgets
-        })
-        setIsDroppable(true)
       }
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
-  }))
+  }),[direction, numRows])
+
+  const canDrop = (type, widgetType,direction, numRows) => {
+    switch(widgetType){
+      case 1:  //los textos se pueden poner en cualquier grid
+        return true
+      case 2:  //los archivos media se puden poner en cualquier grid
+        if(type === 'WidgetImage' && direction === 'horizontal' && numRows === 3){
+          return false;
+        }
+        return true
+      case 3:  //las formas aun no se sabe como iran
+        return true
+      case 4:  //los quices solo se pueden poner en el grid full
+        if(direction === 'horizontal' && numRows === 1){
+          return true;
+        }
+        return false;
+      case 5: //los juegos solo se pueden poner en el grid full
+        if(direction === 'horizontal' && numRows === 1){
+          return true;
+        }
+        return false;
+      case 6:  // el codigo solo se puede poner en el grid full
+        if(direction === 'horizontal' && numRows === 1){
+          return true;
+        }
+        return false
+      default:
+        return true
+    }
+  }
 
   const generateUniqueId = () => {
     return Math.random().toString(36).substring(7)
