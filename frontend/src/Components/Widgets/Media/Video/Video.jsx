@@ -187,7 +187,7 @@ function Video() {
           </Modal.Footer>
         </Modal>
       </div>
-      <Loader loading={loading}></Loader>
+      <Loader loading={loading} text='Uploading the video to the cloud!'></Loader>
     </>
   );
 }

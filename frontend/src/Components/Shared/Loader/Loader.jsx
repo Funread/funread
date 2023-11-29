@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import _ from 'lodash'
 
 
-function Loader({loading}){
+function Loader({loading,text}){
 
   return (
     <>
@@ -32,7 +32,7 @@ function Loader({loading}){
             <div class="side-top"></div>
           </div>
         </div>
-        <span>Subiendo el video a la nube!<br/>Esto podria tardar unos minutos, agredecemos tu paciensia</span>
+        <span>{text}<br/>This could take a few minutes, thank you for your patience.</span>
       </div>
     </Modal>
     </>
