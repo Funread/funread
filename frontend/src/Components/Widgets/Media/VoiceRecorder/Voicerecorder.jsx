@@ -3,6 +3,8 @@ import Modal from 'react-modal';
 import './voice.css';
 import { FaMicrophone, FaUpload } from 'react-icons/fa';
 import { useDrag } from "react-dnd";
+import { save_Image } from '../../../../api/media'
+import { ToastContainer, toast } from 'react-toastify'
 
 
 
@@ -35,6 +37,7 @@ function AudioRecorder() {
   const [uploadedAudio, setUploadedAudio] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
   const [audioKey, setAudioKey] = useState(0);
+  const [selectedAudio,setSelectAudio] = useState()
 
   useEffect(() => {
     let intervalId;
@@ -74,6 +77,7 @@ function AudioRecorder() {
     const file = event.target.files[0];
     if (file) {
       if (file.type.startsWith('audio/')) {
+        setSelectAudio(file);
         const audioUrl = URL.createObjectURL(file);
         setUploadedAudio(audioUrl);
         setAudioKey((prevKey) => prevKey + 1);
@@ -96,7 +100,7 @@ function AudioRecorder() {
     setAudioUrl(null);
   
     navigator.mediaDevices
-      .getUserMedia({ audio: true })
+      .getUserMedia({ audio: true,video: false })
       .then((stream) => {
         mediaRecorder.current = new MediaRecorder(stream);
   
@@ -109,13 +113,15 @@ function AudioRecorder() {
         mediaRecorder.current.onstop = () => {
           const audioBlob = new Blob(audioChunks.current, { type: 'audio/mp3' });
           const newAudioUrl = URL.createObjectURL(audioBlob);
+
+          const audioFile = new File([audioBlob], 'audio.mp3',{ type: 'audio/mp3' });
+          setSelectAudio(audioFile)
   
           // Comienza la carga asíncrona
           fetch(newAudioUrl)
             .then(response => response.blob())
             .then(blob => {
-             
-
+            
               setAudioUrl(newAudioUrl);
               audioElement.current.src = newAudioUrl;
               audioElement.current.load();
@@ -149,28 +155,27 @@ function AudioRecorder() {
 const stopRecording = () => {
   if (mediaRecorder.current) {
     mediaRecorder.current.stop();
-
-    const audioBlob = new Blob(audioChunks.current, { type: 'audio/mp3' });
-    const newAudioUrl = URL.createObjectURL(audioBlob);
-
-    setAudioUrl(newAudioUrl);
-    setRecording(false);
-
-    // Cargar el audio
-    audioElement.current.src = newAudioUrl;
-    audioElement.current.load();
-
-    // Acceder automáticamente a la duración del audio cuando esté disponible
-    audioElement.current.onloadedmetadata = () => {
-      setAudioDuration(audioElement.current.duration);
-    };
-
-    // Capturar evento de carga completa (opcional)
-    audioElement.current.addEventListener('canplaythrough', () => {
-      console.log('El audio está completamente cargado y listo para reproducirse.');
-    });
   }
 };
+
+const SaveChangesBD = async (event) => {
+  event.preventDefault();
+  try {
+    if (selectedAudio) {
+      const response = await save_Image(selectedAudio)
+      toast.success(
+        'Audio enviada exitosamente a la base de datos',
+      )
+      closeModal();
+      closeUploadModal();
+    } else {
+      toast.error('No se ha seleccionado un archivo de Audio.')
+    }
+  } catch (error) {
+    toast.error('Erro al guardar el audio')
+    console.error('Error al guardar el Audio:', error)
+  }
+}
 
 const [{ isDragging }, drag] = useDrag(() => ({
   type: widgetType,
@@ -210,6 +215,7 @@ const [{ isDragging }, drag] = useDrag(() => ({
               >
                 {recording ? 'Detener Grabación' : 'Comenzar Grabación'}
               </button>
+              <button onClick={SaveChangesBD}>Guardar</button>
               <button onClick={closeUploadModal}>Cerrar</button>
             </div>
           </Modal>
@@ -241,8 +247,8 @@ const [{ isDragging }, drag] = useDrag(() => ({
                 )}
               
                 <div className='bot'>
-                  <button className='sub' type='submit'>
-                    Subir
+                  <button className='sub' onClick={SaveChangesBD}>
+                    Guardar
                   </button>
                   <button className='close' onClick={closeModal}>
                     Cerrar
