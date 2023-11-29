@@ -9,11 +9,11 @@ import { faTrash, faEye, faListCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { listedCreatedBy, deleteGroup } from '../../../api/group'
 import { listedStudents } from '../../../api/userroles'
-import { usersList } from '../../../api'
 import {
   newStudentGroup,
   listedStudentGroups,
   deleteStudentGroup,
+  studentGroupSearch
 } from '../../../api/studentGroups'
 import { toast } from 'react-toastify'
 import CustomMessage from '../CustomMessage/CustomMessage'
@@ -62,7 +62,7 @@ const ListGroups = ({
     fetchData()
   }, [newGroups, user.userId])
 
-  //Se obtienen todos los estudiantes. Filtrar solo los activos
+  //Se obtienen todos los estudiantes. 
   useEffect(() => {
     async function fetchData() {
       try {
@@ -96,7 +96,7 @@ const ListGroups = ({
             ...students.find(
               (student) => student.userid === studentGroup.userid
             ),
-            groupscreateid: studentGroup.groupscreateid,
+            groupscreateid: studentGroup.groupscreateid
           })
         )
 
@@ -128,7 +128,7 @@ const ListGroups = ({
       const updatedStudent = {
         ...student,
         userid: selectedOption.userid,
-        groupscreateid: groupId,
+        groupscreateid: groupId
       }
 
       setStudent(updatedStudent)
@@ -166,13 +166,16 @@ const ListGroups = ({
     }
   }
 
-  const handleStudentDelete = async (id) => {
+  const handleStudentDelete = async (id, userid) => {
     try {
-      await deleteStudentGroup(id)
+      const response = await studentGroupSearch(id)
+      console.log(response.data) 
+      const studentId = response.data.find((student) => student.userid === userid)
+      console.log(studentId.studentsgroupsid) 
+      await deleteStudentGroup(studentId.studentsgroupsid)
       toast.success('Student was deleted successfully')
-      const response = await listedCreatedBy(user.userId)
-      const activeStudents = response.data.filter((student) => student.isactive === 1)
-      setStudents(activeStudents)
+      const updatedList = await listedStudentGroups()
+      setSelectedStudents(updatedList.data)
     } catch (error) {
       toast.error(
         'Request Error: An error occurred while processing your request'
@@ -279,7 +282,7 @@ const ListGroups = ({
                                   data-toggle='tooltip'
                                   data-placement='bottom'
                                   title='Delete Student'
-                                  onClick={() => handleStudentDelete(userid)}
+                                  onClick={() => handleStudentDelete(id, userid)}
                                 >
                                   <FontAwesomeIcon icon={faTrash} size='xl' />
                                 </Badge>

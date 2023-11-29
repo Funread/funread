@@ -97,7 +97,7 @@ def delete(request):
     
     try:
         try:
-            Student = StudentsGroups.objects.get(userid= request.data.get('idstudent'))
+            Student = StudentsGroups.objects.get(studentsgroupsid= request.data.get('studentsgroupsid'))
         except StudentsGroups.DoesNotExist:
             return Response("the student does not exist", status=status.HTTP_404_NOT_FOUND)
         if Student.isteacher == 1:
@@ -107,8 +107,6 @@ def delete(request):
         return Response("student successfully deleted", status=status.HTTP_200_OK)
     except OperationalError:
        return JsonResponse({"error": "La base de datos no está disponible en este momento. Intentelo de nuevo más tarde."},status=status.HTTP_503_SERVICE_UNAVAILABLE)
-
-
 
 # Metedo que cambia la variable de la lista StudentsGroups
 @api_view(['PUT'])
