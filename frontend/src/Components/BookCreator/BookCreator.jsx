@@ -1,5 +1,5 @@
 import './BookCreator.sass'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useLocation } from 'react-router-dom'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -86,16 +86,13 @@ const BookCreator = () => {
   }
 
   // Actualiza la imagen de las diapositivas
-  const updateImage = (pageNumber, image) => {
-    const updatedSlides = slides.map((slide) => {
-      if (slide.id === pageNumber) {
-        return { ...slide, image }
-      }
-      return slide
-    })
-
-    setSlides(updatedSlides)
-  }
+  const updateImage = useCallback((pageNumber, image) => {
+    setSlides((prevSlides) =>
+      prevSlides.map((slide) =>
+        slide.id === pageNumber ? { ...slide, image } : slide
+      )
+    )
+  }, [])
 
   const addOrUpdatePage = (pageNumber, direction, numRows) => {
     setPages((prevPages) => {

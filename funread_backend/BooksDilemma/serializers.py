@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from Books.serializers import BookSerializer
 
 from Users.serializers import UserSerializer
 from .models import BookCategory,BookDimension,BookDilemma,DilemmaPerBook
@@ -48,7 +49,8 @@ class BookDilemmaSerializer(serializers.ModelSerializer):
       return instance
   
 class DilemmaPerBookSerializer(serializers.ModelSerializer):
-
+  # bookid = BookSerializer()
+  
   class Meta:
     model = DilemmaPerBook
     fields = '__all__'
