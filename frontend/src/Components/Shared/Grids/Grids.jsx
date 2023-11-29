@@ -7,6 +7,7 @@ import Video from '../../Widgets/Media/Video/Video'
 import AudioRecorder from '../../Widgets/Media/VoiceRecorder/Voicerecorder'
 import Box from '../../Widgets/Text/TextBox'
 import CodeBlock from '../../Widgets/CodeBlock/CodeBlock'
+import { ToastContainer, toast } from 'react-toastify'
 import WidgetImage from '../../Widgets/Media/Images/WidgetImage'
 import GameModes from '../../Widgets/Game/WordSearchGame/GameModes'
 
@@ -26,12 +27,14 @@ const Grids = ({
   numRows,
   pageOrder,
   widgetChange,
-  modeStudent,
-  listedWidgets,
+  updateWidgetDrop,
+  updateWidgetDropData,
 }) => {
+
   const [droppedWidgets, setDroppedWidgets] = useState(
     Array(numRows).fill(null)
   )
+  const [isDroppable, setIsDroppable] = useState(true)
   const divID = useRef()
 
   useEffect(() => {
@@ -52,73 +55,100 @@ const Grids = ({
       dropEventListeners.forEach(({ parentDiv, dropEventListener }) => {
         parentDiv.removeEventListener('drop', dropEventListener)
       })
+
+      // Clear dropped widgets when direction or numRows changes
+      setDroppedWidgets(Array.from({ length: numRows }, () => []))
     }
-  }, [])
+  }, [direction, numRows])
+
 
   const [, drop] = useDrop(() => ({
     accept: Object.keys(widgetTypeToComponent),
     drop: (droppedWidget) => {
-      if (divID.current !== null) {
-        // Generar un ID único para el widget
-        const widgetWithId = { ...droppedWidget, widgetId: generateUniqueId() }
-
-        setDroppedWidgets((prevDroppedWidgets) => {
-          const updatedDroppedWidgets = [...prevDroppedWidgets]
-          updatedDroppedWidgets[divID.current] = widgetWithId
-
-          return updatedDroppedWidgets
-        })
+      if(canDrop(droppedWidget.type,droppedWidget.widgetType,direction,numRows)){
+        if (divID.current !== null) {
+          // Generar un ID único para el widget
+          const widgetWithId = { ...droppedWidget, widgetId: generateUniqueId() }
+  
+          setDroppedWidgets((prevDroppedWidgets) => {
+            const updatedDroppedWidgets = [...prevDroppedWidgets]
+            updatedDroppedWidgets[divID.current] = widgetWithId
+  
+            return updatedDroppedWidgets
+          })
+          setIsDroppable(true)
+          updateWidgetDrop(widgetWithId)
+          
+        }
+      }else{
+        toast.error('That component cannot be placed there, try another grid to use it.')
+        setIsDroppable(false)
+        
+        //return
       }
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
-  }))
+  }),[direction, numRows])
+
+  const canDrop = (type, widgetType,direction, numRows) => {
+    switch(widgetType){
+      case 1:  //los textos se pueden poner en cualquier grid
+        return true
+      case 2:  //los archivos media se puden poner en cualquier grid
+        if(type === 'WidgetImage' && direction === 'horizontal' && numRows === 3){
+          return false;
+        }
+        return true
+      case 3:  //las formas aun no se sabe como iran
+        return true
+      case 4:  //los quices solo se pueden poner en el grid full
+        if(direction === 'horizontal' && numRows === 1){
+          return true;
+        }
+        return false;
+      case 5: //los juegos solo se pueden poner en el grid full
+        if(direction === 'horizontal' && numRows === 1){
+          return true;
+        }
+        return false;
+      case 6:  // el codigo solo se puede poner en el grid full
+        if(direction === 'horizontal' && numRows === 1){
+          return true;
+        }
+        return false
+      default:
+        return true
+    }
+  }
 
   const generateUniqueId = () => {
     return Math.random().toString(36).substring(7)
   }
 
   return (
-    <>
-      {modeStudent ? (
-        //modo estudiante o vista previa
-        <section className={`layout ${direction}`}>
-          {Array.from({ length: numRows }).map((_, index) => (
-            <div id={index} className='custom-grid-component' key={index}>
-              {/* {listedWidgets.map(
-                (widget) =>
-                  widget.elementorder === index && (
-                    //Aqui debería ir el widget
-                    <p>Widget</p>
-                  )
-              )} */}
-            </div>
-          ))}
-        </section>
-      ) : (
-        <section className={`layout ${direction}`} ref={drop}>
-          {Array.from({ length: numRows }).map((_, index) => (
-            <div id={index} className='custom-grid-component' key={index}>
-              {widgetTypeToComponent[droppedWidgets[index]?.type] &&
-                React.createElement(
-                  widgetTypeToComponent[droppedWidgets[index].type],
-                  {
-                    onWidgetChange: (data) =>
-                      widgetChange({
-                        ...data,
-                        widgetId: droppedWidgets[index].widgetId,
-                        widgetType: droppedWidgets[index].widgetType,
-                        pageNumber: pageOrder,
-                        order: index,
-                      }),
-                  }
-                )}
-            </div>
-          ))}
-        </section>
-      )}
-    </>
+    <section className={`layout ${direction}`} ref={drop}>
+      {Array.from({ length: numRows }).map((_, index) => (
+        <div id={index} className='custom-grid-component' key={index}>
+          {widgetTypeToComponent[droppedWidgets[index]?.type] &&
+            React.createElement(
+              widgetTypeToComponent[droppedWidgets[index].type],
+              {
+                onWidgetChange: (data) =>
+                  widgetChange({
+                    ...data,
+                    widgetId: droppedWidgets[index].widgetId,
+                    widgetType: droppedWidgets[index].widgetType,
+                    pageNumber: pageOrder,
+                    order: index,
+                  }),
+                updateWidgetDropData,
+              }
+            )}
+        </div>
+      ))}
+    </section>
   )
 }
 

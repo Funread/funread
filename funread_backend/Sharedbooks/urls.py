@@ -5,11 +5,11 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .api import SharedBooksViewSet
 
 urlpatterns = [
-    path('sharedbooks/listAllSharedBooks/' , views.listed),
-    path('sharedbooks/searchSharedBooks/', views.search),
-    path('sharedbooks/insertnewSharedBooks/', views.add_new),
-    path('sharedbooks/deleteSharedBooks/', views.delete),
-    path('sharedbooks/updateSharedBooks/',views.update),
+    path('listAllSharedBooks/' , views.listed),
+    path('searchSharedBooks/', views.search),
+    path('insertnewSharedBooks/', views.add_new),
+    path('deleteSharedBooks/', views.delete),
+    path('updateSharedBooks/',views.update),
     
 ]
 

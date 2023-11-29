@@ -47,8 +47,8 @@ def search(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     
-        groupsPerClasses  = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
-        print(groupsPerClasses)
+     groupsPerClasses  = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
+     print(groupsPerClasses)
     except GroupsPerClasses.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:

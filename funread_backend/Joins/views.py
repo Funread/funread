@@ -111,8 +111,6 @@ def checkJoin(request):
       'jwt': token,
       'data': serializer.data
      }
-     return response
-
-     return Response(status=status.HTTP_204_NO_CONTENT)
+     return Response(response,status=status.HTTP_204_NO_CONTENT)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
