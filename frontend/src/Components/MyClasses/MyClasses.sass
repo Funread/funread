@@ -1,8 +1,23 @@
 .my-classes-body
 
+    @media (min-width: 769px)
+        padding-right: 3rem 
+
     .custom-title
         color: grey
         text-align: left
         font-size: 23px
         padding-top: 1rem
         padding-bottom: 1rem
+    
+    .custom-classes-card
+        width: 100%
+        height: 700px
+        overflow: hidden
+        overflow-y: auto
+
+        &::-webkit-scrollbar
+            width: 1px
+        &::-webkit-scrollbar-thumb 
+            background-color: transparent
+            border-radius: 5px

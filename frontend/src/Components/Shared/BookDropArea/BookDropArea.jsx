@@ -22,6 +22,10 @@ const BookDropArea = ({ activityId, droppedBooks, onDrop, message }) => {
     }),
   }))
 
+  const handleBookClick = (book) => {
+    console.log(`Libro clickeado: ${book.bookid}`)
+  }
+
   return (
     <div
       id={`dropArea-${activityId}`}
@@ -32,7 +36,11 @@ const BookDropArea = ({ activityId, droppedBooks, onDrop, message }) => {
         <CustomMessage message={message} />
       ) : (
         droppedBooks.map((book, index) => (
-          <DraggableBookCard key={index} book={book} />
+          <DraggableBookCard
+            key={index}
+            book={book}
+            onClick={(book) => handleBookClick(book)}
+          />
         ))
       )}
     </div>
