@@ -1,10 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './ReadingView.sass';
-import RV_ImageWithText from './Widgets/Media/RV_ImageWithText';
- 
+import Page from './Page';
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 function ReadingView() {
+  const handle = useFullScreenHandle();
+  
   const goToNextPage = () => {
     // Lógica para ir a la siguiente página
   };
@@ -14,24 +16,21 @@ function ReadingView() {
   };
 
   const exitPresentation = () => {
-    // Lógica para salir de la presentación
+    handle.exit(); // Sale del modo pantalla completa
   };
   return (
+    <FullScreen handle={handle}>
     <div className="presentation-container">
       <div className="top-menu">
-        <button onClick={(function() {
-  console.log('This will run right away!');
-})}>Back</button>
-      <button onClick={(function() {
-  console.log('This will run right away!');
-})}>Atrás</button>   <button onClick={(function() {
-  console.log('This will run right away!');
-})}>Next</button>
+          <button onClick={goToPreviousPage}>Back</button>
+          <button onClick={exitPresentation}>Salir</button>
+          <button onClick={goToNextPage}>Next</button>
       </div>
-      <div className="slide-content">
-      <RV_ImageWithText textbackgroundColor="#355377" textColor="#FFFFFF" />
-      </div>
+
+      <Page/> 
+
     </div>
+    </FullScreen>
   );
 }
 
