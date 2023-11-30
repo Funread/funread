@@ -24,7 +24,7 @@ class InstituteMembersSerializer (serializers.ModelSerializer):
         return InstituteMembers.objects.create(**validated_data)
     
     def update(self, instance , validated_data):
-        instance.instituteId = validated_data.get('instituteId', instance.instituteId)
-        instance.userId = validated_data.get('userId', instance.userId)
+        instance.instituteId = validated_data.get('institute_id', instance.institute_id)
+        instance.userId = validated_data.get('user_id', instance.user_id)
         instance.save()
         return instance

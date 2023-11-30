@@ -11,8 +11,8 @@ class Institute(models.Model):
    
 class InstituteMembers(models.Model):
     institutemembersid = models.AutoField(db_column='InstituteMembersID', primary_key=True)  # Field name made lowercase.
-    instituteid = models.ForeignKey(Institute, db_column='InstituteID', on_delete=models.CASCADE, to_field='instituteid')  # Field name made lowercase.
-    userid = models.ForeignKey(User, db_column='UserId', on_delete=models.CASCADE, to_field='userid')  # Field name made lowercase.
+    institute_id = models.ForeignKey(Institute, db_column='InstituteID', on_delete=models.CASCADE, to_field='instituteid')  # Field name made lowercase.
+    user_id = models.ForeignKey(User, db_column='UserId', on_delete=models.CASCADE, to_field='userid')  # Field name made lowercase.
 
     class Meta:
         

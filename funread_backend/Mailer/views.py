@@ -1,6 +1,7 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 import json
@@ -64,16 +65,16 @@ def listAllEmail(request):
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@api_view(['GET'])
+@api_view(['PUT'])
 def listByEmail(request):
 
     #token verification
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if es_valido==False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     
         dataRequest = {
@@ -82,38 +83,37 @@ def listByEmail(request):
         print(request.data)
         emailSe = dataRequest.get('emailFrom')
         mail = Mail.objects.filter(emailFrom=emailSe)
-        print(mail)
-        serializer = MailSerializer(mail, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except Mail.DoesNotExist:
-        return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
+        if mail.exists():
+            serializer = MailSerializer(mail, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def listByMailControl(request):
 
     #token verification
-    try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
+    try:    
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if es_valido==False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
     
         dataRequest = {
-            'emailFrom': request.data.get('emailFrom'),
+            'EmailFrom': request.data.get('EmailFrom'),
         }
         print(request.data)
-        emailSe = dataRequest.get('emailFrom')
-        mailcontrol = MailControl.objects.filter(emailFrom=emailSe)
-        print(mailcontrol)
-        serializer = MailControlSerializer(mailcontrol, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except MailControl.DoesNotExist:
-        return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
+        emailSe = dataRequest.get('EmailFrom')
+        mailcontrol = MailControl.objects.filter(EmailFrom=emailSe)
+        if mailcontrol.exists():
+            serializer = MailControlSerializer(mailcontrol, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -134,6 +134,7 @@ def createMailControl(request):
         'date': request.data.get('date'),
         'category': request.data.get('category'),
         'status': request.data.get('status'),
+        'EmailFrom': request.data.get('emailFrom')
      }
 
      serializer = MailControlSerializer(data=data)
@@ -167,14 +168,14 @@ def listAllMailControl(request):
 def updateMailControl(request):
 
     #token verification
-    try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
+    
+    authorization_header = request.headers.get('Authorization')
+    verify = verifyJwt.JWTValidator(authorization_header)
+    es_valido = verify.validar_token()
+    if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    
+    try:
         dataRequest = {
             'idControl': request.data.get('idControl'),
         }
@@ -182,26 +183,27 @@ def updateMailControl(request):
         print(emailSe)
         mailControl = MailControl.objects.filter(
             idControl=emailSe).update(status="dlt")
+        return Response({"Se han eliminado los datos con exito"},status=status.HTTP_200_OK)
     except MailControl.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
-    return Response({"Se han eliminado los datos con exito"},status=status.HTTP_200_OK)
+    
 
 @api_view(['POST'])
 def sendEmail(request):
     # Configuración
     try:
-     smtp_username = os.environ.get("MAIL_USER")
-     smtp_password = os.environ.get("MAIL_PASSWORD")#'vjbw ruvh oppe htbk'#'contraseña obtenida de la verificacion a dos pasos'
+        smtp_username = os.environ.get("MAIL_USER")
+        smtp_password = os.environ.get("MAIL_PASSWORD")#'vjbw ruvh oppe htbk'#'contraseña obtenida de la verificacion a dos pasos'
 
-     message = MIMEMultipart()
-     message['Subject'] = request.data.get('subjet')
-     message['From'] = smtp_username
-     message['To'] = request.data.get('to')
+        message = MIMEMultipart()
+        message['Subject'] = request.data.get('subjet')
+        message['From'] = smtp_username
+        message['To'] = request.data.get('to')
      #Agregamos contenido
-     message.attach(MIMEText(request.data.get('message')))
+        message.attach(MIMEText(request.data.get('message')))
 
      #intente agregar el logo de funread al correo pero no salio muy bien, dejo el codigo que consegui
      # with open('./Mailer/logoFunread.png', 'rb') as image_file:
@@ -222,17 +224,17 @@ def sendEmail(request):
      # message.attach(html_part)
 
      # Conectar al servidor SMTP
-     server = smtplib.SMTP('smtp.gmail.com', 587 )
-     server.starttls()  # Iniciar cifrado TLS
-     server.login(smtp_username, smtp_password)
+        server = smtplib.SMTP('smtp.gmail.com', 587 )
+        server.starttls()  # Iniciar cifrado TLS
+        server.login(smtp_username, smtp_password)
 
      # Enviar el correo
-     server.sendmail(smtp_username, request.data.get('to'), message.as_string())
+        server.sendmail(smtp_username, request.data.get('to'), message.as_string())
 
      # Cerrar la conexión
-     server.quit()
+        server.quit()
 
-     return Response({"Se envio con exito"},status=status.HTTP_200_OK)
+        return Response({"Se envio con exito"},status=status.HTTP_200_OK)
     except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 import json
 from wsgiref import headers
@@ -96,18 +97,18 @@ def instituteChange(request):
 def deleteInstitute(request):
 
     #token verification
-    try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+   try:
+      authorization_header = request.headers.get('Authorization')
+      verify = verifyJwt.JWTValidator(authorization_header)
+      es_valido = verify.validar_token()
+      if es_valido==False:
+         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-     institute = Institute.objects.get(instituteId=request.data.get("instituteId"))
-     institute.delete()
-     return Response({"msj":"successfully delete"},status=status.HTTP_200_OK)
-    except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+      institute = Institute.objects.get(instituteid=request.data.get("instituteId"))
+      institute.delete()
+      return Response({"msj":"successfully delete"},status=status.HTTP_200_OK)
+   except OperationalError:
+      return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 
@@ -129,8 +130,8 @@ def createMembers(request):
     
      data = {
         
-        'userId': request.data.get('userId'),
-        'instituteId': request.data.get('instituteId'),
+        'user_id': request.data.get('userIid'),
+        'institute_id': request.data.get('instituteId'),
         
          }
      serializer = InstituteMembersSerializer(data=data)
@@ -166,24 +167,30 @@ def memberChange(request):
 
     #token verification
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
+      authorization_header = request.headers.get('Authorization')
+      verify = verifyJwt.JWTValidator(authorization_header)
+      es_valido = verify.validar_token()
+      if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-     instituteMembers = InstituteMembers.objects.get(instituteMembersId=request.data.get("instituteMembersId"))
-     data={
-        "userId":request.data.get("userchange"),
-        "instituteId":request.data.get("institutechange"),
-        
-        
-     }
-     serializer = InstituteMembersSerializer(instituteMembers, data=data)
-     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+      try:
+        institute_member = InstituteMembers.objects.get(institutemembersid=request.data.get("institutemembersid"))
+      except InstituteMembers.DoesNotExist:
+        raise Http404("InstituteMembers not found")
+
+      data = {
+        "user_id": request.data.get("userchange"),
+        "institute_id": request.data.get("institutechange"),
+        # Añade otros campos según sea necesario
+      }
+
+      serializer = InstituteMembersSerializer(institute_member, data=data)
+
+      if serializer.is_valid():
+         serializer.save()
+         return Response({"message": "InstituteMember updated successfully","data":serializer.data}, status=status.HTTP_200_OK)
+
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -199,7 +206,7 @@ def deleteMembers(request):
      if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-     instituteMembers = InstituteMembers.objects.get(instituteMembersId=request.data.get("instituteMembersId"))
+     instituteMembers = InstituteMembers.objects.get(institutemembersid=request.data.get("institutemembersid"))
      instituteMembers.delete()
 
      return Response({"msj":"successfully delete"},status=status.HTTP_200_OK)
