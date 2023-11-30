@@ -71,14 +71,14 @@ def listed(request):
 @ api_view(['GET'])
 def searchCode(request,code):
     
-    try:
-        join = Joins.objects.get(code=code)
-        print(join)
-    except Joins.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND) # devolvemos status de 404 si el join no existe
-    except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    return Response(status=status.HTTP_204_NO_CONTENT) # devovlemos status 204 si existe, ay que no necesitamos responder con datos
+   try:
+      join = Joins.objects.get(code=code)
+      print(join)
+   except Joins.DoesNotExist:
+      return Response(status=status.HTTP_404_NOT_FOUND) # devolvemos status de 404 si el join no existe
+   except OperationalError:
+      return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+   return Response(status=status.HTTP_204_NO_CONTENT) # devovlemos status 204 si existe, ay que no necesitamos responder con datos
 
 @ api_view(['POST'])
 def checkJoin(request):

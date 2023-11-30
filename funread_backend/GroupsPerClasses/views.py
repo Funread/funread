@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 import datetime
 import json
@@ -35,7 +36,7 @@ def listed(request):
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 #Metodo para buscar una variable por nombre
-@api_view(['GET'])
+@api_view(['POST'])
 def search(request):
 
     #token verification
@@ -47,8 +48,8 @@ def search(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
     
-        groupsPerClasses  = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
-        print(groupsPerClasses)
+     groupsPerClasses  = GroupsPerClasses.objects.get(groupsperclassesid=request.data.get('groupsPerClassesId'))
+     print(groupsPerClasses)
     except GroupsPerClasses.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
@@ -61,24 +62,30 @@ def search(request):
 def add_new(request):
 
     #token verification
-    try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+      try:
+         authorization_header = request.headers.get('Authorization')
+         verify = verifyJwt.JWTValidator(authorization_header)
+         es_valido = verify.validar_token()
+         if es_valido==False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-     print(request.data)
-     data = {
-        'groupId': request.data.get('groupId'),
-        'classesId': request.data.get('classesId'),
-     }
-     serializer = GroupsPerClassesSerializer(data=data)
-     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-     return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-    except OperationalError:
+         print("Datos de la Solicitud:", request.data)
+         data = {
+         'studentsgroups_id': request.data.get('studentsgroupsId'),
+         'classes_id': request.data.get('classesId'),
+         }
+         print("Datos antes de la serialización:", data)
+         serializer = GroupsPerClassesSerializer(data=data)
+         if serializer.is_valid():
+            print("Los datos son válidos")
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+         else:
+            print("Los datos no son válidos. Errores:", serializer.errors)
+
+         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+      except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 #Elimina un elemento de la lista SharedBooks
@@ -93,7 +100,7 @@ def delete(request):
      if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-     groupsPerClasses = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
+     groupsPerClasses = GroupsPerClasses.objects.get(groupsperclassesid=request.data.get('groupsPerClassesId'))
      groupsPerClasses.delete()
      return Response({"msj":"Succesfully deleted"}, status=status.HTTP_200_OK)
     except OperationalError:
@@ -105,18 +112,18 @@ def delete(request):
 def update(request):
 
     #token verification
-    try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-     groupsPerClasses  = GroupsPerClasses.objects.get(groupsPerClassesId=request.data.get('groupsPerClassesId'))
-     serializer = GroupsPerClassesSerializer(groupsPerClasses, data=request.data)
-     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    except OperationalError:
+   try:
+      authorization_header = request.headers.get('Authorization')
+      verify = verifyJwt.JWTValidator(authorization_header)
+      es_valido = verify.validar_token()
+      if es_valido==False:
+         return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+      groupsPerClasses  = GroupsPerClasses.objects.get(groupsperclassesid=request.data.get('groupsperclassesid'))
+      serializer = GroupsPerClassesSerializer(groupsPerClasses, data=request.data)
+      if serializer.is_valid():
+         serializer.save()
+         return Response(serializer.data, status=status.HTTP_200_OK)
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+   except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
