@@ -40,7 +40,6 @@ function Video({ onWidgetChange }) {
           const response = await save_Image(selectedFile)
           setShow(false)
           onWidgetChange({ type: 'Video', data: {data:response.data.file} })
-          console.log('response',response)
           toast.success(
             'Video enviada exitosamente a la base de datos:',
           )

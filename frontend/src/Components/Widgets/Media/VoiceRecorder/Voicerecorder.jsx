@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify'
 
 const widgetType = "widgetType";
 
-function AudioPlayer({ audioUrl, updateAudioDuration }) {
+function AudioPlayer({ audioUrl, updateAudioDuration}) {
   const handleTimeUpdate = (e) => {
     const duration = e.target.duration;
     updateAudioDuration(duration);
@@ -24,7 +24,7 @@ function AudioPlayer({ audioUrl, updateAudioDuration }) {
   );
 }
 
-function AudioRecorder() {
+function AudioRecorder({ onWidgetChange }) {
   const [audioDuration, setAudioDuration] = useState(0);
   const [recording, setRecording] = useState(false);
   const [timer, setTimer] = useState(0);
@@ -163,6 +163,7 @@ const SaveChangesBD = async (event) => {
   try {
     if (selectedAudio) {
       const response = await save_Image(selectedAudio)
+      onWidgetChange({ type: 'AudioRecorder', data: {data:response.data.file} })
       toast.success(
         'Audio enviada exitosamente a la base de datos',
       )
