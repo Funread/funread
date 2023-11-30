@@ -238,46 +238,35 @@ const ListGroups = ({
                 ))}
               </ListGroup>
             </Col>
-            <Col sm={6}>
-              <span className='custom-list-group-span'>Students List</span>
-              <Tab.Content>
-                {groups.map(({ id }) => (
-                  <Tab.Pane eventKey={'#' + id} key={id}>
-                    <Select
-                      className='custom-group-view-select mt-3 mb-3'
-                      placeholder='Select a student'
-                      onSelect={(value) => handleSelect(value, id)}
-                    >
-                      {_.map(students, (student) => (
-                        <Option key={student.userid} value={student.userid}>
-                          {student.name + ' ' + student.lastname}
-                        </Option>
-                      ))}
-                    </Select>
-                    <ListGroup variant='flush' className='mt-1'>
-                      {selectedStudents
-                        .filter((student) => student.groupscreateid === id)
-                        .map(({ userid, groupscreateid, name, lastname }) => (
-                          <div key={userid}>
-                            <ListGroup.Item
-                              action
-                              className='d-flex justify-content-between align-items-start'
-                            >
-                              {name + ' ' + lastname}
-                              <div>
-                                <Badge
-                                  bg='dark'
-                                  onClick={() =>
-                                    toggleSidebar({
-                                      userid,
-                                      groupscreateid,
-                                      name,
-                                      lastname,
-                                    })
-                                  }
-                                >
-                                  <FontAwesomeIcon icon={faEye} size='xl' />
-                                </Badge>
+
+ 
+                        ))}
+                      </Select>
+                      <ListGroup variant='flush' className='mt-1'>
+                        {selectedStudents
+                          .filter((student) => student.groupscreateid === id)
+                          .map(({ userid, groupscreateid, name, lastname }) => (
+                            <div key={userid}>
+                              <ListGroup.Item
+                                action
+                                className='d-flex justify-content-between align-items-start'
+                              >
+                                {name + ' ' + lastname}
+                                <div>
+                                  <Badge
+                                    bg='dark'
+                                    onClick={() =>
+                                      toggleSidebar({
+                                        userid,
+                                        groupscreateid,
+                                        name,
+                                        lastname,
+                                      })
+                                    }
+                                  >
+                                    <FontAwesomeIcon icon={faEye} size='xl' />
+                                  </Badge>
+
 
                                 <Badge
                                   bg='dark'
