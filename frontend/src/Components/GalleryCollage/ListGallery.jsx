@@ -5,7 +5,7 @@ import { list, upload } from '../../api/media'
 const ImageGallery = ({ onImageSelect }) => {
   const [images, setImages] = useState([])
   const [selectedImage, setSelectedImage] = useState(null)
-  const getImage = 'http://localhost:8000/' // Ruta base de las imágenes
+  const getImage = 'http://localhost:8000' // Ruta base de las imágenes
 
   const handleImageClick = (image) => {
     if (selectedImage === image) {

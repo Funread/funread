@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Button, Modal, FormControl } from 'react-bootstrap'
+import { Button, Modal, FormControl, Alert } from 'react-bootstrap'
 import './WidgetImage.sass'
 import ImageGallery from '../../../GalleryCollage/ListGallery'
 import { Content } from 'antd/es/layout/layout'
 import { save_Image } from '../../../../api/media'
+
 
 const getImage = 'http://localhost:8000'
 
@@ -12,7 +13,11 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
   const [showGallery, setShowGallery] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
   const [selectedFile, setSelectedFile] = useState()
+  const [showAlert, setShowAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [showSaveErrorAlert, setShowSaveErrorAlert] = useState(false);
 
+  
   const handleShow = () => setShowModal(true)
   const handleClose = () => {
     updateWidgetDropData(selectedFile)
@@ -34,7 +39,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
     console.log('Imagen seleccionada handleSave:', selectedImage)
 
     setShowGallery(false)
-    onWidgetChange({ type: 'WidgetImage', data: selectedImage.file_route })
+    onWidgetChange({ type: 'WidgetImage', data: {data:selectedImage.file_route} })
   }
 
   const handleFileChange = (e) => {
@@ -48,13 +53,30 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
         const response = await save_Image(selectedFile)
         console.log(
           'Imagen enviada exitosamente a la base de datos:',
-          response.data
-        )
+          response.data);
+        setShowAlert(true);
+
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 5000);
+
       } else {
         console.error('No se ha seleccionado un archivo de imagen.')
+        setShowErrorAlert(true);
+
+
+        setTimeout(() => {
+          setShowErrorAlert(false);
+        }, 5000);
       }
     } catch (error) {
       console.error('Error al guardar la imagen:', error)
+
+      setShowSaveErrorAlert(true);
+
+      setTimeout(() => {
+        setShowSaveErrorAlert(false);
+      }, 5000);
     }
     setShowGallery(false)
   }
@@ -71,7 +93,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
                 src={`${getImage}${selectedImage.file_route}`}
                 alt='Descripción de la imagen de la galería'
                 className='custom-imagePrincipal-widgetImage'
-                //onClick={() => setSelectedImage(null)}
+              //onClick={() => setSelectedImage(null)}
               />
             </div>
           ) : selectedFile ? (
@@ -81,7 +103,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
                 src={URL.createObjectURL(selectedFile)}
                 alt='Descripción de la imagen del archivo'
                 className='custom-imagePrincipal-widgetFile'
-                //onClick={() => setSelectedFile(null)}
+              //onClick={() => setSelectedFile(null)}
               />
             </div>
           ) : (
@@ -101,6 +123,16 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
         <Modal.Header closeButton>
           <Modal.Title>Widget Images</Modal.Title>
         </Modal.Header>
+        <Alert variant='success' show={showAlert} onClose={() => setShowAlert(false)} dismissible={false}>
+          Image successfully uploaded.
+        </Alert>
+        <Alert variant='warning' show={showErrorAlert} dismissible={false}>
+          Please select an image before trying to save.
+        </Alert>
+        <Alert variant='danger' show={showSaveErrorAlert} dismissible={false}>
+          There was an error trying to save the image. Please try again.
+        </Alert>
+
         <Modal.Body>
           <Content>
             {selectedImage ? (
@@ -110,7 +142,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
                   src={`${getImage}${selectedImage.file_route}`}
                   alt='Descripción de la imagen de la galería'
                   className='custom-imagePrincipal-widgetImage'
-                  //onClick={() => setSelectedImage(null)}
+                //onClick={() => setSelectedImage(null)}
                 />
               </div>
             ) : selectedFile ? (
@@ -120,7 +152,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
                   src={URL.createObjectURL(selectedFile)}
                   alt='Descripción de la imagen del archivo'
                   className='custom-imagePrincipal-widgetFile'
-                  //onClick={() => setSelectedFile(null)}
+                //onClick={() => setSelectedFile(null)}
                 />
               </div>
             ) : (
@@ -145,6 +177,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
             className='custum-formControl-image mt-4'
           />
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>
             Cerrar
@@ -153,6 +186,8 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
             Save
           </Button>
         </Modal.Footer>
+
+
       </Modal>
       {showGallery && (
         <Modal
@@ -176,6 +211,8 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
               Save Changes
             </Button>
           </Modal.Footer>
+
+
         </Modal>
       )}
     </div>
