@@ -128,6 +128,7 @@ function GridGame({ palabras, filas, columnas }) {
     }
     return false;
   }
+  
 
 }
 

@@ -48,11 +48,11 @@ function GameModes() {
   const handleResponseChange = (index, value) => {
     setResponses((prevResponses) => {
       const newResponses = [...prevResponses];
-      newResponses[index] = value;
-      newResponses[index] = value.replace(/ /g, '');
+      newResponses[index] = value.trim(); // Eliminar espacios alrededor de la palabra
       return newResponses;
     });
   }
+  
 
   function esPalabraValida(palabra) {
     // Utiliza una expresión regular para verificar que la palabra contiene solo letras mayúsculas y minúsculas
@@ -61,29 +61,28 @@ function GameModes() {
   
 
   const saveResponses = () => {
-    const updatedResponses = responses
-      .map((response) => response.trim()) // Limpiar las palabras de espacios en blanco
-      .filter((response) => response !== ''); // Filtrar respuestas vacías
-  
-    let maxResponses = 0;
-  
-    // Determinar el número máximo de respuestas según el nivel de dificultad
-    if (responses.length === MIN_RESPONSES) {
-      maxResponses = MIN_RESPONSES;
-    } else if (responses.length === INTER_RESPONSES) {
-      maxResponses = INTER_RESPONSES;
-    } else if (responses.length === MAX_RESPONSES) {
-      maxResponses = MAX_RESPONSES;
-    }
-  
-    if (updatedResponses.length === maxResponses) {
-      setResponses(updatedResponses);
-      setPalabras(updatedResponses);
-    } else {
-      // Mostrar un mensaje de error o tomar alguna otra acción si no se ingresaron la cantidad requerida de palabras.
-      alert(`Por favor, ingresa  ${maxResponses} palabras.`);
-    }
+  const updatedResponses = responses
+    .map((response) => response.trim())
+    .filter((response) => response !== '');
+
+  let maxResponses = 0;
+
+  if (responses.length === MIN_RESPONSES) {
+    maxResponses = MIN_RESPONSES;
+  } else if (responses.length === INTER_RESPONSES) {
+    maxResponses = INTER_RESPONSES;
+  } else if (responses.length === MAX_RESPONSES) {
+    maxResponses = MAX_RESPONSES;
   }
+
+  if (updatedResponses.length === maxResponses) {
+    setResponses(updatedResponses);
+    setPalabras(updatedResponses);
+  } else {
+    alert(`Por favor, ingresa ${maxResponses} palabras.`);
+  }
+}
+
 
   function ButtonNav({ title, onClick }) {
     return (
