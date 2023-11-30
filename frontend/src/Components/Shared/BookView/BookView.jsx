@@ -34,7 +34,7 @@ const BookView = ({ book }) => {
   const handleReadBook = () => {
     navigate('/demo/readingview', {
       state: {
-        data: book,
+        data: book.id,
       },
     })
   }

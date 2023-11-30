@@ -273,6 +273,12 @@ const BookCreator = () => {
             }
             break
 
+          case 'GameModes':
+            if (widget.name === 'GameModes') {
+              return widget.widgetid
+            }
+            break
+
           default:
             return 'No options'
         }

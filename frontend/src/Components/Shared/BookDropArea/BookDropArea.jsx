@@ -1,10 +1,12 @@
 import './BookDropArea.sass'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useDrop } from 'react-dnd'
 import DraggableBookCard from '../DraggableBookCard/DraggableBookCard'
 import CustomMessage from '../CustomMessage/CustomMessage'
 
 const BookDropArea = ({ activityId, droppedBooks, onDrop, message }) => {
+  const navigate = useNavigate()
   const [, drop] = useDrop(() => ({
     accept: 'books',
     drop: (item) => {
@@ -23,6 +25,11 @@ const BookDropArea = ({ activityId, droppedBooks, onDrop, message }) => {
   }))
 
   const handleBookClick = (book) => {
+    navigate('/demo/readingview', {
+      state: {
+        data: book.bookid,
+      },
+    })
     console.log(`Libro clickeado: ${book.bookid}`)
   }
 

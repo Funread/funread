@@ -23,7 +23,7 @@ const BookPreview = ({ bookid }) => {
     setPaginaActual((prevPagina) => Math.max(prevPagina - 1, 0))
   }
 
-  console.log('fullBook', fullBook())
+  // console.log('fullBook', fullBook())
 
   return (
     <div className='book-preview-container'>
