@@ -151,7 +151,7 @@ const BookCreator = () => {
                 widget.data,
                 widget.elementorder
               )
-              console.log('res', res)
+             
             }
             toast.success(`Page ${page.pageNumber} added successfully`)
             savedPages.add(page.pageNumber)
@@ -167,6 +167,7 @@ const BookCreator = () => {
 
   const widgetChange = (newValue) => {
     setWidgetSelected((prevWidgets) => {
+      
       // Crea una copia del estado actual
       const updatedWidgets = { ...prevWidgets }
 

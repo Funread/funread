@@ -13,7 +13,7 @@ import {
   usersList,
 } from '../../../api'
 
-const ClassesList = ({ groupId, newActivities }) => {
+const ClassesList = ({ groupId, newActivities, message }) => {
   const [droppedBooks, setDroppedBooks] = useState([])
   const [activities, setActivities] = useState([])
 
@@ -125,6 +125,7 @@ const ClassesList = ({ groupId, newActivities }) => {
                 activityId={activity.classesid}
                 droppedBooks={droppedBooks[activity.classesid] || []}
                 onDrop={(book) => handleDrop(activity.classesid, book)}
+                message={message}
               />
             </div>
           ))}

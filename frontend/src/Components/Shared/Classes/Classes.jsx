@@ -73,7 +73,11 @@ const Classes = ({ groupId, toggleGroupClasses, newActivities }) => {
               </button>
             </div>
             <hr className='mt-0' />
-            <ClassesList groupId={groupId} newActivities={newActivities} />
+            <ClassesList
+              groupId={groupId}
+              newActivities={newActivities}
+              message={'Drop a book here'}
+            />
           </div>
         </div>
       </div>
