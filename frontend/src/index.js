@@ -64,16 +64,6 @@ root.render(
                 </div>
               }
             />
-             <Route
-              exact
-              path="demo/helpers"
-              element={
-                <div className="">
-                  <Helpers />
-                </div>
-              }
-            />
-
             <Route
               exact
               path="demo/group"
@@ -103,7 +93,7 @@ root.render(
             />
 
             <Route exact path="about" element={<About />} />
-
+            <Route exact path="helpers" element={<Helpers />} />
             {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
 
 

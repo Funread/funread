@@ -17,7 +17,7 @@ const HelpersCard = ({
     : './imagenes/no-image.png';
 
   return (
-    <div className='HelpersCard'
+    <div className='HelpersCard align-items' 
     style={{
       width: '260px',
       borderRadius: '5%',
@@ -27,12 +27,12 @@ const HelpersCard = ({
       marginLeft: '25px',
       display: 'flex',
       flexDirection: 'column',  // Ajuste para distribuir el contenido verticalmente
-      height: '75%',  // Ocupa el 100% de la altura de la tarjeta
+      height: '28rem',  // Ocupa el 100% de la altura de la tarjeta
       
     }}
   >
-      <div className='align-items'>
-        <div style={{ padding: '20px 0 20px 20px' }}>
+
+        <div style={{ padding: '20px 0 0 0' }}>
           <img
             className='card-im'
             src={"https://cdn-icons-png.flaticon.com/512/6596/6596121.png"}
@@ -40,20 +40,19 @@ const HelpersCard = ({
             style={{ width: '90px', height:'80px', borderRadius: '0px', marginRight: '10px', }}
           />
         </div>
-        <div className='card-body d-flex flex-column justify-content-between'>
-          <h5 className='card-title'>{name}</h5>
+        <div className='card-body d-flex flex-column'>
+          <h5 className='helpers_card-title'>{name}</h5>
           <div>
-            <h1 className='card-text'>{post}</h1>
+            <p className='card-text'>{post}</p>
           </div>
           <div>
-            <h1 className='card-text '>{lugar}</h1>
+            <p className='card-text '>{lugar}</p>
           </div>
           <div>
-            <h1 className='card-text'>{linke}</h1>
+            <p className='card-text'>{linke}</p>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
