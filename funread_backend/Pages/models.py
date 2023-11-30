@@ -9,7 +9,6 @@ class Pages(models.Model):
     elementorder = models.IntegerField(db_column='ElementOrder')  # Field name made lowercase.
     gridDirection = models.TextField(db_column='GridDirection', null=True, blank=True)
     gridNumRows = models.IntegerField(db_column='GridNumRows', null=True, blank=True)
-    actived = models.IntegerField(db_column='Actived', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         
