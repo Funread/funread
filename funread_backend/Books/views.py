@@ -353,7 +353,7 @@ def get_all_book_relations(request, bookid):
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     try:
-        pages = Pages.objects.filter(bookid=bookid)
+        pages = Pages.objects.filter(bookid=bookid, actived=1)
     except Pages.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
