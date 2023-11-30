@@ -7,7 +7,7 @@ const MIN_RESPONSES = 5;
 const INTER_RESPONSES = 10;
 const MAX_RESPONSES = 15;
 
-function GameModes() {
+function GameModes({ onWidgetChange }) {
   const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill(''));
   const [palabras, setPalabras] = useState([]);
   const [filas, setFilas] = useState(10); 
@@ -54,6 +54,17 @@ function GameModes() {
     });
   }
 
+  function arrayToJson(myArray) {
+    var myObject = {};
+    myArray.forEach(function(item, index) {
+      myObject[index] = item;
+    });
+    
+    var jsonString = JSON.stringify(myObject);
+  
+    return jsonString;
+  }
+
   function esPalabraValida(palabra) {
     // Utiliza una expresión regular para verificar que la palabra contiene solo letras mayúsculas y minúsculas
     return /^[A-Za-z]+$/.test(palabra);
@@ -83,6 +94,12 @@ function GameModes() {
       // Mostrar un mensaje de error o tomar alguna otra acción si no se ingresaron la cantidad requerida de palabras.
       alert(`Por favor, ingresa  ${maxResponses} palabras.`);
     }
+
+    //************************/
+    const jsonPalabras = arrayToJson(updatedResponses)
+    console.log(jsonPalabras)
+    onWidgetChange({ type: 'Games', data: {data: updatedResponses}})
+
   }
 
   function ButtonNav({ title, onClick }) {
