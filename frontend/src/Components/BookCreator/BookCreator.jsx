@@ -1,5 +1,6 @@
 import './BookCreator.sass'
 import React, { useState, useEffect, useCallback } from 'react'
+import _ from 'lodash'
 import { useLocation } from 'react-router-dom'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -79,9 +80,21 @@ const BookCreator = () => {
       }))
 
       setSlides(updatedSlides)
-
       const newPages = pages.filter((page) => page.pageNumber !== slideId)
       setPages(newPages)
+
+      delete widgetSeleted[slideId]
+
+      const newWidgetSelected = {}
+
+      const aux = Object.values(widgetSeleted)
+
+      aux.forEach((item, index) => {
+        newWidgetSelected[index + 1] = item
+      })
+
+      console.log('newWidgetSelected', newWidgetSelected)
+      setWidgetSelected(newWidgetSelected)
     }
   }
 
@@ -95,8 +108,10 @@ const BookCreator = () => {
   }, [])
 
   const addOrUpdatePage = (pageNumber, direction, numRows) => {
+    console.log('pageNumber', pageNumber)
     setPages((prevPages) => {
       const updatedPages = prevPages.slice() // Se clona el estado anterior
+      console.log('updatedPages', updatedPages)
       const existingPageIndex = updatedPages.findIndex(
         (page) => page.pageNumber === pageNumber
       )
@@ -122,16 +137,11 @@ const BookCreator = () => {
   }
 
   const pageContent = (idPage) => {
-    console.log("llegue", idPage)
+    console.log('llegue', idPage)
     if (pages.length > 0) {
-
       const page = pages.filter((page) => page.pageNumber === idPage)
-      console.log("ifPage", page)
-      console.log("ifPages", pages)
-      console.log("ifWiget", widgetSeleted[page[0].pageNumber])
 
       const widgetsPageNumber = widgetSeleted[page[0].pageNumber].data
-      console.log("ifWiget", widgetsPageNumber)
 
       if (page) {
         const pageWidget = {
@@ -146,16 +156,13 @@ const BookCreator = () => {
           },
           widgetitems: widgetsPageNumber.map((widgetItem) => ({
             widgetitemid: null,
-            value: {
-              data: widgetItem.data,
-            },
+            value: widgetItem.data,
             type: widgetItem.type,
             elementorder: widgetItem.order,
             pageid: null,
             widgetid: getWidgetId(widgetItem),
           })),
-        };
-        console.log(pageWidget)
+        }
         return pageWidget
       }
     }
@@ -191,7 +198,6 @@ const BookCreator = () => {
                 widget.data,
                 widget.elementorder
               )
-             
             }
             toast.success(`Page ${page.pageNumber} added successfully`)
             savedPages.add(page.pageNumber)
@@ -207,7 +213,6 @@ const BookCreator = () => {
 
   const widgetChange = (newValue) => {
     setWidgetSelected((prevWidgets) => {
-      
       // Crea una copia del estado actual
       const updatedWidgets = { ...prevWidgets }
 
@@ -219,7 +224,7 @@ const BookCreator = () => {
       // Filtra los widgets que no están en la misma posición que el nuevo widget
       updatedWidgets[newValue.pageNumber].data = updatedWidgets[
         newValue.pageNumber
-      ].data.filter((widget) => widget.order !== newValue.order)
+      ].data.filter((widget) => widget.elementorder !== newValue.elementorder)
 
       // Agrega el nuevo widget al array actualizado
       updatedWidgets[newValue.pageNumber].data.push(newValue)

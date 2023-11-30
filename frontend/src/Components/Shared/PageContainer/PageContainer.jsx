@@ -36,7 +36,6 @@ const PageContainer = ({
   const [droppedWidgetData, setDroppedWidgetData] = useState([])
   const pageContainerRef = useRef(null)
 
-
   useEffect(() => {
     // Captura el contenido del PageContainer
     html2canvas(pageContainerRef.current).then((canvas) => {
@@ -84,8 +83,11 @@ const PageContainer = ({
   }
 
   const handleEnterFullScreen = () => {
-   const pageContent= pageInfo(pageNumber)
-   console.log("pageContent",pageContent)
+    const pageContent = pageInfo(pageNumber)
+
+    console.log('pageContent', pageContent)
+    //TODO: Llamar reading view
+
     toggleButtonVisibility(false)
     handle.enter()
     setSelectedWidget(true)
