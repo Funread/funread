@@ -10,9 +10,14 @@ const MIN_RESPONSES = 2
 const MAX_RESPONSES = 6
 
 const widgetType = 'widgetType'
+const initialQuiz = {
+  answer:"" ,
+  points: 0,
+  correct: false,
+}
 
-const UniqueSelection = ({ saveData }) => {
-  const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill('')) // Inicia con dos respuestas mínimo
+const UniqueSelection = ({ onWidgetChange }) => {
+  const [responses, setResponses] = useState(Array(MIN_RESPONSES).fill({ ...initialQuiz })) // Inicia con dos respuestas mínimo
   const [isAddingResponses, setIsAddingResponses] = useState(true)
 
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -24,23 +29,9 @@ const UniqueSelection = ({ saveData }) => {
     }),
   }))
 
-  const save = async () => {
-    if (saveData) {
-      if (saveData) {
-        console.log('dentro')
-        // const saveOptions = await CreateQuiz(saveData)
-        // CreateQuiz('')
-      }
-    }
-  }
-  useEffect(() => {
-    console.log('aaaa')
-    save()
-  }, [saveData])
-
   const addResponses = () => {
     if (responses.length < MAX_RESPONSES) {
-      setResponses([...responses, '', ''])
+      setResponses([...responses, initialQuiz, initialQuiz])
     }
   }
 
@@ -59,15 +50,31 @@ const UniqueSelection = ({ saveData }) => {
     }
   }
 
-  const handleResponseChange = (index, value) => {
+  const handleResponseChange = (index, newAnswer, newPoints, newCorrect) => {
+
     setResponses((prevResponses) => {
-      const newResponses = [...prevResponses]
-      newResponses[index] = value
-      return newResponses
-    })
+     
+      // Validar el índice
+      if (index < 0 || index >= prevResponses.length) {
+        console.error("Índice no válido");
+        return prevResponses;
+      }  
+      // Clonar las respuestas y actualizar la respuesta específica
+      const newResponses = [...prevResponses];
+      newResponses[index] = {
+        ...newResponses[index],
+        answer: newAnswer,
+        points: newPoints,
+        correct: newCorrect
+      };  
+      return newResponses;
+    });
+  
   }
 
+  
   useEffect(() => {
+    onWidgetChange({ type: 'UniqueSelection', data: { data: responses } });
     if (responses.length === MIN_RESPONSES) {
       setIsAddingResponses(true)
     } else if (responses.length === MAX_RESPONSES) {
@@ -104,17 +111,18 @@ const UniqueSelection = ({ saveData }) => {
 
             <div className='responses-unique-selection-grid mx-auto mt-3'>
               {responses.map((response, index) => (
-                <AnswerQuiz
-                  key={index}
-                  value={response}
-                  onChange={(value) => handleResponseChange(index, value)}
-                />
+                <div key={index} >
+                  <AnswerQuiz
+                    key={index}
+                    value={response}
+                    onChange={(answer, points, correct) => handleResponseChange(index, answer, points, correct)}
+                  />
+                </div>
               ))}
             </div>
             <button
-              className={`custom-unique-selection-button ${
-                isAddingResponses ? 'adding' : 'removing'
-              }`}
+              className={`custom-unique-selection-button ${isAddingResponses ? 'adding' : 'removing'
+                }`}
               onClick={toggleAddingResponses}
             >
               <div className='button-unique-selection-content'>

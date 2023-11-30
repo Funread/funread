@@ -14,7 +14,7 @@ const Box = ({ onWidgetChange }) => {
   const handleTextChange = (e) => {
     const newText = e.target.value
     setText(newText)
-    onWidgetChange({ type: 'Box', data: newText })
+    onWidgetChange({ type: 'Box', data: {data: newText }})
   }
 
   return (

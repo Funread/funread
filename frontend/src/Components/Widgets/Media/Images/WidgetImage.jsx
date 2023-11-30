@@ -39,7 +39,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
     console.log('Imagen seleccionada handleSave:', selectedImage)
 
     setShowGallery(false)
-    onWidgetChange({ type: 'WidgetImage', data: selectedImage.file_route })
+    onWidgetChange({ type: 'WidgetImage', data: {data:selectedImage.file_route} })
   }
 
   const handleFileChange = (e) => {
