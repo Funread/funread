@@ -22,3 +22,13 @@ class PageSerializer(serializers.ModelSerializer):
       instance.gridNumRows = validated_data.get('gridNumRows', instance.gridNumRows)
       instance.save()
       return instance
+  
+class PageStatusSerializer(serializers.ModelSerializer):
+  class Meta:
+      model = Pages
+      fields = ['actived']
+
+  def update(self, instance, validated_data):
+    instance.actived = validated_data.get('actived', instance.actived)
+    instance.save()
+    return instance
