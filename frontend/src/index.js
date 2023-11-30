@@ -17,6 +17,7 @@ import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 import About from "./Components/About/About";
 import Register from "./Components/Register/Register";
 import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorMenu";
+import MyClasses from "./Components/MyClasses/MyClasses";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
@@ -70,6 +71,15 @@ root.render(
               element={
                 <div className="">
                   <Group />
+                </div>
+              }
+            />
+            <Route
+              exact
+              path="demo/myclasses"
+              element={
+                <div className="">
+                  <MyClasses />
                 </div>
               }
             />
@@ -157,6 +167,21 @@ root.render(
                   </div>
                 }
               />
+            </Route>
+
+            <Route element={<ProtectedRoutes roles={["estudiante"]} />}>
+              <Route
+                exact
+                path="/myclasses"
+                element={
+                  <div className="index-background-padding">
+                    <div className="index-background-container ">
+                      <MyClasses />
+                    </div>
+                  </div>
+                }
+              />
+
             </Route>
           </Routes>
         </PersistGate>
