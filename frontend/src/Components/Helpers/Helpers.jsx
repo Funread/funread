@@ -1,9 +1,7 @@
 import HelpersCard from './HelpersCard'
 import './Helpers.sass'
-import colaboradores from './colaboradores.jpg'
 import Header from '../Shared/Header/Header'
 import logoFunread from "./../../logoFunread.png";
-
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -13,7 +11,21 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 const Helper = [
 
+  {
+    id:0,
+    imageUrl:undefined,
+    name:"Oscar Arrieta",
+    post:"Proyect Manager",
+    linke: (
+      <a href="https://www.linkedin.com/in/oscar-mario-a-b48aa8105/" target="_blank">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/640px-LinkedIn_logo_initials.png"
+          className="LogoLin"
+        />
+      </a>
+    ),
 
+  },
   {
     id:1,
     imageUrl:undefined,
@@ -366,15 +378,13 @@ const Helper = [
 
 const Helpers = () => {
   return (
-    <div className='main_container'>
-        <div className="landing-page-header">
+    <div className='helpers_main_container'>
+        
         <Header />
-      </div>
-      <div className='backgroundContainer'>
-        <img src={colaboradores} alt="Colaboradores" style={{ width: '100%', height: '110', position: 'absolute' }} />
-        <div className="helpers_title-container">COLLABORATORS</div>
-      </div>
       
+      
+       <div className="helpers_title-container">COLLABORATORS</div>
+    
       
     <div className='section_helpers'>
 

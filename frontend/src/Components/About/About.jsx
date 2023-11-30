@@ -11,17 +11,12 @@ import logoFunread from "../../logoFunread.png";
 const Lobby = () => {
 
     return (
-        <div className='landing-page-header'>
-        <div className='container-fluid text-center lobby'>
-        <div className="landing-page-header">
-        <Header />
-        </div>
         
-    
-  
-
-
-            <div className='row' style={{ height: 'auto' }}>
+        <div className='container-fluid text-center lobby'>
+        
+        <Header />
+       
+                   <div className='row' style={{ height: 'auto' }}>
                 
                 <div className='col-9 content_lobby'>
 
@@ -178,7 +173,7 @@ const Lobby = () => {
                 </div>
             </div>
         </div>
-        </div>
+    
         );
         
 }
