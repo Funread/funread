@@ -121,6 +121,46 @@ const BookCreator = () => {
     })
   }
 
+  const pageContent = (idPage) => {
+    console.log("llegue", idPage)
+    if (pages.length > 0) {
+
+      const page = pages.filter((page) => page.pageNumber === idPage)
+      console.log("ifPage", page)
+      console.log("ifPages", pages)
+      console.log("ifWiget", widgetSeleted[page[0].pageNumber])
+
+      const widgetsPageNumber = widgetSeleted[page[0].pageNumber].data
+      console.log("ifWiget", widgetsPageNumber)
+
+      if (page) {
+        const pageWidget = {
+          page: {
+            pageid: page[0].pageid,
+            type: 0,
+            template: 0,
+            elementorder: page[0].elementorder,
+            gridDirection: page[0].gridDirection,
+            gridNumRows: page[0].gridNumRows,
+            bookid: page[0].bookid,
+          },
+          widgetitems: widgetsPageNumber.map((widgetItem) => ({
+            widgetitemid: null,
+            value: {
+              data: widgetItem.data,
+            },
+            type: widgetItem.type,
+            elementorder: widgetItem.order,
+            pageid: null,
+            widgetid: getWidgetId(widgetItem),
+          })),
+        };
+        console.log(pageWidget)
+        return pageWidget
+      }
+    }
+  }
+
   const saveSlides = async (e) => {
     e.preventDefault()
 
@@ -254,6 +294,7 @@ const BookCreator = () => {
                 updateImage={updateImage}
                 addOrUpdatePage={addOrUpdatePage}
                 widgetChange={widgetChange}
+                pageInfo={pageContent}
               />
             </div>
           </div>

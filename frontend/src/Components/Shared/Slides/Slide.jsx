@@ -8,6 +8,7 @@ const Slide = ({
   updateImage,
   addOrUpdatePage,
   widgetChange,
+  pageInfo,
 }) => {
   return (
     <>
@@ -20,6 +21,7 @@ const Slide = ({
           updateImage={updateImage}
           addOrUpdatePage={addOrUpdatePage}
           widgetChange={widgetChange}
+          pageInfo={pageInfo}
         />
       ))}
     </>
