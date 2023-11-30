@@ -12,7 +12,7 @@ export async function newStudentGroup(
       userid: userid,
       isteacher: isteacher,
       createdby: createdby,
-      groupscreateid: groupscreateid,
+      groupscreateid: groupscreateid
     }
   )
 }
@@ -22,8 +22,10 @@ export async function listedStudentGroups() {
 }
 
 export async function studentGroupSearch(groupId) {
-  return axiosAuth().get(
-    'studentsgroups/searchStudentsGroups/' + groupId
+  return axiosAuth().post(
+    'studentsgroups/searchStudentsGroups/', {
+      GroupsCreateId:groupId
+    }
   )
 }
 
@@ -31,7 +33,7 @@ export async function deleteStudentGroup(userId) {
   return axiosAuth().put(
     'studentsgroups/deleteStudentsGroups/',
     {
-      idstudent: userId,
+      studentsgroupsid: userId,
     }
   )
 }
