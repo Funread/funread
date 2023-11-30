@@ -4,7 +4,7 @@ import { useDrop } from 'react-dnd'
 import DraggableBookCard from '../DraggableBookCard/DraggableBookCard'
 import CustomMessage from '../CustomMessage/CustomMessage'
 
-const BookDropArea = ({ activityId, droppedBooks, onDrop }) => {
+const BookDropArea = ({ activityId, droppedBooks, onDrop, message }) => {
   const [, drop] = useDrop(() => ({
     accept: 'books',
     drop: (item) => {
@@ -22,6 +22,10 @@ const BookDropArea = ({ activityId, droppedBooks, onDrop }) => {
     }),
   }))
 
+  const handleBookClick = (book) => {
+    console.log(`Libro clickeado: ${book.bookid}`)
+  }
+
   return (
     <div
       id={`dropArea-${activityId}`}
@@ -29,10 +33,14 @@ const BookDropArea = ({ activityId, droppedBooks, onDrop }) => {
       className='card book-drop-area'
     >
       {droppedBooks.length === 0 ? (
-        <CustomMessage message={'Drop a book here'} />
+        <CustomMessage message={message} />
       ) : (
         droppedBooks.map((book, index) => (
-          <DraggableBookCard key={index} book={book} />
+          <DraggableBookCard
+            key={index}
+            book={book}
+            onClick={(book) => handleBookClick(book)}
+          />
         ))
       )}
     </div>

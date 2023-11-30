@@ -19,7 +19,7 @@ export const useLogin = () => {
           if(!res.data.roles[0]){
             return "noRoles"
           }
-          return "success"
+          return res.data.roles
       }).catch(error => {
         return error.response.data.detail
       });

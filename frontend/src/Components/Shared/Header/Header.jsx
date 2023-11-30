@@ -15,8 +15,8 @@ class Header extends React.Component {
   render() {
     return (
       //Return Here component or html code
-      <div className="header-navbar-container">
-        <Navbar key='md' expand='md' className="bg-body-tertiary mb-3" bg="transparent" variant="dark">
+      <div className="landing-page-header">
+        <Navbar key='md' expand='md' className="navega" variant="dark">
           <Container fluid>
             <Navbar.Brand>
               <img
@@ -34,9 +34,14 @@ class Header extends React.Component {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="/about">About Us</Nav.Link>
-                  <Nav.Link href="#action2">Study Programs</Nav.Link>
+                  <Nav.Link href="/about">About Us</Nav.Link> 
+                  <Nav.Link href="/helpers">Collaborators</Nav.Link>
+                  <Nav.Link href="/">Log In</Nav.Link>
                   <Nav.Link href="#action3">Recent Reports</Nav.Link>
+                  <Nav.Link href="#action2">Study Programs</Nav.Link>
+                  
+                 
+                  
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
