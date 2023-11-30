@@ -166,7 +166,9 @@ const BookCreator = () => {
   }
 
   const widgetChange = (newValue) => {
+    console.log(newValue)
     setWidgetSelected((prevWidgets) => {
+      
       // Crea una copia del estado actual
       const updatedWidgets = { ...prevWidgets }
 
