@@ -12,12 +12,14 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import Library from "./Components/Library/Library";
+import Helpers from "./Components/Helpers/Helpers";
 import Group from "./Components/Group/Group";
 import JoinValidator from "./Components/JoinValidator/JoinValidator";
 import JoinCreator from "./Components/Shared/JoinCreator/JoinCreator";
 import About from "./Components/About/About";
 import Register from "./Components/Register/Register";
 import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorMenu";
+import MyClasses from "./Components/MyClasses/MyClasses";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
@@ -95,6 +97,15 @@ root.render(
             />
             <Route
               exact
+              path="demo/myclasses"
+              element={
+                <div className="">
+                  <MyClasses />
+                </div>
+              }
+            />
+            <Route
+              exact
               path="/join/:code"
               element={
                 <div className="index-background-container">
@@ -113,7 +124,7 @@ root.render(
             />
 
             <Route exact path="about" element={<About />} />
-
+            <Route exact path="helpers" element={<Helpers />} />
             {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
 
 
@@ -177,6 +188,21 @@ root.render(
                   </div>
                 }
               />
+            </Route>
+
+            <Route element={<ProtectedRoutes roles={["estudiante"]} />}>
+              <Route
+                exact
+                path="/myclasses"
+                element={
+                  <div className="index-background-padding">
+                    <div className="index-background-container ">
+                      <MyClasses />
+                    </div>
+                  </div>
+                }
+              />
+
             </Route>
           </Routes>
         </PersistGate>

@@ -4,7 +4,7 @@ import { useDrag } from 'react-dnd'
 
 const getImage = 'http://localhost:8000'
 
-const DraggableBookCard = ({ book }) => {
+const DraggableBookCard = ({ book, onClick }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'books',
     item: {
@@ -19,9 +19,16 @@ const DraggableBookCard = ({ book }) => {
     ? `${getImage}${book.portrait}`
     : './imagenes/no-image.png'
 
+  const handleClick = () => {
+    if (onClick) {
+      onClick(book)
+    }
+  }
+
   return (
     <div
       ref={drag}
+      onClick={handleClick}
       className={`card draggable-book-card ${
         isDragging ? 'isDraggingStyle' : ''
       } `}

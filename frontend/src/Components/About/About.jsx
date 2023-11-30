@@ -1,18 +1,26 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import Navbar from 'react-bootstrap/Navbar'
 import SidebarBook from '../Shared/SidebarBook/SidebarBook';
 import './About.sass';
+import Header from '../Shared/Header/Header';
+import React from "react";
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import logoFunread from "../../logoFunread.png";
 
 const Lobby = () => {
+
     return (
+        
         <div className='container-fluid text-center lobby'>
-            <div className='row' style={{ height: 'auto' }}>
+        
+        <Header />
+       
+                   <div className='row' style={{ height: 'auto' }}>
                 
                 <div className='col-9 content_lobby'>
 
                     <div className="Title">
-
                         <div className="image">
                         </div>
                         <h1>FUNREAD</h1>
@@ -165,7 +173,8 @@ const Lobby = () => {
                 </div>
             </div>
         </div>
-
-    );
+    
+        );
+        
 }
 export default Lobby;
