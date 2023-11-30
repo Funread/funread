@@ -8,11 +8,12 @@ import { Select } from 'antd'
 import { faTrash, faEye, faListCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { listedCreatedBy, deleteGroup } from '../../../api/group'
-import { usersList } from '../../../api'
+import { listedStudents } from '../../../api/userroles'
 import {
   newStudentGroup,
   listedStudentGroups,
   deleteStudentGroup,
+  studentGroupSearch
 } from '../../../api/studentGroups'
 import { toast } from 'react-toastify'
 import CustomMessage from '../CustomMessage/CustomMessage'
@@ -61,11 +62,11 @@ const ListGroups = ({
     fetchData()
   }, [newGroups, user.userId])
 
-  //Se obtienen todos los usuarios. Se debe cambiar por solo los usuarios estudiantes
+  //Se obtienen todos los estudiantes. 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await usersList()
+        const response = await listedStudents()
         setStudents(response.data)
       } catch (error) {
         console.log('error', error)
@@ -95,7 +96,7 @@ const ListGroups = ({
             ...students.find(
               (student) => student.userid === studentGroup.userid
             ),
-            groupscreateid: studentGroup.groupscreateid,
+            groupscreateid: studentGroup.groupscreateid
           })
         )
 
@@ -127,7 +128,7 @@ const ListGroups = ({
       const updatedStudent = {
         ...student,
         userid: selectedOption.userid,
-        groupscreateid: groupId,
+        groupscreateid: groupId
       }
 
       setStudent(updatedStudent)
@@ -165,10 +166,19 @@ const ListGroups = ({
     }
   }
 
-  const handleStudentDelete = async (id) => {
+  const handleStudentDelete = async (id, userid) => {
     try {
-      await deleteStudentGroup(id)
+      const response = await studentGroupSearch(id)
+      console.log(response.data) 
+      const studentId = response.data.find((student) => student.userid === userid)
+      console.log(studentId.studentsgroupsid) 
+      await deleteStudentGroup(studentId.studentsgroupsid)
       toast.success('Student was deleted successfully')
+       setSelectedStudents((prevStudents) =>
+      prevStudents.filter(
+        (student) => !(student.userid === userid && student.groupscreateid === id)
+      )
+    );
     } catch (error) {
       toast.error(
         'Request Error: An error occurred while processing your request'
@@ -189,104 +199,95 @@ const ListGroups = ({
           <Row>
             <Col sm={6}>
               <span className='custom-list-group-span'>Groups List</span>
-              <ListGroup variant='flush' className='mt-1'>
-                {groups.map(({ id, name, idimage }) => (
-                  <div key={id}>
-                    <ListGroup.Item
-                      action
-                      eventKey={'#' + id}
-                      className='d-flex justify-content-between align-items-start'
-                    >
-                      <div
-                        onClick={() => showGroupResume({ id, name, idimage })}
+              <div className='custom-group-list-container'>
+                <ListGroup variant='flush' className='mt-1'>
+                  {groups.map(({ id, name, idimage }) => (
+                    <div key={id}>
+                      <ListGroup.Item
+                        action
+                        eventKey={'#' + id}
+                        className='d-flex justify-content-between align-items-start'
                       >
-                        Name: {name}
-                      </div>
-                      <div>
-                        <Badge
-                          bg='dark'
-                          data-toggle='tooltip'
-                          data-placement='bottom'
-                          title='Assign Task'
-                          onClick={() => handleClassesComponent(id)}
+                        <div
+                          onClick={() => showGroupResume({ id, name, idimage })}
                         >
-                          <FontAwesomeIcon icon={faListCheck} size='xl' />
-                        </Badge>
-                        <Badge
-                          bg='dark'
-                          className='mx-1'
-                          data-toggle='tooltip'
-                          data-placement='bottom'
-                          title='Delete Group'
-                          onClick={() => handleDelete(id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} size='xl' />
-                        </Badge>
-                      </div>
-                    </ListGroup.Item>
-                  </div>
-                ))}
-              </ListGroup>
+                          Name: {name}
+                        </div>
+                        <div>
+                          <Badge
+                            bg='dark'
+                            data-toggle='tooltip'
+                            data-placement='bottom'
+                            title='Assign Task'
+                            onClick={() => handleClassesComponent(id)}
+                          >
+                            <FontAwesomeIcon icon={faListCheck} size='xl' />
+                          </Badge>
+                          <Badge
+                            bg='dark'
+                            className='mx-1'
+                            data-toggle='tooltip'
+                            data-placement='bottom'
+                            title='Delete Group'
+                            onClick={() => handleDelete(id)}
+                          >
+                            <FontAwesomeIcon icon={faTrash} size='xl' />
+                          </Badge>
+                        </div>
+                      </ListGroup.Item>
+                    </div>
+                  ))}
+                </ListGroup>
+              </div>
             </Col>
             <Col sm={6}>
-              <span className='custom-list-group-span'>Students List</span>
-              <Tab.Content>
-                {groups.map(({ id }) => (
-                  <Tab.Pane eventKey={'#' + id} key={id}>
-                    <Select
-                      className='custom-group-view-select mt-3 mb-3'
-                      placeholder='Select a student'
-                      onSelect={(value) => handleSelect(value, id)}
-                    >
-                      {_.map(students, (student) => (
-                        <Option key={student.userid} value={student.userid}>
-                          {student.name + ' ' + student.lastname}
-                        </Option>
-                      ))}
-                    </Select>
-                    <ListGroup variant='flush' className='mt-1'>
-                      {selectedStudents
-                        .filter((student) => student.groupscreateid === id)
-                        .map(({ userid, groupscreateid, name, lastname }) => (
-                          <div key={userid}>
-                            <ListGroup.Item
-                              action
-                              className='d-flex justify-content-between align-items-start'
-                            >
-                              {name + ' ' + lastname}
-                              <div>
-                                <Badge
-                                  bg='dark'
-                                  onClick={() =>
-                                    toggleSidebar({
-                                      userid,
-                                      groupscreateid,
-                                      name,
-                                      lastname,
-                                    })
-                                  }
-                                >
-                                  <FontAwesomeIcon icon={faEye} size='xl' />
-                                </Badge>
-
-                                <Badge
-                                  bg='dark'
-                                  className='mx-1'
-                                  data-toggle='tooltip'
-                                  data-placement='bottom'
-                                  title='Delete Student'
-                                  onClick={() => handleStudentDelete(userid)}
-                                >
-                                  <FontAwesomeIcon icon={faTrash} size='xl' />
-                                </Badge>
-                              </div>
-                            </ListGroup.Item>
-                          </div>
+ 
                         ))}
-                    </ListGroup>
-                  </Tab.Pane>
-                ))}
-              </Tab.Content>
+                      </Select>
+                      <ListGroup variant='flush' className='mt-1'>
+                        {selectedStudents
+                          .filter((student) => student.groupscreateid === id)
+                          .map(({ userid, groupscreateid, name, lastname }) => (
+                            <div key={userid}>
+                              <ListGroup.Item
+                                action
+                                className='d-flex justify-content-between align-items-start'
+                              >
+                                {name + ' ' + lastname}
+                                <div>
+                                  <Badge
+                                    bg='dark'
+                                    onClick={() =>
+                                      toggleSidebar({
+                                        userid,
+                                        groupscreateid,
+                                        name,
+                                        lastname,
+                                      })
+                                    }
+                                  >
+                                    <FontAwesomeIcon icon={faEye} size='xl' />
+                                  </Badge>
+
+                                  <Badge
+                                    bg='dark'
+                                    className='mx-1'
+                                    data-toggle='tooltip'
+                                    data-placement='bottom'
+                                    title='Delete Student'
+                                    onClick={() => handleStudentDelete(userid)}
+                                  >
+                                    <FontAwesomeIcon icon={faTrash} size='xl' />
+                                  </Badge>
+                                </div>
+                              </ListGroup.Item>
+                            </div>
+                          ))}
+                      </ListGroup>
+                    </Tab.Pane>
+                  ))}
+                </Tab.Content>
+              </div>
             </Col>
           </Row>
         )}
