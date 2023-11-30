@@ -15,7 +15,7 @@ class Header extends React.Component {
   render() {
     return (
       //Return Here component or html code
-      <div className="header-navbar-container">
+      <div className="landing-page-header">
         <Navbar key='md' expand='md' className="bg-body-tertiary mb-3" bg="transparent" variant="dark">
           <Container fluid>
             <Navbar.Brand>

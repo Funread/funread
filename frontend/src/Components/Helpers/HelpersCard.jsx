@@ -41,7 +41,7 @@ const HelpersCard = ({
           />
         </div>
         <div className='card-body d-flex flex-column justify-content-between'>
-          <h5 className='card-title'>{name}</h5>
+          <h5 className='helpers_card-title'>{name}</h5>
           <div>
             <h1 className='card-text'>{post}</h1>
           </div>

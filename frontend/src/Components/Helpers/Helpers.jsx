@@ -367,39 +367,12 @@ const Helper = [
 const Helpers = () => {
   return (
     <div className='main_container'>
-       <div className="header-navbar-container">
-        <Navbar key='md' expand='md' className="bg-body-tertiary mb-3" bg="transparent" variant="dark">
-          <Container fluid>
-            <Navbar.Brand>
-              <img
-                src={logoFunread}
-                alt="logo"
-                className="header-navbar-logo-funread"
-              ></img>
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
-            <Navbar.Offcanvas id={`offcanvasNavbar-expand-md`} className='loading-page-header' aria-labelledby={`offcanvasNavbarLabel-expand-md`} placement="end">
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`}>
-                  Opciones {/* Quizas se deba escojer un mejor nombre para el menu o quitarle el titulo */}
-                </Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-                <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="/about">About Us</Nav.Link> 
-                  <Nav.Link href="demo/helpers">Collaborators</Nav.Link>
-                  <Nav.Link href="/">Log In</Nav.Link>
-                  <Nav.Link href="#action3">Recent Reports</Nav.Link>
-                  <Nav.Link href="#action2">Study Programs</Nav.Link>
-                </Nav>
-              </Offcanvas.Body>
-            </Navbar.Offcanvas>
-          </Container>
-        </Navbar>
+        <div className="landing-page-header">
+        <Header />
       </div>
       <div className='backgroundContainer'>
         <img src={colaboradores} alt="Colaboradores" style={{ width: '100%', height: '110', position: 'absolute' }} />
-        <div className="title-container">COLLABORATORS</div>
+        <div className="helpers_title-container">COLLABORATORS</div>
       </div>
       
       
