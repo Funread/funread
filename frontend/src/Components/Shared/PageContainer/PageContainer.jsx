@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas'
 import { ToastContainer, toast } from 'react-toastify'
-import AnswerQuiz from '../../Widgets/Quiz/UniqueSelection/AnswerQuiz'
+import ModalReadingView from '../../ReadingView/ModalReadingView'
 
 //Objeto para nombrar todos los componentes que serán soltados en el contenedor
 const widgetTypeToComponent = {
@@ -29,9 +29,9 @@ const PageContainer = ({
   //Se crea la constante
   const [selectedWidget, setSelectedWidget] = useState(null)
   const [isFullScreen, setIsFullScreen] = useState(false)
-  const [originalContent, setOriginalContent] = useState(null)
   const [fullScreenButtonVisible, setFullScreenButtonVisible] = useState(false)
 
+  const [contentPage, setContentPage] = useState(null)
   const [droppedWidget, setDroppedWidget] = useState([])
   const [droppedWidgetData, setDroppedWidgetData] = useState([])
   const pageContainerRef = useRef(null)
@@ -83,10 +83,8 @@ const PageContainer = ({
   }
 
   const handleEnterFullScreen = () => {
-    const pageContent = pageInfo(pageNumber)
-
-    console.log('pageContent', pageContent)
-    //TODO: Llamar reading view
+    const content = pageInfo(pageNumber)
+    setContentPage(content)
 
     toggleButtonVisibility(false)
     handle.enter()
@@ -107,6 +105,7 @@ const PageContainer = ({
     <div className='container-fluid'>
       <div className='row'>
         <div className='col'>
+          {/* TODO: Quitar el fullscreen si se va a usar un modal*/}
           <FullScreen handle={handle}>
             <div className='card shadow mb-4 content_page shadow rounded'>
               <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
@@ -160,7 +159,8 @@ const PageContainer = ({
               </div>
             </div>
           </FullScreen>
-          <ToastContainer position='top-right' />
+          {isFullScreen && <ModalReadingView contentPage={contentPage} />}
+          {/* <ToastContainer position='top-right' /> */}
         </div>
       </div>
     </div>
