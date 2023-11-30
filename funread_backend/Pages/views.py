@@ -4,7 +4,7 @@ from sre_parse import State
 from turtle import title
 from wsgiref import headers
 from .models import Pages
-from .serializers import PageSerializer
+from .serializers import PageSerializer, PageStatusSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -33,7 +33,8 @@ def new_page(request):
         'type': request.data.get('type'),
         'template': request.data.get('template'),
         'gridDirection': request.data.get('gridDirection'),
-        'gridNumRows': request.data.get('gridNumRows')
+        'gridNumRows': request.data.get('gridNumRows'),
+        'actived' : 1
     }
     serializer = PageSerializer(data=data)
     if serializer.is_valid():
@@ -100,7 +101,8 @@ def pageChange(request):
         'type': request.data.get('type'),
         'template': request.data.get('template'),
         'gridDirection': request.data.get('gridDirection'),
-        'gridNumRows': request.data.get('gridNumRows')
+        'gridNumRows': request.data.get('gridNumRows'),
+        'actived' : 1
     }
       serializer = PageSerializer(page, data=data)
       if serializer.is_valid():
@@ -110,9 +112,8 @@ def pageChange(request):
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
 @ api_view(['GET'])
-def listed(request):
+def listed (request):
 
     #token verification
     try:
@@ -122,8 +123,36 @@ def listed(request):
      if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-     page = Pages.objects.all()
+     page = Pages.objects.filter(actived=1)
      serializer = PageSerializer(page, many=True)
      return Response(serializer.data)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['PUT'])
+def delete_page(request):
+    try:
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if es_valido==False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        page_id = request.data.get('pageid')
+        try:
+            page = Pages.objects.get(pageid=page_id)
+        except Pages.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except OperationalError:
+            return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        data = {'actived': 0}
+        serializer = PageStatusSerializer(page, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
