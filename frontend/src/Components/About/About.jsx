@@ -9,37 +9,14 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import logoFunread from "../../logoFunread.png";
 
 const Lobby = () => {
+
     return (
+        
         <div className='container-fluid text-center lobby'>
-         <div className="header-navbar-container">
-        <Navbar key='md' expand='md' className="bg-body-tertiary mb-3" bg="transparent" variant="dark">
-          <Container fluid>
-            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
-            <Navbar.Offcanvas id={`offcanvasNavbar-expand-md`} className='loading-page-header' aria-labelledby={`offcanvasNavbarLabel-expand-md`} placement="end">
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`}>
-                  Opciones {/* Quizas se deba escojer un mejor nombre para el menu o quitarle el titulo */}
-                </Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="/about">About Us</Nav.Link> 
-                  <Nav.Link href="demo/helpers">Collaborators</Nav.Link>
-                  <Nav.Link href="/">Log In</Nav.Link>
-                  <Nav.Link href="#action3">Recent Reports</Nav.Link>
-                  <Nav.Link href="#action2">Study Programs</Nav.Link>
-                  
-                </Nav>
-              </Offcanvas.Body>
-            </Navbar.Offcanvas>
-          </Container>
-        </Navbar>
-      </div>
-    
-  
-
-
-            <div className='row' style={{ height: 'auto' }}>
+        
+        <Header />
+       
+                   <div className='row' style={{ height: 'auto' }}>
                 
                 <div className='col-9 content_lobby'>
 
@@ -196,7 +173,8 @@ const Lobby = () => {
                 </div>
             </div>
         </div>
-        
+    
         );
+        
 }
 export default Lobby;
