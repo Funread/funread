@@ -82,9 +82,8 @@ export async function modifyStateToPublish(title) {
   })
 }
 
-//esto es de prueba para retornar el json de libro de prueba se
-// debe cambiar por el metodo que venga de backend
 export function fullBook(idBook) {
-  // return axiosAuth().get('books/...' + idBook)
-  return fullBookJson
+  return axiosAuth().get('books/full-book/' + idBook)
+  // Datos quemados
+  // return fullBookJson
 }
