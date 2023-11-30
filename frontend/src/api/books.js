@@ -1,4 +1,5 @@
 import { axiosAuth } from './axiosInstances'
+import fullBookJson from './fullBook.json'
 //agregar una funcion por cada endpoint necesario, asegurarse de usar el async-await, ya que son peticiones a la api
 const moment = require('moment')
 
@@ -79,4 +80,10 @@ export async function modifyStateToPublish(title) {
   return axiosAuth().put('books/modify-state-publish/', {
     title: title,
   })
+}
+
+export function fullBook(idBook) {
+  return axiosAuth().get('books/full-book/' + idBook)
+  // Datos quemados
+  // return fullBookJson
 }

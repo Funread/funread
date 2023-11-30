@@ -21,6 +21,7 @@ const PageContainer = ({
   updateImage,
   addOrUpdatePage,
   widgetChange,
+  pageInfo,
 }) => {
   const [buttonVisible, setButtonVisible] = useState(true)
   const [droppedComponent, setDroppedComponent] = useState(null)
@@ -34,7 +35,6 @@ const PageContainer = ({
   const [droppedWidget, setDroppedWidget] = useState([])
   const [droppedWidgetData, setDroppedWidgetData] = useState([])
   const pageContainerRef = useRef(null)
-
 
   useEffect(() => {
     // Captura el contenido del PageContainer
@@ -83,6 +83,11 @@ const PageContainer = ({
   }
 
   const handleEnterFullScreen = () => {
+    const pageContent = pageInfo(pageNumber)
+
+    console.log('pageContent', pageContent)
+    //TODO: Llamar reading view
+
     toggleButtonVisibility(false)
     handle.enter()
     setSelectedWidget(true)
