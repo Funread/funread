@@ -53,7 +53,7 @@ def search(request):
             sharedbooks = SharedBooks.objects.get(sharedbooksid=request.data.get('sharedbooksid'))
             print(sharedbooks)
         except SharedBooks.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response({"msj":"El artributo que busca, no se existe"}, status=status.HTTP_404_NOT_FOUND)
         serializer = SharedBooksSerializer(sharedbooks)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except OperationalError:
