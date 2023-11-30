@@ -1,0 +1,386 @@
+{
+  "book_details": {
+    "bookid": 1,
+    "title": "Mi primer libro",
+    "category": 1,
+    "portrait": null,
+    "createdat": "2023-10-25T13:57:15.085232Z",
+    "lastupdateat": "2023-10-25T13:57:15.085232Z",
+    "state": 1,
+    "sharedbook": 1,
+    "description": "Sunt eiusmod enim sit reprehenderit occaecat esse ad laborum commodo. Anim elit amet aliqua elit irure sunt esse cillum magna amet deserunt ex commodo. Id veniam dolor duis elit occaecat amet veniam est labore ullamco voluptate. Aliqua velit proident commodo excepteur proident proident non sit ipsum cillum dolor incididunt do magna.",
+    "createdby": 1,
+    "lastupdateby": 1
+  },
+  "book_context": {
+    "dilemmas": [
+      {
+        "bookdilemmaid": 1,
+        "dilemma": "Paises pobres",
+        "bookdimensionid": 1
+      },
+      {
+        "bookdilemmaid": 5,
+        "dilemma": "Becas escolares",
+        "bookdimensionid": 1
+      },
+      {
+        "bookdilemmaid": 15,
+        "dilemma": "Gobierno democratico",
+        "bookdimensionid": 3
+      }
+    ],
+    "dimensions": [
+      {
+        "bookdimensionid": 1,
+        "name": "Redistribucion de recursos, bienes y capacidades",
+        "bookcategoryid": 1
+      },
+      {
+        "bookdimensionid": 3,
+        "name": "Representación de todas las personas de forma democratica, especialmente en aquellos ambitos que ams les afectan y estan mas implicados",
+        "bookcategoryid": 1
+      }
+    ],
+    "categories": [
+      {
+        "bookcategoryid": 1,
+        "name": "Justicia Social"
+      }
+    ]
+  },
+  "book_content": [
+    {
+      "page": {
+        "pageid": 1,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 1,
+          "value": {
+            "data": "/imagenes/Libro1/1.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 1,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 2,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 2,
+          "value": {
+            "data": "/imagenes/Libro1/2.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 2,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 3,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 3,
+          "value": {
+            "data": "/imagenes/Libro1/3.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 3,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 4,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 4,
+          "value": {
+            "data": "/imagenes/Libro1/4.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 4,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 5,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 5,
+          "value": {
+            "data": "/imagenes/Libro1/5.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 5,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 6,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 6,
+          "value": {
+            "data": "/imagenes/Libro1/6.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 6,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 7,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 7,
+          "value": {
+            "data": "/imagenes/Libro1/7.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 7,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 8,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 8,
+          "value": {
+            "data": "/imagenes/Libro1/8.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 8,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 9,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 9,
+          "value": {
+            "data": "/imagenes/Libro1/9.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 9,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 10,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 10,
+          "value": {
+            "data": "/imagenes/Libro1/10.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 10,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 11,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 11,
+          "value": {
+            "data": "/imagenes/Libro1/11.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 11,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 12,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 12,
+          "value": {
+            "data": "/imagenes/Libro1/12.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 12,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 13,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "horizontal",
+        "gridNumRows": 1,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 13,
+          "value": {
+            "data": "/imagenes/Libro1/13.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 13,
+          "widgetid": 3
+        }
+      ]
+    },
+    {
+      "page": {
+        "pageid": 14,
+        "type": 100,
+        "template": 100,
+        "elementorder": 1,
+        "gridDirection": "vertical",
+        "gridNumRows": 2,
+        "bookid": 1
+      },
+      "widgetitems": [
+        {
+          "widgetitemid": 14,
+          "value": {
+            "data": "/imagenes/Libro1/Moraleja.png"
+          },
+          "type": 1,
+          "elementorder": 1,
+          "pageid": 14,
+          "widgetid": 3
+        },
+        {
+          "widgetitemid": 15,
+          "value": {
+            "data": "Fin"
+          },
+          "type": 1,
+          "elementorder": 2,
+          "pageid": 14,
+          "widgetid": 2
+        }
+      ]
+    }
+  ]
+}
