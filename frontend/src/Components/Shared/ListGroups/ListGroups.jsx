@@ -199,95 +199,104 @@ const ListGroups = ({
           <Row>
             <Col sm={6}>
               <span className='custom-list-group-span'>Groups List</span>
-              <div className='custom-group-list-container'>
-                <ListGroup variant='flush' className='mt-1'>
-                  {groups.map(({ id, name, idimage }) => (
-                    <div key={id}>
-                      <ListGroup.Item
-                        action
-                        eventKey={'#' + id}
-                        className='d-flex justify-content-between align-items-start'
+              <ListGroup variant='flush' className='mt-1'>
+                {groups.map(({ id, name, idimage }) => (
+                  <div key={id}>
+                    <ListGroup.Item
+                      action
+                      eventKey={'#' + id}
+                      className='d-flex justify-content-between align-items-start'
+                    >
+                      <div
+                        onClick={() => showGroupResume({ id, name, idimage })}
                       >
-                        <div
-                          onClick={() => showGroupResume({ id, name, idimage })}
+                        Name: {name}
+                      </div>
+                      <div>
+                        <Badge
+                          bg='dark'
+                          data-toggle='tooltip'
+                          data-placement='bottom'
+                          title='Assign Task'
+                          onClick={() => handleClassesComponent(id)}
                         >
-                          Name: {name}
-                        </div>
-                        <div>
-                          <Badge
-                            bg='dark'
-                            data-toggle='tooltip'
-                            data-placement='bottom'
-                            title='Assign Task'
-                            onClick={() => handleClassesComponent(id)}
-                          >
-                            <FontAwesomeIcon icon={faListCheck} size='xl' />
-                          </Badge>
-                          <Badge
-                            bg='dark'
-                            className='mx-1'
-                            data-toggle='tooltip'
-                            data-placement='bottom'
-                            title='Delete Group'
-                            onClick={() => handleDelete(id)}
-                          >
-                            <FontAwesomeIcon icon={faTrash} size='xl' />
-                          </Badge>
-                        </div>
-                      </ListGroup.Item>
-                    </div>
-                  ))}
-                </ListGroup>
-              </div>
+                          <FontAwesomeIcon icon={faListCheck} size='xl' />
+                        </Badge>
+                        <Badge
+                          bg='dark'
+                          className='mx-1'
+                          data-toggle='tooltip'
+                          data-placement='bottom'
+                          title='Delete Group'
+                          onClick={() => handleDelete(id)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} size='xl' />
+                        </Badge>
+                      </div>
+                    </ListGroup.Item>
+                  </div>
+                ))}
+              </ListGroup>
             </Col>
             <Col sm={6}>
- 
-                        ))}
-                      </Select>
-                      <ListGroup variant='flush' className='mt-1'>
-                        {selectedStudents
-                          .filter((student) => student.groupscreateid === id)
-                          .map(({ userid, groupscreateid, name, lastname }) => (
-                            <div key={userid}>
-                              <ListGroup.Item
-                                action
-                                className='d-flex justify-content-between align-items-start'
-                              >
-                                {name + ' ' + lastname}
-                                <div>
-                                  <Badge
-                                    bg='dark'
-                                    onClick={() =>
-                                      toggleSidebar({
-                                        userid,
-                                        groupscreateid,
-                                        name,
-                                        lastname,
-                                      })
-                                    }
-                                  >
-                                    <FontAwesomeIcon icon={faEye} size='xl' />
-                                  </Badge>
+              <span className='custom-list-group-span'>Students List</span>
+              <Tab.Content>
+                {groups.map(({ id }) => (
+                  <Tab.Pane eventKey={'#' + id} key={id}>
+                    <Select
+                      className='custom-group-view-select mt-3 mb-3'
+                      placeholder='Select a student'
+                      onSelect={(value) => handleSelect(value, id)}
+                    >
+                      {_.map(students, (student) => (
+                        <Option key={student.userid} value={student.userid}>
+                          {student.name + ' ' + student.lastname}
+                        </Option>
+                      ))}
+                    </Select>
+                    <ListGroup variant='flush' className='mt-1'>
+                      {selectedStudents
+                        .filter((student) => student.groupscreateid === id)
+                        .map(({ userid, groupscreateid, name, lastname }) => (
+                          <div key={userid}>
+                            <ListGroup.Item
+                              action
+                              className='d-flex justify-content-between align-items-start'
+                            >
+                              {name + ' ' + lastname}
+                              <div>
+                                <Badge
+                                  bg='dark'
+                                  onClick={() =>
+                                    toggleSidebar({
+                                      userid,
+                                      groupscreateid,
+                                      name,
+                                      lastname,
+                                    })
+                                  }
+                                >
+                                  <FontAwesomeIcon icon={faEye} size='xl' />
+                                </Badge>
 
-                                  <Badge
-                                    bg='dark'
-                                    className='mx-1'
-                                    data-toggle='tooltip'
-                                    data-placement='bottom'
-                                    title='Delete Student'
-                                    onClick={() => handleStudentDelete(userid)}
-                                  >
-                                    <FontAwesomeIcon icon={faTrash} size='xl' />
-                                  </Badge>
-                                </div>
-                              </ListGroup.Item>
-                            </div>
-                          ))}
-                      </ListGroup>
-                    </Tab.Pane>
-                  ))}
-                </Tab.Content>
-              </div>
+                                <Badge
+                                  bg='dark'
+                                  className='mx-1'
+                                  data-toggle='tooltip'
+                                  data-placement='bottom'
+                                  title='Delete Student'
+                                  onClick={() => handleStudentDelete(id, userid)}
+                                >
+                                  <FontAwesomeIcon icon={faTrash} size='xl' />
+                                </Badge>
+                              </div>
+                            </ListGroup.Item>
+                          </div>
+                        ))}
+                    </ListGroup>
+                  </Tab.Pane>
+                ))}
+              </Tab.Content>
             </Col>
           </Row>
         )}
