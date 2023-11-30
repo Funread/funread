@@ -141,7 +141,7 @@ const Grids = ({
                     widgetId: droppedWidgets[index].widgetId,
                     widgetType: droppedWidgets[index].widgetType,
                     pageNumber: pageOrder,
-                    order: index,
+                    elementorder: index,
                   }),
                 updateWidgetDropData,
               }

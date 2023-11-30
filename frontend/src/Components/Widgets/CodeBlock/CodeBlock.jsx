@@ -16,7 +16,7 @@ const CodeBlock = ({ onWidgetChange, widgetId }) => {
   const handleCodeChange = (e) => {
     const newCode = e.target.value
     setCodeHTML(newCode)
-    onWidgetChange({ widgetId: widgetId, type: 'CodeBlock', data: newCode })
+    onWidgetChange({ widgetId: widgetId, type: 'CodeBlock', data: {data: newCode } })
   }
 
   return (

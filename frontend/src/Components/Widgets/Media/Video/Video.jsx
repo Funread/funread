@@ -21,7 +21,7 @@ import Loader from '../../../Shared/Loader/Loader'
 
 const widgetType = "widgetType";
 
-function Video() {
+function Video({ onWidgetChange }) {
   const [show, setShow] = useState(false);
   const [selectedFile, setSelectedFile] = useState()
   const handleClose = () => setShow(false);
@@ -39,6 +39,7 @@ function Video() {
         if (selectedFile) {
           const response = await save_Image(selectedFile)
           setShow(false)
+          onWidgetChange({ type: 'Video', data: {data:response.data.file} })
           toast.success(
             'Video enviada exitosamente a la base de datos:',
           )
@@ -57,6 +58,7 @@ function Video() {
       setLoading(false);
     }else{
       console.log('link de youtube: ',selectedFile) //eliminar este console
+      onWidgetChange({ type: 'Video', data: {data:selectedFile} })
       setLoading(false)
       setShow(false)
     }
