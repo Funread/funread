@@ -3,11 +3,13 @@ import { Modal, Button } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Page from './Page'
 
-function ModalReadingView({ contentPage }) {
+function ModalReadingView({ contentPage, onClose }) {
   const [isModalOpen, setModalOpen] = useState(false)
   const [show, setShow] = useState(true)
 
-  const handleClose = () => setShow(false)
+  const handleClose = () => {
+    onClose()
+    setShow(false)}
   const handleShow = () => setShow(true)
 
   console.log('contentPage', contentPage)

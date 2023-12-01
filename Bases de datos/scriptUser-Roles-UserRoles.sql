@@ -18,16 +18,16 @@ VALUES
 INSERT INTO `funread`.`roles`
 (`Role`)
 VALUES
-(3, 'administrativo'),
-(2, 'estudiante'),
-(1, 'profesor');
+( 'administrativo'),
+( 'estudiante'),
+( 'profesor');
 
 
 INSERT INTO `funread`.`userroles`
 (`IdRole`,
 `IdUser`)
 VALUES
-(1, 1, 1),(2, 2, 2),(3, 3, 3),(4, 2, 4),(5, 2, 5),(6, 1, 6),(7, 2, 7)
+( 1, 1),(, 2, 2),( 3, 3),( 2, 4),( 2, 5),( 1, 6),( 2, 7)
 ,(8, 1, 8),(9, 3, 9),(10, 1, 10),(11, 2, 11),(12, 3, 12);
 
 
