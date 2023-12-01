@@ -85,12 +85,17 @@ const PageContainer = ({
   const handleEnterFullScreen = () => {
     const content = pageInfo(pageNumber)
     setContentPage(content)
-
+    setIsFullScreen(true)
+    console.log(isFullScreen)
     toggleButtonVisibility(false)
     handle.enter()
     setSelectedWidget(true)
-    setIsFullScreen(true)
+ 
     setFullScreenButtonVisible(true)
+  }
+  const closeFull =()=>{
+    setIsFullScreen(false)
+
   }
 
   const updateDroppedWidgetState = (widgets) => {
@@ -106,7 +111,7 @@ const PageContainer = ({
       <div className='row'>
         <div className='col'>
           {/* TODO: Quitar el fullscreen si se va a usar un modal*/}
-          <FullScreen handle={handle}>
+          {/* <FullScreen handle={handle}> */}
             <div className='card shadow mb-4 content_page shadow rounded'>
               <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
                 <h6 className='m-0 font-weight-bold text-info'>
@@ -158,8 +163,8 @@ const PageContainer = ({
                   )}
               </div>
             </div>
-          </FullScreen>
-          {isFullScreen && <ModalReadingView contentPage={contentPage} />}
+          {/* </FullScreen> */}
+          {isFullScreen && (<ModalReadingView contentPage={contentPage} onClose={closeFull}/> )}
           {/* <ToastContainer position='top-right' /> */}
         </div>
       </div>
