@@ -1,5 +1,7 @@
 # Development Branch
-
+Versiones
+Python 3.11.5
+MYSQL 8
 1. Instalar los requerimientos
 ```
 pip install -r requirements.txt
