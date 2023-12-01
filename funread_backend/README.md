@@ -1,6 +1,8 @@
 # Development Branch
 Versiones
 Python 3.11.5
+
+py -m pip --version 23.2.1
 MYSQL 8
 1. Instalar los requerimientos
 ```
