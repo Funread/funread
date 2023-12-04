@@ -82,9 +82,9 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
   }
 
   return (
-    <div className='back-principal-ejemplo'>
+    <div >
       <div>
-        <br />
+       
         <Content>
           {selectedImage ? (
             <div className='image-container'>
@@ -107,14 +107,18 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
               />
             </div>
           ) : (
-            <div className='no-image-selected-custum'></div>
+            <div className="gallery-container">
+            <div className="hover-overlay">
+              <button className="open-gallery-button" onClick={handleShow}>
+                Open Gallery
+              </button>
+            </div>
+          </div>
           )}
         </Content>
       </div>
-      <br />
-      <Button variant='primary' onClick={handleShow}>
-        Widget Images
-      </Button>
+ 
+    
       {/* <Button variant="primary" onClick={handleShow}>
         Widget Images
       </Button> */}
@@ -156,7 +160,13 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
                 />
               </div>
             ) : (
-              <div className='no-image-selected-custum'></div>
+              <div className="gallery-container">
+              <div className="hover-overlay">
+                <button className="open-gallery-button" onClick={handleShowGallery}>
+                  Open Gallery
+                </button>
+              </div>
+            </div>
             )}
           </Content>
 

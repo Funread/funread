@@ -1,3 +1,53 @@
+// GalleryContainer.module.sass
+$button-color: #007bff
+$button-hover-color: darken($button-color, 10%)
+$overlay-background-color: rgba(0, 0, 0, 0.5)
+
+.gallery-container
+  position: relative
+  width: 100% // Ocupa el ancho completo del contenedor padre
+  height: 300px // Altura fija, puedes hacerla responsive con media queries o porcentaje
+  background-image: url('./image.png') // Reemplaza con el path a tu imagen
+  background-size: cover
+  background-position: center
+  transition: background-color 0.3s ease // Suaviza la transición del fondo
+
+  &:hover
+    .hover-overlay
+      opacity: 1 // Muestra el overlay al hacer hover
+
+.hover-overlay
+  width: 100%
+  height: 100%
+  display: flex
+  justify-content: center
+  align-items: center
+  opacity: 0 // Oculta inicialmente el overlay
+  transition: opacity 0.3s ease // Transición suave para el hover
+  background-color: $overlay-background-color // Fondo semitransparente para el efecto de hover
+
+.open-gallery-button
+  padding: 1em 2em
+  font-size: 1rem
+  border: none
+  cursor: pointer
+  background-color: $button-color // Color del botón
+  color: white
+  border-radius: 0.25em
+  transition: transform 0.3s ease
+
+  &:hover
+    transform: scale(1.05) // Efecto de escala para resaltar el botón
+    background-color: $button-hover-color // Cambia el color al hacer hover
+
+// Hacer que el contenedor sea responsive
+@media (max-width: 768px)
+  .gallery-container
+    height: 200px // Altura más pequeña para dispositivos más pequeños
+
+  .open-gallery-button
+    font-size: 0.8rem // Fuente más pequeña para dispositivos más pequeños
+
 .custom-imagePrincipal-widgetFile
   display: block
   width: 98%
@@ -7,15 +57,16 @@
   border-radius: 10px
 
 .back-principal-ejemplo
-  background-color: silver
+ 
 
 .custom-imagePrincipal-widgetImage
   display: block
-  width: 98%
+  width: 100%
   height: 18rem
   text-align: center
   margin: 0 auto
   border-radius: 10px
+  object-fit: cover
 
 .no-image-selected-custum
   background-color: pink
@@ -25,6 +76,8 @@
   text-align: center
   margin: 0 auto
   border-radius: 10px
+  object-fit: "cover"
+  object-position: center center
 
 .content-custum-Img
   display: block

@@ -67,15 +67,7 @@ root.render(
                 </div>
               }
             />
-       <Route
-              exact
-              path="demo/ReadingView"
-              element={
-                <div className="">
-                  <ReadingView />
-                </div>
-              }
-            />
+  
 
 <Route
               exact
@@ -141,7 +133,15 @@ root.render(
                   </div>
                 }
               />
-
+     <Route
+              exact
+              path="ReadingView/:id"
+              element={
+                <div className="">
+                  <ReadingView />
+                </div>
+              }
+            />
               <Route
                 exact
                 path="/library"
