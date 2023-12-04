@@ -8,16 +8,20 @@ function Page( {gridDirection, gridNumRows,pageNumer , widgets}) {
 
 
   const getGrid = () => { 
-    // console.log(book_content.contentBook.page) 
- 
+    console.log(gridDirection) 
+    console.log(gridNumRows) 
+    console.log(widgets) 
     let direction=  gridDirection
     let numRows= gridNumRows
       if (direction === 'horizontal' && numRows === 1) {
         // return 'FullSingleGrid';
         return  <RV_ImageWithText textbackgroundColor="#355377" textColor="#FFFFFF" />
-      } else if (direction === 'vertical' && numRows === 1) {
-        return 'SplitVerticalGrid';
-      }
+      } 
+      
+      else if (direction === 'horizontalBigFirst' && numRows === 2) {
+       
+        return <RV_ImageWithText textbackgroundColor="#355377" textColor="#FFFFFF" text={widgets[0].value} img ={widgets[1].value}/>
+      } 
       // Puedes agregar más condiciones aquí para otros tipos de grid
       else {
         return 'UnknownGridType';

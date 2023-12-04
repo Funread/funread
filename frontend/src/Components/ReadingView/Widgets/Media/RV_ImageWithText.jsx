@@ -1,21 +1,23 @@
 import React from 'react';
 import './RV_ImageWithText.scss'; // Asegúrate de que el archivo SASS se importe correctamente
 
-const RV_ImageWithText = ({ textbackgroundColor, textColor }) => {
-
+const RV_ImageWithText = ({ textbackgroundColor, textColor , img  , text}) => {
+ const imgpath="http://localhost:8000"
   const style = {
     backgroundColor: textbackgroundColor,
     color: textColor,
  
   };
-
+  console.log("here")
   return (
     <div>
-    <div className="image-container">
-      <img src="/imagenes/Libro1/1.png" alt="Mi Imagen" className="imagen" />
+    <div className={"image-container"}>
+      <img src={imgpath+img.data} alt="Mi Imagen" className="imagen" />
     </div>
     <div className="rv_text-image-container"  style={style} >
-         <h1><strong>From Bullying to Friendship: The Costa Rican Connection</strong></h1>
+    <div dangerouslySetInnerHTML={{ __html: text.data }} />
+
+       
       </div>
   </div>
   );

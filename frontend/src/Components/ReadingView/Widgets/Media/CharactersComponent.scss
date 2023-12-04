@@ -1,0 +1,19 @@
+// CharactersComponent.scss
+.characters-title {
+  margin-bottom: 20px;
+}
+
+.character-card {
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.character-image {
+  border-radius: 50%;
+  width: 100%; // Ajusta el tamaño según sea necesario
+  height: auto;
+}
+
+.character-name {
+  margin-top: 10px;
+}
