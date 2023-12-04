@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './Page.sass';
 import RV_ImageWithText from './Widgets/Media/RV_ImageWithText';
+import Image from './Widgets/Media/Image';
  
 
 function Page( {gridDirection, gridNumRows,pageNumer , widgets}) {
@@ -15,7 +16,7 @@ function Page( {gridDirection, gridNumRows,pageNumer , widgets}) {
     let numRows= gridNumRows
       if (direction === 'horizontal' && numRows === 1) {
         // return 'FullSingleGrid';
-        return  <RV_ImageWithText textbackgroundColor="#355377" textColor="#FFFFFF" />
+        return  <Image textbackgroundColor="#355377" textColor="#FFFFFF" img= {widgets[0]} />
       } 
       
       else if (direction === 'horizontalBigFirst' && numRows === 2) {
