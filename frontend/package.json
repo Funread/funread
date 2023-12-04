@@ -5,6 +5,9 @@
   "proxy": "http://localhost:8000",
   "home": "http://localhost:3000",
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^40.1.0",
+    "@ckeditor/ckeditor5-language": "^40.1.0",
+    "@ckeditor/ckeditor5-react": "^6.2.0",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-regular-svg-icons": "^6.2.0",

@@ -84,6 +84,7 @@ export async function modifyStateToPublish(title) {
 
 export function fullBook(idBook) {
   return axiosAuth().get('books/full-book/' + idBook)
+ 
   // Datos quemados
   // return fullBookJson
 }

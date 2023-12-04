@@ -97,9 +97,9 @@ const Grids = ({
       case 1:  //los textos se pueden poner en cualquier grid
         return true
       case 2:  //los archivos media se puden poner en cualquier grid
-        if(type === 'WidgetImage' && direction === 'horizontal' && numRows === 3){
-          return false;
-        }
+        // if(type === 'WidgetImage' && direction === 'horizontal' && numRows === 3){
+        //   return false;
+        // }
         return true
       case 3:  //las formas aun no se sabe como iran
         return true
