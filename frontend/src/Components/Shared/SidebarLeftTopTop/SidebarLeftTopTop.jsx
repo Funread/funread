@@ -86,10 +86,16 @@ const SidebarLeftTopTop = () => {
           image: '/imagenes/grids/horizontaldoublegrid.png',
           widget: <Grids direction={'horizontal'} numRows={2} />,
         },
+        
         {
           id: 6,
           image: '/imagenes/grids/collagegrid.png',
           widget: <Grids direction={'collage'} numRows={7} />,
+        },
+        {
+          id: 7,
+          image: '/imagenes/grids/horizontaldoubleFirstBig.png',
+          widget: <Grids id={2} direction={'horizontalBigFirst'} numRows={2} />,
         },
       ],
     },
