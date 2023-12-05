@@ -43,28 +43,28 @@ function LogIn(props) {
     event.preventDefault();  // Prevent default form submission behavior
     sessionStorage.clear();
     try {
-      if(remenber){
-        localStorage.setItem('RemenberEmail',email)
-      }else{
+      if (remenber) {
+        localStorage.setItem('RemenberEmail', email)
+      } else {
         localStorage.removeItem('RemenberEmail')
       }
     } catch (error) {
       console.log('algun error ocure')
       console.error(error)
     }
-    logIn(email, password).then((res) => {  
+    logIn(email, password).then((res) => {
       //Esto debe hacerce para evitar que axiosAuth revise si el token existe antes de terminar el login
-     console.log(res)
-      if(res == "noRoles"){
-      navigate('/register');
-    }
-    else if(res.some(obj => obj.role === "profesor")){
+      console.log(res)
+      if (res == "noRoles") {
+        navigate('/register');
+      }
+      else if (res.some(obj => obj.role === "profesor")) {
         navigate('/library');
 
-      }else if(obj => obj.role === "estudiante"){
+      } else if (res.some(obj => obj.role === "estudiante")) {
         navigate('/myclasses');
       }
-      
+
     })
     // }).catch((e) => {
     //   setPassword("")
@@ -79,14 +79,14 @@ function LogIn(props) {
 
     // Esto es un ejemplo de como utilizar el hook useLogin, especificamente la constante axiosAuth
 
-  // if(axiosAuth() !== null){                            -Primero hacemos un if que confirme que podemos usar axiosAuth
+    // if(axiosAuth() !== null){                            -Primero hacemos un if que confirme que podemos usar axiosAuth
     //   axiosAuth().get("users/list/").then((res) => {   - Hacemos nuestra consulta, Nota: no se debe colocar toda la url, el endpoint pincipal ya esta en la instancia de axios (http://localhost:8000/) por lo que colocamos la porcion del endpoint que falta para realizar la consulta, en este caso "users/list/"
     //     console.log(res.data)                          - Obtenemos nuestros resultados, podemos usar res.data, res.headers, res.status, entre algunos mas
     //   })
     // }else{                           -Encaso de no poder usar axiosAuth, podemos hacer diferentes accioes, informar que no se puede usar, movernos a la pagina de login, lo que se necesite en el momento
     //   console.log("unAuthenticaded")
     // }
-    
+
   };
 
   /**
@@ -105,9 +105,9 @@ function LogIn(props) {
     if (id === "passwordInput") {
       data !== ""
         ? (document.getElementById("inputGroupText").style.borderColor =
-            "#42006d")
+          "#42006d")
         : (document.getElementById("inputGroupText").style.borderColor =
-            "#e9e9e9");
+          "#e9e9e9");
     }
   };
 
@@ -128,18 +128,18 @@ function LogIn(props) {
    * Cambia el color del botón de Log In cuando los campos de email y password han sido llenados.
    */
   useEffect(() => {
-    if(email !== "" && password !== ""){
+    if (email !== "" && password !== "") {
       document.getElementById("submit-button").className = "login-form-button-filled"
-    }else{
+    } else {
       document.getElementById("submit-button").className = "login-form-button-empty";
     }
-    if(check === true){
+    if (check === true) {
       setCheck(false)
       let remenberValue = localStorage.getItem('RemenberEmail')
-      if(remenberValue != null){
+      if (remenberValue != null) {
         document.getElementById("emailInput").value = remenberValue
         setEmail(remenberValue)
-        isEmpty(remenberValue,"emailInput")
+        isEmpty(remenberValue, "emailInput")
         document.getElementById("rememberMeCheck").checked = true
         setRemenber(true)
       }
@@ -203,7 +203,7 @@ function LogIn(props) {
                     className="login-form-password-button"
                     onClick={togglePassword}
                   >
-                    {showPassword?<FontAwesomeIcon className="fa-xl float end" icon={faEye}/>:<FontAwesomeIcon className="fa-xl float end" icon={faEyeSlash}/>}
+                    {showPassword ? <FontAwesomeIcon className="fa-xl float end" icon={faEye} /> : <FontAwesomeIcon className="fa-xl float end" icon={faEyeSlash} />}
                   </Button>
                 </InputGroup.Text>
               </InputGroup>
@@ -213,11 +213,11 @@ function LogIn(props) {
                 <input
                   type="checkbox"
                   className="form-check-input"
-                  id="rememberMeCheck"    
+                  id="rememberMeCheck"
                   onChange={(e) => {
                     setRemenber(e.target.checked);
                   }}
-                  />
+                />
                 <label htmlFor="rememberMeCheck">Remember me</label>
               </div>
             </Form.Group>
