@@ -8,15 +8,15 @@ const RV_ImageWithText = ({ textbackgroundColor, textColor , img  , text}) => {
     color: textColor,
  
   };
-  console.log("here")
+  console.log("here img")
+  console.log(img.value)
   return (
     <div>
     <div className={"image-container"}>
-      <img src={imgpath+img.data} alt="Mi Imagen" className="imagen" />
+      <img src={imgpath+img.value.data} alt="Mi Imagen" className="imagen" />
     </div>
     <div className="rv_text-image-container"  style={style} >
-    <div dangerouslySetInnerHTML={{ __html: text.data }} />
-
+    
        
       </div>
   </div>
