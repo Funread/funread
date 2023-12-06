@@ -13,6 +13,10 @@ import Carousel from '../Shared/NavBarCarrousel/NavBarCarrousel'
 import Slide from '../Shared/Slides/Slide'
 import { newPage } from '../../api/pages'
 import { newWidgetItem, listedWidgets } from '../../api/widget'
+import { fullBook } from '../../api/books'
+import ErrorPage from '../ErrorHandler/ErrorPage'
+import { FullScreen, useFullScreenHandle } from 'react-full-screen' 
+import { useParams } from 'react-router-dom';
 
 const initialPage = {
   bookid: 0,
@@ -32,8 +36,10 @@ const BookCreator = () => {
   const [savedPages, setSavedPages] = useState(new Set())
   const [widgetSeleted, setWidgetSelected] = useState([])
   const location = useLocation()
+  const bookid = useParams().id;
   const book = location.state.data
   initialPage.bookid = book.id
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -47,6 +53,33 @@ const BookCreator = () => {
     fetchData()
   }, [])
 
+  useEffect(() => {
+    async function fetchData() {
+      // setIsLoading(true);
+      // setError(null);
+
+   
+      try {
+        const fullBookResponse = await fullBook(bookid).then(data => {
+   
+          let currentPageContent = data.data.book_content[0]
+          console.log(currentPageContent)
+          // setGridDirection( currentPageContent.page.gridDirection);
+          // setGridDirection( currentPageContent.page.gridDirection);
+          // setGridNumRows( currentPageContent.page.gridNumRows);
+          // setPageNumer( currentPageContent.page.elementorder); 
+          // setWidgets( currentPageContent.widgetitems);        
+          // setIsLoading(false);
+        });
+        
+      } catch (error) {
+        setError('Error fetching data');
+        console.error('Error fetching data:', error);
+      }  
+    }
+
+    fetchData();
+  }, [bookid]);
   // Agregar una diapositiva
   const addSlide = () => {
     setSlides((prevSlides) => {

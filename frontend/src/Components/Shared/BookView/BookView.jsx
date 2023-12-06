@@ -8,6 +8,7 @@ import { faX } from '@fortawesome/free-solid-svg-icons'
 const getImage = 'http://localhost:8000'
 
 const BookView = ({ book }) => {
+  console.log(book)
   const navigate = useNavigate()
   const bookImage = book.portrait
     ? `${getImage}${book.portrait}`
@@ -23,8 +24,9 @@ const BookView = ({ book }) => {
     setModoPresentacion(false)
   }
 
-  const handleEditBook = () => {
-    navigate('/bookcreator', {
+  const handleEditBook = () => { 
+    let bookID= book.id
+      navigate(`/bookcreator/${bookID}`, {
       state: {
         data: book,
       },

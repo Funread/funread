@@ -39,109 +39,20 @@ root.render(
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Routes>
-            <Route
-              exact
-              path="/"
-              element={
-                <div className="index-background-container landing-page">
-                  <LandingPage />
-                </div>
-              }
-            />
-            {/* Esta parte es para DEMO sin iniciar Sesion */}
-            <Route
-              exact
-              path="demo/bookcreator"
-              element={
-                <div className="">
-                  <BookCreator />
-                </div>
-              }
-            />
-            <Route
-              exact
-              path="demo/library"
-              element={
-                <div className="">
-                  <Library />
-                </div>
-              }
-            />
-  
-
-<Route
-              exact
-              path="demo/ModalReadingView"
-              element={
-                <div className="">
-                  <ModalReadingView />
-                </div>
-              }
-            />
-            <Route
-              exact
-              path="demo/group"
-              element={
-                <div className="">
-                  <Group />
-                </div>
-              }
-            />
-            <Route
-              exact
-              path="demo/myclasses"
-              element={
-                <div className="">
-                  <MyClasses />
-                </div>
-              }
-            />
-            <Route
-              exact
-              path="/join/:code"
-              element={
-                <div className="index-background-container">
-                  <JoinValidator />
-                </div>
-              }
-            />
-            <Route //se utiliza est ruta para colocar el componente que genera los links de invitacion
-              exact
-              path="demo/book"
-              element={
-                <div className="index-background-container">
-                  <JoinCreator id="1" type="book" />
-                </div>
-              }
-            />
-
-            <Route exact path="about" element={<About />} />
-            <Route exact path="helpers" element={<Helpers />} />
-            {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
-
-
-            <Route exact path="register" element={<Register />} />
-
-            <Route element={<ProtectedRoutes roles={["profesor"]} />}>
+          <Route element={<ProtectedRoutes roles={["profesor"]} />}>
               {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
               <Route
                 exact
                 path="/"
                 element={
+                  <div className="index-background-padding">
                   <div className="index-background-container ">
-                    {/* <BookCreator /> */}
+                    <Library />
                   </div>
+                </div>
                 }
               />
-     <Route
-              exact
-              path="ReadingView/:id"
-              element={
-                <div className="">
-                  <ReadingView />
-                </div>
-              }
-            />
+ 
               <Route
                 exact
                 path="/library"
@@ -179,7 +90,7 @@ root.render(
 
               <Route
                 exact
-                path="/bookcreator"
+                path="/bookcreator/:id"
                 element={
                   <div className="index-background-padding">
                     <div className="index-background-container ">
@@ -204,6 +115,74 @@ root.render(
               />
 
             </Route>
+            <Route
+              exact
+              path="/"
+              element={
+                <div className="index-background-container landing-page">
+                  <LandingPage />
+                </div>
+              }
+            />
+              <Route
+              exact
+              path="/logout"
+              element={
+                <div className="index-background-container landing-page">
+                  <LandingPage />
+                </div>
+              }
+            />
+            {/* Esta parte es para DEMO sin iniciar Sesion */}
+            <Route
+              exact
+              path="ReadingView/:id"
+              element={
+                <div className="">
+                  <ReadingView />
+                </div>
+              }
+            />
+  
+
+            <Route
+              exact
+              path="demo/ModalReadingView"
+              element={
+                <div className="">
+                  <ModalReadingView />
+                </div>
+              }
+            />
+          
+           
+            <Route
+              exact
+              path="/join/:code"
+              element={
+                <div className="index-background-container">
+                  <JoinValidator />
+                </div>
+              }
+            />
+            <Route //se utiliza est ruta para colocar el componente que genera los links de invitacion
+              exact
+              path="demo/book"
+              element={
+                <div className="index-background-container">
+                  <JoinCreator id="1" type="book" />
+                </div>
+              }
+            />
+
+            <Route exact path="about" element={<About />} />
+            <Route exact path="helpers" element={<Helpers />} />
+            {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
+
+
+            <Route exact path="register" element={<Register />} />
+
+           
           </Routes>
         </PersistGate>
       </Provider>

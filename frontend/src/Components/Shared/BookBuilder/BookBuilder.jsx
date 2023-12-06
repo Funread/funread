@@ -29,6 +29,7 @@ const initialBookState = {
   description: '',
 }
 
+ 
 const BookBuilder = ({ toggleSidebar, updateBook }) => {
   const [book, setBook] = useState(initialBookState)
   const [categories, setCategories] = useState([])
