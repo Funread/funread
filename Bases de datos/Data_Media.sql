@@ -87,3 +87,8 @@ INSERT INTO `funread`.`media` (`name`,`extension`,`file`,`type`,`galleryType`) V
 INSERT INTO `funread`.`media` (`name`,`extension`,`file`,`type`,`galleryType`) VALUES ('81','jpeg','media/81.jpeg',1,5);
 INSERT INTO `funread`.`media` (`name`,`extension`,`file`,`type`,`galleryType`) VALUES ('82','jpeg','media/82.jpeg',1,5);
 INSERT INTO `funread`.`media` (`name`,`extension`,`file`,`type`,`galleryType`) VALUES ('83','jpeg','media/83.jpeg',1,1);
+----
+INSERT INTO `funread`.`media` (`name`,`extension`,`file`,`type`,`galleryType`) VALUES ('84','jpeg','media/87.jpeg',1,1);
+INSERT INTO `funread`.`media` (`name`,`extension`,`file`,`type`,`galleryType`) VALUES ('85','jpeg','media/87.jpeg',1,1);
+INSERT INTO `funread`.`media` (`name`,`extension`,`file`,`type`,`galleryType`) VALUES ('86','jpeg','media/87.jpeg',1,1);
+INSERT INTO `funread`.`media` (`name`,`extension`,`file`,`type`,`galleryType`) VALUES ('87','jpeg','media/87.jpeg',1,1);
