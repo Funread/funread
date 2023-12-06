@@ -130,17 +130,13 @@ const SidebarLeftTopTop = () => {
         {
           id: 3,
           image: '/imagenes/widgets/image.png',
-          widget: <WidgetImage />,
+          widget: <WidgetImage/>,
           widgetType: WidgetTypeEnum.Media,
         },
+        
       ],
     },
-    {
-      text: 'Shapes',
-      icon: faShapes,
-      subItems: [],
-    },
-    {
+     {
       text: 'Quiz',
       icon: faPuzzlePiece,
       subItems: [
