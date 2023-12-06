@@ -1,5 +1,5 @@
 tbody, td, tfoot, th, thead, tr {
-  border-color: rgb(56, 205, 243);
+  border-color: rgb(155, 89, 182);
   border-style: solid;
   border-width: 1px;
   padding: 10px;
@@ -8,12 +8,12 @@ tbody, td, tfoot, th, thead, tr {
 
 td{
   text-transform: uppercase;
-  color: rgb(255, 255, 255);
+  color: rgb(144, 42, 184);
 }
 .saved-word {
   color: rgb(138, 31, 31); /* Cambia el color según tus preferencias */
 }
 .highlighted-word
 {
-  color: red;
+  color: rgb(255, 132, 0);
 }
