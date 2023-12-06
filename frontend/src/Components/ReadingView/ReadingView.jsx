@@ -7,8 +7,10 @@ import ErrorPage from '../ErrorHandler/ErrorPage'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { fullBook } from '../../api/books'
 import { useParams } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom'
 function ReadingView() {
+
+  const navigate = useNavigate()
   const handle = useFullScreenHandle();
   // Pages Info
   const [pagesCount, setPagesCount] = useState(0);
@@ -83,6 +85,11 @@ function ReadingView() {
         console.log('ArrowRight');
         if (pageNumer < pagesCount - 1) {
           currentPage = pageNumer + 1;
+        }
+        if (pageNumer === pagesCount - 1) {
+          navigate(`/`, {
+           
+          })
         }
       } else if (event.key === 'ArrowLeft') {
         console.log('ArrowLeft');
