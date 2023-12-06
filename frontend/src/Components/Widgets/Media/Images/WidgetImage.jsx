@@ -8,7 +8,7 @@ import { save_Image } from '../../../../api/media'
 
 const getImage = 'http://localhost:8000'
 
-const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
+const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
   const [showModal, setShowModal] = useState(false)
   const [showGallery, setShowGallery] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -16,7 +16,6 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
   const [showAlert, setShowAlert] = useState(false);
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [showSaveErrorAlert, setShowSaveErrorAlert] = useState(false);
-
   
   const handleShow = () => setShowModal(true)
   const handleClose = () => {
@@ -169,9 +168,11 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
             </div>
             )}
           </Content>
+        
 
+ {/* Codigo comentado es para cargar imagen desde la pc */}
           <Content className='contentTextSelectFoto'>
-            <p>Selecciona la imagen de encabezado desde tu galeria</p>
+            <p>Select the header image from your gallery</p>
             <Button
               className='custum-buttonSelectFoto-Widg'
               variant='primary'
@@ -180,21 +181,21 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
               Gallery
             </Button>
           </Content>
-          <FormControl
+          {/* <FormControl
             type='file'
             accept='image/*'
             onChange={handleFileChange}
             className='custum-formControl-image mt-4'
-          />
+          /> */}
         </Modal.Body>
 
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>
-            Cerrar
+            Close
           </Button>
-          <Button variant='success' onClick={SaveChangesBD}>
+          {/* <Button variant='success' onClick={SaveChangesBD}>
             Save
-          </Button>
+          </Button> */}
         </Modal.Footer>
 
 
@@ -211,7 +212,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData }) => {
             <Modal.Title>Galeria</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <ImageGallery onImageSelect={handleImageSelect} />
+            <ImageGallery onImageSelect={handleImageSelect}/>
           </Modal.Body>
           <Modal.Footer>
             <Button variant='secondary' onClick={handleCloseGallery}>
