@@ -108,8 +108,8 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
           ) : (
             <div className="gallery-container">
             <div className="hover-overlay">
-              <button className="open-gallery-button" onClick={handleShow}>
-                Open Gallery
+              <button className="open-gallery-button" onClick={handleShowGallery}>
+                Open Gallery 
               </button>
             </div>
           </div>
@@ -206,7 +206,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
           onHide={handleCloseGallery}
           animation={false}
           size='xl'
-          className='bg bg-dark'
+          className='bg'
         >
           <Modal.Header closeButton>
             <Modal.Title>Galeria</Modal.Title>
