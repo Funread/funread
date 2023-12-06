@@ -2,19 +2,14 @@
     margin-left: 4em;
 }
 
-#buttonsDifficulty{
-    padding-top: 5px;
-}
-
-
 #modes{
     padding: 3em;
     min-height: 500px;
     max-width: auto;
     margin-right: 20px;
-    border: 2px solid #016f6f;
+    border: 2px solid rgb(155, 89, 182);
     border-radius: 15px;
-    background-color: rgba(18, 140, 153, 0.998);
+    background-color: rgb(206, 189, 242);
     overflow: auto;
     text-align: center;
     margin-top: 15px;
@@ -22,52 +17,71 @@
 
 #footerButton{
     text-align: end;
-    padding-top: 65px;
+    padding-top: 20px;
+    padding-bottom: 1em;
 }
 
-#footerButton button{
-    margin-top: 1em;
-    width: 150px;
-    height: 35px;
-    background: transparent;
-    border-radius: 10px;
-    border: 1px solid #060e2e;
-    color: #060e2e;
+.col-3{
+    text-align: right;
+    position:absolute;
+    right:0;
+    min-height: 500px;
+    float:right;
+    overflow: auto;
+    padding-bottom: 2em;
+}
+
+.side{
+    margin-right: 1em;
+    text-align: center;
+    height: 350px;
+    max-width: auto;
 }
 
 
+.show-element {
+    opacity: 1;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+  
+.hide-element {
+    opacity: 0;
+}
+  
 .titulo
 {
   padding-top: 35px;
 }
 
-
-#buttonsDifficulty button{
-    /*color: #90fe36;*/
+.personalize{
     margin-top: 1em;
     width: 150px;
-    height: 35px;
-    /*border-radius: 8px;
-    backdrop-filter: blur(8px);
-    border: 2px solid #7fb114;
-    overflow: hidden;
-    background-color: rgba(135, 153, 18, 0.626);*/
+    height: 45px;
     background: transparent;
     border-radius: 10px;
-    border: 1px solid #4cffff;
-    color: #0ad8d8;
+    border: 1px solid rgb(0, 0, 0);;
+    color: rgb(0, 0, 0);
 }
 
-#buttonsDifficulty button:hover{
-    background: #4cffff;
+.personalize:hover{
+    background: rgb(206, 189, 242);
     border: 1px solid transparent;
+}
+
+#footerButton button{
+    width: 150px;
+    height: 35px;
+    background: transparent;
+    border-radius: 10px;
+    border: 1px solid #000000;
     color: #000000;
 }
 
 #footerButton button:hover{
-    background: #060e2e;
+    background: rgb(206, 189, 242);
     border: 1px solid transparent;
-    color: #fff;
+    color: #000000;
 }
 
 @media only screen and (min-width: 460px) {
