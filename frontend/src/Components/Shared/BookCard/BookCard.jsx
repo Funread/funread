@@ -67,7 +67,7 @@ const BookCard = ({
         <div className='card-body d-flex flex-column justify-content-between'>
           <h5 className='card-title clamp-text custom-title'>{title}</h5>
           <div>
-            <span className='card-text clamp-text custom-text'>{author}</span>
+            <span className='card-text clamp-text custom-text' >{author}</span>
             <span className='card-text clamp-text custom-text'>
               {categoryName}
             </span>

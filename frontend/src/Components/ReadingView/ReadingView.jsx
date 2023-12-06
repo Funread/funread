@@ -14,7 +14,7 @@ function ReadingView() {
   const [pagesCount, setPagesCount] = useState(0);
   const [gridDirection, setGridDirection] = useState(null);
   const [gridNumRows, setGridNumRows] = useState(null);
-  const [pageNumer, setPageNumer] = useState(null);
+  const [pageNumer, setPageNumer] = useState(0);
   const [widgets, setWidgets] = useState(null);
   
   // const [currentPage, setCurrentPage] = useState(null);
@@ -32,9 +32,20 @@ function ReadingView() {
 
   const [currentPageIndex, setCurrentPageIndex] = useState(0); // Estado para la página actual
 
+  useEffect(() => {
+     
+    getBookContent();
+    console.log('contentBook---------------')
+    console.log(contentBook)
+  }, []); 
 
 
   useEffect(() => {
+    console.log('El estado contentBook ha sido actualizado:', contentBook);
+  }, [contentBook]); // Este useEffect se ejecutará cada vez que 'contentBook' cambie.
+
+
+  const getBookContent = () => {
     async function fetchData() {
       setIsLoading(true);
       setError(null);
@@ -42,14 +53,13 @@ function ReadingView() {
    
       try {
         const fullBookResponse = await fullBook(bookid).then(data => {
-   
-          let currentPageContent = data.data.book_content[0]
-          setGridDirection( currentPageContent.page.gridDirection);
-          setGridDirection( currentPageContent.page.gridDirection);
-          setGridNumRows( currentPageContent.page.gridNumRows);
-          setPageNumer( currentPageContent.page.elementorder); 
-          setWidgets( currentPageContent.widgetitems);        
-          setIsLoading(false);
+ let currentContent=data.data.book_content
+ console.log('asd asd currentContent')
+ console.log(currentContent)
+          setContentBook(currentContent)
+          loadPage(currentContent, pageNumer)
+          console.log('BcurrentContent')
+          console.log(contentBook)
         });
         
       } catch (error) {
@@ -58,15 +68,65 @@ function ReadingView() {
       }  
     }
 
-    fetchData();
-  }, [bookid]);
+     fetchData();
 
-  const goToNextPage = () => {
-    if (currentPageIndex < pagesCount - 1) {
-      setCurrentPageIndex(currentPageIndex + 1);
-    }
+  };
+  
+
+
+  useEffect(() => {
+    console.log("tiliza pageNumer actual "+contentBook)
+    const handleKeyDown = (event) => {
+      let currentPage = pageNumer; // Utiliza pageNumer actual para calcular la nueva página
+  
+      if (event.key === 'ArrowRight') {
+        console.log('ArrowRight');
+        if (pageNumer < pagesCount - 1) {
+          currentPage = pageNumer + 1;
+        }
+      } else if (event.key === 'ArrowLeft') {
+        console.log('ArrowLeft');
+        if (pageNumer > 0) {
+          currentPage = pageNumer - 1;
+        }
+      }
+  
+      setPageNumer(currentPage);
+      console.log("tiliza pageNumer actual "+pageNumer)
+      loadPage(contentBook, currentPage);
+    };
+  
+    window.addEventListener('keydown', handleKeyDown);
+  
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [contentBook, pageNumer, pagesCount]); 
+ 
+
+  const loadPage = (currentContent,pageNumber) => {
+    console.log('pageNumer')
+    console.log(pageNumer)
+    console.log('--contentBook---')
+    console.log(contentBook)
+    console.log('-----')
+    console.log('-----')
+
+    let currentPageContent=currentContent[pageNumber]
+    setContentBook(currentContent)
+    setGridDirection( currentPageContent.page.gridDirection);
+    setGridDirection( currentPageContent.page.gridDirection);
+    setGridNumRows( currentPageContent.page.gridNumRows); 
+
+
+    setPagesCount(currentContent.length)
+    setWidgets( currentPageContent.widgetitems);        
+    setIsLoading(false);
+    
   };
 
+
+  
   const exitPresentation = () => {
     handle.exit() // Sale del modo pantalla completa
   }

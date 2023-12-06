@@ -1,0 +1,7 @@
+.preview-page {
+  display: flex;
+  width: 55%;
+  height: 95%;
+  border: 1px solid;
+  margin: 3% auto;
+}
