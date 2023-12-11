@@ -62,7 +62,7 @@ function GameModes({ onWidgetChange }) {
           <GridGame palabras={palabras} filas={filas} columnas={columnas} />
         </div>
 
-        <div className='col-3'>
+        <div className='col-3 sectionWords'>
           <div className='side'>
             <button className='personalize' onClick={() => setMostrarComponente(!mostrarComponente)}><img src='/imagenes/wsgame/personalizar.png'/>Personalize</button>
               <div className={mostrarComponente ? "show-element" : "hide-element"}>
