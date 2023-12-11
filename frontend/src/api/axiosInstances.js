@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const axiosAuth = () => {
   const state = store.getState()
-  const user = state.user;
+  const user = state.user; 
   if (user.jwt) {
       return axios.create({
           baseURL: "http://localhost:8000/",

@@ -67,9 +67,9 @@ root.render(
                 </div>
               }
             />
-  
 
-<Route
+
+            <Route
               exact
               path="demo/ModalReadingView"
               element={
@@ -84,15 +84,6 @@ root.render(
               element={
                 <div className="">
                   <Group />
-                </div>
-              }
-            />
-            <Route
-              exact
-              path="demo/myclasses"
-              element={
-                <div className="">
-                  <MyClasses />
                 </div>
               }
             />
@@ -115,33 +106,24 @@ root.render(
               }
             />
 
+            {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
+           
             <Route exact path="about" element={<About />} />
             <Route exact path="helpers" element={<Helpers />} />
-            {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
-
-
+            <Route
+                exact
+                path="ReadingView/:id"
+                element={
+                  <div className="">
+                    <ReadingView />
+                  </div>
+                }
+              />
             <Route exact path="register" element={<Register />} />
 
             <Route element={<ProtectedRoutes roles={["profesor"]} />}>
               {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
-              <Route
-                exact
-                path="/"
-                element={
-                  <div className="index-background-container ">
-                    {/* <BookCreator /> */}
-                  </div>
-                }
-              />
-     <Route
-              exact
-              path="ReadingView/:id"
-              element={
-                <div className="">
-                  <ReadingView />
-                </div>
-              }
-            />
+           
               <Route
                 exact
                 path="/library"
@@ -202,8 +184,7 @@ root.render(
                   </div>
                 }
               />
-
-            </Route>
+              </Route>
           </Routes>
         </PersistGate>
       </Provider>

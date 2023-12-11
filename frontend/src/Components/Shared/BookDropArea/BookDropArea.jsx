@@ -25,12 +25,12 @@ const BookDropArea = ({ activityId, droppedBooks, onDrop, message }) => {
   }))
 
   const handleBookClick = (book) => {
-    navigate('/demo/readingview', {
+    navigate(`/readingview/${book.bookid}`, {
       state: {
         data: book.bookid,
       },
     })
-    console.log(`Libro clickeado: ${book.bookid}`)
+    
   }
 
   return (
