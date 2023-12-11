@@ -1,5 +1,5 @@
 #wordsInput {
-    width: 200px;
+    width: 125px;
     background-color: transparent;
     border: none;
     border-bottom: 1px solid rgb(155, 89, 182);
@@ -15,10 +15,4 @@
     color: rgb(155, 89, 182);
 }
 
-/*
-.found-word #wordsInput {
-    color: yellow;
-}
-.saved-word {
-    color: black;
-} /* Cambia el color según tus preferencias */
+

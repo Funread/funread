@@ -56,18 +56,18 @@ function GameModes({ onWidgetChange }) {
 
   return (
     <div id='game'>
-      <div className='row'>
+      <div className='row' id='rowGame'>
         
         <div className='col-9' id='modes'>
           <GridGame palabras={palabras} filas={filas} columnas={columnas} />
         </div>
 
         <div className='col-3 sectionWords'>
-          <div className='side'>
-            <button className='personalize' onClick={() => setMostrarComponente(!mostrarComponente)}><img src='/imagenes/wsgame/personalizar.png'/>Personalize</button>
-              <div className={mostrarComponente ? "show-element" : "hide-element"}>
-                <h5 className='titulo' >Enter the words to search</h5>
-                <div>
+          
+            <button className='personalize' onClick={() => setMostrarComponente(!mostrarComponente)}><img src='/imagenes/wsgame/personalizar.png'/></button>
+            <div className={mostrarComponente ? "show-element" : "hide-element"}>
+              <h6 className='titulo' >Enter the words to search</h6>
+              <div>
                   {responses.map((response, index) => (
                     <Words
                       key={index}
@@ -75,13 +75,12 @@ function GameModes({ onWidgetChange }) {
                       onChange={(value) => handleResponseChange(index, value)}
                     />
                   ))}
-                </div>
-                <div id='footerButton'>
-                  <ButtonNav title={'Save'} onClick={saveResponses} />
-                </div>
               </div>
+              <div id='footerButton'>
+                <ButtonNav title={'Save'} onClick={saveResponses} />
+              </div>
+            </div>
           </div>
-        </div>
         
       </div>
     </div>
