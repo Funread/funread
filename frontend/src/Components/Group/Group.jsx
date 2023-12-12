@@ -1,5 +1,5 @@
 import './Group.sass'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,6 +13,10 @@ import { ToastContainer } from 'react-toastify'
 import GroupView from '../Shared/GroupView/GroupView'
 import Classes from '../Shared/Classes/Classes'
 import ClassBuilder from '../Shared/ClassBuilder/ClassBuilder'
+import { Tabs, Tab } from 'react-bootstrap'
+import CustomMessage from '../Shared/CustomMessage/CustomMessage'
+
+
 
 const Group = () => {
   const [groups, setGroups] = useState([])
@@ -21,8 +25,10 @@ const Group = () => {
   const [groupForm, setGroupForm] = useState(false)
   const [groupClasses, setGroupClasses] = useState(false)
   const [groupId, setGroupId] = useState(null)
+  const [groupName, setGroupName] = useState(null)
   const [showClasses, setShowClasses] = useState(false)
   const [activities, setActivities] = useState([])
+  const [key, setKey] = useState('group')
 
   const showGroupResume = (group) => {
     if (!selectedGroup || selectedGroup.id !== group.id) {
@@ -66,14 +72,29 @@ const Group = () => {
     setGroups([...groups, newGroup])
   }
 
-  const handleClassesComponent = (id) => {
-    setGroupId(id)
-    setShowClasses(!showClasses)
+  const handleClassesComponent = async (id, name) => {
+    console.log("datos", id + " " + name)
+    await setGroupId(id)
+    await setGroupName(name)
+    await setShowClasses(true)
+    await setKey("classes")
   }
 
   const handleActiviyCreated = (newActivity) => {
     setActivities([...activities, newActivity])
   }
+
+  useEffect(() => {
+    if (key == "group") {
+      console.log("entre:", key);
+
+      setShowClasses(false)
+    }
+   
+  }, [key]);
+  useEffect(() => {
+        console.log("sali:", showClasses);
+  }, [showClasses]);
 
   return (
     <div className='container-fluid text-center group'>
@@ -111,19 +132,43 @@ const Group = () => {
             <div className='mt-3 d-flex align-items-center justify-content-between'>
               <h4 className='custom-group-title'>My Groups</h4>
             </div>
-            <ListGroups
-              toggleSidebar={toggleSidebar}
-              showGroupResume={showGroupResume}
-              newGroups={groups}
-              handleClassesComponent={handleClassesComponent}
-            />
-            {showClasses && (
-              <Classes
-                groupId={groupId}
-                toggleGroupClasses={toggleGroupClasses}
-                newActivities={activities}
-              />
-            )}
+            
+            <Tabs
+              className='section_group_Tap'
+              id='controlled-tab'
+              activeKey={key}
+              onSelect={(k) => setKey(k)
+              }
+              fill
+            >
+              <Tab eventKey='group' title='My Groups' className='tab'>
+              <div className='shadow p-3 bg-body rounded'>
+                <ListGroups
+                  toggleSidebar={toggleSidebar}
+                  showGroupResume={showGroupResume}
+                  newGroups={groups}
+                  handleClassesComponent={handleClassesComponent}
+                />
+             </div>
+              </Tab>
+              <Tab eventKey='classes' title='Group Classes' className='tab'>
+              <div className='shadow p-3 bg-body rounded'>
+                {showClasses ? (
+                  <Classes
+                    groupId={groupId}
+                    groudName={groupName}
+                    toggleGroupClasses={toggleGroupClasses}
+                    newActivities={activities}
+                  />
+                ):(
+                  <CustomMessage message={'You should assign tasks to the group'} />
+                )
+              }
+               </div>
+              </Tab>
+
+
+            </Tabs>
 
             <GroupCardProgress></GroupCardProgress>
             <br />
