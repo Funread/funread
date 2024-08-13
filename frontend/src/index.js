@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+
 import ReactDOM from "react-dom/client";
 import "./index.sass";
 import reportWebVitals from "./reportWebVitals";
@@ -81,7 +81,7 @@ root.render(
                 path="/dashboard"
                 element={
                   <div className="index-background-padding">
-                    <div className="index-background-container ">
+                    
                       <Dashboard />
                     </div>
                   </div>
