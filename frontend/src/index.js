@@ -22,7 +22,7 @@ import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorM
 import MyClasses from "./Components/MyClasses/MyClasses";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "./redux/store";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //este porcion de codigo deberia permitir devolver el estado de reducx, pero no funciona por alguna razon
