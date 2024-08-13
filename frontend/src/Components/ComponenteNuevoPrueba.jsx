@@ -5,7 +5,7 @@ class ExampleComponent extends React.Component {
     render() {
         return (
             <div>
-                <h1>Hola, soy un componente nuevo</h1>
+                <h1>PrimerCommit</h1>
             </div>
         );
     }
