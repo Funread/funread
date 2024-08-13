@@ -1,4 +1,4 @@
-
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.sass";
 import reportWebVitals from "./reportWebVitals";
@@ -21,8 +21,8 @@ import Register from "./Components/Register/Register";
 import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorMenu";
 import MyClasses from "./Components/MyClasses/MyClasses";
 import { Provider } from "react-redux";
-
-
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //este porcion de codigo deberia permitir devolver el estado de reducx, pero no funciona por alguna razon
@@ -81,7 +81,7 @@ root.render(
                 path="/dashboard"
                 element={
                   <div className="index-background-padding">
-                    
+                    <div className="index-background-container ">
                       <Dashboard />
                     </div>
                   </div>
