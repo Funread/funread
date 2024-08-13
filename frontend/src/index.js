@@ -81,7 +81,7 @@ root.render(
                 path="/dashboard"
                 element={
                   <div className="index-background-padding">
-                    <div className="index-background-container ">
+                    
                       <Dashboard />
                     </div>
                   </div>
