@@ -21,7 +21,7 @@ import Register from "./Components/Register/Register";
 import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorMenu";
 import MyClasses from "./Components/MyClasses/MyClasses";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
+
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
