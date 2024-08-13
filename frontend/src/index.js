@@ -29,7 +29,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 const persistedState = localStorage.getItem("reduxState"); // este
 if (persistedState) {
   store.dispatch({ type: "REHYDRATE", payload: JSON.parse(persistedState) });
-  localStorage.removeItem("reduxState");
+  //localStorage.removeItem("reduxState");
 }
 
 root.render(
