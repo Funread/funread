@@ -1,0 +1,84 @@
+.carousel{
+    margin: -50px 60px 40px 60px;
+    overflow:auto;
+    border-radius: 18px;
+    width: 80%;
+}
+
+.dashboard-header {
+    display: flex;
+    flex-direction: column;
+    height: 15%;
+    justify-content: last baseline;
+}
+
+.dashboard{
+    width: 60%;
+    height: 50%;
+    margin: 60px;
+    
+}
+.body{
+    display: flex;
+    width: 60%;
+    height: 60%;
+    background: aqua;
+    border-radius: 18px;
+    margin-left: 60px;
+    margin-right: auto;
+}
+.container-dashboard{
+    display: flex;
+    background: pink;
+    width: 20%;
+    height: 60%;
+    margin-right: 60px;
+    margin-left: auto;
+    border-radius: 18px;
+}
+
+.btn-container{
+    margin-top: -20px;
+    margin-left: 30px;
+    margin-right: auto;
+}
+.btn-dashboard{
+    color: black;
+    padding: 10px;
+    margin-left: 30px;
+    width: 25%;
+    background: #ffffff;
+    border-color: #ffffff;
+}
+.btn-dashboard:hover{
+    background: #d5a6fa;
+    border-color: #d5a6fa;
+}
+.btn-dashboard:focus{
+    background: #42006d;
+    border-color: #42006d;
+}
+
+@media (max-width: 992px) {
+    .btn-dashboard {
+      width: 20%;
+      margin-left: 30px;
+      padding: 10px;
+      font-size: 12px;
+    }
+    .carousel{
+        width: 70vh;
+        height: 50vh;
+    }
+}
+
+.calendar-container{
+    width: 280px;
+    margin-top: -50px;
+    margin-right: 60px;
+    margin-left: auto;
+    height: 110%;
+    background: #d5a6fa;
+    float:right;
+    border-radius: 18px;
+}

@@ -39,12 +39,10 @@ function ReadingView() {
   const [currentPageIndex, setCurrentPageIndex] = useState(0); // Estado para la página actual
 
   useEffect(() => {
-
     getBookContent();
     console.log('contentBook---------------')
     console.log(contentBook)
   }, []);
-
 
   useEffect(() => {
     console.log('El estado contentBook ha sido actualizado:', contentBook);
@@ -56,12 +54,13 @@ function ReadingView() {
       setIsLoading(true);
       setError(null);
 
-
       try {
         const fullBookResponse = await fullBook(bookid).then(data => {
+
           let currentContent = data.data.book_content
           console.log('asd asd currentContent')
           console.log(currentContent)
+
           setContentBook(currentContent)
           loadPage(currentContent, pageNumer)
           console.log('BcurrentContent')
@@ -77,8 +76,6 @@ function ReadingView() {
     fetchData();
 
   };
-
-
 
   useEffect(() => {
     console.log("tiliza pageNumer actual " + contentBook)
@@ -142,8 +139,6 @@ function ReadingView() {
     setIsLoading(false);
 
   };
-
-
 
   const exitPresentation = () => {
     handle.exit() // Sale del modo pantalla completa

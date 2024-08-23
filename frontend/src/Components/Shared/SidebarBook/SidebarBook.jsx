@@ -61,7 +61,9 @@ const SidebarBook = () => {
           ))}
           <div className='custom-nav-footer pe-3'>
             <div className='border-botton_Sidebar custom-menu-item-NX_Sidebar align-items-center'>
+
               <FontAwesomeIcon icon={faSignOutAlt} size='xl' onClick={() => logout()} />
+
             </div>
           </div>
         </div>

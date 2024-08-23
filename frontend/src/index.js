@@ -39,6 +39,7 @@ root.render(
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Routes>
+
             <Route
               exact
               path="/"
@@ -114,9 +115,12 @@ root.render(
                 exact
                 path="ReadingView/:id"
                 element={
+
                   <div className="">
                     <ReadingView />
+
                   </div>
+                </div>
                 }
               />
             <Route exact path="register" element={<Register />} />
@@ -161,7 +165,7 @@ root.render(
 
               <Route
                 exact
-                path="/bookcreator"
+                path="/bookcreator/:id"
                 element={
                   <div className="index-background-padding">
                     <div className="index-background-container ">

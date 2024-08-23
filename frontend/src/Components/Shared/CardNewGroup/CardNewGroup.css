@@ -1,0 +1,28 @@
+
+.d-flex-1{
+    flex-wrap: nowrap;
+}
+
+.me-1{
+    flex-wrap:wrap;
+}
+
+.custum-input-1{
+    max-width: 40rem;
+    margin-left: 1rem;
+}
+
+.custum-input-2{
+   max-width: 40rem;
+    margin-left: 1rem;
+}
+
+.custum-input-3{
+    max-width: 40rem;
+    margin-left: 1rem;
+}
+
+.custum-title{
+    text-align: left;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}

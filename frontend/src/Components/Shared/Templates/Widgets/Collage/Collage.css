@@ -1,0 +1,15 @@
+.collage-container {
+  display: flex;
+  padding: 1vw;
+  background: transparent;
+  gap: 0.5vw;
+  height: 100%;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.image-item {
+  max-width: 18%;
+  height: auto;
+}
