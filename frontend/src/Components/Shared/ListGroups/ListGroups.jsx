@@ -202,13 +202,14 @@ const ListGroups = ({
             <Col sm={6}>
               <span className='custom-list-group-span'>Groups List</span>
               <div className='custom-group-list-container'>
-                <ListGroup variant='flush' className='mt-1'>
+                <ListGroup as="ul" className='mt-1'>
                   {groups.map(({ id, name, idimage }) => (
                     <div key={id}>
                       <ListGroup.Item
                         action
                         eventKey={'#' + id}
-                        className='d-flex justify-content-between align-items-start'
+                        as="li"
+                        className='d-flex justify-content-between align-items-start mb-1'
                       >
                         <div
                           onClick={() => showGroupResume({ id, name, idimage })}
@@ -221,7 +222,7 @@ const ListGroups = ({
                             data-toggle='tooltip'
                             data-placement='bottom'
                             title='Assign Task'
-                            onClick={() => handleClassesComponent(id)}
+                            onClick={() => handleClassesComponent(id,name)}
                           >
                             <FontAwesomeIcon icon={faListCheck} size='xl' />
                           </Badge>
@@ -266,7 +267,7 @@ const ListGroups = ({
                             <div key={userid}>
                               <ListGroup.Item
                                 action
-                                className='d-flex justify-content-between align-items-start'
+                                className='d-flex justify-content-between align-items-start  mb-1'
                               >
                                 {name + ' ' + lastname}
                                 <div>
