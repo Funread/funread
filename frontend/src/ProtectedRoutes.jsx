@@ -20,6 +20,9 @@ const ProtectedRoutes = (props) => {
 
     useEffect(() => {
         const checkAuth = async () => {
+            if(user.email === ""){
+                window.location.href = '/';              
+            }
             if(!props.roles){
                 setIsAuth(true)
             }

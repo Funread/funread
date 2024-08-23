@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { listed, usersList } from '../../../api'
 
-const Classes = ({ groupId, toggleGroupClasses, newActivities }) => {
+const Classes = ({ groupId, groudName, toggleGroupClasses, newActivities }) => {
   const user = useSelector((state) => state.user)
   const backend = isMobile ? TouchBackend : HTML5Backend
   const [books, setBooks] = useState(null)
@@ -66,9 +66,11 @@ const Classes = ({ groupId, toggleGroupClasses, newActivities }) => {
             )}
           </div>
           <div className='card custom-classes-card'>
-            <div className='custom-justify-content'>
-              <h5>Classes list</h5>
-              <button onClick={toggleGroupClasses}>
+            <div className='custom-justify-content '>
+              <h5>Classes List {groudName}</h5>
+              <button onClick={toggleGroupClasses} data-toggle='tooltip'
+                data-placement='bottom'
+                title='Create Class'>
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>

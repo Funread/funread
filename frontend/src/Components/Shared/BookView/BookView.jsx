@@ -61,14 +61,21 @@ const BookView = ({ book }) => {
       </div>
 
       <div
-        className='button-section'
+        className='button-section-book'
         style={{ marginTop: 'auto', marginBottom: '30px' }}
       >
-        <button className='button-preview' onClick={activarModoPresentacion}>
+        <button className='button-editBook' onClick={activarModoPresentacion}>
           Preview
         </button>
+                <button className='button-editBook' onClick={handleEditBook}>
+          Edit
+        </button>
 
-        {modoPresentacion && (
+        <button className='button-editBook' onClick={handleReadBook}>
+          Read
+        </button>
+      </div>
+      {modoPresentacion && (
           <div className='modal-overlay-preview'>
             <button
               className='close-button'
@@ -79,14 +86,6 @@ const BookView = ({ book }) => {
             <BookPreview bookid={book.id} />
           </div>
         )}
-        <button className='button-editBook' onClick={handleEditBook}>
-          Edit
-        </button>
-
-        <button className='button-editBook' onClick={handleReadBook}>
-          Read
-        </button>
-      </div>
     </div>
   )
 }
