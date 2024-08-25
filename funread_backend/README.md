@@ -24,3 +24,5 @@ python manage.py migrate
 python manage.py runserver
 ```
 5. Manos a la obra 😎
+
+Roy
