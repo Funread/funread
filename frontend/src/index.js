@@ -120,7 +120,7 @@ root.render(
                     <ReadingView />
 
                   </div>
-                </div>
+             
                 }
               />
             <Route exact path="register" element={<Register />} />
