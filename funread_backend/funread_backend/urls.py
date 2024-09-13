@@ -47,7 +47,8 @@ urlpatterns = [
     path('Options/', include('Options.urls')),
     path('bookdilemma/',include('BooksDilemma.urls')),
     path('translate/',include('TranslateApp.urls')),
-    path('Subtitled/',include('Subtitled.urls'))
+    path('Subtitled/',include('Subtitled.urls')),
+    path('IAuggingFace/', include('IAuggingFace.urls')),
 ]
 
 if settings.DEBUG:
