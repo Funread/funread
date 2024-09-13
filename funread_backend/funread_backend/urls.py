@@ -48,7 +48,8 @@ urlpatterns = [
     path('bookdilemma/',include('BooksDilemma.urls')),
     path('translate/',include('TranslateApp.urls')),
     path('Subtitled/',include('Subtitled.urls')),
-    path('IAuggingFace/', include('IAuggingFace.urls')),
+    path('IAuggingFace/', include('IAuggingFace.urls')),,
+     path('api/openai/', include('openai_integration.urls')),
 ]
 
 if settings.DEBUG:

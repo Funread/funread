@@ -69,8 +69,10 @@ INSTALLED_APPS = [
     "Userroles",
     "BooksDilemma",
     "TranslateApp",
+    'openai_integration',
     'Subtitled',
     'IAuggingFace',
+    
     
 
 
