@@ -1,26 +1,29 @@
-import os
-from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse, HttpResponseBadRequest
+from huggingface_hub.inference_api import InferenceApi
 
+# Token directamente en el código (no recomendado para producción)
+HUGGINGFACE_TOKEN = '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'
 
+@csrf_exempt
 def pregunta_huggingface(request):
     if request.method == 'POST':
         pregunta = request.POST.get('pregunta', 'Podrias corregir mi ingles?')
-        print(f"Pregunta recibida: {pregunta}")  # Log para verificar la pregunta recibida
 
         prompt = f"""Question: {pregunta}\nAnswer: let's think step by step."""
-        print(f"Prompt generado: {prompt}")  # Log para verificar el prompt generado
 
         # Configurar la API
-        token = os.getenv('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')
-        print(f"Token: {token}")  # Log para verificar el token
-
-        model_api = InferenceApi( # type: ignore
+        model_api = InferenceApi(
             repo_id='google/flan-t5-large',
-            token=token
+            token=HUGGINGFACE_TOKEN
         )
 
         # Realizar la consulta al modelo
-        respuesta = model_api(prompt)
-        print(f"Respuesta del modelo: {respuesta}")  # Log para verificar la respuesta
+        try:
+            respuesta = model_api(prompt)
+            return JsonResponse({'pregunta': pregunta, 'respuesta': respuesta})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
 
-        return JsonResponse({'pregunta': pregunta, 'respuesta': respuesta})
+    # Manejar el caso para métodos distintos a POST
+    return HttpResponseBadRequest("Invalid request method. Please use POST.")
