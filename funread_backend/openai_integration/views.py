@@ -8,7 +8,6 @@ from decouple import config
 from .models import OpenAIInteraction
 
 
-# Configura la API key de OpenAI desde una variable de entorno
 openai.api_key = config('OPENAI_API_KEY')
 
 class OpenAIChatView(APIView):
