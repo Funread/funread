@@ -1,7 +1,5 @@
+# your_app/serializers.py
 from rest_framework import serializers
-from .models import OpenAIInteraction
 
-class OpenAIInteractionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OpenAIInteraction
-        fields = '__all__'
+class GrammarPromptSerializer(serializers.Serializer):
+    prompt = serializers.CharField()

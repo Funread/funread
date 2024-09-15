@@ -1,35 +1,22 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-import openai
-from .models import OpenAIInteraction
-from .serializer import OpenAIInteractionSerializer
-from decouple import config
-from .models import OpenAIInteraction
+# openai_integration/views.py
+from django.http import JsonResponse
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from .openai_service import get_grammar_assistance
+import json
 
-
-openai.api_key = config('OPENAI_API_KEY')
-
-class OpenAIChatView(APIView):
+@method_decorator(csrf_exempt, name='dispatch')
+class GrammarAssistantView(View):
     def post(self, request, *args, **kwargs):
-        prompt = request.data.get('prompt')
+        data = json.loads(request.body)
+        prompt = data.get('prompt', '')
+
         if not prompt:
-            return Response({"error": "Prompt is required"}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return JsonResponse({'error': 'No prompt provided'}, status=400)
+
         try:
-            response = openai.Completion.create(
-                engine="text-davinci-003",
-                prompt=prompt,
-                max_tokens=50
-            )
+            response_text = get_grammar_assistance(prompt)
+            return JsonResponse({'response': response_text})
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-        openai_interaction = OpenAIInteraction.objects.create(
-            prompt=prompt,
-            response=response['choices'][0]['text']
-        )
-        
-        serializer = OpenAIInteractionSerializer(openai_interaction)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+            return JsonResponse({'error': str(e)}, status=500)
