@@ -13,8 +13,8 @@ from django.conf import settings
 import librosa
 import whisper
 import copy
-#from googletrans import Translator
-#from googletrans.constants import LANGUAGES
+from googletrans import Translator
+from googletrans.constants import LANGUAGES
 from .models import Subtitled
 import verifyJwt
 

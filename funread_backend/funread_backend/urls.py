@@ -47,9 +47,13 @@ urlpatterns = [
     path('Options/', include('Options.urls')),
     path('bookdilemma/',include('BooksDilemma.urls')),
     path('translate/',include('TranslateApp.urls')),
+<<<<<<< HEAD
     path('Subtitled/',include('Subtitled.urls')),
     path('IAuggingFace/', include('IAuggingFace.urls')),,
      path('api/openai/', include('openai_integration.urls')),
+=======
+    path('Subtitled/',include('Subtitled.urls'))
+>>>>>>> origin/main
 ]
 
 if settings.DEBUG:

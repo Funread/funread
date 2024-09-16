@@ -69,10 +69,14 @@ INSTALLED_APPS = [
     "Userroles",
     "BooksDilemma",
     "TranslateApp",
+<<<<<<< HEAD
     'openai_integration',
     'Subtitled',
     'IAuggingFace',
     
+=======
+    'Subtitled',
+>>>>>>> origin/main
     
 
 
