@@ -1,22 +1,42 @@
-# openai_integration/views.py
-from django.http import JsonResponse
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from .openai_service import get_grammar_assistance
-import json
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from decouple import config
+from openai import OpenAI
 
-@method_decorator(csrf_exempt, name='dispatch')
-class GrammarAssistantView(View):
+client = OpenAI(api_key=config('OPENAI_API_KEY'))
+
+class GrammarAssistantView(APIView):
     def post(self, request, *args, **kwargs):
-        data = json.loads(request.body)
-        prompt = data.get('prompt', '')
+
+        # Obtiene el prompt desde la solicitud del usuario
+        prompt = request.data.get("prompt", "")
 
         if not prompt:
-            return JsonResponse({'error': 'No prompt provided'}, status=400)
+            return Response({"error": "Prompt is required."}, status=400)
 
         try:
-            response_text = get_grammar_assistance(prompt)
-            return JsonResponse({'response': response_text})
+            # Realiza la solicitud a OpenAI
+            response = client.chat.completions.create(model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are an English tutor. Your task is to help the user improve their English by providing grammar corrections, explanations, and tips."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.7,
+            max_tokens=50,
+            top_p=1)
+
+            # Obtiene la respuesta generada
+            grammar_correction = response.choices[0].message.content
+
+            # Devuelve la respuesta corregida
+            return Response({"response": grammar_correction})
+
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            # Maneja cualquier excepción y devuelve un error genérico
+            return Response({"error": str(e)}, status=500)
