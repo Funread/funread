@@ -69,11 +69,10 @@ INSTALLED_APPS = [
     "Userroles",
     "BooksDilemma",
     "TranslateApp",
+    'openai_integration',
     'Subtitled',
     'IAuggingFace',
     
-
-
     #     'AuthApp.apps.AuthappConfig',
     #     'BookCreator.apps.BookcreatorConfig',
     #     'rest_framework',

@@ -49,7 +49,9 @@ urlpatterns = [
     path('translate/',include('TranslateApp.urls')),
     path('Subtitled/',include('Subtitled.urls')),
     path('IAuggingFace/', include('IAuggingFace.urls')),
+     path('api/openai/', include('openai_integration.urls')),
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

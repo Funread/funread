@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import OpenAIChatView
+from .views import GrammarAssistantView
 
 urlpatterns = [
-    path('chat/', OpenAIChatView.as_view(), name='openai_chat'),
+    path('grammar-assistant/', GrammarAssistantView.as_view(), name='grammar-assistant'),
 ]

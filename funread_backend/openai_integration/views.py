@@ -1,28 +1,43 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-import openai  # Asegúrate de tener la biblioteca instalada
-from .models import OpenAIInteraction
-from .serializer import OpenAIInteractionSerializer
+from decouple import config
+from openai import OpenAI
 
-openai.api_key = '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'
+#Objeto para el api key
+client = OpenAI(api_key=config('OPENAI_API_KEY'))
 
-class OpenAIChatView(APIView):
-    def post(self, request):
-        prompt = request.data.get('prompt')
+class GrammarAssistantView(APIView):
+    def post(self, request, *args, **kwargs):
+
+        # Obtiene el prompt desde la solicitud del usuario
+        prompt = request.data.get("prompt", "")
+
         if not prompt:
-            return Response({"error": "Prompt is required"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            max_tokens=150
-        )
-        
-        openai_interaction = OpenAIInteraction.objects.create(
-            prompt=prompt,
-            response=response['choices'][0]['text']
-        )
-        
-        serializer = OpenAIInteractionSerializer(openai_interaction)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({"error": "Prompt is required."}, status=400)
+
+        try:
+            # Realiza la solicitud a OpenAI
+            response = client.chat.completions.create(model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are an English tutor. Your task is to help the user improve their English by providing grammar corrections, explanations and tips."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.7,#corresponde al nivel de léxico de respuesta de la IA
+            max_tokens=50,
+            top_p=1)
+
+            # Obtiene la respuesta generada
+            grammar_correction = response.choices[0].message.content
+
+            # Devuelve la respuesta corregida
+            return Response({"response": grammar_correction})
+
+        except Exception as e:
+            # Maneja cualquier excepción y devuelve un error genérico
+            return Response({"error": str(e)}, status=500)
