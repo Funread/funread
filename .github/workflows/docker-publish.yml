@@ -22,13 +22,13 @@ jobs:
     - name: Login to DockerHub
       uses: docker/login-action@v2
       with:
-        username: royar95
+        username: funreaducr
         password: Funread1234
 
     - name: Build and push Docker images
       env:
-        DOCKER_IMAGE_REACT: royar95/funread/frontend
-        DOCKER_IMAGE_DJANGO: royar95/funread/backend
+        DOCKER_IMAGE_REACT: funreaducr/frontend
+        DOCKER_IMAGE_DJANGO: funreaducr/backend
 
       run: |
         # Determine the Docker image tag
