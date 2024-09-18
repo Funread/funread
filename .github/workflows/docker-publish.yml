@@ -42,7 +42,7 @@ jobs:
         docker build -t $DOCKER_IMAGE_REACT:$IMAGE_TAG -f ./frontend/Dockerfile ./frontend
 
         echo "Building Django backend Docker image with tag: $IMAGE_TAG"
-        docker build -t $DOCKER_IMAGE_DJANGO:$IMAGE_TAG -f ./funread_backend/Dockerfile ./backend
+        docker build -t $DOCKER_IMAGE_DJANGO:$IMAGE_TAG -f ./funread_backend/Dockerfile ./funread_backend
 
         echo "Pushing React frontend image to DockerHub"
         docker push $DOCKER_IMAGE_REACT:$IMAGE_TAG
