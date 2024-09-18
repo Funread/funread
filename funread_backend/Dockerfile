@@ -1,21 +1,28 @@
-# Usa una imagen base de Python
+# Use a lightweight Python base image
 FROM python:3.11
 
-# Establece el directorio de trabajo
+# Set environment variables for Python to prevent .pyc files and enable unbuffered logs
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Set the working directory
 WORKDIR /funread_backend
 
-# Copia los archivos de la aplicación al contenedor
-COPY . /funread_backend
+RUN apt-get update && apt-get install -y gcc default-mysql-client
 
-# Instala las dependencias
+# Install Python dependencies
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Realizar migraciones
-RUN python manage.py makemigrations
-RUN python manage.py migrate
+# Copy the rest of the Django application
+COPY . .
 
-# Expone el puerto en el que la aplicación se ejecuta (si es necesario)
+# Copy custom entrypoint script and make it executable
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
+
+# Expose port 8000 for the Django app
 EXPOSE 8000
 
-# Comando para ejecutar la aplicación
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Use the custom entrypoint script
+ENTRYPOINT ["./entrypoint.sh"]
