@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from decouple import config
 from openai import OpenAI
 
+#Objeto para el api key
 client = OpenAI(api_key=config('OPENAI_API_KEY'))
 
 class GrammarAssistantView(APIView):
@@ -20,14 +21,14 @@ class GrammarAssistantView(APIView):
             messages=[
                 {
                     "role": "system",
-                    "content": "You are an English tutor. Your task is to help the user improve their English by providing grammar corrections, explanations, and tips."
+                    "content": "You are an English tutor. Your task is to help the user improve their English by providing grammar corrections, explanations and tips."
                 },
                 {
                     "role": "user",
                     "content": prompt
                 }
             ],
-            temperature=0.7,
+            temperature=0.7,#corresponde al nivel de léxico de respuesta de la IA
             max_tokens=50,
             top_p=1)
 
