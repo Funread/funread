@@ -1,0 +1,51 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: royar95
+        password: Funread1234
+
+    - name: Build and push Docker images
+      env:
+        DOCKER_IMAGE_REACT: funread-frontend
+        DOCKER_IMAGE_DJANGO: funread-backend
+
+      run: |
+        # Determine the Docker image tag
+        if [ "${{ github.event_name }}" == "push" ]; then
+          IMAGE_TAG="main"
+        else
+          IMAGE_TAG=$(uuidgen)
+        fi
+
+        echo "Building React frontend Docker image with tag: $IMAGE_TAG"
+        docker build -t $DOCKER_IMAGE_REACT:$IMAGE_TAG -f ./frontend/Dockerfile ./frontend
+
+        echo "Building Django backend Docker image with tag: $IMAGE_TAG"
+        docker build -t $DOCKER_IMAGE_DJANGO:$IMAGE_TAG -f ./funread_backend/Dockerfile ./backend
+
+        echo "Pushing React frontend image to DockerHub"
+        docker push $DOCKER_IMAGE_REACT:$IMAGE_TAG
+
+        echo "Pushing Django backend image to DockerHub"
+        docker push $DOCKER_IMAGE_DJANGO:$IMAGE_TAG
