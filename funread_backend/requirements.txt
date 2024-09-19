@@ -1,5 +1,4 @@
 
-
 #Librerías clave en Django:
 
 Django==5.1.1 #El marco principal en el que esta desarrollado el Backend. Donde se maneja la gestión del servidor, la lógica de Backend y la interacción con bases de datos. 
@@ -14,105 +13,55 @@ PyJWT==2.9.0 # Se especializa en la creación y verificación de JSON Web Tokens
 mysqlclient==2.2.4 # Conector de Python que permite interactuar con la base de datos MySQL. Desde aplicaciones Django.
 sqlparse==0.5.1 # Ayuda a formatear y analizar consultas SQL. Simplificando la depuración y optimización de consultas.
 
-#Librerías de utilidad y soporte:
+#Librerías de utilidad, soporte y manejo de dependencias:
 
-anyio==4.4.0 # Proporciona una interfaz unificada para escribir código asíncrono compatible con diferentes bibliotecas de concurrencia, como asyncio, trio y curio.
-asgiref==3.8.1 # Proporciona soporte para ejecutar aplicaciones asíncronas en Django, mejorando el rendimiento de las aplicaciones que requieren comunicación en tiempo real.
-certifi==2024.7.4 # Proporciona certificaciones SSL, actualizados para hacer conexiones HTTP seguras. 
-colorama==0.4.6 #  Facilita la impresión de texto coloreado en la terminal en Windows, útil para mejorar la legibilidad durante la depuración.
-python-dotenv==1.0.1 # Carga variables de entorno desde archivos .env, lo que simplifica la configuración de aplicaciones con múltiples entornos (desarrollo, prueba, producción). 
-aenum==3.1.15 # Proporciona tipos enumerados avanzados, similar a clase Enum en Python, pero con más opciones como membresías múltiples y soporte de enums ordenados. 
-cffi==1.17.1 # Es una interfaz para llamar a código C desde Python, útil cuando se requiere integrar bibliotecas o módulos escritos en C. 
-chardet==3.0.4 # Detecta automáticamente el tipo de codificación de texto en archivos o strings, útil para manejar archivos con diferentes encodings. 
-charset-normalizer==3.3.2 # Alternativa a chardet, usada para detectar y manejar la codificación de texto.
-click==8.1.7 # Crea Interfaces de línea de comandos (CLI) de manera sencilla y con funcionalidades avanzadas, muy utilizadas en herramientas de administración.
-decorator==4.4.2 # Facilita la Creación de funciones decoradas en Python, que te permite modificar o extender el comportamiento de otras funciones. 
-packaging==24.1 # Proporciona utilidades para manejar dependencias y paquetes de Python.
-platformdirs==4.3.2 # Ayuda a manejar rutas de directorios según el sistema operativo. 
-proglog==0.1.10 # Proporciona un Sistema de logging y seguimiento de progresos, utilizados especialmente en procesos largos.
-pycparser==2.22 # Analizador sintáctico en C puro, necesario para bibliotecas como cffi.
+anyio==4.4.0: #Proporciona una interfaz unificada para escribir código asíncrono compatible con diferentes bibliotecas de concurrencia, como asyncio, trio y curio.
+asgiref==3.8.1: # Proporciona soporte para ejecutar aplicaciones asíncronas en Django, mejorando el rendimiento de las aplicaciones que requieren comunicación en tiempo real.
+aenum==3.1.15 # Proporciona tipos enumerados avanzados, similar a clase Enum en Python, pero con más opciones como membresías múltiples y soporte de enums ordenados.
 tiktoken==0.7.0 # Herramienta para manejar eficientemente la tokenización en modelos de lenguajes como los de Open IA. 
-whitenoise==6.7.0 # Sirve archivos estáticos en proyectos Django, facilitando el despliegue sin necesidad de servidores web adicionales. 
-tqdm==4.66.5 # Proporciona barras de progreso para loops en Python.
-sniffio==1.3.1 # Detecta el contexto asincrónico en el que se está ejecutando el código, útil para evitar errores en entornos asíncronos.
-regex==2024.9.11 # Extiende las funcionalidades estándar de expresiones regulares, proporcionando mayor flexibilidad y control sobre patrones complejos. 
-
-#Librerías de manejo de archivos y dependencias:
-
-filelock==3.16.0 # Implementa un mecanismo para bloquear archivos de manera segura, útil en procesos que requieren control de accesos a archivos. 
-filetype==1.2.0 # Pequeña biblioteca de Python utilizada para identificar el tipo de archivo (file type) basado en la cabecera binaria de los archivos, más conocida como "magic number". Es muy útil cuando necesitas detectar el formato de un archivo sin depender de su extensión. 
-fsspec==2024.9.0 # Es una biblioteca de Python que proporciona una interfaz unificada para interactuar con sistemas de archivos locales y remotos. Permite a los desarrolladores leer y escribir datos en una variedad de formatos de almacenamiento, desde sistemas de archivos locales hasta servicios en la nube como S3 o GCS, mediante una API común.
-pooch==1.8.2 # Gestor de archivos para descargar y cachear datos automáticamente. 
-MarkupSafe==2.1.5 # Utilizada para asegurar la entrada en plantillas Jinja2, previniendo inyecciones de código malicioso.
-more-itertools==10.5.0 # Extiende de las funcionalidades de iteración que ofrece la librería estándar de Python. 
-typing_extensions==4.12.2 # Extiende las anotaciones de tipos en Pyhton.
-
+whitenoise==6.7.0 # Sirve archivos estáticos en proyectos Django, facilitando el despliegue sin necesidad de servidores web adicionales.
+python-dotenv==1.0.1 # Carga variables de entorno desde archivos .env, lo que simplifica la configuración de aplicaciones con múltiples entornos (desarrollo, prueba, producción). 
+pydantic==2.9.2 #Es una librería de validación de datos y configuración para Python. Se enfoca en proporcionar una manera clara y eficiente de definir y validar datos utilizando la tipificación estática y las anotaciones de tipo disponibles en Python.
+pycparser==2.22: #Analizador sintáctico en C puro, necesario para bibliotecas como cffi.
+certifi==2024.7.4: #Proporciona certificaciones SSL, actualizados para hacer conexiones HTTP seguras. 
+sniffio==1.3.1: #Detecta el contexto asincrónico en el que se está ejecutando el código, útil para evitar errores en entornos asíncronos.
+typing_extensions==4.12.2: #Extiende las anotaciones de tipos en Pyhton.
 
 #Librerías de Manejo de fechas y zonas horarias:
 
 pytz==2024.2 # Biblioteca para manejar zonas horarias, esencial para trabajar con fechas en aplicaciones globales. 
-tzdata==2024.1 # Datos actualizados de zonas horarias, utilizada junto con pytz.
-
-#Librerías de Procesamiento de lenguaje y optimización:
-
-Jinja2==3.1.4 # Motor de plantillas en Django Flask, permite generar HTML dinámico desde plantillas.
-joblib==1.4.2 # Utilizado para la paralización y almacenamiento en caché de resultados, útil para optimizar procesos.
-lazy_loader==0.4 # Implementa la carga de módulos de manera perezosa (Lazy loading) para mejorar el rendimiento.
-threadpoolctl==3.5.0 # Controla el número de threads en bibliotecas como scikit-learn, optimizando el uso de CPU.
+tzdata==2024.1 # Datos actualizados de zonas horarias, utilizada junto con pytz
 
 #Librerías de Imágenes y Procesamiento multimedia:
 
 moviepy==1.0.3 # Facilita la edición de videos en python.
 Pillow==10.4.0 # Biblioteca de imágenes que es una dependencia común en proyectos Django que maneja archivos multimedias. 
 pygame==2.6.1 # Biblioteca para escribir juegos en Python, aunque aquí puede tener otro uso. 
-imageio==2.35.1 # Maneja la lectura y escritura de imágenes en varios formatos, procesa las imágenes. 
-imageio-ffmpeg==0.5.1 # Proporciona funcionalidad adicional para trabajar con archivos de videos usando ffmpeg.
 
 #Librerías para procesamiento de lenguaje y Audio:
 
 gTTS==2.5.3 # Google Text-To-Speech, convierte texto en habla. 
-librosa==0.10.2.post1 # Modulo de python para el procesamiento de audio y música. Librería relacionada con Inteligencia Artificial (IA). 
-audioread==3.0.1 # Se utilizan para análisis de audio. 
-openai-whisper @ git+https://github.com/openai/whisper.git@ba3f3cd54b0e5b8ce1ab3de13e32122d0d5f98ab 
+librosa==0.10.2.post1 # Modulo de python para el procesamiento de audio y música. Librería relacionada con Inteligencia Artificial (IA).
+openai_whisper==20231117 @ git+https://github.com/openai/whisper.git@ba3f3cd54b0e5b8ce1ab3de13e32122d0d5f98ab 
 #Un módulo de reconocimiento de voz que permite la transcripción de audio. 
-#Librería relacionada con Inteligencia Artificial (IA). Ultima Version 20231117
+
 #Si ocurre algun problema con whisper usar este dos comandos
 #pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
 
-soxr==0.5.0.post1 # Biblioteca para realizar resampling de señales de audio de calidad. 
-soundfile==0.12.1 # Proporciona una interfaz para leer y escribir archivos de audios.
 
-#Librerías de Aprendizaje Automático:
 
-scikit-learn==1.5.2 # Biblioteca popular para machine learning. Librería relacionada con Inteligencia Artificial (IA). 
-torch==2.4.1 # PyTorch, es un marco para computación de tensor y aprendizaje automático. Librería relacionada con Inteligencia Artificial (IA). 
-
-numpy==2.0.2.  
-scipy==1.14.1 # numpy y scipy: Utilizadas para la computación científica y análisis de datos. 
-#Librerías relacionadas con Inteligencia Artificial (IA)
-
+#Librería de Aprendizaje Automatico
+torch==2.4.1: #PyTorch, es un marco para computación de tensor y aprendizaje automático. Librería relacionada con Inteligencia Artificial (IA).
 
 #Librerías para manejo de protocolos HTTP: 
 
-googletrans==4.0.0rc1 # Librería para traducir texto usando la API de Google Translate. 
-h11==0.9.0 # Implementación del protocol HTTP/1.1 en Python, usando httpx para manejar las conexiones HTTP. 
-h2==3.2.0 # Implementación del protocol HTTP/2 en Python, para mejorar la velocidad y eficiencia de las conexiones. 
-hpack==3.0.0 # Implementa la comprensión de encabezados HTTP/2, parte esencial del protocolo HTTP/2. 
-hstspreload==2024.9.1 # Herramienta para administrar la lista de carga previa de HTTP Strict Transport Security (HSTS), que fuerza a los navegadores a usar conexiones HTTPS. 
-httpcore==0.9.1 # Un núcleo de bajo nivel para manejar conexiones HTTP, usado por httpx. 
-httpx==0.13.3 # Cliente HTTP asíncrono para Python, similar a requests, pero con soporte para programación asíncrona
-hyperframe==5.2.0 # Proporciona una implementación de la estructura de marcos de HTTP/2, una parte fundamental del protocolo HTTP/2. 
-idna==2.10 # Proporciona soporte para dominios internacionales (IDN), útil al manejar URLs con caracteres no ASCII. 
-rfc3986==1.5.0 # Librería para parsear y Validar URLs según la especificación de RFC 3986. 
-urllib3==2.2.3 # Biblioteca robusta para manejo de conexiones HTTP con manejo de errores y reintentos automáticos. 
-requests==2.32.3 # Biblioteca para realizar solicitudes HTTP.  
+googletrans==3.0.0 # Librería para traducir texto usando la API de Google Translate. 
+idna==2.10: #Proporciona soporte para dominios internacionales (IDN), útil al manejar URLs con caracteres no ASCII.
 
 
-#Librerías de computación Científica:
 
-llvmlite==0.43.0 # Proporciona una interfaz a LLVM, usada principalmente en librerías como numba para compilar código en tiempo real.
-mpmath==1.3.0 # Biblioteca para trabajar con aritmética de precisión binaria arbitraria.
-msgpack==1.1.0# Un formato binario para serializar y deserializar datos en Python
-numba==0.60.0 # Compilador justo a tiempo (JIT), convierte funciones de Python a código máquina, optimizando el rendimiento. Librería relacionada con Inteligencia Artificial (IA)
-networkx==3.3 # Usado para la creación, manipulación y estudios de grafos y redes complejas.
-sympy==1.13.2 # Biblioteca para realizar matemáticas simbólicas.
+
+
+
+
+
