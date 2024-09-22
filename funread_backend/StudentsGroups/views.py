@@ -80,7 +80,6 @@ def add_new(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response("teacher or student already registered", status=status.HTTP_400_BAD_REQUEST)
         else:
             #Capture error messages
             non_field_errors = serializer.errors.get('non_field_errors', [])
@@ -100,7 +99,6 @@ def add_new(request):
             #If it is another error, return the errors
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except OperationalError:
-        return JsonResponse({"error": "La base de datos no está disponible en este momento. Intentelo de nuevo más tarde."},status=status.HTTP_503_SERVICE_UNAVAILABLE)
         return JsonResponse({"error": "The database is not available at this time, please try again later."},status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
 # Elimina un elemento de la lista StudentsGroups
