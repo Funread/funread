@@ -69,9 +69,10 @@ def bookSearch(request, title):
      if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
-    
+    # Obtén el user_id desde el token JWT
+     user_id = verify.obtener_usuario_id()
      print(title)
-     book = Book.objects.get(title=title)
+     book = Book.objects.get(title=title, createdby=user_id)
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
@@ -230,8 +231,11 @@ def listed_PrivateBooks(request):
      es_valido = verify.validar_token()
      if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-     book = Book.objects.filter(sharedbook=0)
+
+     # Extraer el id del usuario del token JWT
+     user_id = verify.obtener_usuario_id()
+     # Filtrar por libros privados y creados por el usuario
+     book = Book.objects.filter(sharedbook=0, createdby=user_id)   
      serializer = BookSerializer(book, many=True)
      return Response(serializer.data)
     except OperationalError:
