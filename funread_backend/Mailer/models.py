@@ -3,9 +3,9 @@ from Users.models import User
 
 class Mail(models.Model):
     emailid = models.AutoField(db_column='emailId', primary_key=True)  # Field name made lowercase.
-    emailTo = models.CharField(db_column='emailTo', max_length=200, blank=False, null=False)  # Field name made lowercase.
-    emailFrom = models.CharField(db_column='emailFrom', max_length=200, blank=False, null=False)  # Field name made lowercase.
-    emailSubject = models.CharField(db_column='emailSubject', max_length=50, blank=False, null=False)  # Field name made lowercase.
+    emailTo = models.CharField(db_column='emailTo', max_length=254, blank=False, null=False)  # Field name made lowercase.
+    emailFrom = models.CharField(db_column='emailFrom', max_length=254, blank=False, null=False)  # Field name made lowercase.
+    emailSubject = models.CharField(db_column='emailSubject', max_length=100, blank=False, null=False)  # Field name made lowercase.
     bodyMessage = models.TextField(db_column='bodyMessage', max_length=500, blank=False, null=False)  # Field name made lowercase.
 
     class Meta:
