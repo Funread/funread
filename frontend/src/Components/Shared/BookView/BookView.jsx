@@ -1,32 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import './BookView.sass'
-import BookPreview from '../BookPreview/BookPreview'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faX } from '@fortawesome/free-solid-svg-icons'
 
 const getImage = 'http://localhost:8000'
 
-const BookView = ({ book }) => {
-  console.log(book)
+const BookView = ({ book, onPreview }) => {
   const navigate = useNavigate()
   const bookImage = book.portrait
     ? `${getImage}${book.portrait}`
     : './imagenes/no-image.png'
 
-  const [modoPresentacion, setModoPresentacion] = useState(false)
-
-  const activarModoPresentacion = () => {
-    setModoPresentacion(true)
-  }
-
-  const desactivarModoPresentacion = () => {
-    setModoPresentacion(false)
-  }
-
-  const handleEditBook = () => { 
-    let bookID= book.id
-      navigate(`/bookcreator/${bookID}`, {
+  const handleEditBook = () => {
+    let bookID = book.id
+    navigate(`/bookcreator/${bookID}`, {
       state: {
         data: book,
       },
@@ -34,7 +20,7 @@ const BookView = ({ book }) => {
   }
 
   const handleReadBook = () => {
-    let bookID= book.id
+    let bookID = book.id
     navigate(`/readingview/${bookID}`, {
       state: {
         data: book.id,
@@ -64,10 +50,10 @@ const BookView = ({ book }) => {
         className='button-section-book'
         style={{ marginTop: 'auto', marginBottom: '30px' }}
       >
-        <button className='button-editBook' onClick={activarModoPresentacion}>
+        <button className='button-editBook' onClick={() => onPreview(book.id)}>
           Preview
         </button>
-                <button className='button-editBook' onClick={handleEditBook}>
+        <button className='button-editBook' onClick={handleEditBook}>
           Edit
         </button>
 
@@ -75,17 +61,6 @@ const BookView = ({ book }) => {
           Read
         </button>
       </div>
-      {modoPresentacion && (
-          <div className='modal-overlay-preview'>
-            <button
-              className='close-button'
-              onClick={desactivarModoPresentacion}
-            >
-              <FontAwesomeIcon size='lg' icon={faX} />
-            </button>
-            <BookPreview bookid={book.id} />
-          </div>
-        )}
     </div>
   )
 }

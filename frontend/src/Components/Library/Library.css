@@ -41,7 +41,6 @@
   box-shadow: none;
 }
 
-
 @media screen and (max-width: 992px) {
   .content_library {
     padding-left: 2rem;
