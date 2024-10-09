@@ -60,6 +60,7 @@ def save_File(request):
         file.save()
         if type == 3:
             response = save_subtitled(file.file)
+            print('Subtitled: ', response)
         serializer_response = MediaSeralizer(file)
         return Response(serializer_response.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
