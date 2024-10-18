@@ -70,6 +70,10 @@ INSTALLED_APPS = [
     "BooksDilemma",
     "TranslateApp",
     'Subtitled',
+    'User_Levels',
+    'UserPointsLog',
+    'TeamUser',
+    'Team',
     
 
 
