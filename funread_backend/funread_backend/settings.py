@@ -71,6 +71,9 @@ INSTALLED_APPS = [
     "TranslateApp",
     'Subtitled',
     'User_Levels',
+    'UserPointsLog',
+    'TeamUser',
+    'Team',
     
 
 
