@@ -75,6 +75,8 @@ INSTALLED_APPS = [
     'UserPointsLog',
     'TeamUser',
     'Team',
+    'UserBadge',
+    'UserPoints',
     
 
 
