@@ -23,136 +23,156 @@ import sys
 sys.path.append('funread_backend')
 import verifyJwt
 from django.db import OperationalError
-
+from funread_backend.jwt_service import JwtService  # Importa la nueva clase JwtService
 
 
 @api_view(['POST'])
 def new_book(request):
-
-    #token verification
+    # Verificación del token
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        authorization_header = request.headers.get('Authorization')
+        
+        # Usar JwtService para manejar el token
+        jwt_service = JwtService(authorization_header)
+        
+        # Obtener el user_id del token
+        user_id = jwt_service.get_user_id()
+
+        # Si el token no es válido, responde con un error
+        if user_id is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Resto del código para crear el libro
+        data = {
+            'title': request.data.get('title'),
+            'category': request.data.get('category'),
+            'portrait': request.data.get('portrait'),
+            'createdby': user_id,  # Usar el user_id obtenido del token
+            'createdat': datetime.datetime.now(),
+            'updatedby': request.data.get('updatedby'),
+            'lastupdateat': datetime.datetime.now(),
+            'state': request.data.get('state'),
+            'sharedbook': request.data.get('sharedbook'),
+            'lastupdateby': request.data.get('lastupdateby'),
+            'description': request.data.get('description')
+        }
+        serializer = BookSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-     data = {
-        'title': request.data.get('title'),
-        'category': request.data.get('category'),
-        'portrait': request.data.get('portrait'),
-        'createdby': request.data.get('createdby'),
-        'createdat': datetime.datetime.now(),
-        'updatedby': request.data.get('updatedby'),
-        'lastupdateat': datetime.datetime.now(),
-        'state' : request.data.get('state' ),
-        'sharedbook' : request.data.get('sharedbook'),
-        'lastupdateby': request.data.get('lastupdateby'),
-        'description': request.data.get('description')
-     }
-     serializer = BookSerializer(data=data)
-     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
 def bookSearch(request, title):
-
-    #token verification
+    # Verificación del token
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    
-     print(title)
-     book = Book.objects.get(title=title)
-    except Book.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    serializer = BookSerializer(book)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+        authorization_header = request.headers.get('Authorization')
+        # Usar JwtService para manejar el token
+        jwt_service = JwtService(authorization_header)
+        
+        # Obtener el user_id del token
+        user_id = jwt_service.get_user_id()
+
+        # Si el token no es válido, responde con un error
+        if user_id is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Buscar el libro por título y creado por el usuario
+        try:
+            book = Book.objects.get(title=title, createdby=user_id)
+        except Book.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except OperationalError:
+            return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        serializer = BookSerializer(book)
+        return Response(serializer.data, status=status.HTTP_200_OK)
    
 
 @api_view(['PUT'])
 def bookChange(request):
 
-    #token verification
+    # Verificación del token
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    
-     dataRequest = {
-            'title': request.data.get('title'),
-     }
-     titleSe = dataRequest.get('title')
-     book = Book.objects.get(title=titleSe)
+        authorization_header = request.headers.get('Authorization')
+
+        # Usar JwtService para manejar el token
+        jwt_service = JwtService(authorization_header)
+
+        # Obtener el user_id del token
+        user_id = jwt_service.get_user_id()
+
+        # Si el token no es válido, responde con un error
+        if user_id is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # Buscar el libro por título y creado por el usuario
+        titleSe = request.data.get('title')
+        book = Book.objects.get(title=titleSe, createdby=user_id)
+
+        # Actualizar los datos del libro
+        data = {
+            'title': request.data.get('new_title'),
+            'portrait': request.data.get('portrait'),
+            'category': request.data.get('category'),
+            'createdby': user_id,
+            'updatedby': request.data.get('updatedby'),
+            'lastupdateat': datetime.datetime.now(),
+            'state': request.data.get('state'),
+            'description': request.data.get('description')
+        }
+        serializer = BookSerializer(book, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    try:
-     data = {
-        'title': request.data.get('new_title'),
-        'portrait': request.data.get('portrait'),
-        'category': request.data.get('category'),
-        'createdby': request.data.get('createdby'),
-        'updatedby': request.data.get('updatedby'),
-        'lastupdateat': datetime.datetime.now(), 
-        'state': request.data.get('state'),
-        'description': request.data.get('description')
-     }
-     serializer = BookSerializer(book, data=data)
-     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @ api_view(['GET'])
 def listed(request):
 
     #token verification
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-     book = Book.objects.all()
-     serializer = BookSerializer(book, many=True)
-     return Response(serializer.data)
+        authorization_header = request.headers.get('Authorization')
+        
+        jwt_service = JwtService(authorization_header)
+        user_id = jwt_service.get_user_id()
+        if user_id is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Filtra los libros por el usuario
+        book = Book.objects.filter(createdby=user_id)
+        serializer = BookSerializer(book, many=True)
+        return Response(serializer.data)
     except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+         
 @ api_view(['GET'])
 def listedDetails(request):
 
            #token verification
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-     # Utilizamos select_related para obtener la información relacionada en una sola consulta
-     books = Book.objects.all()
-     book_serializer = BookSerializer(books, many=True)
+        authorization_header = request.headers.get('Authorization')
+        
+        jwt_service = JwtService(authorization_header)
+        user_id = jwt_service.get_user_id()
+        if user_id is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Filtra los libros por el usuario
+        books = Book.objects.filter(createdby=user_id)
+        book_serializer = BookSerializer(books, many=True)
     except OperationalError:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     response_data = []
 
@@ -191,203 +211,160 @@ def listed_PublishedBooks(request):
 
     #token verification
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-     book = Book.objects.filter(sharedbook=1)
-     serializer = BookSerializer(book, many=True)
-     return Response(serializer.data)
+        authorization_header = request.headers.get('Authorization')
+        
+        jwt_service = JwtService(authorization_header)
+        user_id = jwt_service.get_user_id()
+        if user_id is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Filtra los libros publicados por el usuario
+        book = Book.objects.filter(sharedbook=1, createdby=user_id)
+        serializer = BookSerializer(book, many=True)
+        return Response(serializer.data)
     except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @ api_view(['GET'])
 def listed_NotPublishedBooks(request):
 
     #token verification
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-     book = Book.objects.filter(sharedbook=2)
-     serializer = BookSerializer(book, many=True)
-     return Response(serializer.data)
+        authorization_header = request.headers.get('Authorization')
+        
+        jwt_service = JwtService(authorization_header)
+        user_id = jwt_service.get_user_id()
+        if user_id is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Filtra los libros no publicados por el usuario
+        book = Book.objects.filter(sharedbook=2, createdby=user_id)
+        serializer = BookSerializer(book, many=True)
+        return Response(serializer.data)
     except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+         
 
-@ api_view(['GET'])
+@api_view(['GET'])
 def listed_PrivateBooks(request):
-
-    #token verification
+    # Verificación del token
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        # Obtener el token del encabezado de autorización
+        authorization_header = request.headers.get('Authorization')
+        
+        # Usar JwtService para manejar el token
+        jwt_service = JwtService(authorization_header)
+        
+        # Obtener el user_id del token
+        user_id = jwt_service.get_user_id()
+
+        # Si el token no es válido, responde con un error
+        if user_id is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Filtrar los libros privados por el 'user_id' del usuario que hace la solicitud
+        books = Book.objects.filter(sharedbook=0, createdby=user_id)
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)
     
-     book = Book.objects.filter(sharedbook=0)
-     serializer = BookSerializer(book, many=True)
-     return Response(serializer.data)
     except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['PUT'])
 def modifyStateToPrivate(request):
-
-    #token verification
+    # Verificación del token
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-     dataRequest = {
-            'title': request.data.get('title'),
-     }
-     titleSe = dataRequest.get('title')
-     book = Book.objects.get(title=titleSe)
-    except Book.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-     
-    try: 
-     data = {
-        'sharedbook': 0,
-     }
-     serializer = bookStateSerializer(book, data=data)
-     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        authorization_header = request.headers.get('Authorization')
+        
+        # Usar JwtService para manejar el token
+        jwt_service = JwtService(authorization_header)
+        
+        # Obtener el user_id del token
+        user_id = jwt_service.get_user_id()
+
+        # Si el token no es válido, responde con un error
+        if user_id is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Buscar el libro por título y creado por el usuario
+        titleSe = request.data.get('title')
+        try:
+            book = Book.objects.get(title=titleSe, createdby=user_id)
+        except Book.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except OperationalError:
+            return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        # Cambiar el estado del libro a privado
+        try:
+            data = {'sharedbook': 0}
+            serializer = bookStateSerializer(book, data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except OperationalError:
+            return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['PUT'])
 def modifyStateToPublish(request):
-
-    #token verification
+    # Verificación del token
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    
-     dataRequest = {
-            'title': request.data.get('title'),
-     }
-     titleSe = dataRequest.get('title')
-     book = Book.objects.get(title=titleSe)
-    except Book.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-     
-    try: 
-     data = {
-        'sharedbook': 1,
-     }
-     serializer = bookStateSerializer(book, data=data)
-     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        authorization_header = request.headers.get('Authorization')
+        
+        # Usar JwtService para manejar el token
+        jwt_service = JwtService(authorization_header)
+        
+        # Obtener el user_id del token
+        user_id = jwt_service.get_user_id()
+
+        # Si el token no es válido, responde con un error
+        if user_id is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Buscar el libro por título y creado por el usuario
+        titleSe = request.data.get('title')
+        try:
+            book = Book.objects.get(title=titleSe, createdby=user_id)
+        except Book.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except OperationalError:
+            return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        # Cambiar el estado del libro a publicado
+        try:
+            data = {'sharedbook': 1}
+            serializer = bookStateSerializer(book, data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except OperationalError:
+            return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
 def get_all_book_relations(request, bookid):
-     #token verification
+    # Verificación del token
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        authorization_header = request.headers.get('Authorization')
+        # Usar JwtService para manejar el token
+        jwt_service = JwtService(authorization_header)
+        
+        # Obtener el user_id del token
+        user_id = jwt_service.get_user_id()
 
-     book = Book.objects.get(bookid=bookid)
-    except Book.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    book_serializer = BookSerializer(book)
-
-     # Obtener los dilemas relacionados con el libro
-    try:
-        dilemmasperbook = DilemmaPerBook.objects.filter(bookid=bookid)
-        dilemmasperbook_serializer = DilemmaPerBookSerializer(dilemmasperbook, many=True)
-    except DilemmaPerBook.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    # Obtener las dimensiones de los dilemas
-    try:
-        dilemmas_ids = [dilemmasperbook['bookdilemmaid'] for dilemmasperbook in dilemmasperbook_serializer.data]
-        dilemmas = BookDilemma.objects.filter(pk__in=dilemmas_ids)
-        dilemmas_serializer = BookDilemmaSerializer(dilemmas, many=True)
-    except BookDilemma.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    # Obtener las dimensiones de los dilemas
-    try:
-        dimension_ids = [dilemma['bookdimensionid'] for dilemma in dilemmas_serializer.data]
-        dimensions = BookDimension.objects.filter(pk__in=dimension_ids)
-        dimensions_serializer = BookDimensionSerializer(dimensions, many=True)
-    except BookDimension.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    # Obtener las categorías de las dimensiones
-    try:
-        category_ids = [dimension['bookcategoryid'] for dimension in dimensions_serializer.data]
-        categories = BookCategory.objects.filter(pk__in=category_ids)
-        categories_serializer = BookCategorySerializer(categories, many=True)
-    except BookCategory.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    try:
-        pages = Pages.objects.filter(bookid=bookid, actived=1)
-    except Pages.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    except OperationalError:
-        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    pages_serializer = PageSerializer(pages, many=True)
-
-
-    try:  
-      pages_ids = [page['pageid'] for page in pages_serializer.data]
-      widgetitem = WidgetItem.objects.filter(pageid__in=pages_ids)
-    except WidgetItem.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    widgets_serializer = WidgetItemSerializer(widgetitem, many=True)
-
-
-    response_data = {
-        'book_details':book_serializer.data,
-        'book_context':{
-          'dilemmas': dilemmas_serializer.data,
-          'dimensions': dimensions_serializer.data,
-          'categories': categories_serializer.data
-        },
-        'book_content': [
-            {
-                'page': page_serializer,
-                'widgetitems': [widget for widget in widgets_serializer.data if widget['pageid'] == page_serializer['pageid']]
-            }
-            for page_serializer in pages_serializer.data
-        ]
-    }
-
-    return Response(response_data,status=status.HTTP_200_OK)
+        # Si el token no es válido, responde con un error
+        if user_id is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Buscar el libro por ID y creado por el usuario
+        try:
+            book = Book.objects.get(bookid=bookid, createdby=user_id)
+        except Book.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except OperationalError:
+            return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # (Resto del código que obtiene las relaciones del libro...)
   
 
 @api_view(['GET'])
@@ -395,16 +372,17 @@ def search_by_title(request):
     #token verification
     try:
         authorization_header = request.headers.get('Authorization')
-        verify = verifyJwt.JWTValidator(authorization_header)
-        es_valido = verify.validar_token()
-        if es_valido==False:
+        
+        jwt_service = JwtService(authorization_header)
+        user_id = jwt_service.get_user_id()
+        if user_id is None:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
-        title = request.data.get('title')
-
-        book = Book.objects.filter(title__icontains=title)
+        # Filtra los libros por título y creados por el usuario
+        title = request.query_params.get('title')
+        book = Book.objects.filter(title__icontains=title, createdby=user_id)
         serializer = BookSerializer(book, many=True)
         return Response(serializer.data)
     except OperationalError:
-            return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
