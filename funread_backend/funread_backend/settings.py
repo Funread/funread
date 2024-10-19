@@ -72,6 +72,9 @@ INSTALLED_APPS = [
     'Subtitled',
     'Badges',
     'User_Levels',
+    'UserPointsLog',
+    'TeamUser',
+    'Team',
     
 
 
