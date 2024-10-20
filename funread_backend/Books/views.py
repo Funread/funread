@@ -23,6 +23,7 @@ import sys
 sys.path.append('funread_backend')
 import verifyJwt
 from django.db import OperationalError
+from funread_backend.jwt_service import JwtService  # Importa la nueva clase JwtService
 
 
 
@@ -63,21 +64,28 @@ def bookSearch(request, title):
 
     #token verification
     try:
-     authorization_header = request.headers.get('Authorization')
-     verify = verifyJwt.JWTValidator(authorization_header)
-     es_valido = verify.validar_token()
-     if es_valido==False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-    
-     print(title)
-     book = Book.objects.get(title=title)
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if es_valido==False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # Usar JwtService para obtener id del usuario actual
+        jwt_service = JwtService(authorization_header)
+        user_id = jwt_service.get_user_id()
+
+        book = Book.objects.get(title=title)
+        serializer = BookSerializer(book)
+        
+        # Verificar si el libro fue creado por el usuario o si es compartido (sharedbook = 1) para mostrarlo
+        if serializer.data['createdby'] == user_id or book.sharedbook == 1:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
     except Book.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    serializer = BookSerializer(book)
-    return Response(serializer.data, status=status.HTTP_200_OK)
    
 
 @api_view(['PUT'])
@@ -230,8 +238,13 @@ def listed_PrivateBooks(request):
      es_valido = verify.validar_token()
      if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
-     book = Book.objects.filter(sharedbook=0)
+
+     # Usar JwtService para manejar el token
+     jwt_service = JwtService(authorization_header)
+     #Obtener el user_id del token
+     user_id = jwt_service.get_user_id()
+     # Filtrar por libros privados y creados por el usuario
+     book = Book.objects.filter(sharedbook=0, createdby=user_id)   
      serializer = BookSerializer(book, many=True)
      return Response(serializer.data)
     except OperationalError:
