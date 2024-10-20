@@ -1,73 +1,72 @@
-
 .preview-image
-    width: 980px
-    height: 560px
-    border-radius: 10px
-    margin-bottom: 10px
-    box-shadow: 0 2px 25px rgb(182, 171, 171)
+  width: 980px
+  height: 560px
+  border-radius: 10px
+  margin-bottom: 10px
+  box-shadow: 0 2px 25px rgb(182, 171, 171)
 
 .preview-controls
-    display: flex
-    justify-content: space-between
-    align-items: center
+  display: flex
+  justify-content: space-between
+  align-items: center
 
 .control-button
-    margin: 0 30px
-    margin-top: 17px
+  margin: 0 30px
+  margin-top: 17px
 
 .book-preview-container
-    position: relative
+  position: relative
 
 .control-button
-    background-color: #A9DEF9
-    color: #4a4747
-    padding: 10px 15px
-    border: none
-    border-radius: 12%
-    height: 50px
-    width: 90px
-    cursor: pointer
-    transition: background-color 0.3s, box-shadow 0.3s
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 0.9) inset
+  background-color: #A9DEF9
+  color: #4a4747
+  padding: 10px 15px
+  border: none
+  border-radius: 12%
+  height: 50px
+  width: 90px
+  cursor: pointer
+  transition: background-color 0.3s, box-shadow 0.3s
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 0.9) inset
 
 .control-button:disabled
-    background-color: #ccc
-    cursor: not-allowed
+  background-color: #ccc
+  cursor: not-allowed
 
 .control-button:hover:not(:disabled)
-    background-color: #D0F4DE
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 1) inset
+  background-color: #D0F4DE
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 1) inset
 
-@media (max-width: 1500px)
-    .preview-image
-        width: 800px
-        height: 550px
+.modal-overlay-preview
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background-color: rgba(0, 0, 0, 0.8)
+  display: grid
+  place-items: center
+  padding: 20px
+  z-index: 1000
 
-@media (max-width: 1200px)
-    .preview-image
-        width: 800px
-        height: 550px
+.preview-content
+  position: relative
+  max-width: 80%
+  max-height: 80%
+  background-color: white
+  padding: 1rem
+  border-radius: 10px
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3)
 
-@media (max-width: 1000px)
-    .preview-image
-        width: 790px
-        height: 550px
+.close-button
+  position: absolute
+  top: 10px
+  right: 10px
+  background: none
+  border: none
+  font-size: 2rem
+  color: #333
+  cursor: pointer
 
-@media (max-width: 800px)
-    .preview-image
-        width: 100%
-        height: auto
-
-@media (max-width: 600px)
-    .preview-image
-        width: 100%
-        height: auto
-
-    .control-button
-        margin: 0 10px
-        margin-top: 17px
-        padding: 8px 12px
-
-@media (max-width: 400px)
-    .preview-image
-        height: 400px
+  &:hover
+    color: #a9def9
