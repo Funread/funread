@@ -12,6 +12,7 @@ import GroupBuilder from '../Shared/GroupBuilder/GroupBuilder'
 import { ToastContainer } from 'react-toastify'
 import GroupView from '../Shared/GroupView/GroupView'
 import Classes from '../Shared/Classes/Classes'
+import StudentGroups from '../Shared/StudentGroups/StudentGroups'
 import ClassBuilder from '../Shared/ClassBuilder/ClassBuilder'
 import { Tabs, Tab } from 'react-bootstrap'
 import CustomMessage from '../Shared/CustomMessage/CustomMessage'
@@ -27,6 +28,7 @@ const Group = () => {
   const [groupId, setGroupId] = useState(null)
   const [groupName, setGroupName] = useState(null)
   const [showClasses, setShowClasses] = useState(false)
+  const [showGroups, setShowGroups] = useState(false)
   const [activities, setActivities] = useState([])
   const [key, setKey] = useState('group')
 
@@ -68,6 +70,14 @@ const Group = () => {
     setSelectedGroup(null)
   }
 
+// ////////////////////////////////////////
+  const toggleStudentsGroup = () => {
+    setShowGroups(!groupClasses)
+    setGroupForm(false)
+    setSelectedStudent(null)
+    setSelectedGroup(null)
+  }
+
   const handleGroupCreated = (newGroup) => {
     setGroups([...groups, newGroup])
   }
@@ -79,6 +89,14 @@ const Group = () => {
     await setShowClasses(true)
     await setKey("classes")
   }
+// ////////////////////////////////////////////////////////////////////////////
+  const handleGroupsComponent = async (id, name) => {
+    console.log("datos")
+     await setGroupId(id)
+     await setGroupName(name)
+     await setShowGroups(true) //////////////////
+    await setKey("studentsGroup")
+  }
 
   const handleActiviyCreated = (newActivity) => {
     setActivities([...activities, newActivity])
@@ -86,10 +104,12 @@ const Group = () => {
 
   useEffect(() => {
     if (key == "group") {
+      
       console.log("entre:", key);
 
       setShowClasses(false)
     }
+
    
   }, [key]);
   useEffect(() => {
@@ -106,7 +126,7 @@ const Group = () => {
         <div className='sidenav col-8'>
           <div style={{ maxWidth: '1100px' }} className='mx-auto content_group'>
             <Form className='d-flex mt-1 pt-3 '>
-              <Form.Control
+              {/* <Form.Control
                 type='search'
                 placeholder='Search'
                 className='me-2 custom-input-search'
@@ -127,11 +147,11 @@ const Group = () => {
                 onClick={toggleGroupForm}
               >
                 <FontAwesomeIcon icon={faPencilAlt} />
-              </Button>
+              </Button>*/}
             </Form>
             <div className='mt-3 d-flex align-items-center justify-content-between'>
               <h4 className='custom-group-title'>My Groups</h4>
-            </div>
+            </div> 
             
             <Tabs
               className='section_group_Tap'
@@ -148,10 +168,11 @@ const Group = () => {
                   showGroupResume={showGroupResume}
                   newGroups={groups}
                   handleClassesComponent={handleClassesComponent}
+                  handleGroupsComponent={handleGroupsComponent}
                 />
              </div>
               </Tab>
-              <Tab eventKey='classes' title='Group Classes' className='tab'>
+              <Tab eventKey='classes' className='tab'>
               <div className='shadow p-3 bg-body rounded'>
                 {showClasses ? (
                   <Classes
@@ -166,6 +187,30 @@ const Group = () => {
               }
                </div>
               </Tab>
+
+
+
+
+
+
+
+
+              <Tab eventKey='studentsGroup' className='tab'>
+              <div className='shadow p-3 bg-body rounded'>
+                {showGroups ? (
+                  <StudentGroups
+                    groupId={groupId}
+                    groudName={groupName}
+                    toggleStudentsGroup={toggleStudentsGroup}
+                    newActivities={activities}
+                  />
+                ):(
+                  <CustomMessage message={'You should assign students to the group'} />
+                )
+              }
+               </div>
+              </Tab>
+
 
 
             </Tabs>
@@ -202,10 +247,12 @@ const Group = () => {
             )}
           </div>
         </div>
+        </div>
       </div>
-      <ToastContainer position='top-right' />
-    </div>
+    
   )
-}
 
-export default Group
+  }
+
+
+export default Group;

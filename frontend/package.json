@@ -28,6 +28,7 @@
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "postcss-loader": "^7.3.3",
+    "prueba10": "file:",
     "react": "^18.2.0",
     "react-audio-player": "^0.17.0",
     "react-bootstrap": "^2.5.0",
