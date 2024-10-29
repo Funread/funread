@@ -3,7 +3,7 @@ version: '3.8'
 services:
   frontend:
     container_name: funread_frontend
-    image: funreaducr/frontend:a3b35656-eea2-4d87-bb4d-c17933456931
+    image: funreaducr/frontend:main
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -15,7 +15,7 @@ services:
 
   backend:
     container_name: funread_backend
-    image: funreaducr/backend:a3b35656-eea2-4d87-bb4d-c17933456931
+    image: funreaducr/backend:main
     build:
       context: ./funread_backend
       dockerfile: Dockerfile
