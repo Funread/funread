@@ -13,3 +13,4 @@ class UserPointsLog(models.Model):
         db_table = 'userpointslog'
 
 
+

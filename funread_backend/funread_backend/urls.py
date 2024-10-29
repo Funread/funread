@@ -47,7 +47,15 @@ urlpatterns = [
     path('Options/', include('Options.urls')),
     path('bookdilemma/',include('BooksDilemma.urls')),
     path('translate/',include('TranslateApp.urls')),
-    path('Subtitled/',include('Subtitled.urls'))
+    path('Subtitled/',include('Subtitled.urls')),
+    path('UserPointsLog/',include('UserPointsLog.urls')),
+    path('UserPoints/',include('UserPoints.urls')),
+    path('Badges/',include('Badges.urls')),
+    path('UserBadge/',include('UserBadge.urls')),
+    path('User_Levels/',include('User_Levels.urls'))
+
+
+
 ]
 
 if settings.DEBUG:
