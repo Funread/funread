@@ -24,6 +24,10 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
 
+import BadgesPage from './Components/Badges/BadgesPage';
+
+
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //este porcion de codigo deberia permitir devolver el estado de reducx, pero no funciona por alguna razon
 const persistedState = localStorage.getItem("reduxState"); // este
@@ -177,6 +181,7 @@ root.render(
             </Route>
 
             <Route element={<ProtectedRoutes roles={["estudiante"]} />}>
+              
               <Route
                 exact
                 path="/myclasses"
@@ -188,7 +193,9 @@ root.render(
                   </div>
                 }
               />
+              <Route path="/badges" element={<BadgesPage />} />
               </Route>
+              
           </Routes>
         </PersistGate>
       </Provider>
