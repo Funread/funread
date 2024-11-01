@@ -28,7 +28,6 @@ from django.db import OperationalError
 
 @api_view(['POST'])
 def new_book(request):
-
     #token verification
     try:
      authorization_header = request.headers.get('Authorization')
