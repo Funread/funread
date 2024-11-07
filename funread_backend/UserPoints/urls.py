@@ -9,6 +9,7 @@ urlpatterns = [
     path('userpoints/delete/<int:user_id>/', views.delete_user_total_points),
     path('userpoints/leaderboard_top_10/', views.leaderboard_top_10),
     path('userpoints/user_ranking_position/<int:user_id>/', views.user_ranking_position),
+    path('userpoints/get_user_total_points/<int:user_id>/', views.get_user_total_points),
     
 ]
 
