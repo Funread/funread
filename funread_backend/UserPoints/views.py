@@ -10,6 +10,7 @@ from User_Levels.models import UserLevels
 from django.db.models import Sum
 from UserPointsLog.models import UserPointsLog
 import verifyJwt
+from django.http import JsonResponse
 
 @api_view(['POST'])
 def create_user_total_points(request, user_id):
@@ -44,12 +45,17 @@ def create_user_total_points(request, user_id):
 @api_view(['GET'])
 def get_user_total_points(request, user_id):
     try:
+        # Verificar el encabezado de autorización
         authorization_header = request.headers.get('Authorization')
+        if not authorization_header:
+            return Response({"error": "Encabezado de autorización no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
+        
         verify = verifyJwt.JWTValidator(authorization_header)
         es_valido = verify.validar_token()
-        if es_valido==False:
-         return Response(status=status.HTTP_401_UNAUTHORIZED)
-        
+
+        if not es_valido:
+            return Response({"error": "Token de autenticación inválido o expirado"}, status=status.HTTP_401_UNAUTHORIZED)
+
         # Obtener el registro de UserPoints del usuario especificado
         user_points = get_object_or_404(UserPoints, user_id=user_id)
 
@@ -57,9 +63,16 @@ def get_user_total_points(request, user_id):
         serializer = UserPointsSerializer(user_points)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    except UserPoints.DoesNotExist:
+        return Response({"error": "El usuario especificado no tiene puntos registrados"}, status=status.HTTP_404_NOT_FOUND)
+
+    except ValueError as ve:
+        print(f"Error de valor: {ve}")
+        return Response({"error": "Entrada inválida: error en el formato de datos"}, status=status.HTTP_400_BAD_REQUEST)
+
     except Exception as e:
-        print(f"Error: {e}")
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        print(f"Error inesperado: {e}")
+        return Response({"error": "Se produjo un error inesperado. Por favor, intente nuevamente más tarde."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 # Actualizar puntos totales de un usuario (por ejemplo, si se requiere un ajuste manual)
@@ -188,34 +201,29 @@ def user_ranking_position(request, user_id):
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+#Endpoint que devuelva el nivel y el total de puntos (filtro por user_id).
 @api_view(['GET'])
-def get_user_total_points(request, user_id):
+def get_user_level_and_points(request, user_id):
     try:
-        # Verificar el encabezado de autorización
         authorization_header = request.headers.get('Authorization')
-        if not authorization_header:
-            return Response({"error": "Encabezado de autorización no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
-        
         verify = verifyJwt.JWTValidator(authorization_header)
         es_valido = verify.validar_token()
+        if es_valido==False:
+         return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Obtén el nivel del usuario desde el modelo UserLevels en la aplicación User_Levels
+        user = get_object_or_404(UserLevels, id=user_id)
+        level = user.level
 
-        if not es_valido:
-            return Response({"error": "Token de autenticación inválido o expirado"}, status=status.HTTP_401_UNAUTHORIZED)
-
-        # Obtener el registro de UserPoints del usuario especificado
+        # Obtén el total de puntos del usuario desde la tabla UserPoints usando user_id
         user_points = get_object_or_404(UserPoints, user_id=user_id)
+        total_points = user_points.total_points
 
-        # Serializar y devolver el registro
-        serializer = UserPointsSerializer(user_points)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    except UserPoints.DoesNotExist:
-        return Response({"error": "El usuario especificado no tiene puntos registrados"}, status=status.HTTP_404_NOT_FOUND)
-
-    except ValueError as ve:
-        print(f"Error de valor: {ve}")
-        return Response({"error": "Entrada inválida: error en el formato de datos"}, status=status.HTTP_400_BAD_REQUEST)
+        # Devuelve la respuesta en JSON
+        return JsonResponse({
+            "level": level,
+            "total_points": total_points
+        }, status=200)
 
     except Exception as e:
-        print(f"Error inesperado: {e}")
-        return Response({"error": "Se produjo un error inesperado. Por favor, intente nuevamente más tarde."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return JsonResponse({"error": str(e)}, status=500)
