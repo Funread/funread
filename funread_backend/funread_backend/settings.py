@@ -29,6 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [os.environ.get("SETTINGS_ALLOWED_HOSTS")]
 
+HUGGING_FACE_API_TOKEN = os.getenv("HUGGING_FACE_API_TOKEN")
+
 
 # Application definition
 
@@ -77,7 +79,7 @@ INSTALLED_APPS = [
     'Team',
     'UserBadge',
     'UserPoints',
-    
+    'Avatar',
 
 
     #     'AuthApp.apps.AuthappConfig',
