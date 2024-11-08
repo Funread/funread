@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     'UserBadge',
     'UserPoints',
     'Avatar',
+    'avatar_creator',
 
 
     #     'AuthApp.apps.AuthappConfig',

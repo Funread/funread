@@ -48,7 +48,8 @@ urlpatterns = [
     path('bookdilemma/',include('BooksDilemma.urls')),
     path('translate/',include('TranslateApp.urls')),
     path('Subtitled/',include('Subtitled.urls')),
-    path('api/', include('Avatar.urls')),
+    path('api/', include('avatar_creator.urls')),
+    
 ]
 
 if settings.DEBUG:
