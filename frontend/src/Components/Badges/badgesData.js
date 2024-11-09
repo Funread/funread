@@ -1,147 +1,42 @@
-// src/badgesData.js
-export const badgesData = [
-  {
-    title: "Bronze Reader",
-    description: "Awarded for reading 10 books",
-    level: "Bronze",
-    points: 10,
-    iconName: "📕",
-    threshold: 10, // libros necesarios para este nivel
-  },
-  {
-    title: "Silver Reader",
-    description: "Awarded for reading 50 books",
-    level: "Silver",
-    points: 50,
-    iconName: "📘",
-    threshold: 50,
-  },
-  {
-    title: "Gold Reader",
-    description: "Awarded for reading 100 books",
-    level: "Gold",
-    points: 0,
-    iconName: "📗",
-    threshold: 100,
-  },
-  {
-    title: "Diamond Reader",
-    description: "Awarded for reading 200 books",
-    level: "Diamond",
-    points: 150,
-    iconName: "💎",
-    threshold: 200,
-  },
-  {
-    title: "Bookworm",
-    description: "For reading 300 books",
-    level: "Platinum",
-    points: 250,
-    iconName: "📙",
-    threshold: 300,
-  },
-  {
-    title: "Explorer",
-    description: "Granted for discovering 50 new locations in books",
-    level: "Explorer",
-    points: 50,
-    iconName: "🧭",
-    threshold: 50,
-  },
-  {
-    title: "Helper",
-    description: "For assisting other readers with recommendations",
-    level: "Helper",
-    points: 30,
-    iconName: "🤝",
-    threshold: 30,
-  },
-  {
-    title: "Reviewer",
-    description: "For writing 10 book reviews",
-    level: "Bronze Reviewer",
-    points: 0,
-    iconName: "✍️",
-    threshold: 10,
-  },
-  {
-    title: "Critic",
-    description: "For writing 50 book reviews",
-    level: "Silver Critic",
-    points: 20,
-    iconName: "📄",
-    threshold: 50,
-  },
-  {
-    title: "Literature Enthusiast",
-    description: "Awarded for reading 500 books",
-    level: "Master",
-    points: 450,
-    iconName: "📖",
-    threshold: 500,
-  },
-  {
-    title: "Young Reader",
-    description: "For reading 5 books",
-    level: "Beginner",
-    points: 5,
-    iconName: "📚",
-    threshold: 5,
-  },
-  {
-    title: "Seasoned Reviewer",
-    description: "For writing 100 book reviews",
-    level: "Gold Reviewer",
-    points: 0,
-    iconName: "📝",
-    threshold: 100,
-  },
-  {
-    title: "World Explorer",
-    description: "For reading books from 20 different countries",
-    level: "World Explorer",
-    points: 20,
-    iconName: "🌍",
-    threshold: 20,
-  },
-  {
-    title: "Genre Specialist",
-    description: "For reading 30 books in one genre",
-    level: "Specialist",
-    points: 30,
-    iconName: "📚",
-    threshold: 30,
-  },
-  {
-    title: "Weekend Reader",
-    description: "For reading 5 books over the weekend",
-    level: "Weekend Warrior",
-    points: 5,
-    iconName: "🛋️",
-    threshold: 5,
-  },
-  {
-    title: "Classic Lover",
-    description: "For reading 20 classic books",
-    level: "Classics Fan",
-    points: 15,
-    iconName: "📜",
-    threshold: 20,
-  },
-  {
-    title: "Monthly Challenge",
-    description: "For completing the monthly reading challenge",
-    level: "Challenger",
-    points: 0,
-    iconName: "📅",
-    threshold: 25,
-  },
-  {
-    title: "Top Reader",
-    description: "For reading 1000 books",
-    level: "Legendary",
-    points: 900,
-    iconName: "🏆",
-    threshold: 1000,
-  }
-];
+import axios from 'axios';
+import { useId } from 'react';
+
+// Crear una instancia de axios configurada para la URL base del backend
+const api = axios.create({
+    baseURL: 'http://127.0.0.1:8000',  // Cambia esta URL según tu configuración
+    headers: {
+        'Content-Type': 'application/json',
+    }
+});
+
+// Función para establecer el token de autorización
+/* export const setAuthToken = (token) => {
+    if (token) {
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else {
+        delete api.defaults.headers.common['Authorization'];
+    }
+}; */
+
+// Función para obtener la lista de badges de un usuario específico
+export const getUserBadgesWithStatus = async (userId) => {
+    try {
+        const response = await api.get(`/Badges/api/badges/list_user_badges_with_status/${1}/`);
+        
+        // Retornar la lista de badges desde la respuesta
+        return response.data.badges;
+    } catch (error) {
+        if (error.response) {
+            // El servidor respondió con un código de estado fuera del rango 2xx
+            console.error('Error fetching user badges:', error.response.status, error.response.data);
+        } else if (error.request) {
+            // La solicitud fue realizada pero no hubo respuesta
+            console.error('No response received:', error.request);
+        } else {
+            // Algo salió mal en la configuración de la solicitud
+            console.error('Error', error.message);
+        }
+        throw error;
+    }
+};
+

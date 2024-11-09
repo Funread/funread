@@ -1,17 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SidebarBook from '../Shared/SidebarBook/SidebarBook';
 import BadgeGrid from './BadgeGrid';
 import CollectionSidebar from './CollectionSidebar';
-import { badgesData } from './badgesData';
+import { getUserBadgesWithStatus } from './badgesData'; // Asegúrate de importar la función correcta
 import './Badges.css';
 
 const BadgesPage = () => {
   const [filter, setFilter] = useState("all");
+  const [badges, setBadges] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Definir la función onSelectCollection
+  // Función para cargar los badges
+  useEffect(() => {
+    async function fetchBadges() {
+      try {
+        const data = await getUserBadgesWithStatus(); // Obtener los badges
+        setBadges(data);
+      } catch (err) {
+        setError(err.message); // Manejar errores
+      } finally {
+        setLoading(false); // Cambiar el estado de carga
+      }
+    }
+
+    fetchBadges();
+  }, []); // Solo se ejecuta una vez cuando el componente se monta
+
+  // Cambiar el filtro de colección
   const onSelectCollection = (selectedFilter) => {
     setFilter(selectedFilter);
   };
+
+  if (loading) return <p>Loading badges...</p>; // Mensaje de carga
+  if (error) return <p>Error loading badges: {error}</p>; // Mensaje de error
 
   return (
     <div className='container-fluid text-center group'>
@@ -23,7 +45,7 @@ const BadgesPage = () => {
           <div className="badges-page-container">
             <div className="badges-page-body">
               <CollectionSidebar onSelectCollection={onSelectCollection} />
-              <BadgeGrid filter={filter} badges={badgesData} />
+              <BadgeGrid filter={filter} badgesData={badges} /> {/* Pasar los datos de los badges a BadgeGrid */}
             </div>
           </div>
         </div>

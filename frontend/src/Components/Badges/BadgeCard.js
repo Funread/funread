@@ -1,4 +1,3 @@
-// BadgeCard.js
 import React from "react";
 
 function BadgeCard({ title, description, points, level, iconName, status }) {
@@ -17,3 +16,4 @@ function BadgeCard({ title, description, points, level, iconName, status }) {
 }
 
 export default BadgeCard;
+
