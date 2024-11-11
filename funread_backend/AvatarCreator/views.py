@@ -28,9 +28,15 @@ class AvatarCreateView(APIView):
                 return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def generate_avatar(self, skin_color, hair_style, accessories):
+    def generate_avatar(self, sex, skin_color, hair_style):
         # Genera el prompt
-        prompt = f"Avatar with {skin_color} skin, {hair_style} hair, wearing {accessories}"
+        prompt = (
+        f"Cartoon-style illustration of a {sex} child from Costa Rica with {skin_color} skin, "
+        f"{hair_style} hair (ensure the hair length is medium to long, regardless of gender), "
+        "and wearing simple white clothes. The character should appear friendly, childlike, "
+        "and distinctly Latin American in style."
+        )
+
 
         # Configura la solicitud a la API de Stability AI
         url = "https://api.stability.ai/v2beta/stable-image/generate/sd3"
@@ -49,7 +55,7 @@ class AvatarCreateView(APIView):
         # Manejo de la respuesta
         if response.status_code == 200:
             # Guarda la imagen en el servidor
-            image_path = "./avatar_image.jpeg"
+            image_path = "./avatar_image6.jpeg"
             with open(image_path, 'wb') as file:
                 file.write(response.content)
             return image_path

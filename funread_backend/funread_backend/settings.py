@@ -29,8 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = [os.environ.get("SETTINGS_ALLOWED_HOSTS")]
 
-HUGGING_FACE_API_TOKEN = os.getenv("HUGGING_FACE_API_TOKEN")
-
 
 # Application definition
 
