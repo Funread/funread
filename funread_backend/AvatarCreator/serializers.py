@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 class AvatarSerializer(serializers.Serializer):
+    sex = serializers.CharField()
     skin_color = serializers.CharField()
     hair_style = serializers.CharField()
     accessories = serializers.ListField(
