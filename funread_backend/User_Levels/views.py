@@ -22,12 +22,11 @@ def create_user_level(request):
         serializer = UserLevelsSerializer(data=request.data)
         
         # Verificar si los datos son válidos
-        if serializer.is_valid():
-            serializer.save()  # Guardar el nuevo nivel del usuario en la base de datos
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if not serializer.is_valid():
+         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-        # Si los datos no son válidos, devolver los errores
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()  # Guardar el nuevo nivel del usuario en la base de datos
+        return Response(serializer.data, status=status.HTTP_201_CREATED)        
     
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -92,13 +91,12 @@ def update_user_level(request, user_level_id):
         # Validar y actualizar los datos usando el serializador
         serializer = UserLevelsSerializer(user_level, data=request.data, partial=True)
         
-        if serializer.is_valid():
-            serializer.save()  # Guardar los cambios en la base de datos
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        
-        # Si los datos no son válidos, devolver los errores
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not serializer.is_valid():
+         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+        serializer.save()  # Guardar los cambios en la base de datos
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

@@ -51,9 +51,7 @@ def get_user_total_points(request, user_id):
             return Response({"error": "Encabezado de autorización no proporcionado"}, status=status.HTTP_400_BAD_REQUEST)
         
         verify = verifyJwt.JWTValidator(authorization_header)
-        es_valido = verify.validar_token()
-
-        if not es_valido:
+        if not verify.validar_token():
             return Response({"error": "Token de autenticación inválido o expirado"}, status=status.HTTP_401_UNAUTHORIZED)
 
         # Obtener el registro de UserPoints del usuario especificado
@@ -62,9 +60,6 @@ def get_user_total_points(request, user_id):
         # Serializar y devolver el registro
         serializer = UserPointsSerializer(user_points)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    except UserPoints.DoesNotExist:
-        return Response({"error": "El usuario especificado no tiene puntos registrados"}, status=status.HTTP_404_NOT_FOUND)
 
     except ValueError as ve:
         print(f"Error de valor: {ve}")
@@ -223,7 +218,13 @@ def get_user_level_and_points(request, user_id):
         return JsonResponse({
             "level": level,
             "total_points": total_points
-        }, status=200)
+        }, status=status.HTTP_200_OK)
+    
+    except UserLevels.DoesNotExist:
+        return Response({"error": "El usuario especificado no tiene un nivel registrado"}, status=status.HTTP_404_NOT_FOUND)
+    
+    except UserPoints.DoesNotExist:
+        return Response({"error": "El usuario especificado no tiene puntos registrados"}, status=status.HTTP_404_NOT_FOUND)
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)

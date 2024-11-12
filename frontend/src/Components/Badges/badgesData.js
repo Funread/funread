@@ -3,7 +3,7 @@ import { useId } from 'react';
 
 // Crear una instancia de axios configurada para la URL base del backend
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000',  // Cambia esta URL según tu configuración
+    baseURL: 'http://127.0.0.1:8000',  
     headers: {
         'Content-Type': 'application/json',
     }
@@ -21,7 +21,7 @@ const api = axios.create({
 // Función para obtener la lista de badges de un usuario específico
 export const getUserBadgesWithStatus = async (userId) => {
     try {
-        const response = await api.get(`/Badges/api/badges/list_user_badges_with_status/${1}/`);
+        const response = await api.get(`/Badges/api/badges/user/${1}/`);
         
         // Retornar la lista de badges desde la respuesta
         return response.data.badges;

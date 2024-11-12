@@ -39,16 +39,15 @@ def award_points_for_reading(request):
         serializer = UserPointsLogSerializer(data=data)
 
         # Validar los datos
-        if serializer.is_valid():
-            serializer.save()
-
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
             # Actualizar los puntos totales del usuario
-            user_points.total_points += data['points']
-            user_points.save()
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user_points.total_points += data['points']
+        user_points.save()
+         
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -84,16 +83,16 @@ def award_points_for_creating_book(request):
         serializer = UserPointsLogSerializer(data=data)
 
         # Validar los datos
-        if serializer.is_valid():
-            serializer.save()  # Guardar el registro de puntos
-
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
             # Actualizar los puntos totales del usuario
-            user_points.total_points += data['points']
-            user_points.save()
+        user_points.total_points += data['points']
+        user_points.save()
+        
+        serializer.save()  # Guardar el registro de puntos
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

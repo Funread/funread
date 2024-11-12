@@ -28,16 +28,15 @@ def create_badge(request):
         serializer = BadgeSerializer(data=request.data)
         
         # Verificar si los datos son válidos
-        if serializer.is_valid():
-            serializer.save()  # Guardar la nueva insignia en la base de datos
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-        # Si los datos no son válidos, devolver los errores
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+        if not serializer.is_valid():
+         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer.save()  # Guardar la nueva insignia en la base de datos
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
     except Exception as e:
-        print(f"Error: {e}")
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            print(f"Error: {e}")
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 #listar todas las insignias disponibles
 
@@ -82,12 +81,11 @@ def update_badge(request, badge_id):
         serializer = BadgeSerializer(badge, data=request.data, partial=True)
         
         # Verificar si los datos son válidos
-        if serializer.is_valid():
-            serializer.save()  # Guardar los cambios en la base de datos
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        
-        # Si los datos no son válidos, devolver los errores
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not serializer.is_valid():
+         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer.save()  # Guardar la nueva insignia en la base de datos
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     except Exception as e:
         print(f"Error: {e}")
