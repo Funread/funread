@@ -1,23 +1,35 @@
 .class-list
+  .class-list-name
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding-right: 10px
 
-    .class-list-name
-        display: flex
-        justify-content: space-between
-        align-items: center
-        padding-right: 10px
+  .ellipsis-icon
+    border: none
+    background-color: transparent
 
-    .ellipsis-icon
-        border: none
-        background-color: transparent
-    
-    .book-list-item
-        display: flex
-        justify-content: start
-        align-items: center
+  .book-list-item
+    display: flex
+    justify-content: start
+    align-items: center
 
+.icons
+  display: flex
+  gap: 0.5rem // Espacio entre los íconos
 
+  .fa-eye,
+  .fa-trash-alt
+    color: #6c757d // Color gris oscuro para los íconos
+    font-size: 1.1rem // Tamaño de los íconos
+    cursor: pointer
+    transition: color 0.3s, transform 0.2s
 
-        
-            
+    &:hover
+      transform: scale(1.2) // Efecto de escala al pasar el ratón
 
-    
+  .fa-eye:hover
+    color: #007bff // Color azul en hover para el ícono de ver
+
+  .fa-trash-alt:hover
+    color: #dc3545 // Color rojo en hover para el ícono de eliminar

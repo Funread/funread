@@ -1,6 +1,7 @@
 import './DraggableStudentCard.sass'
 import React from 'react'
 import { useDrag } from 'react-dnd'
+import { ListGroup } from 'react-bootstrap'
 
 
 const DraggableStudentCard = ({ student, onClick }) => {
@@ -25,18 +26,21 @@ const DraggableStudentCard = ({ student, onClick }) => {
     <div
       ref={drag}
       onClick={handleClick}
-      className={`card draggable-student-card ${
-        isDragging ? 'isDraggingStyle' : ''
-      } `}
+      className={`${isDragging ? 'isDraggingStyle' : ''}`}
     >
+      <ListGroup.Item
+        action
+        eventKey={'#' + student.userid}
+        as="li"
+        className='d-flex justify-content-between align-items-start mb-1'>
       <div className='justify-card-content'>
-        
         <div className='draggable-student-details single-line-text'>
           <div>
-            <span>{student.title}</span>
+            <span>{student.name} {student.lastname}</span>
           </div>
         </div>
       </div>
+      </ListGroup.Item>
     </div>
   )
 }

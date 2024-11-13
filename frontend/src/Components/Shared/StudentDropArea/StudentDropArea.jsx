@@ -5,7 +5,7 @@ import { useDrop } from 'react-dnd'
 import DraggableStudentCard from '../DraggableStudentCard/DraggableStudentCard'
 import CustomMessage from '../CustomMessage/CustomMessage'
 
-const StudentDropArea = ({ activityId, droppedStudents, onDrop, message }) => {
+const StudentDropArea = ({ groupId, droppedStudents, onDrop, message }) => {
   const navigate = useNavigate()
   const [, drop] = useDrop(() => ({
     accept: 'students',
@@ -25,9 +25,9 @@ const StudentDropArea = ({ activityId, droppedStudents, onDrop, message }) => {
   }))
 
   const handleStudentClick = (student) => {
-    navigate(`/readingview/${student.studentid}`, {
+    navigate(`/readingview/${student.userid}`, {
       state: {
-        data: student.studentid,
+        data: student.userid,
       },
     })
     
@@ -35,7 +35,7 @@ const StudentDropArea = ({ activityId, droppedStudents, onDrop, message }) => {
 
   return (
     <div
-      id={`dropArea-${activityId}`}
+      id={`dropArea-${groupId}`}
       ref={drop}
       className='card student-drop-area'
     >
