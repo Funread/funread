@@ -9,8 +9,6 @@ import _ from 'lodash'
 import GroupsList from '../GroupsList/GroupsList'
 import DraggableStudentCard from '../DraggableStudentCard/DraggableStudentCard'
 import CustomMessage from '../CustomMessage/CustomMessage'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { usersList, listedStudentGroups } from '../../../api'
 import { ListGroup } from 'react-bootstrap'
 

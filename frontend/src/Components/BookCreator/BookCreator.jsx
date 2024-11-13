@@ -104,6 +104,8 @@ const BookCreator = () => {
 
   // Quitar la diapositiva
   const removeSlide = (slideId) => {
+
+    
     if (slides.length > 1) {
       const newSlides = slides.filter((slide) => slide.id !== slideId)
 
@@ -169,7 +171,65 @@ const BookCreator = () => {
     })
   }
 
+
+
   const pageContent = (idPage) => {
+    
+    console.log('llegue', idPage);
+  
+    if (!pages || pages.length === 0) {
+      console.error('El array "pages" está vacío o no está definido.');
+      return;
+    }
+  
+    const page = pages.filter((page) => page.pageNumber === idPage);
+  
+    if (page.length === 0) {
+      console.error(`No se encontró ninguna página con pageNumber igual a ${idPage}.`);
+      return;
+    }
+  
+    const selectedPage = page[0];
+  
+    if (!widgetSeleted || !widgetSeleted[selectedPage.pageNumber]) {
+      console.error(`No se encontraron widgets para la página ${selectedPage.pageNumber}.`);
+      return;
+    }
+  
+    const widgetsPageNumber = widgetSeleted[selectedPage.pageNumber].data;
+  
+    if (!widgetsPageNumber) {
+      console.error(`La propiedad "data" de widgets para la página ${selectedPage.pageNumber} es undefined.`);
+      return;
+    }
+  
+    const pageWidget = {
+      page: {
+        pageid: selectedPage.pageid,
+        type: 0,
+        template: 0,
+        elementorder: selectedPage.elementorder,
+        gridDirection: selectedPage.gridDirection,
+        gridNumRows: selectedPage.gridNumRows,
+        bookid: selectedPage.bookid,
+      },
+      widgetitems: widgetsPageNumber.map((widgetItem) => ({
+        widgetitemid: null,
+        value: widgetItem.data,
+        type: widgetItem.type,
+        elementorder: widgetItem.order,
+        pageid: null,
+        widgetid: getWidgetId(widgetItem),
+      })),
+    };
+  
+    alert('aassasas');
+    return pageWidget;
+  };
+  
+/* 
+  const pageContent = (idPage) => {/////////////////////////////////////
+    alert('fullscreen');
     console.log('llegue', idPage)
     if (pages.length > 0) {
       const page = pages.filter((page) => page.pageNumber === idPage)
@@ -199,7 +259,7 @@ const BookCreator = () => {
         return pageWidget
       }
     }
-  }
+  } */
 
   const saveSlides = async (e) => {
     e.preventDefault()
