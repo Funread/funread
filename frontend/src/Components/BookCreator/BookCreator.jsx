@@ -104,8 +104,6 @@ const BookCreator = () => {
 
   // Quitar la diapositiva
   const removeSlide = (slideId) => {
-
-    
     if (slides.length > 1) {
       const newSlides = slides.filter((slide) => slide.id !== slideId)
 
@@ -174,9 +172,6 @@ const BookCreator = () => {
 
 
   const pageContent = (idPage) => {
-    
-    console.log('llegue', idPage);
-  
     if (!pages || pages.length === 0) {
       console.error('El array "pages" está vacío o no está definido.');
       return;
@@ -226,40 +221,6 @@ const BookCreator = () => {
     alert('aassasas');
     return pageWidget;
   };
-  
-/* 
-  const pageContent = (idPage) => {/////////////////////////////////////
-    alert('fullscreen');
-    console.log('llegue', idPage)
-    if (pages.length > 0) {
-      const page = pages.filter((page) => page.pageNumber === idPage)
-
-      const widgetsPageNumber = widgetSeleted[page[0].pageNumber].data
-
-      if (page) {
-        const pageWidget = {
-          page: {
-            pageid: page[0].pageid,
-            type: 0,
-            template: 0,
-            elementorder: page[0].elementorder,
-            gridDirection: page[0].gridDirection,
-            gridNumRows: page[0].gridNumRows,
-            bookid: page[0].bookid,
-          },
-          widgetitems: widgetsPageNumber.map((widgetItem) => ({
-            widgetitemid: null,
-            value: widgetItem.data,
-            type: widgetItem.type,
-            elementorder: widgetItem.order,
-            pageid: null,
-            widgetid: getWidgetId(widgetItem),
-          })),
-        }
-        return pageWidget
-      }
-    }
-  } */
 
   const saveSlides = async (e) => {
     e.preventDefault()

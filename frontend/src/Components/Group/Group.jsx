@@ -70,7 +70,6 @@ const Group = () => {
     setSelectedGroup(null)
   }
 
-// ////////////////////////////////////////
   const toggleStudentsGroup = () => {
     setShowGroups(!groupClasses)
     setGroupForm(false)
@@ -89,12 +88,12 @@ const Group = () => {
     await setShowClasses(true)
     await setKey("classes")
   }
-// ////////////////////////////////////////////////////////////////////////////
+
   const handleGroupsComponent = async (id, name) => {
     console.log("datos")
      await setGroupId(id)
      await setGroupName(name)
-     await setShowGroups(true) //////////////////
+     await setShowGroups(true) 
     await setKey("studentsGroup")
   }
 
@@ -104,17 +103,9 @@ const Group = () => {
 
   useEffect(() => {
     if (key == "group") {
-      
-      console.log("entre:", key);
-
       setShowClasses(false)
     }
-
-   
   }, [key]);
-  useEffect(() => {
-        console.log("sali:", showClasses);
-  }, [showClasses]);
 
   return (
     <div className='container-fluid text-center group'>
