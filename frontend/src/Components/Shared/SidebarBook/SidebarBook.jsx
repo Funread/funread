@@ -7,6 +7,8 @@ import {
   faSignOutAlt,
   faUserGroup,
   faHome,
+  faUserGraduate,
+  faTrophy
 } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import { useNavigate } from 'react-router-dom'
@@ -40,6 +42,18 @@ const SidebarBook = () => {
       icon: faUserGroup,
       url: '/group',
     },
+    {
+      text: 'Students',
+      icon: faUserGraduate,
+      url: '/MyClasses',
+    },
+    {
+      text: 'Achievements',
+      icon: faTrophy, // ícono de logros
+      url: '/Badges', // ajusta la URL según sea necesario
+    }
+
+
   ]
 
   return (
@@ -48,6 +62,7 @@ const SidebarBook = () => {
         <div className='custom-nav-heading_Sidebar'></div>
         <div className='custom-nav-menu_Sidebar'>
           {menuItems.map(({ text, icon, url }, index) => (
+            
             <div
               key={index}
               className='custom-menu-item_Sidebar border-botton custom-menu-item-NX_Sidebar align-items-center'
@@ -57,7 +72,9 @@ const SidebarBook = () => {
                 size='xl'
                 onClick={() => navigate(url)}
               />
+                  
             </div>
+            
           ))}
           <div className='custom-nav-footer pe-3'>
             <div className='border-botton_Sidebar custom-menu-item-NX_Sidebar align-items-center'>
@@ -65,11 +82,14 @@ const SidebarBook = () => {
               <FontAwesomeIcon icon={faSignOutAlt} size='xl' onClick={() => logout()} />
 
             </div>
+
+            
           </div>
+      
         </div>
       </div>
     </div>
   )
 }
 
-export default SidebarBook
+export default SidebarBook 
