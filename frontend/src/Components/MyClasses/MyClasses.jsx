@@ -54,7 +54,31 @@ const MyClasses = () => {
           <div
             className={`col-${isDesktopOrLaptop ? '11' : '8'} my-classes-body`}
           >
+<<<<<<< Updated upstream
             <h4 className='custom-title'>My Classes</h4>
+=======
+            <h4 className='custom-title'>My Classe</h4>
+
+            {/* Icono para mostrar el perfil en la esquina superior derecha */}
+            <div className="profile-icon">
+              <FontAwesomeIcon
+                icon={faUser}
+                size="2x"
+                onClick={() => setShowProfile(!showProfile)} // Cambia entre mostrar y ocultar el panel
+                className="text-gray-600 hover:text-gray-900"
+              />
+            </div>
+
+            {/* Mostrar el panel lateral cuando se haga clic en el ícono */}
+            <div className={`profile-panel ${showProfile ? 'open' : ''}`}>
+
+              {/* Contenido del perfil */}
+              <KidsProfile closeProfile={() => setShowProfile(false)} />
+              {/*<KidsProfile userId={userId}/> */}
+
+            </div>
+
+>>>>>>> Stashed changes
             <div className='card custom-classes-card'>
               {groups.length === 0 ? (
                 <CustomMessage message={"You don't have assigned classes"} />

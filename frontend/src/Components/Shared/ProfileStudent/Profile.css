@@ -1,0 +1,238 @@
+.profile-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.profile-header, .profile-body {
+    width: 100%;
+}
+
+.badge-icon{
+    font-size: 30px;
+}
+
+.profile-header {
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.profile-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 8px;
+    color: #4a4a4a;
+}
+
+.profile-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    width: 100%;
+    overflow: visible;
+}
+
+.profile-section, .badges-section {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(240, 168, 35, 0.05);
+    width: 100%;
+    max-width: 100%;
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.profile-avatar-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    text-align: center;
+}
+
+.profile-avatar {
+    position: relative;
+    width: 121px;
+    height: 120px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.camera-icon-label {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 7px;
+    cursor: pointer;
+}
+
+.camera-icon {
+    color: white;
+    font-size: 20px;
+}
+
+.image-input {
+    display: none;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid #98b7da;
+}
+
+.profile-name {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.profile-stats-horizontal {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+}
+
+.stats-card {
+    background-color: #f9f9f9;
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+
+.stats-label {
+    font-size: 12px;
+    color: #7a7a7a;
+}
+
+.stats-value {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.stats-icon {
+    font-size: 18px;
+}
+
+.green { color: #d9d920; }
+.blue { color: #007bff; }
+.purple { color: #6f42c1; }
+
+.badges-container {
+    text-align: center;
+}
+
+.badges-grids {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+    padding: 10px;
+}
+
+.badge-item {
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+}
+
+.badge-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.badge-circle:hover {
+    transform: scale(1.05);
+}
+
+.badge-info {
+    text-align: center;
+}
+
+.badge-name {
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.badge-points {
+    font-size: 10px;
+    color: #555;
+}
+
+.fixed-profile-info {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #fff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+/* Estilos para el contenedor del botón de cierre */
+.profile-close-container {
+    width: 100%;
+    display: flex;
+    justify-content:end;
+    padding-right: 5px;
+    align-items: end;
+  }
+
+
+  /* Estilo para el icono de cierre */
+  .profile-close-icon {
+    font-size: 1.5em;  /* Tamaño de la "X" */
+    color: #89adcb;  /* Color gris inicial */
+    cursor: pointer;
+    transition: color 0.2s ease-in-out; /* Efecto de transición */
+  }
+  
+  /* Estilo para el icono de cierre cuando se pasa el cursor sobre él */
+  .profile-close-icon:hover {
+    color: #343a40; /* Color gris oscuro al hacer hover */
+  }

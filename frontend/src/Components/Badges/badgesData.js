@@ -10,7 +10,7 @@ export const badgesData = [
   },
   {
     title: "Silver Reader",
-    description: "Awarded for reading 50 books",
+    description: "Awarded for reading 50 book",
     level: "Silver",
     points: 50,
     iconName: "📘",
