@@ -1,0 +1,70 @@
+/* Estilos generales */
+.container-fluid {
+    position: relative;
+  }
+  
+  .profile-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  
+  /* Estilo del panel lateral */
+.profile-panel {
+  position: fixed;
+  overflow-y: auto;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 300px;
+  background-color: #f8f9fa;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;
+  transform: translateX(100%); /* Posición oculta por defecto */
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000; /* Para asegurar que esté sobre otros elementos */
+}
+
+/* Estilo adicional cuando el panel está abierto */
+.profile-panel.open {
+  transform: translateX(0); /* Desplaza el panel a la posición visible */
+}
+
+/* Estilo del icono del perfil */
+.profile-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+/* Estilo de color del icono y efecto hover */
+.profile-icon .text-gray-600 {
+  color: #d988ce; /* gris inicial */
+  transition: color 0.2s ease-in-out; /* Efecto de transición */
+}
+
+.profile-icon .text-gray-600:hover {
+  color: #343a40; /* gris oscuro al hacer hover */
+}
+
+  
+  /* Animaciones */
+  @keyframes slideIn {
+    from {
+      right: -400px;
+    }
+    to {
+      right: 0;
+    }
+  }
+  
+  @keyframes slideOut {
+    from {
+      right: 0;
+    }
+    to {
+      right: -400px;
+    }
+  }
+  
