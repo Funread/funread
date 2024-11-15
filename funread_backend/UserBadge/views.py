@@ -13,11 +13,11 @@ import verifyJwt
 @api_view(['POST'])
 def award_badge_to_user(request):
     try:
-        authorization_header = request.headers.get('Authorization')
+        """ authorization_header = request.headers.get('Authorization')
         verify = verifyJwt.JWTValidator(authorization_header)
         es_valido = verify.validar_token()
         if es_valido==False:
-         return Response(status=status.HTTP_401_UNAUTHORIZED)
+         return Response(status=status.HTTP_401_UNAUTHORIZED) """
         
         user_id = request.data.get('user_id')
         badge_id = request.data.get('badge_id')
@@ -55,19 +55,17 @@ def award_badge_to_user(request):
 @api_view(['GET'])
 def list_user_badges(request, user_id):
     try:
-        authorization_header = request.headers.get('Authorization')
+
+        """ authorization_header = request.headers.get('Authorization')
         verify = verifyJwt.JWTValidator(authorization_header)
         es_valido = verify.validar_token()
         if es_valido==False:
-         return Response(status=status.HTTP_401_UNAUTHORIZED)
+         return Response(status=status.HTTP_401_UNAUTHORIZED) """
         
         # Filtrar las insignias de un usuario específico
         user_badges = UserBadge.objects.filter(user_id=user_id)
         
-        if not user_badges.exists():
-            return Response({"message": "This user has no badges"}, status=status.HTTP_404_NOT_FOUND)
-
-        # Serializar los datos de las insignias
+        # Serializar los datos de las insignias o devolver un array vacío si no hay resultados
         serializer = UserBadgeSerializer(user_badges, many=True)
         
         return Response(serializer.data, status=status.HTTP_200_OK)
