@@ -30,3 +30,25 @@ Si se desea probar un tag en especifico, se puede copiar el mismo y pegarlo en e
 
 * **docker compose build**: Permite hacer build de la imagenes con los cambios locales y los guarda localmente con el tag especificado en el `docker-compose.yml` para cada uno de los services.
 * **docker compose up**: Levanta la aplicación en docker haciendo pull de los tags especificados en `docker-compose.yml`.
+
+### Consideraciones
+Docker en ocasiones no reconoce el archivo entrypoint.sh y esto evita que se inicialice algún servicio como el de backend por ejemplo, una posible solución si te ocurre ese error es cambiar la secuencia de fin de linea de CRLF a LF en el archivo entrypoint y luego guardar en el mismo, luego volver a construir la imagen con las instrucciones de (Ejecución).
+
+![alt text](docs_artifacts/image-4.png)
+
+### Comandos utiles
+
+Para eliminar volumenes y imagenes huerfanas (usar solo si deseas hacer limpieza de todo)
+`docker system prune -a --volumes --force`
+
+Para coenxiones sin uso (usar solo si deseas hacer limpieza de todo)
+`docker network prune --force`
+
+Ver la versión de Docker
+`docker --version`
+
+Listar todos los contenedores (en ejecución):
+`docker ps`
+
+Listar todos los contenedores (incluyendo los detenidos):
+`docker ps -a`

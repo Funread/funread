@@ -7,6 +7,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app  
     ports:
       - "3000:80"
     depends_on:
@@ -20,13 +22,14 @@ services:
       context: ./funread_backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/app
+      - ./funread_backend:/app
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "8000:8000"
     depends_on:
       - mysql
     environment:
+      - DEBUG=True
       - SETTINGS_DATABASE_HOST=mysql
       - SETTINGS_DATABASE_NAME=FUNREAD
       - SETTINGS_DATABASE_USER=user
