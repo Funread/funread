@@ -18,11 +18,11 @@ from User_Levels.models import UserLevels
 @api_view(['POST'])
 def create_badge(request):
     try:
-        """ authorization_header = request.headers.get('Authorization')
+        authorization_header = request.headers.get('Authorization')
         verify = verifyJwt.JWTValidator(authorization_header)
         es_valido = verify.validar_token()
         if es_valido==False:
-         return Response(status=status.HTTP_401_UNAUTHORIZED) """
+         return Response(status=status.HTTP_401_UNAUTHORIZED)
         
         # Validar los datos de la solicitud usando el serializador
         serializer = BadgeSerializer(data=request.data)
@@ -123,11 +123,11 @@ def delete_badge(request, badge_id):
 def list_user_badges_with_status(request, user_id):
     try:
         # Validar token JWT
-        """ authorization_header = request.headers.get('Authorization')
+        authorization_header = request.headers.get('Authorization')
         verify = verifyJwt.JWTValidator(authorization_header)
         es_valido = verify.validar_token()
         if not es_valido:
-            return Response(status=status.HTTP_401_UNAUTHORIZED) """
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         # Subquery para obtener el progreso y si la insignia está lograda
         user_badge_subquery = UserBadge.objects.filter(

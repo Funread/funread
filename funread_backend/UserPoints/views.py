@@ -153,11 +153,11 @@ def leaderboard_top_10(request):
 @api_view(['GET'])
 def user_ranking_position(request, user_id):
     try:
-        """ authorization_header = request.headers.get('Authorization')
+        authorization_header = request.headers.get('Authorization')
         verify = verifyJwt.JWTValidator(authorization_header)
         es_valido = verify.validar_token()
         if es_valido==False:
-         return Response(status=status.HTTP_401_UNAUTHORIZED) """
+         return Response(status=status.HTTP_401_UNAUTHORIZED)
         
         # Obtener el mes y año actual
         current_month = datetime.now().month
@@ -200,11 +200,11 @@ def user_ranking_position(request, user_id):
 @api_view(['GET'])
 def get_user_level_and_points(request, user_id):
     try:
-        """ authorization_header = request.headers.get('Authorization')
+        authorization_header = request.headers.get('Authorization')
         verify = verifyJwt.JWTValidator(authorization_header)
         es_valido = verify.validar_token()
         if es_valido==False:
-         return Response(status=status.HTTP_401_UNAUTHORIZED) """
+         return Response(status=status.HTTP_401_UNAUTHORIZED)
         
         # Obtén el nivel del usuario desde el modelo UserLevels en la aplicación User_Levels
         user = get_object_or_404(UserLevels, id=user_id)
