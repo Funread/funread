@@ -114,3 +114,14 @@ class AvatarCreateView(APIView):
         except requests.exceptions.RequestException as e:
             logger.error(f"Error en la solicitud: {str(e)}")
             return None
+
+
+
+
+
+
+
+#añadir los endpoints al readme
+#audio a texto, texto a volver ser leido
+#la que me graba, pasa a texto y el texto la voz lo dice corregido
+#CORRIGE LA ORACIÓN, DICE SI ESTA BIEN O CORRIGE, CORRIJA PRONUNCIACIÓN.NLP

@@ -49,6 +49,7 @@ urlpatterns = [
     path('translate/',include('TranslateApp.urls')),
     path('Subtitled/',include('Subtitled.urls')),
     path('api/', include('AvatarCreator.urls')),
+    path('api/bookcover/', include('BookCover.urls')),
     
 ]
 
