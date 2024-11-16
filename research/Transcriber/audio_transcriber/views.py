@@ -3,8 +3,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import os
 
-# Cargar el modelo de Whisper (usaremos el modelo 'turbo' por ser rápido)
-model = whisper.load_model("turbo")
+# Cargar el modelo de Whisper (opcionalmente ajusta el modelo según tu capacidad)
+model = whisper.load_model("base")
 
 @csrf_exempt
 def transcribe_audio(request):
@@ -18,9 +18,13 @@ def transcribe_audio(request):
             for chunk in audio_file.chunks():
                 f.write(chunk)
 
-        # Cargar el archivo de audio en Whisper
-        result = model.transcribe(file_path)
-        text = result['text']
+        try:
+            # Transcribir el audio con Whisper
+            result = model.transcribe(file_path)
+            text = result['text']
+        except Exception as e:
+            os.remove(file_path)
+            return JsonResponse({'error': str(e)}, status=500)
 
         # Borrar el archivo de audio temporal
         os.remove(file_path)
