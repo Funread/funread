@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BadgeCard from "./BadgeCard";
-import { getUserBadgesWithStatus } from "./badgesData";
-
+ 
+import {listBadgePerUser} from  '../../api/Badges';
 function BadgeGrid({ filter, userId }) {
   const [badgesData, setBadgesData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +10,8 @@ function BadgeGrid({ filter, userId }) {
   useEffect(() => {
     async function fetchBadges() {
       try {
-        const data = await getUserBadgesWithStatus(userId);
+        const data = await listBadgePerUser(userId);
+        console.log(data)
         setBadgesData(data);
       } catch (err) {
         setError(err.message);
@@ -24,7 +25,7 @@ function BadgeGrid({ filter, userId }) {
 
   if (loading) return <p>Loading badges...</p>;
   if (error) return <p>Error loading badges: {error}</p>;
-
+console.log(badgesData)
   const filteredBadges = badgesData.filter((badge) => {
     const isDone = badge.points >= badge.threshold;
     const inProgress = badge.points > 0 && badge.points < badge.threshold;

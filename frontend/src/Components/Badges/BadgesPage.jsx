@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import SidebarBook from '../Shared/SidebarBook/SidebarBook';
 import BadgeGrid from './BadgeGrid';
 import CollectionSidebar from './CollectionSidebar';
-import { getUserBadgesWithStatus } from './badgesData'; // Asegúrate de importar la función correcta
 import './Badges.css';
-
+import {listBadgePerUser} from  '../../api/Badges';
 const BadgesPage = () => {
   const [filter, setFilter] = useState("all");
   const [badges, setBadges] = useState([]);
@@ -15,7 +14,10 @@ const BadgesPage = () => {
   useEffect(() => {
     async function fetchBadges() {
       try {
-        const data = await getUserBadgesWithStatus(); // Obtener los badges
+        const data = await listBadgePerUser(
+          4
+         
+        )
         setBadges(data);
       } catch (err) {
         setError(err.message); // Manejar errores

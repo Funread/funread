@@ -21,7 +21,7 @@ const api = axios.create({
 // Función para obtener la lista de badges de un usuario específico
 export const getUserBadgesWithStatus = async (userId) => {
     try {
-        const response = await api.get(`/Badges/api/badges/user/${1}/`);
+        const response = await api.get(`/dges/api/badges/user/${1}/`);
         
         // Retornar la lista de badges desde la respuesta
         return response.data.badges;
