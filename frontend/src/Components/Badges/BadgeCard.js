@@ -1,7 +1,6 @@
-// BadgeCard.js
 import React from "react";
 
-function BadgeCard({ title, description, points, level, iconName, status }) {
+function BadgeCard({ title, description, points, level, iconName, status, onOpen }) {
   return (
     <div className={`badge-card ${status.toLowerCase().replace(" ", "-")}`}>
       <div className="icon">{iconName}</div>
@@ -12,6 +11,9 @@ function BadgeCard({ title, description, points, level, iconName, status }) {
       <div className={`badge-status ${status.toLowerCase().replace(" ", "-")}`}>
         {status}
       </div>
+      <button onClick={onOpen} className="badge-modal-button">
+        View Details
+      </button>
     </div>
   );
 }

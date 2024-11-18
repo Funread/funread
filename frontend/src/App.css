@@ -44,3 +44,8 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* Desactiva el scroll cuando se muestra el modal */
+.no-scroll {
+  overflow: hidden;
+}

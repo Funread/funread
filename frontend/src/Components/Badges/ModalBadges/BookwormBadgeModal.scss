@@ -1,0 +1,77 @@
+// src/badges/modalbadges/BookwormBadgeModal.scss
+
+.modal-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); // Fondo semitransparente para el overlay
+  z-index: 1000; // Valor alto para asegurar que el overlay esté al frente
+}
+
+.modal-content {
+  background-color: #ffe4e1; // Fondo de color rosa pastel claro
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  z-index: 1001; // Más alto que el overlay para que el contenido esté visible
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #333;
+  z-index: 1002; // Asegura que el botón de cierre esté encima del contenido
+}
+
+.modal-title {
+  font-family: 'Serif';
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.modal-icon {
+  font-size: 3em;
+  color: #87CEFA; // Azul pastel para el ícono
+  margin-bottom: 10px;
+}
+
+.modal-description {
+  color: #333;
+  font-size: 1.1em;
+  margin-bottom: 15px;
+}
+
+.modal-points,
+.modal-level {
+  color: #87CEFA; // Azul pastel para puntos y nivel
+  font-size: 1.1em;
+  margin-top: 10px;
+}
+
+.modal-close-button {
+  background-color: #98FB98; // Verde pastel para el botón de cierre
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 15px;
+  transition: background-color 0.3s;
+
+  &:hover {
+      background-color: #45a049; // Verde más oscuro en hover
+  }
+}
