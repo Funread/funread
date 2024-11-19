@@ -1,5 +1,6 @@
 use funread;
 
+/*  cambio de José Manuel AM */
 alter table widgetItem drop primary key;
 /*--------------------Cambiar el password de user a 256------------------*/
 alter table user modify column password nvarchar(256);

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom/client";
+
 import "./index.sass";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -33,7 +33,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 const persistedState = localStorage.getItem("reduxState"); // este
 if (persistedState) {
   store.dispatch({ type: "REHYDRATE", payload: JSON.parse(persistedState) });
-  localStorage.removeItem("reduxState");
+  //localStorage.removeItem("reduxState");
 }
 
 root.render(
