@@ -1,32 +1,53 @@
+import os
 import whisper
+from gtts import gTTS
+from spellchecker import SpellChecker
+from django.http import JsonResponse, FileResponse
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser
+from django.conf import settings
 from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 
-class AudioTranscriberView(APIView):
-    parser_classes = (MultiPartParser, FormParser)
+class AudioToTextView(APIView):
+    parser_classes = [MultiPartParser]
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         try:
-            # Obtiene el archivo de audio del request
-            audio_file = request.FILES['audio']
+            # 1. Obtener el archivo de audio del request
+            audio_file = request.FILES.get('audio2')
+            if not audio_file:
+                return JsonResponse({"error": "No se proporcionó ningún archivo de audio."}, status=400)
             
-            # Guarda el archivo temporalmente
-            with open(audio_file.name, 'wb') as f:
-                for chunk in audio_file.chunks():
-                    f.write(chunk)
+            # Guardar temporalmente el archivo para procesarlo
+            audio_path = os.path.join(settings.MEDIA_ROOT, audio_file.name)
+            with open(audio_path, 'wb') as f:
+                f.write(audio_file.read())
             
-            # Carga el modelo Whisper
+            # 2. Transcribir audio a texto
             model = whisper.load_model("base")
+            result = model.transcribe(audio_path)
+            transcribed_text = result.get("text", "").strip()
 
-            # Procesa el audio
-            result = model.transcribe(audio_file.name)
+            # 3. Revisar y corregir ortografía
+            spell = SpellChecker(language="en")
+            corrected_text = " ".join([spell.correction(word) if word in spell else word for word in transcribed_text.split()])
 
-            # Elimina el archivo temporal
-            import os
-            os.remove(audio_file.name)
+            # 4. Convertir texto corregido a audio
+            tts = gTTS(text=corrected_text, lang='en')
+            audio_output_path = os.path.join(settings.MEDIA_ROOT, "output_audio.mp3")
+            tts.save(audio_output_path)
 
-            return Response({"transcription": result["text"]}, status=status.HTTP_200_OK)
+            # 5. Retornar texto corregido y enlace al audio
+            return JsonResponse({
+                "transcribed_text": transcribed_text,
+                "corrected_text": corrected_text,
+                "audio_url": f"{request.build_absolute_uri(settings.MEDIA_URL)}output_audio.mp3"
+            })
+
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return JsonResponse({"error": str(e)}, status=500)
+        finally:
+            # Limpieza de archivos temporales
+            if os.path.exists(audio_path):
+                os.remove(audio_path)

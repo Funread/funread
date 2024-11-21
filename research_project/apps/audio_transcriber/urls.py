@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import AudioTranscriberView
+from .views import AudioToTextView
 
 urlpatterns = [
-    path('transcribe/', AudioTranscriberView.as_view(), name='transcribe'),
+    path('', AudioToTextView.as_view(), name='audio_transcriber'),  # Vacío aquí porque ya tiene el prefijo desde el general
 ]
