@@ -2,36 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy, faAward, faStar, faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
 import './Profile.css';
-import { fetchUserData, fetchUserBadges } from './data'; 
+import { getUserLevelAndPoints, getUserBadges } from '../../../api/profile'; // Importa los métodos necesarios
 
 const KidsProfile = ({ closeProfile }) => {
   const [profileImage, setProfileImage] = useState('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6zpeYqtKpIWB_q0SY3NrtlQa9CEkvUtl6eA&s');
   const [userData, setUserData] = useState(null); // Inicializamos `userData` como `null`
   const [badges, setBadges] = useState([]); // Inicializamos `badges` como un array vacío
-  const userId = 0; // Cambia el ID del usuario según corresponda
 
   useEffect(() => {
-    const getUserData = async () => {
+    // Obtener los datos del usuario
+    const fetchUserData = async () => {
       try {
-        const data = await fetchUserData(userId);
-        setUserData(data);
+        const data = await getUserLevelAndPoints(); // Llama al método para obtener nivel y puntos
+        setUserData(data); // Actualiza el estado con los datos del usuario
       } catch (error) {
-        console.error("Error fetching user level and points:", error);
+        console.error('Error fetching user level and points:', error);
       }
     };
 
-    const getUserBadges = async () => {
+    // Obtener las insignias del usuario
+    const fetchUserBadges = async () => {
       try {
-        const badgesData = await fetchUserBadges(userId);
-        setBadges(badgesData);
+        const badgesData = await getUserBadges(); // Llama al método para obtener las insignias
+        setBadges(badgesData); // Actualiza el estado con las insignias del usuario
       } catch (error) {
-        console.error("Error fetching user badges:", error);
+        console.error('Error fetching user badges:', error);
       }
     };
 
-    getUserData();
-    getUserBadges();
-  }, [userId]);
+    fetchUserData();
+    fetchUserBadges();
+  }, []); // Se ejecuta al montar el componente
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -117,7 +118,7 @@ const KidsProfile = ({ closeProfile }) => {
             {Array.isArray(badges) && badges.map((badge, index) => (
               <div key={index} className="badge-item">
                 <div className="badge-circle">
-                  <div className="badge-icon">{badge.iconName || "Default Icon"}</div>
+                  <div className="badge-icon">{badge.iconName || 'Default Icon'}</div>
                 </div>
               </div>
             ))}
@@ -129,11 +130,3 @@ const KidsProfile = ({ closeProfile }) => {
 };
 
 export default KidsProfile;
-
-
-
-
-
-
-
-
