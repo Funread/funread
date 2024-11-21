@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('apps.audio_transcriber.urls')),  # Rutas de la app
+    path('api/audio/', include('apps.audio_transcriber.urls')),
 ]
 
 if settings.DEBUG:
