@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import { useSelector } from 'react-redux'
 import { ListGroup, Row, Tab, Badge } from 'react-bootstrap'
 import { Select } from 'antd'
-import { faTrash, faEye, faListCheck } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faEye, faListCheck, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { listedCreatedBy, deleteGroup } from '../../../api/group'
 import { listedStudents } from '../../../api/userroles'
@@ -32,6 +32,7 @@ const ListGroups = ({
   showGroupResume,
   newGroups,
   handleClassesComponent,
+  handleGroupsComponent,
 }) => {
   const user = useSelector((state) => state.user)
   const [key, setKey] = useState('#1')
@@ -199,7 +200,7 @@ const ListGroups = ({
           <CustomMessage message={'No groups have been created'} />
         ) : (
           <Row>
-            <Col sm={6}>
+            <Col sm={12}>
               <span className='custom-list-group-span'>Groups List</span>
               <div className='custom-group-list-container'>
                 <ListGroup as="ul" className='mt-1'>
@@ -236,6 +237,19 @@ const ListGroups = ({
                           >
                             <FontAwesomeIcon icon={faTrash} size='xl' />
                           </Badge>
+
+
+                          <Badge
+                            bg='dark'
+                            className='mx-1'
+                            data-toggle='tooltip'
+                            data-placement='bottom'
+                            title='Add students'
+                            onClick={() => handleGroupsComponent(id,name)}
+                            
+                          >
+                            <FontAwesomeIcon icon={faUsers} size='xl' />
+                          </Badge>
                         </div>
                       </ListGroup.Item>
                     </div>
@@ -243,7 +257,7 @@ const ListGroups = ({
                 </ListGroup>
               </div>
             </Col>
-            <Col sm={6}>
+            {/* <Col sm={6}>
               <span className='custom-list-group-span'>Students List</span>
               <div className='custom-group-list-container'>
                 <Tab.Content>
@@ -306,7 +320,7 @@ const ListGroups = ({
                   ))}
                 </Tab.Content>
               </div>
-            </Col>
+            </Col> */}
           </Row>
         )}
       </Tab.Container>
