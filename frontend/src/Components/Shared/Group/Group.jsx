@@ -12,6 +12,7 @@ import GroupBuilder from '../Shared/GroupBuilder/GroupBuilder'
 import { ToastContainer } from 'react-toastify'
 import GroupView from '../Shared/GroupView/GroupView'
 import Classes from '../Shared/Classes/Classes'
+import StudentGroups from '../Shared/StudentGroups/StudentGroups'
 import ClassBuilder from '../Shared/ClassBuilder/ClassBuilder'
 import { Tabs, Tab } from 'react-bootstrap'
 import CustomMessage from '../Shared/CustomMessage/CustomMessage'
@@ -27,6 +28,7 @@ const Group = () => {
   const [groupId, setGroupId] = useState(null)
   const [groupName, setGroupName] = useState(null)
   const [showClasses, setShowClasses] = useState(false)
+  const [showGroups, setShowGroups] = useState(false)
   const [activities, setActivities] = useState([])
   const [key, setKey] = useState('group')
 
@@ -68,24 +70,31 @@ const Group = () => {
     setSelectedGroup(null)
   }
 
+  const toggleStudentsGroup = () => {
+    setShowGroups(!groupClasses)
+    setGroupForm(false)
+    setSelectedStudent(null)
+    setSelectedGroup(null)
+  }
+
   const handleGroupCreated = (newGroup) => {
     setGroups([...groups, newGroup])
   }
 
-  const handleClassesComponent = (id, name) => {
+  const handleClassesComponent = async (id, name) => {
     console.log("datos", id + " " + name)
-    setGroupId(id)
-    setGroupName(name)
-    setShowClasses(true)
-    setKey("classes")
+    await setGroupId(id)
+    await setGroupName(name)
+    await setShowClasses(true)
+    await setKey("classes")
   }
-// ////////////////////////////////////////////////////////////////////////////
-  const handleGroupsComponent = (id, name) => {
+
+  const handleGroupsComponent = async (id, name) => {
     console.log("datos")
-    setGroupId(id)
-    setGroupName(name)
-    setShowGroups(true) //////////////////
-    setKey("studentsGroup")
+     await setGroupId(id)
+     await setGroupName(name)
+     await setShowGroups(true) 
+    await setKey("studentsGroup")
   }
 
   const handleActiviyCreated = (newActivity) => {
@@ -94,15 +103,9 @@ const Group = () => {
 
   useEffect(() => {
     if (key == "group") {
-      console.log("entre:", key);
-
       setShowClasses(false)
     }
-   
   }, [key]);
-  useEffect(() => {
-        console.log("sali:", showClasses);
-  }, [showClasses]);
 
   return (
     <div className='container-fluid text-center group'>
@@ -110,25 +113,49 @@ const Group = () => {
         <div className='col-1 p-0'>
           <SidebarBook />
         </div>
-          <div>
-            TEST
-          </div>
+
         <div className='sidenav col-8'>
           <div style={{ maxWidth: '1100px' }} className='mx-auto content_group'>
-            <div className='d-flex align-items-center justify-content-between mt-3'>
-              <h4 className='custom-group-title'>My Groups</h4>
+            <Form className='d-flex mt-1 pt-3 '>
+              {/* <Form.Control
+                type='search'
+                placeholder='Search'
+                className='me-2 custom-input-search'
+                aria-label='Search'
+              />
               <Button
-                className='button-edit-library position-relative'
+                className='button-search-library'
+                variant='outline-success'
+              >
+                <FontAwesomeIcon
+                  className='fa-magnifying-glass'
+                  icon={faSearch}
+                />
+                
+              </Button>*/}
+              
+            </Form>
+            <div className='mt-3 d-flex align-items-center justify-content-between'>
+              <h4 className='custom-group-title'>My Groups</h4>
+              
+              <Button
+                className='button-edit-library position relative'
                 variant='outline-success'
                 onClick={toggleGroupForm}
-                style={{ marginLeft: '10px' }} // Margen para separarlo del título
+                style={{ marginLeft: '10px' }}
+                data-toggle='tooltip'
+
+                data-placement='bottom'
+               title='New'
               >
                 <FontAwesomeIcon icon={faPencilAlt} />
+                
                 <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-dark' style={{ opacity: 0 }}>
-                  New
-                </span>
+                
+               </span>
               </Button>
-            </div>
+              
+            </div> 
             
             <Tabs
               className='section_group_Tap'
@@ -145,10 +172,11 @@ const Group = () => {
                   showGroupResume={showGroupResume}
                   newGroups={groups}
                   handleClassesComponent={handleClassesComponent}
+                  handleGroupsComponent={handleGroupsComponent}
                 />
              </div>
               </Tab>
-              <Tab eventKey='classes' title='Group Classes' className='tab'>
+              <Tab eventKey='classes' className='tab'>
               <div className='shadow p-3 bg-body rounded'>
                 {showClasses ? (
                   <Classes
@@ -157,7 +185,7 @@ const Group = () => {
                     toggleGroupClasses={toggleGroupClasses}
                     newActivities={activities}
                   />
-                ):( 
+                ):(
                   <CustomMessage message={'You should assign tasks to the group'} />
                 )
               }
@@ -173,12 +201,15 @@ const Group = () => {
                     toggleStudentsGroup={toggleStudentsGroup}
                     newActivities={activities}
                   />
-                ):( 
+                ):(
                   <CustomMessage message={'You should assign students to the group'} />
                 )
               }
                </div>
               </Tab>
+
+
+
             </Tabs>
 
             <GroupCardProgress></GroupCardProgress>
@@ -213,10 +244,12 @@ const Group = () => {
             )}
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    
   )
-}
+
+  }
+
 
 export default Group;
-
