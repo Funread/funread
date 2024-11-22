@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './MyClasses.sass'
+import './MyClasse.css';
 import ClassesList from '../Shared/ClassesList/ClassesList'
 import SidebarBook from '../Shared/SidebarBook/SidebarBook'
 import _ from 'lodash'
@@ -8,6 +9,9 @@ import { listedStudentGroups } from '../../api'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import CustomMessage from '../Shared/CustomMessage/CustomMessage'
+import KidsProfile from '../Shared/ProfileStudent/Profile' 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importa FontAwesomeIcon
+import { faUser } from '@fortawesome/free-solid-svg-icons'; // Importa el ícono de usuario
 
 const MyClasses = () => {
   const user = useSelector((state) => state.user)
@@ -15,6 +19,7 @@ const MyClasses = () => {
     window.innerWidth >= 769
   )
   const [groups, setGroups] = useState([])
+  const [showProfile, setShowProfile] = useState(false); // Estado para mostrar el perfil
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +28,7 @@ const MyClasses = () => {
         const studentgroup = studentsGroups.data.filter(
           (student) => student.userid === user.userId
         )
+
         setGroups(studentgroup)
       } catch (error) {
         console.log('error', error)
@@ -55,6 +61,26 @@ const MyClasses = () => {
             className={`col-${isDesktopOrLaptop ? '11' : '8'} my-classes-body`}
           >
             <h4 className='custom-title'>My Classes</h4>
+
+            {/* Icono para mostrar el perfil en la esquina superior derecha */}
+            <div className="profile-icon">
+              <FontAwesomeIcon
+                icon={faUser}
+                size="2x"
+                onClick={() => setShowProfile(!showProfile)} // Cambia entre mostrar y ocultar el panel
+                className="text-gray-600 hover:text-gray-900"
+              />
+            </div>
+
+            {/* Mostrar el panel lateral cuando se haga clic en el ícono */}
+            <div className={`profile-panel ${showProfile ? 'open' : ''}`}>
+
+              {/* Contenido del perfil */}
+              <KidsProfile closeProfile={() => setShowProfile(false)} />
+              {/*<KidsProfile userId={userId}/> */}
+
+            </div>
+
             <div className='card custom-classes-card'>
               {groups.length === 0 ? (
                 <CustomMessage message={"You don't have assigned classes"} />
@@ -68,6 +94,7 @@ const MyClasses = () => {
                 ))
               )}
             </div>
+
           </div>
         </div>
       </div>

@@ -48,6 +48,12 @@ urlpatterns = [
     path('bookdilemma/',include('BooksDilemma.urls')),
     path('translate/',include('TranslateApp.urls')),
     path('Subtitled/',include('Subtitled.urls')),
+    path('UserPointsLog/',include('UserPointsLog.urls')),
+    path('UserPoints/',include('UserPoints.urls')),
+    path('Badges/',include('Badges.urls')),
+    path('UserBadge/',include('UserBadge.urls')),
+    path('User_Levels/',include('User_Levels.urls')),
+    path('Subtitled/',include('Subtitled.urls')),
     path('api/', include('AvatarCreator.urls')),
     path('api/bookcover/', include('BookCover.urls')),
     
