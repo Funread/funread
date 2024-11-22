@@ -8,8 +8,6 @@ from rest_framework.parsers import MultiPartParser
 from django.conf import settings
 import torch
 
-
-
 class AudioToTextView(APIView):
     parser_classes = [MultiPartParser]
 
@@ -17,7 +15,7 @@ class AudioToTextView(APIView):
         audio_path = None  # Inicializar variable para limpiar archivos al final
         try:
             # 1. Obtener el archivo de audio del request
-            audio_file = request.FILES.get('audio5')
+            audio_file = request.FILES.get('audio6')
             if not audio_file:
                 return JsonResponse({"error": "No se proporcionó ningún archivo de audio."}, status=400)
             print('ya obtuve el audio')
@@ -35,14 +33,14 @@ class AudioToTextView(APIView):
             
             # 3. Revisar y corregir ortografía y gramática con LanguageTool
             print('estoy revisando si está bien la frase')
-            tool = language_tool_python.LanguageTool("en")  # Cambiar a 'es' para español
+            tool = language_tool_python.LanguageTool("en")  
             matches = tool.check(transcribed_text)
             corrected_text = language_tool_python.utils.correct(transcribed_text, matches)
             if matches:
                 for match in matches:print(f"Error: {match.ruleId}, {match.message}")
             print('frase corregida')
             # 4. Convertir texto corregido a audio
-            tts = gTTS(text=corrected_text, lang='en')  # Cambiar a 'es' para español
+            tts = gTTS(text=corrected_text, lang='en') 
             audio_output_path = os.path.join(settings.MEDIA_ROOT, "output_audio.mp3")
             tts.save(audio_output_path)
 
