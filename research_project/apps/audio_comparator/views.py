@@ -13,7 +13,7 @@ class AudioComparatorView(APIView):
         audio_path = None  # Inicializar para limpieza posterior
         try:
             # 1. Obtener el archivo de audio y el texto esperado del request
-            audio_file = request.FILES.get('audio')
+            audio_file = request.FILES.get('audio5')
             expected_text = request.data.get('expected_text', '').strip()
 
             if not audio_file or not expected_text:
@@ -25,7 +25,7 @@ class AudioComparatorView(APIView):
                 f.write(audio_file.read())
             
             # 2. Transcribir audio a texto usando Whisper
-            model = whisper.load_model("large")
+            model = whisper.load_model("small")
             result = model.transcribe(audio_path)
             transcribed_text = result.get("text", "").strip()
 
@@ -33,7 +33,7 @@ class AudioComparatorView(APIView):
             match_percentage = self.compare_texts(transcribed_text, expected_text)
 
             # 4. Convertir el texto esperado a audio
-            tts = gTTS(text=expected_text, lang='es')  # Cambiar a 'es' para español
+            tts = gTTS(text=expected_text, lang='en')  # Cambiar a 'es' para español
             audio_output_path = os.path.join(settings.MEDIA_ROOT, "expected_audio.mp3")
             tts.save(audio_output_path)
 

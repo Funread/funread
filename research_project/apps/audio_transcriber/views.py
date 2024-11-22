@@ -8,6 +8,7 @@ from rest_framework.parsers import MultiPartParser
 from django.conf import settings
 import torch
 
+
 class AudioToTextView(APIView):
     parser_classes = [MultiPartParser]
 
