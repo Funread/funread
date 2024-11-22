@@ -56,7 +56,7 @@ class AvatarCreateView(APIView):
             "The character should appear friendly, childlike, and distinctly Costa Rican."
         )
         # Ruta donde se guardarán las imágenes generadas
-        avatars_dir = './TestAvatarsMOMENTANEO'
+        avatars_dir = './TestAvatars'
         if not os.path.exists(avatars_dir):
             os.makedirs(avatars_dir)
 
