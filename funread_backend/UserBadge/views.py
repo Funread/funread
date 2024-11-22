@@ -18,7 +18,7 @@ def award_badge_to_user(request):
         es_valido = verify.validar_token()
         if es_valido==False:
          return Response(status=status.HTTP_401_UNAUTHORIZED)
-         
+        
         user_id = request.data.get('user_id')
         badge_id = request.data.get('badge_id')
 
