@@ -29,7 +29,6 @@ from funread_backend.jwt_service import JwtService  # Importa la nueva clase Jwt
 
 @api_view(['POST'])
 def new_book(request):
-
     #token verification
     try:
      authorization_header = request.headers.get('Authorization')
