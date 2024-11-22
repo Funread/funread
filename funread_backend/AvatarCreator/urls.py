@@ -2,5 +2,5 @@ from django.urls import path
 from .views import AvatarCreateView
 
 urlpatterns = [
-    path('AvatarCreator/', AvatarCreateView.as_view(), name='AvatarCreator'),
+    path('generate/', AvatarCreateView.as_view(), name='generate_avatar'),
 ]

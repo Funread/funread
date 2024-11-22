@@ -54,8 +54,8 @@ urlpatterns = [
     path('UserBadge/',include('UserBadge.urls')),
     path('User_Levels/',include('User_Levels.urls')),
     path('Subtitled/',include('Subtitled.urls')),
-    path('api/', include('AvatarCreator.urls')),
-    path('api/bookcover/', include('BookCover.urls')),
+    path('AvatarCreator/', include('AvatarCreator.urls')),
+    path('BookCover/', include('BookCover.urls')),
     
 ]
 
