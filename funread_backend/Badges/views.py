@@ -11,7 +11,6 @@ from .models import Badge
 from UserBadge.models import UserBadge
 from django.db.models import OuterRef, Subquery, BooleanField, Case, When, Value, IntegerField, CharField
 from django.http import JsonResponse
-from User_Levels.models import UserLevels
 
 
 #Crear una nueva insignia
