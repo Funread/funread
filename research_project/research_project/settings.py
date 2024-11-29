@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',               
-    'apps.audio_transcriber',       
+    'apps.audio_transcriber',
+    'apps.audio_comparator',       
 ]
 
 MIDDLEWARE = [

@@ -77,7 +77,8 @@ INSTALLED_APPS = [
     'Team',
     'UserBadge',
     'UserPoints',
-    
+    'AvatarCreator',
+    'BookCover'
 
 
     #     'AuthApp.apps.AuthappConfig',

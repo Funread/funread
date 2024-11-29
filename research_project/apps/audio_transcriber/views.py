@@ -8,6 +8,7 @@ from rest_framework.parsers import MultiPartParser
 from django.conf import settings
 import torch
 
+
 class AudioToTextView(APIView):
     parser_classes = [MultiPartParser]
 
@@ -15,10 +16,12 @@ class AudioToTextView(APIView):
         audio_path = None  # Inicializar variable para limpiar archivos al final
         try:
             # 1. Obtener el archivo de audio del request
-            audio_file = request.FILES.get('audio6')
+            audio_file = request.FILES.get('audio7')
             if not audio_file:
                 return JsonResponse({"error": "No se proporcionó ningún archivo de audio."}, status=400)
             print('ya obtuve el audio')
+            if not audio_file.name.lower().endswith(('.mp3', '.wav', '.ogg')):
+                return self._error_response("El archivo debe ser de tipo audio (mp3, wav, ogg).", 400)
             # Guardar temporalmente el archivo para procesarlo
             audio_path = os.path.join(settings.MEDIA_ROOT, audio_file.name)
             with open(audio_path, 'wb') as f:
