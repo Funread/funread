@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from .models import UserPointsLog
-from User_Levels.models import UserLevels
+from Users.models import User
 
 
 class UserPointsLogSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=UserLevels.objects.all())
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
     class Meta:
         model = UserPointsLog

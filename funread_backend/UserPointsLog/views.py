@@ -5,10 +5,8 @@ from rest_framework import status
 import datetime
 from .models import UserPointsLog
 from .serializers import UserPointsLogSerializer
-from User_Levels.models import UserLevels
 from UserPoints.models import UserPoints
 from django.db.models import Sum
-from UserPoints.views import create_user_total_points
 import verifyJwt 
 # Puntos por completar un libro
 @api_view(['POST'])

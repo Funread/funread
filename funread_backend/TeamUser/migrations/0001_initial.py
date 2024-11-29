@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('Team', '0001_initial'),
-        ('User_Levels', '0001_initial'),
     ]
 
     operations = [
