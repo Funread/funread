@@ -223,7 +223,7 @@ const ListGroups = ({
                             data-toggle='tooltip'
                             data-placement='bottom'
                             title='Assign Task'
-                            onClick={() => handleClassesComponent(id,name)}
+                            onClick={() => handleClassesComponent(id, name)}
                           >
                             <FontAwesomeIcon icon={faListCheck} size='xl' />
                           </Badge>
@@ -245,8 +245,8 @@ const ListGroups = ({
                             data-toggle='tooltip'
                             data-placement='bottom'
                             title='Add students'
-                            onClick={() => handleGroupsComponent(id,name)}
-                            
+                            onClick={() => handleGroupsComponent(id, name)}
+
                           >
                             <FontAwesomeIcon icon={faUsers} size='xl' />
                           </Badge>
