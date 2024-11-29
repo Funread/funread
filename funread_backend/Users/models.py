@@ -10,7 +10,8 @@ class User(models.Model):
     actived = models.IntegerField(db_column='Actived', blank=True, null=True)  # Field name made lowercase.
     username = models.CharField(db_column='UserName', unique=True, max_length=200, null=True)
     #roles = models.ManyToManyField(Roles) #crea propiedad de roles many to many en users para poder generar la tabla usando el orm, test
-    level = models.CharField(db_column='Level', max_length=50, blank=True, null=True)
+    level = models.IntegerField(db_column='Level', blank=True, null=True)
+
     
 
     class Meta:
