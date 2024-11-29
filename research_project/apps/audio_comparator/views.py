@@ -1,43 +1,48 @@
 import os
 import whisper
 from gtts import gTTS
+import difflib
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser
 from django.conf import settings
 
+
 class AudioComparatorView(APIView):
     parser_classes = [MultiPartParser]
 
     def post(self, request):
-        audio_path = None  # Inicializar para limpieza posterior
+        audio_path = None  # Inicializar variable para que se limpie luego
+        audio_output_path = None
+
         try:
-            # 1. Obtener el archivo de audio y el texto esperado del request
-            audio_file = request.FILES.get('audio5')
+            # 1. Validar entrada
+            if not request.FILES:
+                return self._error_response("No se recibió ningún archivo de audio.", 400)
+
+            # Tomar el primer archivo enviado (independientemente de su nombre)
+            audio_file = next(iter(request.FILES.values()))
             expected_text = request.data.get('expected_text', '').strip()
 
-            if not audio_file or not expected_text:
-                return JsonResponse({"error": "Se requiere un archivo de audio y el texto esperado."}, status=400)
-            
-            # Guardar temporalmente el archivo de audio para procesarlo
-            audio_path = os.path.join(settings.MEDIA_ROOT, audio_file.name)
-            with open(audio_path, 'wb') as f:
-                f.write(audio_file.read())
-            
-            # 2. Transcribir audio a texto usando Whisper
-            model = whisper.load_model("small")
-            result = model.transcribe(audio_path)
-            transcribed_text = result.get("text", "").strip()
+            if not expected_text:
+                return self._error_response("El texto esperado es obligatorio.", 400)
 
-            # 3. Comparar el texto transcrito con el texto esperado
-            match_percentage = self.compare_texts(transcribed_text, expected_text)
+            if not audio_file.name.lower().endswith(('.mp3', '.wav', '.ogg')):
+                return self._error_response("El archivo debe ser de tipo audio (mp3, wav, ogg).", 400)
 
-            # 4. Convertir el texto esperado a audio
-            tts = gTTS(text=expected_text, lang='en')  # Cambiar a 'es' para español
-            audio_output_path = os.path.join(settings.MEDIA_ROOT, "expected_audio.mp3")
-            tts.save(audio_output_path)
+            # 2. Guardar archivo de audio temporalmente
+            audio_path = self._save_temporary_file(audio_file)
 
-            # 5. Responder con los resultados
+            # 3. Transcribir audio a texto usando Whisper
+            transcribed_text = self._transcribe_audio(audio_path)
+
+            # 4. Comparar texto transcrito con texto esperado
+            match_percentage = self._compare_texts(transcribed_text, expected_text)
+
+            # 5. Generar archivo de audio con el texto esperado (TTS)
+            audio_output_path = self._generate_tts_audio(expected_text)
+
+            # 6. Responder con los resultados
             return JsonResponse({
                 "transcribed_text": transcribed_text,
                 "expected_text": expected_text,
@@ -45,21 +50,57 @@ class AudioComparatorView(APIView):
                 "audio_url": f"{request.build_absolute_uri(settings.MEDIA_URL)}expected_audio.mp3"
             })
 
+        except whisper.WhisperException as e:
+            return self._error_response(f"Error al procesar el archivo de audio: {str(e)}", 500)
         except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
+            return self._error_response(f"Error inesperado: {str(e)}", 500)
         finally:
             # Limpieza de archivos temporales
-            if audio_path and os.path.exists(audio_path):
-                os.remove(audio_path)
+            self._cleanup_files([audio_path, audio_output_path])
 
-    def compare_texts(self, text1, text2):
+    def _save_temporary_file(self, file):
         """
-        Compara dos textos y calcula el porcentaje de similitud usando palabras.
+        Guarda el archivo temporalmente en el sistema de archivos.
         """
-        words1 = set(text1.lower().split())
-        words2 = set(text2.lower().split())
-        common_words = words1 & words2
-        total_words = words1 | words2
-        if not total_words:
-            return 0.0
-        return round((len(common_words) / len(total_words)) * 100, 2)
+        file_path = os.path.join(settings.MEDIA_ROOT, file.name)
+        with open(file_path, 'wb') as f:
+            f.write(file.read())
+        return file_path
+
+    def _transcribe_audio(self, audio_path):
+        """
+        Usa Whisper para transcribir el audio.
+        """
+        model = whisper.load_model("small")  # Ajustar según el caso
+        result = model.transcribe(audio_path)
+        return result.get("text", "").strip()
+
+    def _compare_texts(self, text1, text2):
+        """
+        Compara dos textos y calcula el porcentaje de similitud.
+        """
+        seq = difflib.SequenceMatcher(None, text1.lower(), text2.lower())
+        return round(seq.ratio() * 100, 2)
+
+    def _generate_tts_audio(self, text):
+        """
+        Genera un archivo de audio a partir del texto esperado usando TTS.
+        """
+        tts = gTTS(text=text, lang='en')  # Cambiar a 'es' si es necesario
+        output_path = os.path.join(settings.MEDIA_ROOT, "expected_audio.mp3")
+        tts.save(output_path)
+        return output_path
+
+    def _cleanup_files(self, file_paths):
+        """
+        Elimina archivos temporales para liberar espacio.
+        """
+        for file_path in file_paths:
+            if file_path and os.path.exists(file_path):
+                os.remove(file_path)
+
+    def _error_response(self, message, status):
+        """
+        Retorna una respuesta de error estándar.
+        """
+        return JsonResponse({"error": message}, status=status)
