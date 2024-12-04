@@ -32,16 +32,13 @@ class AudioToTextView(APIView):
             model = whisper.load_model("small")
             result = model.transcribe(audio_path)
             transcribed_text = result.get("text", "").strip()
-            print('ya transcribí el audio a texto')
             
             # 3. Revisar y corregir ortografía y gramática con LanguageTool
-            print('estoy revisando si está bien la frase')
             tool = language_tool_python.LanguageTool("en")  
             matches = tool.check(transcribed_text)
             corrected_text = language_tool_python.utils.correct(transcribed_text, matches)
             if matches:
                 for match in matches:print(f"Error: {match.ruleId}, {match.message}")
-            print('frase corregida')
             # 4. Convertir texto corregido a audio
             tts = gTTS(text=corrected_text, lang='en') 
             audio_output_path = os.path.join(settings.MEDIA_ROOT, "output_audio.mp3")
