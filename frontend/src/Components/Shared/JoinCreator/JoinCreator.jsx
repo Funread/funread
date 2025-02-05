@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { new_join } from "../../../api";
+import { BASE_URL } from '../../../settings';
 
 function JoinCreator(props){
     //Contaremos con dos props "id" que sera el id del libro o clase, y "type" que sera la palabra clave para identificar cual foreign usar
@@ -13,7 +14,7 @@ function JoinCreator(props){
     const [code, setCode] =useState("")
     const [password, setPassword] = useState("")
     const [buttonClick, setButtonClick] = useState(0)
-    const link = "localhost:3000/join/" // este link puede ser cambio en el futuro
+    const link = BASE_URL+"/join/" // este link puede ser cambio en el futuro
     const invitationText = 
     "we invite you to participate in FUNREAD, our educational platform that aims to improve English language skills.\n\n"+
     "Access the experience directly: "+link+code+"\n\n"+

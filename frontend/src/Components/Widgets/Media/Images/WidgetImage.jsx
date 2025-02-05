@@ -4,9 +4,10 @@ import './WidgetImage.sass'
 import ImageGallery from '../../../GalleryCollage/ListGallery'
 import { Content } from 'antd/es/layout/layout'
 import { save_Image } from '../../../../api/media'
+import { BASE_URL } from '../../../../settings';
 
 
-const getImage = 'http://localhost:8000'
+const getImage = BASE_URL
 
 const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
   const [showModal, setShowModal] = useState(false)

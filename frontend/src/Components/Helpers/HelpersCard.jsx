@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './HelpersCard.sass';
+import { BASE_URL } from '../../settings';
 
-const getImage = 'http://localhost:8000'
+
+const getImage = BASE_URL
 const HelpersCard = ({
   id,
   imageUrl,
