@@ -1,6 +1,6 @@
 import React from 'react';
 import './RV_ImageWithText.scss'; // Asegúrate de que el archivo SASS se importe correctamente
-import { BASE_URL } from '../../../settings';
+import { BASE_URL } from '../../../../settings';
 
 const RV_ImageWithText = ({ textbackgroundColor, textColor , img  , text}) => {
  const imgpath=BASE_URL 

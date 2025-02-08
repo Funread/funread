@@ -17,6 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the Django application
 COPY . .
 
+ENV CHOKIDAR_USEPOLLING=true
+ENV WATCHPACK_POLLING=true
 # Copy custom entrypoint script and make it executable
 COPY entrypoint.sh ./
 RUN chmod +x entrypoint.sh
