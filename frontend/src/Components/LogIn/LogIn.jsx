@@ -11,6 +11,10 @@ import { InputGroup } from "react-bootstrap";
 import { axiosAuth } from "../../api/axiosInstances"
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/userSlice";
+import Modal from "react-modal"; 
+
+// Establece ontenedor de Modal
+Modal.setAppElement("#root");
 
 function LogIn(props) {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,6 +24,9 @@ function LogIn(props) {
   const [check, setCheck] = useState(true);
   const { logIn } = useLogin();
   const navigate = useNavigate();
+
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para abrir el Modal
+  const [modalMessage, setModalMessage] = useState(""); // Mensaje del Modal
 
   /**
    * Function tooglePassword:
@@ -50,7 +57,7 @@ function LogIn(props) {
       }
     } catch (error) {
       console.log('algun error ocure')
-      console.error(error)
+      //console.error(error)
     }
     logIn(email, password).then((res) => {
       //Esto debe hacerce para evitar que axiosAuth revise si el token existe antes de terminar el login
@@ -65,15 +72,12 @@ function LogIn(props) {
         navigate('/myclasses');
       }
 
-    })
-    // }).catch((e) => {
-    //   setPassword("")
-    //   alert(e.message+'\n\n\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, LogIn.jsx:61)')
-    // });
-
-
-
-
+    }).catch((e) => {
+      setPassword("")
+    
+      setModalMessage("User not found, please verify your credentials.");
+      setIsModalOpen(true); 
+    });
 
 
 
@@ -149,6 +153,7 @@ function LogIn(props) {
   return (
     <div className="login-form">
       <div className="login-form-body">
+
         <Form onSubmit={handleSubmit} className="login-form-content">
           <h1 className="login-form-title">Welcome Back!</h1>
           <h5 className="login-form-subtitle">
@@ -227,6 +232,26 @@ function LogIn(props) {
           </div>
         </Form>
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Error Modal"
+        className="modal-content"
+        overlayClassName="modal-overlay"
+      >
+        <div className="modal-header">
+          <h2>Alert</h2>
+        </div>
+        <div className="modal-body">
+          <p>{modalMessage}</p>
+        </div>
+        <div className="modal-footer">
+          <Button variant="primary" onClick={() => setIsModalOpen(false)}>
+            Close
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }
