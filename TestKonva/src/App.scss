@@ -1,0 +1,35 @@
+$sidebar-width: 200px;
+$sidebar-bg-color: #f0f0f0;
+$button-bg-color: #007bff;
+$button-text-color: #fff;
+$button-hover-bg-color: #0056b3;
+$input-border-color: #ccc;
+
+.sidebar {
+  width: $sidebar-width;
+  padding: 10px;
+  background-color: $sidebar-bg-color;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  button {
+    background-color: $button-bg-color;
+    color: $button-text-color;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: $button-hover-bg-color;
+    }
+  }
+
+  input[type="text"],
+  input[type="color"] {
+    padding: 8px;
+    border: 1px solid $input-border-color;
+    border-radius: 4px;
+  }
+}
