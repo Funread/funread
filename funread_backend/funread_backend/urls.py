@@ -52,10 +52,10 @@ urlpatterns = [
     path('UserPoints/',include('UserPoints.urls')),
     path('Badges/',include('Badges.urls')),
     path('UserBadge/',include('UserBadge.urls')),
-    path('User_Levels/',include('User_Levels.urls'))
-
-
-
+    path('Subtitled/',include('Subtitled.urls')),
+    path('AvatarCreator/', include('AvatarCreator.urls')),
+    path('BookCover/', include('BookCover.urls')),
+    
 ]
 
 if settings.DEBUG:
