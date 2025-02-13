@@ -6,7 +6,7 @@ from rest_framework import status
 from datetime import datetime
 from .models import UserPoints
 from .serializers import UserPointsSerializer
-from User_Levels.models import UserLevels
+from Users.models import User
 from django.db.models import Sum
 from UserPointsLog.models import UserPointsLog
 import verifyJwt
@@ -207,7 +207,7 @@ def get_user_level_and_points(request, user_id):
          return Response(status=status.HTTP_401_UNAUTHORIZED)
         
         # Obtén el nivel del usuario desde el modelo UserLevels en la aplicación User_Levels
-        user = get_object_or_404(UserLevels, id=user_id)
+        user = get_object_or_404(User, id=user_id)
         level = user.level
 
         # Obtén el total de puntos del usuario desde la tabla UserPoints usando user_id
@@ -220,7 +220,7 @@ def get_user_level_and_points(request, user_id):
             "total_points": total_points
         }, status=status.HTTP_200_OK)
     
-    except UserLevels.DoesNotExist:
+    except User.DoesNotExist:
         return Response({"error": "El usuario especificado no tiene un nivel registrado"}, status=status.HTTP_404_NOT_FOUND)
     
     except UserPoints.DoesNotExist:
