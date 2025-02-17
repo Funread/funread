@@ -169,37 +169,58 @@ const BookCreator = () => {
     })
   }
 
+
+
   const pageContent = (idPage) => {
-    console.log('llegue', idPage)
-    if (pages.length > 0) {
-      const page = pages.filter((page) => page.pageNumber === idPage)
-
-      const widgetsPageNumber = widgetSeleted[page[0].pageNumber].data
-
-      if (page) {
-        const pageWidget = {
-          page: {
-            pageid: page[0].pageid,
-            type: 0,
-            template: 0,
-            elementorder: page[0].elementorder,
-            gridDirection: page[0].gridDirection,
-            gridNumRows: page[0].gridNumRows,
-            bookid: page[0].bookid,
-          },
-          widgetitems: widgetsPageNumber.map((widgetItem) => ({
-            widgetitemid: null,
-            value: widgetItem.data,
-            type: widgetItem.type,
-            elementorder: widgetItem.order,
-            pageid: null,
-            widgetid: getWidgetId(widgetItem),
-          })),
-        }
-        return pageWidget
-      }
+    if (!pages || pages.length === 0) {
+      console.error('El array "pages" está vacío o no está definido.');
+      return;
     }
-  }
+  
+    const page = pages.filter((page) => page.pageNumber === idPage);
+  
+    if (page.length === 0) {
+      console.error(`No se encontró ninguna página con pageNumber igual a ${idPage}.`);
+      return;
+    }
+  
+    const selectedPage = page[0];
+  
+    if (!widgetSeleted || !widgetSeleted[selectedPage.pageNumber]) {
+      console.error(`No se encontraron widgets para la página ${selectedPage.pageNumber}.`);
+      return;
+    }
+  
+    const widgetsPageNumber = widgetSeleted[selectedPage.pageNumber].data;
+  
+    if (!widgetsPageNumber) {
+      console.error(`La propiedad "data" de widgets para la página ${selectedPage.pageNumber} es undefined.`);
+      return;
+    }
+  
+    const pageWidget = {
+      page: {
+        pageid: selectedPage.pageid,
+        type: 0,
+        template: 0,
+        elementorder: selectedPage.elementorder,
+        gridDirection: selectedPage.gridDirection,
+        gridNumRows: selectedPage.gridNumRows,
+        bookid: selectedPage.bookid,
+      },
+      widgetitems: widgetsPageNumber.map((widgetItem) => ({
+        widgetitemid: null,
+        value: widgetItem.data,
+        type: widgetItem.type,
+        elementorder: widgetItem.order,
+        pageid: null,
+        widgetid: getWidgetId(widgetItem),
+      })),
+    };
+  
+    alert('aassasas');
+    return pageWidget;
+  };
 
   const saveSlides = async (e) => {
     e.preventDefault()

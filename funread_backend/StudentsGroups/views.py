@@ -76,6 +76,9 @@ def add_new(request):
             'groupscreateid': request.data.get('groupscreateid'),
             'isactive' : 1
         }
+        
+        print('data:', data)
+        
         serializer = StudentsGroupsSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
