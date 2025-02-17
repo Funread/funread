@@ -122,8 +122,8 @@ MIDDLEWARE = [
 # CORS_ORIGIN_ALLOW_ALL=True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://163.178.171.12:3000",  # IP de tu frontend
-    "http://localhost:3000",  # Si también lo pruebas localmente
+    "http://163.178.171.12:3000",  
+    "http://localhost:3000",  
 ]
 CORS_ORIGIN_WHITELIST = [
     os.environ.get("EJEMSETTINGS_CORS_ALLOWED_HOSTSPLOA"),
