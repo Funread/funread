@@ -122,8 +122,8 @@ MIDDLEWARE = [
 # CORS_ORIGIN_ALLOW_ALL=True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://163.178.171.12:3000",  
-    "http://localhost:3000",  
+    "http://163.178.171.12:80",  
+    "http://localhost:80",  
 ]
 CORS_ORIGIN_WHITELIST = [
     os.environ.get("EJEMSETTINGS_CORS_ALLOWED_HOSTSPLOA"),
