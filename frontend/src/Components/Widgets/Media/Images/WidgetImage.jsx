@@ -4,9 +4,9 @@ import './WidgetImage.sass'
 import ImageGallery from '../../../GalleryCollage/ListGallery'
 import { Content } from 'antd/es/layout/layout'
 import { save_Image } from '../../../../api/media'
+import { REACT_APP_API_URL } from '../../../../env'
 
-
-const getImage = 'http://localhost:8000'
+const getImage = REACT_APP_API_URL
 
 const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
   const [showModal, setShowModal] = useState(false)

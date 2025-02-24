@@ -1,12 +1,13 @@
 import { store } from "../redux/store"
 import axios from "axios";
+import { REACT_APP_API_URL } from "../env";
 
 export const axiosAuth = () => {
   const state = store.getState()
   const user = state.user; 
   if (user.jwt) {
       return axios.create({
-          baseURL: "http://localhost:8000/",
+          baseURL: REACT_APP_API_URL,
           headers: { Authorization: user.jwt },
       });
   }
@@ -16,6 +17,6 @@ export const axiosAuth = () => {
 
 export const axiosWithoutAuth = () => {
   return axios.create({
-      baseURL: "http://localhost:8000/"
+      baseURL: REACT_APP_API_URL
   });
 }

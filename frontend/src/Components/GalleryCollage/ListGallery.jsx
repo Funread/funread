@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form';
 import './GalleryImage.css'
 import { list, upload } from '../../api/media'
+import { REACT_APP_API_URL } from '../../env'
 
 const ImageGallery = ({ onImageSelect }) => {
   const [images, setImages] = useState([])
   const [selectedImage, setSelectedImage] = useState(null)
   const [galleriaType, setGalleryType] = useState([])
-  const getImage = 'http://localhost:8000' // Ruta base de las imágenes
+  const getImage = REACT_APP_API_URL // Ruta base de las imágenes
   const [selectedOption, setSelectedOption] = useState(0);
 
   const handleRadioChange = (event) => {

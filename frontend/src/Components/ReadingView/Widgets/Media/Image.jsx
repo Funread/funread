@@ -1,8 +1,8 @@
 import React from 'react';
 import './RV_ImageWithText.scss'; // Asegúrate de que el archivo SASS se importe correctamente
-
+import { REACT_APP_API_URL } from '../../../env'
 const RV_ImageWithText = ({ textbackgroundColor, textColor , img  , text}) => {
- const imgpath="http://localhost:8000"
+ const imgpath=REACT_APP_API_URL
   const style = {
     backgroundColor: textbackgroundColor,
     color: textColor,

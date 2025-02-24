@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import './BookCard.sass'
 import { searchCategory } from '../../../api/bookDilemma'
+import { REACT_APP_API_URL } from '../../../env'
 
-const getImage = 'http://localhost:8000'
+const getImage = REACT_APP_API_URL
 
 const BookCard = ({
   id,
