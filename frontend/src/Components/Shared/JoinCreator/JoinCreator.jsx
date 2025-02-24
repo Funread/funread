@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { new_join } from "../../../api";
-import { REACT_APP_API_URL } from '../../../env'
+import { REACT_APP_API_URL } from '../../../../../env'
 function JoinCreator(props){
     //Contaremos con dos props "id" que sera el id del libro o clase, y "type" que sera la palabra clave para identificar cual foreign usar
     //utilizaremos la palabra book si es un libro o classe si es una clase
