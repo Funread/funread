@@ -1,9 +1,9 @@
 import './DraggableBookCard.sass'
 import React from 'react'
 import { useDrag } from 'react-dnd'
-import { REACT_APP_API_URL } from '../../../env'
+import { BASE_URL } from '../../../settings';
 
-const getImage = REACT_APP_API_URL
+const getImage = BASE_URL
 
 const DraggableBookCard = ({ book, onClick }) => {
   const [{ isDragging }, drag] = useDrag(() => ({

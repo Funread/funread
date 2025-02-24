@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './HelpersCard.sass';
-import { REACT_APP_API_URL } from '../../env'
+import { BASE_URL } from '../../settings'
 
-const getImage = REACT_APP_API_URL
+const getImage = BASE_URL
 const HelpersCard = ({
   id,
   imageUrl,

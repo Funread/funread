@@ -1,9 +1,9 @@
 import './GroupView.css'
 import { useState, useEffect } from 'react'
 import { upload } from '../../../api/media'
-import { REACT_APP_API_URL } from '../../../env'
+import { BASE_URL } from '../../../settings'
 
-const getImage = REACT_APP_API_URL
+const getImage = BASE_URL
 
 const GroupView = ({ name, idimage }) => {
   const [image, setImage] = useState(null)

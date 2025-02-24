@@ -1,9 +1,9 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import './BookView.sass'
-import { REACT_APP_API_URL } from '../../../env'
+import { BASE_URL } from '../../../settings'
 
-const getImage = REACT_APP_API_URL
+const getImage = BASE_URL
 
 const BookView = ({ book, onPreview }) => {
   const navigate = useNavigate()
