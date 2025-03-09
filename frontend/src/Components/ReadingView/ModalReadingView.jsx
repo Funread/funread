@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Page from './Page'
+import PageSelector from './PageSelector'
 
 function ModalReadingView({ contentPage, onClose }) {
   const [isModalOpen, setModalOpen] = useState(false)
@@ -22,7 +22,7 @@ function ModalReadingView({ contentPage, onClose }) {
         </Modal.Header>
         <Modal.Body>
           <div>
-            <Page />
+            <PageSelector pageType={contentPage.type} />
           </div>
         </Modal.Body>
         <Modal.Footer>

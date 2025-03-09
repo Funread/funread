@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './Page.sass';
-import RV_ImageWithText from './Widgets/Media/RV_ImageWithText';
-import Image from './Widgets/Media/Image';
+import './GridPage.sass';
+import RV_ImageWithText from '../Widgets/Media/RV_ImageWithText';
+import Image from '../Widgets/Media/Image';
  
 
-function Page( {gridDirection, gridNumRows,pageNumer , widgets}) {
+function GridPage( {gridDirection, gridNumRows, pageNumer , widgets}) {
 
 
   const getGrid = () => { 
@@ -37,4 +37,4 @@ function Page( {gridDirection, gridNumRows,pageNumer , widgets}) {
   );
 }
 
-export default Page;
+export default GridPage;
