@@ -1,9 +1,0 @@
-.bookCreator {
-  scroll-snap-type: x mandatory;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100vh;
-}
-.contentBookCreator {
-  height: auto;
-}
