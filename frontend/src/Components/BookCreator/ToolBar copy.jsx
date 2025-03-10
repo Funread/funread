@@ -1,8 +1,7 @@
 import { Button } from "./Button";
 
-export default function ToolBar({ elements, setElements }) {
+export default function Toolbar({ setElements }) {
   const handleSave = () => {
-    if (!elements) return; // Evita errores si elements no está definido
     localStorage.setItem("canvasElements", JSON.stringify(elements));
     alert("Canvas guardado correctamente.");
   };
