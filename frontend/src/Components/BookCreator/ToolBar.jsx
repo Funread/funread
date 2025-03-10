@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Home, Image, Settings, Undo, Type } from "lucide-react";
-import { Stage, Layer, Image as KonvaImage, Transformer, Text } from "react-konva";
-
+import { Stage, Layer, Image as KonvaImage, Transformer } from "react-konva";
 import { Button } from "./Button";
 
 export default function BookCreator() {
@@ -50,22 +49,6 @@ export default function BookCreator() {
     setSelectedId(null);
   };
 
-  function TextPanel({ setElements }) {
-    return (
-      <Button onClick={() => setElements((prev) => [...prev, {
-        id: Date.now().toString(),
-        type: "text",
-        text: "Doble clic para editar",
-        x: 100,
-        y: 100,
-        fontSize: 20,
-        fill: "black",
-      }])}>
-        Agregar Texto
-      </Button>
-    );
-  }
-
   return (
     <div className="flex h-screen w-full bg-gray-200">
       {/* Sidebar */}
@@ -81,9 +64,8 @@ export default function BookCreator() {
 
       {/* Panel lateral */}
       <div className="w-[300px] h-full bg-white shadow-md p-4 fixed left-16 top-0 border-r border-gray-300 overflow-y-auto">
-  {openPanel === "images" && <ImagePanel setElements={setElements} setImages={setImages} />}
-  {openPanel === "text" && <TextPanel setElements={setElements} />}
-</div>
+        {openPanel === "images" && <ImagePanel setElements={setElements} setImages={setImages} />}
+      </div>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col ml-[364px]">
@@ -152,75 +134,33 @@ function ImagePanel({ setElements, setImages }) {
 
 // ✅ Canvas Principal
 function Canvas({ elements, setElements, images, selectedId, setSelectedId, stageRef, transformerRef }) {
-  const [editingTextId, setEditingTextId] = useState(null);
-  const [inputValue, setInputValue] = useState("");
-
   const handleDragEnd = (e, id) => {
-    setElements((prev) =>
-      prev.map((el) => (el.id === id ? { ...el, x: e.target.x(), y: e.target.y() } : el))
-    );
-  };
+    const newX = e.target.x();
+    const newY = e.target.y();
 
-  const handleTextChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleTextSave = () => {
     setElements((prev) =>
-      prev.map((el) => (el.id === editingTextId ? { ...el, text: inputValue } : el))
+      prev.map((el) => (el.id === id ? { ...el, x: newX, y: newY } : el))
     );
-    setEditingTextId(null);
   };
 
   return (
-    <div className="relative">
-      {editingTextId && (
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleTextChange}
-          onBlur={handleTextSave}
-          onKeyDown={(e) => e.key === "Enter" && handleTextSave()}
-          className="absolute border border-gray-500 px-2 py-1 rounded"
-          style={{
-            position: "absolute",
-            top: elements.find((el) => el.id === editingTextId)?.y,
-            left: elements.find((el) => el.id === editingTextId)?.x,
-            fontSize: "16px",
-            width: "auto",
-          }}
-          autoFocus
-        />
-      )}
-
+    <div className="border p-2 w-full h-full">
       <Stage width={window.innerWidth - 400} height={window.innerHeight - 150} ref={stageRef} className="border bg-gray-100">
         <Layer>
-          {elements.map((el) =>
-            el.type === "text" ? (
-              <Text
-                key={el.id}
-                {...el}
-                draggable
-                onDragEnd={(e) => handleDragEnd(e, el.id)}
-                onDblClick={() => {
-                  setEditingTextId(el.id);
-                  setInputValue(el.text);
-                }}
-              />
-            ) : el.type === "image" ? (
-              <KonvaImage
-                key={el.id}
-                id={el.id}
-                x={el.x}
-                y={el.y}
-                width={el.width}
-                height={el.height}
-                draggable
-                image={images[el.src]}
-                onDragEnd={(e) => handleDragEnd(e, el.id)}
-              />
-            ) : null
-          )}
+          {elements.map((el) => (
+            <KonvaImage
+              key={el.id}
+              id={el.id}
+              x={el.x}
+              y={el.y}
+              width={el.width}
+              height={el.height}
+              draggable
+              image={images[el.src]}
+              onClick={() => setSelectedId(el.id)}
+              onDragEnd={(e) => handleDragEnd(e, el.id)}
+            />
+          ))}
           {selectedId && <Transformer ref={transformerRef} />}
         </Layer>
       </Stage>
