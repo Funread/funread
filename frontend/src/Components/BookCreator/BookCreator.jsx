@@ -4,7 +4,7 @@ import ToolBar from "./ToolBar";
 import ImagePanel from "./ImagePanel";
 import TextPanel from "./TextPanel";
 import Canvas from "./Canvas";
-
+import Footer from "./Footer";
 export default function BookCreator() {
   const [openPanel, setOpenPanel] = useState("images");
   const [elements, setElements] = useState([]);
@@ -12,14 +12,18 @@ export default function BookCreator() {
   const stageRef = useRef(null);
   const transformerRef = useRef(null);
   const [images, setImages] = useState({});
-
+  const [pages, setPages] = useState([[]]); // ✅ Siempre comienza con al menos una página vacía
+  const [currentPage, setCurrentPage] = useState(0);
   useEffect(() => {
     const savedData = localStorage.getItem("canvasElements");
     if (savedData) {
       setElements(JSON.parse(savedData));
     }
   }, []);
-
+  const addPage = () => {
+    setPages((prev) => [...prev, []]); // 🔹 Asegura que la nueva página sea un array vacío
+    setCurrentPage(pages.length); // 🔹 Cambia a la nueva página
+  };
   return (
     <div className="flex h-screen w-full bg-gray-200">
       {/* Barra lateral */}
@@ -46,6 +50,8 @@ export default function BookCreator() {
           />
         </div>
       </div>
+      <Footer pages={pages} currentPage={currentPage} setCurrentPage={setCurrentPage} addPage={addPage} />
+
     </div>
   );
 }
