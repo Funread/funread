@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Home, Image, Settings, Undo } from "lucide-react";
-import { Stage, Layer, Image as KonvaImage, Rect, Transformer } from "react-konva";
+import { Stage, Layer, Image as KonvaImage, Transformer } from "react-konva";
 import { Button } from "./Button";
 
 export default function BookCreator() {
@@ -71,24 +71,13 @@ export default function BookCreator() {
         <nav className="w-full bg-white shadow-md p-2 flex justify-between items-center border-b border-gray-300 h-12">
           <h1 className="text-lg font-bold">BookCreator</h1>
           <div className="space-x-2 flex items-center">
-            <button onClick={handleUndo} className="p-2 rounded-full border border-gray-300 bg-white shadow-md hover:bg-gray-200 transition">
-              <Undo className="w-4 h-4 text-gray-600" />
-            </button>
             <Button onClick={handleSave} className="bg-blue-500 text-white hover:bg-blue-600 text-sm px-3 py-1">Save</Button>
             <Button onClick={handleLoad} className="border border-gray-500 text-gray-700 hover:bg-gray-100 text-sm px-3 py-1">Load</Button>
           </div>
         </nav>
 
         <div className="flex-1 p-4 bg-white m-2 shadow-md rounded-lg">
-          <Canvas 
-            elements={elements} 
-            setElements={setElements} 
-            selectedId={selectedId} 
-            setSelectedId={setSelectedId} 
-            stageRef={stageRef} 
-            transformerRef={transformerRef} 
-            images={images}
-          />
+          <Canvas elements={elements} setElements={setElements} images={images} selectedId={selectedId} setSelectedId={setSelectedId} stageRef={stageRef} transformerRef={transformerRef} />
         </div>
       </div>
     </div>
@@ -114,6 +103,7 @@ function ImagePanel({ setElements, setImages }) {
     reader.onload = (event) => {
       const img = new window.Image();
       img.src = event.target.result;
+
       img.onload = () => {
         setImages((prev) => ({ ...prev, [img.src]: img }));
 
@@ -142,11 +132,11 @@ function ImagePanel({ setElements, setImages }) {
 }
 
 // ✅ Canvas Principal
-function Canvas({ elements, setElements, selectedId, setSelectedId, stageRef, transformerRef, images }) {
+function Canvas({ elements, setElements, images, selectedId, setSelectedId, stageRef, transformerRef }) {
   const handleDragEnd = (e, id) => {
     const newX = e.target.x();
     const newY = e.target.y();
-    
+
     setElements((prev) =>
       prev.map((el) => (el.id === id ? { ...el, x: newX, y: newY } : el))
     );
@@ -165,11 +155,7 @@ function Canvas({ elements, setElements, selectedId, setSelectedId, stageRef, tr
               width={el.width}
               height={el.height}
               draggable
-              image={images[el.src] || (() => {
-                const img = new window.Image();
-                img.src = el.src;
-                return img;
-              })()}
+              image={images[el.src]}
               onClick={() => setSelectedId(el.id)}
               onDragEnd={(e) => handleDragEnd(e, el.id)}
             />
