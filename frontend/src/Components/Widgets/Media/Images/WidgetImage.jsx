@@ -4,9 +4,9 @@ import './WidgetImage.sass'
 import ImageGallery from '../../../GalleryCollage/ListGallery'
 import { Content } from 'antd/es/layout/layout'
 import { save_Image } from '../../../../api/media'
+import { BASE_URL } from '../../../../settings'
 
-
-const getImage = 'http://localhost:8000'
+const getImage = BASE_URL
 
 const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
   const [showModal, setShowModal] = useState(false)
@@ -169,8 +169,6 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
             )}
           </Content>
         
-
- {/* Codigo comentado es para cargar imagen desde la pc */}
           <Content className='contentTextSelectFoto'>
             <p>Select the header image from your gallery</p>
             <Button
@@ -181,21 +179,21 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
               Gallery
             </Button>
           </Content>
-          {/* <FormControl
+          <FormControl
             type='file'
             accept='image/*'
             onChange={handleFileChange}
             className='custum-formControl-image mt-4'
-          /> */}
+          />
         </Modal.Body>
 
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>
             Close
           </Button>
-          {/* <Button variant='success' onClick={SaveChangesBD}>
+          {<Button variant='success' onClick={SaveChangesBD}>
             Save
-          </Button> */}
+          </Button> }
         </Modal.Footer>
 
 

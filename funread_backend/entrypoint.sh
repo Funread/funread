@@ -21,3 +21,4 @@ mysql -h"mysql" -u"root" -p"root" FUNREAD < /docker-entrypoint-initdb.d/init.sql
 # Start the Django server
 echo "Starting Django server..."
 exec python manage.py runserver 0.0.0.0:8000
+
