@@ -174,19 +174,21 @@ function ReadingView() {
         ) : error ? (
           <div><ErrorPage /></div>
         ) : (
-          <>
+          <div className='reading-view-layout'>
             <div className='top-menu'>
               {/* Botones y otros elementos de UI aquí... */}
             </div>
-            <div className='page-content'>
-              <PageSelector 
-                pageType={contentBook?.[pageNumer]?.page?.type || 1}
-                gridDirection={gridDirection}
-                gridNumRows={gridNumRows}
-                pageNumer={pageNumer}
-                widgets={widgets}
-                pageData={contentBook?.[pageNumer]?.page?.data}
-              />
+            <div className='content-wrapper'>
+              <div className='page-content'>
+                <PageSelector 
+                  pageType={contentBook?.[pageNumer]?.page?.type || 1}
+                  gridDirection={gridDirection}
+                  gridNumRows={gridNumRows}
+                  pageNumer={pageNumer}
+                  widgets={widgets}
+                  pageData={contentBook?.[pageNumer]?.page?.data}
+                />
+              </div>
             </div>
             <div className='navigation-footer'>
               <button 
@@ -207,7 +209,7 @@ function ReadingView() {
                 →
               </button>
             </div>
-          </>
+          </div>
         )}
       </div>
     </FullScreen>

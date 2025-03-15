@@ -1,7 +1,8 @@
 .presentation-container
+  height: 100vh
+  width: 100vw
   display: flex
   flex-direction: column
-  height: 100vh
   
   .page-content
     flex: 1
@@ -19,6 +20,7 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)
 
 .top-menu
+  flex-shrink: 0
   position: absolute
   top: 0
   width: 100%
@@ -35,29 +37,42 @@
     &:hover
       background: rgba(255, 255, 255, 0.8)
 
+.reading-view-layout
+  display: flex
+  flex-direction: column
+  height: 100%
+  position: relative
+
+.content-wrapper
+  flex: 1
+  overflow-y: auto
+  padding-bottom: 80px // Espacio para el footer
+
 .navigation-footer
   position: fixed
   bottom: 0
   left: 0
   right: 0
+  background: white
+  padding: 15px
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1)
   display: flex
   justify-content: center
   align-items: center
-  padding: 1rem
-  gap: 1rem
-  background-color: rgba(255, 255, 255, 0.9)
+  gap: 20px
   z-index: 1000
   
   .nav-button
-    padding: 0.5rem 1rem
+    padding: 8px 16px
     border: none
-    background: none
+    background: #f0f0f0
+    border-radius: 4px
     cursor: pointer
-    font-size: 1.5rem
     &:disabled
       opacity: 0.5
       cursor: not-allowed
   
   .page-number
-    font-size: 1rem
+    font-size: 14px
+    color: #666 
 

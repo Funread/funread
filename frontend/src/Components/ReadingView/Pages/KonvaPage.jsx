@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Stage, Layer, Image, Shape } from 'react-konva';
+import React, { useState, useEffect , useRef} from 'react';
+import { Stage, Layer, Image, Shape, Transformer, Rect } from 'react-konva';
 
 const KonvaPage = ({ widgets, pageData }) => {
   const [stageSize, setStageSize] = useState({
@@ -9,6 +9,9 @@ const KonvaPage = ({ widgets, pageData }) => {
   });
   const [images, setImages] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const shapeRef = React.useRef();
+  const trRef = React.useRef();
+  const [isSelected, setIsSelected] = useState(false);
 
   // Función para cargar una imagen y devolver una promesa
   const loadImage = (src) => {
@@ -70,6 +73,8 @@ const KonvaPage = ({ widgets, pageData }) => {
         height: size,
         scale: scale
       });
+
+      
     };
 
     // Calcular tamaño inicial
@@ -82,10 +87,14 @@ const KonvaPage = ({ widgets, pageData }) => {
     return () => window.removeEventListener('resize', calculateSize);
   }, []);
 
-  if (isLoading) {
-    return <div>Cargando...</div>; // O un spinner/loader
-  }
+  useEffect(() => {
+    if (isSelected) {
+      trRef.current.nodes([shapeRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [isSelected]);
 
+  
   return (
     <Stage 
       width={stageSize.width} 
@@ -109,19 +118,117 @@ const KonvaPage = ({ widgets, pageData }) => {
                   width={shapeProps.width}
                   height={shapeProps.height}
                   image={images[widget.widgetitemid]}
+                  draggable={true}
+                 
                 />
               ) : null;
             case 3: // shape
+              const { name,  isSelected, onSelect, onChange, ...otherProps } = shapeProps;
+              
               return (
                 <Shape
                   key={widget.widgetitemid}
-                  {...shapeProps}   
+                  {...otherProps}
                   draggable={true}
                   sceneFunc={(context, shape) => {
                     context.beginPath();
-                    context.moveTo(shapeProps.x || 50, shapeProps.y || 50);
-                    context.lineTo((shapeProps.x || 50) + 100, shapeProps.y || 50);
-                    context.lineTo((shapeProps.x || 50) + 50, (shapeProps.y || 50) + 100);
+                    
+                    switch (name) {
+                      case 'rectangle':
+                        context.rect(
+                          shapeProps.x || 0,
+                          shapeProps.y || 0,
+                          shapeProps.width || 100,
+                          shapeProps.height || 50,
+                          shapeProps.isSelected || false,   
+                          
+                        );
+                        break;
+                        
+                      case 'circle':
+                        context.arc(
+                          shapeProps.x || 0,
+                          shapeProps.y || 0,
+                          shapeProps.radius || 50,
+                          0,
+                          Math.PI * 2
+                        );
+                        break;
+                        
+                      case 'square':
+                        const size = shapeProps.size || 100;
+                        context.rect(
+                          shapeProps.x || 0,
+                          shapeProps.y || 0,
+                          size,
+                          size
+                        );
+                        break;
+                        
+                      case 'message':
+                        // Forma de burbuja de mensaje
+                        const width = shapeProps.width || 120;
+                        const height = shapeProps.height || 80;
+                        const x = shapeProps.x || 0;
+                        const y = shapeProps.y || 0;
+                        
+                        context.moveTo(x + 10, y);
+                        context.lineTo(x + width - 10, y);
+                        context.quadraticCurveTo(x + width, y, x + width, y + 10);
+                        context.lineTo(x + width, y + height - 10);
+                        context.quadraticCurveTo(x + width, y + height, x + width - 10, y + height);
+                        context.lineTo(x + 20, y + height);
+                        context.lineTo(x, y + height + 20);
+                        context.lineTo(x + 20, y + height);
+                        context.quadraticCurveTo(x + 10, y + height, x + 10, y + height - 10);
+                        context.lineTo(x + 10, y + 10);
+                        context.quadraticCurveTo(x + 10, y, x + 20, y);
+                        break;
+                        
+                      case 'thinking':
+                        // Forma de nube de pensamiento
+                        const cloudX = shapeProps.x || 0;
+                        const cloudY = shapeProps.y || 0;
+                        const cloudWidth = shapeProps.width || 100;
+                        const cloudHeight = shapeProps.height || 60;
+                        
+                        // Nube principal
+                        context.moveTo(cloudX + 30, cloudY + cloudHeight);
+                        context.bezierCurveTo(
+                          cloudX, cloudY + cloudHeight,
+                          cloudX, cloudY,
+                          cloudX + 30, cloudY
+                        );
+                        context.bezierCurveTo(
+                          cloudX + 40, cloudY - 10,
+                          cloudX + cloudWidth - 40, cloudY - 10,
+                          cloudX + cloudWidth - 30, cloudY
+                        );
+                        context.bezierCurveTo(
+                          cloudX + cloudWidth, cloudY,
+                          cloudX + cloudWidth, cloudY + cloudHeight,
+                          cloudX + cloudWidth - 30, cloudY + cloudHeight
+                        );
+                        context.bezierCurveTo(
+                          cloudX + cloudWidth - 40, cloudY + cloudHeight + 10,
+                          cloudX + 40, cloudY + cloudHeight + 10,
+                          cloudX + 30, cloudY + cloudHeight
+                        );
+                        
+                        // Burbujas de pensamiento
+                        context.moveTo(cloudX + 15, cloudY + cloudHeight + 20);
+                        context.arc(cloudX + 15, cloudY + cloudHeight + 20, 5, 0, Math.PI * 2);
+                        context.moveTo(cloudX + 5, cloudY + cloudHeight + 35);
+                        context.arc(cloudX + 5, cloudY + cloudHeight + 35, 3, 0, Math.PI * 2);
+                        break;
+                        
+                      default:
+                        // Forma por defecto (triángulo)
+                        context.moveTo(shapeProps.x || 50, shapeProps.y || 50);
+                        context.lineTo((shapeProps.x || 50) + 100, shapeProps.y || 50);
+                        context.lineTo((shapeProps.x || 50) + 50, (shapeProps.y || 50) + 100);
+                    }
+                    
                     context.closePath();
                     context.fillStrokeShape(shape);
                   }}
