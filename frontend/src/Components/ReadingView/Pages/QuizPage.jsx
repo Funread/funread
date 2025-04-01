@@ -1,41 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import QuizMultiple from '../../Widgets/Quiz/QuizMultiple/QuizMultiple';
 import './QuizPage.css';
+import { list_options_by_idwidgetitem } from '../../../api/options';
 
 const QuizPage = ({ widgets, pageData }) => {
   const [quizData, setQuizData] = useState(null);
+  const [quizOptions, setQuizOptions] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
+  // Agregamos log para ver si el componente se monta y qué props recibe
+  console.log('QuizPage montado - props recibidas:', { widgets, pageData });
+
   useEffect(() => {
+    console.log('useEffect ejecutándose - widgets:', widgets);
+
+    if (!widgets) {
+      console.log('No hay widgets disponibles');
+      return;
+    }
+
     const loadQuizData = async () => {
       try {
         setIsLoading(true);
-        // Debug de widgets recibidos
-        console.log('Widgets completos:', widgets);
+        console.log('Iniciando loadQuizData');
         
         // Verificar que widgets existe y es un array
-        if (!widgets || !Array.isArray(widgets)) {
-          console.error('Widgets no es un array válido:', widgets);
+        if (!Array.isArray(widgets)) {
+          console.error('Widgets no es un array:', typeof widgets);
           return;
         }
 
         const quizWidgets = widgets.filter(widget => {
-          console.log('Revisando widget:', widget);
-          console.log('Tipo de widget:', widget.type);
+          console.log('Evaluando widget:', widget);
           return widget.type === 4;
         });
         
-        console.log('Quiz widgets filtrados:', quizWidgets);
+        console.log('Quiz widgets encontrados:', quizWidgets);
+
+        // Cargar las opciones para cada widget de quiz
+        const optionsPromises = quizWidgets.map(async widget => {
+          console.log('Cargando opciones para widget:', widget.widgetitemid);
+          const options = await list_options_by_idwidgetitem(widget.widgetitemid);
+          return { widgetId: widget.widgetitemid, options };
+        });
+
+        const allOptions = await Promise.all(optionsPromises);
+        const optionsMap = {};
+        allOptions.forEach(({ widgetId, options }) => {
+          optionsMap[widgetId] = options;
+        });
+
+        setQuizOptions(optionsMap);
         setQuizData(quizWidgets);
       } catch (error) {
-        console.error('Error cargando quiz:', error);
+        console.error('Error en loadQuizData:', error);
       } finally {
         setIsLoading(false);
       }
     };
 
     loadQuizData();
-  }, [widgets]);
+  }, [widgets]); // Verificamos que la dependencia está correcta
 
   const handleQuizChange = (widgetId, newData) => {
     console.log('Quiz actualizado:', widgetId, newData);
@@ -72,15 +97,38 @@ const QuizPage = ({ widgets, pageData }) => {
 
           console.log('ValueData final:', valueData);
           
-          // Verificar que valueData tiene la estructura correcta
-          if (!valueData.title || !valueData.question || !valueData.answers) {
+          // Solo verificamos title y question, ya no answers
+          if (!valueData.title || !valueData.question) {
             console.error('ValueData no tiene la estructura correcta:', valueData);
             return null;
           }
 
+          // Convertimos las opciones de la API al formato que espera QuizMultiple
+          const quizAnswers = quizOptions[widget.widgetitemid]?.map(option => ({
+            id: option.idoption,
+            text: option.answer,
+            points: option.points,
+            isCorrect: option.iscorrect === 1
+          })) || [];
+
+          // Debug para ver las respuestas
+          console.log('quizAnswers generados:', quizAnswers);
+          console.log('quizOptions disponibles:', quizOptions[widget.widgetitemid]);
+
+          // Combinamos valueData con las respuestas de la API
+          const completeQuizData = {
+            ...valueData,
+            answers: quizAnswers
+          };
+
+          // Debug del objeto completo
+          console.log('completeQuizData:', completeQuizData);
+
           return (
             <div key={widget.widgetitemid} className="quiz-widget-container">
-              <QuizMultiple quizData={valueData} />
+              <QuizMultiple 
+                quizData={completeQuizData}
+              />
             </div>
           );
         })}

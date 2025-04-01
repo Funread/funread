@@ -7,13 +7,20 @@ const QuizMultiple = ({ quizData }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Agregamos validación de props
+  // Validación mejorada
   if (!quizData) {
     console.log('QuizMultiple: No hay datos de quiz');
     return null;
   }
 
-  console.log('QuizData recibido:', quizData); // Debug
+  console.log('QuizMultiple - quizData recibido:', quizData);
+  console.log('QuizMultiple - answers:', quizData.answers);
+
+  // Validar específicamente las respuestas
+  if (!quizData.answers || !Array.isArray(quizData.answers) || quizData.answers.length === 0) {
+    console.log('QuizMultiple: No hay respuestas válidas');
+    return <div>No hay respuestas disponibles</div>;
+  }
 
   const handleSubmit = () => {
     if (selectedAnswer !== null) {

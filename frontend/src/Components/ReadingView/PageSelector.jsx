@@ -1,7 +1,7 @@
 import React from 'react'
 import GridPage from './Pages/GridPage'  // Antiguo componente Page renombrado
 import KonvaPage from './Pages/KonvaPage'  // Nuevo componente para type 2
-import QuizMultiple from '../Widgets/Quiz/QuizMultiple/QuizMultiple'
+import QuizPage from './Pages/QuizPage'  // Importar QuizPage en lugar de QuizMultiple
 
 const PageSelector = ({ pageType, ...props }) => {
   switch (pageType) {
@@ -13,7 +13,7 @@ const PageSelector = ({ pageType, ...props }) => {
       console.log("caso 4")
       return (
         <div className="quiz-page-wrapper">
-          <QuizMultiple quizData={props.widgets?.[0]?.value} />
+          <QuizPage widgets={props.widgets} pageData={props.pageData} />
         </div>
       )
     default:

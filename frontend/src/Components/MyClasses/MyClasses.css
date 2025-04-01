@@ -1,0 +1,528 @@
+/* Estilos generales */
+.student-dashboard {
+  font-family: 'Nunito', sans-serif;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+  color: #333;
+}
+
+/* Header */
+.dashboard-header {
+  background-color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo h1 {
+  color: #4361ee;
+  margin: 0;
+  font-size: 24px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f0f2f5;
+  border-radius: 20px;
+  padding: 8px 15px;
+  width: 300px;
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  margin-left: 10px;
+  width: 100%;
+  outline: none;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-weight: 600;
+  display: block;
+}
+
+.user-level {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Layout principal */
+.dashboard-content {
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Barra lateral */
+.dashboard-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.user-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 20px;
+  color: white;
+}
+
+.stat-icon.level {
+  background-color: #4361ee;
+}
+
+.stat-icon.ranking {
+  background-color: #f72585;
+}
+
+.stat-icon.quizzes {
+  background-color: #4cc9f0;
+}
+
+.stat-info h3 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.stat-info p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.progress-bar {
+  height: 6px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #4361ee;
+}
+
+.progress-text {
+  font-size: 11px;
+  color: #666;
+  display: block;
+  margin-top: 5px;
+}
+
+.upcoming-events {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.upcoming-events h3 {
+  margin-top: 0;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.upcoming-events ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.upcoming-events li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.upcoming-events li:last-child {
+  border-bottom: none;
+}
+
+.event-date {
+  font-size: 12px;
+  color: #666;
+  display: block;
+}
+
+.event-title {
+  font-weight: 600;
+}
+
+/* Contenido principal */
+.main-content {
+  flex: 1;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tabs button {
+  padding: 15px 20px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tabs button:hover {
+  background-color: #f5f7fa;
+}
+
+.tabs button.active {
+  color: #4361ee;
+  border-bottom: 2px solid #4361ee;
+}
+
+.tab-content {
+  padding: 20px;
+}
+
+/* Clases */
+.classes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.class-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.class-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.class-image {
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.class-progress {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.progress-circle {
+  width: 60px;
+  height: 60px;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 3;
+}
+
+.circle {
+  fill: none;
+  stroke: white;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.percentage {
+  fill: white;
+  font-size: 10px;
+  text-anchor: middle;
+  font-weight: bold;
+}
+
+.class-info {
+  padding: 15px;
+}
+
+.class-info h3 {
+  margin: 0 0 5px 0;
+  font-size: 18px;
+}
+
+.teacher {
+  color: #666;
+  margin: 0 0 10px 0;
+  font-size: 14px;
+}
+
+.next-class {
+  font-size: 12px;
+  color: #4361ee;
+  margin: 0;
+}
+
+/* Logros */
+.achievements-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.achievement-card {
+  background-color: #f5f7fa;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.achievement-card.unlocked {
+  background-color: #e3f2fd;
+}
+
+.achievement-card:hover {
+  transform: translateY(-5px);
+}
+
+.achievement-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.achievement-icon.locked {
+  opacity: 0.5;
+}
+
+.achievement-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.achievement-card p {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Notificaciones */
+.notifications-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.notification-item {
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.notification-item.unread {
+  background-color: #f0f7ff;
+}
+
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  color: #4361ee;
+}
+
+.notification-content h3 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+}
+
+.notification-content p {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.notification-time {
+  font-size: 12px;
+  color: #999;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4361ee;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .dashboard-content {
+    flex-direction: column;
+  }
+  
+  .dashboard-sidebar {
+    width: 100%;
+  }
+  
+  .user-stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .stat-card {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 10px 15px;
+  }
+  
+  .search-bar {
+    width: 200px;
+  }
+  
+  .classes-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .achievements-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .user-info {
+    display: none;
+  }
+  
+  .search-bar {
+    width: 150px;
+  }
+  
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profile-panel {
+  position: fixed;
+  top: 70px;
+  right: -350px;
+  width: 350px;
+  height: calc(100vh - 70px);
+  background-color: white;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.profile-panel.open {
+  right: 0;
+}
+
+.no-classes-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-color: #f5f7fa;
+  border-radius: 12px;
+  text-align: center;
+  grid-column: 1 / -1;
+  color: #666;
+}
+
+.no-classes-message h3 {
+  margin: 15px 0 10px;
+  color: #333;
+}
+
+.no-classes-message p {
+  margin: 0;
+}
+  

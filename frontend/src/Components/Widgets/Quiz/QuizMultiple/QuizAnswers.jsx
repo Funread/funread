@@ -1,14 +1,17 @@
 import React from 'react';
 
 const QuizAnswers = ({ answers, selectedAnswer, setSelectedAnswer, isSubmitted }) => {
-  if (!answers || !Array.isArray(answers)) {
+  console.log('QuizAnswers - answers recibidas:', answers);
+
+  if (!answers || !Array.isArray(answers) || answers.length === 0) {
     console.log('QuizAnswers: No hay respuestas válidas');
-    return null;
+    return <div>No se encontraron respuestas</div>;
   }
 
   return (
     <div className="quiz-answers-container">
       {answers.map((answer) => {
+        console.log('Renderizando respuesta:', answer);
         const isSelected = selectedAnswer === answer.id;
         const showCorrect = isSubmitted && answer.isCorrect;
         const showIncorrect = isSubmitted && isSelected && !answer.isCorrect;
@@ -22,7 +25,7 @@ const QuizAnswers = ({ answers, selectedAnswer, setSelectedAnswer, isSubmitted }
             onClick={() => !isSubmitted && setSelectedAnswer(answer.id)}
           >
             <div className="answer-text">{answer.text}</div>
-            {isSubmitted && (
+            {isSubmitted && ( 
               <div className="answer-feedback">
                 {answer.isCorrect && <span className="points">+{answer.points} puntos</span>}
               </div>

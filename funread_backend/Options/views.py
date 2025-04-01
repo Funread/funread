@@ -5,7 +5,7 @@ import sys
 sys.path.append('funread_backend')
 import verifyJwt
 from rest_framework.response import Response
-from .serializers import OptionsSeralizer
+from .serializers import OptionsSerializer
 from .models import Options
 from rest_framework import status
 import datetime
@@ -38,7 +38,7 @@ def new_option(request):
         'createdby': request.data.get('createdby'),
         'createdat': datetime.datetime.now()
     }
-    serializer = OptionsSeralizer(data=data)
+    serializer = OptionsSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -49,7 +49,6 @@ def new_option(request):
 
 @ api_view(['GET'])
 def listed_options(request):
-
     #token verification
    try: 
     authorization_header = request.headers.get('Authorization')
@@ -66,8 +65,30 @@ def listed_options(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
    except OperationalError:
         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-   serializer = OptionsSeralizer(options, many=True)
+   serializer = OptionsSerializer(options, many=True)
    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def list_options_by_idwidgetitem(request, idwidgetitem):
+    try:
+        options = Options.objects.filter(idwidgetitem= idwidgetitem).exclude(isactive=0)
+        serializer = OptionsSerializer(options, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Options.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError as e:
+        print(f"Error de base de datos: {str(e)}")  # Para ver el error en los logs
+        return Response(
+            {"error": f"Error en la base de datos: {str(e)}"}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+    except Exception as e:
+        print(f"Error inesperado: {str(e)}")  # Para ver el error en los logs
+        return Response(
+            {"error": f"Error inesperado: {str(e)}"}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 @api_view(['PUT'])
 def update_option(request):
@@ -106,7 +127,7 @@ def update_option(request):
         'idimage': new_image,
         'createdby': option.createdby.pk
     }
-     serializer = OptionsSeralizer(option, data=data)
+     serializer = OptionsSerializer(option, data=data)
      if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)

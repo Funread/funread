@@ -41,6 +41,24 @@ def create_user_total_points(request, user_id):
         print(f"Error: {e}")
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@api_view(['POST'])
+def add_points_to_user(request, user_id):
+    try:
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if es_valido==False:
+         return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        user_points = get_object_or_404(UserPoints, user_id=user_id)
+        user_points.total_points += request.data['points']
+        user_points.save()
+
+        return Response({"message": "Points added successfully"}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 # Consultar puntos totales de un usuario
 @api_view(['GET'])
 def get_user_total_points(request, user_id):

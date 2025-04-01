@@ -94,7 +94,13 @@ const KonvaPage = ({ widgets, pageData }) => {
     }
   }, [isSelected]);
 
-  
+  const calculateCenteredPosition = (imageWidth, imageHeight) => {
+    // Calcula el centro del stage
+    const centerX = (760 - imageWidth) / 2; // 760 es el ancho base del stage
+    const centerY = (760 - imageHeight) / 2; // 760 es el alto base del stage
+    return { x: centerX, y: centerY };
+  };
+
   return (
     <Stage 
       width={stageSize.width} 
@@ -110,18 +116,24 @@ const KonvaPage = ({ widgets, pageData }) => {
 
           switch (Number(widget.type)) {
             case 2: // imagen
-              return images[widget.widgetitemid] ? (
+              if (!images[widget.widgetitemid]) return null;
+              
+              // Calcula la posición centrada si no hay posición definida
+              const imageWidth = shapeProps.width || images[widget.widgetitemid].width;
+              const imageHeight = shapeProps.height || images[widget.widgetitemid].height;
+              const centeredPosition = calculateCenteredPosition(imageWidth, imageHeight);
+
+              return (
                 <Image
                   key={widget.widgetitemid}
-                  x={shapeProps.x}
-                  y={shapeProps.y}
-                  width={shapeProps.width}
-                  height={shapeProps.height}
+                  x={shapeProps.x || centeredPosition.x}
+                  y={shapeProps.y || centeredPosition.y}
+                  width={imageWidth}
+                  height={imageHeight}
                   image={images[widget.widgetitemid]}
                   draggable={true}
-                 
                 />
-              ) : null;
+              );
             case 3: // shape
               const { name,  isSelected, onSelect, onChange, ...otherProps } = shapeProps;
               
