@@ -178,80 +178,80 @@ def list_user_badges_with_status(request, user_id):
     
 
 
-@api_view(['GET'])
-def list_user_badges_Achieved_NOT_Achieved(request, user_id):
-    try:
-        # Validar token JWT
-        authorization_header = request.headers.get('Authorization')
-        verify = verifyJwt.JWTValidator(authorization_header)
-        es_valido = verify.validar_token()
-        if not es_valido:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+# @api_view(['GET'])
+# def list_user_badges_Achieved_NOT_Achieved(request, user_id):
+#     try:
+#         # Validar token JWT
+#         authorization_header = request.headers.get('Authorization')
+#         verify = verifyJwt.JWTValidator(authorization_header)
+#         es_valido = verify.validar_token()
+#         if not es_valido:
+#             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-        # Subquery para obtener el progreso y si la insignia está lograda
-        user_badge_subquery = UserBadge.objects.filter(
-            user_id=user_id,
-            badge=OuterRef('pk')
-        )
+#         # Subquery para obtener el progreso y si la insignia está lograda
+#         user_badge_subquery = UserBadge.objects.filter(
+#             user_id=user_id,
+#             badge=OuterRef('pk')
+#         )
 
-        # Anotamos los campos necesarios: logrado, progreso y estado
-        all_badges = Badge.objects.annotate(
-            achieved=Case(
-                When(id__in=user_badge_subquery.values('badge'), then=Value(True)),
-                default=Value(False),
-                output_field=BooleanField()
-            ),
-            progress=Subquery(
-                user_badge_subquery.values('progress')[:1],
-                output_field=IntegerField()
-            ),
-            status=Case(
-                When(id__in=user_badge_subquery.values('badge'), then=Value("Done")),
-                When(progress__gt=0, then=Value("In Progress")),
-                default=Value("Not Done"),
-                output_field=CharField()
-            )
-        )
+#         # Anotamos los campos necesarios: logrado, progreso y estado
+#         all_badges = Badge.objects.annotate(
+#             achieved=Case(
+#                 When(id__in=user_badge_subquery.values('badge'), then=Value(True)),
+#                 default=Value(False),
+#                 output_field=BooleanField()
+#             ),
+#             progress=Subquery(
+#                 user_badge_subquery.values('progress')[:1],
+#                 output_field=IntegerField()
+#             ),
+#             status=Case(
+#                 When(id__in=user_badge_subquery.values('badge'), then=Value("Done")),
+#                 When(progress__gt=0, then=Value("In Progress")),
+#                 default=Value("Not Done"),
+#                 output_field=CharField()
+#             )
+#         )
 
-        # Separar las badges logradas y no logradas
-        achieved_badges = all_badges.filter(achieved=True)
-        unachieved_badges = all_badges.filter(achieved=False)
+#         # Separar las badges logradas y no logradas
+#         achieved_badges = all_badges.filter(achieved=True)
+#         unachieved_badges = all_badges.filter(achieved=False)
 
-        # Construir listas para cada categoría
-        achieved_list = [
-            {
-                "title": badge.title,
-                "description": badge.description,
-                "points": badge.points,
-                "show_progress": badge.show_progress,
-                "progress_placeholder": badge.progress_placeholder if badge.show_progress else None,
-                "achieved": badge.achieved,
-                "progress": badge.progress if badge.progress is not None else 0,
-                "status": badge.status,
-            }
-            for badge in achieved_badges
-        ]
+#         # Construir listas para cada categoría
+#         achieved_list = [
+#             {
+#                 "title": badge.title,
+#                 "description": badge.description,
+#                 "points": badge.points,
+#                 "show_progress": badge.show_progress,
+#                 "progress_placeholder": badge.progress_placeholder if badge.show_progress else None,
+#                 "achieved": badge.achieved,
+#                 "progress": badge.progress if badge.progress is not None else 0,
+#                 "status": badge.status,
+#             }
+#             for badge in achieved_badges
+#         ]
 
-        unachieved_list = [
-            {
-                "title": badge.title,
-                "description": badge.description,
-                "points": badge.points,
-                "show_progress": badge.show_progress,
-                "progress_placeholder": badge.progress_placeholder if badge.show_progress else None,
-                "achieved": badge.achieved,
-                "progress": 0,  # Las no logradas no tienen progreso
-                "status": "Not Done",
-            }
-            for badge in unachieved_badges
-        ]
+#         unachieved_list = [
+#             {
+#                 "title": badge.title,
+#                 "description": badge.description,
+#                 "points": badge.points,
+#                 "show_progress": badge.show_progress,
+#                 "progress_placeholder": badge.progress_placeholder if badge.show_progress else None,
+#                 "achieved": badge.achieved,
+#                 "progress": 0,  # Las no logradas no tienen progreso
+#                 "status": "Not Done",
+#             }
+#             for badge in unachieved_badges
+#         ]
 
-        # Retornar la respuesta con ambas listas
-        return JsonResponse(
-            {"achieved_badges": achieved_list, "unachieved_badges": unachieved_list},
-            status=status.HTTP_200_OK
-        )
+#         # Retornar la respuesta con ambas listas
+#         return JsonResponse(
+#             {"achieved_badges": achieved_list, "unachieved_badges": unachieved_list},
+#             status=status.HTTP_200_OK
+#         )
 
-    except Exception as e:
-        print(f"Error: {e}")
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+#     except Exception as e:
+#         print(f"Error: {e}")
+#         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

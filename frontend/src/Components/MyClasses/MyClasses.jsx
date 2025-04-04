@@ -5,6 +5,8 @@ import './MyClasses.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faTrophy, faChartLine, faCalendarAlt, faBell, faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { listedStudentGroups } from '../../api';
+import BadgesPage from '../Badges/BadgesPage'
+import imgLogo from '../../logoFunread.png'; // Importar la imagen del logo
 
 const MyClasses = () => {
   const navigate = useNavigate();
@@ -26,12 +28,12 @@ const MyClasses = () => {
         // Get student groups from API
         const studentsGroups = await listedStudentGroups();
         console.log('Groups obtained:', studentsGroups);
-        
+
         // Filter groups belonging to current user
         const studentGroups = studentsGroups.data.filter(
           (student) => student.userid === user.userId
         );
-        
+
         // Transform data to match required format
         const formattedClasses = studentGroups.map(group => ({
           id: group.groupscreateid,
@@ -42,9 +44,9 @@ const MyClasses = () => {
           image: group.image || '/Media/media/default-class.jpg',
           bookId: group.bookid || 3 // Book ID for ReadingView navigation
         }));
-        
+
         setClasses(formattedClasses);
-        
+
         // Get user statistics (could come from another API)
         // Using example data for now
         setUserStats({
@@ -70,16 +72,25 @@ const MyClasses = () => {
 
   return (
     <div className="student-dashboard">
-      {/* Header with profile and search */}
-      <header className="dashboard-header">
-        <div className="logo">
-          <h1>FunRead</h1>
-        </div>
-        <div className="search-bar">
+      {/* Main content */}
+      <div className="dashboard-content">
+        {/* Main content area */}
+        {/* Sidebar with statistics */}
+
+        <aside className="dashboard-sidebar">
+          <div className="user-stats">
+
+            <div className="stat-card header">
+
+              <header className="dashboard-header">
+                <div className="logo">
+                  <img src={imgLogo} alt="Logo" className="logo-image" />
+                </div>
+                {/*<div className="search-bar">
           <FontAwesomeIcon icon={faSearch} />
           <input type="text" placeholder="Search classes, books..." />
         </div>
-        <div className="user-profile" onClick={() => navigate('/profile')}>
+         <div className="user-profile" onClick={() => navigate('/profile')}>
           <div className="user-avatar">
             <img src={user.profilePicture || '/Media/media/1.jpg'} alt="Profile" />
           </div>
@@ -87,15 +98,13 @@ const MyClasses = () => {
             <span className="user-name">{user.username}</span>
             <span className="user-level">Level {userStats.level}</span>
           </div>
-        </div>
-      </header>
+        </div>*/}
+              </header>
 
-      {/* Main content */}
-      <div className="dashboard-content">
-        {/* Sidebar with statistics */}
-        <aside className="dashboard-sidebar">
-          <div className="user-stats">
+            </div>
+
             <div className="stat-card">
+
               <div className="stat-icon level">
                 <FontAwesomeIcon icon={faUser} />
               </div>
@@ -108,7 +117,7 @@ const MyClasses = () => {
                 <span className="progress-text">{userStats.points} / 500 points to next level</span>
               </div>
             </div>
-            
+
             <div className="stat-card">
               <div className="stat-icon ranking">
                 <FontAwesomeIcon icon={faTrophy} />
@@ -118,7 +127,7 @@ const MyClasses = () => {
                 <p>#{userStats.ranking} in your class</p>
               </div>
             </div>
-            
+
             <div className="stat-card">
               <div className="stat-icon quizzes">
                 <FontAwesomeIcon icon={faChartLine} />
@@ -129,14 +138,14 @@ const MyClasses = () => {
               </div>
             </div>
           </div>
-          
-          <div className="upcoming-events">
+
+          {/* <div className="upcoming-events">
             <h3><FontAwesomeIcon icon={faCalendarAlt} /> Upcoming Events</h3>
             <ul>
               <li>
                 <span className="event-date">Today, 3:00 PM</span>
                 <span className="event-title">Literature Quiz</span>
-              </li>
+              </li>1
               <li>
                 <span className="event-date">Tomorrow, 10:00 AM</span>
                 <span className="event-title">Math Class</span>
@@ -146,26 +155,25 @@ const MyClasses = () => {
                 <span className="event-title">Project Submission</span>
               </li>
             </ul>
-          </div>
+          </div> */}
         </aside>
 
-        {/* Main content area */}
         <main className="main-content">
           <div className="tabs">
             <button 
-              className={activeTab === 'classes' ? 'active' : ''} 
+              className={activeTab === 'classes' ? 'active' : ''}
               onClick={() => setActiveTab('classes')}
             >
               <FontAwesomeIcon icon={faBook} /> My Classes
             </button>
-            <button 
-              className={activeTab === 'achievements' ? 'active' : ''} 
+            <button
+              className={activeTab === 'achievements' ? 'active' : ''}
               onClick={() => setActiveTab('achievements')}
             >
               <FontAwesomeIcon icon={faTrophy} /> Achievements
             </button>
-            <button 
-              className={activeTab === 'notifications' ? 'active' : ''} 
+            <button
+              className={activeTab === 'notifications' ? 'active' : ''}
               onClick={() => setActiveTab('notifications')}
             >
               <FontAwesomeIcon icon={faBell} /> Notifications
@@ -189,9 +197,9 @@ const MyClasses = () => {
                     </div>
                   ) : (
                     classes.map((classItem) => (
-                      <div 
-                        key={classItem.id} 
-                        className="class-card" 
+                      <div
+                        key={classItem.id}
+                        className="class-card"
                         onClick={() => handleClassClick(classItem)}
                       >
                         <div className="class-image" style={{ backgroundImage: `url(${classItem.image})` }}>
@@ -230,31 +238,8 @@ const MyClasses = () => {
               )}
 
               {activeTab === 'achievements' && (
-                <div className="achievements-container">
-                  <h2>Your Achievements</h2>
-                  <div className="achievements-grid">
-                    <div className="achievement-card unlocked">
-                      <div className="achievement-icon">🏆</div>
-                      <h3>First Quiz</h3>
-                      <p>Completed your first quiz</p>
-                    </div>
-                    <div className="achievement-card unlocked">
-                      <div className="achievement-icon">📚</div>
-                      <h3>Avid Reader</h3>
-                      <p>Read 5 complete books</p>
-                    </div>
-                    <div className="achievement-card">
-                      <div className="achievement-icon locked">🔒</div>
-                      <h3>Knowledge Master</h3>
-                      <p>Complete 50 quizzes with perfect score</p>
-                    </div>
-                    <div className="achievement-card">
-                      <div className="achievement-icon locked">🔒</div>
-                      <h3>Top 3 Ranking</h3>
-                      <p>Reach top 3 in your class ranking</p>
-                    </div>
-                  </div>
-                </div>
+                <BadgesPage />
+                
               )}
 
               {activeTab === 'notifications' && (

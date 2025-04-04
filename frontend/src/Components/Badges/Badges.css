@@ -1,162 +1,148 @@
 /* Container for the entire badges page */
 .badges-page-container {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    background-color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f9f9f9;
 }
 
 /* Main content container (sidebar + badges) */
 .badges-page-body {
-    display: flex;
-    align-items: flex-start;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    gap: 20px; /* Space between sidebar and badge grid */
+  display: flex;
+  align-items: flex-start;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  gap: 20px;
+  /* Space between sidebar and badge grid */
 }
 
-  /* Barra lateral de filtros */
-  .collection-sidebar {
-    width: 220px;
-    height: 100%;
-    padding: 15px;
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    margin-right: 20px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Opciones de filtro */
-  .filter-option {
-    padding: 10px;
-    margin: 8px 0;
-    background-color: #e0e0e0;
-    cursor: pointer;
-    border-radius: 5px;
-    text-align: center;
-    transition: background-color 0.2s;
-  }
-  
-  .filter-option:hover {
-    background-color: #d0d0d0;
-  }
-  
-  .filter-option.active {
-    background-color: #c0c0c0;
-    font-weight: bold;
-  }
-  
-  /* Contenedor de insignias */
-  .badges-content {
-    display: flex;
-    gap: 20px; /* Esto asegura un espacio consistente */
-    align-items: flex-start;
-    width: 100%;
+/* Barra lateral de filtros */
+.collection-sidebar {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  padding: 10px 10px;
+  position: sticky;
+  top: 54px; /* Ajusta esto según la altura de .tabs */
+  background-color: #ffffff;
+  z-index: 10;
 }
 
-  
-  /* Grid de insignias */
-  .badges-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 50px;
-    flex-grow: 1;
-    justify-items: center;
-  }
-  
-  .badge-card {
-    width: 230px; /* Ancho fijo para todas las tarjetas */
-    height: 320px; /* Altura fija para todas las tarjetas */
-    padding: 15px;
-    border-radius: 8px;
-    background-color: #ffffff;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Espaciado uniforme */
-  
-    position: relative;
-    border: 2px solid transparent;
-  }
 
-  /* Icon inside badge */
-.badge-card .icon {
-  font-size: 40px;
+/* Opciones de filtro */
+.filter-option {
+  padding: 10px 15px;
+  margin: 0px 10px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.filter-option:hover {
+  background-color: #007acc;
+  color: white;
+}
+
+.filter-option.active {
+  font-size: 15px;
+  border: 1px solid #4361ee;
+  background-color: #e3f2fd;
+  color: #4361ee;
+}
+
+/* Insignias */
+
+.achievements-container {
+  padding: 20px;
+}
+
+.achievements-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.achievement-card {
+  background-color: #f5f7fa;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s;
+  height: 195px;
+}
+
+.achievement-card.unlocked {
+  background-color: #e3f2fd;
+}
+
+.achievement-card:hover {
+  transform: translateY(-5px);
+}
+
+.achievement-icon {
+  font-size: 36px;
   margin-bottom: 10px;
 }
 
-.badge-card:hover {
-  transform: scale(1.05); /* Efecto de zoom en hover */
+.achievement-icon.locked {
+  opacity: 0.5;
 }
 
-  /* Ajustes para los textos dentro de la tarjeta */
-  .badge-card h4 {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 8px;
-  }
-  
-  .badge-card p {
-    font-size: 0.9em;
-    margin: 4px 0;
-    color: #555;
-  }
-  
-  .badge-status {  
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px 0;
-    text-align: center;
-    font-weight: bold;
-    color: #ffffff;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    text-transform: uppercase;
-    
-  }
-  
-  .badge-status.done {
-    background-color: #4CAF50;
-  }
-
-  .badge-status.in-progress {
-    background-color: #FF9800; /* Naranja para 'In Progress' */
-}
-  .badge-status.not-done {
-    background-color: #9b9b9b;
-  }
-  /* Border colors based on achievement */
-.badge-card.done {
-  border-color: #4CAF50;
+.achievement-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
 }
 
-.badge-card.in-progress {
-  border-color: #FF9800;
+.achievement-card p {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
 }
 
-.badge-card.not-done {
-  border-color: #9b9b9b;
+.achievement-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-  
-  .filter-option {
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #e0e0e0;
-    cursor: pointer;
-    border-radius: 5px;
-    text-align: center;
-    transition: background-color 0.2s;
+
+.achievement-icon > img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+
+
+}
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 576px) {
+
+  .collection-sidebar {
+    top: ;
   }
-
-.filter-option:hover {
-    background-color: #007acc;
-    color: white;
 }

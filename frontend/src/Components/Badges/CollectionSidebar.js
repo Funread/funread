@@ -1,13 +1,12 @@
 import React from "react";
 import Collection from "./Collection";
 
-function CollectionSidebar({ onSelectCollection }) {
+function CollectionSidebar({ onSelectCollection, filter }) {
   return (
     <div className="collection-sidebar">
-      <h2>My Badges</h2>
-      <Collection name="All Badges" onClick={() => onSelectCollection("all")} />
-      <Collection name="Achieved" onClick={() => onSelectCollection("achieved")} />
-      <Collection name="Not Achieved" onClick={() => onSelectCollection("notAchieved")} />
+      <Collection name="All Badges" isActive={filter === "all"} onClick={() => onSelectCollection("all")} />
+      <Collection name="Achieved" isActive={filter === "achieved"} onClick={() => onSelectCollection("achieved")} />
+      <Collection name="Not Achieved" isActive={filter === "notAchieved"} onClick={() => onSelectCollection("notAchieved")} />
     </div>
   );
 }

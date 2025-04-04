@@ -1,9 +1,9 @@
 import React from "react";
 
-function Collection({ name, onClick }) {
+function Collection({ name, onClick, isActive}) {
   return (
-    <div onClick={onClick} className="filter-option">
-      <h3>{name}</h3>
+    <div onClick={onClick} className={`filter-option ${isActive ? "active" : ""}`}>
+      {name}
     </div>
   );
 }
