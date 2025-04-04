@@ -90,14 +90,14 @@ function ReadingView() {
         if (pageNumer === pagesCount - 1) {
           user.roles.forEach((userRole) => {
             if (userRole.role === "profesor") {
-             navigate("/library")
+              navigate("/library")
             }
             else if (userRole.role === "estudiante") {
               navigate("/myclasses")
-             }
+            }
           })
 
-          
+
         }
       } else if (event.key === 'ArrowLeft') {
         console.log('ArrowLeft');
@@ -180,7 +180,7 @@ function ReadingView() {
             </div>
             <div className='content-wrapper'>
               <div className='page-content'>
-                <PageSelector 
+                <PageSelector
                   pageType={contentBook?.[pageNumer]?.page?.type || 1}
                   gridDirection={gridDirection}
                   gridNumRows={gridNumRows}
@@ -191,7 +191,7 @@ function ReadingView() {
               </div>
             </div>
             <div className='navigation-footer'>
-              <button 
+              <button
                 onClick={handlePreviousPage}
                 disabled={pageNumer === 0}
                 className='nav-button'
@@ -201,13 +201,29 @@ function ReadingView() {
               <span className='page-number'>
                 Página {pageNumer + 1} de {pagesCount}
               </span>
-              <button 
+              <button
                 onClick={handleNextPage}
                 disabled={pageNumer === pagesCount - 1}
                 className='nav-button'
               >
                 →
               </button>
+
+              {pageNumer === pagesCount - 1 && (
+                <button
+                  onClick={() => {
+                    if (user.roles[0].role === "profesor") {
+                      navigate("/library");
+                    } else if (user.roles[0].role === "estudiante") {
+                      navigate("/myclasses");
+                    }
+                  }}
+                className='exit-button'>
+                  Salir
+                </button>
+              )}
+
+
             </div>
           </div>
         )}

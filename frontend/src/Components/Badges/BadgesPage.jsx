@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import SidebarBook from '../Shared/SidebarBook/SidebarBook';
+import SidebarBook from '../Shared/SidebarBook/SidebarBook'; // Anterior sidebar
 import BadgeGrid from './BadgeGrid';
-import CollectionSidebar from './CollectionSidebar';
+import CollectionSidebar from './CollectionSidebar'; // Old menu for filter badges
 import './Badges.css';
-import {listBadgePerUser} from  '../../api/Badges';
+import { listBadgePerUser } from '../../api/userBadges';
+
 const BadgesPage = () => {
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState('all'); // Estado para el filtro de colección");
   const [badges, setBadges] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,11 +15,9 @@ const BadgesPage = () => {
   useEffect(() => {
     async function fetchBadges() {
       try {
-        const data = await listBadgePerUser(
-          4
-         
-        )
+        const data = await listBadgePerUser();
         setBadges(data);
+        console.log('Badges:', data); // Mostrar los badges en la consola
       } catch (err) {
         setError(err.message); // Manejar errores
       } finally {
@@ -38,21 +37,15 @@ const BadgesPage = () => {
   if (error) return <p>Error loading badges: {error}</p>; // Mensaje de error
 
   return (
-    <div className='container-fluid text-center group'>
-      <div className='row' style={{ height: 'auto' }}>
-        <div className='col-1 p-0'>
-          <SidebarBook />
-        </div>
-        <div className='col-11 main-content'>
-          <div className="badges-page-container">
-            <div className="badges-page-body">
-              <CollectionSidebar onSelectCollection={onSelectCollection} />
-              <BadgeGrid filter={filter} badgesData={badges} /> {/* Pasar los datos de los badges a BadgeGrid */}
-            </div>
-          </div>
+    <>
+        <CollectionSidebar onSelectCollection={onSelectCollection} filter={filter} /> {/* Sidebar para filtrar badges */}
+        <div className="achievements-container">
+        <div className="achievements-grid">
+        <BadgeGrid filter={filter} badgesData={badges} /> {/* Pasar los datos de los badges a BadgeGrid */}
         </div>
       </div>
-    </div>
+    </>
+
   );
 };
 

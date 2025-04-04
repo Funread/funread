@@ -1,53 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { listBadgePerUser } from '../../api/Badges'; // Ruta correcta hacia el archivo API
+import React from 'react';
 
-function BadgeGrid({ userId }) {
-  const [badgesData, setBadgesData] = useState([]); // Estado para almacenar las insignias
-  const [loading, setLoading] = useState(true); // Estado para el indicador de carga
-  const [error, setError] = useState(null); // Estado para manejar errores
+function BadgeGrid({ filter, badgesData }) {
+  
+  // Filtrar las insignias según el valor de "filter"
+  const filteredBadges = badgesData.filter((badge) => {
+    if (filter === 'all') return true; // Mostrar todas las insignias
+    if (filter === 'achieved') return badge.achieved === true; // Mostrar solo las logradas
+    if (filter === 'notAchieved') return badge.achieved === false; // Mostrar solo las no logradas
+  });
 
-  useEffect(() => {
-    const fetchBadges = async () => {
-      try {
-        setLoading(true); // Activa el indicador de carga
-        const data = await listBadgePerUser(userId); // Obtiene los datos usando la función API
-        setBadgesData(data.badges || []); // Actualiza el estado con el array de insignias
-      } catch (err) {
-        console.error('Error fetching badges:', err);
-        setError(err.message || 'Something went wrong'); // Maneja errores
-      } finally {
-        setLoading(false); // Desactiva el indicador de carga
-      }
-    };
-
-    fetchBadges(); // Llama a la función al montar el componente
-  }, [userId]);
-
-  // Mostrar un indicador de carga mientras se obtienen los datos
-  if (loading) {
-    return <div>Loading badges...</div>;
-  }
-
-  // Mostrar un mensaje de error si ocurre un problema
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  // Renderizar las insignias
+  // Renderizar las insignias filtradas
   return (
-    <div className="badges-grid">
-      {badgesData.map((badge, index) => (
-        <div key={index} className="badge-card">
-          <h4>{badge.title}</h4>
+    <>
+      {filteredBadges.map((badge, index) => (
+        <div key={index} className={`achievement-card ${badge.achieved === true ? 'unlocked' : 'locked'}`}>
+          <div className="achievement-icon">
+            {
+              badge.achieved === true ? (
+                <img src={badge.icon} alt={badge.title} className="icon" /> /* Icono de la insignia */
+              ) : (
+                <div className="achievement-icon">🔒</div>
+              )
+            }
+            
+            
+          </div>
+          <h3>{badge.title}</h3>
           <p>{badge.description}</p>
           <p>Points: {badge.points}</p>
-          <p>Status: {badge.status}</p>
         </div>
       ))}
-    </div>
+    </>
   );
 }
 
 export default BadgeGrid;
-
-
