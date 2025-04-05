@@ -1,32 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './QuizMultiple.css';
 import QuizMedia from './QuizMedia';
 import QuizAnswers from './QuizAnswers';
 
-const QuizMultiple = ({ quizData }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+const QuizMultiple = ({ quizData, onAnswerSelected, initialAnswer = null, isSubmitted = false }) => {
+  const [selectedAnswer, setSelectedAnswer] = useState(initialAnswer);
+  const [localIsSubmitted, setLocalIsSubmitted] = useState(isSubmitted);
+
+  // Efecto para actualizar el estado cuando cambian las props
+  useEffect(() => {
+    setSelectedAnswer(initialAnswer);
+    setLocalIsSubmitted(isSubmitted);
+  }, [initialAnswer, isSubmitted]);
 
   // Validación mejorada
   if (!quizData) {
-    console.log('QuizMultiple: No hay datos de quiz');
+    console.log('QuizMultiple: No quiz data');
     return null;
   }
 
-  console.log('QuizMultiple - quizData recibido:', quizData);
+  console.log('QuizMultiple - received quizData:', quizData);
   console.log('QuizMultiple - answers:', quizData.answers);
+  console.log('QuizMultiple - initialAnswer:', initialAnswer, 'isSubmitted:', isSubmitted);
 
   // Validar específicamente las respuestas
   if (!quizData.answers || !Array.isArray(quizData.answers) || quizData.answers.length === 0) {
-    console.log('QuizMultiple: No hay respuestas válidas');
-    return <div>No hay respuestas disponibles</div>;
+    console.log('QuizMultiple: No valid answers');
+    return <div>No answers available</div>;
   }
 
   const handleSubmit = () => {
-    if (selectedAnswer !== null) {
-      setIsSubmitted(true);
+    if (selectedAnswer !== null && !localIsSubmitted) {
+      setLocalIsSubmitted(true);
+      
+      // Obtener la respuesta seleccionada
+      const selectedAnswerData = quizData.answers.find(answer => answer.id === selectedAnswer);
+      
+      // Notificar al componente padre con la selección
+      if (selectedAnswerData && onAnswerSelected) {
+        onAnswerSelected(
+          selectedAnswer,
+          selectedAnswerData.isCorrect,
+          selectedAnswerData.points
+        );
+      }
     }
   };
+
+  // Si ya está respondido y tenemos una respuesta inicial, no mostramos el botón de enviar
+  const showSubmitButton = !isSubmitted || !initialAnswer;
 
   return (
     <div className="quiz-multiple-container">
@@ -55,18 +77,20 @@ const QuizMultiple = ({ quizData }) => {
           answers={quizData.answers}
           selectedAnswer={selectedAnswer}
           setSelectedAnswer={setSelectedAnswer}
-          isSubmitted={isSubmitted}
+          isSubmitted={localIsSubmitted}
         />
       )}
 
-      {/* Botón de enviar */}
-      <button 
-        className={`quiz-submit-button ${selectedAnswer !== null ? 'active' : ''}`}
-        onClick={handleSubmit}
-        disabled={selectedAnswer === null || isSubmitted}
-      >
-        {isSubmitted ? 'Enviado' : 'Enviar Respuesta'}
-      </button>
+      {/* Botón de enviar - solo si no está ya respondido desde localStorage */}
+      {showSubmitButton && (
+        <button 
+          className={`quiz-submit-button ${selectedAnswer !== null ? 'active' : ''}`}
+          onClick={handleSubmit}
+          disabled={selectedAnswer === null || localIsSubmitted}
+        >
+          {localIsSubmitted ? 'Submitted' : 'Submit Answer'}
+        </button>
+      )}
     </div>
   );
 };

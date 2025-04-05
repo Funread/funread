@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './MyClasses.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faTrophy, faChartLine, faCalendarAlt, faBell, faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faTrophy, faChartLine, faCalendarAlt, faBell, faUser, faSearch, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { listedStudentGroups } from '../../api';
+import { listedBooksPerClassesById } from '../../api/booksPerClasses';
 import BadgesPage from '../Badges/BadgesPage'
 import imgLogo from '../../logoFunread.png'; // Importar la imagen del logo
 
@@ -20,43 +21,53 @@ const MyClasses = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('classes');
+  const [selectedClass, setSelectedClass] = useState(null);
+  const [classBooks, setClassBooks] = useState([]);
+  const [loadingBooks, setLoadingBooks] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        // Get student groups from API
+        // Obtener grupos de estudiantes desde la API
         const studentsGroups = await listedStudentGroups();
-        console.log('Groups obtained:', studentsGroups);
+        console.log('Grupos obtenidos:', studentsGroups);
 
-        // Filter groups belonging to current user
+        // Filtrar grupos pertenecientes al usuario actual
         const studentGroups = studentsGroups.data.filter(
           (student) => student.userid === user.userId
         );
+        console.log('Grupos del usuario actual:', studentGroups);
 
-        // Transform data to match required format
-        const formattedClasses = studentGroups.map(group => ({
-          id: group.groupscreateid,
-          name: group.groupname || 'Class 1',
-          progress: group.progress || Math.floor(Math.random() * 100), // Random progress if none exists
-          teacher: group.teachername || 'Unassigned Teacher',
-          nextClass: group.nextClass || 'No scheduled classes',
-          image: group.image || '/Media/media/default-class.jpg',
-          bookId: group.bookid || 3 // Book ID for ReadingView navigation
-        }));
+        // Transformar datos para que coincidan con el formato requerido
+        const formattedClasses = studentGroups.map(group => {
+          const formattedGroup = {
+            id: group.groupscreateid,
+            name: group.groupname || 'Class 1',
+            progress: group.progress || Math.floor(Math.random() * 100), // Progreso aleatorio si no existe
+            teacher: group.teachername || 'Unassigned Teacher',
+            nextClass: group.nextClass || 'No scheduled classes',
+            image: group.image || '/Media/media/default-class.jpg',
+            bookId: group.bookid || 3 // ID del libro para la navegación en ReadingView
+          };
+          console.log('Clase formateada:', formattedGroup);
+          return formattedGroup;
+        });
 
         setClasses(formattedClasses);
 
-        // Get user statistics (could come from another API)
-        // Using example data for now
-        setUserStats({
+        // Obtener estadísticas del usuario (podría provenir de otra API)
+        // Usando datos de ejemplo por ahora
+        const userStatistics = {
           level: user.level || 5,
           points: user.points || 1250,
           ranking: 8,
           completedQuizzes: 24
-        });
+        };
+        console.log('Estadísticas del usuario:', userStatistics);
+        setUserStats(userStatistics);
       } catch (error) {
-        console.error('Error loading classes:', error);
+        console.error('Error al cargar las clases:', error);
       } finally {
         setIsLoading(false);
       }
@@ -65,9 +76,41 @@ const MyClasses = () => {
     fetchData();
   }, [user.userId]);
 
-  // Function to navigate to reading view when clicking a class
-  const handleClassClick = (classItem) => {
-    navigate(`/readingview/${classItem.bookId}`);
+  // Function to fetch books for a specific class
+  const fetchClassBooks = async (classId) => {
+    setLoadingBooks(true);
+    try {
+      const response = await listedBooksPerClassesById(classId);
+      console.log('Books for class obtained:', response);
+      
+      if (response && response.data) {
+        setClassBooks(response.data);
+      } else {
+        setClassBooks([]);
+      }
+    } catch (error) {
+      console.error('Error loading books for class:', error);
+      setClassBooks([]);
+    } finally {
+      setLoadingBooks(false);
+    }
+  };
+
+  // Function to handle class selection and show books
+  const handleClassSelect = async (classItem) => {
+    setSelectedClass(classItem);
+    await fetchClassBooks(classItem.id);
+  };
+
+  // Function to navigate to reading view for a specific book
+  const handleBookClick = (bookId) => {
+    navigate(`/readingview/${bookId}`);
+  };
+
+  // Function to go back to classes view
+  const handleBackToClasses = () => {
+    setSelectedClass(null);
+    setClassBooks([]);
   };
 
   return (
@@ -187,7 +230,7 @@ const MyClasses = () => {
             </div>
           ) : (
             <div className="tab-content">
-              {activeTab === 'classes' && (
+              {activeTab === 'classes' && !selectedClass && (
                 <div className="classes-grid">
                   {classes.length === 0 ? (
                     <div className="no-classes-message">
@@ -200,7 +243,7 @@ const MyClasses = () => {
                       <div
                         key={classItem.id}
                         className="class-card"
-                        onClick={() => handleClassClick(classItem)}
+                        onClick={() => handleClassSelect(classItem)}
                       >
                         <div className="class-image" style={{ backgroundImage: `url(${classItem.image})` }}>
                           <div className="class-progress">
@@ -233,6 +276,60 @@ const MyClasses = () => {
                         </div>
                       </div>
                     ))
+                  )}
+                </div>
+              )}
+
+              {/* Mostrar libros de una clase seleccionada */}
+              {activeTab === 'classes' && selectedClass && (
+                <div className="class-books-container">
+                  <div className="class-books-header">
+                    <button onClick={handleBackToClasses} className="back-button">
+                      <FontAwesomeIcon icon={faArrowLeft} /> Volver a clases
+                    </button>
+                    <h2>Libros de {selectedClass.name}</h2>
+                  </div>
+                  
+                  {loadingBooks ? (
+                    <div className="loading-spinner">
+                      <div className="spinner"></div>
+                      <p>Cargando libros...</p>
+                    </div>
+                  ) : (
+                    <div className="books-grid">
+                      {classBooks.length === 0 ? (
+                        <div className="no-books-message">
+                          <FontAwesomeIcon icon={faBook} size="3x" />
+                          <h3>No hay libros disponibles</h3>
+                          <p>Esta clase aún no tiene libros asignados.</p>
+                        </div>
+                      ) : (
+                        classBooks.map((book) => (
+                          <div 
+                            key={book.id || book.booksid} 
+                            className="book-card"
+                            onClick={() => handleBookClick(book.id || book.booksid)}
+                          >
+                            <div className="book-cover" style={{ 
+                              backgroundImage: `url(${book.image || book.cover || '/Media/media/default-book.jpg'})` 
+                            }}>
+                            </div>
+                            <div className="book-info">
+                              <h3>{book.title || book.name || 'Libro sin título'}</h3>
+                              <p className="book-author">{book.author || 'Autor desconocido'}</p>
+                              {book.progress !== undefined && (
+                                <div className="book-progress">
+                                  <div className="progress-bar">
+                                    <div className="progress" style={{ width: `${book.progress}%` }}></div>
+                                  </div>
+                                  <span>{book.progress}% completado</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
                   )}
                 </div>
               )}

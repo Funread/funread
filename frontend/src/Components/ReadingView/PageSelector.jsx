@@ -3,7 +3,7 @@ import GridPage from './Pages/GridPage'  // Antiguo componente Page renombrado
 import KonvaPage from './Pages/KonvaPage'  // Nuevo componente para type 2
 import QuizPage from './Pages/QuizPage'  // Importar QuizPage en lugar de QuizMultiple
 
-const PageSelector = ({ pageType, ...props }) => {
+const PageSelector = ({ pageType, onQuizResponse, savedResponses, ...props }) => {
   switch (pageType) {
     case 1:
       return <GridPage {...props} />
@@ -13,7 +13,12 @@ const PageSelector = ({ pageType, ...props }) => {
       console.log("caso 4")
       return (
         <div className="quiz-page-wrapper">
-          <QuizPage widgets={props.widgets} pageData={props.pageData} />
+          <QuizPage 
+            widgets={props.widgets} 
+            pageData={props.pageData} 
+            onQuizResponse={onQuizResponse}
+            savedResponses={savedResponses}
+          />
         </div>
       )
     default:

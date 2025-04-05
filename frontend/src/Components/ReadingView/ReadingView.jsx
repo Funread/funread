@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import PageSelector from './PageSelector'
+import { submit_quiz_responses } from '../../api/options'
 
 function ReadingView() {
 
@@ -22,6 +23,10 @@ function ReadingView() {
   const [gridNumRows, setGridNumRows] = useState(null);
   const [pageNumer, setPageNumer] = useState(0);
   const [widgets, setWidgets] = useState(null);
+  
+  // State for managing accumulated quiz points
+  const [quizTotalPoints, setQuizTotalPoints] = useState(0);
+  const [quizResponses, setQuizResponses] = useState({});
 
   // const [currentPage, setCurrentPage] = useState(null);
   //-----------------------------------------------------
@@ -36,7 +41,22 @@ function ReadingView() {
 
   const [error, setError] = useState(null);
 
-  const [currentPageIndex, setCurrentPageIndex] = useState(0); // Estado para la página actual
+  const [currentPageIndex, setCurrentPageIndex] = useState(0); // State for current page
+  
+  // Load saved responses from localStorage on startup
+  useEffect(() => {
+    const storedQuizResponses = localStorage.getItem(`quiz_responses_${bookid}_${user?.userid}`);
+    if (storedQuizResponses) {
+      try {
+        const parsedResponses = JSON.parse(storedQuizResponses);
+        setQuizResponses(parsedResponses.responses || {});
+        setQuizTotalPoints(parsedResponses.totalPoints || 0);
+        console.log('Loading saved responses:', parsedResponses);
+      } catch (e) {
+        console.error('Error loading saved responses:', e);
+      }
+    }
+  }, [bookid, user]);
 
   useEffect(() => {
     getBookContent();
@@ -45,9 +65,66 @@ function ReadingView() {
   }, []);
 
   useEffect(() => {
-    console.log('El estado contentBook ha sido actualizado:', contentBook);
-  }, [contentBook]); // Este useEffect se ejecutará cada vez que 'contentBook' cambie.
+    console.log('The contentBook state has been updated:', contentBook);
+  }, [contentBook]); // This useEffect will run each time 'contentBook' changes.
 
+  // Function to save responses to localStorage
+  const saveQuizResponsesToLocalStorage = (responses, points) => {
+    try {
+      const dataToStore = {
+        responses,
+        totalPoints: points,
+        bookId: bookid,
+        userId: user?.userid,
+        lastUpdated: new Date().toISOString()
+      };
+      
+      localStorage.setItem(
+        `quiz_responses_${bookid}_${user?.userid}`, 
+        JSON.stringify(dataToStore)
+      );
+      
+      console.log('Responses saved to localStorage:', dataToStore);
+    } catch (e) {
+      console.error('Error saving responses to localStorage:', e);
+    }
+  };
+  
+  // Function to update total points
+  const updateQuizPoints = (newResponses) => {
+    // Calculate total points
+    let totalPoints = 0;
+    
+    Object.values(newResponses).forEach(response => {
+      if (response && response.points) {
+        totalPoints += response.points;
+      }
+    });
+    
+    console.log('Total points updated:', totalPoints);
+    setQuizTotalPoints(totalPoints);
+    
+    // Save to localStorage
+    saveQuizResponsesToLocalStorage(newResponses, totalPoints);
+    
+    return totalPoints;
+  };
+  
+  // Function to save quiz responses
+  const handleQuizResponse = (widgetId, responseData) => {
+    console.log('Quiz response received:', widgetId, responseData);
+    
+    // Update local state
+    const updatedResponses = {
+      ...quizResponses,
+      [widgetId]: responseData
+    };
+    
+    setQuizResponses(updatedResponses);
+    
+    // Update total points
+    updateQuizPoints(updatedResponses);
+  };
 
   const getBookContent = () => {
     async function fetchData() {
@@ -78,9 +155,9 @@ function ReadingView() {
   };
 
   useEffect(() => {
-    console.log("tiliza pageNumer actual " + contentBook)
+    console.log("using current pageNumer " + contentBook)
     const handleKeyDown = (event) => {
-      let currentPage = pageNumer; // Utiliza pageNumer actual para calcular la nueva página
+      let currentPage = pageNumer; // Use current pageNumer to calculate the new page
 
       if (event.key === 'ArrowRight') {
         console.log('ArrowRight');
@@ -88,6 +165,9 @@ function ReadingView() {
           currentPage = pageNumer + 1;
         }
         if (pageNumer === pagesCount - 1) {
+          // Submit responses before exiting
+          submitResponses();
+          
           user.roles.forEach((userRole) => {
             if (userRole.role === "profesor") {
               navigate("/library")
@@ -96,8 +176,6 @@ function ReadingView() {
               navigate("/myclasses")
             }
           })
-
-
         }
       } else if (event.key === 'ArrowLeft') {
         console.log('ArrowLeft');
@@ -107,7 +185,7 @@ function ReadingView() {
       }
 
       setPageNumer(currentPage);
-      console.log("tiliza pageNumer actual " + pageNumer)
+      console.log("using current pageNumer " + pageNumer)
       loadPage(contentBook, currentPage);
     };
 
@@ -116,7 +194,7 @@ function ReadingView() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [contentBook, pageNumer, pagesCount]);
+  }, [contentBook, pageNumer, pagesCount, quizResponses]);
 
 
   const loadPage = (currentContent, pageNumber) => {
@@ -134,11 +212,10 @@ function ReadingView() {
     setPagesCount(currentContent.length)
     setWidgets(currentPageContent.widgetitems);
     setIsLoading(false);
-
   };
 
   const exitPresentation = () => {
-    handle.exit() // Sale del modo pantalla completa
+    handle.exit() // Exit fullscreen mode
   }
 
   const handlePreviousPage = () => {
@@ -149,18 +226,50 @@ function ReadingView() {
     }
   };
 
+  // Function to send all accumulated responses to the API
+  const submitResponses = async () => {
+    try {
+      if (Object.keys(quizResponses).length === 0) {
+        console.log('No responses to send');
+        return;
+      }
+      
+      console.log('Sending accumulated responses to API:', quizResponses);
+      console.log('Total points:', quizTotalPoints);
+      
+      const userId = user?.userid;
+      if (!userId || !bookid) {
+        console.error('Could not get user ID or book ID');
+        return;
+      }
+      
+      // Send responses to API
+      await submit_quiz_responses(quizResponses, bookid, userId);
+      
+      // Clear localStorage after sending
+      localStorage.removeItem(`quiz_responses_${bookid}_${user?.userid}`);
+      
+      console.log('Responses sent successfully');
+      alert(`Quiz completed! You've earned ${quizTotalPoints} points.`);
+    } catch (error) {
+      console.error('Error sending responses:', error);
+    }
+  };
+
   const handleNextPage = () => {
     if (pageNumer < pagesCount - 1) {
       const currentPage = pageNumer + 1;
       setPageNumer(currentPage);
       loadPage(contentBook, currentPage);
     } else {
+      // Send accumulated responses to API
+      submitResponses();
+      
       user.roles.forEach((userRole) => {
         if (userRole.role === "profesor") {
-          navigate("/library")
-        }
-        else if (userRole.role === "estudiante") {
-          navigate("/myclasses")
+          navigate("/library");
+        } else if (userRole.role === "estudiante") {
+          navigate("/myclasses");
         }
       });
     }
@@ -169,6 +278,13 @@ function ReadingView() {
   return (
     <FullScreen handle={handle}>
       <div className='presentation-container'>
+        {/* Floating points indicator - always visible */}
+        {quizTotalPoints > 0 && (
+          <div className="quiz-points-display">
+            Points: {quizTotalPoints}
+          </div>
+        )}
+        
         {isLoading ? (
           <div>Loading...</div>
         ) : error ? (
@@ -176,7 +292,7 @@ function ReadingView() {
         ) : (
           <div className='reading-view-layout'>
             <div className='top-menu'>
-              {/* Botones y otros elementos de UI aquí... */}
+              {/* Buttons and other UI elements here... */}
             </div>
             <div className='content-wrapper'>
               <div className='page-content'>
@@ -187,6 +303,8 @@ function ReadingView() {
                   pageNumer={pageNumer}
                   widgets={widgets}
                   pageData={contentBook?.[pageNumer]?.page?.data}
+                  onQuizResponse={handleQuizResponse}
+                  savedResponses={quizResponses}
                 />
               </div>
             </div>
@@ -199,7 +317,7 @@ function ReadingView() {
                 ←
               </button>
               <span className='page-number'>
-                Página {pageNumer + 1} de {pagesCount}
+                Page {pageNumer + 1} of {pagesCount}
               </span>
               <button
                 onClick={handleNextPage}
@@ -212,6 +330,9 @@ function ReadingView() {
               {pageNumer === pagesCount - 1 && (
                 <button
                   onClick={() => {
+                    // Submit responses before exiting
+                    submitResponses();
+                    
                     if (user.roles[0].role === "profesor") {
                       navigate("/library");
                     } else if (user.roles[0].role === "estudiante") {
@@ -219,11 +340,9 @@ function ReadingView() {
                     }
                   }}
                 className='exit-button'>
-                  Salir
+                  Exit
                 </button>
               )}
-
-
             </div>
           </div>
         )}

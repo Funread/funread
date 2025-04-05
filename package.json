@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "react-confetti": "^6.4.0",
     "react-dnd": "^16.0.1",
-    "react-dnd-html5-backend": "^16.0.1"
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-lottie": "^1.2.10"
   }
 }
