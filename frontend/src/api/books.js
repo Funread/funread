@@ -81,6 +81,9 @@ export async function modifyStateToPublish(title) {
     title: title,
   })
 }
+export async function bookSearchById(idBook) {
+  return axiosAuth().get('books/book-by-id/' + idBook)
+}
 
 export function fullBook(idBook) {
   return axiosAuth().get('books/full-book/' + idBook)

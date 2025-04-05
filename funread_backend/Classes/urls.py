@@ -9,7 +9,7 @@ urlpatterns = [
     path('changeClasses', views.classesChange),
     path('deleteClasses', views.deleteclasses),
     path('listedClassesid', views.listedclassesid),
-    path('listedClassesPerGroup/<str:groupid>',views.listedClassPerGroup)
-   
+    path('listedClassesPerGroup/<str:groupid>',views.listedClassPerGroup),
+    path('getClassById/<str:classid>',views.getClassById)
 ]
 

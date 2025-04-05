@@ -355,3 +355,23 @@ def usercompleteSearch(request):
     except OperationalError:
          return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def userListById(request, user_id):
+    try:
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if es_valido == False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        user = User.objects.get(userid=user_id)
+        serializer = UserSerializer(user)
+        user_data = serializer.data
+        if 'password' in user_data:
+            del user_data['password']
+        return Response(user_data, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

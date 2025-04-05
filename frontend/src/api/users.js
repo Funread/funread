@@ -9,6 +9,11 @@ export async function login(email, password) {
   })
 }
 
+export async function userListById(user_id) {
+  return axiosAuth().get(`users/userListById/${user_id}`)
+}
+
+
 export async function tokenVerify() {
   return await axiosAuth().post('users/tokenVerify/')
 }
@@ -37,3 +42,4 @@ export async function updateUser(email,name,lastname,username) {
     username:username
   })
 }
+

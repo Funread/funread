@@ -63,3 +63,7 @@ export async function listedClassesId(group) {
     group: group,
   })
 }
+
+export async function getClassById(classId) {
+  return axiosAuth().get(`classes/getClassById/${classId}`)
+}

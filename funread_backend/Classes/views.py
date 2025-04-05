@@ -161,3 +161,23 @@ def listedClassPerGroup(request,groupid):
         return Response(dilemmas_serializer.data, status=status.HTTP_200_OK)
     except OperationalError:
         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['GET'])
+def getClassById(request, classid):
+    # Verificación del token
+    try:
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if es_valido == False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        try:
+            clase = Classes.objects.get(pk=classid)
+            clase_serializer = ClassesSerializer(clase)
+        except Classes.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(clase_serializer.data, status=status.HTTP_200_OK)
+    except OperationalError:
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

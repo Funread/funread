@@ -7,6 +7,7 @@ from rest_framework_simplejwt import views as jwt_views
 
 
 urlpatterns=[
+    path('userListById/<str:user_id>',views.userListById),
     path('search/<str:email>', views.userSearch),
     path('change/', views.userChange),
     path('password/', views.userChangePassword),
@@ -18,7 +19,8 @@ urlpatterns=[
     path('activate_user/',views.activate_user),
     path('login/',views.login),
     path('tokenVerify/',views.tokenVerify),
-    path('completesearch/',views.usercompleteSearch)
+    path('completesearch/',views.usercompleteSearch),
+    
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
