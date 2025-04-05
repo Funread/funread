@@ -1,0 +1,109 @@
+/* Contenedor principal */
+.badgeunlock-container {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100vw;
+     height: 100vh;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background: rgba(0, 0, 0, 0.7);
+     z-index: 1000;
+     animation: fadeIn 1s ease-in-out;
+   }
+   
+   /* Contenido de la notificación */
+   .badgeunlock-content {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     background: linear-gradient(145deg, #8f9dd6cd, rgba(116, 121, 195, 0.814));
+     border-radius: 50px;
+     padding: 60px;
+     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+     animation: scaleUp 0.5s ease-out;
+     position: relative;
+     text-align: center;
+     color: white;
+     max-width: 400px;
+     width: 100%;
+     transform: translateY(-100%);
+     animation: slideUp 1s ease-out forwards;
+   }
+   
+   /* Icono del logro */
+   .badgeunlock-icon-wrapper {
+     width: 160px;
+     height: 160px;
+     background-color: rgba(0, 0, 0, 0.341);
+     border-radius: 50%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     margin-bottom: 20px;
+     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+     overflow: hidden;
+   }
+   
+   .badgeunlock-icon-wrapper > img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     border-radius: 50%;
+   }
+   
+   /* Icono */
+   .badgeunlock-icon {
+     width: 100px;
+     height: 100px;
+     object-fit: contain;
+   }
+   
+   /* Texto */
+   .badgeunlock-text h1 {
+     font-size: 2.5rem;
+     font-weight: bold;
+     margin-bottom: 10px;
+     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+   }
+   
+   .badgeunlock-text h2 {
+     font-size: 1.5rem;
+     margin-bottom: 15px;
+     font-weight: 600;
+     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+   }
+   
+   /* Animaciones */
+   @keyframes fadeIn {
+     from {
+       opacity: 0;
+     }
+     to {
+       opacity: 1;
+     }
+   }
+   
+   @keyframes scaleUp {
+     from {
+       transform: scale(0.8);
+       opacity: 0;
+     }
+     to {
+       transform: scale(1);
+       opacity: 1;
+     }
+   }
+   
+   /* Animación para que se deslice hacia arriba */
+   @keyframes slideUp {
+     from {
+       transform: translateY(-100%);
+     }
+     to {
+       transform: translateY(0);
+     }
+   }
+   

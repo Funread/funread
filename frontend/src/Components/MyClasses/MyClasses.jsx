@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faTrophy, faChartLine, faCalendarAlt, faBell, faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { listedStudentGroups } from '../../api';
 import BadgesPage from '../Badges/BadgesPage'
-import imgLogo from '../../logoFunread.png'; // Importar la imagen del logo
+import imgLogo from '../../logoFunread.png';
+import BadgeUnlock from '../Badges/BadgeUnlock.jsx'; // Importar el componente de celebración de insignia
 
 const MyClasses = () => {
   const navigate = useNavigate();
@@ -20,7 +21,6 @@ const MyClasses = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('classes');
-
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -76,7 +76,6 @@ const MyClasses = () => {
       <div className="dashboard-content">
         {/* Main content area */}
         {/* Sidebar with statistics */}
-
         <aside className="dashboard-sidebar">
           <div className="user-stats">
 
@@ -100,7 +99,6 @@ const MyClasses = () => {
           </div>
         </div>*/}
               </header>
-
             </div>
 
             <div className="stat-card">

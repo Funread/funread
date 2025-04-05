@@ -40,9 +40,9 @@
   padding: 10px 15px;
   margin: 0px 10px;
   background-color: #e0e0e0;
-  border: none;
+  border: 1px solid #00000000;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   color: #333;
   cursor: pointer;
@@ -55,13 +55,15 @@
 .filter-option:hover {
   background-color: #007acc;
   color: white;
+  
 }
 
 .filter-option.active {
-  font-size: 15px;
+  font-size: 14px;
   border: 1px solid #4361ee;
   background-color: #e3f2fd;
   color: #4361ee;
+  padding: 10px 15px;
 }
 
 /* Insignias */
@@ -133,6 +135,18 @@
 /* Responsive */
 @media (max-width: 992px) {
 
+  .header, .stat-card {
+    width: 45%;
+    flex:none;
+  }
+
+  .dashboard-header {
+    width: 100%;
+  }
+
+  .stat-card {
+    flex: 1 1 45%;
+  }
 
 }
 
@@ -143,6 +157,6 @@
 @media (max-width: 576px) {
 
   .collection-sidebar {
-    top: ;
+    top: 76px; /* Ajusta esto según la altura de .tabs */
   }
 }
