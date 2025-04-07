@@ -55,7 +55,7 @@ urlpatterns = [
     path('Subtitled/',include('Subtitled.urls')),
     path('AvatarCreator/', include('AvatarCreator.urls')),
     path('BookCover/', include('BookCover.urls')),
-    
+    path('userbookprogress/', include('userbookprogress.urls')),
 ]
 
 if settings.DEBUG:

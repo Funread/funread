@@ -274,3 +274,19 @@ class Widgetitem(models.Model):
     class Meta:
         
         db_table = 'widgetitem'
+
+class UserBookProgress(models.Model):
+    id = models.AutoField(db_column='Id', primary_key=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, db_column='BookId')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='UserId')
+    status = models.IntegerField(db_column='Status', default=0)
+    calificacion = models.FloatField(
+        db_column='Calificacion',
+        null=True,
+        blank=True,
+        default=None
+    )
+
+    class Meta:
+        db_table = 'userbookprogress'
+        unique_together = (('book', 'user'),)

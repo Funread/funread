@@ -31,7 +31,6 @@ ALLOWED_HOSTS = [os.environ.get("SETTINGS_ALLOWED_HOSTS")]
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.admin',
@@ -77,13 +76,10 @@ INSTALLED_APPS = [
     'UserBadge',
     'UserPoints',
     'AvatarCreator',
-    'BookCover'
-
-
-    #     'AuthApp.apps.AuthappConfig',
-    #     'BookCreator.apps.BookcreatorConfig',
-    #     'rest_framework',
+    'BookCover',
+    'userbookprogress',
 ]
+
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=50),  # Duración del token de acceso (ejemplo: 1 hora)
