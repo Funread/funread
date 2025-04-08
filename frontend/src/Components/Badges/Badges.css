@@ -40,9 +40,9 @@
   padding: 10px 15px;
   margin: 0px 10px;
   background-color: #e0e0e0;
-  border: 1px solid #00000000;
+  border: none;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   color: #333;
   cursor: pointer;
@@ -55,15 +55,13 @@
 .filter-option:hover {
   background-color: #007acc;
   color: white;
-  
 }
 
 .filter-option.active {
-  font-size: 14px;
+  font-size: 15px;
   border: 1px solid #4361ee;
   background-color: #e3f2fd;
   color: #4361ee;
-  padding: 10px 15px;
 }
 
 /* Insignias */
@@ -135,18 +133,6 @@
 /* Responsive */
 @media (max-width: 992px) {
 
-  .header, .stat-card {
-    width: 45%;
-    flex:none;
-  }
-
-  .dashboard-header {
-    width: 100%;
-  }
-
-  .stat-card {
-    flex: 1 1 45%;
-  }
 
 }
 
@@ -157,6 +143,6 @@
 @media (max-width: 576px) {
 
   .collection-sidebar {
-    top: 76px; /* Ajusta esto según la altura de .tabs */
+    top: ;
   }
 }

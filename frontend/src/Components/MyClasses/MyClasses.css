@@ -220,7 +220,7 @@
   position: sticky;
   top: 0;
   background-color: white; /* Asegura que no se mezcle con el contenido */
-  z-index: 11; /* Para que se mantenga sobre otros elementos */
+  z-index: 10; /* Para que se mantenga sobre otros elementos */
   
 }
 
@@ -462,15 +462,6 @@
   .tabs button {
     padding: 15px 3%;
     font-size: 14px;
-  }
-  
-  .student-dashboard {
-    min-height: 100vh;
-    background-color: #f5f7fa;
-  }
-
-  .dashboard-content {
-    gap: 0;
   }
 
 }
