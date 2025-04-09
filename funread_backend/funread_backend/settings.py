@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'AvatarCreator',
     'BookCover',
     'userbookprogress',
+    'bookbadge',
 ]
 
 
