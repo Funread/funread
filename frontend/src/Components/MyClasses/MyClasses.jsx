@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import './MyClasses.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faTrophy, faChartLine, faCalendarAlt, faBell, faUser, faSearch, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -11,13 +12,15 @@ import { listedClassesId } from '../../api/classes';
 import { userListById } from '../../api/users'; // Import the function to get user details by ID
 import BadgesPage from '../Badges/BadgesPage'
 import imgLogo from '../../logoFunread.png'; // Import logo image
+import PopUpAchieve from '../Badges/PopUpAchieve';
+import { use } from 'react';
 
 // Function to get teacher name from ID
 const getTeacherName = async (teacherId) => {
   try {
     const response = await userListById(teacherId);
     console.log(`Teacher details for ID ${teacherId}:`, response);
-    
+
     if (response && response.data) {
       const teacherData = response.data;
       // Create a formatted name with both first and last name
@@ -45,6 +48,34 @@ const MyClasses = () => {
   const [selectedClass, setSelectedClass] = useState(null);
   const [classBooks, setClassBooks] = useState([]);
   const [loadingBooks, setLoadingBooks] = useState(false);
+  const location = useLocation();
+  const awardedBadges = location.state?.awardedBadges || [];
+  const [currentBadge, setCurrentBadge] = useState(null);
+
+  useEffect(() => {
+    if (awardedBadges.length > 0) {
+      // Procesar los badges
+      console.log('Processing awarded badges:', awardedBadges);
+  
+      // Limpiar el estado de navegación
+      navigate('/myclasses', { replace: true });
+    }
+  }, [awardedBadges, navigate]);
+
+  // Function to show the awarded badge popup
+  useEffect(() => {
+    if (awardedBadges.length > 0) {
+      let index = 0;
+      const interval = setInterval(() => {
+        setCurrentBadge(awardedBadges[index]);
+        index++;
+        if (index >= awardedBadges.length) {
+          clearInterval(interval);
+        }
+      }, 8500); // Show each badge for 8.5 seconds
+    }
+  }, [awardedBadges]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,14 +103,14 @@ const MyClasses = () => {
 
             if (classResponse && classResponse.data && classResponse.data.length > 0) {
               const classData = classResponse.data[0]; // Take the first result
-              
+
               let teacherName = group.teachername || "Unassigned Teacher";
-              
+
               // If teacher ID is available but no name, fetch the teacher's details
               if (classData.teacherassigned && !group.teachername) {
                 teacherName = await getTeacherName(classData.teacherassigned);
               }
-              
+
               // Create object with class data
               const formattedGroup = {
                 id: group.groupscreateid,
@@ -97,7 +128,7 @@ const MyClasses = () => {
                 bookId: group.bookid || 3,
                 isActive: classData.isactive
               };
-              
+
               console.log('Formatted class with complete data:', formattedGroup);
               formattedClasses.push(formattedGroup);
             } else {
@@ -160,25 +191,25 @@ const MyClasses = () => {
       // Get book IDs associated with the class
       const response = await listedBooksPerClassesById(classId);
       console.log('Books associated with class:', response);
-      
+
       if (response && response.data && response.data.length > 0) {
         // Array to store books with complete details
         const booksWithDetails = [];
-        
+
         // For each book, get its complete details
         for (const bookItem of response.data) {
           try {
             // Get book ID
             const bookId = bookItem.booksid || bookItem.id;
-            
+
             if (bookId) {
               // Call API to get book details
               const bookDetailsResponse = await bookSearchById(bookId);
               console.log(`Book details for ${bookId}:`, bookDetailsResponse);
-              
+
               if (bookDetailsResponse && bookDetailsResponse.data) {
                 const bookDetails = bookDetailsResponse.data;
-                
+
                 // Create object with complete book details
                 const bookWithDetails = {
                   id: bookId,
@@ -192,7 +223,7 @@ const MyClasses = () => {
                   // Keep other potentially useful data
                   ...bookItem
                 };
-                
+
                 booksWithDetails.push(bookWithDetails);
               } else {
                 // If details couldn't be obtained, use basic data
@@ -219,7 +250,7 @@ const MyClasses = () => {
             });
           }
         }
-        
+
         console.log('Books with complete details:', booksWithDetails);
         setClassBooks(booksWithDetails);
       } else {
@@ -250,9 +281,13 @@ const MyClasses = () => {
     setClassBooks([]);
   };
 
+
   return (
     <div className="student-dashboard">
       {/* Main content */}
+
+      {currentBadge && <PopUpAchieve Badge={currentBadge} />}
+
       <div className="dashboard-content">
         {/* Main content area */}
         {/* Sidebar with statistics */}
@@ -263,9 +298,9 @@ const MyClasses = () => {
             <div className="stat-card header">
 
               <header className="dashboard-header">
-                <div className="logo">
-                  <img src={imgLogo} alt="Logo" className="logo-image" />
-                </div>
+
+                <img src={imgLogo} alt="Logo" className="logo-image" />
+
                 {/*<div className="search-bar">
           <FontAwesomeIcon icon={faSearch} />
           <input type="text" placeholder="Search classes, books..." />
@@ -283,14 +318,13 @@ const MyClasses = () => {
 
             </div>
 
-            <div className="stat-card">
+            <div className="stat-card user-info">
 
               <div className="stat-icon level">
                 <FontAwesomeIcon icon={faUser} />
               </div>
               <div className="stat-info">
-                <h3>Level</h3>
-                <p>{userStats.level}</p>
+                <h3>Level <span>{userStats.level}</span></h3>
                 <div className="progress-bar">
                   <div className="progress" style={{ width: `${(userStats.points % 500) / 5}%` }}></div>
                 </div>
@@ -298,7 +332,7 @@ const MyClasses = () => {
               </div>
             </div>
 
-            <div className="stat-card">
+            <div className="stat-card ranking-info">
               <div className="stat-icon ranking">
                 <FontAwesomeIcon icon={faTrophy} />
               </div>
@@ -308,7 +342,7 @@ const MyClasses = () => {
               </div>
             </div>
 
-            <div className="stat-card">
+            <div className="stat-card quizzes-info">
               <div className="stat-icon quizzes">
                 <FontAwesomeIcon icon={faChartLine} />
               </div>
@@ -340,7 +374,7 @@ const MyClasses = () => {
 
         <main className="main-content">
           <div className="tabs">
-            <button 
+            <button
               className={activeTab === 'classes' ? 'active' : ''}
               onClick={() => setActiveTab('classes')}
             >
@@ -426,7 +460,7 @@ const MyClasses = () => {
                     </button>
                     <h2>Books from {selectedClass.name}</h2>
                   </div>
-                  
+
                   {loadingBooks ? (
                     <div className="loading-spinner">
                       <div className="spinner"></div>
@@ -442,13 +476,13 @@ const MyClasses = () => {
                         </div>
                       ) : (
                         classBooks.map((book) => (
-                          <div 
-                            key={book.id || book.booksid} 
+                          <div
+                            key={book.id || book.booksid}
                             className="book-card"
                             onClick={() => handleBookClick(book.id || book.booksid)}
                           >
-                            <div className="book-cover" style={{ 
-                              backgroundImage: `url(${book.cover || '/Media/media/default-book.jpg'})` 
+                            <div className="book-cover" style={{
+                              backgroundImage: `url(${book.cover || '/Media/media/default-book.jpg'})`
                             }}>
                             </div>
                             <div className="book-info">
