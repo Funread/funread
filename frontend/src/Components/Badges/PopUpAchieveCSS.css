@@ -3,7 +3,7 @@
   position: fixed;
   pointer-events: none;
   width: 100%;
-  bottom: 16px;
+  top: 0;
   z-index: 100;
 }
 

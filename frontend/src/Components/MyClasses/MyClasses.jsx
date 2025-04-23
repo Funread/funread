@@ -12,8 +12,6 @@ import { listedClassesId } from '../../api/classes';
 import { userListById } from '../../api/users'; // Import the function to get user details by ID
 import BadgesPage from '../Badges/BadgesPage'
 import imgLogo from '../../logoFunread.png'; // Import logo image
-import PopUpAchieve from '../Badges/PopUpAchieve';
-import { use } from 'react';
 
 // Function to get teacher name from ID
 const getTeacherName = async (teacherId) => {
@@ -48,33 +46,6 @@ const MyClasses = () => {
   const [selectedClass, setSelectedClass] = useState(null);
   const [classBooks, setClassBooks] = useState([]);
   const [loadingBooks, setLoadingBooks] = useState(false);
-  const location = useLocation();
-  const awardedBadges = location.state?.awardedBadges || [];
-  const [currentBadge, setCurrentBadge] = useState(null);
-
-  useEffect(() => {
-    if (awardedBadges.length > 0) {
-      // Procesar los badges
-      console.log('Processing awarded badges:', awardedBadges);
-  
-      // Limpiar el estado de navegación
-      navigate('/myclasses', { replace: true });
-    }
-  }, [awardedBadges, navigate]);
-
-  // Function to show the awarded badge popup
-  useEffect(() => {
-    if (awardedBadges.length > 0) {
-      let index = 0;
-      const interval = setInterval(() => {
-        setCurrentBadge(awardedBadges[index]);
-        index++;
-        if (index >= awardedBadges.length) {
-          clearInterval(interval);
-        }
-      }, 8500); // Show each badge for 8.5 seconds
-    }
-  }, [awardedBadges]);
 
 
   useEffect(() => {
@@ -285,8 +256,6 @@ const MyClasses = () => {
   return (
     <div className="student-dashboard">
       {/* Main content */}
-
-      {currentBadge && <PopUpAchieve Badge={currentBadge} />}
 
       <div className="dashboard-content">
         {/* Main content area */}

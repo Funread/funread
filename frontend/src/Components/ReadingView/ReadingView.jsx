@@ -12,6 +12,7 @@ import PageSelector from './PageSelector'
 import { submit_quiz_responses } from '../../api/options'
 import { award_badge_to_user } from '../../api/userBadges'
 import { getBadgesPerBook } from '../../api/Badges'
+import PopUpAchieve from '../Badges/PopUpAchieve';
 
 function ReadingView() {
 
@@ -258,60 +259,93 @@ function ReadingView() {
     }
   };
 
-
-  
-
-  const awardBadges = async (book_id) => {
-    try {
-      const badges = await getBadgesPerBook(book_id);
-      console.log('Badges:', badges);
-  
-      // Award all badges in parallel
-      const awardedBadges = await Promise.all(
-        badges.map(async (badge) => {
-          const response = await award_badge_to_user(badge.id);
-          if (response.created === true) {
-            console.log('Badge awarded:', badge);
-            return badge; // Return the awarded badge
-          }
-          return null; // Return null if not awarded
-        })
-      );
-  
-      // Filter out null values
-      const validBadges = awardedBadges.filter((badge) => badge !== null);
-      console.log('All awarded badges:', validBadges);
-      return validBadges;
-    } catch (error) {
-      console.error('Error awarding badges:', error);
-      return [];
-    }
-  };
-
   const handleNextPage = () => {
     const currentPage = pageNumer + 1;
     setPageNumer(currentPage);
     loadPage(contentBook, currentPage);
-
   };
 
+  // Función para salir de la lectura
   const ExitReading = async () => {
     try {
-      const badges = await awardBadges(bookid); // Award badges in parallel
-      const awardedBadges = badges || []; // Handle empty array if no badges
-  
-      // Navigate to MyClasses with awarded badges
-      user.roles.forEach((userRole) => {
-        if (userRole.role === "profesor") {
-          navigate("/library");
-        } else if (userRole.role === "estudiante") {
-          navigate("/myclasses", { state: { awardedBadges } });
+      if (user.roles[0].role === "profesor") {
+        navigate("/library")
+      } else {
+        const allBadges = await awardBadges(bookid);
+        setAwardedBadges(allBadges);
+
+        if (allBadges === null) {
+          navigate("/myclasses");
         }
-      });
+      }
     } catch (error) {
       console.error('Error during ExitReading:', error);
     }
   };
+
+  // Otorgar badges al usuario
+
+    // Badge awarding function
+    const awardBadges = async (book_id) => {
+      try {
+        const badges = await getBadgesPerBook(book_id);
+        
+        if (badges?.length === 0) {
+          console.log('No badges to award for this book.');
+          return null;
+        }
+  
+        const awarded = await Promise.all(
+          badges.map(async (badge) => {
+            const response = await award_badge_to_user(badge.id);
+            return response?.created ? badge : null;
+          })
+        );
+  
+        // Filtrar nulls después de resolver las promesas
+        const validBadges = awarded.filter(Boolean);
+        console.log('Awarded badges:', validBadges);
+        if (validBadges.length === 0) {
+          return null;
+        } else {
+        return validBadges;
+        }
+      } catch (error) {
+        console.error('Error awarding badges:', error);
+        return [];
+      }
+    };
+
+  const [awardedBadges, setAwardedBadges] = useState([]); // Badges logrados por el usuario
+  const [currentBadge, setCurrentBadge] = useState(null); // Badge actual a mostrar
+
+  // Mostrar badges uno por uno
+  useEffect(() => {
+    if (!awardedBadges.length) return;
+  
+    let index = 0;
+    setCurrentBadge(awardedBadges[index]);
+  
+    if (awardedBadges.length === 1) {
+      const timeout = setTimeout(() => {
+        navigate("/myclasses");
+      }, 8500);
+      return () => clearTimeout(timeout);
+    }
+  
+    const interval = setInterval(() => {
+      index++;
+      if (index < awardedBadges.length) {
+        setCurrentBadge(awardedBadges[index]);
+      } else {
+        clearInterval(interval);
+        navigate("/myclasses");
+      }
+    }, 8500);
+  
+    return () => clearInterval(interval);
+  }, [awardedBadges]);
+  
 
   return (
     <FullScreen handle={handle}>
@@ -376,6 +410,9 @@ function ReadingView() {
                   Exit
                 </button>
               )}
+
+              {currentBadge && <PopUpAchieve Badge={currentBadge} />}
+
             </div>
           </div>
         )}
