@@ -44,7 +44,9 @@ def award_badge_to_user(request):
 
         # Serializar y devolver el registro de UserBadge
         serializer = UserBadgeSerializer(user_badge)
-        return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
+        response_data = serializer.data
+        response_data['created'] = created  # Añadir el campo 'created' a la respuesta
+        return Response(response_data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
 
     except Exception as e:
         print(f"Error: {e}")

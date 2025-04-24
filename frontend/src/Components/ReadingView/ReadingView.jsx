@@ -10,6 +10,9 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import PageSelector from './PageSelector'
 import { submit_quiz_responses } from '../../api/options'
+import { award_badge_to_user } from '../../api/userBadges'
+import { getBadgesPerBook } from '../../api/Badges'
+import PopUpAchieve from '../Badges/PopUpAchieve';
 
 function ReadingView() {
 
@@ -23,7 +26,7 @@ function ReadingView() {
   const [gridNumRows, setGridNumRows] = useState(null);
   const [pageNumer, setPageNumer] = useState(0);
   const [widgets, setWidgets] = useState(null);
-  
+
   // State for managing accumulated quiz points
   const [quizTotalPoints, setQuizTotalPoints] = useState(0);
   const [quizResponses, setQuizResponses] = useState({});
@@ -42,7 +45,7 @@ function ReadingView() {
   const [error, setError] = useState(null);
 
   const [currentPageIndex, setCurrentPageIndex] = useState(0); // State for current page
-  
+
   // Load saved responses from localStorage on startup
   useEffect(() => {
     const storedQuizResponses = localStorage.getItem(`quiz_responses_${bookid}_${user?.userid}`);
@@ -78,50 +81,50 @@ function ReadingView() {
         userId: user?.userid,
         lastUpdated: new Date().toISOString()
       };
-      
+
       localStorage.setItem(
-        `quiz_responses_${bookid}_${user?.userid}`, 
+        `quiz_responses_${bookid}_${user?.userid}`,
         JSON.stringify(dataToStore)
       );
-      
+
       console.log('Responses saved to localStorage:', dataToStore);
     } catch (e) {
       console.error('Error saving responses to localStorage:', e);
     }
   };
-  
+
   // Function to update total points
   const updateQuizPoints = (newResponses) => {
     // Calculate total points
     let totalPoints = 0;
-    
+
     Object.values(newResponses).forEach(response => {
       if (response && response.points) {
         totalPoints += response.points;
       }
     });
-    
+
     console.log('Total points updated:', totalPoints);
     setQuizTotalPoints(totalPoints);
-    
+
     // Save to localStorage
     saveQuizResponsesToLocalStorage(newResponses, totalPoints);
-    
+
     return totalPoints;
   };
-  
+
   // Function to save quiz responses
   const handleQuizResponse = (widgetId, responseData) => {
     console.log('Quiz response received:', widgetId, responseData);
-    
+
     // Update local state
     const updatedResponses = {
       ...quizResponses,
       [widgetId]: responseData
     };
-    
+
     setQuizResponses(updatedResponses);
-    
+
     // Update total points
     updateQuizPoints(updatedResponses);
   };
@@ -167,7 +170,7 @@ function ReadingView() {
         if (pageNumer === pagesCount - 1) {
           // Submit responses before exiting
           submitResponses();
-          
+
           user.roles.forEach((userRole) => {
             if (userRole.role === "profesor") {
               navigate("/library")
@@ -233,22 +236,22 @@ function ReadingView() {
         console.log('No responses to send');
         return;
       }
-      
+
       console.log('Sending accumulated responses to API:', quizResponses);
       console.log('Total points:', quizTotalPoints);
-      
+
       const userId = user?.userid;
       if (!userId || !bookid) {
         console.error('Could not get user ID or book ID');
         return;
       }
-      
+
       // Send responses to API
       await submit_quiz_responses(quizResponses, bookid, userId);
-      
+
       // Clear localStorage after sending
       localStorage.removeItem(`quiz_responses_${bookid}_${user?.userid}`);
-      
+
       console.log('Responses sent successfully');
       alert(`Quiz completed! You've earned ${quizTotalPoints} points.`);
     } catch (error) {
@@ -257,23 +260,92 @@ function ReadingView() {
   };
 
   const handleNextPage = () => {
-    if (pageNumer < pagesCount - 1) {
-      const currentPage = pageNumer + 1;
-      setPageNumer(currentPage);
-      loadPage(contentBook, currentPage);
-    } else {
-      // Send accumulated responses to API
-      submitResponses();
-      
-      user.roles.forEach((userRole) => {
-        if (userRole.role === "profesor") {
-          navigate("/library");
-        } else if (userRole.role === "estudiante") {
+    const currentPage = pageNumer + 1;
+    setPageNumer(currentPage);
+    loadPage(contentBook, currentPage);
+  };
+
+  // Función para salir de la lectura
+  const ExitReading = async () => {
+    try {
+      if (user.roles[0].role === "profesor") {
+        navigate("/library")
+      } else {
+        const allBadges = await awardBadges(bookid);
+        setAwardedBadges(allBadges);
+
+        if (allBadges === null) {
           navigate("/myclasses");
         }
-      });
+      }
+    } catch (error) {
+      console.error('Error during ExitReading:', error);
     }
   };
+
+  // Otorgar badges al usuario
+
+    // Badge awarding function
+    const awardBadges = async (book_id) => {
+      try {
+        const badges = await getBadgesPerBook(book_id);
+        
+        if (badges?.length === 0) {
+          console.log('No badges to award for this book.');
+          return null;
+        }
+  
+        const awarded = await Promise.all(
+          badges.map(async (badge) => {
+            const response = await award_badge_to_user(badge.id);
+            return response?.created ? badge : null;
+          })
+        );
+  
+        // Filtrar nulls después de resolver las promesas
+        const validBadges = awarded.filter(Boolean);
+        console.log('Awarded badges:', validBadges);
+        if (validBadges.length === 0) {
+          return null;
+        } else {
+        return validBadges;
+        }
+      } catch (error) {
+        console.error('Error awarding badges:', error);
+        return [];
+      }
+    };
+
+  const [awardedBadges, setAwardedBadges] = useState([]); // Badges logrados por el usuario
+  const [currentBadge, setCurrentBadge] = useState(null); // Badge actual a mostrar
+
+  // Mostrar badges uno por uno
+  useEffect(() => {
+    if (!awardedBadges.length) return;
+  
+    let index = 0;
+    setCurrentBadge(awardedBadges[index]);
+  
+    if (awardedBadges.length === 1) {
+      const timeout = setTimeout(() => {
+        navigate("/myclasses");
+      }, 8500);
+      return () => clearTimeout(timeout);
+    }
+  
+    const interval = setInterval(() => {
+      index++;
+      if (index < awardedBadges.length) {
+        setCurrentBadge(awardedBadges[index]);
+      } else {
+        clearInterval(interval);
+        navigate("/myclasses");
+      }
+    }, 8500);
+  
+    return () => clearInterval(interval);
+  }, [awardedBadges]);
+  
 
   return (
     <FullScreen handle={handle}>
@@ -284,7 +356,7 @@ function ReadingView() {
             Points: {quizTotalPoints}
           </div>
         )}
-        
+
         {isLoading ? (
           <div>Loading...</div>
         ) : error ? (
@@ -332,17 +404,15 @@ function ReadingView() {
                   onClick={() => {
                     // Submit responses before exiting
                     submitResponses();
-                    
-                    if (user.roles[0].role === "profesor") {
-                      navigate("/library");
-                    } else if (user.roles[0].role === "estudiante") {
-                      navigate("/myclasses");
-                    }
+                    ExitReading();
                   }}
-                className='exit-button'>
+                  className='exit-button'>
                   Exit
                 </button>
               )}
+
+              {currentBadge && <PopUpAchieve Badge={currentBadge} />}
+
             </div>
           </div>
         )}
