@@ -131,7 +131,7 @@
   }
 }
 
-@keyframes xbox_animate_opacity {
+@keyframes book_animate_opacity {
   0% {
     opacity: 1;
   }
@@ -249,8 +249,8 @@
   animation-duration: 8s;
 }
 
-.circle.circle_animate .xbox_img {
-  animation: xbox_animate_opacity;
+.circle.circle_animate .book_img {
+  animation: book_animate_opacity;
   animation-duration: 8s;
   z-index: 102;
 }

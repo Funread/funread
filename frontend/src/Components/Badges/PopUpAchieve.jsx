@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './PopUpAchieveCSS.css'; // CSS separado
+import IconPopUp from '../../assets/images/BadgePopUpIcon.svg'
 
 const PopUpAchieve = ({ Badge }) => {
   const [isAnimating, setIsAnimating] = useState(false);
@@ -56,8 +57,8 @@ const PopUpAchieve = ({ Badge }) => {
             <img className="trophy_1" src="https://dl.dropboxusercontent.com/s/k0n14tzcl4q61le/trophy_full.svg" alt="Trofeo"/>
             <img className="trophy_2" src="https://dl.dropboxusercontent.com/s/cd4k1h6w1c8an9j/trophy_no_handles.svg" alt="Base del trofeo"/>
           </div>
-          <div className="img xbox_img">
-            <img src="https://dl.dropboxusercontent.com/s/uopiulb5yeo1twm/xbox.svg?dl=0" alt="Logo Xbox"/>
+          <div className="img book_img">
+            <img src={IconPopUp} alt="Book Icon"/>
           </div>
           <div className="brilliant-wrap">
             <div className="brilliant"></div>
