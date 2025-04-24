@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './PopUpAchieveCSS.css'; // CSS separado
 import IconPopUp from '../../assets/images/BadgePopUpIcon.svg'
+import trophy_full from '../../assets/images/trophy_full.svg'
+import trophy_no_handles from '../../assets/images/trophy_no_handles.svg'
+import puntuation from '../../assets/images/puntuation.svg'
+import BadgeAudio from '../../assets/audio/Badge.mp3'
+import RareBadgeAudio from '../../assets/audio/RareBadge.mp3'
 
 const PopUpAchieve = ({ Badge }) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [audio] = useState({
-    regular: new Audio('https://dl.dropboxusercontent.com/s/8qvrpd69ua7wio8/XboxAchievement.mp3'),
-    rare: new Audio('https://dl.dropboxusercontent.com/s/po1udpov43am81i/XboxOneRareAchievement.mp3')
+    regular: new Audio(BadgeAudio),
+    rare: new Audio(RareBadgeAudio)
   });
 
   useEffect(() => {
@@ -54,8 +59,8 @@ const PopUpAchieve = ({ Badge }) => {
       <div className="animation">
         <div className={animationClasses.circle}>
           <div className="img trophy_animate trophy_img">
-            <img className="trophy_1" src="https://dl.dropboxusercontent.com/s/k0n14tzcl4q61le/trophy_full.svg" alt="Trofeo"/>
-            <img className="trophy_2" src="https://dl.dropboxusercontent.com/s/cd4k1h6w1c8an9j/trophy_no_handles.svg" alt="Base del trofeo"/>
+            <img className="trophy_1" src={trophy_full} alt="Trofeo"/>
+            <img className="trophy_2" src={trophy_no_handles} alt="Base del trofeo"/>
           </div>
           <div className="img book_img">
             <img src={IconPopUp} alt="Book Icon"/>
@@ -68,11 +73,11 @@ const PopUpAchieve = ({ Badge }) => {
           <div className={animationClasses.banner}>
             <div className={animationClasses.badgeDisp}>
               <span className="unlocked">
-                {Badge?.rare ? 'Logro raro desbloqueado' : 'Logro desbloqueado'}
+                {Badge?.rare ? 'Rare Badge Unlocked' : 'Badge Unlocked'}
               </span>
               <div className="score_disp">
                 <div className="gamerscore">
-                  <img width="20px" src="https://dl.dropboxusercontent.com/s/gdqf5amvjkx9rfb/G.svg?dl=0" alt="Puntuación"/>
+                  <img width="20px" src={puntuation} alt="Puntuation"/>
                   <span className="badge_score">{Badge?.points}</span>
                 </div>
                 <span className="hyphen_sep">-</span>
