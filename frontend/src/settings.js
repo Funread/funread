@@ -1,1 +1,1 @@
-export const BASE_URL = "https://funreadbackend.ngrok.app/";
+export const BASE_URL = "https://funreadbackend.ticocr.org/";
