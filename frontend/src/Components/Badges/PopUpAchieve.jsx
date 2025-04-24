@@ -4,14 +4,14 @@ import IconPopUp from '../../assets/images/BadgePopUpIcon.svg'
 import trophy_full from '../../assets/images/trophy_full.svg'
 import trophy_no_handles from '../../assets/images/trophy_no_handles.svg'
 import puntuation from '../../assets/images/puntuation.svg'
-import BadgeAudio from '../../assets/audio/Badge.mp3'
-import RareBadgeAudio from '../../assets/audio/RareBadge.mp3'
+import BadgeAudio from '../../assets/audio/Badge.wav'
+
 
 const PopUpAchieve = ({ Badge }) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [audio] = useState({
     regular: new Audio(BadgeAudio),
-    rare: new Audio(RareBadgeAudio)
+    rare: new Audio(BadgeAudio)
   });
 
   useEffect(() => {
