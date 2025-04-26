@@ -444,7 +444,7 @@
   }
 
   .main-content {
-    min-height:750px; /* Ajusta este valor según lo que necesites */
+    min-height:750px;
     max-height: 1000px;
     overflow-y: auto;
     background-color: white;
