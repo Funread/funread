@@ -434,6 +434,24 @@
 
 @media (max-width: 576px) {
 
+  .dashboard-content {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 20px;
+    height: 100vh;
+    flex: 1;
+  }
+
+  .main-content {
+    min-height:750px; /* Ajusta este valor según lo que necesites */
+    max-height: 1000px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
   .achievements-grid {
     grid-template-columns: 1fr;
   }
