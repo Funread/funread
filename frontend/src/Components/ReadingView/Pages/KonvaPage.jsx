@@ -1,5 +1,6 @@
 import React, { useState, useEffect , useRef} from 'react';
 import { Stage, Layer, Image, Shape, Transformer, Rect } from 'react-konva';
+import { getMediaUrl } from '../../../mediaUrl';
 
 const KonvaPage = ({ widgets, pageData }) => {
   const [stageSize, setStageSize] = useState({
@@ -31,7 +32,7 @@ const KonvaPage = ({ widgets, pageData }) => {
         const imagePromises = widgets?.filter(widget => Number(widget.type) === 2)
           .map(async (widget) => {
             if (widget.value?.src) {
-              const img = await loadImage(widget.value.src);
+              const img = await loadImage(getMediaUrl(widget.value.src));
               return { id: widget.widgetitemid, img };
             }
           });
@@ -131,7 +132,7 @@ const KonvaPage = ({ widgets, pageData }) => {
                   width={imageWidth}
                   height={imageHeight}
                   image={images[widget.widgetitemid]}
-                  draggable={true}
+                  draggable={false}
                 />
               );
             case 3: // shape

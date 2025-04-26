@@ -285,36 +285,37 @@ function ReadingView() {
 
   // Otorgar badges al usuario
 
-    // Badge awarding function
-    const awardBadges = async (book_id) => {
-      try {
-        const badges = await getBadgesPerBook(book_id);
-        
-        if (badges?.length === 0) {
-          console.log('No badges to award for this book.');
-          return null;
-        }
-  
-        const awarded = await Promise.all(
-          badges.map(async (badge) => {
-            const response = await award_badge_to_user(badge.id);
-            return response?.created ? badge : null;
-          })
-        );
-  
-        // Filtrar nulls después de resolver las promesas
-        const validBadges = awarded.filter(Boolean);
-        console.log('Awarded badges:', validBadges);
-        if (validBadges.length === 0) {
-          return null;
-        } else {
-        return validBadges;
-        }
-      } catch (error) {
-        console.error('Error awarding badges:', error);
-        return [];
+  // Badge awarding function
+  const awardBadges = async (book_id) => {
+    try {
+      const badges = await getBadgesPerBook(book_id);
+
+      if (badges?.length === 0) {
+        console.log('No badges to award for this book.');
+        return null;
       }
-    };
+
+      const awarded = [];
+      for (const badge of badges) {
+        const response = await award_badge_to_user(badge.id);
+        if (response?.created) {
+          awarded.push(badge);
+        }
+      };
+
+      // Filtrar nulls después de resolver las promesas
+      const validBadges = awarded.filter(Boolean);
+      console.log('Awarded badges:', validBadges);
+      if (validBadges.length === 0) {
+        return null;
+      } else {
+        return validBadges;
+      }
+    } catch (error) {
+      console.error('Error awarding badges:', error);
+      return [];
+    }
+  };
 
   const [awardedBadges, setAwardedBadges] = useState([]); // Badges logrados por el usuario
   const [currentBadge, setCurrentBadge] = useState(null); // Badge actual a mostrar
@@ -322,17 +323,17 @@ function ReadingView() {
   // Mostrar badges uno por uno
   useEffect(() => {
     if (!awardedBadges.length) return;
-  
+
     let index = 0;
     setCurrentBadge(awardedBadges[index]);
-  
+
     if (awardedBadges.length === 1) {
       const timeout = setTimeout(() => {
         navigate("/myclasses");
       }, 8500);
       return () => clearTimeout(timeout);
     }
-  
+
     const interval = setInterval(() => {
       index++;
       if (index < awardedBadges.length) {
@@ -342,10 +343,10 @@ function ReadingView() {
         navigate("/myclasses");
       }
     }, 8500);
-  
+
     return () => clearInterval(interval);
   }, [awardedBadges]);
-  
+
 
   return (
     <FullScreen handle={handle}>
@@ -363,9 +364,9 @@ function ReadingView() {
           <div><ErrorPage /></div>
         ) : (
           <div className='reading-view-layout'>
-            <div className='top-menu'>
-              {/* Buttons and other UI elements here... */}
-            </div>
+            {/* <div className='top-menu'>
+               Buttons and other UI elements here... 
+            </div> */}
             <div className='content-wrapper'>
               <div className='page-content'>
                 <PageSelector
