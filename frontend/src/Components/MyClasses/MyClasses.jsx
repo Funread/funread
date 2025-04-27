@@ -12,6 +12,7 @@ import { listedClassesId } from '../../api/classes';
 import { userListById } from '../../api/users'; // Import the function to get user details by ID
 import BadgesPage from '../Badges/BadgesPage'
 import imgLogo from '../../logoFunread.png'; // Import logo image
+import { getMediaUrl } from '../../mediaUrl'; // Import the function to get media URL
 
 // Function to get teacher name from ID
 const getTeacherName = async (teacherId) => {
@@ -451,7 +452,7 @@ const MyClasses = () => {
                             onClick={() => handleBookClick(book.id || book.booksid)}
                           >
                             <div className="book-cover" style={{
-                              backgroundImage: `url(${book.cover || '/Media/media/default-book.jpg'})`
+                              backgroundImage: `url(${getMediaUrl(book.cover || '/Media/media/default-book.jpg')})`
                             }}>
                             </div>
                             <div className="book-info">

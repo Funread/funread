@@ -1,4 +1,5 @@
 import React from 'react';
+import { getMediaUrl } from '../../mediaUrl';
 
 function BadgeGrid({ filter, badgesData }) {
   
@@ -17,7 +18,7 @@ function BadgeGrid({ filter, badgesData }) {
           <div className="achievement-icon">
             {
               badge.achieved === true ? (
-                <img src={badge.icon} alt={badge.title} className="icon" /> /* Icono de la insignia */
+                <img src={getMediaUrl(badge.icon)} alt={badge.title} className="icon" /> /* Icono de la insignia */
               ) : (
                 <div className="achievement-icon">🔒</div>
               )
