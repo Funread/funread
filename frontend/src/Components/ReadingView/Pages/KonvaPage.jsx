@@ -1,15 +1,15 @@
-import React, { useState, useEffect , useRef} from 'react';
-import { Stage, Layer, Image, Shape, Transformer, Rect } from 'react-konva';
-import { getMediaUrl } from '../../../mediaUrl';
+import React, { useState, useEffect, useRef } from "react";
+import { Stage, Layer, Image, Shape, Transformer, Rect } from "react-konva";
+import { getMediaUrl } from "../../../mediaUrl";
 
 const KonvaPage = ({ widgets, pageData }) => {
   const [stageSize, setStageSize] = useState({
     width: 760,
     height: 760,
-    scale: 1
+    scale: 1,
   });
   const [images, setImages] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // Ya no controlamos la carga aquí
   const shapeRef = React.useRef();
   const trRef = React.useRef();
   const [isSelected, setIsSelected] = useState(false);
@@ -26,10 +26,11 @@ const KonvaPage = ({ widgets, pageData }) => {
 
   // Cargar todas las imágenes al inicio
   useEffect(() => {
+    // Ya no establecemos isLoading a true aquí porque lo maneja el componente padre
     const loadAllImages = async () => {
-      setIsLoading(true);
       try {
-        const imagePromises = widgets?.filter(widget => Number(widget.type) === 2)
+        const imagePromises = widgets
+          ?.filter((widget) => Number(widget.type) === 2)
           .map(async (widget) => {
             if (widget.value?.src) {
               const img = await loadImage(getMediaUrl(widget.value.src));
@@ -48,9 +49,9 @@ const KonvaPage = ({ widgets, pageData }) => {
           setImages(imageMap);
         }
       } catch (error) {
-        console.error('Error cargando imágenes:', error);
+        console.error("Error cargando imágenes:", error);
       }
-      setIsLoading(false);
+      // Ya no establecemos isLoading a false aquí porque lo maneja el componente padre
     };
 
     loadAllImages();
@@ -59,12 +60,12 @@ const KonvaPage = ({ widgets, pageData }) => {
   useEffect(() => {
     // Función para calcular el tamaño del stage
     const calculateSize = () => {
-      const container = document.querySelector('.page-content');
+      const container = document.querySelector(".page-content");
       if (!container) return;
 
       const containerWidth = container.offsetWidth;
       const containerHeight = container.offsetHeight;
-      
+
       // Calculamos el tamaño manteniendo el aspecto cuadrado
       const size = Math.min(containerWidth, containerHeight) - 40; // 40px de padding
       const scale = size / 760; // 760 es nuestro tamaño base
@@ -72,20 +73,18 @@ const KonvaPage = ({ widgets, pageData }) => {
       setStageSize({
         width: size,
         height: size,
-        scale: scale
+        scale: scale,
       });
-
-      
     };
 
     // Calcular tamaño inicial
     calculateSize();
 
     // Agregar listener para resize
-    window.addEventListener('resize', calculateSize);
+    window.addEventListener("resize", calculateSize);
 
     // Cleanup
-    return () => window.removeEventListener('resize', calculateSize);
+    return () => window.removeEventListener("resize", calculateSize);
   }, []);
 
   useEffect(() => {
@@ -103,10 +102,7 @@ const KonvaPage = ({ widgets, pageData }) => {
   };
 
   return (
-    <Stage 
-      width={stageSize.width} 
-      height={stageSize.height}
-    >
+    <Stage width={stageSize.width} height={stageSize.height}>
       <Layer scale={{ x: stageSize.scale, y: stageSize.scale }}>
         {widgets?.map((widget, index) => {
           const shapeProps = widget.value || {};
@@ -118,11 +114,16 @@ const KonvaPage = ({ widgets, pageData }) => {
           switch (Number(widget.type)) {
             case 2: // imagen
               if (!images[widget.widgetitemid]) return null;
-              
+
               // Calcula la posición centrada si no hay posición definida
-              const imageWidth = shapeProps.width || images[widget.widgetitemid].width;
-              const imageHeight = shapeProps.height || images[widget.widgetitemid].height;
-              const centeredPosition = calculateCenteredPosition(imageWidth, imageHeight);
+              const imageWidth =
+                shapeProps.width || images[widget.widgetitemid].width;
+              const imageHeight =
+                shapeProps.height || images[widget.widgetitemid].height;
+              const centeredPosition = calculateCenteredPosition(
+                imageWidth,
+                imageHeight
+              );
 
               return (
                 <Image
@@ -136,8 +137,9 @@ const KonvaPage = ({ widgets, pageData }) => {
                 />
               );
             case 3: // shape
-              const { name,  isSelected, onSelect, onChange, ...otherProps } = shapeProps;
-              
+              const { name, isSelected, onSelect, onChange, ...otherProps } =
+                shapeProps;
+
               return (
                 <Shape
                   key={widget.widgetitemid}
@@ -145,20 +147,19 @@ const KonvaPage = ({ widgets, pageData }) => {
                   draggable={true}
                   sceneFunc={(context, shape) => {
                     context.beginPath();
-                    
+
                     switch (name) {
-                      case 'rectangle':
+                      case "rectangle":
                         context.rect(
                           shapeProps.x || 0,
                           shapeProps.y || 0,
                           shapeProps.width || 100,
                           shapeProps.height || 50,
-                          shapeProps.isSelected || false,   
-                          
+                          shapeProps.isSelected || false
                         );
                         break;
-                        
-                      case 'circle':
+
+                      case "circle":
                         context.arc(
                           shapeProps.x || 0,
                           shapeProps.y || 0,
@@ -167,8 +168,8 @@ const KonvaPage = ({ widgets, pageData }) => {
                           Math.PI * 2
                         );
                         break;
-                        
-                      case 'square':
+
+                      case "square":
                         const size = shapeProps.size || 100;
                         context.rect(
                           shapeProps.x || 0,
@@ -177,71 +178,116 @@ const KonvaPage = ({ widgets, pageData }) => {
                           size
                         );
                         break;
-                        
-                      case 'message':
+
+                      case "message":
                         // Forma de burbuja de mensaje
                         const width = shapeProps.width || 120;
                         const height = shapeProps.height || 80;
                         const x = shapeProps.x || 0;
                         const y = shapeProps.y || 0;
-                        
+
                         context.moveTo(x + 10, y);
                         context.lineTo(x + width - 10, y);
-                        context.quadraticCurveTo(x + width, y, x + width, y + 10);
+                        context.quadraticCurveTo(
+                          x + width,
+                          y,
+                          x + width,
+                          y + 10
+                        );
                         context.lineTo(x + width, y + height - 10);
-                        context.quadraticCurveTo(x + width, y + height, x + width - 10, y + height);
+                        context.quadraticCurveTo(
+                          x + width,
+                          y + height,
+                          x + width - 10,
+                          y + height
+                        );
                         context.lineTo(x + 20, y + height);
                         context.lineTo(x, y + height + 20);
                         context.lineTo(x + 20, y + height);
-                        context.quadraticCurveTo(x + 10, y + height, x + 10, y + height - 10);
+                        context.quadraticCurveTo(
+                          x + 10,
+                          y + height,
+                          x + 10,
+                          y + height - 10
+                        );
                         context.lineTo(x + 10, y + 10);
                         context.quadraticCurveTo(x + 10, y, x + 20, y);
                         break;
-                        
-                      case 'thinking':
+
+                      case "thinking":
                         // Forma de nube de pensamiento
                         const cloudX = shapeProps.x || 0;
                         const cloudY = shapeProps.y || 0;
                         const cloudWidth = shapeProps.width || 100;
                         const cloudHeight = shapeProps.height || 60;
-                        
+
                         // Nube principal
                         context.moveTo(cloudX + 30, cloudY + cloudHeight);
                         context.bezierCurveTo(
-                          cloudX, cloudY + cloudHeight,
-                          cloudX, cloudY,
-                          cloudX + 30, cloudY
+                          cloudX,
+                          cloudY + cloudHeight,
+                          cloudX,
+                          cloudY,
+                          cloudX + 30,
+                          cloudY
                         );
                         context.bezierCurveTo(
-                          cloudX + 40, cloudY - 10,
-                          cloudX + cloudWidth - 40, cloudY - 10,
-                          cloudX + cloudWidth - 30, cloudY
+                          cloudX + 40,
+                          cloudY - 10,
+                          cloudX + cloudWidth - 40,
+                          cloudY - 10,
+                          cloudX + cloudWidth - 30,
+                          cloudY
                         );
                         context.bezierCurveTo(
-                          cloudX + cloudWidth, cloudY,
-                          cloudX + cloudWidth, cloudY + cloudHeight,
-                          cloudX + cloudWidth - 30, cloudY + cloudHeight
+                          cloudX + cloudWidth,
+                          cloudY,
+                          cloudX + cloudWidth,
+                          cloudY + cloudHeight,
+                          cloudX + cloudWidth - 30,
+                          cloudY + cloudHeight
                         );
                         context.bezierCurveTo(
-                          cloudX + cloudWidth - 40, cloudY + cloudHeight + 10,
-                          cloudX + 40, cloudY + cloudHeight + 10,
-                          cloudX + 30, cloudY + cloudHeight
+                          cloudX + cloudWidth - 40,
+                          cloudY + cloudHeight + 10,
+                          cloudX + 40,
+                          cloudY + cloudHeight + 10,
+                          cloudX + 30,
+                          cloudY + cloudHeight
                         );
-                        
+
                         // Burbujas de pensamiento
                         context.moveTo(cloudX + 15, cloudY + cloudHeight + 20);
-                        context.arc(cloudX + 15, cloudY + cloudHeight + 20, 5, 0, Math.PI * 2);
+                        context.arc(
+                          cloudX + 15,
+                          cloudY + cloudHeight + 20,
+                          5,
+                          0,
+                          Math.PI * 2
+                        );
                         context.moveTo(cloudX + 5, cloudY + cloudHeight + 35);
-                        context.arc(cloudX + 5, cloudY + cloudHeight + 35, 3, 0, Math.PI * 2);
+                        context.arc(
+                          cloudX + 5,
+                          cloudY + cloudHeight + 35,
+                          3,
+                          0,
+                          Math.PI * 2
+                        );
                         break;
-                        
+
                       default:
                         // Forma por defecto (triángulo)
                         context.moveTo(shapeProps.x || 50, shapeProps.y || 50);
-                        context.lineTo((shapeProps.x || 50) + 100, shapeProps.y || 50);
-                        context.lineTo((shapeProps.x || 50) + 50, (shapeProps.y || 50) + 100);
+                        context.lineTo(
+                          (shapeProps.x || 50) + 100,
+                          shapeProps.y || 50
+                        );
+                        context.lineTo(
+                          (shapeProps.x || 50) + 50,
+                          (shapeProps.y || 50) + 100
+                        );
                     }
-                    
+
                     context.closePath();
                     context.fillStrokeShape(shape);
                   }}

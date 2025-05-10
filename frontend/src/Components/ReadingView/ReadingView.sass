@@ -22,6 +22,12 @@
       background-color: white
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)
 
+// Clase para ocultar el contenido mientras se cargan las imágenes
+.hidden
+  opacity: 0
+  visibility: hidden
+  transition: opacity 0.5s ease-in-out
+
 .top-menu
   display: flex
   padding: 10px 20px
@@ -48,6 +54,9 @@
   flex-direction: column
   height: 100vh
   overflow: hidden
+  // Añadir transición para una aparición suave
+  transition: opacity 0.5s ease-in-out
+  opacity: 1
 
 .content-wrapper
   flex: 1

@@ -1,10 +1,9 @@
 /* Estilos generales */
 .student-dashboard {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   background-color: #f5f7fa;
   height: 100vh;
   color: #333;
-
 }
 
 /* Header */
@@ -68,34 +67,32 @@
   flex: 1;
   min-width: 150px;
   min-height: 170px;
-  margin: .2%;
+  margin: 0.2%;
   gap: 16px;
   align-items: center;
   justify-content: center;
   text-align: center;
 }
 
-.stat-card.user-info{
+.stat-card.user-info {
   /* border: 2px solid #6775f1; */
   background: linear-gradient(to bottom right, #e1e4ff, #ebeefb);
-  border-left:3px solid #395bf1;
-  border-bottom:4px solid #395bf1;
-  
+  border-left: 3px solid #395bf1;
+  border-bottom: 4px solid #395bf1;
 }
 
-.stat-card.ranking-info{
+.stat-card.ranking-info {
   /* border: 2px solid #6775f1; */
   background: linear-gradient(to bottom right, #ffeaf3, #fff0f6);
-  border-left:3px solid #f72585;
-  border-bottom:4px solid #f72585
+  border-left: 3px solid #f72585;
+  border-bottom: 4px solid #f72585;
 }
 
-.stat-card.quizzes-info{
+.stat-card.quizzes-info {
   /* border: 2px solid #6775f1; */
   background: linear-gradient(to bottom right, #e9faff, #f0fdff);
-  border-left:3px solid #4cc9f0;
-  border-bottom:4px solid #4cc9f0
-
+  border-left: 3px solid #4cc9f0;
+  border-bottom: 4px solid #4cc9f0;
 }
 
 .header {
@@ -116,7 +113,6 @@
 
 .stat-icon.level {
   background-color: #4361ee;
-  
 }
 
 .stat-icon.ranking {
@@ -220,7 +216,6 @@
   top: 0;
   background-color: white;
   z-index: 10;
-
 }
 
 .tabs button {
@@ -232,6 +227,16 @@
   color: #666;
   cursor: pointer;
   transition: all 0.2s;
+}
+
+/* Botón de logout */
+.logout-button {
+  margin-left: auto;
+  color: #f44336 !important;
+}
+
+.logout-button:hover {
+  background-color: #fff0f0 !important;
 }
 
 .tabs button:hover {
@@ -325,7 +330,6 @@
   margin: 0;
 }
 
-
 /* Notificaciones */
 .notifications-container h2 {
   margin-top: 0;
@@ -400,7 +404,6 @@
 }
 
 @media (max-width: 768px) {
-  
   .dashboard-header {
     padding: 10px 15px;
   }
@@ -433,7 +436,6 @@
 }
 
 @media (max-width: 576px) {
-
   .dashboard-content {
     display: flex;
     flex-direction: column;
@@ -444,7 +446,7 @@
   }
 
   .main-content {
-    min-height:750px;
+    min-height: 750px;
     max-height: 1000px;
     overflow-y: auto;
     background-color: white;
@@ -457,7 +459,8 @@
   }
 
   .stat-card {
-    max-height: 135px;}
+    max-height: 135px;
+  }
 
   .tabs {
     height: 76px;
@@ -467,7 +470,6 @@
     padding: 15px 3%;
     font-size: 14px;
   }
-
 }
 
 .no-classes-message {

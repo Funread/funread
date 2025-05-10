@@ -36,8 +36,8 @@ def listed(request):
     return Response(serializer.data)
 
 # Método para buscar una variable por nombre
-@api_view(['POST'])
-def listedid(request):
+@api_view(['GET'])
+def listedid(request, classid):
 
     # Token verification
     try:
@@ -47,7 +47,7 @@ def listedid(request):
         if es_valido == False:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
-        Books = BooksPerClasses.objects.filter(classesid=request.data.get('class')).exclude(isactive=0)
+        Books = BooksPerClasses.objects.filter(classesid=classid).exclude(isactive=0)
     except BooksPerClasses.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except OperationalError:

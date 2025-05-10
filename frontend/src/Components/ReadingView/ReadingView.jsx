@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import './ReadingView.sass'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
-import ErrorPage from '../ErrorHandler/ErrorPage'
-import { FullScreen, useFullScreenHandle } from 'react-full-screen'
-import { fullBook } from '../../api/books'
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux/es/hooks/useSelector'
-import PageSelector from './PageSelector'
-import { submit_quiz_responses } from '../../api/options'
-import { award_badge_to_user } from '../../api/userBadges'
-import { getBadgesPerBook } from '../../api/Badges'
-import PopUpAchieve from '../Badges/PopUpAchieve';
+import React, { useEffect, useState } from "react";
+import "./ReadingView.sass";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import ErrorPage from "../ErrorHandler/ErrorPage";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import { fullBook } from "../../api/books";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import PageSelector from "./PageSelector";
+import { award_badge_to_user } from "../../api/userBadges";
+import { getBadgesPerBook } from "../../api/Badges";
+import PopUpAchieve from "../Badges/PopUpAchieve";
+import Loader from "../Shared/Loader/Loader";
+import { getMediaUrl } from "../../mediaUrl";
+import { addPointsToUser } from "../../api/userPoints";
+import { store } from "../../redux/store";
 
 function ReadingView() {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handle = useFullScreenHandle();
-  const user = useSelector((state) => state.user)
+  const user = useSelector((state) => state.user);
 
   // Pages Info
   const [pagesCount, setPagesCount] = useState(0);
@@ -31,103 +33,184 @@ function ReadingView() {
   const [quizTotalPoints, setQuizTotalPoints] = useState(0);
   const [quizResponses, setQuizResponses] = useState({});
 
-  // const [currentPage, setCurrentPage] = useState(null);
-  //-----------------------------------------------------
   // Book Info
   const location = useLocation();
   const bookid = useParams().id;
   const [contentBook, setContentBook] = useState();
-  //----------------------------------------------------
-  const [isLoading, setIsLoading] = useState(false);
 
-  // const currentPageData = getCurrentPageData();
+  // Loading states
+  const [isLoading, setIsLoading] = useState(true);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [totalImagesToLoad, setTotalImagesToLoad] = useState(0);
+  const [loadedImagesCount, setLoadedImagesCount] = useState(0);
 
   const [error, setError] = useState(null);
 
   const [currentPageIndex, setCurrentPageIndex] = useState(0); // State for current page
+  const state = store.getState(); // Get the Redux state
+  const userId = state.user.userId; // Get the user ID from Redux state
 
   // Load saved responses from localStorage on startup
   useEffect(() => {
-    const storedQuizResponses = localStorage.getItem(`quiz_responses_${bookid}_${user?.userid}`);
+    const storedQuizResponses = localStorage.getItem(
+      `quiz_responses_${userId}`
+    );
     if (storedQuizResponses) {
       try {
         const parsedResponses = JSON.parse(storedQuizResponses);
         setQuizResponses(parsedResponses.responses || {});
         setQuizTotalPoints(parsedResponses.totalPoints || 0);
-        console.log('Loading saved responses:', parsedResponses);
+        console.log("Loading saved responses:", parsedResponses);
       } catch (e) {
-        console.error('Error loading saved responses:', e);
+        console.error("Error loading saved responses:", e);
       }
     }
-  }, [bookid, user]);
+  }, [user]);
 
   useEffect(() => {
     getBookContent();
-    console.log('contentBook---------------')
-    console.log(contentBook)
   }, []);
 
   useEffect(() => {
-    console.log('The contentBook state has been updated:', contentBook);
-  }, [contentBook]); // This useEffect will run each time 'contentBook' changes.
-
-  // Function to save responses to localStorage
-  const saveQuizResponsesToLocalStorage = (responses, points) => {
-    try {
-      const dataToStore = {
-        responses,
-        totalPoints: points,
-        bookId: bookid,
-        userId: user?.userid,
-        lastUpdated: new Date().toISOString()
-      };
-
-      localStorage.setItem(
-        `quiz_responses_${bookid}_${user?.userid}`,
-        JSON.stringify(dataToStore)
-      );
-
-      console.log('Responses saved to localStorage:', dataToStore);
-    } catch (e) {
-      console.error('Error saving responses to localStorage:', e);
+    if (contentBook) {
+      console.log("The contentBook state has been updated:", contentBook);
+      preloadAllImages();
     }
-  };
+  }, [contentBook]);
 
-  // Function to update total points
-  const updateQuizPoints = (newResponses) => {
-    // Calculate total points
-    let totalPoints = 0;
+  // Manejador para las respuestas del quiz
+  const handleQuizResponse = (questionId, answer, isCorrect, pointsAwarded) => {
+    console.log(
+      `QuizResponse: Q${questionId}, Answer: ${answer}, Correct: ${isCorrect}, Points: ${pointsAwarded}`
+    );
 
-    Object.values(newResponses).forEach(response => {
-      if (response && response.points) {
-        totalPoints += response.points;
+    // Asegurarnos que pointsAwarded sea un número
+    const points = Number(pointsAwarded) || 0;
+    console.log("Converted points:", points);
+
+    // Comprobar si ya se ha respondido esta pregunta anteriormente
+    const previousResponse = quizResponses[questionId];
+    let pointsDelta = 0;
+
+    // Calcular el cambio de puntos
+    if (isCorrect) {
+      // Si la respuesta es correcta, sumar los puntos
+      pointsDelta = points;
+      console.log(`Correct answer: Adding ${pointsDelta} points`);
+    } else if (previousResponse && previousResponse.isCorrect) {
+      // Si la respuesta ahora es incorrecta pero antes era correcta, restar los puntos
+      pointsDelta = -Number(previousResponse.pointsAwarded || 0);
+      console.log(
+        `Changed from correct to incorrect: Subtracting ${-pointsDelta} points`
+      );
+    }
+
+    // Actualizar las respuestas
+    const newResponses = {
+      ...quizResponses,
+      [questionId]: {
+        answerId: answer, // Almacenar como answerId para compatibilidad
+        isCorrect,
+        pointsAwarded: points,
+      },
+    };
+
+    // Para depuración, mostrar todas las respuestas actuales y sus puntos
+    console.log("Current responses with points:");
+    Object.entries(newResponses).forEach(([id, resp]) => {
+      if (resp.isCorrect) {
+        console.log(`- Question ${id}: ${resp.pointsAwarded} points`);
       }
     });
 
-    console.log('Total points updated:', totalPoints);
-    setQuizTotalPoints(totalPoints);
+    setQuizResponses(newResponses);
 
-    // Save to localStorage
-    saveQuizResponsesToLocalStorage(newResponses, totalPoints);
+    // Calcular el total de puntos de todas las respuestas correctas
+    let totalCorrectPoints = 0;
+    Object.values(newResponses).forEach((resp) => {
+      if (resp.isCorrect) {
+        totalCorrectPoints += Number(resp.pointsAwarded || 0);
+      }
+    });
+    console.log(
+      "Total de puntos por respuestas correctas:",
+      totalCorrectPoints
+    );
 
-    return totalPoints;
+    // Actualizar el total de puntos directamente con el valor calculado
+    setQuizTotalPoints(totalCorrectPoints);
+
+    // Guardar las respuestas en localStorage para que persistan entre páginas
+    try {
+      localStorage.setItem(
+        `quiz_responses_${userId}`,
+        JSON.stringify({
+          responses: newResponses,
+          totalPoints: totalCorrectPoints,
+        })
+      );
+    } catch (e) {
+      console.error("Error saving responses to localStorage:", e);
+    }
   };
 
-  // Function to save quiz responses
-  const handleQuizResponse = (widgetId, responseData) => {
-    console.log('Quiz response received:', widgetId, responseData);
+  // Función para precargar todas las imágenes del libro
+  const preloadAllImages = () => {
+    if (!contentBook || contentBook.length === 0) return;
 
-    // Update local state
-    const updatedResponses = {
-      ...quizResponses,
-      [widgetId]: responseData
-    };
+    setImagesLoaded(false);
 
-    setQuizResponses(updatedResponses);
+    // Recopilar todas las widgets con imágenes de todas las páginas
+    const imageWidgets = [];
+    contentBook.forEach((pageContent) => {
+      if (pageContent.widgetitems) {
+        const pageWidgets = pageContent.widgetitems.filter(
+          (widget) =>
+            widget.type === "2" || // Tipo imagen
+            (widget.value && widget.value.src) // Cualquier widget con una propiedad src en value
+        );
+        imageWidgets.push(...pageWidgets);
+      }
+    });
 
-    // Update total points
-    updateQuizPoints(updatedResponses);
+    if (imageWidgets.length === 0) {
+      // No hay imágenes para cargar
+      setImagesLoaded(true);
+      return;
+    }
+
+    setTotalImagesToLoad(imageWidgets.length);
+    setLoadedImagesCount(0);
+
+    // Cargar cada imagen
+    imageWidgets.forEach((widget) => {
+      const imgSrc =
+        widget.value && widget.value.src ? getMediaUrl(widget.value.src) : null;
+      if (!imgSrc) {
+        // Si no tiene URL de imagen, incrementamos el contador
+        setLoadedImagesCount((prev) => prev + 1);
+        return;
+      }
+
+      const img = new Image();
+      img.onload = () => {
+        setLoadedImagesCount((prev) => prev + 1);
+      };
+      img.onerror = () => {
+        console.error(`Error loading image: ${imgSrc}`);
+        setLoadedImagesCount((prev) => prev + 1);
+      };
+      img.src = imgSrc;
+    });
   };
+
+  // Efecto para verificar cuando todas las imágenes estén cargadas
+  useEffect(() => {
+    if (totalImagesToLoad > 0 && loadedImagesCount >= totalImagesToLoad) {
+      console.log("All images loaded:", loadedImagesCount);
+      setImagesLoaded(true);
+    }
+  }, [loadedImagesCount, totalImagesToLoad]);
 
   const getBookContent = () => {
     async function fetchData() {
@@ -135,35 +218,33 @@ function ReadingView() {
       setError(null);
 
       try {
-        const fullBookResponse = await fullBook(bookid).then(data => {
+        const fullBookResponse = await fullBook(bookid).then((data) => {
+          let currentContent = data.data.book_content;
+          console.log("asd asd currentContent");
+          console.log(currentContent);
 
-          let currentContent = data.data.book_content
-          console.log('asd asd currentContent')
-          console.log(currentContent)
-
-          setContentBook(currentContent)
-          loadPage(currentContent, pageNumer)
-          console.log('BcurrentContent')
-          console.log(contentBook)
+          setContentBook(currentContent);
+          loadPage(currentContent, pageNumer);
+          console.log("BcurrentContent");
+          console.log(contentBook);
         });
-
       } catch (error) {
-        setError('Error fetching data');
-        console.error('Error fetching data:', error);
+        setError("Error fetching data");
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
       }
     }
 
     fetchData();
-
   };
 
   useEffect(() => {
-    console.log("using current pageNumer " + contentBook)
+    console.log("using current pageNumer " + contentBook);
     const handleKeyDown = (event) => {
       let currentPage = pageNumer; // Use current pageNumer to calculate the new page
 
-      if (event.key === 'ArrowRight') {
-        console.log('ArrowRight');
+      if (event.key === "ArrowRight") {
+        console.log("ArrowRight");
         if (pageNumer < pagesCount - 1) {
           currentPage = pageNumer + 1;
         }
@@ -173,53 +254,51 @@ function ReadingView() {
 
           user.roles.forEach((userRole) => {
             if (userRole.role === "profesor") {
-              navigate("/library")
+              navigate("/library");
+            } else if (userRole.role === "estudiante") {
+              navigate("/myclasses");
             }
-            else if (userRole.role === "estudiante") {
-              navigate("/myclasses")
-            }
-          })
+          });
         }
-      } else if (event.key === 'ArrowLeft') {
-        console.log('ArrowLeft');
+      } else if (event.key === "ArrowLeft") {
+        console.log("ArrowLeft");
         if (pageNumer > 0) {
           currentPage = pageNumer - 1;
         }
       }
 
       setPageNumer(currentPage);
-      console.log("using current pageNumer " + pageNumer)
+      console.log("using current pageNumer " + pageNumer);
       loadPage(contentBook, currentPage);
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [contentBook, pageNumer, pagesCount, quizResponses]);
 
-
   const loadPage = (currentContent, pageNumber) => {
-    console.log('pageNumer')
-    console.log(pageNumer)
-    console.log('--contentBook---')
-    console.log(contentBook)
-    console.log('-----')
-    console.log('-----')
+    console.log("pageNumer");
+    console.log(pageNumer);
+    console.log("--contentBook---");
+    console.log(contentBook);
+    console.log("-----");
+    console.log("-----");
 
-    let currentPageContent = currentContent[pageNumber]
-    setContentBook(currentContent)
+    let currentPageContent = currentContent[pageNumber];
+    setContentBook(currentContent);
     setGridDirection(currentPageContent.page.gridDirection);
     setGridNumRows(currentPageContent.page.gridNumRows);
-    setPagesCount(currentContent.length)
+    setPagesCount(currentContent.length);
     setWidgets(currentPageContent.widgetitems);
     setIsLoading(false);
   };
 
   const exitPresentation = () => {
-    handle.exit() // Exit fullscreen mode
-  }
+    handle.exit(); // Exit fullscreen mode
+  };
 
   const handlePreviousPage = () => {
     if (pageNumer > 0) {
@@ -229,33 +308,32 @@ function ReadingView() {
     }
   };
 
-  // Function to send all accumulated responses to the API
+  // Function to send points to the user without submitting quiz responses
   const submitResponses = async () => {
     try {
       if (Object.keys(quizResponses).length === 0) {
-        console.log('No responses to send');
+        console.log("No responses to send");
         return;
       }
 
-      console.log('Sending accumulated responses to API:', quizResponses);
-      console.log('Total points:', quizTotalPoints);
-
-      const userId = user?.userid;
-      if (!userId || !bookid) {
-        console.error('Could not get user ID or book ID');
+      console.log("Sending points to user:", quizTotalPoints);
+      if (!userId) {
+        console.error("Could not get user ID");
         return;
       }
 
-      // Send responses to API
-      await submit_quiz_responses(quizResponses, bookid, userId);
+      // Only add the earned points to user using addPointsToUser
+      if (quizTotalPoints > 0) {
+        await addPointsToUser(userId, quizTotalPoints);
+      }
 
       // Clear localStorage after sending
-      localStorage.removeItem(`quiz_responses_${bookid}_${user?.userid}`);
+      localStorage.removeItem(`quiz_responses_${userId}`);
 
-      console.log('Responses sent successfully');
+      console.log("Points added to user successfully");
       alert(`Quiz completed! You've earned ${quizTotalPoints} points.`);
     } catch (error) {
-      console.error('Error sending responses:', error);
+      console.error("Error adding points:", error);
     }
   };
 
@@ -269,7 +347,7 @@ function ReadingView() {
   const ExitReading = async () => {
     try {
       if (user.roles[0].role === "profesor") {
-        navigate("/library")
+        navigate("/library");
       } else {
         const allBadges = await awardBadges(bookid);
         setAwardedBadges(allBadges);
@@ -279,7 +357,7 @@ function ReadingView() {
         }
       }
     } catch (error) {
-      console.error('Error during ExitReading:', error);
+      console.error("Error during ExitReading:", error);
     }
   };
 
@@ -291,7 +369,7 @@ function ReadingView() {
       const badges = await getBadgesPerBook(book_id);
 
       if (badges?.length === 0) {
-        console.log('No badges to award for this book.');
+        console.log("No badges to award for this book.");
         return null;
       }
 
@@ -301,18 +379,18 @@ function ReadingView() {
         if (response?.created) {
           awarded.push(badge);
         }
-      };
+      }
 
       // Filtrar nulls después de resolver las promesas
       const validBadges = awarded.filter(Boolean);
-      console.log('Awarded badges:', validBadges);
+      console.log("Awarded badges:", validBadges);
       if (validBadges.length === 0) {
         return null;
       } else {
         return validBadges;
       }
     } catch (error) {
-      console.error('Error awarding badges:', error);
+      console.error("Error awarding badges:", error);
       return [];
     }
   };
@@ -347,28 +425,31 @@ function ReadingView() {
     return () => clearInterval(interval);
   }, [awardedBadges]);
 
+  // Determina si debemos mostrar la pantalla de carga
+  const showLoader = isLoading || !imagesLoaded;
+  const loadingMessage = isLoading
+    ? "Cargando libro..."
+    : "Preparando imágenes...";
 
   return (
     <FullScreen handle={handle}>
-      <div className='presentation-container'>
+      <div className="presentation-container">
+        {/* Componente Loader para mostrar durante la carga */}
+        <Loader loading={showLoader} text={loadingMessage} />
+
         {/* Floating points indicator - always visible */}
         {quizTotalPoints > 0 && (
-          <div className="quiz-points-display">
-            Points: {quizTotalPoints}
-          </div>
+          <div className="quiz-points-display">Points: {quizTotalPoints}</div>
         )}
 
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : error ? (
-          <div><ErrorPage /></div>
+        {error ? (
+          <div>
+            <ErrorPage />
+          </div>
         ) : (
-          <div className='reading-view-layout'>
-            {/* <div className='top-menu'>
-               Buttons and other UI elements here... 
-            </div> */}
-            <div className='content-wrapper'>
-              <div className='page-content'>
+          <div className={`reading-view-layout ${showLoader ? "hidden" : ""}`}>
+            <div className="content-wrapper">
+              <div className="page-content">
                 <PageSelector
                   pageType={contentBook?.[pageNumer]?.page?.type || 1}
                   gridDirection={gridDirection}
@@ -381,21 +462,21 @@ function ReadingView() {
                 />
               </div>
             </div>
-            <div className='navigation-footer'>
+            <div className="navigation-footer">
               <button
                 onClick={handlePreviousPage}
                 disabled={pageNumer === 0}
-                className='nav-button'
+                className="nav-button"
               >
                 ←
               </button>
-              <span className='page-number'>
+              <span className="page-number">
                 Page {pageNumer + 1} of {pagesCount}
               </span>
               <button
                 onClick={handleNextPage}
                 disabled={pageNumer === pagesCount - 1}
-                className='nav-button'
+                className="nav-button"
               >
                 →
               </button>
@@ -404,16 +485,16 @@ function ReadingView() {
                 <button
                   onClick={() => {
                     // Submit responses before exiting
-                    submitResponses();
                     ExitReading();
+                    submitResponses();
                   }}
-                  className='exit-button'>
+                  className="exit-button"
+                >
                   Exit
                 </button>
               )}
 
               {currentBadge && <PopUpAchieve Badge={currentBadge} />}
-
             </div>
           </div>
         )}
@@ -422,4 +503,4 @@ function ReadingView() {
   );
 }
 
-export default ReadingView
+export default ReadingView;
