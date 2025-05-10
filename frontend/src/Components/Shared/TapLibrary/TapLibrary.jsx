@@ -84,7 +84,6 @@ function TapLibrary({ toggleSidebar, newBooks }) {
           </div>
         </Tab>
       </Tabs>
-      <br />
     </>
   )
 }

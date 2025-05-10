@@ -58,11 +58,11 @@ const PopUpAchieve = ({ Badge }) => {
     <div className={animationClasses.achievement}>
       <div className="animation">
         <div className={animationClasses.circle}>
-          <div className="img trophy_animate trophy_img">
+          <div className="trophy_animate trophy_img">
             <img className="trophy_1" src={trophy_full} alt="Trofeo"/>
             <img className="trophy_2" src={trophy_no_handles} alt="Base del trofeo"/>
           </div>
-          <div className="img book_img">
+          <div className="book_img">
             <img src={IconPopUp} alt="Book Icon"/>
           </div>
           <div className="brilliant-wrap">

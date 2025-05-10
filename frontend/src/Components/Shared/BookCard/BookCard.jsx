@@ -39,10 +39,7 @@ const BookCard = ({
     <div
       className='Book-card'
       style={{
-        width: '235px',
-        borderRadius: '5px',
         backgroundColor: color,
-        border: 'none',
       }}
       onClick={() =>
         toggleSidebar({
@@ -62,7 +59,6 @@ const BookCard = ({
             className='card-img'
             src={imageCard}
             alt='Portrait'
-            style={{ width: '90px', height: '160px', borderRadius: '0px' }}
           />
         </div>
         <div className='card-body d-flex flex-column justify-content-between'>

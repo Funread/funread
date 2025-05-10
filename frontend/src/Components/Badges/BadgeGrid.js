@@ -1,5 +1,5 @@
 import React from 'react';
-import { getMediaUrl } from '../../mediaUrl';
+import { getMediaUrl } from '../Utils/mediaUrl';
 
 function BadgeGrid({ filter, badgesData }) {
   

@@ -1,6 +1,6 @@
 import React, { useState, useEffect , useRef} from 'react';
 import { Stage, Layer, Image, Shape, Transformer, Rect } from 'react-konva';
-import { getMediaUrl } from '../../../mediaUrl';
+import { getMediaUrl } from '../../Utils/mediaUrl';
 
 const KonvaPage = ({ widgets, pageData }) => {
   const [stageSize, setStageSize] = useState({

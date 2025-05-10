@@ -13,6 +13,9 @@ import { submit_quiz_responses } from '../../api/options'
 import { award_badge_to_user } from '../../api/userBadges'
 import { getBadgesPerBook } from '../../api/Badges'
 import PopUpAchieve from '../Badges/PopUpAchieve';
+import Button from 'react-bootstrap/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 function ReadingView() {
 
@@ -317,6 +320,19 @@ function ReadingView() {
     }
   };
 
+  const ForceExitReading = async () => {
+    try {
+      if (user.roles[0].role === "profesor") {
+        navigate("/library")
+      } else {
+        navigate("/myclasses");
+      }
+    }
+    catch (error) {
+      console.error('Error during ExitReading:', error);
+    }
+  };
+
   const [awardedBadges, setAwardedBadges] = useState([]); // Badges logrados por el usuario
   const [currentBadge, setCurrentBadge] = useState(null); // Badge actual a mostrar
 
@@ -351,7 +367,10 @@ function ReadingView() {
   return (
     <FullScreen handle={handle}>
       <div className='presentation-container'>
-        {/* Floating points indicator - always visible */}
+        <Button className="close-button" onClick={ForceExitReading}>
+          <FontAwesomeIcon icon={faTimes} />
+        </Button>
+
         {quizTotalPoints > 0 && (
           <div className="quiz-points-display">
             Points: {quizTotalPoints}
