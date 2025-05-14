@@ -10,7 +10,8 @@ urlpatterns = [
     path('api/user-points/leaderboard/', views.leaderboard_top_10),
     path('api/user-points/rankings/<int:user_id>/', views.user_ranking_position),
     path('api/user-points/details/<int:user_id>/', views.get_user_level_and_points),
-    
+    path('api/user-points/addPoints/<int:user_id>/', views.add_points_to_user),
+    path('api/user-points/rank/<int:user_id>/', views.get_current_rank, name='get_current_rank'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

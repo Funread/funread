@@ -246,3 +246,46 @@ def get_user_level_and_points(request, user_id):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+#Endpoint para obtener el ranking actual del usuario basado en total_points
+@api_view(['GET'])
+def get_current_rank(request, user_id):
+    try:
+        # Verificar el encabezado de autorización
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if es_valido==False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Obtener todos los usuarios ordenados por total_points (descendente)
+        all_users = UserPoints.objects.all().order_by('-total_points')
+        
+        # Crear un diccionario para almacenar las posiciones
+        ranking_dict = {}
+        
+        # Asignar posición a cada usuario
+        for i, user in enumerate(all_users, 1):
+            ranking_dict[user.user_id] = i
+        
+        # Verificar si el usuario existe en el ranking
+        if int(user_id) not in ranking_dict:
+            return Response(
+                {'error': 'User not found in the rankings.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        # Obtener el registro de UserPoints del usuario
+        user_points = get_object_or_404(UserPoints, user_id=user_id)
+        
+        # Devolver la posición actual y el total de puntos
+        return Response({
+            'user_id': int(user_id),
+            'position': ranking_dict[int(user_id)],
+            'total_points': user_points.total_points,
+            'total_users': len(ranking_dict)
+        }, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        print(f"Error inesperado: {e}")
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
