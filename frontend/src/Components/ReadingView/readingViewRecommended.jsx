@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+// Este es un archivo temporal para ver el código completo actualizado
+import React, { useEffect, useState, useCallback } from "react";
 import "./ReadingView.sass";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -15,8 +16,8 @@ import PopUpAchieve from "../Badges/PopUpAchieve";
 import Loader from "../Shared/Loader/Loader";
 import { getMediaUrl } from "../../mediaUrl";
 import { addPointsToUser } from "../../api/userPoints";
-import { store } from "../../redux/store";
 import { markBookAsCompleted } from "../../api/userBookProgress";
+import { store } from "../../redux/store";
 
 function ReadingView() {
   const navigate = useNavigate();
@@ -66,11 +67,147 @@ function ReadingView() {
         console.error("Error loading saved responses:", e);
       }
     }
-  }, [user]);
+  }, [user, userId]);
+
+  // Function to send points to the user and mark the book as completed
+  const submitResponses = useCallback(async () => {
+    try {
+      if (!userId) {
+        console.error("Could not get user ID");
+        return;
+      }
+
+      // Add points if there are quiz responses
+      if (Object.keys(quizResponses).length > 0) {
+        console.log("Sending points to user:", quizTotalPoints);
+
+        // Only add the earned points to user using addPointsToUser
+        if (quizTotalPoints > 0) {
+          await addPointsToUser(userId, quizTotalPoints);
+        }
+
+        // Clear localStorage after sending
+        localStorage.removeItem(`quiz_responses_${userId}`);
+
+        console.log("Points added to user successfully");
+        alert(`Quiz completed! You've earned ${quizTotalPoints} points.`);
+      }
+
+      // Mark the book as completed with 100% qualification
+      console.log(`Marking book ${bookid} as completed for user ${userId}`);
+      try {
+        const response = await markBookAsCompleted(userId, bookid);
+        console.log("Book marked as completed:", response.data);
+      } catch (markError) {
+        console.error("Error marking book as completed:", markError);
+      }
+    } catch (error) {
+      console.error("Error in submitResponses:", error);
+    }
+  }, [userId, quizResponses, quizTotalPoints, bookid]);
+
+  // Badge awarding function
+  const awardBadges = useCallback(async (book_id) => {
+    try {
+      const badges = await getBadgesPerBook(book_id);
+
+      if (badges?.length === 0) {
+        console.log("No badges to award for this book.");
+        return null;
+      }
+
+      const awarded = [];
+      for (const badge of badges) {
+        const response = await award_badge_to_user(badge.id);
+        if (response?.created) {
+          awarded.push(badge);
+        }
+      }
+
+      // Filtrar nulls después de resolver las promesas
+      const validBadges = awarded.filter(Boolean);
+      console.log("Awarded badges:", validBadges);
+      if (validBadges.length === 0) {
+        return null;
+      } else {
+        return validBadges;
+      }
+    } catch (error) {
+      console.error("Error awarding badges:", error);
+      return [];
+    }
+  }, []);
+
+  // Función para salir de la lectura
+  const ExitReading = useCallback(async () => {
+    try {
+      // Primero enviar las respuestas del quiz y marcar el libro como completado
+      await submitResponses();
+
+      if (user.roles[0].role === "profesor") {
+        navigate("/library");
+      } else {
+        const allBadges = await awardBadges(bookid);
+        setAwardedBadges(allBadges);
+
+        if (allBadges === null) {
+          navigate("/myclasses");
+        }
+      }
+    } catch (error) {
+      console.error("Error during ExitReading:", error);
+    }
+  }, [bookid, user.roles, submitResponses, awardBadges, navigate]);
+
+  const loadPage = useCallback(
+    (currentContent, pageNumber) => {
+      console.log("pageNumer");
+      console.log(pageNumer);
+      console.log("--contentBook---");
+      console.log(contentBook);
+      console.log("-----");
+      console.log("-----");
+
+      let currentPageContent = currentContent[pageNumber];
+      setContentBook(currentContent);
+      setGridDirection(currentPageContent.page.gridDirection);
+      setGridNumRows(currentPageContent.page.gridNumRows);
+      setPagesCount(currentContent.length);
+      setWidgets(currentPageContent.widgetitems);
+      setIsLoading(false);
+    },
+    [pageNumer, contentBook]
+  );
 
   useEffect(() => {
     getBookContent();
   }, []);
+
+  const getBookContent = useCallback(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        await fullBook(bookid).then((data) => {
+          let currentContent = data.data.book_content;
+          console.log("asd asd currentContent");
+          console.log(currentContent);
+
+          setContentBook(currentContent);
+          loadPage(currentContent, pageNumer);
+          console.log("BcurrentContent");
+          console.log(contentBook);
+        });
+      } catch (error) {
+        setError("Error fetching data");
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [bookid, pageNumer, loadPage, contentBook]);
 
   useEffect(() => {
     if (contentBook) {
@@ -80,83 +217,86 @@ function ReadingView() {
   }, [contentBook]);
 
   // Manejador para las respuestas del quiz
-  const handleQuizResponse = (questionId, answer, isCorrect, pointsAwarded) => {
-    console.log(
-      `QuizResponse: Q${questionId}, Answer: ${answer}, Correct: ${isCorrect}, Points: ${pointsAwarded}`
-    );
-
-    // Asegurarnos que pointsAwarded sea un número
-    const points = Number(pointsAwarded) || 0;
-    console.log("Converted points:", points);
-
-    // Comprobar si ya se ha respondido esta pregunta anteriormente
-    const previousResponse = quizResponses[questionId];
-    let pointsDelta = 0;
-
-    // Calcular el cambio de puntos
-    if (isCorrect) {
-      // Si la respuesta es correcta, sumar los puntos
-      pointsDelta = points;
-      console.log(`Correct answer: Adding ${pointsDelta} points`);
-    } else if (previousResponse && previousResponse.isCorrect) {
-      // Si la respuesta ahora es incorrecta pero antes era correcta, restar los puntos
-      pointsDelta = -Number(previousResponse.pointsAwarded || 0);
+  const handleQuizResponse = useCallback(
+    (questionId, answer, isCorrect, pointsAwarded) => {
       console.log(
-        `Changed from correct to incorrect: Subtracting ${-pointsDelta} points`
+        `QuizResponse: Q${questionId}, Answer: ${answer}, Correct: ${isCorrect}, Points: ${pointsAwarded}`
       );
-    }
 
-    // Actualizar las respuestas
-    const newResponses = {
-      ...quizResponses,
-      [questionId]: {
-        answerId: answer, // Almacenar como answerId para compatibilidad
-        isCorrect,
-        pointsAwarded: points,
-      },
-    };
+      // Asegurarnos que pointsAwarded sea un número
+      const points = Number(pointsAwarded) || 0;
+      console.log("Converted points:", points);
 
-    // Para depuración, mostrar todas las respuestas actuales y sus puntos
-    console.log("Current responses with points:");
-    Object.entries(newResponses).forEach(([id, resp]) => {
-      if (resp.isCorrect) {
-        console.log(`- Question ${id}: ${resp.pointsAwarded} points`);
+      // Comprobar si ya se ha respondido esta pregunta anteriormente
+      const previousResponse = quizResponses[questionId];
+      let pointsDelta = 0;
+
+      // Calcular el cambio de puntos
+      if (isCorrect) {
+        // Si la respuesta es correcta, sumar los puntos
+        pointsDelta = points;
+        console.log(`Correct answer: Adding ${pointsDelta} points`);
+      } else if (previousResponse && previousResponse.isCorrect) {
+        // Si la respuesta ahora es incorrecta pero antes era correcta, restar los puntos
+        pointsDelta = -Number(previousResponse.pointsAwarded || 0);
+        console.log(
+          `Changed from correct to incorrect: Subtracting ${-pointsDelta} points`
+        );
       }
-    });
 
-    setQuizResponses(newResponses);
+      // Actualizar las respuestas
+      const newResponses = {
+        ...quizResponses,
+        [questionId]: {
+          answerId: answer, // Almacenar como answerId para compatibilidad
+          isCorrect,
+          pointsAwarded: points,
+        },
+      };
 
-    // Calcular el total de puntos de todas las respuestas correctas
-    let totalCorrectPoints = 0;
-    Object.values(newResponses).forEach((resp) => {
-      if (resp.isCorrect) {
-        totalCorrectPoints += Number(resp.pointsAwarded || 0);
-      }
-    });
-    console.log(
-      "Total de puntos por respuestas correctas:",
-      totalCorrectPoints
-    );
+      // Para depuración, mostrar todas las respuestas actuales y sus puntos
+      console.log("Current responses with points:");
+      Object.entries(newResponses).forEach(([id, resp]) => {
+        if (resp.isCorrect) {
+          console.log(`- Question ${id}: ${resp.pointsAwarded} points`);
+        }
+      });
 
-    // Actualizar el total de puntos directamente con el valor calculado
-    setQuizTotalPoints(totalCorrectPoints);
+      setQuizResponses(newResponses);
 
-    // Guardar las respuestas en localStorage para que persistan entre páginas
-    try {
-      localStorage.setItem(
-        `quiz_responses_${userId}`,
-        JSON.stringify({
-          responses: newResponses,
-          totalPoints: totalCorrectPoints,
-        })
+      // Calcular el total de puntos de todas las respuestas correctas
+      let totalCorrectPoints = 0;
+      Object.values(newResponses).forEach((resp) => {
+        if (resp.isCorrect) {
+          totalCorrectPoints += Number(resp.pointsAwarded || 0);
+        }
+      });
+      console.log(
+        "Total de puntos por respuestas correctas:",
+        totalCorrectPoints
       );
-    } catch (e) {
-      console.error("Error saving responses to localStorage:", e);
-    }
-  };
+
+      // Actualizar el total de puntos directamente con el valor calculado
+      setQuizTotalPoints(totalCorrectPoints);
+
+      // Guardar las respuestas en localStorage para que persistan entre páginas
+      try {
+        localStorage.setItem(
+          `quiz_responses_${userId}`,
+          JSON.stringify({
+            responses: newResponses,
+            totalPoints: totalCorrectPoints,
+          })
+        );
+      } catch (e) {
+        console.error("Error saving responses to localStorage:", e);
+      }
+    },
+    [quizResponses, userId]
+  );
 
   // Función para precargar todas las imágenes del libro
-  const preloadAllImages = () => {
+  const preloadAllImages = useCallback(() => {
     if (!contentBook || contentBook.length === 0) return;
 
     setImagesLoaded(false);
@@ -203,7 +343,7 @@ function ReadingView() {
       };
       img.src = imgSrc;
     });
-  };
+  }, [contentBook]);
 
   // Efecto para verificar cuando todas las imágenes estén cargadas
   useEffect(() => {
@@ -212,32 +352,6 @@ function ReadingView() {
       setImagesLoaded(true);
     }
   }, [loadedImagesCount, totalImagesToLoad]);
-
-  const getBookContent = () => {
-    async function fetchData() {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const fullBookResponse = await fullBook(bookid).then((data) => {
-          let currentContent = data.data.book_content;
-          console.log("asd asd currentContent");
-          console.log(currentContent);
-
-          setContentBook(currentContent);
-          loadPage(currentContent, pageNumer);
-          console.log("BcurrentContent");
-          console.log(contentBook);
-        });
-      } catch (error) {
-        setError("Error fetching data");
-        console.error("Error fetching data:", error);
-        setIsLoading(false);
-      }
-    }
-
-    fetchData();
-  };
 
   useEffect(() => {
     console.log("using current pageNumer " + contentBook);
@@ -250,16 +364,8 @@ function ReadingView() {
           currentPage = pageNumer + 1;
         }
         if (pageNumer === pagesCount - 1) {
-          // Submit responses before exiting
-          submitResponses();
-
-          user.roles.forEach((userRole) => {
-            if (userRole.role === "profesor") {
-              navigate("/library");
-            } else if (userRole.role === "estudiante") {
-              navigate("/myclasses");
-            }
-          });
+          // Exit the reading view, which will submit responses and mark the book as completed
+          ExitReading();
         }
       } else if (event.key === "ArrowLeft") {
         console.log("ArrowLeft");
@@ -278,132 +384,32 @@ function ReadingView() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [contentBook, pageNumer, pagesCount, quizResponses]);
+  }, [
+    contentBook,
+    pageNumer,
+    pagesCount,
+    quizResponses,
+    ExitReading,
+    loadPage,
+  ]);
 
-  const loadPage = (currentContent, pageNumber) => {
-    console.log("pageNumer");
-    console.log(pageNumer);
-    console.log("--contentBook---");
-    console.log(contentBook);
-    console.log("-----");
-    console.log("-----");
-
-    let currentPageContent = currentContent[pageNumber];
-    setContentBook(currentContent);
-    setGridDirection(currentPageContent.page.gridDirection);
-    setGridNumRows(currentPageContent.page.gridNumRows);
-    setPagesCount(currentContent.length);
-    setWidgets(currentPageContent.widgetitems);
-    setIsLoading(false);
-  };
-
-  const exitPresentation = () => {
+  const exitPresentation = useCallback(() => {
     handle.exit(); // Exit fullscreen mode
-  };
+  }, [handle]);
 
-  const handlePreviousPage = () => {
+  const handlePreviousPage = useCallback(() => {
     if (pageNumer > 0) {
       const currentPage = pageNumer - 1;
       setPageNumer(currentPage);
       loadPage(contentBook, currentPage);
     }
-  };
-  // Function to send points to the user without submitting quiz responses
-  const submitResponses = async () => {
-    try {
-      // Marcar el libro como completado con calificación 100
-      try {
-        await markBookAsCompleted(userId, bookid);
-        console.log("Book marked as completed successfully");
-      } catch (markError) {
-        console.error("Error marking book as completed:", markError);
-      }
+  }, [pageNumer, contentBook, loadPage]);
 
-      if (Object.keys(quizResponses).length === 0) {
-        console.log("No responses to send");
-        return;
-      }
-
-      console.log("Sending points to user:", quizTotalPoints);
-      if (!userId) {
-        console.error("Could not get user ID");
-        return;
-      }
-
-      // Only add the earned points to user using addPointsToUser
-      if (quizTotalPoints > 0) {
-        await addPointsToUser(userId, quizTotalPoints);
-      }
-
-      // Clear localStorage after sending
-      localStorage.removeItem(`quiz_responses_${userId}`);
-
-      console.log("Points added to user successfully");
-      alert(`Quiz completed! You've earned ${quizTotalPoints} points.`);
-    } catch (error) {
-      console.error("Error adding points:", error);
-    }
-  };
-
-  const handleNextPage = () => {
+  const handleNextPage = useCallback(() => {
     const currentPage = pageNumer + 1;
     setPageNumer(currentPage);
     loadPage(contentBook, currentPage);
-  };
-  // Función para salir de la lectura
-  const ExitReading = async () => {
-    try {
-      // Primero enviar las respuestas y marcar como completado
-      await submitResponses();
-
-      if (user.roles[0].role === "profesor") {
-        navigate("/library");
-      } else {
-        const allBadges = await awardBadges(bookid);
-        setAwardedBadges(allBadges);
-
-        if (allBadges === null) {
-          navigate("/myclasses");
-        }
-      }
-    } catch (error) {
-      console.error("Error during ExitReading:", error);
-    }
-  };
-
-  // Otorgar badges al usuario
-
-  // Badge awarding function
-  const awardBadges = async (book_id) => {
-    try {
-      const badges = await getBadgesPerBook(book_id);
-
-      if (badges?.length === 0) {
-        console.log("No badges to award for this book.");
-        return null;
-      }
-
-      const awarded = [];
-      for (const badge of badges) {
-        const response = await award_badge_to_user(badge.id);
-        if (response?.created) {
-          awarded.push(badge);
-        }
-      }
-
-      // Filtrar nulls después de resolver las promesas
-      const validBadges = awarded.filter(Boolean);
-      console.log("Awarded badges:", validBadges);
-      if (validBadges.length === 0) {
-        return null;
-      } else {
-        return validBadges;
-      }
-    } catch (error) {
-      console.error("Error awarding badges:", error);
-      return [];
-    }
-  };
+  }, [pageNumer, contentBook, loadPage]);
 
   const [awardedBadges, setAwardedBadges] = useState([]); // Badges logrados por el usuario
   const [currentBadge, setCurrentBadge] = useState(null); // Badge actual a mostrar
@@ -433,7 +439,7 @@ function ReadingView() {
     }, 8500);
 
     return () => clearInterval(interval);
-  }, [awardedBadges]);
+  }, [awardedBadges, navigate]);
 
   // Determina si debemos mostrar la pantalla de carga
   const showLoader = isLoading || !imagesLoaded;
@@ -489,12 +495,14 @@ function ReadingView() {
                 className="nav-button"
               >
                 →
-              </button>{" "}
+              </button>
+
               {pageNumer === pagesCount - 1 && (
                 <button onClick={ExitReading} className="exit-button">
                   Exit
                 </button>
               )}
+
               {currentBadge && <PopUpAchieve Badge={currentBadge} />}
             </div>
           </div>

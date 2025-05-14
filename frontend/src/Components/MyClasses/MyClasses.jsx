@@ -24,6 +24,7 @@ import imgLogo from "../../logoFunread.png"; // Import logo image
 import { getMediaUrl } from "../../mediaUrl"; // Import the function to get media URL
 import { getUserPoints } from "../../api/userPoints"; // Import the function to get user points
 import { getCurrentRank } from "../../api/userPoints"; // Import the function to get current rank
+import { getBooksCompleted } from "../../api/userBookProgress"; // Import the function to get completed books count
 
 // Function to get teacher name from ID
 const getTeacherName = async (teacherId) => {
@@ -52,6 +53,7 @@ const MyClasses = () => {
     points: 0,
     ranking: 0,
     completedQuizzes: 0,
+    completedBooks: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("classes");
@@ -72,6 +74,14 @@ const MyClasses = () => {
           const rankResponse = await getCurrentRank(user.userId);
           console.log("User rank response:", rankResponse);
 
+          // Get completed books count
+          const booksCompletedResponse = await getBooksCompleted(user.userId);
+          console.log("Books completed response:", booksCompletedResponse);
+
+          // Extract the completed books count from the response
+          const completedBooksCount =
+            booksCompletedResponse?.data?.completed_books || 0;
+
           if (pointsResponse) {
             // Access total_points from the correct structure in the response
             const userPoints = parseInt(pointsResponse.total_points || 0);
@@ -87,10 +97,15 @@ const MyClasses = () => {
               ranking: rankResponse ? rankResponse.position : 0,
               // Points needed for next level
               pointsToNextLevel: level * 500 - userPoints,
+              // Update completed quizzes with books completed count
+              completedQuizzes: completedBooksCount,
             }));
           }
         } catch (pointsError) {
-          console.error("Error fetching user points or rank:", pointsError);
+          console.error(
+            "Error fetching user points, rank, or books completed:",
+            pointsError
+          );
         }
 
         // Get student groups from API
@@ -337,7 +352,6 @@ const MyClasses = () => {
         </div>*/}
               </header>
             </div>
-
             <div className="stat-card user-info">
               <div className="stat-icon level">
                 <FontAwesomeIcon icon={faUser} />
@@ -358,7 +372,6 @@ const MyClasses = () => {
                 </span>
               </div>
             </div>
-
             <div className="stat-card ranking-info">
               <div className="stat-icon ranking">
                 <FontAwesomeIcon icon={faTrophy} />
@@ -367,8 +380,7 @@ const MyClasses = () => {
                 <h3>Ranking</h3>
                 <p>#{userStats.ranking} in your class</p>
               </div>
-            </div>
-
+            </div>{" "}
             <div className="stat-card quizzes-info">
               <div className="stat-icon quizzes">
                 <FontAwesomeIcon icon={faBook} />
