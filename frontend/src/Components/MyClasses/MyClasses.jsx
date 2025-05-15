@@ -1,18 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import './MyClasses.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faTrophy, faChartLine, faCalendarAlt, faBell, faUser, faSearch, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { listedStudentGroups } from '../../api';
-import { listedBooksPerClassesById } from '../../api/booksPerClasses';
-import { bookSearchById } from '../../api/books';
-import { listedClassesId } from '../../api/classes';
-import { userListById } from '../../api/users'; // Import the function to get user details by ID
-import BadgesPage from '../Badges/BadgesPage'
-import imgLogo from '../../logoFunread.png'; // Import logo image
-import { getMediaUrl } from '../Utils/mediaUrl'; // Import the function to get media URL
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import "./MyClasses.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBook,
+  faTrophy,
+  faChartLine,
+  faCalendarAlt,
+  faUser,
+  faSearch,
+  faArrowLeft,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { listedStudentGroups } from "../../api";
+import { listedBooksPerClassesById } from "../../api/booksPerClasses";
+import { bookSearchById } from "../../api/books";
+import { listedClassesId } from "../../api/classes";
+import { userListById } from "../../api/users"; // Import the function to get user details by ID
+import BadgesPage from "../Badges/BadgesPage";
+import imgLogo from "../../logoFunread.png"; // Import logo image
+import { getMediaUrl } from "../Utils/mediaUrl"; // Import the function to get media URL
+import { getUserPoints } from "../../api/userPoints"; // Import the function to get user points
+import { getCurrentRank } from "../../api/userPoints"; // Import the function to get current rank
+import { getBooksCompleted } from "../../api/userBookProgress"; // Import the function to get completed books count
 import StatCard from '../StatCard/StatCard'; // Import the StatCard component
 
 // Function to get teacher name from ID
@@ -41,28 +53,71 @@ const MyClasses = () => {
     level: 1,
     points: 0,
     ranking: 0,
-    completedQuizzes: 0
+    completedQuizzes: 0,
+    completedBooks: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('classes');
+  const [activeTab, setActiveTab] = useState("classes");
   const [selectedClass, setSelectedClass] = useState(null);
   const [classBooks, setClassBooks] = useState([]);
   const [loadingBooks, setLoadingBooks] = useState(false);
-
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
+        // Get user points and ranking from API
+        try {
+          const pointsResponse = await getUserPoints(user.userId);
+          console.log("User points response:", pointsResponse);
+
+          // Get current rank position
+          const rankResponse = await getCurrentRank(user.userId);
+          console.log("User rank response:", rankResponse);
+
+          // Get completed books count
+          const booksCompletedResponse = await getBooksCompleted(user.userId);
+          console.log("Books completed response:", booksCompletedResponse);
+
+          // Extract the completed books count from the response
+          const completedBooksCount =
+            booksCompletedResponse?.data?.completed_books || 0;
+
+          if (pointsResponse) {
+            // Access total_points from the correct structure in the response
+            const userPoints = parseInt(pointsResponse.total_points || 0);
+            // Calculate level based on points (1 level for each 500 points)
+            const level = Math.max(1, Math.floor(userPoints / 500) + 1);
+
+            // Update user stats with real data
+            setUserStats((prev) => ({
+              ...prev,
+              points: userPoints,
+              level: level,
+              // Add rank position from rankResponse
+              ranking: rankResponse ? rankResponse.position : 0,
+              // Points needed for next level
+              pointsToNextLevel: level * 500 - userPoints,
+              // Update completed quizzes with books completed count
+              completedQuizzes: completedBooksCount,
+            }));
+          }
+        } catch (pointsError) {
+          console.error(
+            "Error fetching user points, rank, or books completed:",
+            pointsError
+          );
+        }
+
         // Get student groups from API
         const studentsGroups = await listedStudentGroups();
-        console.log('Groups obtained:', studentsGroups);
+        console.log("Groups obtained:", studentsGroups);
 
         // Filter groups belonging to current user
         const studentGroups = studentsGroups.data.filter(
           (student) => student.userid === user.userId
         );
-        console.log('Current user groups:', studentGroups);
+        console.log("Current user groups:", studentGroups);
 
         // Array to store classes with complete data
         const formattedClasses = [];
@@ -72,9 +127,16 @@ const MyClasses = () => {
           try {
             // Get class details using group ID
             const classResponse = await listedClassesId(group.groupscreateid);
-            console.log(`Class details for group ${group.groupscreateid}:`, classResponse);
+            console.log(
+              `Class details for group ${group.groupscreateid}:`,
+              classResponse
+            );
 
-            if (classResponse && classResponse.data && classResponse.data.length > 0) {
+            if (
+              classResponse &&
+              classResponse.data &&
+              classResponse.data.length > 0
+            ) {
               const classData = classResponse.data[0]; // Take the first result
 
               let teacherName = group.teachername || "Unassigned Teacher";
@@ -88,7 +150,7 @@ const MyClasses = () => {
               const formattedGroup = {
                 id: group.groupscreateid,
                 classId: classData.classesid,
-                name: classData.name || 'Unnamed Class',
+                name: classData.name || "Unnamed Class",
                 grade: classData.grade,
                 progress: group.progress || Math.floor(Math.random() * 100),
                 teacherId: classData.teacherassigned,
@@ -96,59 +158,60 @@ const MyClasses = () => {
                 teacher: teacherName,
                 startDate: classData.startdate,
                 finishDate: classData.finishdate,
-                nextClass: classData.finishdate ? `Ends: ${new Date(classData.finishdate).toLocaleDateString()}` : 'No scheduled classes',
-                image: group.image || '/Media/media/default-class.jpg',
+                nextClass: classData.finishdate
+                  ? `Ends: ${new Date(
+                      classData.finishdate
+                    ).toLocaleDateString()}`
+                  : "No scheduled classes",
+                image: group.image || "/Media/media/default-class.jpg",
                 bookId: group.bookid || 3,
-                isActive: classData.isactive
+                isActive: classData.isactive,
               };
 
-              console.log('Formatted class with complete data:', formattedGroup);
+              console.log(
+                "Formatted class with complete data:",
+                formattedGroup
+              );
               formattedClasses.push(formattedGroup);
             } else {
               // If class details couldn't be obtained, use basic data
-              console.log('No class data found, using basic group data');
+              console.log("No class data found, using basic group data");
               const formattedGroup = {
                 id: group.groupscreateid,
-                name: group.groupname || 'Unnamed Class',
+                name: group.groupname || "Unnamed Class",
                 progress: group.progress || Math.floor(Math.random() * 100),
-                teacher: group.teachername || 'Unassigned Teacher',
-                nextClass: 'No scheduled classes',
-                image: group.image || '/Media/media/default-class.jpg',
-                bookId: group.bookid || 3
+                teacher: group.teachername || "Unassigned Teacher",
+                nextClass: "No scheduled classes",
+                image: group.image || "/Media/media/default-class.jpg",
+                bookId: group.bookid || 3,
               };
               formattedClasses.push(formattedGroup);
             }
           } catch (classError) {
-            console.error(`Error getting class details for group ${group.groupscreateid}:`, classError);
+            console.error(
+              `Error getting class details for group ${group.groupscreateid}:`,
+              classError
+            );
             // Add the group with limited data
             const formattedGroup = {
               id: group.groupscreateid,
-              name: group.groupname || 'Unnamed Class',
+              name: group.groupname || "Unnamed Class",
               progress: group.progress || Math.floor(Math.random() * 100),
-              teacher: group.teachername || 'Unassigned Teacher',
-              nextClass: 'No scheduled classes',
-              image: group.image || '/Media/media/default-class.jpg',
-              bookId: group.bookid || 3
+              teacher: group.teachername || "Unassigned Teacher",
+              nextClass: "No scheduled classes",
+              image: group.image || "/Media/media/default-class.jpg",
+              bookId: group.bookid || 3,
             };
             formattedClasses.push(formattedGroup);
           }
         }
 
-        console.log('Formatted classes with complete data:', formattedClasses);
+        console.log("Formatted classes with complete data:", formattedClasses);
         setClasses(formattedClasses);
 
-        // Get user statistics (could come from another API)
-        // Using example data for now
-        const userStatistics = {
-          level: user.level || 1,
-          points: user.points || 0,
-          ranking: 8,
-          completedQuizzes: 0
-        };
-        console.log('User statistics:', userStatistics);
-        setUserStats(userStatistics);
+        // We already have user statistics from the API, no need to overwrite
       } catch (error) {
-        console.error('Error loading classes:', error);
+        console.error("Error loading classes:", error);
       } finally {
         setIsLoading(false);
       }
@@ -163,7 +226,7 @@ const MyClasses = () => {
     try {
       // Get book IDs associated with the class
       const response = await listedBooksPerClassesById(classId);
-      console.log('Books associated with class:', response);
+      console.log("Books associated with class:", response);
 
       if (response && response.data && response.data.length > 0) {
         // Array to store books with complete details
@@ -186,15 +249,16 @@ const MyClasses = () => {
                 // Create object with complete book details
                 const bookWithDetails = {
                   id: bookId,
-                  title: bookDetails.title || 'Untitled Book',
-                  author: bookDetails.author || 'Unknown Author',
+                  title: bookDetails.title || "Untitled Book",
+                  author: bookDetails.author || "Unknown Author",
                   category: bookDetails.category,
-                  description: bookDetails.description || '',
+                  description: bookDetails.description || "",
                   // Use portrait path as cover image
-                  cover: bookDetails.portrait || '/Media/media/default-book.jpg',
+                  cover:
+                    bookDetails.portrait || "/Media/media/default-book.jpg",
                   progress: bookItem.progress || 0,
                   // Keep other potentially useful data
-                  ...bookItem
+                  ...bookItem,
                 };
 
                 booksWithDetails.push(bookWithDetails);
@@ -203,10 +267,10 @@ const MyClasses = () => {
                 booksWithDetails.push({
                   ...bookItem,
                   id: bookId,
-                  title: 'Untitled Book',
-                  author: 'Unknown Author',
-                  cover: '/Media/media/default-book.jpg',
-                  progress: 0
+                  title: "Untitled Book",
+                  author: "Unknown Author",
+                  cover: "/Media/media/default-book.jpg",
+                  progress: 0,
                 });
               }
             }
@@ -216,21 +280,21 @@ const MyClasses = () => {
             booksWithDetails.push({
               ...bookItem,
               id: bookItem.booksid || bookItem.id,
-              title: 'Untitled Book',
-              author: 'Unknown Author',
-              cover: '/Media/media/default-book.jpg',
-              progress: 0
+              title: "Untitled Book",
+              author: "Unknown Author",
+              cover: "/Media/media/default-book.jpg",
+              progress: 0,
             });
           }
         }
 
-        console.log('Books with complete details:', booksWithDetails);
+        console.log("Books with complete details:", booksWithDetails);
         setClassBooks(booksWithDetails);
       } else {
         setClassBooks([]);
       }
     } catch (error) {
-      console.error('Error loading books for class:', error);
+      console.error("Error loading books for class:", error);
       setClassBooks([]);
     } finally {
       setLoadingBooks(false);
@@ -240,7 +304,7 @@ const MyClasses = () => {
   // Function to handle class selection and show books
   const handleClassSelect = async (classItem) => {
     setSelectedClass(classItem);
-    await fetchClassBooks(classItem.id);
+    await fetchClassBooks(classItem.classId);
   };
 
   // Function to navigate to reading view for a specific book
@@ -254,6 +318,11 @@ const MyClasses = () => {
     setClassBooks([]);
   };
 
+  // Function to handle logout
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
 
   return (
     <div className="student-dashboard">
@@ -286,9 +355,10 @@ const MyClasses = () => {
               <div className="progress-bar">
                 <div className="progress" style={{ width: `${(userStats.points % 500) / 5}%` }}></div>
               </div>
-              <span className="progress-text">
-                {userStats.points} / 500 points to next level
-              </span>
+                <span className="progress-text">
+                  {userStats.points} / {userStats.level * 500} points to next
+                  level
+                </span>
             </StatCard>
 
             {/* Tarjeta de ranking */}
@@ -304,9 +374,9 @@ const MyClasses = () => {
             {/* Tarjeta de quizzes */}
             <StatCard
               icon={<FontAwesomeIcon icon={faChartLine} />}
-              title="Quizzes"
-              className="quizzes-info"
-              iconClassName="quizzes"
+              title="Books"
+              className="books-info"
+              iconClassName="books"
             >
               <p>{userStats.completedQuizzes} completed</p>
             </StatCard>
@@ -334,22 +404,23 @@ const MyClasses = () => {
         <main className="main-content">
           <div className="tabs">
             <button
-              className={activeTab === 'classes' ? 'active' : ''}
-              onClick={() => setActiveTab('classes')}
+              className={activeTab === "classes" ? "active" : ""}
+              onClick={() => setActiveTab("classes")}
             >
               <FontAwesomeIcon icon={faBook} /> My Classes
             </button>
             <button
-              className={activeTab === 'achievements' ? 'active' : ''}
-              onClick={() => setActiveTab('achievements')}
+              className={activeTab === "achievements" ? "active" : ""}
+              onClick={() => setActiveTab("achievements")}
             >
               <FontAwesomeIcon icon={faTrophy} /> Achievements
             </button>
             <button
-              className={activeTab === 'notifications' ? 'active' : ''}
-              onClick={() => setActiveTab('notifications')}
+              className="logout-button"
+              onClick={handleLogout}
+              title="Logout"
             >
-              <FontAwesomeIcon icon={faBell} /> Notifications
+              <FontAwesomeIcon icon={faSignOutAlt} /> Logout
             </button>
           </div>
 
@@ -360,13 +431,16 @@ const MyClasses = () => {
             </div>
           ) : (
             <div className="tab-content">
-              {activeTab === 'classes' && !selectedClass && (
+              {activeTab === "classes" && !selectedClass && (
                 <div className="classes-grid">
                   {classes.length === 0 ? (
                     <div className="no-classes-message">
                       <FontAwesomeIcon icon={faBook} size="3x" />
                       <h3>No assigned classes</h3>
-                      <p>When your teacher assigns you to a class, it will appear here.</p>
+                      <p>
+                        When your teacher assigns you to a class, it will appear
+                        here.
+                      </p>
                     </div>
                   ) : (
                     classes.map((classItem) => (
@@ -375,7 +449,10 @@ const MyClasses = () => {
                         className="class-card"
                         onClick={() => handleClassSelect(classItem)}
                       >
-                        <div className="class-image" style={{ backgroundImage: `url(${classItem.image})` }}>
+                        <div
+                          className="class-image"
+                          style={{ backgroundImage: `url(${classItem.image})` }}
+                        >
                           <div className="class-progress">
                             <div className="progress-circle">
                               <svg viewBox="0 0 36 36">
@@ -392,7 +469,9 @@ const MyClasses = () => {
                                     a 15.9155 15.9155 0 0 1 0 31.831
                                     a 15.9155 15.9155 0 0 1 0 -31.831"
                                 />
-                                <text x="18" y="20.35" className="percentage">{classItem.progress}%</text>
+                                <text x="18" y="20.35" className="percentage">
+                                  {classItem.progress}%
+                                </text>
                               </svg>
                             </div>
                           </div>
@@ -401,7 +480,8 @@ const MyClasses = () => {
                           <h3>{classItem.name}</h3>
                           <p className="teacher">{classItem.teacher}</p>
                           <p className="next-class">
-                            <FontAwesomeIcon icon={faCalendarAlt} /> {classItem.nextClass}
+                            <FontAwesomeIcon icon={faCalendarAlt} />{" "}
+                            {classItem.nextClass}
                           </p>
                         </div>
                       </div>
@@ -411,10 +491,13 @@ const MyClasses = () => {
               )}
 
               {/* Show books for selected class */}
-              {activeTab === 'classes' && selectedClass && (
+              {activeTab === "classes" && selectedClass && (
                 <div className="class-books-container">
                   <div className="class-books-header">
-                    <button onClick={handleBackToClasses} className="back-button">
+                    <button
+                      onClick={handleBackToClasses}
+                      className="back-button"
+                    >
                       <FontAwesomeIcon icon={faArrowLeft} /> Back to classes
                     </button>
                     <h2>Books from {selectedClass.name}</h2>
@@ -438,14 +521,20 @@ const MyClasses = () => {
                           <div
                             key={book.id || book.booksid}
                             className="book-card"
-                            onClick={() => handleBookClick(book.id || book.booksid)}
+                            onClick={() =>
+                              handleBookClick(book.id || book.booksid)
+                            }
                           >
-                            <div className="book-cover" style={{
-                              backgroundImage: `url(${getMediaUrl(book.cover || '/Media/media/default-book.jpg')})`
-                            }}>
-                            </div>
+                            <div
+                              className="book-cover"
+                              style={{
+                                backgroundImage: `url(${getMediaUrl(
+                                  book.cover || "/Media/media/default-book.jpg"
+                                )})`,
+                              }}
+                            ></div>
                             <div className="book-info">
-                              <h3>{book.title || 'Untitled Book'}</h3>
+                              <h3>{book.title || "Untitled Book"}</h3>
                             </div>
                           </div>
                         ))
@@ -455,47 +544,7 @@ const MyClasses = () => {
                 </div>
               )}
 
-              {activeTab === 'achievements' && (
-                <BadgesPage />
-              )}
-
-              {activeTab === 'notifications' && (
-                <div className="notifications-container">
-                  <h2>Notifications</h2>
-                  <div className="notifications-list">
-                    <div className="notification-item unread">
-                      <div className="notification-icon">
-                        <FontAwesomeIcon icon={faBook} />
-                      </div>
-                      <div className="notification-content">
-                        <h3>New book available</h3>
-                        <p>Your teacher has added a new book to Literature class</p>
-                        <span className="notification-time">2 hours ago</span>
-                      </div>
-                    </div>
-                    <div className="notification-item unread">
-                      <div className="notification-icon">
-                        <FontAwesomeIcon icon={faTrophy} />
-                      </div>
-                      <div className="notification-content">
-                        <h3>New achievement unlocked!</h3>
-                        <p>You've unlocked the "Avid Reader" achievement</p>
-                        <span className="notification-time">Yesterday</span>
-                      </div>
-                    </div>
-                    <div className="notification-item">
-                      <div className="notification-icon">
-                        <FontAwesomeIcon icon={faChartLine} />
-                      </div>
-                      <div className="notification-content">
-                        <h3>Quiz reminder</h3>
-                        <p>Don't forget to complete the Literature quiz before Friday</p>
-                        <span className="notification-time">2 days ago</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              {activeTab === "achievements" && <BadgesPage />}
             </div>
           )}
         </main>

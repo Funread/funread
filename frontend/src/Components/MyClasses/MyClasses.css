@@ -1,6 +1,6 @@
 /* Estilos generales */
 .student-dashboard {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   background-color: #f5f7fa;
   height: 100vh;
   color: #333;
@@ -88,7 +88,6 @@
   top: 0;
   background-color: white;
   z-index: 10;
-
 }
 
 .tabs button {
@@ -100,6 +99,16 @@
   color: #666;
   cursor: pointer;
   transition: all 0.2s;
+}
+
+/* Botón de logout */
+.logout-button {
+  margin-left: auto;
+  color: #f44336 !important;
+}
+
+.logout-button:hover {
+  background-color: #fff0f0 !important;
 }
 
 .tabs button:hover {
@@ -193,7 +202,6 @@
   margin: 0;
 }
 
-
 /* Notificaciones */
 .notifications-container h2 {
   margin-top: 0;
@@ -268,7 +276,6 @@
 }
 
 @media (max-width: 768px) {
-  
   .dashboard-header {
     padding: 10px 15px;
   }
@@ -301,7 +308,6 @@
 }
 
 @media (max-width: 576px) {
-
   .dashboard-content {
     display: flex;
     flex-direction: column;
@@ -312,7 +318,7 @@
   }
 
   .main-content {
-    min-height:750px;
+    min-height: 750px;
     max-height: 1000px;
     overflow-y: auto;
     background-color: white;
@@ -325,7 +331,8 @@
   }
 
   .stat-card {
-    max-height: 135px;}
+    max-height: 135px;
+  }
 
   .tabs {
     height: 76px;
@@ -335,7 +342,6 @@
     padding: 15px 3%;
     font-size: 14px;
   }
-
 }
 
 .no-classes-message {

@@ -6,8 +6,10 @@ import {
   faCalendar,
   faUser,
   faBars,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import "./HeaderDashboard.sass";
+import { useNavigate } from "react-router-dom";
 
 class HeaderDashboard extends React.Component {
   constructor(props) {
@@ -17,6 +19,13 @@ class HeaderDashboard extends React.Component {
       label: this.props.miPrimerProps,
     };
   }
+
+  handleLogout = () => {
+    // Clear localStorage to remove authentication data
+    localStorage.clear();
+    // Redirect to landing page
+    window.location.href = "/";
+  };
 
   render() {
     return (
@@ -56,6 +65,13 @@ class HeaderDashboard extends React.Component {
                 </Nav.Link>
                 <Nav.Link className="dashboard-options-content" href="#4">
                   <FontAwesomeIcon icon={faUser} />
+                </Nav.Link>
+                <Nav.Link
+                  className="dashboard-options-content dashboard-options-logout"
+                  onClick={this.handleLogout}
+                  title="Logout"
+                >
+                  <FontAwesomeIcon icon={faSignOutAlt} />
                 </Nav.Link>
               </div>
               <div></div>

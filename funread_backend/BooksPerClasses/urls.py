@@ -6,7 +6,7 @@ from .api import BooksPerClassesViewSet
 
 urlpatterns = [
     path('listAllBooksPerClasses/' , views.listed),
-    path('listBooksPerClassesid/', views.listedid),
+    path('listBooksPerClassesid/<str:classid>', views.listedid),
     path('insertnewBooksPerClasses/', views.add_new),
     path('deleteBooksPerClasses/', views.delete),
     path('updateBooksPerClasses/',views.update),
