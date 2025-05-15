@@ -13,7 +13,7 @@ import { award_badge_to_user } from "../../api/userBadges";
 import { getBadgesPerBook } from "../../api/Badges";
 import PopUpAchieve from "../Badges/PopUpAchieve";
 import Loader from "../Shared/Loader/Loader";
-import { getMediaUrl } from "../../mediaUrl";
+import { getMediaUrl } from "../../Components/Utils/mediaUrl";
 import { addPointsToUser } from "../../api/userPoints";
 import { store } from "../../redux/store";
 import { markBookAsCompleted } from "../../api/userBookProgress";
