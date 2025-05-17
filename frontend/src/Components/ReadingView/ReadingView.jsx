@@ -511,7 +511,7 @@ function ReadingView() {
               </button>{" "}
               {pageNumer === pagesCount - 1 && (
                 <button onClick={ExitReading} className="exit-button">
-                  Exit
+                  Save & Finish
                 </button>
               )}
               {currentBadge && <PopUpAchieve Badge={currentBadge} />}
