@@ -1,4 +1,6 @@
-export const MEDIA_BASE_URL = "https://funreadbackend.ticocr.org";
+import { BASE_URL } from "../../settings";
+
+export const MEDIA_BASE_URL = BASE_URL;
 
 export function getMediaUrl(path) {
   if (path && path.startsWith("/Media/media/")) {
