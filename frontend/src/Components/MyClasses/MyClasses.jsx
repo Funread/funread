@@ -25,7 +25,8 @@ import { getMediaUrl } from "../Utils/mediaUrl"; // Import the function to get m
 import { getUserPoints } from "../../api/userPoints"; // Import the function to get user points
 import { getCurrentRank } from "../../api/userPoints"; // Import the function to get current rank
 import { getBooksCompleted } from "../../api/userBookProgress"; // Import the function to get completed books count
-import StatCard from '../StatCard/StatCard'; // Import the StatCard component
+import StatCard from '../StatCard/StatCard.jsx'; // Import the StatCard component
+import Leaderboard from '../Leaderboard/Leaderboard.jsx'
 
 // Function to get teacher name from ID
 const getTeacherName = async (teacherId) => {
@@ -61,7 +62,7 @@ const MyClasses = () => {
   const [selectedClass, setSelectedClass] = useState(null);
   const [classBooks, setClassBooks] = useState([]);
   const [loadingBooks, setLoadingBooks] = useState(false);
-
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -160,8 +161,8 @@ const MyClasses = () => {
                 finishDate: classData.finishdate,
                 nextClass: classData.finishdate
                   ? `Ends: ${new Date(
-                      classData.finishdate
-                    ).toLocaleDateString()}`
+                    classData.finishdate
+                  ).toLocaleDateString()}`
                   : "No scheduled classes",
                 image: group.image || "/Media/media/default-class.jpg",
                 bookId: group.bookid || 3,
@@ -318,6 +319,10 @@ const MyClasses = () => {
     setClassBooks([]);
   };
 
+  const handleShowLeaderboard = () => {
+    setShowLeaderboard(!showLeaderboard);
+  };
+
   // Function to handle logout
   const handleLogout = () => {
     localStorage.clear();
@@ -328,6 +333,8 @@ const MyClasses = () => {
     <div className="student-dashboard">
       {/* Main content */}
 
+
+
       <div className="dashboard-content">
         {/* Main content area */}
         {/* Sidebar with statistics */}
@@ -335,14 +342,20 @@ const MyClasses = () => {
         <aside className="dashboard-sidebar">
           <div className="user-stats">
 
-              <StatCard
-                className="header">
-                <header className="dashboard-header">
+            {showLeaderboard && (
+              <div className="leaderboard-container" onClick={handleShowLeaderboard}>
+                <Leaderboard />
+              </div>
+            )}
 
-                  <img src={imgLogo} alt="Logo" className="logo-image" />
+            <StatCard
+              className="header">
+              <header className="dashboard-header">
 
-                </header>
-              </StatCard>
+                <img src={imgLogo} alt="Logo" className="logo-image" />
+
+              </header>
+            </StatCard>
 
 
             {/* Tarjeta de nivel */}
@@ -355,10 +368,10 @@ const MyClasses = () => {
               <div className="progress-bar">
                 <div className="progress" style={{ width: `${(userStats.points % 500) / 5}%` }}></div>
               </div>
-                <span className="progress-text">
-                  {userStats.points} / {userStats.level * 500} points to next
-                  level
-                </span>
+              <span className="progress-text">
+                {userStats.points} / {userStats.level * 500} points to next
+                level
+              </span>
             </StatCard>
 
             {/* Tarjeta de ranking */}
@@ -367,6 +380,7 @@ const MyClasses = () => {
               title="Ranking"
               className="ranking-info"
               iconClassName="ranking"
+              onClick={handleShowLeaderboard}
             >
               <p>#{userStats.ranking} in your class</p>
             </StatCard>

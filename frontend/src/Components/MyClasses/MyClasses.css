@@ -33,6 +33,16 @@
   margin-bottom: 30px;
 }
 
+.leaderboard-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
 .upcoming-events {
   background-color: white;
   border-radius: 12px;

@@ -26,6 +26,18 @@ export const addPointsToUser = async (userId, points) => {
   }
 };
 
+export const getLeaderboard = async () => {
+  try {
+    const response = await axiosAuth().get(
+      `UserPoints/api/user-points/leaderboard/`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching top ten:", error);
+    throw error;
+  }
+}
+
 export const getCurrentRank = async (userId) => {
   try {
     const response = await axiosAuth().get(

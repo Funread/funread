@@ -1,9 +1,10 @@
 import React from "react";
-import "./StatCard.css"; // Si tenés estilos separados
+import "./StatCard.css";
 
-function StatCard({ icon, title, children, className = "", iconClassName = "" }) {
+function StatCard({ icon, title, children, className = "", iconClassName = "", onClick }) {
   return (
-    <div className={`stat-card ${className}`}>
+    <div className={`stat-card ${className}`}
+    onClick={onClick}>
       {iconClassName && (
         <div className={`stat-icon ${iconClassName}`}>
           {icon}

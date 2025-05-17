@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faUserGraduate, faUsersRectangle, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faUsersRectangle, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { bookSearch } from '../../api';
 import { ToastContainer, toast } from 'react-toastify';
 import StatCard from '../StatCard/StatCard';
@@ -15,6 +16,7 @@ import Form from 'react-bootstrap/Form';
 import './ProfessorDashboard.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Groups from '../Group/Group'
+import Leaderboard from '../Leaderboard/Leaderboard';
 
 const ProfessorDashboard = () => {
   const [books, setBooks] = useState([]);
@@ -26,6 +28,7 @@ const ProfessorDashboard = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [previewBookId, setPreviewBookId] = useState(null);
   const [stats, setStats] = useState({ books: 10, students: 50, groups: 2 });
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
 
   const handleBookSearch = async (event) => {
     event.preventDefault();
@@ -76,6 +79,10 @@ const ProfessorDashboard = () => {
     setPreviewBookId(null);
   };
 
+  const handleShowLeaderboard = () => {
+    setShowLeaderboard(!showLeaderboard);
+  };
+
   const tabs = [
     { id: 'library', label: 'Library', icon: faBook },
     { id: 'groups', label: 'Groups', icon: faUsersRectangle }
@@ -83,7 +90,6 @@ const ProfessorDashboard = () => {
 
   const statistics = [
     { id: 'books', title: 'Books', icon: faBook, value: stats.books },
-    { id: 'students', title: 'Students', icon: faUserGraduate, value: stats.students },
     { id: 'groups', title: 'Groups', icon: faUsersRectangle, value: stats.groups }
   ];
 
@@ -92,11 +98,27 @@ const ProfessorDashboard = () => {
       <div className="dashboard-content">
         <aside className="dashboard-sidebar">
           <div className="user-stats">
+
+            {showLeaderboard && (
+              <div className="leaderboard-container" onClick={handleShowLeaderboard}>
+                <Leaderboard />
+              </div>
+            )}
+
             <StatCard className="header">
               <header className="dashboard-header">
                 <img src={imgLogo} alt="Funread Logo" className="logo-image" />
               </header>
             </StatCard>
+
+            {/* Tarjeta de ranking */}
+            <StatCard
+              icon={<FontAwesomeIcon icon={faTrophy} />}
+              title="Ranking"
+              className="ranking-info"
+              iconClassName="ranking"
+              onClick={handleShowLeaderboard}
+            ></StatCard>
 
             {statistics.map(stat => (
               <StatCard
@@ -140,7 +162,7 @@ const ProfessorDashboard = () => {
 
               {activeTab === 'groups' && (
                 <div className="groups-content">
-                  <Groups/>
+                  <Groups />
                 </div>
               )}
             </div>
