@@ -98,8 +98,13 @@ const Group = () => {
 
   return (
     <div className='container-fluid text-center group'>
+      
       <div className='row' style={{ height: 'auto' }}>
+                <div className='col-1 p-0'>
+          <SidebarBook />
+        </div>
         <div className='sidenav col-8'>
+          
           <div className='mx-auto content_group'>
             <Form className='d-flex'>
               <Form.Control
