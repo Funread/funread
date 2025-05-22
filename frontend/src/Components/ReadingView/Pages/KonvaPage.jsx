@@ -9,7 +9,7 @@ const KonvaPage = ({ widgets, pageData }) => {
     scale: 1,
   });
   const [images, setImages] = useState({});
-  const [isLoading, setIsLoading] = useState(false); // Ya no controlamos la carga aquí
+  const [isLoading, setIsLoading] = useState(true); // Ya no controlamos la carga aquí
   const shapeRef = React.useRef();
   const trRef = React.useRef();
   const [isSelected, setIsSelected] = useState(false);
@@ -51,6 +51,7 @@ const KonvaPage = ({ widgets, pageData }) => {
       } catch (error) {
         console.error("Error cargando imágenes:", error);
       }
+      setIsLoading(false); // Ya no controlamos la carga aquí
       // Ya no establecemos isLoading a false aquí porque lo maneja el componente padre
     };
 

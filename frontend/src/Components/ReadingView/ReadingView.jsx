@@ -12,7 +12,7 @@ import PageSelector from "./PageSelector";
 import { award_badge_to_user } from "../../api/userBadges";
 import { getBadgesPerBook } from "../../api/Badges";
 import PopUpAchieve from "../Badges/PopUpAchieve";
-import Loader from "../Shared/Loader/Loader";
+// import Loader from "../Shared/Loader/Loader";
 import { getMediaUrl } from "../../Components/Utils/mediaUrl";
 import { addPointsToUser } from "../../api/userPoints";
 import { store } from "../../redux/store";
@@ -43,7 +43,7 @@ function ReadingView() {
   const [contentBook, setContentBook] = useState();
 
   // Loading states
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [totalImagesToLoad, setTotalImagesToLoad] = useState(0);
   const [loadedImagesCount, setLoadedImagesCount] = useState(0);
@@ -218,7 +218,7 @@ function ReadingView() {
 
   const getBookContent = () => {
     async function fetchData() {
-      setIsLoading(true);
+      // setIsLoading(true);
       setError(null);
 
       try {
@@ -235,7 +235,7 @@ function ReadingView() {
       } catch (error) {
         setError("Error fetching data");
         console.error("Error fetching data:", error);
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     }
 
@@ -297,7 +297,7 @@ function ReadingView() {
     setGridNumRows(currentPageContent.page.gridNumRows);
     setPagesCount(currentContent.length);
     setWidgets(currentPageContent.widgetitems);
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   const exitPresentation = () => {
@@ -452,16 +452,16 @@ function ReadingView() {
   }, [awardedBadges]);
 
   // Determina si debemos mostrar la pantalla de carga
-  const showLoader = isLoading || !imagesLoaded;
-  const loadingMessage = isLoading
-    ? "Cargando libro..."
-    : "Preparando imágenes...";
+  // const showLoader = isLoading || !imagesLoaded;
+  // const loadingMessage = isLoading
+  //   ? "Cargando libro..."
+  //   : "Preparando imágenes...";
 
   return (
     <FullScreen handle={handle}>
       <div className="presentation-container">
         {/* Componente Loader para mostrar durante la carga */}
-        <Loader loading={showLoader} text={loadingMessage} />
+        {/* <Loader loading={showLoader} text={loadingMessage} /> */}
 
         <Button className="close-button" onClick={ForceExitReading}>
           <FontAwesomeIcon icon={faTimes} />
@@ -476,7 +476,7 @@ function ReadingView() {
             <ErrorPage />
           </div>
         ) : (
-          <div className={`reading-view-layout ${showLoader ? "hidden" : ""}`}>
+          <div className={`reading-view-layout`}>
             <div className="content-wrapper">
               <div className="page-content">
                 <PageSelector
