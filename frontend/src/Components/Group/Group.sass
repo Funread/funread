@@ -6,12 +6,13 @@
   scroll-snap-type: x mandatory
   overflow-y: scroll
   overflow-x: hidden
-  height: 100vh
+  height: 100%
   background-color: whitesmoke
   scroll-snap-align: center
 
   .col-3
     text-align: center
+
   .col-8
     @media (max-width: 684.98px)
       width: 100%
@@ -41,7 +42,8 @@
   .mobile-below-tap-group
     .position_side
       @media (min-width: 684.98px)
-        height: 100vh    
+        margin-top: 20px
+        height: 91%    
     @media (max-width: 684.98px) 
       width: 100%
       margin-top: 10px
@@ -54,7 +56,9 @@
   &:hover 
     background-color: #a9def9
    
-.content_group 
+.content_group
+  max-width: 1100px
+  margin: 20px
   padding-left: 2rem
   @media (max-width: 684.98px)
     width: 100%

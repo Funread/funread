@@ -21,10 +21,12 @@ import { listedClassesId } from "../../api/classes";
 import { userListById } from "../../api/users"; // Import the function to get user details by ID
 import BadgesPage from "../Badges/BadgesPage";
 import imgLogo from "../../logoFunread.png"; // Import logo image
-import { getMediaUrl } from "../../mediaUrl"; // Import the function to get media URL
+import { getMediaUrl } from "../Utils/mediaUrl"; // Import the function to get media URL
 import { getUserPoints } from "../../api/userPoints"; // Import the function to get user points
 import { getCurrentRank } from "../../api/userPoints"; // Import the function to get current rank
 import { getBooksCompleted } from "../../api/userBookProgress"; // Import the function to get completed books count
+import StatCard from '../StatCard/StatCard.jsx'; // Import the StatCard component
+import Leaderboard from '../Leaderboard/Leaderboard.jsx'
 
 // Function to get teacher name from ID
 const getTeacherName = async (teacherId) => {
@@ -60,7 +62,7 @@ const MyClasses = () => {
   const [selectedClass, setSelectedClass] = useState(null);
   const [classBooks, setClassBooks] = useState([]);
   const [loadingBooks, setLoadingBooks] = useState(false);
-
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -159,8 +161,8 @@ const MyClasses = () => {
                 finishDate: classData.finishdate,
                 nextClass: classData.finishdate
                   ? `Ends: ${new Date(
-                      classData.finishdate
-                    ).toLocaleDateString()}`
+                    classData.finishdate
+                  ).toLocaleDateString()}`
                   : "No scheduled classes",
                 image: group.image || "/Media/media/default-class.jpg",
                 bookId: group.bookid || 3,
@@ -317,6 +319,10 @@ const MyClasses = () => {
     setClassBooks([]);
   };
 
+  const handleShowLeaderboard = () => {
+    setShowLeaderboard(!showLeaderboard);
+  };
+
   // Function to handle logout
   const handleLogout = () => {
     localStorage.clear();
@@ -327,69 +333,67 @@ const MyClasses = () => {
     <div className="student-dashboard">
       {/* Main content */}
 
+
+
       <div className="dashboard-content">
         {/* Main content area */}
         {/* Sidebar with statistics */}
 
         <aside className="dashboard-sidebar">
           <div className="user-stats">
-            <div className="stat-card header">
+
+            {showLeaderboard && (
+              <div className="leaderboard-container" onClick={handleShowLeaderboard}>
+                <Leaderboard />
+              </div>
+            )}
+
+            <StatCard
+              className="header">
               <header className="dashboard-header">
+
                 <img src={imgLogo} alt="Logo" className="logo-image" />
 
-                {/*<div className="search-bar">
-          <FontAwesomeIcon icon={faSearch} />
-          <input type="text" placeholder="Search classes, books..." />
-        </div>
-         <div className="user-profile" onClick={() => navigate('/profile')}>
-          <div className="user-avatar">
-            <img src={user.profilePicture || '/Media/media/1.jpg'} alt="Profile" />
-          </div>
-          <div className="user-info">
-            <span className="user-name">{user.username}</span>
-            <span className="user-level">Level {userStats.level}</span>
-          </div>
-        </div>*/}
               </header>
-            </div>
-            <div className="stat-card user-info">
-              <div className="stat-icon level">
-                <FontAwesomeIcon icon={faUser} />
+            </StatCard>
+
+
+            {/* Tarjeta de nivel */}
+            <StatCard
+              icon={<FontAwesomeIcon icon={faUser} />}
+              title={`Level ${userStats.level}`}
+              className="user-info"
+              iconClassName="level"
+            >
+              <div className="progress-bar">
+                <div className="progress" style={{ width: `${(userStats.points % 500) / 5}%` }}></div>
               </div>
-              <div className="stat-info">
-                <h3>
-                  Level <span>{userStats.level}</span>
-                </h3>
-                <div className="progress-bar">
-                  <div
-                    className="progress"
-                    style={{ width: `${(userStats.points % 500) / 5}%` }}
-                  ></div>
-                </div>
-                <span className="progress-text">
-                  {userStats.points} / {userStats.level * 500} points to next
-                  level
-                </span>
-              </div>
-            </div>
-            <div className="stat-card ranking-info">
-              <div className="stat-icon ranking">
-                <FontAwesomeIcon icon={faTrophy} />
-              </div>
-              <div className="stat-info">
-                <h3>Ranking</h3>
-                <p>#{userStats.ranking} in your class</p>
-              </div>
-            </div>{" "}
-            <div className="stat-card quizzes-info">
-              <div className="stat-icon quizzes">
-                <FontAwesomeIcon icon={faBook} />
-              </div>
-              <div className="stat-info">
-                <h3>Books</h3>
-                <p>{userStats.completedQuizzes} completed</p>
-              </div>
-            </div>
+              <span className="progress-text">
+                {userStats.points} / {userStats.level * 500} points to next
+                level
+              </span>
+            </StatCard>
+
+            {/* Tarjeta de ranking */}
+            <StatCard
+              icon={<FontAwesomeIcon icon={faTrophy} />}
+              title="Ranking"
+              className="ranking-info"
+              iconClassName="ranking"
+              onClick={handleShowLeaderboard}
+            >
+              <p>#{userStats.ranking} in your class</p>
+            </StatCard>
+
+            {/* Tarjeta de quizzes */}
+            <StatCard
+              icon={<FontAwesomeIcon icon={faChartLine} />}
+              title="Books"
+              className="books-info"
+              iconClassName="books"
+            >
+              <p>{userStats.completedQuizzes} completed</p>
+            </StatCard>
           </div>
 
           {/* <div className="upcoming-events">

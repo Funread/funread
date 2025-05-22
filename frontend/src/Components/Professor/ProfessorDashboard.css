@@ -1,0 +1,50 @@
+/* Main container */
+.professor-dashboard {
+     background-color: white;
+     height: 100%;
+}
+
+/* User Stats */
+
+.user-stats {
+     display: flex;
+     flex-direction: row;
+     flex-wrap: nowrap;
+     gap: 15px;
+     margin-bottom: 30px;
+}
+
+.stat-card.books-info {
+     background: linear-gradient(to bottom right, #e1e4ff, #ebeefb);
+     border-left: 3px solid #395bf1;
+     border-bottom: 4px solid #395bf1;
+}
+
+.stat-icon.books {
+     background-color: #4361ee;
+}
+
+
+.stat-card.students-info {
+     background: linear-gradient(to bottom right, #ffeaf3, #fff0f6);
+     border-left: 3px solid #f72585;
+     border-bottom: 4px solid #f72585
+}
+.stat-icon.students {
+     background-color: #f72585;
+}
+
+
+.stat-card.groups-info {
+     background: linear-gradient(to bottom right, #e9faff, #f0fdff);
+     border-left: 3px solid #4cc9f0;
+     border-bottom: 4px solid #4cc9f0;
+}
+
+.stat-icon.groups {
+     background-color: #4cc9f0;
+}
+
+.tab-content {
+     height: min-content;
+}

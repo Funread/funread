@@ -13,10 +13,13 @@ import { award_badge_to_user } from "../../api/userBadges";
 import { getBadgesPerBook } from "../../api/Badges";
 import PopUpAchieve from "../Badges/PopUpAchieve";
 import Loader from "../Shared/Loader/Loader";
-import { getMediaUrl } from "../../mediaUrl";
+import { getMediaUrl } from "../../Components/Utils/mediaUrl";
 import { addPointsToUser } from "../../api/userPoints";
 import { store } from "../../redux/store";
 import { markBookAsCompleted } from "../../api/userBookProgress";
+import Button from 'react-bootstrap/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 function ReadingView() {
   const navigate = useNavigate();
@@ -405,6 +408,19 @@ function ReadingView() {
     }
   };
 
+  const ForceExitReading = async () => {
+    try {
+      if (user.roles[0].role === "profesor") {
+        navigate("/library")
+      } else {
+        navigate("/myclasses");
+      }
+    }
+    catch (error) {
+      console.error('Error during ExitReading:', error);
+    }
+  };
+
   const [awardedBadges, setAwardedBadges] = useState([]); // Badges logrados por el usuario
   const [currentBadge, setCurrentBadge] = useState(null); // Badge actual a mostrar
 
@@ -447,7 +463,10 @@ function ReadingView() {
         {/* Componente Loader para mostrar durante la carga */}
         <Loader loading={showLoader} text={loadingMessage} />
 
-        {/* Floating points indicator - always visible */}
+        <Button className="close-button" onClick={ForceExitReading}>
+          <FontAwesomeIcon icon={faTimes} />
+        </Button>
+
         {quizTotalPoints > 0 && (
           <div className="quiz-points-display">Points: {quizTotalPoints}</div>
         )}
@@ -492,7 +511,7 @@ function ReadingView() {
               </button>{" "}
               {pageNumer === pagesCount - 1 && (
                 <button onClick={ExitReading} className="exit-button">
-                  Exit
+                  Save & Finish
                 </button>
               )}
               {currentBadge && <PopUpAchieve Badge={currentBadge} />}

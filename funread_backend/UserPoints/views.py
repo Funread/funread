@@ -142,30 +142,35 @@ def delete_user_total_points(request, user_id):
 @api_view(['GET'])
 def leaderboard_top_10(request):
     try:
+        # Verificar el encabezado de autorización
         authorization_header = request.headers.get('Authorization')
         verify = verifyJwt.JWTValidator(authorization_header)
         es_valido = verify.validar_token()
-        if es_valido==False:
-         return Response(status=status.HTTP_401_UNAUTHORIZED)
+        if not es_valido:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Obtener los 10 usuarios con más puntos
+        top_users = UserPoints.objects.select_related('user').all().order_by('-total_points')[:10]
+        
+        # Crear una lista con los datos del top 10
+        top_users_list = [
+            {
+                'user_id': user_points.user_id,
+                'name': user_points.user.name,  # Acceder a la columna 'name' de User
+                'lastname': user_points.user.lastname,  # Acceder a la columna 'lastname' de User
+                'total_points': user_points.total_points,
+                'position': index + 1
+            }
+            for index, user_points in enumerate(top_users)
+        ]
+        
+        # Devolver la lista del top 10
+        return Response(top_users_list, status=status.HTTP_200_OK)
 
-
-        # Obtener el mes y año actual
-        current_month = datetime.now().month
-        current_year = datetime.now().year
-
-        # Filtrar los logs de puntos por el mes y año actual y sumar los puntos por usuario
-        top_users = (
-            UserPointsLog.objects.filter(date__month=current_month, date__year=current_year)
-            .values('user__id', 'user__username')
-            .annotate(total_points=Sum('points'))
-            .order_by('-total_points')[:10]  # Limitar a los 10 primeros
-        )
-
-        return Response(top_users, status=status.HTTP_200_OK)
-    
     except Exception as e:
+        print(f"Error inesperado: {e}")
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
 #Clasificación de un Usuario
 
 @api_view(['GET'])

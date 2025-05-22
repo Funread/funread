@@ -13,6 +13,7 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import Library from "./Components/Library/Library";
+import ProfessorDashBoard from "./Components/Professor/ProfessorDashboard";
 import Helpers from "./Components/Helpers/Helpers";
 import Group from "./Components/Group/Group";
 import JoinValidator from "./Components/JoinValidator/JoinValidator";
@@ -140,6 +141,19 @@ root.render(
                   <div className="index-background-padding">
                     <div className="index-background-container ">
                       <Library />
+                    </div>
+                  </div>
+                }
+              />
+
+              /* Nuevo diseño de dashboard para profesores */
+              <Route
+                exact
+                path="/professor"
+                element={
+                  <div className="index-background-padding">
+                    <div className="index-background-container ">
+                      <ProfessorDashBoard />
                     </div>
                   </div>
                 }
