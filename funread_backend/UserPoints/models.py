@@ -7,3 +7,6 @@ class UserPoints(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.total_points} points'
+
+    class Meta:
+        db_table = 'userpoints'

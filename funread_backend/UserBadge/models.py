@@ -11,3 +11,6 @@ class UserBadge(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.badge}'
+
+    class Meta:
+        db_table = 'userbadge'
