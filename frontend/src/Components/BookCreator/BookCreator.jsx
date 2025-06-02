@@ -54,7 +54,14 @@ export default function BookCreator() {
 
       {/* Contenido principal */}
       <div className="flex-1 flex flex-col ml-[364px]">
-        <ToolBar setElements={setElements} savePageToLocalStorage={savePageToLocalStorage} />
+      <ToolBar
+  elements={elements}
+  setElements={setElements}
+  savePageToLocalStorage={savePageToLocalStorage}
+  selectedId={selectedId}
+  setSelectedId={setSelectedId}
+/>
+
         <div className="flex-1 p-4 bg-white m-2 shadow-md rounded-lg">
           <Canvas
             elements={elements}

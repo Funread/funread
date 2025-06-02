@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Stage, Layer, Image as KonvaImage, Text, Transformer } from "react-konva";
-import Modal from "./TextEditorModal"; // Para editar texto
+import Modal from "./TextEditorModal";
 
 export default function Canvas({ elements, setElements, images, selectedId, setSelectedId, stageRef }) {
   const transformerRef = useRef(null);
@@ -8,17 +8,40 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
   const [textValue, setTextValue] = useState("");
 
   useEffect(() => {
-    if (!selectedId) return; // Si no hay selección, no hacer nada
-
+    if (!selectedId) return;
     const stage = stageRef.current;
-    if (!stage) return; // Si el stage aún no está montado, salir
+    if (!stage) return;
 
     const selectedNode = stage.findOne(`#${selectedId}`);
     if (selectedNode && transformerRef.current) {
-      transformerRef.current.nodes([selectedNode]); // Asigna el nodo al Transformer
-      transformerRef.current.getLayer().batchDraw(); // Refresca el canvas
+      transformerRef.current.nodes([selectedNode]);
+      transformerRef.current.getLayer().batchDraw();
     }
   }, [selectedId, elements]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Delete" && selectedId) {
+        setElements((prev) => prev.filter((el) => el.id !== selectedId));
+        setSelectedId(null);
+        if (transformerRef.current) {
+          transformerRef.current.nodes([]);
+          transformerRef.current.getLayer().batchDraw();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedId]);
+
+  useEffect(() => {
+    window.transformerCleanup = () => {
+      if (transformerRef.current) {
+        transformerRef.current.nodes([]);
+        transformerRef.current.getLayer().batchDraw();
+      }
+    };
+  }, []);
 
   const handleDragEnd = (e, id) => {
     setElements((prev) =>
@@ -28,6 +51,12 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
 
   const handleTransformEnd = (e, id) => {
     const node = e.target;
+    const scaleX = node.scaleX();
+    const scaleY = node.scaleY();
+
+    node.scaleX(1);
+    node.scaleY(1);
+
     setElements((prev) =>
       prev.map((el) =>
         el.id === id
@@ -35,10 +64,8 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
               ...el,
               x: node.x(),
               y: node.y(),
-              width: node.width() * node.scaleX(),
-              height: node.height() * node.scaleY(),
-              scaleX: 1,
-              scaleY: 1,
+              width: Math.max(5, node.width() * scaleX),
+              height: Math.max(5, node.height() * scaleY),
             }
           : el
       )
@@ -50,16 +77,31 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
     setTextValue(el.text);
   };
 
-  const handleTextChange = (newText) => {
+  const handleTextChange = (newData) => {
+    if (newData === null) {
+      setEditingText(null);
+      return;
+    }
+    const { text, fontWeight, fill } = typeof newData === "string"
+      ? { text: newData, fontWeight: "normal", fill: "black" }
+      : newData;
+
     setElements((prev) =>
-      prev.map((el) => (el.id === editingText ? { ...el, text: newText } : el))
+      prev.map((el) =>
+        el.id === editingText ? { ...el, text, fontWeight, fill } : el
+      )
     );
     setEditingText(null);
   };
 
   return (
     <>
-      <Stage width={window.innerWidth - 400} height={window.innerHeight - 150} ref={stageRef} className="border bg-gray-100">
+      <Stage
+        width={window.innerWidth - 400}
+        height={window.innerHeight - 150}
+        ref={stageRef}
+        className="border bg-gray-100"
+      >
         <Layer>
           {elements.map((el) =>
             el.type === "text" ? (
@@ -70,7 +112,9 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
                 y={el.y}
                 text={el.text}
                 fontSize={el.fontSize}
-                fill={el.fill}
+                fill={el.fill || "black"}
+                fontStyle={el.fontStyle || "normal"}
+                fontWeight={el.fontWeight || "normal"}
                 draggable
                 onClick={() => setSelectedId(el.id)}
                 onDblClick={() => handleTextDblClick(el)}
@@ -93,7 +137,15 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
               />
             ) : null
           )}
-          <Transformer ref={transformerRef} />
+          <Transformer
+            ref={transformerRef}
+            boundBoxFunc={(oldBox, newBox) => {
+              if (newBox.width < 5 || newBox.height < 5) {
+                return oldBox;
+              }
+              return newBox;
+            }}
+          />
         </Layer>
       </Stage>
 
