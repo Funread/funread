@@ -10,6 +10,7 @@ export default function SideBar({ openPanel, setOpenPanel }) {
       <SidebarIcon icon={<Home />} onClick={() => navigate("/library")} active={openPanel === "home"} />
       <SidebarIcon icon={<Image />} onClick={() => setOpenPanel("images")} active={openPanel === "images"} />
       <SidebarIcon icon={<Type />} onClick={() => setOpenPanel("text")} active={openPanel === "text"} />
+      <SidebarIcon icon={<Image />} onClick={() => setOpenPanel("background")} active={openPanel === "background"} />
       <SidebarIcon icon={<Settings />} onClick={() => setOpenPanel("settings")} active={openPanel === "settings"} />
       <button className="p-2 rounded-full border border-gray-300 bg-white shadow-md hover:bg-gray-200 transition">
         <Undo className="w-5 h-5 text-gray-600" />
