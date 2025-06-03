@@ -4,12 +4,17 @@ import ToolBar from "./ToolBar";
 import ImagePanel from "./ImagePanel";
 import TextPanel from "./TextPanel";
 import Background from "./Background";
-
+import { newPage } from "../../api/pages";
+import { bookSearchById } from "../../api/books";
+import { useParams } from "react-router-dom"; 
 import Canvas from "./Canvas";
 import Footer from "./Footer";
+import BookCreatorLoader from "../Loaders/BookCreatorLoader";
 
 export default function BookCreator() {
-  const [openPanel, setOpenPanel] = useState("images");
+  const [openPanel, setOpenPanel] = useState("background");
+  const [bookData, setBookData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [pages, setPages] = useState([[]]); // 🔹 Guarda contenido de cada página
   const [currentPage, setCurrentPage] = useState(0);
   const [elements, setElements] = useState([]); // 🔹 Estado para elementos de la página actual
@@ -17,6 +22,24 @@ export default function BookCreator() {
   const [images, setImages] = useState({});
   const stageRef = useRef(null);
   const transformerRef = useRef(null);
+  const { id } = useParams(); // 
+
+  useEffect(() => {
+    if (!id) return;
+
+    async function loadBookData() {
+      try {
+        const book = await bookSearchById(id);
+        setBookData (book.data)
+       console.log(book)
+      } catch (error) {
+        console.error("Error al cargar el libro:", error);
+      }
+    }
+
+    loadBookData();
+  }, [id]);
+
 
   // ✅ Cargar la página actual desde `localStorage`
   useEffect(() => {
@@ -33,6 +56,15 @@ export default function BookCreator() {
     const storedPages = JSON.parse(localStorage.getItem("savedPages")) || {};
     storedPages[currentPage] = elements; // 🔹 Guarda los elementos de la página actual
     localStorage.setItem("savedPages", JSON.stringify(storedPages));
+    newPage()
+    // bookid: bookid,
+    // type: type,
+    // template: template,
+    // elementorder: elementorder,
+    // gridDirection: gridDirection,
+    // gridNumRows: gridNumRows,
+
+    
     alert(`Página ${currentPage + 1} guardada correctamente`);
   };
 
@@ -44,6 +76,7 @@ export default function BookCreator() {
   };
 
   return (
+   
     <div className="flex h-screen w-full bg-gray-200">
       {/* Barra lateral */}
       <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
@@ -52,24 +85,25 @@ export default function BookCreator() {
       <div className="w-[300px] h-full bg-white shadow-md p-4 fixed left-16 top-0 border-r border-gray-300 overflow-y-auto">
         {openPanel === "background" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
         {openPanel === "objects" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
-         {openPanel === "users" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
-         {openPanel === "shape" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
-
+        {openPanel === "users" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
+        {openPanel === "shape" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
         {openPanel === "text" && <TextPanel setElements={setElements} />}
       </div>
 
-      {/* Contenido principal */}
-      <div className="flex-1 flex flex-col ml-[364px]">
-      <ToolBar
-  elements={elements}
-  setElements={setElements}
-  savePageToLocalStorage={savePageToLocalStorage}
-  selectedId={selectedId}
-  setSelectedId={setSelectedId}
-/>
+  <div className="flex-1 flex flex-col ml-[364px]">
+        <ToolBar
+          elements={elements}
+          setElements={setElements}
+          savePageToLocalStorage={savePageToLocalStorage}
+          selectedId={selectedId}
+          setSelectedId={setSelectedId}
+          bookData={bookData}
+        />
 
         <div className="flex-1 p-4 bg-white m-2 shadow-md rounded-lg"  style={{ height: 'calc(100vh - 80px)'   }}>
-          <Canvas
+        
+          { isLoading &&  <BookCreatorLoader/>}
+          { !isLoading &&     <Canvas
             elements={elements}
             setElements={setElements}
             images={images}
@@ -77,12 +111,13 @@ export default function BookCreator() {
             setSelectedId={setSelectedId}
             stageRef={stageRef}
             transformerRef={transformerRef}
-          />
+          />}
+       
         </div>
       </div>
 
-  
-      <Footer pages={pages} currentPage={currentPage} setCurrentPage={setCurrentPage} addPage={addPage} />
+      { !isLoading &&  <Footer pages={pages} currentPage={currentPage} setCurrentPage={setCurrentPage} addPage={addPage} />}
+      
     </div>
   );
 }

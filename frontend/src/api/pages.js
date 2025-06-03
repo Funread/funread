@@ -8,8 +8,7 @@ export async function newPage(
   gridDirection,
   gridNumRows
 ) {
-  console.log("here")
-  console.log(template)
+ 
   return axiosAuth().post('pages/insertPage/', {
     bookid: bookid,
     type: type,
