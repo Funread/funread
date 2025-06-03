@@ -1,8 +1,18 @@
 export default function Background({ setElements, setImages }) {
   const preloaded = [
-    { id: "tree", src: "https://th.bing.com/th/id/OIP.O7hIz5AQJzc_ahFadWSztwHaEo?rs=1&pid=ImgDetMain" },
-    { id: "house", src: "/images/house.png" },
-    { id: "sun", src: "/images/sun.png" },
+    { id: "arenal", src: "/imagenes/Background/Arenal.png" },
+    { id: "aula", src: "/imagenes/Background/Aula.png" },
+    { id: "aula2", src: "/imagenes/Background/Aula2.png" },
+    { id: "barrio", src: "/imagenes/Background/Barrio.png" },
+    { id: "cancha", src: "/imagenes/Background/Cancha.png" },
+    { id: "circo", src: "/imagenes/Background/Circo.png" },
+    { id: "guanacaste", src: "/imagenes/Background/Guanacaste.png" },
+    { id: "nature_home", src: "/imagenes/Background/Nature_Home.jpg" },
+    { id: "nature_home2", src: "/imagenes/Background/Nature_Home2.jpg" },
+    { id: "park", src: "/imagenes/Background/Park.png" },
+    { id: "river", src: "/imagenes/Background/River.jpg" },
+    { id: "tree", src: "/imagenes/Background/Tree.jpg" },
+    { id: "volcano", src: "/imagenes/Background/Volcano.jpg" },
   ];
 
   const getCanvasWidth = () => {
