@@ -50,9 +50,12 @@ export default function BookCreator() {
 
       {/* Panel lateral dinámico */}
       <div className="w-[300px] h-full bg-white shadow-md p-4 fixed left-16 top-0 border-r border-gray-300 overflow-y-auto">
-        {openPanel === "images" && <ImagePanel setElements={setElements} setImages={setImages} />}
+        {openPanel === "background" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
+        {openPanel === "objects" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
+         {openPanel === "users" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
+         {openPanel === "shape" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
+
         {openPanel === "text" && <TextPanel setElements={setElements} />}
-        {openPanel === "background" && <Background setElements={setElements} setImages={setImages} />}
       </div>
 
       {/* Contenido principal */}
