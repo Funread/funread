@@ -7,19 +7,25 @@ export default function ImagePanel({ setElements, setImages }) {
     reader.onload = (event) => {
       const img = new window.Image();
       img.src = event.target.result;
-      
+
       img.onload = () => {
         setImages((prev) => ({ ...prev, [img.src]: img }));
 
-        setElements((prev) => [...prev, {
-          id: Date.now().toString(),
-          type: "image",
-          src: img.src,
-          x: 50,
-          y: 50,
-          width: img.width / 4,
-          height: img.height / 4,
-        }]);
+        setElements((prev) => [
+          ...prev,
+          {
+            id: Date.now().toString(),
+            type: "image",
+            src: img.src,
+            x: 50,
+            y: 50,
+            width: img.width / 4,
+            height: img.height / 4,
+          },
+        ]);
+
+        // ✅ Limpiar input después de agregar imagen
+        e.target.value = null;
       };
     };
     reader.readAsDataURL(file);
@@ -28,7 +34,12 @@ export default function ImagePanel({ setElements, setImages }) {
   return (
     <div>
       <h2 className="text-lg font-semibold mb-4">Upload Image</h2>
-      <input type="file" accept="image/*" onChange={handleFileUpload} className="mt-4 w-full border p-2 rounded-lg cursor-pointer" />
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleFileUpload}
+        className="mt-4 w-full border p-2 rounded-lg cursor-pointer"
+      />
     </div>
   );
 }

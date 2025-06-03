@@ -4,14 +4,27 @@ import Modal from "./TextEditorModal";
 
 export default function Canvas({ elements, setElements, images, selectedId, setSelectedId, stageRef }) {
   const transformerRef = useRef(null);
+  const containerRef = useRef(null);
   const [editingText, setEditingText] = useState(null);
   const [textValue, setTextValue] = useState("");
+  const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const resize = () => {
+      if (containerRef.current) {
+        const { clientWidth, clientHeight } = containerRef.current;
+        setStageSize({ width: clientWidth, height: clientHeight });
+      }
+    };
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
 
   useEffect(() => {
     if (!selectedId) return;
     const stage = stageRef.current;
     if (!stage) return;
-
     const selectedNode = stage.findOne(`#${selectedId}`);
     if (selectedNode && transformerRef.current) {
       transformerRef.current.nodes([selectedNode]);
@@ -53,10 +66,8 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
     const node = e.target;
     const scaleX = node.scaleX();
     const scaleY = node.scaleY();
-
     node.scaleX(1);
     node.scaleY(1);
-
     setElements((prev) =>
       prev.map((el) =>
         el.id === id
@@ -96,58 +107,60 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
 
   return (
     <>
-      <Stage
-        width={window.innerWidth - 400}
-        height={window.innerHeight - 150}
-        ref={stageRef}
-        className="border bg-gray-100"
-      >
-        <Layer>
-          {elements.map((el) =>
-            el.type === "text" ? (
-              <Text
-                key={el.id}
-                id={el.id}
-                x={el.x}
-                y={el.y}
-                text={el.text}
-                fontSize={el.fontSize}
-                fill={el.fill || "black"}
-                fontStyle={el.fontStyle || "normal"}
-                fontWeight={el.fontWeight || "normal"}
-                draggable
-                onClick={() => setSelectedId(el.id)}
-                onDblClick={() => handleTextDblClick(el)}
-                onDragEnd={(e) => handleDragEnd(e, el.id)}
-                onTransformEnd={(e) => handleTransformEnd(e, el.id)}
-              />
-            ) : el.type === "image" ? (
-              <KonvaImage
-                key={el.id}
-                id={el.id}
-                x={el.x}
-                y={el.y}
-                width={el.width}
-                height={el.height}
-                draggable
-                image={images[el.src]}
-                onClick={() => setSelectedId(el.id)}
-                onDragEnd={(e) => handleDragEnd(e, el.id)}
-                onTransformEnd={(e) => handleTransformEnd(e, el.id)}
-              />
-            ) : null
-          )}
-          <Transformer
-            ref={transformerRef}
-            boundBoxFunc={(oldBox, newBox) => {
-              if (newBox.width < 5 || newBox.height < 5) {
-                return oldBox;
-              }
-              return newBox;
-            }}
-          />
-        </Layer>
-      </Stage>
+      <div ref={containerRef} className="w-full h-full overflow-hidden">
+        <Stage
+          width={stageSize.width}
+          height={stageSize.height}
+          ref={stageRef}
+          className="border bg-gray-100"
+        >
+          <Layer>
+            {elements.map((el) =>
+              el.type === "text" ? (
+                <Text
+                  key={el.id}
+                  id={el.id}
+                  x={el.x}
+                  y={el.y}
+                  text={el.text}
+                  fontSize={el.fontSize}
+                  fill={el.fill || "black"}
+                  fontStyle={el.fontStyle || "normal"}
+                  fontWeight={el.fontWeight || "normal"}
+                  draggable
+                  onClick={() => setSelectedId(el.id)}
+                  onDblClick={() => handleTextDblClick(el)}
+                  onDragEnd={(e) => handleDragEnd(e, el.id)}
+                  onTransformEnd={(e) => handleTransformEnd(e, el.id)}
+                />
+              ) : el.type === "image" ? (
+                <KonvaImage
+                  key={el.id}
+                  id={el.id}
+                  x={el.x}
+                  y={el.y}
+                  width={el.width}
+                  height={el.height}
+                  draggable
+                  image={images[el.src]}
+                  onClick={() => setSelectedId(el.id)}
+                  onDragEnd={(e) => handleDragEnd(e, el.id)}
+                  onTransformEnd={(e) => handleTransformEnd(e, el.id)}
+                />
+              ) : null
+            )}
+            <Transformer
+              ref={transformerRef}
+              boundBoxFunc={(oldBox, newBox) => {
+                if (newBox.width < 5 || newBox.height < 5) {
+                  return oldBox;
+                }
+                return newBox;
+              }}
+            />
+          </Layer>
+        </Stage>
+      </div>
 
       {editingText && <Modal text={textValue} onSave={handleTextChange} />}
     </>
