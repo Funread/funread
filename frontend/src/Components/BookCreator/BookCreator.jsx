@@ -3,7 +3,10 @@ import SideBar from "./SideBar";
 import ToolBar from "./ToolBar";
 import ImagePanel from "./ImagePanel";
 import TextPanel from "./TextPanel";
+import Games from "./Games";
 import Background from "./Background";
+import Quiz from "./Quiz";
+
 import { newPage } from "../../api/pages";
 import { bookSearchById } from "../../api/books";
 import { useParams } from "react-router-dom"; 
@@ -56,7 +59,7 @@ export default function BookCreator() {
     const storedPages = JSON.parse(localStorage.getItem("savedPages")) || {};
     storedPages[currentPage] = elements; // 🔹 Guarda los elementos de la página actual
     localStorage.setItem("savedPages", JSON.stringify(storedPages));
-    newPage()
+    newPage(id, )
     // bookid: bookid,
     // type: type,
     // template: template,
@@ -88,6 +91,8 @@ export default function BookCreator() {
         {openPanel === "users" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
         {openPanel === "shape" && <ImagePanel setElements={setElements} setImages={setImages} imageType= {openPanel}/>}
         {openPanel === "text" && <TextPanel setElements={setElements} />}
+        {openPanel === "games" && <Games setElements={setElements} />}
+        {openPanel === "quiz" && <Quiz setElements={setElements} />}
       </div>
 
   <div className="flex-1 flex flex-col ml-[364px]">
