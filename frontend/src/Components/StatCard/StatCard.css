@@ -8,7 +8,6 @@
      min-width: 150px;
      height: 172px;
      margin: .2%;
-     gap: 16px;
      align-items: center;
      justify-content: center;
      text-align: center;
@@ -89,9 +88,15 @@
      background-color: #4cc9f0;
 }
 
+.stat-info {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+}
+
 .stat-info h3 {
-     margin: 0 0 5px 0;
-     font-size: 16px;
+     margin: 10px 0 5px 0;
+     font-size: 20px;
      color: #000000;
 }
 
@@ -115,7 +120,7 @@
 }
 
 .progress-text {
-     font-size: 11px;
+     font-size: 15px;
      color: #666;
      display: block;
      margin-top: 5px;

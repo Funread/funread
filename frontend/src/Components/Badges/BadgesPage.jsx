@@ -38,10 +38,10 @@ const BadgesPage = () => {
 
   return (
     <>
-        <CollectionSidebar onSelectCollection={onSelectCollection} filter={filter} /> {/* Sidebar para filtrar badges */}
-        <div className="achievements-container">
+      <CollectionSidebar onSelectCollection={onSelectCollection} filter={filter} /> {/* Sidebar para filtrar badges */}
+      <div className="achievements-container">
         <div className="achievements-grid">
-        <BadgeGrid filter={filter} badgesData={badges} /> {/* Pasar los datos de los badges a BadgeGrid */}
+          <BadgeGrid filter={filter} badgesData={badges} /> {/* Pasar los datos de los badges a BadgeGrid */}
         </div>
       </div>
     </>
