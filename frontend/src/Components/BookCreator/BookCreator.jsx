@@ -1,4 +1,11 @@
 import { useState, useRef, useEffect } from "react";
+import { useParams } from "react-router-dom";
+// API CALLS
+import { fullBook } from "../../api/books";
+import {  newPage} from "../../api/pages";
+import { newWidgetItem} from "../../api/widget";
+import { createMultipleOptions} from "../../api/options";
+// SUBCOMPONENTS
 import SideBar from "./SideBar";
 import ToolBar from "./ToolBar";
 import ImagePanel from "./ImagePanel";
@@ -6,19 +13,18 @@ import TextPanel from "./TextPanel";
 import Games from "./Games";
 import Background from "./Background";
 import Quiz from "./Quiz";
-import { bookSearchById ,fullBook } from "../../api/books";
-import { listAllPages, newPage} from "../../api/pages";
-import { useParams } from "react-router-dom";
 import Canvas from "./Canvas";
 import Footer from "./Footer";
-import BookCreatorLoader from "../Loaders/BookCreatorLoader";
 import QuizEditor from "./QuizEditor";
+import BookCreatorLoader from "../Loaders/BookCreatorLoader";
+
 
 export default function BookCreator() {
   const [openPanel, setOpenPanel] = useState("background");
   const [bookData, setBookData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
+  
   const [elements, setElements] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [images, setImages] = useState({});
@@ -30,17 +36,17 @@ export default function BookCreator() {
   // Hook interno para controlar los tipos de página
   const [pagesType, setPagesType] = useState(2);
   const [widget, setWidget] = useState([2]);
-  const [pagesNumber, setPagesNumber] = useState([2]);
+  const [pagesList, setPagesList] = useState([]);
  
 
   const addPage = (type = 2) => {
-    setPagesNumber((prev) => [...prev, type]);
-    setCurrentPage(pagesNumber.length);
+    setPagesList((prev) => [...prev, type]);
+    setCurrentPage(pagesList.length);
     newPage(
       id,
       pagesType,
       0,
-      currentPage,
+      currentPage+1,
       "1",
       1
     )
@@ -60,11 +66,10 @@ export default function BookCreator() {
       try {
         const [fullbook2] =await Promise.all([
           fullBook(id)
-        
         ]);
         console.log(fullbook2)
         setBookData(fullbook2.data.book_details);
-        setPagesNumber(fullbook2.data.book_content)
+        setPagesList(fullbook2.data.book_content)
         setIsLoading(false);
       } catch (error) {
         console.error("Error al cargar el libro:", error);
@@ -91,19 +96,36 @@ export default function BookCreator() {
       localStorage.setItem("savedPages", JSON.stringify(storedPages));
 
       console.log("🖼️ Página tipo Canvas guardada:", elements);
+      alert(`Página ${currentPage + 1} guardada correctamente`);
     }
-
+//updatepagfe
     if (pagesType === 4) {
       const quizJson = quizEditorRef.current?.getQuizJson();
       if (quizJson) {
         localStorage.setItem(`quiz-page-${currentPage}`, JSON.stringify(quizJson));
-        console.log("📚 Quiz guardado:", quizJson);
+        alert(`Página ${currentPage + 1} guardada correctamente`);
+        console.log('quizJson')
+        console.log()
+        
+        newWidgetItem(   
+          pagesList[currentPage].page.pageid,
+          9,
+          4,
+          quizJson.content,
+          0).then((widgetResponse) => {
+            console.log('widgetResponse')
+console.log(widgetResponse)
+           createMultipleOptions(quizJson.options
+            , widgetResponse.data.widgetitemid, bookData.createdby)
+          })
+
+
       } else {
         console.warn("❌ Quiz no válido, no se guardó.");
       }
     }
 
-    alert(`Página ${currentPage + 1} guardada correctamente`);
+
   };
   const widgetValidation = (widgetId, type) => {
     if(type !== pagesType ){
@@ -156,7 +178,7 @@ export default function BookCreator() {
       </div>
 
       {!isLoading && (
-        <Footer pages={pagesNumber} currentPage={currentPage} setCurrentPage={setCurrentPage} addPage={addPage} />
+        <Footer pages={pagesList} currentPage={currentPage} setCurrentPage={setCurrentPage} addPage={addPage} />
       )}
     </div>
   );
