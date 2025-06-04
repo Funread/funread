@@ -1,6 +1,6 @@
 import { getShapesImages, getObjectImages, getPersonsImages, getBackgroundImages } from "../../api/images";
 
-export default function ImagePanel({ setElements, setImages, imageType }) {
+export default function ImagePanel({ widgetValidation, setElements, setImages, imageType, }) {
   const getCanvasWidth = () => {
     const container = document.querySelector("#canvas-container");
     return container ? container.clientWidth : 800;
@@ -61,6 +61,7 @@ export default function ImagePanel({ setElements, setImages, imageType }) {
         },
       ]);
     };
+    widgetValidation(2,2)
   };
 
   const handleDragStart = (e, img) => {
