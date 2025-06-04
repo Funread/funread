@@ -22,13 +22,16 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
   }, []);
 
   useEffect(() => {
-    if (!selectedId) return;
+    if (!selectedId || !stageRef.current || !transformerRef.current) return;
+
     const stage = stageRef.current;
-    if (!stage) return;
-    const selectedNode = stage.findOne(`#${selectedId}`);
-    if (selectedNode && transformerRef.current) {
-      transformerRef.current.nodes([selectedNode]);
+    const node = stage.findOne(`#${selectedId}`);
+
+    if (node && node.getLayer()) {
+      transformerRef.current.nodes([node]);
       transformerRef.current.getLayer().batchDraw();
+    } else {
+      transformerRef.current.nodes([]);
     }
   }, [selectedId, elements]);
 

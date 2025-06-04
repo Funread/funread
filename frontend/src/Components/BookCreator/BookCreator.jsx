@@ -6,8 +6,8 @@ import TextPanel from "./TextPanel";
 import Games from "./Games";
 import Background from "./Background";
 import Quiz from "./Quiz";
-import { newPage } from "../../api/pages";
-import { bookSearchById } from "../../api/books";
+import { bookSearchById ,fullBook } from "../../api/books";
+import { listAllPages, newPage} from "../../api/pages";
 import { useParams } from "react-router-dom";
 import Canvas from "./Canvas";
 import Footer from "./Footer";
@@ -28,7 +28,7 @@ export default function BookCreator() {
   const { id } = useParams();
  
   // Hook interno para controlar los tipos de página
-  const [pagesType, setPagesType] = useState([2]);
+  const [pagesType, setPagesType] = useState(2);
   const [widget, setWidget] = useState([2]);
   const [pagesNumber, setPagesNumber] = useState([2]);
  
@@ -36,6 +36,14 @@ export default function BookCreator() {
   const addPage = (type = 2) => {
     setPagesNumber((prev) => [...prev, type]);
     setCurrentPage(pagesNumber.length);
+    newPage(
+      id,
+      pagesType,
+      0,
+      currentPage,
+      "1",
+      1
+    )
     setElements([]);
   };
 
@@ -47,15 +55,22 @@ export default function BookCreator() {
    
   useEffect(() => {
     if (!id) return;
+    
     async function loadBookData() {
       try {
-        const book = await bookSearchById(id);
-        setBookData(book.data);
+        const [fullbook2] =await Promise.all([
+          fullBook(id)
+        
+        ]);
+        console.log(fullbook2)
+        setBookData(fullbook2.data.book_details);
+        setPagesNumber(fullbook2.data.book_content)
         setIsLoading(false);
       } catch (error) {
         console.error("Error al cargar el libro:", error);
       }
     }
+
     loadBookData();
   }, [id]);
 
@@ -74,6 +89,7 @@ export default function BookCreator() {
     if (pagesType === 2) {
       storedPages[currentPage] = elements;
       localStorage.setItem("savedPages", JSON.stringify(storedPages));
+
       console.log("🖼️ Página tipo Canvas guardada:", elements);
     }
 
