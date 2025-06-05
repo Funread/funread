@@ -95,18 +95,24 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
       }
 
       // // Enviar libro al servidor
-      const response = await createBook(newBook)
-
-      if (response.data && response.status === 201) {
-        console.log(response.data)
-         newPage(
-          response.data.bookId,
+      const response = await createBook(newBook).then((book) => {
+        console.log('newbook')
+        console.log(book.data)
+        newPage(
+          book.data.bookid,
               1,
               0,
               0,
               "1",
               1
             )
+            toast.success('Book created successfully')
+    })
+
+
+      if (response.data && response.status === 201) {
+        console.log(response.data)
+         
         //Añadir los dilemas al libro creado
         for (const dilemma of selectedDilemmas) {
           await addDilemmasPerBook(dilemma, response.data.bookid)

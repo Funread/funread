@@ -156,3 +156,29 @@ def delete_page(request):
 
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['PUT'])
+def update_page_type(request):
+    try:
+        # Validar token
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        if not verify.validar_token():
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        page_id = request.data.get('pageid')
+        new_type = request.data.get('type')
+
+        if page_id is None or new_type is None:
+            return Response({"error": "Faltan datos obligatorios"}, status=status.HTTP_400_BAD_REQUEST)
+
+        page = Pages.objects.get(pageid=page_id)
+        page.type = new_type
+        page.save()
+
+        return Response({"message": "Type actualizado correctamente", "pageid": page_id, "new_type": new_type}, status=status.HTTP_200_OK)
+    
+    except Pages.DoesNotExist:
+        return Response({"error": "Página no encontrada"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

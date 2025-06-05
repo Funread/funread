@@ -2,9 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // API CALLS
 import { fullBook } from "../../api/books";
-import {  newPage} from "../../api/pages";
+import { updatePageType, newPage} from "../../api/pages";
 import { newWidgetItem} from "../../api/widget";
-import { createMultipleOptions} from "../../api/options";
+import { createMultipleOptions,list_options_by_idwidgetitem} from "../../api/options";
+
 // SUBCOMPONENTS
 import SideBar from "./SideBar";
 import ToolBar from "./ToolBar";
@@ -34,7 +35,7 @@ export default function BookCreator() {
   const { id } = useParams();
  
   // Hook interno para controlar los tipos de página
-  const [pagesType, setPagesType] = useState(2);
+  const [pagesType, setPagesType] = useState(4);
   const [widget, setWidget] = useState([2]);
   const [pagesList, setPagesList] = useState([]);
  
@@ -44,7 +45,7 @@ export default function BookCreator() {
     setCurrentPage(pagesList.length);
     newPage(
       id,
-      pagesType,
+      2,
       0,
       currentPage+1,
       "1",
@@ -63,6 +64,7 @@ export default function BookCreator() {
     if (!id) return;
     
     async function loadBookData() {
+      console.log('OnloadBookData')
       try {
         const [fullbook2] =await Promise.all([
           fullBook(id)
@@ -70,6 +72,7 @@ export default function BookCreator() {
         console.log(fullbook2)
         setBookData(fullbook2.data.book_details);
         setPagesList(fullbook2.data.book_content)
+        onLoadPageControl(fullbook2.data.book_content[currentPage])
         setIsLoading(false);
       } catch (error) {
         console.error("Error al cargar el libro:", error);
@@ -80,43 +83,56 @@ export default function BookCreator() {
   }, [id]);
 
   useEffect(() => {
-    const savedPages = JSON.parse(localStorage.getItem("savedPages")) || {};
-    if (savedPages[currentPage]) {
-      setElements(savedPages[currentPage]);
-    } else {
-      setElements([]);
-    }
+    console.log('OnLoadPage')
+    console.log(pagesList)
+    console.log(pagesList[currentPage])
+    onLoadPageControl(pagesList[currentPage])
   }, [currentPage]);
 
+  const onLoadPageControl = (page) => {
+    if(page && page.page){  
+      setPagesType(page.page.type)
+      if(page.page.type===4){
+        let getWidgetInfo =page.widgetitems[0]
+        list_options_by_idwidgetitem(getWidgetInfo.widgetitemid  ).then((options) => {
+          setElements(formatQuizData(getWidgetInfo.value, options, currentPage))
+          })
+      }else {
+        setElements( page.widgetitems);
+      }
+    }
+  }
   const savePageToLocalStorage = () => {
     const storedPages = JSON.parse(localStorage.getItem("savedPages")) || {};
-
+    
     if (pagesType === 2) {
+      updatePageType( pagesList[currentPage].page.pageid, pagesType)
       storedPages[currentPage] = elements;
       localStorage.setItem("savedPages", JSON.stringify(storedPages));
 
       console.log("🖼️ Página tipo Canvas guardada:", elements);
       alert(`Página ${currentPage + 1} guardada correctamente`);
     }
-//updatepagfe
     if (pagesType === 4) {
+      
       const quizJson = quizEditorRef.current?.getQuizJson();
       if (quizJson) {
         localStorage.setItem(`quiz-page-${currentPage}`, JSON.stringify(quizJson));
         alert(`Página ${currentPage + 1} guardada correctamente`);
         console.log('quizJson')
-        console.log()
+        console.log( pagesList[currentPage])
         
         newWidgetItem(   
           pagesList[currentPage].page.pageid,
           9,
           4,
-          quizJson.content,
+          elements,
           0).then((widgetResponse) => {
             console.log('widgetResponse')
 console.log(widgetResponse)
            createMultipleOptions(quizJson.options
             , widgetResponse.data.widgetitemid, bookData.createdby)
+            updatePageType( pagesList[currentPage].page.pageid, pagesType)
           })
 
 
@@ -135,7 +151,25 @@ console.log(widgetResponse)
     }
   
   };
-  
+  function formatQuizData(contentData, optionsData, pageNumber = 0) {
+    const formatted = {
+      pageNumber: pageNumber,
+      type: "singleChoice",
+      content: {
+        title: contentData.title,
+        question: contentData.question,
+      },
+      options: optionsData.map(opt => ({
+        answer: opt.answer,
+        isCorrect: opt.iscorrect === 1,
+        points: opt.points,
+        isActive: opt.isactive === 1,
+      }))
+    };
+    console.log('formatQuizData')
+    console.log(    formatted  )
+    return formatted;
+  }
   return (
     <div className="flex h-screen w-full bg-gray-200">
       <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
@@ -173,7 +207,7 @@ console.log(widgetResponse)
               transformerRef={transformerRef}
             />
           )}
-          {!isLoading && pagesType === 4 && <QuizEditor ref={quizEditorRef} pageNumber={currentPage} />}
+          {!isLoading && pagesType === 4 && <QuizEditor ref={quizEditorRef} pageNumber={currentPage} initialData={ elements}/>}
         </div>
       </div>
 

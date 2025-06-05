@@ -10,6 +10,11 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
+    console.log('elements1')
+    elements.map((el) => console.log(el))
+    console.log('elements2')
+    console.log(elements)
+    console.log('elements3')
     const resize = () => {
       if (containerRef.current) {
         const { clientWidth, clientHeight } = containerRef.current;
@@ -22,6 +27,8 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
   }, []);
 
   useEffect(() => {
+    console.log(elements)
+    console.log('elements')
     if (!selectedId || !stageRef.current || !transformerRef.current) return;
 
     const stage = stageRef.current;

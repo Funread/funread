@@ -5,8 +5,15 @@ export async function listAllPages(bookid) {
     params: { bookid }
   });
 }
+export async function updatePageType(pageid, type) {
+  return axiosAuth().put('pages/updatePageType/', {
+    pageid,
+    type,
+  });
+}
 
 export async function newPage(bookid, type, template, elementorder, gridDirection, gridNumRows) {
+  console.log('newPage')
   console.log(bookid)
   console.log(type)
   console.log(template)
@@ -22,3 +29,4 @@ export async function newPage(bookid, type, template, elementorder, gridDirectio
     gridNumRows,
   });
 }
+
