@@ -1,79 +1,319 @@
+/* Estilos generales del Leaderboard */
 .leaderboard {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 10px 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  font-family: 'Arial', sans-serif;
+  font-family: "Nunito", sans-serif;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin: 20px;
+  color: #333;
 }
 
 .leaderboard h1 {
-  font-size: 24px;
+  margin: 0 0 30px 0;
+  font-size: 2rem;
   color: #333;
-  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
 }
 
+/* Loading spinner */
+.leaderboard p {
+  text-align: center;
+  color: #666;
+  font-size: 2rem;
+  margin: 40px 0;
+}
+
+/* Tabla del Leaderboard */
 .leaderboard__table {
   width: 100%;
   border-collapse: collapse;
+  border-spacing: 0;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.leaderboard__table th,
-.leaderboard__table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+.leaderboard__table thead {
+  background-color: #4361ee;
+  color: white;
 }
 
 .leaderboard__table th {
-  background-color: #4c78af;
-  color: white;
-  font-weight: bold;
+  padding: 15px 20px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.leaderboard__table tr:nth-child(even) {
-  background-color: #f2f2f2;
+.leaderboard__table th:last-child {
+  border-right: none;
 }
 
-.leaderboard__table tr:hover {
-  background-color: #e0f7fa;
+.leaderboard__table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
 }
 
-.leaderboard__row--first {
-  background-color: #dcdcdc;
-  font-weight: bold;
+.leaderboard__table tbody tr:hover {
+  background-color: #f8f9fa;
 }
 
-.leaderboard__row--first td {
-  color: #333;
+.leaderboard__table tbody tr:last-child {
+  border-bottom: none;
 }
 
 .leaderboard__table td {
-  color: #555;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  color: #333;
+  border-right: 1px solid #f0f0f0;
 }
 
-.leaderboard__table td:first-child {
-  font-weight: bold;
+.leaderboard__table td:last-child {
+  border-right: none;
+  font-weight: 600;
+  color: #4361ee;
 }
 
+/* Primer lugar - destacado */
+.leaderboard__row--first {
+  background-color: #fff9e6 !important;
+  position: relative;
+}
+
+.leaderboard__row--first::before {
+  content: "👑";
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+}
+
+.leaderboard__row--first td:first-child {
+  padding-left: 35px;
+  font-weight: 700;
+  color: #ff9800;
+}
+
+.leaderboard__row--first td {
+  font-weight: 600;
+}
+
+/* Responsive Design */
+
+/* Tablet */
 @media (max-width: 768px) {
   .leaderboard {
-    max-height: 60dvh;
-    overflow-y: auto;
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .leaderboard h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .leaderboard__table th,
+  .leaderboard__table td {
+    padding: 12px 15px;
+    font-size: 0.9rem;
   }
 
   .leaderboard__table th {
-    background-color: #4c78af;
-    position: sticky;
-    top: -10px;
-    z-index: 2;
+    font-size: 0.85rem;
+  }
+
+  .leaderboard__row--first td:first-child {
+    padding-left: 30px;
   }
 }
 
-@media (max-width: 576px) {}
+/* Mobile */
+@media (max-width: 576px) {
+  .leaderboard {
+    margin: 5px;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .leaderboard h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  /* Ocultar columnas menos importantes en móvil */
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .leaderboard__table th,
+  .leaderboard__table td {
+    padding: 10px 8px;
+    font-size: 0.85rem;
+  }
+
+  .leaderboard__table th:first-child,
+  .leaderboard__table td:first-child {
+    width: 80px;
+    text-align: center;
+  }
+
+  .leaderboard__table th:nth-child(2),
+  .leaderboard__table td:nth-child(2) {
+    width: auto;
+    padding-left: 10px;
+  }
+
+  .leaderboard__table th:last-child,
+  .leaderboard__table td:last-child {
+    width: 80px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  .rank-icon {
+    display: block;
+    margin: 2px 0 0 0;
+    font-size: 1rem;
+  }
+
+  .loading-spinner {
+    padding: 40px 20px;
+  }
+}
+
+/* Mobile muy pequeño */
+@media (max-width: 390px) {
+  .leaderboard {
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .leaderboard h1 {
+    font-size: 1.3rem;
+  }
+
+  .leaderboard__table th,
+  .leaderboard__table td {
+    padding: 8px 6px;
+    font-size: 0.8rem;
+  }
+
+  .leaderboard__table th:first-child,
+  .leaderboard__table td:first-child {
+    width: 70px;
+  }
+
+  .leaderboard__table th:last-child,
+  .leaderboard__table td:last-child {
+    width: 70px;
+    font-size: 0.85rem;
+  }
+
+  .rank-icon {
+    font-size: 0.9rem;
+  }
+}
+
+/* Container para scroll horizontal si es necesario */
+.table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Estados de carga y error */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4361ee;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message,
+.no-data-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.error-message p {
+  color: #f44336;
+}
+
+/* Estilos mejorados para el podium */
+.leaderboard__row--podium {
+  font-weight: 600;
+}
+
+.leaderboard__row--1 {
+  background-color: #e6f5ff !important;
+}
+
+.leaderboard__row--2 {
+  background-color: #f5f5f5 !important;
+}
+
+.leaderboard__row--3 {
+  background-color: #fff4e6 !important;
+}
+
+.rank-number {
+  font-weight: 700;
+}
+
+.rank-icon {
+  margin-left: 8px;
+  font-size: 1.4rem;
+}
+
+.user-points {
+  font-weight: 700 !important;
+  color: #4361ee !important;
+}
+
+/* Clases para ocultar elementos en móvil */
+.hide-mobile {
+  display: table-cell;
+}
+
+/* Mejoras adicionales para UX */
+@media (hover: none) {
+  .leaderboard__table tbody tr:hover {
+    background-color: transparent;
+  }
+}
+
+/* Scroll horizontal para pantallas muy pequeñas si es necesario */
+@media (max-width: 320px) {
+  .leaderboard {
+    overflow-x: auto;
+  }
+
+  .leaderboard__table {
+    min-width: 300px;
+  }
+}
