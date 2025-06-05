@@ -1,6 +1,20 @@
-import { getShapesImages, getObjectImages, getPersonsImages, getBackgroundImages } from "../../api/images";
+export default function Background({ setElements, setImages }) {
+  const preloaded = [
+    { id: "arenal", src: "/imagenes/Background/Arenal.png" },
+    { id: "aula", src: "/imagenes/Background/Aula.png" },
+    { id: "aula2", src: "/imagenes/Background/Aula2.png" },
+    { id: "barrio", src: "/imagenes/Background/Barrio.png" },
+    { id: "cancha", src: "/imagenes/Background/Cancha.png" },
+    { id: "circo", src: "/imagenes/Background/Circo.png" },
+    { id: "guanacaste", src: "/imagenes/Background/Guanacaste.png" },
+    { id: "nature_home", src: "/imagenes/Background/Nature_Home.jpg" },
+    { id: "nature_home2", src: "/imagenes/Background/Nature_Home2.jpg" },
+    { id: "park", src: "/imagenes/Background/Park.png" },
+    { id: "river", src: "/imagenes/Background/River.jpg" },
+    { id: "tree", src: "/imagenes/Background/Tree.jpg" },
+    { id: "volcano", src: "/imagenes/Background/Volcano.jpg" },
+  ];
 
-export default function ImagePanel({ widgetValidation, setElements, setImages, imageType, }) {
   const getCanvasWidth = () => {
     const container = document.querySelector("#canvas-container");
     return container ? container.clientWidth : 800;
@@ -49,7 +63,6 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
 
       setImages((prev) => ({ ...prev, [img.src]: img }));
       setElements((prev) => [
-        ...prev,
         {
           id: Date.now().toString(),
           type: "image",
@@ -59,31 +72,14 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
           width: canvasWidth,
           height: img.height * scale,
         },
+        ...prev
       ]);
     };
-    widgetValidation(2,2)
   };
 
   const handleDragStart = (e, img) => {
     e.dataTransfer.setData("image-src", img.src);
   };
-
-  const getImagesByType = () => {
-    switch (imageType) {
-      case "objects":
-        return getObjectImages();
-        case "background":
-          return getBackgroundImages();
-      case "users":
-        return getPersonsImages();
-      case "shape":
-        return getShapesImages();
-      default:
-        return [];
-    }
-  };
-
-  const loadedImages = getImagesByType();
 
   return (
     <div>
@@ -95,11 +91,9 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
         className="mt-4 w-full border p-2 rounded-lg cursor-pointer"
       />
 
-      <h3 className="text-md font-semibold mt-6 mb-2 capitalize">
-        Funread's {imageType}
-      </h3>
+      <h3 className="text-md font-semibold mt-6 mb-2">Imágenes precargadas</h3>
       <div className="flex flex-col gap-4">
-        {loadedImages.map((img) => (
+        {preloaded.map((img) => (
           <img
             key={img.id}
             src={img.src}

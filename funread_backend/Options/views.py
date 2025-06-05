@@ -157,3 +157,44 @@ def delete_option(request):
     option.isactive = 0
     option.save()
     return Response("Option successfully deleted", status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def create_multiple_options(request):
+    try:
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        if not verify.validar_token():
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        options_list = request.data.get('options', [])
+        idwidgetitem = request.data.get('idwidgetitem')
+        createdby = request.data.get('createdby')
+
+        if not isinstance(options_list, list):
+            return Response({"error": "Se esperaba un array de opciones."}, status=status.HTTP_400_BAD_REQUEST)
+
+        created_options = []
+
+        for option in options_list:
+            option_data = {
+                'answer': option.get('answer'),
+                'points': option.get('points', 0),
+                'iscorrect': 1 if option.get('isCorrect') else 0,
+                'idimage': 1,  # o lógica personalizada si hay imágenes
+                'idwidgetitem': idwidgetitem,
+                'isactive': 1,
+                'createdby': createdby,
+                'createdat': datetime.datetime.now()
+            }
+
+            serializer = OptionsSerializer(data=option_data)
+            if serializer.is_valid():
+                serializer.save()
+                created_options.append(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"created": created_options}, status=status.HTTP_201_CREATED)
+
+    except Exception as e:
+        return Response({"error": f"Error inesperado: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
