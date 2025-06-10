@@ -4,7 +4,7 @@
   background-color: #f5f7fa;
   height: 100vh;
   color: #333;
-
+  font-size: 18px;
 }
 
 
@@ -104,7 +104,7 @@
   padding: 15px 20px;
   background: none;
   border: none;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
   color: #666;
   cursor: pointer;
@@ -186,7 +186,7 @@
 
 .percentage {
   fill: white;
-  font-size: 10px;
+  font-size: 14px;
   text-anchor: middle;
   font-weight: bold;
 }
@@ -197,17 +197,17 @@
 
 .class-info h3 {
   margin: 0 0 5px 0;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .teacher {
   color: #666;
   margin: 0 0 10px 0;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .next-class {
-  font-size: 12px;
+  font-size: 16px;
   color: #4361ee;
   margin: 0;
 }
@@ -242,17 +242,17 @@
 
 .notification-content h3 {
   margin: 0 0 5px 0;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .notification-content p {
   margin: 0 0 5px 0;
-  font-size: 14px;
+  font-size: 18px;
   color: #666;
 }
 
 .notification-time {
-  font-size: 12px;
+  font-size: 16px;
   color: #999;
 }
 
@@ -350,7 +350,7 @@
 
   .tabs button {
     padding: 15px 3%;
-    font-size: 14px;
+    font-size: 18px;
   }
 }
 
@@ -390,7 +390,7 @@
 
 .class-books-header h2 {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: #333;
 }
 
@@ -403,7 +403,7 @@
   border-radius: 4px;
   margin-right: 15px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1rem;
   transition: background-color 0.2s;
 }
 
@@ -451,12 +451,12 @@
 
 .book-info h3 {
   margin: 0 0 8px 0;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   color: #333;
 }
 
 .book-author {
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: #666;
   margin: 0 0 12px 0;
 }
@@ -479,7 +479,7 @@
 }
 
 .book-progress span {
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: #777;
 }
 
@@ -511,7 +511,7 @@
 }
 
 .book-description {
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: #777;
   margin: 5px 0 10px 0;
   overflow: hidden;

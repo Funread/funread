@@ -91,13 +91,13 @@
 
 .stat-info h3 {
      margin: 0 0 5px 0;
-     font-size: 16px;
+     font-size: 20px;
      color: #000000;
 }
 
 .stat-info p {
      margin: 0;
-     font-size: 18px;
+     font-size: 22px;
      font-weight: 600;
 }
 
@@ -115,7 +115,7 @@
 }
 
 .progress-text {
-     font-size: 11px;
+     font-size: 15px;
      color: #666;
      display: block;
      margin-top: 5px;
