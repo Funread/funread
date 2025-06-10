@@ -10,6 +10,7 @@ import { faGlobe, faLock } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
 import { save_Image, upload } from '../../../api'
 import { new_book } from '../../../api/books'
+import {  newPage} from "../../../api/pages";
 import {
   listCategories,
   newDilemaPerBook,
@@ -94,9 +95,24 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
       }
 
       // // Enviar libro al servidor
-      const response = await createBook(newBook)
+      const response = await createBook(newBook).then((book) => {
+        console.log('newbook')
+        console.log(book.data)
+        newPage(
+          book.data.bookid,
+              1,
+              0,
+              0,
+              "1",
+              1
+            )
+            toast.success('Book created successfully')
+    })
+
 
       if (response.data && response.status === 201) {
+        console.log(response.data)
+         
         //Añadir los dilemas al libro creado
         for (const dilemma of selectedDilemmas) {
           await addDilemmasPerBook(dilemma, response.data.bookid)

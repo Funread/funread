@@ -1,4 +1,6 @@
 export default function Footer({ pages, currentPage, setCurrentPage, addPage }) {
+  console.log('pages')
+  console.log(pages)
   return (
     <div className="w-full bg-[#2C3E50] text-white p-3 fixed bottom-0 flex justify-between items-center shadow-lg">
       {/* Número de Página Actual */}
@@ -8,7 +10,9 @@ export default function Footer({ pages, currentPage, setCurrentPage, addPage }) 
 
       {/* Lista de Páginas */}
       <div className="flex space-x-2">
-        {pages.map((_, index) => (
+        
+      {Array.isArray(pages) &&
+        (pages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentPage(index)}
@@ -20,7 +24,8 @@ export default function Footer({ pages, currentPage, setCurrentPage, addPage }) 
           >
             {index + 1}
           </button>
-        ))}
+        )))
+}
       </div>
 
       {/* Botón Agregar Página */}

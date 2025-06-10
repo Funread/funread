@@ -7,8 +7,6 @@
   font-size: 18px;
 }
 
-
-
 /* Layout principal */
 .dashboard-content {
   display: flex;
@@ -31,16 +29,6 @@
   flex-wrap: nowrap;
   gap: 15px;
   margin-bottom: 30px;
-}
-
-.leaderboard-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
 }
 
 .upcoming-events {
@@ -207,7 +195,7 @@
 }
 
 .next-class {
-  font-size: 16px;
+  font-size: 14px;
   color: #4361ee;
   margin: 0;
 }
@@ -465,14 +453,14 @@
   margin-top: 10px;
 }
 
-.book-progress .progress-bar {
+.book-progress {
   height: 6px;
   background-color: #eee;
   border-radius: 3px;
   margin-bottom: 5px;
 }
 
-.book-progress .progress {
+.book-progress {
   height: 100%;
   background-color: #4caf50;
   border-radius: 3px;
@@ -519,3 +507,4 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
 }
+

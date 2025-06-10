@@ -1,8 +1,9 @@
 import { Button } from "./Button";
 
-export default function TextPanel({ setElements }) {
-  return (
-    <Button onClick={() => setElements((prev) => [...prev, {
+export default function TextPanel({ setElements,widgetValidation }) {
+  const handleText = () => {
+    widgetValidation(2,2)
+    setElements((prev) => [...prev, {
       id: Date.now().toString(),
       type: "text",
       text: "Doble clic para editar",
@@ -10,7 +11,10 @@ export default function TextPanel({ setElements }) {
       y: 100,
       fontSize: 20,
       fill: "black",
-    }])}>
+    }])
+  };
+  return (
+    <Button onClick={() => handleText()}>
       Agregar Texto
     </Button>
   );

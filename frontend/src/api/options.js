@@ -1,4 +1,4 @@
-import { axiosAuth } from "./axiosInstances";
+import { axiosAuth } from './axiosInstances'
 import { BASE_URL } from "../settings";
 
 export const list_options_by_idwidgetitem = async (widgetitemid) => {
@@ -54,6 +54,24 @@ export const submit_quiz_responses = async (quizResponses, bookId, userId) => {
     return response.data;
   } catch (error) {
     console.error("Error al enviar respuestas del quiz:", error);
+    throw error;
+  }
+};
+export const createMultipleOptions = async (options, idwidgetitem, createdby) => {
+  console.log("Enviando opciones:", options);
+
+  try {
+     
+
+    return axiosAuth().post("/Options/create_multiple_options/", {
+        options,
+        idwidgetitem,
+        createdby,
+      });
+  
+  
+  } catch (error) {
+    console.error("Error al crear opciones:", error);
     throw error;
   }
 };
