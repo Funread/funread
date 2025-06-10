@@ -14,8 +14,8 @@
     
     // Contenedor para mantener el aspecto cuadrado
     & > div  // Este selector apunta al contenedor de PageSelector
-      width: 760px
-      height: 760px
+      width: 900px
+      height: 900px
       display: flex
       justify-content: center
       align-items: center
@@ -42,7 +42,7 @@
   border-radius: 20px
   font-weight: bold
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2)
-  font-size: 16px
+  font-size: 18px
   position: fixed
   top: 20px
   right: 20px
@@ -53,6 +53,7 @@
   flex-direction: column
   height: 100vh
   overflow: hidden
+  font-size: 16px
   // Añadir transición para una aparición suave
   transition: opacity 0.5s ease-in-out
   opacity: 1
@@ -67,7 +68,7 @@
 .page-content
   height: 100%
   width: 100%
-  max-width: 1200px
+  max-width: 1400px
   margin: 0 auto
   display: flex
   justify-content: center
@@ -112,13 +113,13 @@
   background: #fff
   border: 1px solid #ddd
   border-radius: 50%
-  width: 40px
-  height: 40px
+  width: 45px
+  height: 45px
   cursor: pointer
   display: flex
   justify-content: center
   align-items: center
-  font-size: 18px
+  font-size: 20px
   &:hover
     background: #f0f0f0
   &:active
@@ -129,22 +130,40 @@
 
 .page-number
   margin: 0 15px
-  font-size: 16px
+  font-size: 18px
   color: #555
+  font-weight: 500
 
 .exit-button
   background-color: #4CAF50
   color: white
   border: none
-  padding: 8px 20px
+  padding: 10px 25px
   border-radius: 4px
   cursor: pointer
-  font-size: 14px
+  font-size: 16px
+  font-weight: 500
   transition: background-color 0.3s
   &:hover
     background-color: #45a049
 
 .close-button
+  position: fixed
+  top: 20px
+  left: 20px
+  z-index: 1000
+  border: none
+  background-color: rgba(0, 0, 0, 0.5)
+  color: white
+  width: 45px
+  height: 45px
+  border-radius: 50%
+  display: flex
+  align-items: center
+  justify-content: center
+  cursor: pointer
+  font-size: 18px
+  transition: background-color 0.3s
   &:hover
     color: #fff
     background-color: #f44336
