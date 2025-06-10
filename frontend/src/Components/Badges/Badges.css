@@ -89,7 +89,7 @@
   padding: 20px;
   text-align: center;
   transition: transform 0.2s;
-  height: 195px;
+  height: 220px;
 }
 
 .achievement-card.unlocked {
@@ -111,14 +111,14 @@
 
 .achievement-card h3 {
   margin: 0 0 10px 0;
-  font-size: 13px;
+  font-size: 16px;
   color: #000000;
   font-weight: 600;
 }
 
 .achievement-card p {
   margin: 0;
-  font-size: 12px;
+  font-size: 13px;
   color: #666;
 }
 

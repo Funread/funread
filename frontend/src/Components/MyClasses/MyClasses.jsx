@@ -13,6 +13,7 @@ import {
   faSearch,
   faArrowLeft,
   faSignOutAlt,
+  faRankingStar
 } from "@fortawesome/free-solid-svg-icons";
 import { listedStudentGroups } from "../../api";
 import { listedBooksPerClassesById } from "../../api/booksPerClasses";
@@ -27,6 +28,7 @@ import { getCurrentRank } from "../../api/userPoints"; // Import the function to
 import { getBooksCompleted } from "../../api/userBookProgress"; // Import the function to get completed books count
 import StatCard from '../StatCard/StatCard.jsx'; // Import the StatCard component
 import Leaderboard from '../Leaderboard/Leaderboard.jsx'
+import Star from './StarProgress.jsx';
 
 // Function to get teacher name from ID
 const getTeacherName = async (teacherId) => {
@@ -62,7 +64,6 @@ const MyClasses = () => {
   const [selectedClass, setSelectedClass] = useState(null);
   const [classBooks, setClassBooks] = useState([]);
   const [loadingBooks, setLoadingBooks] = useState(false);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -319,10 +320,6 @@ const MyClasses = () => {
     setClassBooks([]);
   };
 
-  const handleShowLeaderboard = () => {
-    setShowLeaderboard(!showLeaderboard);
-  };
-
   // Function to handle logout
   const handleLogout = () => {
     localStorage.clear();
@@ -342,12 +339,6 @@ const MyClasses = () => {
         <aside className="dashboard-sidebar">
           <div className="user-stats">
 
-            {showLeaderboard && (
-              <div className="leaderboard-container" onClick={handleShowLeaderboard}>
-                <Leaderboard />
-              </div>
-            )}
-
             <StatCard
               className="header">
               <header className="dashboard-header">
@@ -365,25 +356,13 @@ const MyClasses = () => {
               className="user-info"
               iconClassName="level"
             >
-              <div className="progress-bar">
-                <div className="progress" style={{ width: `${(userStats.points % 500) / 5}%` }}></div>
-              </div>
+              <Star value={userStats.points} max={userStats.level * 500} />
               <span className="progress-text">
                 {userStats.points} / {userStats.level * 500} points to next
                 level
               </span>
             </StatCard>
 
-            {/* Tarjeta de ranking */}
-            <StatCard
-              icon={<FontAwesomeIcon icon={faTrophy} />}
-              title="Ranking"
-              className="ranking-info"
-              iconClassName="ranking"
-              onClick={handleShowLeaderboard}
-            >
-              <p>#{userStats.ranking} in your class</p>
-            </StatCard>
 
             {/* Tarjeta de quizzes */}
             <StatCard
@@ -428,6 +407,12 @@ const MyClasses = () => {
               onClick={() => setActiveTab("achievements")}
             >
               <FontAwesomeIcon icon={faTrophy} /> Achievements
+            </button>
+            <button
+              className={activeTab === "leaderboard" ? "active" : ""}
+              onClick={() => setActiveTab("leaderboard")}
+            >
+              <FontAwesomeIcon icon={faRankingStar} /> Leaderboard
             </button>
             <button
               className="logout-button"
@@ -559,6 +544,8 @@ const MyClasses = () => {
               )}
 
               {activeTab === "achievements" && <BadgesPage />}
+              {activeTab === "leaderboard" && <Leaderboard />}
+
             </div>
           )}
         </main>

@@ -11,7 +11,8 @@ urlpatterns=[
     path('changePage/', views.pageChange),
     path('listallPages/', views.listed),
     path('insertPage/', views.new_page),
-    path('deletePage/', views.delete_page)
+    path('deletePage/', views.delete_page),
+    path('updatePageType/', views.update_page_type)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
