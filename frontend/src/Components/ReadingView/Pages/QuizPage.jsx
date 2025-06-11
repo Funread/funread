@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import QuizMultiple from "../../Widgets/Quiz/QuizMultiple/QuizMultiple";
+import QuizComplete from "../../Widgets/Quiz/QuizComplete/QuizComplete";
 import "./QuizPage.css";
 import { list_options_by_idwidgetitem } from "../../../api/options";
 import { useParams } from "react-router-dom";
@@ -214,39 +215,14 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
 
           console.log("Final valueData:", valueData);
 
-          // Solo verificamos title y question, ya no answers
-          if (!valueData.title || !valueData.question) {
+          // Verificar el tipo de quiz y los campos requeridos según el tipo
+          if (!valueData.title || !valueData.question || !valueData.type) {
             console.error(
               "ValueData does not have correct structure:",
               valueData
             );
             return null;
           }
-
-          // Convertimos las opciones de la API al formato que espera QuizMultiple
-          const quizAnswers =
-            quizOptions[widget.widgetitemid]?.map((option) => ({
-              id: option.idoption,
-              text: option.answer,
-              points: option.points,
-              isCorrect: option.iscorrect === 1,
-            })) || [];
-
-          // Debug para ver las respuestas
-          console.log("quizAnswers generated:", quizAnswers);
-          console.log(
-            "quizOptions available:",
-            quizOptions[widget.widgetitemid]
-          );
-
-          // Combinamos valueData con las respuestas de la API
-          const completeQuizData = {
-            ...valueData,
-            answers: quizAnswers,
-          };
-
-          // Debug del objeto completo
-          console.log("completeQuizData:", completeQuizData);
 
           // Verificar si hay una respuesta guardada para este widget
           const savedResponse =
@@ -256,21 +232,41 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
 
           console.log("savedResponse:", savedResponse);
 
+          // Renderizar el componente según el tipo de quiz
+          let QuizComponent;
+          let quizProps = {
+            onAnswerSelected: (answerId, isCorrect, points) =>
+              handleQuizChange(widget.widgetitemid, answerId, isCorrect, points),
+            initialAnswer: initialAnswer,
+            isSubmitted: isAnswered,
+          };
+
+          if (valueData.type === 'multiple') {
+            // Convertimos las opciones de la API al formato que espera QuizMultiple
+            const quizAnswers =
+              quizOptions[widget.widgetitemid]?.map((option) => ({
+                id: option.idoption,
+                text: option.answer,
+                points: option.points,
+                isCorrect: option.iscorrect === 1,
+              })) || [];
+
+            QuizComponent = QuizMultiple;
+            quizProps.quizData = {
+              ...valueData,
+              answers: quizAnswers,
+            };
+          } else if (valueData.type === 'complete') {
+            QuizComponent = QuizComplete;
+            quizProps.quizData = valueData;
+          } else {
+            console.error("Tipo de quiz no soportado:", valueData.type);
+            return null;
+          }
+
           return (
             <div key={widget.widgetitemid} className="quiz-widget-container">
-              <QuizMultiple
-                quizData={completeQuizData}
-                onAnswerSelected={(answerId, isCorrect, points) =>
-                  handleQuizChange(
-                    widget.widgetitemid,
-                    answerId,
-                    isCorrect,
-                    points
-                  )
-                }
-                initialAnswer={initialAnswer}
-                isSubmitted={isAnswered}
-              />
+              <QuizComponent {...quizProps} />
 
               {isAnswered && (
                 <div className="quiz-already-answered">

@@ -1,0 +1,131 @@
+.word-search-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: rgb(155, 89, 182);
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid rgb(155, 89, 182);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group input[type="number"] {
+  width: 80px;
+}
+
+.grid-size-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.grid-size-inputs span {
+  color: rgb(155, 89, 182);
+  font-weight: bold;
+}
+
+.words-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.word-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.word-input input {
+  flex: 1;
+  text-transform: uppercase;
+}
+
+.remove-word {
+  background: rgb(255, 89, 89);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.remove-word:hover {
+  background: rgb(220, 53, 53);
+  transform: scale(1.1);
+}
+
+.add-word {
+  background: rgb(155, 89, 182);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.add-word:hover {
+  background: rgb(130, 74, 153);
+  transform: translateY(-2px);
+}
+
+.save-button {
+  background: rgb(155, 89, 182);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.save-button:hover {
+  background: rgb(130, 74, 153);
+  transform: translateY(-2px);
+}
+
+/* Estilos para los mensajes de validación */
+input:invalid,
+select:invalid {
+  border-color: rgb(255, 89, 89);
+}
+
+/* Estilos responsivos */
+@media (max-width: 480px) {
+  .word-search-form {
+    padding: 10px;
+  }
+
+  .form-group input[type="number"] {
+    width: 60px;
+  }
+} 

@@ -1,17 +1,17 @@
 import React from 'react';
 
 const QuizAnswers = ({ answers, selectedAnswer, setSelectedAnswer, isSubmitted }) => {
-  console.log('QuizAnswers - answers recibidas:', answers);
+  console.log('QuizAnswers - received answers:', answers);
 
   if (!answers || !Array.isArray(answers) || answers.length === 0) {
-    console.log('QuizAnswers: No hay respuestas válidas');
-    return <div>No se encontraron respuestas</div>;
+    console.log('QuizAnswers: No valid answers');
+    return <div>No answers available</div>;
   }
 
   return (
     <div className="quiz-answers-container">
       {answers.map((answer) => {
-        console.log('Renderizando respuesta:', answer);
+        console.log('Rendering answer:', answer);
         const isSelected = selectedAnswer === answer.id;
         const showCorrect = isSubmitted && answer.isCorrect;
         const showIncorrect = isSubmitted && isSelected && !answer.isCorrect;
@@ -27,7 +27,7 @@ const QuizAnswers = ({ answers, selectedAnswer, setSelectedAnswer, isSubmitted }
             <div className="answer-text">{answer.text}</div>
             {isSubmitted && ( 
               <div className="answer-feedback">
-                {answer.isCorrect && <span className="points">+{answer.points} puntos</span>}
+                {answer.isCorrect && <span className="points">+{answer.points} points</span>}
               </div>
             )}
           </div>
