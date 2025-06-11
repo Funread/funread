@@ -35,7 +35,7 @@ export default function BookCreator() {
   const { id } = useParams();
  
   // Hook interno para controlar los tipos de página
-  const [pagesType, setPagesType] = useState(4);
+  const [pagesType, setPagesType] = useState(2);
   const [widget, setWidget] = useState([2]);
   const [pagesList, setPagesList] = useState([]);
  
@@ -51,12 +51,13 @@ export default function BookCreator() {
       "1",
       1
     )
-    setElements([]);
+    cleanElements()
   };
 
   const cleanElements = (type = 2) => {
     setElements([]);
     setSelectedId([]);
+    setPagesType(type)
   };
 
    
@@ -87,18 +88,26 @@ export default function BookCreator() {
     console.log(pagesList)
     console.log(pagesList[currentPage])
     onLoadPageControl(pagesList[currentPage])
+    
   }, [currentPage]);
 
   const onLoadPageControl = (page) => {
-    if(page && page.page){  
+    console.log('onLoadPageControl')
+    console.log(page) 
+
+  
+    if(page && page.page ){  
       setPagesType(page.page.type)
-      if(page.page.type===4){
+      if(page.page.type===4 && page.widgetitems.length){
         let getWidgetInfo =page.widgetitems[0]
         list_options_by_idwidgetitem(getWidgetInfo.widgetitemid  ).then((options) => {
           setElements(formatQuizData(getWidgetInfo.value, options, currentPage))
           })
-      }else {
+      } if (page.page.type===2 && page.widgetitems.length) {
         setElements( page.widgetitems);
+      } 
+      else {
+        setElements( []);
       }
     }
   }
@@ -114,8 +123,9 @@ export default function BookCreator() {
       alert(`Página ${currentPage + 1} guardada correctamente`);
     }
     if (pagesType === 4) {
-      
       const quizJson = quizEditorRef.current?.getQuizJson();
+      console.log('quizJson')
+      console.log(quizJson.content)
       if (quizJson) {
         localStorage.setItem(`quiz-page-${currentPage}`, JSON.stringify(quizJson));
         alert(`Página ${currentPage + 1} guardada correctamente`);
@@ -126,7 +136,7 @@ export default function BookCreator() {
           pagesList[currentPage].page.pageid,
           9,
           4,
-          elements,
+          quizJson.content,
           0).then((widgetResponse) => {
             console.log('widgetResponse')
 console.log(widgetResponse)
@@ -207,7 +217,16 @@ console.log(widgetResponse)
               transformerRef={transformerRef}
             />
           )}
-          {!isLoading && pagesType === 4 && <QuizEditor ref={quizEditorRef} pageNumber={currentPage} initialData={ elements}/>}
+          {!isLoading && pagesType === 4 && 
+          
+          <QuizEditor
+  ref={quizEditorRef}
+  pageNumber={currentPage}
+  initialData={elements}
+  defaultOptionCount={3}
+/>
+          }
+          
         </div>
       </div>
 

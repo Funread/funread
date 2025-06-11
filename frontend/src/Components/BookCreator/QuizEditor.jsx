@@ -5,7 +5,8 @@ const QuizEditor = forwardRef(
     {
       pageNumber = 1,
       type = "singleChoice",
-      initialData = null // ← puede ser null si es nuevo
+      initialData = null,
+      defaultOptionCount = 3,
     },
     ref
   ) => {
@@ -15,31 +16,38 @@ const QuizEditor = forwardRef(
     const [correctIndex, setCorrectIndex] = useState(null);
     const [score, setScore] = useState(10);
 
-    // Inicializar opciones vacías si no hay datos
+    // Este efecto detecta si se trata de una página nueva
     useEffect(() => {
-      if (!initialData) {
-        setOptions(Array(3).fill(""));
-      }
-    }, []);
+      const isValidOptions =
+        initialData &&
+        Array.isArray(initialData.options) &&
+        initialData.options.length > 0;
 
-    // Si recibimos datos de la BD, cargarlos
-    useEffect(() => {
-      if (initialData) {
+      if (isValidOptions) {
+        // Cargar datos desde initialData
+        console.log('initialData')
+        console.log(initialData)
         setTitle(initialData.content?.title || "");
         setQuestion(initialData.content?.question || "");
 
-        const loadedOptions = initialData.options?.map((opt) => opt.answer) || [];
+        const loadedOptions = initialData.options.map((opt) => opt.answer);
         setOptions(loadedOptions);
 
-        const correctIdx = initialData.options?.findIndex((opt) => opt.isCorrect);
+        const correctIdx = initialData.options.findIndex((opt) => opt.isCorrect);
         setCorrectIndex(correctIdx >= 0 ? correctIdx : null);
 
         const correctPoints = initialData.options?.[correctIdx]?.points || 10;
         setScore(correctPoints);
+      } else {
+        // Página nueva: inicializar con n preguntas vacías
+        setTitle("");
+        setQuestion("");
+        setOptions(Array(defaultOptionCount).fill(""));
+        setCorrectIndex(null);
+        setScore(10);
       }
-    }, [initialData]);
+    }, [initialData, defaultOptionCount]);
 
-    // Permite a un componente padre obtener el JSON final
     useImperativeHandle(ref, () => ({
       getQuizJson: () => {
         const isAnyEmpty = options.some((opt) => opt.trim() === "");
