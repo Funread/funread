@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.sass";
-import './index.css'; 
+import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,9 +11,7 @@ import ModalReadingView from "./Components/ReadingView/ModalReadingView";
 import BookCreator from "./Components/BookCreator/BookCreator";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import ProtectedRoutes from "./ProtectedRoutes";
-import Dashboard from "./Components/Shared/Dashboard/Dashboard";
 import Library from "./Components/Library/Library";
-import ProfessorDashBoard from "./Components/Professor/ProfessorDashboard";
 import Helpers from "./Components/Helpers/Helpers";
 import Group from "./Components/Group/Group";
 import JoinValidator from "./Components/JoinValidator/JoinValidator";
@@ -22,12 +20,13 @@ import About from "./Components/About/About";
 import Register from "./Components/Register/Register";
 import TextSelectorMenu from "./Components/Shared/TextSelectorMenu/TextSelectorMenu";
 import MyClasses from "./Components/MyClasses/MyClasses";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
 
-import BadgesPage from './Components/Badges/BadgesPage';
-
+import BadgesPage from "./Components/Badges/BadgesPage";
+import DashboardLayout from "./Components/DashboardLayout/DashboardLayout";
+import Leaderboard from "./Components/Leaderboard/Leaderboard";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -38,6 +37,12 @@ if (persistedState) {
   localStorage.removeItem("reduxState");
 }
 
+const DashboardRoleHelper = () => {
+  const role = useSelector((state) => state.user.roles?.[0]?.role);
+
+  return <DashboardLayout role={role} />;
+};
+
 root.render(
   <>
     <TextSelectorMenu />
@@ -45,11 +50,26 @@ root.render(
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Routes>
+            <Route exact path="/dashboard" element={<DashboardRoleHelper />}>
 
-            <Route
-              exact
-              path="/"
-              element={
+              {/* Rutas para profesores */}
+              <Route element={<ProtectedRoutes roles={["profesor"]} />}>
+                <Route path="library" element={<Library />} />
+                <Route path="groups" element={<Group />} />
+              </Route>
+
+              {/* Rutas para estudiantes */}
+              <Route element={<ProtectedRoutes roles={["estudiante"]} />}>
+                <Route path="myclasses" element={<MyClasses />} />
+                <Route path="achievements" element={<BadgesPage />} />
+              </Route>
+
+              {/* Rutas para cualquier usuario autenticado */}
+              <Route element={<ProtectedRoutes roles={["profesor", "estudiante"]} />}>
+                <Route path="leaderboard" element={<Leaderboard />} />
+              </Route>
+            </Route>
+            <Route exact path="/" element={
                 <div className="index-background-container landing-page">
                   <LandingPage />
                 </div>
@@ -74,8 +94,6 @@ root.render(
                 </div>
               }
             />
-
-
             <Route
               exact
               path="demo/ModalReadingView"
@@ -112,76 +130,21 @@ root.render(
                 </div>
               }
             />
-
             {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
-           
+
             <Route exact path="about" element={<About />} />
             <Route exact path="helpers" element={<Helpers />} />
             <Route
-                exact
-                path="ReadingView/:id"
-                element={
-
-                  <div className="">
-                    <ReadingView />
-
-                  </div>
-             
-                }
-              />
+              exact
+              path="ReadingView/:id"
+              element={
+                <div className="">
+                  <ReadingView />
+                </div>
+              }
+            />
             <Route exact path="register" element={<Register />} />
-
             <Route element={<ProtectedRoutes roles={["profesor"]} />}>
-              {/* Cualquier nueva ruta que se cree debe encontrarse dentro de esta Route para que este protegida */}
-           
-              <Route
-                exact
-                path="/library"
-                element={
-                  <div className="index-background-padding">
-                    <div className="index-background-container ">
-                      <Library />
-                    </div>
-                  </div>
-                }
-              />
-
-              /* Nuevo diseño de dashboard para profesores */
-              <Route
-                exact
-                path="/professor"
-                element={
-                  <div className="index-background-padding">
-                    <div className="index-background-container ">
-                      <ProfessorDashBoard />
-                    </div>
-                  </div>
-                }
-              />
-
-              <Route
-                exact
-                path="/group"
-                element={
-                  <div className="index-background-padding">
-                    <div className="index-background-container ">
-                      <Group />
-                    </div>
-                  </div>
-                }
-              />
-              <Route
-                exact
-                path="/dashboard"
-                element={
-                  <div className="index-background-padding">
-                    <div className="index-background-container ">
-                      <Dashboard />
-                    </div>
-                  </div>
-                }
-              />
-
               <Route
                 exact
                 path="/bookcreator/:id"
@@ -194,23 +157,6 @@ root.render(
                 }
               />
             </Route>
-
-            <Route element={<ProtectedRoutes roles={["estudiante"]} />}>
-              
-              <Route
-                exact
-                path="/myclasses"
-                element={
-                  <div className="index-background-padding">
-                    <div className="index-background-container ">
-                      <MyClasses />
-                    </div>
-                  </div>
-                }
-              />
-              <Route path="/badges" element={<BadgesPage />} />
-              </Route>
-              
           </Routes>
         </PersistGate>
       </Provider>

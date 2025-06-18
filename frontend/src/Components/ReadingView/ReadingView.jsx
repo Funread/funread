@@ -17,9 +17,9 @@ import { getMediaUrl } from "../../Components/Utils/mediaUrl";
 import { addPointsToUser } from "../../api/userPoints";
 import { store } from "../../redux/store";
 import { markBookAsCompleted } from "../../api/userBookProgress";
-import Button from 'react-bootstrap/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import Button from "react-bootstrap/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 function ReadingView() {
   const navigate = useNavigate();
@@ -255,14 +255,7 @@ function ReadingView() {
         if (pageNumer === pagesCount - 1) {
           // Submit responses before exiting
           submitResponses();
-
-          user.roles.forEach((userRole) => {
-            if (userRole.role === "profesor") {
-              navigate("/library");
-            } else if (userRole.role === "estudiante") {
-              navigate("/myclasses");
-            }
-          });
+          navigate("/dashboard");
         }
       } else if (event.key === "ArrowLeft") {
         console.log("ArrowLeft");
@@ -410,14 +403,9 @@ function ReadingView() {
 
   const ForceExitReading = async () => {
     try {
-      if (user.roles[0].role === "profesor") {
-        navigate("/library")
-      } else {
-        navigate("/myclasses");
-      }
-    }
-    catch (error) {
-      console.error('Error during ExitReading:', error);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error during ExitReading:", error);
     }
   };
 
@@ -433,7 +421,7 @@ function ReadingView() {
 
     if (awardedBadges.length === 1) {
       const timeout = setTimeout(() => {
-        navigate("/myclasses");
+        navigate("/dashboard");
       }, 8500);
       return () => clearTimeout(timeout);
     }
@@ -444,7 +432,7 @@ function ReadingView() {
         setCurrentBadge(awardedBadges[index]);
       } else {
         clearInterval(interval);
-        navigate("/myclasses");
+        navigate("/dashboard");
       }
     }, 8500);
 

@@ -1,0 +1,23 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw; 
+  margin: 0;
+}
+
+.dashboard__main {
+  width: 100%;
+}
+
+.dashboard__content {
+  height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+}
+
+.student-dashboard {
+  height: 100%;
+
+}

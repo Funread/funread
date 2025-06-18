@@ -7,8 +7,12 @@
   overflow-y: scroll
   overflow-x: hidden
   height: 100%
-  background-color: whitesmoke
+  background-color: white
   scroll-snap-align: center
+
+  .group-centered-row
+    display: flex
+    justify-content: center
 
   .col-3
     text-align: center
@@ -16,6 +20,12 @@
   .col-8
     @media (max-width: 684.98px)
       width: 100%
+
+  .col-12
+    width: 100%
+    display: block
+    justify-content: unset
+    align-items: unset
 
   &::-webkit-scrollbar
     width: 7px
@@ -43,7 +53,7 @@
     .position_side
       @media (min-width: 684.98px)
         margin-top: 20px
-        height: 91%    
+        padding-bottom: 50px  
     @media (max-width: 684.98px) 
       width: 100%
       margin-top: 10px
@@ -58,12 +68,27 @@
    
 .content_group
   max-width: 1100px
-  margin: 20px
+  width: 100%
+  margin: 20px auto
   padding-left: 2rem
   @media (max-width: 684.98px)
     width: 100%
     padding-left: 1rem
     margin-bottom: 4rem
+  &.mx-auto
+    margin-left: auto
+    margin-right: auto
+
+
+.sidenav.col-12 .content_group
+  padding-left: 0
+  padding-right: 0
+  margin-left: auto
+  margin-right: auto
+
+.sidenav.col-8 .content_group
+  margin-left: 0
+  margin-right: 0
 
 .button-search-library, .button-edit-library
   background-color: #a9def9 !important 

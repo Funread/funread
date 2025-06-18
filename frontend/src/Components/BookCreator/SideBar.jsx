@@ -7,7 +7,7 @@ export default function SideBar({ openPanel, setOpenPanel }) {
 
   return (
     <div className="w-16 h-full bg-gray-900 text-white flex flex-col items-center p-4 space-y-6 fixed left-0 top-0 shadow-lg">
-      <SidebarIcon icon={<Home />} onClick={() => navigate("/library")} active={openPanel === "home"} />
+      <SidebarIcon icon={<Home />} onClick={() => navigate("/dashboard")} active={openPanel === "home"} />
       <SidebarIcon icon={<Type />} onClick={() => setOpenPanel("text")} active={openPanel === "text"} />
       <SidebarIcon icon={<Landmark />} onClick={() => setOpenPanel("background")} active={openPanel === "background"} />
       <SidebarIcon icon={<Volleyball />} onClick={() => setOpenPanel("objects")} active={openPanel === "objects"} />
