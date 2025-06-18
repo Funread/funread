@@ -98,13 +98,17 @@ const Group = () => {
 
   return (
     <div className='container-fluid text-center group'>
-      
       <div className='row' style={{ height: 'auto' }}>
-                <div className='col-1 p-0'>
+        {/* <div className='col-1 p-0'>
           <SidebarBook />
-        </div>
-        <div className='sidenav col-8'>
-          
+        </div> */}
+        <div
+          className={
+            selectedStudent || groupForm || selectedGroup || groupClasses
+              ? 'sidenav col-8'
+              : 'sidenav col-12 d-flex justify-content-center'
+          }
+        >
           <div className='mx-auto content_group'>
             <Form className='d-flex'>
               <Form.Control
@@ -171,38 +175,40 @@ const Group = () => {
 
             </Tabs>
 
-            <GroupCardProgress></GroupCardProgress>
+            {/* <GroupCardProgress></GroupCardProgress> */}
             <br />
           </div>
         </div>
 
-        <div className='col-3 mobile-below-tap-group'>
-          <div className='position_side shadow rounded'>
-            {selectedStudent && (
-              <StudentCard
-                idStudent={selectedStudent?.userid}
-                name={selectedStudent?.name}
-                lastname={selectedStudent?.lastname}
-                idGroup={selectedStudent?.groupscreateid}
-              />
-            )}
-            {groupForm && <GroupBuilder updateGroup={handleGroupCreated} />}
-            {selectedGroup && (
-              <GroupView
-                id={selectedGroup?.id}
-                name={selectedGroup?.name}
-                idimage={selectedGroup?.idimage}
-              />
-            )}
+        {(selectedStudent || groupForm || selectedGroup || groupClasses) && (
+          <div className='col-3 mobile-below-tap-group'>
+            <div className='position_side shadow rounded'>
+              {selectedStudent && (
+                <StudentCard
+                  idStudent={selectedStudent?.userid}
+                  name={selectedStudent?.name}
+                  lastname={selectedStudent?.lastname}
+                  idGroup={selectedStudent?.groupscreateid}
+                />
+              )}
+              {groupForm && <GroupBuilder updateGroup={handleGroupCreated} />}
+              {selectedGroup && (
+                <GroupView
+                  id={selectedGroup?.id}
+                  name={selectedGroup?.name}
+                  idimage={selectedGroup?.idimage}
+                />
+              )}
 
-            {groupClasses && (
-              <ClassBuilder
-                groupId={groupId}
-                updateActivity={handleActiviyCreated}
-              />
-            )}
+              {groupClasses && (
+                <ClassBuilder
+                  groupId={groupId}
+                  updateActivity={handleActiviyCreated}
+                />
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <ToastContainer position='top-right' />
     </div>

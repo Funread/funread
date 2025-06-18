@@ -6,7 +6,7 @@ function studentCard({ idStudent, idGroup, name, lastname }) {
   return (
     <>
       <div className=' divstudentCard container mx-auto pt-5 text-white justify-content-center'>
-        <div className='profileImagen mx-auto'>
+        <div className='profileImagen mx-auto w-50'>
           <Image
             src={'/imagenes/no-image.png'}
             width={180}
