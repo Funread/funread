@@ -1,81 +1,55 @@
-.custom-library-title {
-  color: grey;
-  text-align: left;
-}
-.library {
-  scroll-snap-type: x mandatory;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 100vh;
-  background-color: whitesmoke;
+/* Main container */
+.professor-dashboard {
+     background-color: white;
+     height: 100%;
 }
 
-.library {
-  scroll-snap-align: center;
+.dashboard-content {
+     background-color: red;
 }
 
-.library::-webkit-scrollbar {
-  width: 7px;
+/* User Stats */
+
+.user-stats {
+     display: flex;
+     flex-direction: row;
+     flex-wrap: nowrap;
+     gap: 15px;
+     margin-bottom: 30px;
 }
 
-.library::-webkit-scrollbar-thumb {
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
+.stat-card.books-info {
+     background: linear-gradient(to bottom right, #e1e4ff, #ebeefb);
+     border-left: 3px solid #395bf1;
+     border-bottom: 4px solid #395bf1;
 }
 
-.library::-webkit-scrollbar-thumb:hover {
-  background-color: transparent;
+.stat-icon.books {
+     background-color: #4361ee;
 }
 
-.library::-webkit-scrollbar-track {
-  background-color: transparent;
-  border: none;
-  margin: 0;
-  box-shadow: none;
+
+.stat-card.students-info {
+     background: linear-gradient(to bottom right, #ffeaf3, #fff0f6);
+     border-left: 3px solid #f72585;
+     border-bottom: 4px solid #f72585
+}
+.stat-icon.students {
+     background-color: #f72585;
 }
 
-.custom-input-search {
-  border: none;
-  outline: none;
-  box-shadow: none;
+
+.stat-card.groups-info {
+     background: linear-gradient(to bottom right, #e9faff, #f0fdff);
+     border-left: 3px solid #4cc9f0;
+     border-bottom: 4px solid #4cc9f0;
 }
 
-@media screen and (max-width: 992px) {
-  .content_library {
-    padding-left: 2rem;
-  }
+.stat-icon.groups {
+     background-color: #4cc9f0;
 }
 
-.button-search-library {
-  outline-style: solid;
-  outline-color: #a9def9;
-  background-color: white;
-  color: #000000;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.tab-content {
+     height: min-content;
 }
-.button-search-library:hover {
-  background-color: #a9def9;
-}
-.mobile-below-tap-library{
-  height: 100vh;
-}
-@media (max-width: 575.98px) {
-  .mobile-below-tap-library {
-    width: 100%;
-    margin-top: 10px;
-    margin-left: 3rem;
-    padding-left: 2rem;
-    padding-right: 3rem;
-  }
 
-  .col-8 {
-    flex: 0 0 91.666667%;
-    max-width: 91.666667%;
-  }
-  .content_library{
-    padding-left: 4rem;
-  }
-}

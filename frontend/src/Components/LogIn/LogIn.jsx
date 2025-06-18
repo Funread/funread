@@ -65,12 +65,7 @@ function LogIn(props) {
       if (res == "noRoles") {
         navigate('/register');
       }
-      else if (res.some(obj => obj.role === "profesor")) {
-        navigate('/library');
-
-      } else if (res.some(obj => obj.role === "estudiante")) {
-        navigate('/myclasses');
-      }
+      else ( navigate('/dashboard') );
 
     }).catch((e) => {
       setPassword("")

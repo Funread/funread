@@ -1,33 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import "./MyClasses.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
-  faTrophy,
   faChartLine,
   faCalendarAlt,
   faUser,
-  faSearch,
   faArrowLeft,
-  faSignOutAlt,
-  faRankingStar
 } from "@fortawesome/free-solid-svg-icons";
 import { listedStudentGroups } from "../../api";
 import { listedBooksPerClassesById } from "../../api/booksPerClasses";
 import { bookSearchById } from "../../api/books";
 import { listedClassesId } from "../../api/classes";
 import { userListById } from "../../api/users"; // Import the function to get user details by ID
-import BadgesPage from "../Badges/BadgesPage";
 import imgLogo from "../../logoFunread.png"; // Import logo image
 import { getMediaUrl } from "../Utils/mediaUrl"; // Import the function to get media URL
 import { getUserPoints } from "../../api/userPoints"; // Import the function to get user points
 import { getCurrentRank } from "../../api/userPoints"; // Import the function to get current rank
 import { getBooksCompleted } from "../../api/userBookProgress"; // Import the function to get completed books count
 import StatCard from '../StatCard/StatCard.jsx'; // Import the StatCard component
-import Leaderboard from '../Leaderboard/Leaderboard.jsx'
 import Star from './StarProgress.jsx';
 
 // Function to get teacher name from ID
@@ -339,16 +332,6 @@ const MyClasses = () => {
         <aside className="dashboard-sidebar">
           <div className="user-stats">
 
-            <StatCard
-              className="header">
-              <header className="dashboard-header">
-
-                <img src={imgLogo} alt="Logo" className="logo-image" />
-
-              </header>
-            </StatCard>
-
-
             {/* Tarjeta de nivel */}
             <StatCard
               icon={<FontAwesomeIcon icon={faUser} />}
@@ -395,33 +378,7 @@ const MyClasses = () => {
         </aside>
 
         <main className="main-content">
-          <div className="tabs">
-            <button
-              className={activeTab === "classes" ? "active" : ""}
-              onClick={() => setActiveTab("classes")}
-            >
-              <FontAwesomeIcon icon={faBook} /> My Classes
-            </button>
-            <button
-              className={activeTab === "achievements" ? "active" : ""}
-              onClick={() => setActiveTab("achievements")}
-            >
-              <FontAwesomeIcon icon={faTrophy} /> Achievements
-            </button>
-            <button
-              className={activeTab === "leaderboard" ? "active" : ""}
-              onClick={() => setActiveTab("leaderboard")}
-            >
-              <FontAwesomeIcon icon={faRankingStar} /> Leaderboard
-            </button>
-            <button
-              className="logout-button"
-              onClick={handleLogout}
-              title="Logout"
-            >
-              <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-            </button>
-          </div>
+          
 
           {isLoading ? (
             <div className="loading-spinner">
@@ -542,9 +499,6 @@ const MyClasses = () => {
                   )}
                 </div>
               )}
-
-              {activeTab === "achievements" && <BadgesPage />}
-              {activeTab === "leaderboard" && <Leaderboard />}
 
             </div>
           )}

@@ -1,0 +1,43 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: fit-content;
+  padding: 28px;
+  background-color: #eaf4fa;
+  justify-content: space-between;
+}
+
+.sidebar__nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.nav-link {
+  font-size: 20px;
+}
+
+.nav-link.active {
+  color: #3B82F6;
+  font-weight: 600;
+}
+
+.nav-link.inactive {
+  color: 	#374151;
+}
+
+.sidebar__avatar {
+  margin-top: 200px;
+  width: 120px;
+}
+
+.avatar-image {
+
+}
+
+.dashboard__logout-button {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ff3b3b;
+}
