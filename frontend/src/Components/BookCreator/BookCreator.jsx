@@ -17,6 +17,7 @@ import Quiz from "./Quiz";
 import Canvas from "./Canvas";
 import Footer from "./Footer";
 import QuizEditor from "./QuizEditor";
+import QuizCompleteEditor from "./QuizCompleteEditor";
 import BookCreatorLoader from "../Loaders/BookCreatorLoader";
 import WordSearchForm from '../Widgets/Game/WordSearchGame/WordSearchForm';
 
@@ -33,12 +34,14 @@ export default function BookCreator() {
   const stageRef = useRef(null);
   const transformerRef = useRef(null);
   const quizEditorRef = useRef(null);
+  const quizCompleteEditorRef = useRef(null);
   const { id } = useParams();
  
   // Hook interno para controlar los tipos de página
   const [pagesType, setPagesType] = useState(4);
   const [widget, setWidget] = useState([2]);
   const [pagesList, setPagesList] = useState([]);
+  const [quizType, setQuizType] = useState("singleChoice"); // Nuevo estado para el tipo de quiz
  
 
   const loadBookData = async () => {
@@ -108,9 +111,20 @@ export default function BookCreator() {
       setPagesType(page.page.type);
       if (page.page.type === 4) {
         let getWidgetInfo = page.widgetitems[0];
-        list_options_by_idwidgetitem(getWidgetInfo.widgetitemid).then((options) => {
-          setElements(formatQuizData(getWidgetInfo.value, options, currentPage));
-        });
+        if (getWidgetInfo) {
+          // Detectar el tipo de quiz basándose en el contenido
+          const widgetValue = getWidgetInfo.value;
+          if (widgetValue && widgetValue.type === "complete") {
+            setQuizType("complete");
+            // Para complete quiz, usar directamente el widgetValue
+            setElements(widgetValue);
+          } else {
+            setQuizType("singleChoice");
+            list_options_by_idwidgetitem(getWidgetInfo.widgetitemid).then((options) => {
+              setElements(formatQuizData(widgetValue, options, currentPage));
+            });
+          }
+        }
       } else {
         setElements(page.widgetitems);
       }
@@ -137,22 +151,41 @@ export default function BookCreator() {
       alert(`Página ${currentPage + 1} guardada correctamente`);
     }
     if (pagesType === 4) {
-      const quizJson = quizEditorRef.current?.getQuizJson();
-      if (quizJson) {
-        localStorage.setItem(`quiz-page-${currentPage}`, JSON.stringify(quizJson));
-        alert(`Página ${currentPage + 1} guardada correctamente`);
-        
-        newWidgetItem(   
-          currentPageId,
-          9,
-          4,
-          elements,
-          0).then((widgetResponse) => {
-            createMultipleOptions(quizJson.options, widgetResponse.data.widgetitemid, bookData.createdby)
-            updatePageType(currentPageId, pagesType)
-          })
+      if (quizType === "complete") {
+        const quizCompleteJson = quizCompleteEditorRef.current?.getQuizJson();
+        if (quizCompleteJson) {
+          localStorage.setItem(`quiz-complete-page-${currentPage}`, JSON.stringify(quizCompleteJson));
+          alert(`Página ${currentPage + 1} guardada correctamente`);
+          
+          newWidgetItem(   
+            currentPageId,
+            9,
+            4,
+            quizCompleteJson,
+            0).then((widgetResponse) => {
+              updatePageType(currentPageId, pagesType)
+            })
+        } else {
+          console.warn("❌ Complete Quiz no válido, no se guardó.");
+        }
       } else {
-        console.warn("❌ Quiz no válido, no se guardó.");
+        const quizJson = quizEditorRef.current?.getQuizJson();
+        if (quizJson) {
+          localStorage.setItem(`quiz-page-${currentPage}`, JSON.stringify(quizJson));
+          alert(`Página ${currentPage + 1} guardada correctamente`);
+          
+          newWidgetItem(   
+            currentPageId,
+            9,
+            4,
+            elements,
+            0).then((widgetResponse) => {
+              createMultipleOptions(quizJson.options, widgetResponse.data.widgetitemid, bookData.createdby)
+              updatePageType(currentPageId, pagesType)
+            })
+        } else {
+          console.warn("❌ Quiz no válido, no se guardó.");
+        }
       }
     }
     if (pagesType === 5) {
@@ -217,6 +250,10 @@ export default function BookCreator() {
     }
   };
 
+  const changeQuizType = (newQuizType) => {
+    setQuizType(newQuizType);
+  };
+
   // Efecto para actualizar el tipo de página cuando pagesList esté disponible
   useEffect(() => {
     if (pagesType === 5 && pagesList && pagesList[currentPage] && pagesList[currentPage].page) {
@@ -226,6 +263,14 @@ export default function BookCreator() {
         });
     }
   }, [pagesType, pagesList, currentPage]);
+
+  // Efecto para establecer quizType por defecto cuando se cambia a tipo 4
+  useEffect(() => {
+    if (pagesType === 4 && quizType === "singleChoice") {
+      // Solo establecer por defecto si no se ha establecido específicamente
+      console.log("Estableciendo quizType por defecto para tipo 4");
+    }
+  }, [pagesType, quizType]);
 
   function formatQuizData(contentData, optionsData, pageNumber = 0) {
     const formatted = {
@@ -247,6 +292,22 @@ export default function BookCreator() {
     return formatted;
   }
 
+  function formatCompleteQuizData(contentData, pageNumber = 0) {
+    const formatted = {
+      pageNumber: pageNumber,
+      type: "complete",
+      content: {
+        title: contentData.title,
+        question: contentData.question,
+        correctAnswer: contentData.correctAnswer,
+        points: contentData.points,
+      },
+    };
+    console.log('formatCompleteQuizData')
+    console.log(formatted)
+    return formatted;
+  }
+
   return (
     <div className="flex h-screen w-full bg-gray-200">
       <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
@@ -258,7 +319,7 @@ export default function BookCreator() {
         {openPanel === "shape" && <ImagePanel widgetValidation={widgetValidation} setElements={setElements} setImages={setImages} imageType={openPanel} />}
         {openPanel === "text" && <TextPanel widgetValidation={widgetValidation} setElements={setElements} />}
         {openPanel === "games" && <Games widgetValidation={widgetValidation} setElements={setElements} />}
-        {openPanel === "quiz" && <Quiz widgetValidation={widgetValidation} setElements={setElements} />}
+        {openPanel === "quiz" && <Quiz widgetValidation={widgetValidation} setElements={setElements} changeQuizType={changeQuizType} />}
       </div>
 
       <div className="flex-1 flex flex-col ml-[364px]">
@@ -284,7 +345,8 @@ export default function BookCreator() {
               transformerRef={transformerRef}
             />
           )}
-          {!isLoading && pagesType === 4 && <QuizEditor ref={quizEditorRef} pageNumber={currentPage} initialData={elements}/>}
+          {!isLoading && pagesType === 4 && quizType === "singleChoice" && <QuizEditor ref={quizEditorRef} pageNumber={currentPage} initialData={elements}/>}
+          {!isLoading && pagesType === 4 && quizType === "complete" && <QuizCompleteEditor ref={quizCompleteEditorRef} pageNumber={currentPage} initialData={elements}/>}
           {!isLoading && pagesType === 5 && (
             <WordSearchForm 
               initialData={elements} 

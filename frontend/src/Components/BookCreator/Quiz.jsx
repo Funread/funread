@@ -1,12 +1,21 @@
-export default function Quiz({ widgetValidation }) {
+export default function Quiz({ widgetValidation, changeQuizType }) {
   const preloaded = [
     { id: "AudioQuiz", src: "/book/AudioQuiz.png" },
     { id: "VideoQuiz", src: "/book/VideoQuiz.png" },
     { id: "SingleChoise", src: "/book/SingleChoise.png" },
+    { id: "CompleteQuiz", src: "/book/CompleteQuiz.png" },
   ];
 
   const handleAddQuiz = (widgetId) => {
-    widgetValidation(4,4)
+    // Establecer el tipo de quiz primero
+    if (widgetId === "CompleteQuiz") {
+      changeQuizType("complete");
+    } else {
+      changeQuizType("singleChoice");
+    }
+    
+    // Luego cambiar el tipo de página
+    widgetValidation(4, 4);
   };
 
   return (

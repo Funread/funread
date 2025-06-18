@@ -90,111 +90,109 @@ export default function WordSearchForm({ onSave }) {
   };
 
   return (
-    <div className="word-search-form">
-      <h2 className="form-title">Create Word Search Game</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Title:</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
+    <div className="bg-white p-4 rounded shadow max-w-xl mx-auto">
+      <h2 className="text-xl font-semibold mb-4">Create a Word Search Game</h2>
 
-        <div className="form-group">
-          <label>Difficulty:</label>
-          <select
-            name="difficulty"
-            value={formData.difficulty}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
-          </select>
-        </div>
+      <label className="block mb-2 font-medium">Title:</label>
+      <input
+        type="text"
+        name="title"
+        value={formData.title}
+        onChange={handleInputChange}
+        className="w-full p-2 border rounded mb-4"
+        required
+      />
 
-        <div className="form-group">
-          <label>Time limit (seconds):</label>
-          <input
-            type="number"
-            name="timeLimit"
-            min="60"
-            max="600"
-            value={formData.timeLimit}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
+      <label className="block mb-2 font-medium">Difficulty:</label>
+      <select
+        name="difficulty"
+        value={formData.difficulty}
+        onChange={handleInputChange}
+        className="w-full p-2 border rounded mb-4"
+        required
+      >
+        <option value="Easy">Easy</option>
+        <option value="Medium">Medium</option>
+        <option value="Hard">Hard</option>
+      </select>
 
-        <div className="form-group">
-          <label>Grid size:</label>
-          <div className="grid-size-inputs">
+      <label className="block mb-2 font-medium">Time limit (seconds):</label>
+      <input
+        type="number"
+        name="timeLimit"
+        min="60"
+        max="600"
+        value={formData.timeLimit}
+        onChange={handleInputChange}
+        className="w-24 p-2 border rounded mb-4"
+        required
+      />
+
+      <label className="block mb-2 font-medium">Grid size:</label>
+      <div className="flex items-center gap-2 mb-4">
+        <input
+          type="number"
+          name="gridSize.rows"
+          min="5"
+          max="15"
+          value={formData.gridSize.rows}
+          onChange={handleInputChange}
+          className="w-20 p-2 border rounded"
+          required
+        />
+        <span className="text-gray-600 font-medium">x</span>
+        <input
+          type="number"
+          name="gridSize.columns"
+          min="5"
+          max="15"
+          value={formData.gridSize.columns}
+          onChange={handleInputChange}
+          className="w-20 p-2 border rounded"
+          required
+        />
+      </div>
+
+      <label className="block mb-2 font-medium">Words:</label>
+      <div className="space-y-2 mb-4">
+        {formData.words.map((word, index) => (
+          <div key={index} className="flex items-center gap-2">
             <input
-              type="number"
-              name="gridSize.rows"
-              min="5"
-              max="15"
-              value={formData.gridSize.rows}
-              onChange={handleInputChange}
+              type="text"
+              value={word}
+              onChange={(e) => handleWordChange(index, e.target.value)}
+              placeholder="Enter a word"
+              className="flex-1 p-2 border rounded"
               required
             />
-            <span>x</span>
-            <input
-              type="number"
-              name="gridSize.columns"
-              min="5"
-              max="15"
-              value={formData.gridSize.columns}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="form-group">
-          <label>Words:</label>
-          <div className="words-list">
-            {formData.words.map((word, index) => (
-              <div key={index} className="word-input">
-                <input
-                  type="text"
-                  value={word}
-                  onChange={(e) => handleWordChange(index, e.target.value)}
-                  placeholder="Enter a word"
-                  required
-                />
-                {formData.words.length > 1 && (
-                  <button
-                    type="button"
-                    className="remove-word"
-                    onClick={() => removeWord(index)}
-                  >
-                    ×
-                  </button>
-                )}
-              </div>
-            ))}
-            {formData.words.length < 10 && (
+            {formData.words.length > 1 && (
               <button
                 type="button"
-                className="add-word"
-                onClick={addWord}
+                onClick={() => removeWord(index)}
+                className="px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
               >
-                + Add word
+                ×
               </button>
             )}
           </div>
-        </div>
+        ))}
+        {formData.words.length < 10 && (
+          <button
+            type="button"
+            onClick={addWord}
+            className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          >
+            + Add word
+          </button>
+        )}
+      </div>
 
-        <button type="submit" className="save-button">
-          Save configuration
-        </button>
-      </form>
+      <button 
+        type="submit" 
+        className="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition-colors font-medium"
+      >
+        Save configuration
+      </button>
     </div>
   );
 } 

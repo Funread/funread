@@ -35,7 +35,7 @@ const QuizComplete = ({ quizData, onAnswerSelected, initialAnswer = null, isSubm
   };
 
   // Create text with blank space to fill
-  const questionParts = quizData.question.split('_______');
+  const questionParts = quizData.question.split(/_+/);
 
   return (
     <div className="quiz-complete-container">
