@@ -6,7 +6,7 @@ import { listed_PrivateBooks, listed_PublishedBooks } from "../../../api/books";
 import Message from "../CustomMessage/CustomMessage";
 import { useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-import BookBuilder from "../BookBuilder/BookBuilder";
+import BookBuilderStepper from "../BookBuilder/BookBuilderStepper";
 
 function TapLibrary({ toggleSidebar, newBooks }) {
   const [key, setKey] = useState("mylibrary");
@@ -16,27 +16,28 @@ function TapLibrary({ toggleSidebar, newBooks }) {
   const [isLoading, setIsLoading] = useState(true);
   const [showBookBuilder, setShowBookBuilder] = useState(false);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const [publishedResponse, privateResponse] = await Promise.all([
-          listed_PublishedBooks(),
-          listed_PrivateBooks(),
-        ]);
+  // Muevo fetchData aquí para que esté disponible en todo el componente
+  const fetchData = async () => {
+    try {
+      const [publishedResponse, privateResponse] = await Promise.all([
+        listed_PublishedBooks(),
+        listed_PrivateBooks(),
+      ]);
 
-        const filteredBooks = privateResponse.data.filter((book) => {
-          return book.createdby === user.userId;
-        });
+      const filteredBooks = privateResponse.data.filter((book) => {
+        return book.createdby === user.userId;
+      });
 
-        setPublishedBooks(publishedResponse.data);
-        setPrivateBooks(filteredBooks);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
+      setPublishedBooks(publishedResponse.data);
+      setPrivateBooks(filteredBooks);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchData();
   }, [newBooks]);
 
@@ -68,6 +69,12 @@ function TapLibrary({ toggleSidebar, newBooks }) {
     );
   };
 
+  // Refresca la lista de libros privados y cambia la pestaña
+  const handleBookCreated = () => {
+    setKey("mylibrary");
+    fetchData();
+  };
+
   return (
     <>
       <Tabs
@@ -93,9 +100,9 @@ function TapLibrary({ toggleSidebar, newBooks }) {
             className="section_library_Tap shadow p-3 bg-body rounded d-flex justify-content-center align-items-center"
             style={{ minHeight: 400 }}
           >
-              <BookBuilder
+              <BookBuilderStepper
                 toggleSidebar={toggleSidebar}
-                updateBook={() => setKey("mylibrary")}
+                updateBook={handleBookCreated}
               />
           </div>
         </Tab>

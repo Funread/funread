@@ -359,7 +359,7 @@ function ReadingView() {
         setAwardedBadges(allBadges);
 
         if (allBadges === null) {
-          navigate("/myclasses");
+          navigate("/dashboard");
         }
       }
     } catch (error) {
