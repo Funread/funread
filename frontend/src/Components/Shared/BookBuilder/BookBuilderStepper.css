@@ -219,10 +219,14 @@
 
 .steps-action {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
+}
+
+.steps-action > :first-child:not(:last-child) {
+  margin-right: auto;
 }
 
 .step-button {
@@ -316,6 +320,7 @@
   .steps-action {
     flex-direction: column;
     gap: 8px;
+    justify-content: flex-end;
   }
   
   .step-button {
@@ -512,4 +517,4 @@
   outline: none !important;
   margin: 0 !important;
   padding: 0 !important;
-} 
+}

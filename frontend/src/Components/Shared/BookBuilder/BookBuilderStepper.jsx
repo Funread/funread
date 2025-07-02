@@ -9,7 +9,7 @@ import { faGlobe, faLock, faChevronLeft, faChevronRight } from '@fortawesome/fre
 import { toast } from 'react-toastify'
 import { save_Image, upload } from '../../../api'
 import { new_book } from '../../../api/books'
-import { newPage } from "../../../api/pages"
+
 import {
   listCategories,
   newDilemaPerBook,
@@ -47,19 +47,19 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
 
   const steps = [
     {
-      title: 'Información Básica',
+      title: 'Basic Information',
       content: 'basic',
     },
     {
-      title: 'Categorización',
+      title: 'Categorization',
       content: 'category',
     },
     {
-      title: 'Imagen de Portada',
+      title: 'Cover Image',
       content: 'image',
     },
     {
-      title: 'Revisar y Guardar',
+      title: 'Review and Save',
       content: 'review',
     },
   ]
@@ -284,11 +284,11 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
             >
               <Radio.Button className='custom-radio-button-wrapper' value={1}>
                 <FontAwesomeIcon icon={faGlobe} className='pe-2' />
-                Público
+                Public
               </Radio.Button>
               <Radio.Button className='custom-radio-button-wrapper' value={0}>
                 <FontAwesomeIcon icon={faLock} className='pe-2' />
-                Privado
+                Private
               </Radio.Button>
             </Radio.Group>
 
@@ -298,12 +298,12 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
               }`}
               type='text'
               name='title'
-              placeholder='Nombre del libro'
+              placeholder='Book name'
               value={book.title}
               onChange={handleChange}
             />
             {missingFields.title && (
-              <p className='error-message'>Debes completar este campo.</p>
+              <p className='error-message'>You must complete this field.</p>
             )}
 
             <Form.Control
@@ -311,14 +311,14 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                 missingFields.description ? 'error' : ''
               }`}
               as='textarea'
-              placeholder='Descripción del libro'
+              placeholder='Book description'
               rows={3}
               name='description'
               value={book.description}
               onChange={handleChange}
             />
             {missingFields.description && (
-              <p className='error-message'>Debes completar este campo.</p>
+              <p className='error-message'>You must complete this field.</p>
             )}
           </div>
         )
@@ -339,10 +339,10 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
               name='category'
               value={selectedCategory}
               onChange={handleCategoryChange}
-              placeholder='Categoría'
+              placeholder='Category'
             />
             {missingFields.category && (
-              <p className='error-message'>Debes seleccionar una categoría.</p>
+              <p className='error-message'>You must select a category.</p>
             )}
 
             {selectedCategory && (
@@ -359,10 +359,10 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   name='dimension'
                   value={selectedDimension}
                   onChange={handleDimensionChange}
-                  placeholder='Dimensión'
+                  placeholder='Dimension'
                 />
                 {missingFields.dimension && (
-                  <p className='error-message'>Debes seleccionar una dimensión.</p>
+                  <p className='error-message'>You must select a dimension.</p>
                 )}
               </>
             )}
@@ -382,10 +382,10 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   name='dilemma'
                   value={selectedDilemmas}
                   onChange={handleDilemmaChange}
-                  placeholder='Dilemas (puedes seleccionar varios)'
+                  placeholder='Dilemmas (you can select multiple)'
                 />
                 {missingFields.dilemma && (
-                  <p className='error-message'>Debes seleccionar al menos un dilema.</p>
+                  <p className='error-message'>You must select at least one dilemma.</p>
                 )}
               </>
             )}
@@ -395,7 +395,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
       case 2:
         return (
           <div className="step-content">
-            <p className="step-description">Sube una imagen para la portada de tu libro (opcional)</p>
+            <p className="step-description">Upload an image for your book cover (optional)</p>
             
             <BookImage
               onImageSelect={handleImageSelect}
@@ -410,25 +410,25 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
             
             <div className="review-section">
               <div className="review-item">
-                <strong>Título:</strong> {book.title}
+                <strong>Title:</strong> {book.title}
               </div>
               <div className="review-item">
-                <strong>Descripción:</strong> {book.description}
+                <strong>Description:</strong> {book.description}
               </div>
               <div className="review-item">
-                <strong>Visibilidad:</strong> {book.sharedbook === 1 ? 'Público' : 'Privado'}
+                <strong>Visibility:</strong> {book.sharedbook === 1 ? 'Public' : 'Private'}
               </div>
               <div className="review-item">
-                <strong>Categoría:</strong> {categories.find(c => c.bookcategoryid === selectedCategory)?.name || 'No seleccionada'}
+                <strong>Category:</strong> {categories.find(c => c.bookcategoryid === selectedCategory)?.name || 'Not selected'}
               </div>
               <div className="review-item">
-                <strong>Dimensión:</strong> {dimensions.find(d => d.bookdimensionid === selectedDimension)?.name || 'No seleccionada'}
+                <strong>Dimension:</strong> {dimensions.find(d => d.bookdimensionid === selectedDimension)?.name || 'Not selected'}
               </div>
               <div className="review-item">
-                <strong>Dilemas:</strong> {selectedDilemmas.length > 0 ? selectedDilemmas.map(id => dilemmas.find(d => d.bookdilemmaid === id)?.dilemma).join(', ') : 'No seleccionados'}
+                <strong>Dilemmas:</strong> {selectedDilemmas.length > 0 ? selectedDilemmas.map(id => dilemmas.find(d => d.bookdilemmaid === id)?.dilemma).join(', ') : 'Not selected'}
               </div>
               <div className="review-item">
-                <strong>Imagen de portada:</strong> {book.portrait ? 'Sí' : 'No'}
+                <strong>Cover image:</strong> {book.portrait ? 'Yes' : 'No'}
               </div>
             </div>
           </div>
@@ -471,7 +471,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   className="step-button"
                 >
                   <FontAwesomeIcon icon={faChevronLeft} className="me-2" />
-                  Anterior
+                  Previous
                 </Button>
               )}
               
@@ -481,7 +481,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   onClick={next}
                   className="step-button"
                 >
-                  Siguiente
+                  Next
                   <FontAwesomeIcon icon={faChevronRight} className="ms-2" />
                 </Button>
               )}
@@ -492,7 +492,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   onClick={handleSubmit}
                   className="step-button"
                 >
-                  Crear Libro
+                  Create Book
                 </Button>
               )}
             </div>
@@ -503,4 +503,4 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
   )
 }
 
-export default BookBuilderStepper 
+export default BookBuilderStepper

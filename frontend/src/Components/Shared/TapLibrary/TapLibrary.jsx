@@ -5,7 +5,6 @@ import { Tabs, Tab } from "react-bootstrap";
 import { listed_PrivateBooks, listed_PublishedBooks } from "../../../api/books";
 import Message from "../CustomMessage/CustomMessage";
 import { useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
 import BookBuilderStepper from "../BookBuilder/BookBuilderStepper";
 
 function TapLibrary({ toggleSidebar, newBooks }) {
