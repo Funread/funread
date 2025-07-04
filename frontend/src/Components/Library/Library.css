@@ -1,11 +1,31 @@
 /* Main container */
 .professor-dashboard {
      background-color: white;
-     height: 100%;
+     height: 100dvh;
+     overflow: hidden;
+     display: flex;
+     flex-direction: column;
 }
 
 .dashboard-content {
-     background-color: red;
+     background-color: white;
+     height: 100%;
+     display: flex;
+     flex-direction: column;
+     overflow: hidden;
+     flex: 1;
+}
+
+.dashboard-sidebar {
+     flex-shrink: 0;
+     padding: 16px;
+}
+
+.main-content {
+     flex: 1;
+     overflow: auto;
+     display: flex;
+     flex-direction: column;
 }
 
 /* User Stats */
@@ -14,8 +34,9 @@
      display: flex;
      flex-direction: row;
      flex-wrap: nowrap;
-     gap: 15px;
-     margin-bottom: 30px;
+     gap: 12px;
+     margin-bottom: 16px;
+     flex-shrink: 0;
 }
 
 .stat-card.books-info {
@@ -50,6 +71,129 @@
 }
 
 .tab-content {
-     height: min-content;
+     height: 100%;
+     overflow: auto;
+     display: flex;
+     flex-direction: column;
+     flex: 1;
+}
+
+/* Book builder modal styles */
+.book-builder-container {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100dvh;
+     background-color: rgba(0, 0, 0, 0.5);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     z-index: 1000;
+}
+
+.book-builder-container.open {
+     display: flex;
+}
+
+.book-builder-content {
+     background: white;
+     border-radius: 8px;
+     padding: 20px;
+     max-width: 90%;
+     max-height: 90dvh;
+     overflow-y: auto;
+     position: relative;
+}
+
+.close-button {
+     position: absolute;
+     top: 10px;
+     right: 10px;
+     background: none;
+     border: none;
+     font-size: 20px;
+     cursor: pointer;
+     color: #666;
+     z-index: 1001;
+}
+
+.close-button:hover {
+     color: #333;
+}
+
+/* Loading spinner */
+.loading-spinner {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     height: 100%;
+     flex: 1;
+}
+
+.spinner {
+     border: 4px solid #f3f3f3;
+     border-top: 4px solid #ff99c8;
+     border-radius: 50%;
+     width: 40px;
+     height: 40px;
+     animation: spin 1s linear infinite;
+     margin-bottom: 16px;
+}
+
+@keyframes spin {
+     0% { transform: rotate(0deg); }
+     100% { transform: rotate(360deg); }
+}
+
+/* Drawer lateral derecho para BookView */
+.bookview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  background: rgba(0,0,0,0.25);
+  z-index: 1200;
+}
+
+.bookview-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 400px;
+  height: 100dvh;
+  background: #fff;
+  box-shadow: -2px 0 16px 0 rgba(0,0,0,0.18);
+  z-index: 1300;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  transform: translateX(0);
+}
+
+.bookview-drawer .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  z-index: 1400;
+}
+
+.bookview-drawer .close-button:hover {
+  color: #333;
+}
+
+@media (max-width: 500px) {
+  .bookview-drawer {
+    max-width: 100vw;
+    width: 100vw;
+  }
 }
 

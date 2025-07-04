@@ -2,10 +2,11 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: fit-content;
-  padding: 28px;
+  width: 240px;
+  padding: 34px;
   background-color: #eaf4fa;
   justify-content: space-between;
+  align-items: center;
 }
 
 .sidebar__nav-menu {
@@ -15,7 +16,7 @@
 }
 
 .nav-link {
-  font-size: 20px;
+  font-size: 24px;
 }
 
 .nav-link.active {
@@ -37,7 +38,7 @@
 }
 
 .dashboard__logout-button {
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: bold;
   color: #ff3b3b;
 }

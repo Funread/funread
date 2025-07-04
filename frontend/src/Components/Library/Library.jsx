@@ -5,7 +5,7 @@ import { faBook, faUsersRectangle, faTimes } from '@fortawesome/free-solid-svg-i
 import { ToastContainer, toast } from 'react-toastify';
 import StatCard from '../StatCard/StatCard';
 import TapLibrary from '../Shared/TapLibrary/TapLibrary';
-import BookBuilder from '../Shared/BookBuilder/BookBuilder';
+import BookBuilderStepper from '../Shared/BookBuilder/BookBuilderStepper';
 import BookPreview from '../Shared/BookPreview/BookPreview';
 import BookView from '../Shared/BookView/BookView';
 import Button from 'react-bootstrap/Button';
@@ -100,14 +100,15 @@ const ProfessorDashboard = () => {
       </div>
 
       {selectedBook && (
-        <div className="book-view-container open">
-          <div className="book-view-content">
+        <>
+          <div className="bookview-overlay" onClick={() => setSelectedBook(null)} />
+          <div className="bookview-drawer open">
             <Button className="close-button" onClick={() => setSelectedBook(null)}>
               <FontAwesomeIcon icon={faTimes} />
             </Button>
             <BookView book={selectedBook} onPreview={handlePreview} />
           </div>
-        </div>
+        </>
       )}
 
       {showBookBuilder && (
@@ -116,7 +117,7 @@ const ProfessorDashboard = () => {
             <Button className="close-button" onClick={() => setShowBookBuilder(false)}>
               <FontAwesomeIcon icon={faTimes} />
             </Button>
-            <BookBuilder toggleSidebar={toggleSidebar} updateBook={handleUpdateBooks} />
+            <BookBuilderStepper toggleSidebar={toggleSidebar} updateBook={handleUpdateBooks} />
           </div>
         </div>
       )}
