@@ -83,6 +83,7 @@
 
 .custom-steps .ant-steps-item-wait .ant-steps-item-title {
   color: #999;
+
 }
 
 .steps-content {
@@ -461,6 +462,7 @@
 }
 
 .ant-select-focused .ant-select-selector {
+
   border-bottom: 2px solid #9b96ff;
   box-shadow: none;
   display: flex;
@@ -480,6 +482,7 @@
   font-size: 13px;
   border: none;
   box-shadow: none;
+
   display: flex;
   align-items: center;
 }
@@ -511,6 +514,7 @@
 }
 .ant-select-selection-item-remove:hover {
   color: #fff;
+
   opacity: 1;
 }
 
