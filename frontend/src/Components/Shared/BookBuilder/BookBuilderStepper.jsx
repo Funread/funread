@@ -48,19 +48,15 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
   const steps = [
     {
       title: 'Basic Information',
-      content: 'basic',
     },
     {
       title: 'Categorization',
-      content: 'category',
     },
     {
       title: 'Cover Image',
-      content: 'image',
     },
     {
       title: 'Review and Save',
-      content: 'review',
     },
   ]
 
@@ -454,7 +450,6 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                 <Step 
                   key={index} 
                   title={item.title}
-                  description={item.content}
                 />
               ))}
             </Steps>
