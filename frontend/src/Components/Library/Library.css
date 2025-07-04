@@ -1,7 +1,7 @@
 /* Main container */
 .professor-dashboard {
      background-color: white;
-     height: 100dvh;
+     height: 85dvh;
      overflow: hidden;
      display: flex;
      flex-direction: column;
@@ -18,7 +18,7 @@
 
 .dashboard-sidebar {
      flex-shrink: 0;
-     padding: 16px;
+     margin-bottom: 15px;
 }
 
 .main-content {
@@ -35,7 +35,6 @@
      flex-direction: row;
      flex-wrap: nowrap;
      gap: 12px;
-     margin-bottom: 16px;
      flex-shrink: 0;
 }
 
@@ -71,7 +70,6 @@
 }
 
 .tab-content {
-     height: 100%;
      overflow: auto;
      display: flex;
      flex-direction: column;

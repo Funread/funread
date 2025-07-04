@@ -22,10 +22,12 @@
 .nav-link.active {
   color: #3B82F6;
   font-weight: 600;
+  background-color: inherit;
 }
 
 .nav-link.inactive {
   color: 	#374151;
+  background-color: inherit;
 }
 
 .sidebar__avatar {
@@ -41,4 +43,15 @@
   font-size: 2rem;
   font-weight: bold;
   color: #ff3b3b;
+}
+
+
+@media screen and (height <= 1080px) {
+  .sidebar__avatar {
+    margin-top: 0;
+  }
+
+  .dashboard__logout-button {
+    font-size: 1.8rem;
+  }
 }

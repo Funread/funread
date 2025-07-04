@@ -37,31 +37,6 @@
   box-shadow: none;
 }
 
-/* Estilo para Radio Button marcado */
-.custom-radio-button-wrapper.ant-radio-button-wrapper-checked:not(
-    .ant-radio-button-wrapper-disabled
-  ) {
-  border: none;
-  width: 120px;
-  background-color: #ff99c8;
-  color: #fff;
-}
-
-/* Estilo para Radio Button no marcado */
-.custom-radio-button-wrapper:not(.ant-radio-button-wrapper-checked):not(
-    .ant-radio-button-wrapper-disabled
-  ) {
-  width: 120px;
-  background-color: #fff;
-  color: #000;
-}
-
-/* Estilo para Radio Button marcado al resaltar con el cursor */
-.custom-radio-button-wrapper.ant-radio-button-wrapper-checked:hover:not(
-    .ant-radio-button-wrapper-disabled
-  ) {
-  color: #fff;
-}
 
 .error-message {
   color: #dc3545;
