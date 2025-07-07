@@ -1,7 +1,7 @@
 import { useQuizSaver } from "./useQuizSaver";
 import { useKonvaSaver } from "./useKonvaSaver";
 import { useGamesSaver } from "./useGamesSaver";
-
+import { updatePageType, newPage } from "../../../api/pages";
 export function usePageSaver(params) {
   const { pagesType } = params;
   const { saveQuiz } = useQuizSaver(params);

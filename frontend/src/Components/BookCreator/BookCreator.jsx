@@ -11,11 +11,8 @@ import { usePages } from "./Hooks/usePages";
 import SideBar from "./Components/SideBar";
 import ToolBar from "./Components/ToolBar";
 import Footer from "./Components/Footer";
-
 import BookSidebarPanel from "./Components/BookSidebarPanel/BookSidebarPanel";
 import BookCentralEditor from "./Components/BookCentralEditor/BookCentralEditor";
-import BookCreatorLoader from "../Loaders/BookCreatorLoader";
-
 
 export default function BookCreator() {
   // ---- Estados y refs principales ----
@@ -31,7 +28,7 @@ export default function BookCreator() {
   const transformerRef = useRef(null);
   const quizEditorRef = useRef(null);
   const quizCompleteEditorRef = useRef(null);
-
+ 
   // Estado para el tipo de página (2=canvas, 4=quiz, 5=game)
   const [pagesType, setPagesType] = useState(2);
   const [widget, setWidget] = useState([2]);

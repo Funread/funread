@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { newPage } from "../../../api/pages"; // Ajusta la ruta a tu proyecto
+import { newPage } from "../../../api/pages";
 
 export function usePages({
   id,
@@ -14,14 +14,15 @@ export function usePages({
   const [pageError, setPageError] = useState(null);
 
   // ---- Agregar página ----
-  const addPage = useCallback(async (type = 2) => {
+  const addPage = useCallback(async () => {
     setPageLoading(true);
     setPageError(null);
+
     try {
       const nextPageIndex = pagesList.length;
       await newPage(
         id,
-        type, // usa el tipo que recibas
+        2,// Siempre vamos a agregar una pagina de tipo konva por default
         0,
         nextPageIndex + 1,
         "1",
