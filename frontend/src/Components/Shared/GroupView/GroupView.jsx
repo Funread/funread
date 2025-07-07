@@ -1,9 +1,7 @@
 import './GroupView.css'
 import { useState, useEffect } from 'react'
 import { upload } from '../../../api/media'
-import { BASE_URL } from '../../../settings'
-
-const getImage = BASE_URL
+import { getMediaUrl } from '../../Utils/mediaUrl'
 
 const GroupView = ({ name, idimage }) => {
   const [image, setImage] = useState(null)
@@ -15,7 +13,7 @@ const GroupView = ({ name, idimage }) => {
         try {
           const imageRoute = await upload(idimage)
 
-          setImage(`${getImage}${imageRoute.data.file_route}`)
+          setImage(getMediaUrl(imageRoute.data.file_route))
         } catch (error) {
           console.log('error', error)
         }

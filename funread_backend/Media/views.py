@@ -89,7 +89,7 @@ def upload(request):
         ruta_completa = os.path.join(settings.MEDIA_ROOT, str(filedata.file))
         try:
             with open(ruta_completa, 'rb') as filen:
-                mensaje = {'file_route': '/Media/'+str(filedata.file)}
+                mensaje = {'file_route': '/api/media/'+str(filedata.file)}
                 return JsonResponse(mensaje)
         except FileNotFoundError:
             message_error2 = {'Error': 'invalid route'}

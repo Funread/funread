@@ -4,9 +4,7 @@ import './WidgetImage.sass'
 import ImageGallery from '../../../GalleryCollage/ListGallery'
 import { Content } from 'antd/es/layout/layout'
 import { save_Image } from '../../../../api/media'
-import { BASE_URL } from '../../../../settings'
-
-const getImage = BASE_URL
+import { getMediaUrl } from '../../../Utils/mediaUrl'
 
 const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
   const [showModal, setShowModal] = useState(false)
@@ -89,7 +87,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
             <div className='image-container'>
               {/* {console.log('Imagen seleccionada:', selectedImage)} */}
               <img
-                src={`${getImage}${selectedImage.file_route}`}
+                src={getMediaUrl(selectedImage.file_route)}
                 alt='Descripción de la imagen de la galería'
                 className='custom-imagePrincipal-widgetImage'
               //onClick={() => setSelectedImage(null)}
@@ -142,7 +140,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
               <div className='image-container'>
                 {/* {console.log('Imagen seleccionada:', selectedImage)} */}
                 <img
-                  src={`${getImage}${selectedImage.file_route}`}
+                  src={getMediaUrl(selectedImage.file_route)}
                   alt='Descripción de la imagen de la galería'
                   className='custom-imagePrincipal-widgetImage'
                 //onClick={() => setSelectedImage(null)}

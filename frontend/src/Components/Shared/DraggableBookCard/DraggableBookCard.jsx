@@ -1,9 +1,7 @@
 import './DraggableBookCard.sass'
 import React from 'react'
 import { useDrag } from 'react-dnd'
-import { BASE_URL } from '../../../settings';
-
-const getImage = BASE_URL
+import { getMediaUrl } from '../../Utils/mediaUrl';
 
 const DraggableBookCard = ({ book, onClick }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -17,8 +15,8 @@ const DraggableBookCard = ({ book, onClick }) => {
   }))
 
   const bookImage = book.portrait
-    ? `${getImage}${book.portrait}`
-    : './imagenes/no-image.png'
+    ? getMediaUrl(book.portrait)
+    : '/imagenes/no-image.png'
 
   const handleClick = () => {
     if (onClick) {

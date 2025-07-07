@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form';
 import './GalleryImage.css'
 import { list, upload } from '../../api/media'
-import { BASE_URL } from '../../settings'
+import { getMediaUrl } from '../Utils/mediaUrl'
 
 const ImageGallery = ({ onImageSelect }) => {
   const [images, setImages] = useState([])
   const [selectedImage, setSelectedImage] = useState(null)
   const [galleriaType, setGalleryType] = useState([])
-  const getImage = BASE_URL // Ruta base de las imágenes
   const [selectedOption, setSelectedOption] = useState(0);
 
   const handleRadioChange = (event) => {
@@ -80,7 +79,7 @@ const ImageGallery = ({ onImageSelect }) => {
 
           <img
             key={index}
-            src={`${getImage}${image.file_route}`} // Utiliza la constante getImage
+            src={getMediaUrl(image.file_route)} // Utiliza getMediaUrl para URLs correctas
             alt={`Gallery ${index + 1}`}
             className={selectedImage === image ? 'selected' : ''}
             onClick={() => {
