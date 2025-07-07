@@ -61,8 +61,16 @@ function LogIn(props) {
     }
     logIn(email, password).then((res) => {
       //Esto debe hacerce para evitar que axiosAuth revise si el token existe antes de terminar el login
+      console.log('login')
       console.log(res)
+  
+      if(res=="User not found"){
+    
+      throw new Error("User not found");
+      
+      }
       if (res == "noRoles") {
+        console.log('login')
         navigate('/register');
       }
       else ( navigate('/dashboard') );
