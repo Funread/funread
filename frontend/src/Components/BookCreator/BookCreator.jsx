@@ -1,26 +1,21 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // API CALLS
-import { fullBook } from "../../api/books";
 import { updatePageType, newPage } from "../../api/pages";
 import { createMultipleOptions, list_options_by_idwidgetitem } from "../../api/options";
 // Hooks
 import { usePageSaver } from "./Hooks/usePageSaver"; //Orquestador de salvado
 import { useBookData } from "./Hooks/useBookData";//Carga todo el data
-
+import { usePages } from "./Hooks/usePages";
 // SUBCOMPONENTS
 import SideBar from "./Components/SideBar";
 import ToolBar from "./Components/ToolBar";
-import ImagePanel from "./Components/ImagePanel";
-import TextPanel from "./Components/TextPanel";
-import Games from "./Components/Games";
-import Quiz from "./Components/Quiz";
-import Canvas from "./Components/Canvas";
 import Footer from "./Components/Footer";
-import QuizEditor from "./Components/QuizEditor";
-import QuizCompleteEditor from "./Components/QuizCompleteEditor";
+
+import BookSidebarPanel from "./Components/BookSidebarPanel/BookSidebarPanel";
+import BookCentralEditor from "./Components/BookCentralEditor/BookCentralEditor";
 import BookCreatorLoader from "../Loaders/BookCreatorLoader";
-import WordSearchForm from '../Widgets/Game/WordSearchGame/WordSearchForm';
+
 
 export default function BookCreator() {
   // ---- Estados y refs principales ----
@@ -81,35 +76,19 @@ const onLoadPageControl = (page) => {
     elements,
     pagesType,
   });
-
- 
-  // ---- Función para agregar página ----
-  const addPage = async (type = 2) => {
-    try {
-      // setIsLoading(true);
-      const nextPageIndex = pagesList.length;
-      await newPage(
-        id,
-        2, // tipo por defecto
-        0,
-        nextPageIndex + 1,
-        "1",
-        1
-      );
-      await loadBookData();
-      setCurrentPage(nextPageIndex);
-      setElements([]);
-    } catch (error) {
-      console.error("Error al agregar página:", error);
-      // setIsLoading(false);
-    }
-  };
-
-  // ---- Limpieza de elementos ----
-  const cleanElements = () => {
-    setElements([]);
-    setSelectedId(null);
-  };
+  const {
+    addPage,
+    cleanElements,
+    pageLoading,
+    pageError
+  } = usePages({
+    id,
+    loadBookData,
+    setCurrentPage,
+    setElements,
+    setSelectedId,
+    pagesList
+  });
 
   // ---- Cargar datos al cambiar página ----
   useEffect(() => {
@@ -194,57 +173,61 @@ const onLoadPageControl = (page) => {
   // ---- Render principal ----
   return (
     <div className="flex h-screen w-full bg-gray-200">
-      <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
+    <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
 
-      <div className="w-[300px] h-full bg-white shadow-md p-4 fixed left-16 top-0 border-r border-gray-300 overflow-y-auto">
-        {openPanel === "background" && <ImagePanel widgetValidation={widgetValidation} setElements={setElements} setImages={setImages} imageType={openPanel} />}
-        {openPanel === "objects" && <ImagePanel widgetValidation={widgetValidation} setElements={setElements} setImages={setImages} imageType={openPanel} />}
-        {openPanel === "users" && <ImagePanel widgetValidation={widgetValidation} setElements={setElements} setImages={setImages} imageType={openPanel} />}
-        {openPanel === "shape" && <ImagePanel widgetValidation={widgetValidation} setElements={setElements} setImages={setImages} imageType={openPanel} />}
-        {openPanel === "text" && <TextPanel widgetValidation={widgetValidation} setElements={setElements} />}
-        {openPanel === "games" && <Games widgetValidation={widgetValidation} setElements={setElements} />}
-        {openPanel === "quiz" && <Quiz widgetValidation={widgetValidation} setElements={setElements} changeQuizType={changeQuizType} />}
-      </div>
+    <div className="w-[300px] h-full bg-white shadow-md p-4 fixed left-16 top-0 border-r border-gray-300 overflow-y-auto">
+      <BookSidebarPanel
+        openPanel={openPanel}
+        widgetValidation={widgetValidation}
+        setElements={setElements}
+        setImages={setImages}
+        changeQuizType={changeQuizType}
+      />
+    </div>
 
-      <div className="flex-1 flex flex-col ml-[364px]">
-        <ToolBar
+    <div className="flex-1 flex flex-col ml-[364px]">
+      <ToolBar
+        elements={elements}
+        setElements={setElements}
+        savePageToLocalStorage={savePage}
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
+        bookData={bookData}
+        pagesType={pagesType}
+        pageId={currentPage}
+      />
+
+      <div
+        className="flex-1 p-4 bg-white m-2 shadow-md rounded-lg"
+        style={{ height: "calc(100vh - 80px)" }}
+      >
+        <BookCentralEditor
+          isLoading={isLoading}
+          pagesType={pagesType}
+          quizType={quizType}
           elements={elements}
           setElements={setElements}
-          savePageToLocalStorage={savePage}      // <<< Hook centralizado aquí!
+          images={images}
           selectedId={selectedId}
           setSelectedId={setSelectedId}
-          bookData={bookData}
-          pagesType={pagesType}
-          pageId={currentPage}
+          stageRef={stageRef}
+          transformerRef={transformerRef}
+          quizEditorRef={quizEditorRef}
+          quizCompleteEditorRef={quizCompleteEditorRef}
+          currentPage={currentPage}
+          handleWordSearchSave={handleWordSearchSave}
         />
-
-        <div className="flex-1 p-4 bg-white m-2 shadow-md rounded-lg" style={{ height: "calc(100vh - 80px)" }}>
-          {isLoading && <BookCreatorLoader />}
-          {!isLoading && pagesType === 2 && (
-            <Canvas
-              elements={elements}
-              setElements={setElements}
-              images={images}
-              selectedId={selectedId}
-              setSelectedId={setSelectedId}
-              stageRef={stageRef}
-              transformerRef={transformerRef}
-            />
-          )}
-          {!isLoading && pagesType === 4 && quizType === "singleChoice" && <QuizEditor ref={quizEditorRef} pageNumber={currentPage} initialData={elements} />}
-          {!isLoading && pagesType === 4 && quizType === "complete" && <QuizCompleteEditor ref={quizCompleteEditorRef} pageNumber={currentPage} initialData={elements} />}
-          {!isLoading && pagesType === 5 && (
-            <WordSearchForm
-              initialData={elements}
-              onSave={handleWordSearchSave}
-            />
-          )}
-        </div>
       </div>
-
-      {!isLoading && (
-        <Footer pages={pagesList} currentPage={currentPage} setCurrentPage={setCurrentPage} addPage={addPage} />
-      )}
     </div>
+
+    {!isLoading && (
+      <Footer
+        pages={pagesList}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        addPage={addPage}
+      />
+    )}
+  </div>
   );
 }

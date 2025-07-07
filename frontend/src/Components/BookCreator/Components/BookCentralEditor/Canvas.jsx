@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Stage, Layer, Image as KonvaImage, Text, Transformer } from "react-konva";
-import Modal from "./TextEditorModal";
+import Modal from "../TextEditorModal";
 
 export default function Canvas({ elements, setElements, images, selectedId, setSelectedId, stageRef }) {
   const transformerRef = useRef(null);
