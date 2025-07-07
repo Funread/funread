@@ -7,16 +7,16 @@ import { createMultipleOptions, list_options_by_idwidgetitem } from "../../api/o
 // Hooks
 import { usePageSaver } from "./Hooks/usePageSaver"; // Asegúrate de exportar así tu orquestador
 // SUBCOMPONENTS
-import SideBar from "./SideBar";
-import ToolBar from "./ToolBar";
-import ImagePanel from "./ImagePanel";
-import TextPanel from "./TextPanel";
-import Games from "./Games";
-import Quiz from "./Quiz";
-import Canvas from "./Canvas";
-import Footer from "./Footer";
-import QuizEditor from "./QuizEditor";
-import QuizCompleteEditor from "./QuizCompleteEditor";
+import SideBar from "./Components/SideBar";
+import ToolBar from "./Components/ToolBar";
+import ImagePanel from "./Components/ImagePanel";
+import TextPanel from "./Components/TextPanel";
+import Games from "./Components/Games";
+import Quiz from "./Components/Quiz";
+import Canvas from "./Components/Canvas";
+import Footer from "./Components/Footer";
+import QuizEditor from "./Components/QuizEditor";
+import QuizCompleteEditor from "./Components/QuizCompleteEditor";
 import BookCreatorLoader from "../Loaders/BookCreatorLoader";
 import WordSearchForm from '../Widgets/Game/WordSearchGame/WordSearchForm';
 
