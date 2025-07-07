@@ -5,7 +5,9 @@ import { fullBook } from "../../api/books";
 import { updatePageType, newPage } from "../../api/pages";
 import { createMultipleOptions, list_options_by_idwidgetitem } from "../../api/options";
 // Hooks
-import { usePageSaver } from "./Hooks/usePageSaver"; // Asegúrate de exportar así tu orquestador
+import { usePageSaver } from "./Hooks/usePageSaver"; //Orquestador de salvado
+import { useBookData } from "./Hooks/useBookData";//Carga todo el data
+
 // SUBCOMPONENTS
 import SideBar from "./Components/SideBar";
 import ToolBar from "./Components/ToolBar";
@@ -23,9 +25,9 @@ import WordSearchForm from '../Widgets/Game/WordSearchGame/WordSearchForm';
 export default function BookCreator() {
   // ---- Estados y refs principales ----
   const [openPanel, setOpenPanel] = useState("background");
-  const [bookData, setBookData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+
   const [currentPage, setCurrentPage] = useState(0);
+  const { id } = useParams();
 
   const [elements, setElements] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -38,12 +40,35 @@ export default function BookCreator() {
   // Estado para el tipo de página (2=canvas, 4=quiz, 5=game)
   const [pagesType, setPagesType] = useState(2);
   const [widget, setWidget] = useState([2]);
-  const [pagesList, setPagesList] = useState([]);
   const [quizType, setQuizType] = useState("singleChoice"); // "complete" o "singleChoice"
 
-  const { id } = useParams();
+// ---- Controlador de carga por tipo de página ----
+const onLoadPageControl = (page) => {
+  if (page && page.page) {
+    setPagesType(page.page.type);
+    if (page.page.type === 4) {
+      let getWidgetInfo = page.widgetitems[0];
+      if (getWidgetInfo) {
+        const widgetValue = getWidgetInfo.value;
+        if (widgetValue && widgetValue.type === "complete") {
+          setQuizType("complete");
+          setElements(widgetValue);
+        } else {
+          setQuizType("singleChoice");
+          list_options_by_idwidgetitem(getWidgetInfo.widgetitemid).then((options) => {
+            setElements(formatQuizData(widgetValue, options, currentPage));
+          });
+        }
+      }
+    } else {
+      setElements(page.widgetitems);
+    }
+  }
+};
 
-  // ---- Custom Hook: PageSaver (centraliza el guardado según tipo de página) ----
+
+  //CustomeHooks
+  const { bookData, pagesList, isLoading, error, loadBookData } = useBookData(id, onLoadPageControl);
   const { savePage } = usePageSaver({
     quizType,
     quizEditorRef,
@@ -57,25 +82,11 @@ export default function BookCreator() {
     pagesType,
   });
 
-  // ---- Función para cargar datos del libro ----
-  const loadBookData = async () => {
-    setIsLoading(true);
-    try {
-      const [fullbook2] = await Promise.all([fullBook(id)]);
-      setBookData(fullbook2.data.book_details);
-      setPagesList(fullbook2.data.book_content);
-      onLoadPageControl(fullbook2.data.book_content[currentPage]);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error al cargar el libro:", error);
-      setIsLoading(false);
-    }
-  };
-
+ 
   // ---- Función para agregar página ----
   const addPage = async (type = 2) => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const nextPageIndex = pagesList.length;
       await newPage(
         id,
@@ -90,7 +101,7 @@ export default function BookCreator() {
       setElements([]);
     } catch (error) {
       console.error("Error al agregar página:", error);
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -114,29 +125,7 @@ export default function BookCreator() {
     // eslint-disable-next-line
   }, [currentPage, pagesList, isLoading]);
 
-  // ---- Controlador de carga por tipo de página ----
-  const onLoadPageControl = (page) => {
-    if (page && page.page) {
-      setPagesType(page.page.type);
-      if (page.page.type === 4) {
-        let getWidgetInfo = page.widgetitems[0];
-        if (getWidgetInfo) {
-          const widgetValue = getWidgetInfo.value;
-          if (widgetValue && widgetValue.type === "complete") {
-            setQuizType("complete");
-            setElements(widgetValue);
-          } else {
-            setQuizType("singleChoice");
-            list_options_by_idwidgetitem(getWidgetInfo.widgetitemid).then((options) => {
-              setElements(formatQuizData(widgetValue, options, currentPage));
-            });
-          }
-        }
-      } else {
-        setElements(page.widgetitems);
-      }
-    }
-  };
+  
 
   // ---- Guardado específico para juegos (sopa de letras, etc) ----
   const handleWordSearchSave = (formData) => {
@@ -151,7 +140,7 @@ export default function BookCreator() {
   // ---- Cambiar tipo de widget ----
   const widgetValidation = async (widgetId, type) => {
     if (type !== pagesType) {
-      setIsLoading(true);
+      // setIsLoading(true); TBD poner otro loader
       cleanElements();
       setWidget(widgetId);
       setPagesType(type);
@@ -164,7 +153,7 @@ export default function BookCreator() {
       } catch (error) {
         console.error("Error al actualizar el tipo de página:", error);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     }
   };
