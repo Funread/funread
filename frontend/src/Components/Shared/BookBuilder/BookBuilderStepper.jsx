@@ -9,7 +9,7 @@ import { faGlobe, faLock, faChevronLeft, faChevronRight } from '@fortawesome/fre
 import { toast } from 'react-toastify'
 import { save_Image, upload } from '../../../api'
 import { new_book } from '../../../api/books'
-
+import {  newPage} from "../../../api/pages";
 import {
   listCategories,
   newDilemaPerBook,
@@ -232,7 +232,22 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
       newBook.sharedbook,
       newBook.lastupdateby,
       newBook.description
-    )
+    ).then((book) => {
+            console.log('newbook createBook             newPage') 
+            newPage(
+              book.data.bookid,
+                  1,
+                  0,
+                  0,
+                  "1",
+                  1
+                )
+                toast.success('Book created successfully')
+        })
+
+
+
+
   }
 
   const addDilemmasPerBook = async (dilemma, bookId) => {

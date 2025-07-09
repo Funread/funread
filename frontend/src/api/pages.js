@@ -14,12 +14,6 @@ export async function updatePageType(pageid, type) {
 
 export async function newPage(bookid, type, template, elementorder, gridDirection, gridNumRows) {
   console.log('newPage')
-  console.log(bookid)
-  console.log(type)
-  console.log(template)
-  console.log(elementorder)
-  console.log(gridDirection)
-  console.log(gridNumRows) 
   return axiosAuth().post("pages/insertPage/", {
     bookid,
     type,

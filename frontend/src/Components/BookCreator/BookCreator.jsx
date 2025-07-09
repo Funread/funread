@@ -1,33 +1,26 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // API CALLS
-import { fullBook } from "../../api/books";
-import { updatePageType, newPage} from "../../api/pages";
-import { newWidgetItem} from "../../api/widget";
-import { createMultipleOptions,list_options_by_idwidgetitem} from "../../api/options";
-
+import { updatePageType, newPage } from "../../api/pages";
+import { createMultipleOptions, list_options_by_idwidgetitem } from "../../api/options";
+// Hooks
+import { usePageSaver } from "./Hooks/usePageSaver"; //Orquestador de salvado
+import { useBookData } from "./Hooks/useBookData";//Carga todo el data
+import { usePages } from "./Hooks/usePages";
 // SUBCOMPONENTS
-import SideBar from "./SideBar";
-import ToolBar from "./ToolBar";
-import ImagePanel from "./ImagePanel";
-import TextPanel from "./TextPanel";
-import Games from "./Games";
-import Background from "./Background";
-import Quiz from "./Quiz";
-import Canvas from "./Canvas";
-import Footer from "./Footer";
-import QuizEditor from "./QuizEditor";
-import QuizCompleteEditor from "./QuizCompleteEditor";
-import BookCreatorLoader from "../Loaders/BookCreatorLoader";
-import WordSearchForm from '../Widgets/Game/WordSearchGame/WordSearchForm';
-
+import SideBar from "./Components/SideBar";
+import ToolBar from "./Components/ToolBar";
+import Footer from "./Components/Footer";
+import BookSidebarPanel from "./Components/BookSidebarPanel/BookSidebarPanel";
+import BookCentralEditor from "./Components/BookCentralEditor/BookCentralEditor";
 
 export default function BookCreator() {
+  // ---- Estados y refs principales ----
   const [openPanel, setOpenPanel] = useState("background");
-  const [bookData, setBookData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+
   const [currentPage, setCurrentPage] = useState(0);
-  
+  const { id } = useParams();
+
   const [elements, setElements] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [images, setImages] = useState({});
@@ -35,203 +28,95 @@ export default function BookCreator() {
   const transformerRef = useRef(null);
   const quizEditorRef = useRef(null);
   const quizCompleteEditorRef = useRef(null);
-  const { id } = useParams();
  
-  // Hook interno para controlar los tipos de página
-  const [pagesType, setPagesType] = useState(4);
+  // Estado para el tipo de página (2=canvas, 4=quiz, 5=game)
+  const [pagesType, setPagesType] = useState(2);
   const [widget, setWidget] = useState([2]);
-  const [pagesList, setPagesList] = useState([]);
-  const [quizType, setQuizType] = useState("singleChoice"); // Nuevo estado para el tipo de quiz
- 
+  const [quizType, setQuizType] = useState("singleChoice"); // "complete" o "singleChoice"
 
-  const loadBookData = async () => {
-    console.log('Loading book data...');
-    try {
-      const [fullbook2] = await Promise.all([
-        fullBook(id)
-      ]);
-      console.log('Book data loaded:', fullbook2);
-      setBookData(fullbook2.data.book_details);
-      setPagesList(fullbook2.data.book_content);
-      onLoadPageControl(fullbook2.data.book_content[currentPage]);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error al cargar el libro:", error);
-      setIsLoading(false);
+// ---- Controlador de carga por tipo de página ----
+const onLoadPageControl = (page) => {
+  if (page && page.page) {
+    setPagesType(page.page.type);
+    if (page.page.type === 4) {
+      let getWidgetInfo = page.widgetitems[0];
+      if (getWidgetInfo) {
+        const widgetValue = getWidgetInfo.value;
+        if (widgetValue && widgetValue.type === "complete") {
+          setQuizType("complete");
+          setElements(widgetValue);
+        } else {
+          setQuizType("singleChoice");
+          list_options_by_idwidgetitem(getWidgetInfo.widgetitemid).then((options) => {
+            setElements(formatQuizData(widgetValue, options, currentPage));
+          });
+        }
+      }
+    } else {
+      setElements(page.widgetitems);
     }
-  };
+  }
+};
 
-  const addPage = async (type = 2) => {
-    try {
-      setIsLoading(true);
-      const nextPageIndex = pagesList.length;
-      
-      // Crear la nueva página
-      await newPage(
-        id,
-        2,
-        0,
-        nextPageIndex + 1,
-        "1",
-        1
-      );
 
-      // Recargar los datos del libro para obtener la nueva página
-      await loadBookData();
-      
-      // Actualizar la página actual
-      setCurrentPage(nextPageIndex);
-      setElements([]);
-    } catch (error) {
-      console.error("Error al agregar página:", error);
-      setIsLoading(false);
-    }
-  };
+  //CustomeHooks
+  const { bookData, pagesList, isLoading, error, loadBookData } = useBookData(id, onLoadPageControl);
+  const { savePage } = usePageSaver({
+    quizType,
+    quizEditorRef,
+    quizCompleteEditorRef,
+    bookData,
+    pagesList,
+    currentPage,
+    updatePageType,
+    createMultipleOptions,
+    elements,
+    pagesType,
+  });
+  const {
+    addPage,
+    cleanElements,
+    pageLoading,
+    pageError
+  } = usePages({
+    id,
+    loadBookData,
+    setCurrentPage,
+    setElements,
+    setSelectedId,
+    pagesList
+  });
 
-  const cleanElements = (type = 2) => {
-    setElements([]);
-    setSelectedId([]);
-  };
-
-   
+  // ---- Cargar datos al cambiar página ----
   useEffect(() => {
     if (!id) return;
     loadBookData();
+    // eslint-disable-next-line
   }, [id]);
 
   useEffect(() => {
     if (!isLoading && pagesList[currentPage]) {
-      console.log('OnLoadPage', pagesList[currentPage]);
       onLoadPageControl(pagesList[currentPage]);
     }
+    // eslint-disable-next-line
   }, [currentPage, pagesList, isLoading]);
 
-  const onLoadPageControl = (page) => {
-    if (page && page.page) {
-      setPagesType(page.page.type);
-      if (page.page.type === 4) {
-        let getWidgetInfo = page.widgetitems[0];
-        if (getWidgetInfo) {
-          // Detectar el tipo de quiz basándose en el contenido
-          const widgetValue = getWidgetInfo.value;
-          if (widgetValue && widgetValue.type === "complete") {
-            setQuizType("complete");
-            // Para complete quiz, usar directamente el widgetValue
-            setElements(widgetValue);
-          } else {
-            setQuizType("singleChoice");
-            list_options_by_idwidgetitem(getWidgetInfo.widgetitemid).then((options) => {
-              setElements(formatQuizData(widgetValue, options, currentPage));
-            });
-          }
-        }
-      } else {
-        setElements(page.widgetitems);
-      }
-    }
-  };
+  
 
-  const savePageToLocalStorage = () => {
-    // Validar que pagesList y la página actual existan
-    if (!pagesList || !pagesList[currentPage] || !pagesList[currentPage].page) {
-      console.error("La página actual no está disponible");
-      alert("Error: La página no está lista. Por favor, intenta de nuevo en unos segundos.");
-      return;
-    }
-
-    const storedPages = JSON.parse(localStorage.getItem("savedPages")) || {};
-    const currentPageId = pagesList[currentPage].page.pageid;
-    
-    if (pagesType === 2) {
-      updatePageType(currentPageId, pagesType)
-      storedPages[currentPage] = elements;
-      localStorage.setItem("savedPages", JSON.stringify(storedPages));
-
-      console.log("🖼️ Página tipo Canvas guardada:", elements);
-      alert(`Página ${currentPage + 1} guardada correctamente`);
-    }
-    if (pagesType === 4) {
-      if (quizType === "complete") {
-        const quizCompleteJson = quizCompleteEditorRef.current?.getQuizJson();
-        if (quizCompleteJson) {
-          localStorage.setItem(`quiz-complete-page-${currentPage}`, JSON.stringify(quizCompleteJson));
-          alert(`Página ${currentPage + 1} guardada correctamente`);
-          
-          newWidgetItem(   
-            currentPageId,
-            9,
-            4,
-            quizCompleteJson,
-            0).then((widgetResponse) => {
-              updatePageType(currentPageId, pagesType)
-            })
-        } else {
-          console.warn("❌ Complete Quiz no válido, no se guardó.");
-        }
-      } else {
-        const quizJson = quizEditorRef.current?.getQuizJson();
-        if (quizJson) {
-          localStorage.setItem(`quiz-page-${currentPage}`, JSON.stringify(quizJson));
-          alert(`Página ${currentPage + 1} guardada correctamente`);
-          
-          newWidgetItem(   
-            currentPageId,
-            9,
-            4,
-            elements,
-            0).then((widgetResponse) => {
-              createMultipleOptions(quizJson.options, widgetResponse.data.widgetitemid, bookData.createdby)
-              updatePageType(currentPageId, pagesType)
-            })
-        } else {
-          console.warn("❌ Quiz no válido, no se guardó.");
-        }
-      }
-    }
-    if (pagesType === 5) {
-      // Primero actualizar el tipo de página
-      updatePageType(currentPageId, pagesType)
-        .then(() => {
-          // Solo crear el widget si tenemos elementos válidos
-          if (elements && elements.words && elements.words.length >= 3) {
-            return newWidgetItem(
-              currentPageId,
-              9, // widgetid fijo para wordsearch
-              4, // type se mantiene en 4
-              elements,
-              0 // elementorder se mantiene en 0
-            );
-          } else {
-            throw new Error("No hay configuración válida para guardar");
-          }
-        })
-        .then(() => {
-          alert(`Sopa de letras guardada correctamente en la página ${currentPage + 1}`);
-        })
-        .catch(error => {
-          console.error("Error al guardar la sopa de letras:", error);
-          alert("Error al guardar la sopa de letras. Por favor, asegúrate de completar toda la configuración.");
-        });
-    }
-  };
-
+  // ---- Guardado específico para juegos (sopa de letras, etc) ----
   const handleWordSearchSave = (formData) => {
-    // Validar que la página esté lista antes de guardar
     if (!pagesList || !pagesList[currentPage] || !pagesList[currentPage].page) {
       alert("Error: La página no está lista. Por favor, espera unos segundos y vuelve a intentar.");
       return;
     }
-
-    // Actualizar el estado con la nueva configuración
     setElements(formData);
-    
-    // Guardar la configuración
-    savePageToLocalStorage();
+    savePage(); // Usa el hook
   };
 
+  // ---- Cambiar tipo de widget ----
   const widgetValidation = async (widgetId, type) => {
     if (type !== pagesType) {
-      setIsLoading(true);
+      // setIsLoading(true); TBD poner otro loader
       cleanElements();
       setWidget(widgetId);
       setPagesType(type);
@@ -239,41 +124,34 @@ export default function BookCreator() {
       try {
         if (pagesList[currentPage] && pagesList[currentPage].page) {
           await updatePageType(pagesList[currentPage].page.pageid, type);
-          // Recargar los datos para asegurar que tenemos la información actualizada
           await loadBookData();
         }
       } catch (error) {
         console.error("Error al actualizar el tipo de página:", error);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     }
   };
 
+  // ---- Cambiar tipo de quiz ----
   const changeQuizType = (newQuizType) => {
     setQuizType(newQuizType);
   };
 
-  // Efecto para actualizar el tipo de página cuando pagesList esté disponible
+  // ---- Actualizar el tipo de página cuando sea necesario ----
   useEffect(() => {
     if (pagesType === 5 && pagesList && pagesList[currentPage] && pagesList[currentPage].page) {
-      updatePageType(pagesList[currentPage].page.pageid, pagesType)
-        .catch(error => {
-          console.error("Error al actualizar el tipo de página:", error);
-        });
+      updatePageType(pagesList[currentPage].page.pageid, pagesType).catch(error => {
+        console.error("Error al actualizar el tipo de página:", error);
+      });
     }
+    // eslint-disable-next-line
   }, [pagesType, pagesList, currentPage]);
 
-  // Efecto para establecer quizType por defecto cuando se cambia a tipo 4
-  useEffect(() => {
-    if (pagesType === 4 && quizType === "singleChoice") {
-      // Solo establecer por defecto si no se ha establecido específicamente
-      console.log("Estableciendo quizType por defecto para tipo 4");
-    }
-  }, [pagesType, quizType]);
-
+  // ---- Funciones auxiliares de formato ----
   function formatQuizData(contentData, optionsData, pageNumber = 0) {
-    const formatted = {
+    return {
       pageNumber: pageNumber,
       type: "singleChoice",
       content: {
@@ -287,78 +165,66 @@ export default function BookCreator() {
         isActive: opt.isactive === 1,
       }))
     };
-    console.log('formatQuizData')
-    console.log(    formatted  )
-    return formatted;
   }
 
-  function formatCompleteQuizData(contentData, pageNumber = 0) {
-    const formatted = {
-      pageNumber: pageNumber,
-      type: "complete",
-      content: {
-        title: contentData.title,
-        question: contentData.question,
-        correctAnswer: contentData.correctAnswer,
-        points: contentData.points,
-      },
-    };
-    console.log('formatCompleteQuizData')
-    console.log(formatted)
-    return formatted;
-  }
-
+  // ---- Render principal ----
   return (
     <div className="flex h-screen w-full bg-gray-200">
-      <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
+    <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
 
-      <div className="w-[300px] h-full bg-white shadow-md p-4 fixed left-16 top-0 border-r border-gray-300 overflow-y-auto">
-        {openPanel === "background" && <ImagePanel widgetValidation={widgetValidation} setElements={setElements} setImages={setImages} imageType={openPanel} />}
-        {openPanel === "objects" && <ImagePanel widgetValidation={widgetValidation} setElements={setElements} setImages={setImages} imageType={openPanel} />}
-        {openPanel === "users" && <ImagePanel widgetValidation={widgetValidation} setElements={setElements} setImages={setImages} imageType={openPanel} />}
-        {openPanel === "shape" && <ImagePanel widgetValidation={widgetValidation} setElements={setElements} setImages={setImages} imageType={openPanel} />}
-        {openPanel === "text" && <TextPanel widgetValidation={widgetValidation} setElements={setElements} />}
-        {openPanel === "games" && <Games widgetValidation={widgetValidation} setElements={setElements} />}
-        {openPanel === "quiz" && <Quiz widgetValidation={widgetValidation} setElements={setElements} changeQuizType={changeQuizType} />}
-      </div>
+    <div className="w-[300px] h-full bg-white shadow-md p-4 fixed left-16 top-0 border-r border-gray-300 overflow-y-auto">
+      <BookSidebarPanel
+        openPanel={openPanel}
+        widgetValidation={widgetValidation}
+        setElements={setElements}
+        setImages={setImages}
+        changeQuizType={changeQuizType}
+      />
+    </div>
 
-      <div className="flex-1 flex flex-col ml-[364px]">
-        <ToolBar
+    <div className="flex-1 flex flex-col ml-[364px]">
+      <ToolBar
+        elements={elements}
+        setElements={setElements}
+        savePageToLocalStorage={savePage}
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
+        bookData={bookData}
+        pagesType={pagesType}
+        pageId={currentPage}
+      />
+
+      <div
+        className="flex-1 p-4 bg-white m-2 shadow-md rounded-lg"
+        style={{ height: "calc(100vh - 80px)" }}
+      >
+        <BookCentralEditor
+          isLoading={isLoading}
+          pagesType={pagesType}
+          quizType={quizType}
           elements={elements}
           setElements={setElements}
-          savePageToLocalStorage={savePageToLocalStorage}
+          images={images}
           selectedId={selectedId}
           setSelectedId={setSelectedId}
-          bookData={bookData}
+          stageRef={stageRef}
+          transformerRef={transformerRef}
+          quizEditorRef={quizEditorRef}
+          quizCompleteEditorRef={quizCompleteEditorRef}
+          currentPage={currentPage}
+          handleWordSearchSave={handleWordSearchSave}
         />
-
-        <div className="flex-1 p-4 bg-white m-2 shadow-md rounded-lg" style={{ height: "calc(100vh - 80px)" }}>
-          {isLoading && <BookCreatorLoader />}
-          {!isLoading && pagesType === 2 && (
-            <Canvas
-              elements={elements}
-              setElements={setElements}
-              images={images}
-              selectedId={selectedId}
-              setSelectedId={setSelectedId}
-              stageRef={stageRef}
-              transformerRef={transformerRef}
-            />
-          )}
-          {!isLoading && pagesType === 4 && quizType === "singleChoice" && <QuizEditor ref={quizEditorRef} pageNumber={currentPage} initialData={elements}/>}
-          {!isLoading && pagesType === 4 && quizType === "complete" && <QuizCompleteEditor ref={quizCompleteEditorRef} pageNumber={currentPage} initialData={elements}/>}
-          {!isLoading && pagesType === 5 && (
-            <WordSearchForm 
-              initialData={elements} 
-              onSave={handleWordSearchSave}
-            />
-          )}
-        </div>
       </div>
-
-      {!isLoading && (
-        <Footer pages={pagesList} currentPage={currentPage} setCurrentPage={setCurrentPage} addPage={addPage} />
-      )}
     </div>
+
+    {!isLoading && (
+      <Footer
+        pages={pagesList}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        addPage={addPage}
+      />
+    )}
+  </div>
   );
 }
