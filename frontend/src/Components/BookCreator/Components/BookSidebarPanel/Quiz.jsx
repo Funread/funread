@@ -7,15 +7,19 @@ export default function Quiz({ widgetValidation, changeQuizType }) {
   ];
 
   const handleAddQuiz = (widgetId) => {
+    console.log('widgetId')
+    console.log(widgetId)
     // Establecer el tipo de quiz primero
     if (widgetId === "CompleteQuiz") {
       changeQuizType("complete");
+      widgetValidation(8, 4);
     } else {
       changeQuizType("singleChoice");
+      widgetValidation(9, 4);
     }
     
     // Luego cambiar el tipo de página
-    widgetValidation(4, 4);
+    // widgetValidation(4, 4);
   };
 
   return (

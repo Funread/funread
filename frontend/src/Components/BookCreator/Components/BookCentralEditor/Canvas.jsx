@@ -2,19 +2,37 @@ import { useEffect, useRef, useState } from "react";
 import { Stage, Layer, Image as KonvaImage, Text, Transformer } from "react-konva";
 import Modal from "../TextEditorModal";
 
-export default function Canvas({ elements, setElements, images, selectedId, setSelectedId, stageRef }) {
+export default function Canvas({ elements, setElements, selectedId, setSelectedId, stageRef }) {
   const transformerRef = useRef(null);
   const containerRef = useRef(null);
   const [editingText, setEditingText] = useState(null);
   const [textValue, setTextValue] = useState("");
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
+  const [loadedImages, setLoadedImages] = useState({});
+
+  // 🔁 Precargar imágenes cuando cambian los elementos
+  useEffect(() => {
+    const newImages = {};
+    const promises = elements
+      .filter(el => el.type === "image")
+      .map(el => {
+        return new Promise((resolve) => {
+          const img = new window.Image();
+          img.crossOrigin = "anonymous"; // por si vienen de un dominio diferente
+          img.src = el.src;
+          img.onload = () => {
+            newImages[el.src] = img;
+            resolve();
+          };
+        });
+      });
+
+    Promise.all(promises).then(() => {
+      setLoadedImages(newImages);
+    });
+  }, [elements]);
 
   useEffect(() => {
-    console.log('elements1')
-    elements.map((el) => console.log(el))
-    console.log('elements2')
-    console.log(elements)
-    console.log('elements3')
     const resize = () => {
       if (containerRef.current) {
         const { clientWidth, clientHeight } = containerRef.current;
@@ -27,8 +45,6 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
   }, []);
 
   useEffect(() => {
-    console.log(elements)
-    console.log('elements')
     if (!selectedId || !stageRef.current || !transformerRef.current) return;
 
     const stage = stageRef.current;
@@ -41,30 +57,6 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
       transformerRef.current.nodes([]);
     }
   }, [selectedId, elements]);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Delete" && selectedId) {
-        setElements((prev) => prev.filter((el) => el.id !== selectedId));
-        setSelectedId(null);
-        if (transformerRef.current) {
-          transformerRef.current.nodes([]);
-          transformerRef.current.getLayer().batchDraw();
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedId]);
-
-  useEffect(() => {
-    window.transformerCleanup = () => {
-      if (transformerRef.current) {
-        transformerRef.current.nodes([]);
-        transformerRef.current.getLayer().batchDraw();
-      }
-    };
-  }, []);
 
   const handleDragEnd = (e, id) => {
     setElements((prev) =>
@@ -151,8 +143,8 @@ export default function Canvas({ elements, setElements, images, selectedId, setS
                   y={el.y}
                   width={el.width}
                   height={el.height}
+                  image={loadedImages[el.src]} // ✅ precargada correctamente
                   draggable
-                  image={images[el.src]}
                   onClick={() => setSelectedId(el.id)}
                   onDragEnd={(e) => handleDragEnd(e, el.id)}
                   onTransformEnd={(e) => handleTransformEnd(e, el.id)}

@@ -14,6 +14,17 @@ export async function newWidgetItem(page, widget, type, value, elementorder) {
   })
 }
 
+export async function updateWidgetItem(widgetitemid, pageid, widgetid, type, value, elementorder) {
+  return axiosAuth().put('widget/updateWidgetitem/', {
+    widgetitemid,
+    pageid,
+    widgetid,
+    type,
+    value,
+    elementorder,
+  });
+}
+
 export async function listedWidgets() {
   return axiosAuth().get('widget/listallWidgets/')
 }

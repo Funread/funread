@@ -6,6 +6,9 @@ export async function listAllPages(bookid) {
   });
 }
 export async function updatePageType(pageid, type) {
+  console.log('updatePageType')
+  console.log(pageid)
+  console.log(type)
   return axiosAuth().put('pages/updatePageType/', {
     pageid,
     type,

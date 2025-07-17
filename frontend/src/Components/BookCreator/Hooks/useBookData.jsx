@@ -15,9 +15,12 @@ export function useBookData(id, onLoadPageControl) {
       const [fullbook2] = await Promise.all([fullBook(id)]);
       setBookData(fullbook2.data.book_details);
       setPagesList(fullbook2.data.book_content);
+      console.log('bookData')
+      console.log(fullbook2)
       if (onLoadPageControl) {
         onLoadPageControl(fullbook2.data.book_content[currentPage]);
       }
+  
     } catch (err) {
       setError(err);
       console.error("Error al cargar el libro:", err);
@@ -25,6 +28,7 @@ export function useBookData(id, onLoadPageControl) {
       setIsLoading(false);
     }
   }, [id, onLoadPageControl]);
+
 
   return { bookData, pagesList, isLoading, error, loadBookData };
 }

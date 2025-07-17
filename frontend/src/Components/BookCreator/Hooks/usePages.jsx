@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { newPage } from "../../../api/pages";
+import { newPageWithWidgets } from "../Utils/newPageWithWidgets";
 
 export function usePages({
   id,
@@ -20,7 +20,7 @@ export function usePages({
 
     try {
       const nextPageIndex = pagesList.length;
-      await newPage(
+      await newPageWithWidgets(
         id,
         2,// Siempre vamos a agregar una pagina de tipo konva por default
         0,

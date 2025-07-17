@@ -1,8 +1,7 @@
 import { useCallback } from "react";
-import { newWidgetItem } from "../../../api/widget";
+import { updateWidgetItem } from "../../../api/widget";
 
-
-export function useGamesSaver({ elements, pagesList, currentPage, updatePageType }) {
+export function useGamesSaver({ elements, pagesList, currentPage }) {
   const saveGame = useCallback(() => {
     if (!pagesList || !pagesList[currentPage] || !pagesList[currentPage].page) {
       alert("Página no disponible");
@@ -10,21 +9,22 @@ export function useGamesSaver({ elements, pagesList, currentPage, updatePageType
     }
     const currentPageId = pagesList[currentPage].page.pageid;
     const widgetId = 9;
-    updatePageType(currentPageId, 5)
-      .then(() => {
+    const widgetitemid = pagesList[currentPage].widgetitems[0].widgetitemid;
+      try {
         if (elements && elements.words && elements.words.length >= 3) {
-          return newWidgetItem(currentPageId, widgetId, 4, elements, 0);
+          const type=5
+          const value= elements
+          const elementorder=0
+          updateWidgetItem(widgetitemid, currentPageId, widgetId, type, value, elementorder)
+           alert(`Sopa de letras guardada correctamente en la página ${currentPage + 1}`);
         } else {
           throw new Error("No hay configuración válida para guardar");
         }
-      })
-      .then(() => {
-        alert(`Sopa de letras guardada correctamente en la página ${currentPage + 1}`);
-      })
-      .catch(error => {
+      } catch (error) {
         alert("Error al guardar la sopa de letras. Por favor, asegúrate de completar toda la configuración.");
-      });
-  }, [elements, pagesList, currentPage, updatePageType]);
+      } 
+    
+  }, [elements, pagesList, currentPage]);
 
   return { saveGame };
 }

@@ -1,41 +1,64 @@
 import { useCallback } from "react";
-import { newWidgetItem } from "../../../api/widget";
+import { updateWidgetItem } from "../../../api/widget";
 
-
-export function useKonvaSaver({ elements, pagesList, currentPage, updatePageType }) {
+export function useKonvaSaver({ elements, pagesList, currentPage }) {
   const saveKonva = useCallback(() => {
     if (!pagesList || !pagesList[currentPage] || !pagesList[currentPage].page) {
       alert("Página no disponible");
       return;
     }
-    const storedPages = JSON.parse(localStorage.getItem("savedPages")) || {};
-    const currentPageId = pagesList[currentPage].page.pageid;
-    const widgetId = 9;
-    updatePageType(currentPageId, 2);
-    storedPages[currentPage] = elements;
-    localStorage.setItem("savedPages", JSON.stringify(storedPages));
 
-    elements.forEach((el, index) => {
-      let value = null;
-      if (el.type === "image") {
-        value = {
-          x: el.x || 0,
-          y: el.y || 0,
-          src: el.src,
-          width: el.width,
-          height: el.height
+    const currentPageId = pagesList[currentPage].page.pageid;
+    const widgetitemid = pagesList[currentPage].widgetitems[0].widgetitemid;
+    const widgetId = 9;
+
+    // Dividir elementos en background y los demás
+    let background = null;
+    const otherElements = [];
+
+    elements.forEach(el => {
+      const base = {
+        x: el.x || 0,
+        y: el.y || 0,
+        width: el.width,
+        height: el.height,
+        id: el.id,
+        type: el.type
+      };
+
+      if (el.type === "image" && el.isBackground) {
+        background = {
+          ...base,
+          src: el.src
         };
+      } else if (el.type === "image") {
+        otherElements.push({
+          ...base,
+          src: el.src
+        });
       } else if (el.type === "text") {
-        value = { data: `<p>${el.text || ""}</p>` };
-      } else {
-        return;
+        otherElements.push({
+          ...base,
+          text: el.text,
+          fontSize: el.fontSize,
+          fontWeight: el.fontWeight,
+          fill: el.fill
+        });
       }
-      newWidgetItem(currentPageId, widgetId, 2, value, index + 1).catch((e) =>
-        console.error("Error guardando elemento konva", e)
-      );
     });
-    alert(`Página ${currentPage + 1} guardada correctamente`);
-  }, [elements, pagesList, currentPage, updatePageType]);
+
+    // Crear el value completo como arreglo de elementos
+    const finalValue = [];
+
+    if (background) finalValue.push({ ...background, type: "background" });
+    finalValue.push(...otherElements);
+
+    // Guardar en un solo widgetitem
+    updateWidgetItem(widgetitemid, currentPageId, widgetId, 2, finalValue, 1)
+      .then(() => alert(`Página ${currentPage + 1} guardada correctamente`))
+      .catch((e) => console.error("Error guardando elementos konva", e));
+
+  }, [elements, pagesList, currentPage]);
 
   return { saveKonva };
 }

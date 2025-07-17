@@ -9,7 +9,8 @@ import { faGlobe, faLock, faChevronLeft, faChevronRight } from '@fortawesome/fre
 import { toast } from 'react-toastify'
 import { save_Image, upload } from '../../../api'
 import { new_book } from '../../../api/books'
-import {  newPage} from "../../../api/pages";
+
+import { newPageWithWidgets } from "../../BookCreator/Utils/newPageWithWidgets";
 import {
   listCategories,
   newDilemaPerBook,
@@ -233,8 +234,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
       newBook.lastupdateby,
       newBook.description
     ).then((book) => {
-            console.log('newbook createBook             newPage') 
-            newPage(
+      newPageWithWidgets(
               book.data.bookid,
                   1,
                   0,

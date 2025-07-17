@@ -7,7 +7,8 @@ import BookCreatorLoader from "../../../Loaders/BookCreatorLoader";
 export default function BookCentralEditor({
   isLoading,
   pagesType,
-  quizType,
+  // quizType,
+  widget,
   elements,
   setElements,
   images,
@@ -20,6 +21,11 @@ export default function BookCentralEditor({
   currentPage,
   handleWordSearchSave,
 }) {
+
+  console.log('BookCentralEditor')
+  console.log(pagesType)
+  console.log(widget)
+  
   if (isLoading) return <BookCreatorLoader />;
   if (pagesType === 2)
     return (
@@ -33,7 +39,7 @@ export default function BookCentralEditor({
         transformerRef={transformerRef}
       />
     );
-  if (pagesType === 4 && quizType === "singleChoice")
+  if ( widget === 9 )
     return (
       <QuizEditor
         ref={quizEditorRef}
@@ -41,7 +47,7 @@ export default function BookCentralEditor({
         initialData={elements}
       />
     );
-  if (pagesType === 4 && quizType === "complete")
+  if (widget === 8)
     return (
       <QuizCompleteEditor
         ref={quizCompleteEditorRef}
