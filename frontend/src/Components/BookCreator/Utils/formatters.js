@@ -1,12 +1,13 @@
 // src/Components/BookCreator/utils/formatQuizData.js
 
 export function formatQuizData(contentData, optionsData, pageNumber = 0) {
+ 
     return {
       pageNumber: pageNumber,
       type: "singleChoice",
       content: {
-        title: contentData.title,
-        question: contentData.question,
+        title: contentData.content.title,
+        question: contentData.content.question,
       },
       options: optionsData.map(opt => ({
         answer: opt.answer,

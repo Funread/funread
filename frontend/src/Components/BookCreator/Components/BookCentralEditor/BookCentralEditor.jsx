@@ -23,7 +23,7 @@ export default function BookCentralEditor({
 }) {
 
   console.log('BookCentralEditor')
-  console.log(pagesType)
+  console.log(elements)
   console.log(widget)
   
   if (isLoading) return <BookCreatorLoader />;

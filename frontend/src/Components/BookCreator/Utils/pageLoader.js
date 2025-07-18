@@ -10,11 +10,13 @@ export async function handlePageLoad(page, setElements, setPagesType, currentPag
     const getWidgetInfo = page.widgetitems?.[0];
     if (getWidgetInfo) {
       const widgetValue = getWidgetInfo.value;
+     
       if (widgetValue && widgetValue.type === "COMPLETE") {
         setElements(widgetValue);
       } else {
         const options = await list_options_by_idwidgetitem(getWidgetInfo.widgetitemid);
         setElements(formatQuizData(widgetValue, options, currentPage));
+
       }
     }
   } else if (page.page.type === 2) {
