@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './BookCard.sass'
 import { searchCategory } from '../../../api/bookDilemma'
-import { BASE_URL } from '../../../settings'
-
-const getImage = BASE_URL
+import { getMediaUrl } from '../../Utils/mediaUrl'
 
 const BookCard = ({
   id,
@@ -17,8 +15,8 @@ const BookCard = ({
 }) => {
   const [categoryName, setCategoryName] = useState('')
   const imageCard = portrait
-    ? `${getImage}${portrait}`
-    : './imagenes/no-image.png'
+    ? getMediaUrl(portrait)
+    : '/imagenes/no-image.png'
 
   useEffect(() => {
     async function fetchData() {

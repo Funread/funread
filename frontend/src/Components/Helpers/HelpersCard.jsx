@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import './HelpersCard.sass';
-import { BASE_URL } from '../../settings'
-
-const getImage = BASE_URL
+import { getMediaUrl } from '../Utils/mediaUrl'
 const HelpersCard = ({
   id,
   imageUrl,
@@ -14,8 +12,8 @@ const HelpersCard = ({
 
 }) => {
   const imageCard = imageUrl || photo
-    ? `${getImage}${imageUrl || photo}`
-    : './imagenes/no-image.png';
+    ? getMediaUrl(imageUrl || photo)
+    : '/imagenes/no-image.png';
 
   return (
     <div className='HelpersCard align-items' 

@@ -1,15 +1,13 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import './BookView.sass'
-import { BASE_URL } from '../../../settings'
-
-const getImage = BASE_URL
+import { getMediaUrl } from '../../Utils/mediaUrl'
 
 const BookView = ({ book, onPreview }) => {
   const navigate = useNavigate()
   const bookImage = book.portrait
-    ? `${getImage}${book.portrait}`
-    : './imagenes/no-image.png'
+    ? getMediaUrl(book.portrait)
+    : '/imagenes/no-image.png'
 
   const handleEditBook = () => {
     let bookID = book.id
