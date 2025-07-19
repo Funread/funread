@@ -1,4 +1,4 @@
-import { getShapesImages, getObjectImages, getPersonsImages, getBackgroundImages } from "../../api/images";
+import { getShapesImages, getObjectImages, getPersonsImages, getBackgroundImages } from "../../../../api/images";
 
 export default function ImagePanel({ widgetValidation, setElements, setImages, imageType, }) {
   const getCanvasWidth = () => {

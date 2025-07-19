@@ -1,0 +1,22 @@
+/* Estilos básicos para el formulario de sopa de letras */
+.word-search-form {
+  /* Los estilos principales ahora se manejan con Tailwind CSS */
+}
+
+/* Estilos para los mensajes de validación */
+input:invalid,
+select:invalid {
+  border-color: rgb(239, 68, 68) !important;
+}
+
+/* Estilos responsivos */
+@media (max-width: 480px) {
+  .word-search-form {
+    padding: 10px;
+  }
+}
+
+/* Asegurar que los inputs de números tengan el ancho correcto */
+input[type="number"] {
+  width: auto;
+} 

@@ -10,6 +10,7 @@ import { toast } from 'react-toastify'
 import { save_Image, upload } from '../../../api'
 import { new_book } from '../../../api/books'
 
+import { newPageWithWidgets } from "../../BookCreator/Utils/newPageWithWidgets";
 import {
   listCategories,
   newDilemaPerBook,
@@ -232,7 +233,21 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
       newBook.sharedbook,
       newBook.lastupdateby,
       newBook.description
-    )
+    ).then((book) => {
+      newPageWithWidgets(
+              book.data.bookid,
+                  1,
+                  0,
+                  0,
+                  "1",
+                  1
+                )
+                toast.success('Book created successfully')
+        })
+
+
+
+
   }
 
   const addDilemmasPerBook = async (dilemma, bookId) => {

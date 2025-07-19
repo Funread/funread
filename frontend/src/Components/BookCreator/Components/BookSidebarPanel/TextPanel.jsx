@@ -1,4 +1,4 @@
-import { Button } from "./Button";
+import { Button } from "../Button";
 
 export default function TextPanel({ setElements,widgetValidation }) {
   const handleText = () => {

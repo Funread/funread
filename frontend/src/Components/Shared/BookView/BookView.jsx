@@ -49,9 +49,7 @@ const BookView = ({ book, onPreview }) => {
         className='button-section-book'
         style={{ marginTop: 'auto', marginBottom: '30px' }}
       >
-        <button className='button-editBook' onClick={() => onPreview(book.id)}>
-          Preview
-        </button>
+        
         <button className='button-editBook' onClick={handleEditBook}>
           Edit
         </button>

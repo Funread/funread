@@ -4,57 +4,58 @@ const QuizEditor = forwardRef(
   (
     {
       pageNumber = 1,
-      type = "singleChoice",
-      initialData = null // ← puede ser null si es nuevo
+      type = "singleChoice", // "audioQuiz" | "videoQuiz" | "singleChoice"
+      initialData = null
     },
     ref
   ) => {
-    const [title, setTitle] = useState("");
+    const [title, setTitle] = useState(""); // Puede ser título, audio o video según el tipo
     const [question, setQuestion] = useState("");
     const [options, setOptions] = useState([]);
     const [correctIndex, setCorrectIndex] = useState(null);
     const [score, setScore] = useState(10);
 
-    // Inicializar opciones vacías si no hay datos
-    useEffect(() => {
-      if (!initialData) {
-        setOptions(Array(3).fill(""));
-      }
-    }, []);
-
-    // Si recibimos datos de la BD, cargarlos
+    // Cargar datos desde el backend o inicializar 3 opciones vacías
     useEffect(() => {
       if (initialData) {
-        setTitle(initialData.content?.title || "");
-        setQuestion(initialData.content?.question || "");
+        console.log('initialData')
+         console.log(initialData)
+        const content = initialData.content || {};
+        setQuestion(content.question || "");
+        setTitle(content.title || content.audio || content.video || "");
 
-        const loadedOptions = initialData.options?.map((opt) => opt.answer) || [];
-        setOptions(loadedOptions);
+        const loadedOptions = initialData.options?.map((opt) => opt.answer);
+        const hasValidOptions = Array.isArray(loadedOptions) && loadedOptions.length > 0;
+        setOptions(hasValidOptions ? loadedOptions : Array(3).fill(""));
 
         const correctIdx = initialData.options?.findIndex((opt) => opt.isCorrect);
         setCorrectIndex(correctIdx >= 0 ? correctIdx : null);
 
         const correctPoints = initialData.options?.[correctIdx]?.points || 10;
         setScore(correctPoints);
+      } else {
+        // fallback por si no hay datos iniciales
+        setOptions(Array(3).fill(""));
       }
     }, [initialData]);
 
-    // Permite a un componente padre obtener el JSON final
     useImperativeHandle(ref, () => ({
       getQuizJson: () => {
         const isAnyEmpty = options.some((opt) => opt.trim() === "");
-        if (!title || !question || correctIndex === null || !Number(score) || isAnyEmpty) {
+        if (!question || correctIndex === null || !Number(score) || isAnyEmpty) {
           alert("Please complete all fields in the quiz editor.");
           return null;
         }
 
+        const content = { question };
+        if (type === "singleChoice") content.title = title;
+        if (type === "audioQuiz") content.audio = title;
+        if (type === "videoQuiz") content.video = title;
+
         return {
           pageNumber,
           type,
-          content: {
-            title,
-            question,
-          },
+          content,
           options: options.map((opt, index) => ({
             answer: opt,
             isCorrect: index === correctIndex,
@@ -71,17 +72,61 @@ const QuizEditor = forwardRef(
       setOptions(updated);
     };
 
+    const renderTitleField = () => {
+      if (type === "singleChoice") {
+        return (
+          <>
+            <label className="block mb-2 font-medium">Title:</label>
+            <input
+              type="text"
+              className="w-full p-2 border rounded mb-4"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </>
+        );
+      }
+
+      if (type === "audioQuiz") {
+        return (
+          <>
+            <label className="block mb-2 font-medium">Audio URL:</label>
+            <input
+              type="text"
+              className="w-full p-2 border rounded mb-4"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="https://.../audio.mp3"
+            />
+          </>
+        );
+      }
+
+      if (type === "videoQuiz") {
+        return (
+          <>
+            <label className="block mb-2 font-medium">Video URL:</label>
+            <input
+              type="text"
+              className="w-full p-2 border rounded mb-4"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="https://.../video.mp4"
+            />
+          </>
+        );
+      }
+
+      return null;
+    };
+
     return (
       <div className="bg-white p-4 rounded shadow max-w-xl mx-auto">
-        <h2 className="text-xl font-semibold mb-4">Create a Single Choice Quiz</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          Create a {type === "singleChoice" ? "Single Choice" : type === "audioQuiz" ? "Audio" : "Video"} Quiz
+        </h2>
 
-        <label className="block mb-2 font-medium">Title:</label>
-        <input
-          type="text"
-          className="w-full p-2 border rounded mb-4"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        {renderTitleField()}
 
         <label className="block mb-2 font-medium">Question:</label>
         <input
