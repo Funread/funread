@@ -1,8 +1,8 @@
 import React from 'react'
-import GridPage from './Pages/GridPage'  // Antiguo componente Page renombrado
-import KonvaPage from './Pages/KonvaPage'  // Nuevo componente para type 2
-import QuizPage from './Pages/QuizPage'  // Importar QuizPage en lugar de QuizMultiple
-import WordSearchPage from './Pages/WordSearchPage'  // Nuevo componente para sopa de letras
+import GridPage from './Components/Pages/GridPage';
+import KonvaPage from './Components/Pages/KonvaPage';
+import QuizPage from './Components/Pages/QuizPage';
+import WordSearchPage from './Components/Pages/WordSearchPage';
 
 const PageSelector = ({ pageType, onQuizResponse, savedResponses, ...props }) => {
   switch (pageType) {
