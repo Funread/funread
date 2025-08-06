@@ -15,14 +15,15 @@ const QuizCompleteEditor = forwardRef(
     const [points, setPoints] = useState(10);
 
     // Si recibimos datos de la BD, cargarlos
-    useEffect(() => {
-      if (initialData) {
-        setTitle(initialData.title || "");
-        setQuestion(initialData.question || "");
-        setCorrectAnswer(initialData.correctAnswer || "");
-        setPoints(initialData.points || 10);
-      }
-    }, [initialData]);
+ useEffect(() => {
+  if (initialData?.content) {
+    console.log("Cargando datos iniciales:", initialData);
+    setTitle(initialData.content.title || "");
+    setQuestion(initialData.content.question || "");
+    setCorrectAnswer(initialData.content.correctAnswer || "");
+    setPoints(initialData.content.points || 10);
+  }
+}, [initialData]);
 
     // Permite a un componente padre obtener el JSON final
     useImperativeHandle(ref, () => ({
