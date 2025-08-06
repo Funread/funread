@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 // API
 import { createMultipleOptions } from "../../api/options";
-
+import { updateWidgetItem } from "../../api/widget";
 // Hooks
 import { usePageSaver } from "./Hooks/usePageSaver";
 import { useBookData } from "./Hooks/useBookData";
@@ -100,14 +100,38 @@ export default function BookCreator() {
     savePage();
   };
 
-  const widgetValidation = (widgetId, type) => {
-    if (type !== pagesType) {
-      cleanElements();
-      setWidget(widgetId);
-      setPagesType(type);
-    }
-  };
+ const widgetValidation = async (widgetId, type) => {
+  const page = pagesList?.[currentPage]?.page;
+  const widgetItem = pagesList?.[currentPage]?.widgetitems?.[0];
 
+  if (!page || !widgetItem) {
+    alert("Error: No se encontró la página o el widget.");
+    return;
+  }
+
+  // Actualiza el estado visual
+  cleanElements();
+  setWidget(widgetId);
+  setPagesType(type);
+
+  // Actualiza el widget en el backend
+  try {
+    const dataToSend = widgetItem.value || {}; // si ya hay data, consérvala
+    await updateWidgetItem(
+      widgetItem.widgetitemid,
+      page.pageid,
+      widgetId,
+      type,
+      dataToSend,
+      widgetItem.elementorder ?? 0
+    );
+
+    // Opcional: recargar página actual para reflejar el cambio en `pagesList`
+    await loadBookData();
+  } catch (e) {
+    alert("Error actualizando widget: " + e.message);
+  }
+};
   return (
     <div className="flex h-screen w-full bg-gray-200">
       <BookSidebarPanel
