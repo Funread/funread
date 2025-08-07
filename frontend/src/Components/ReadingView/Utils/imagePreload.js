@@ -1,5 +1,5 @@
 // Utilidad para precargar imágenes
-export function imagePreload(imageUrls, onLoad, onError) {
+ function imagePreload(imageUrls, onLoad, onError) {
   let loaded = 0;
   if (!Array.isArray(imageUrls) || imageUrls.length === 0) {
     if (onLoad) onLoad();

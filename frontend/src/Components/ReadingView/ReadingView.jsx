@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useReadingBook } from "./Hooks/useReadingBook";
+import ReadingViewFooter from "./Components/ReadingViewFooter";
 
 
 function ReadingView() {
@@ -42,9 +43,14 @@ function ReadingView() {
   return (
     <FullScreen handle={handle}>
       <div className="presentation-container">
-        <Button className="close-button" onClick={ForceExitReading}>
-          <FontAwesomeIcon icon={faTimes} />
-        </Button>
+        <div className="top-bar" style={{ position: 'relative' }}>
+          <div className="book-title">
+            {contentBook?.[0]?.book?.title || 'Sin título'}
+          </div>
+          <Button className="close-button" onClick={ForceExitReading}>
+            <FontAwesomeIcon icon={faTimes} />
+          </Button>
+        </div>
 
         {quizTotalPoints > 0 && (
           <div className="quiz-points-display">Points: {quizTotalPoints}</div>
@@ -55,9 +61,9 @@ function ReadingView() {
             <ErrorPage />
           </div>
         ) : (
-          <div className={`reading-view-layout`}>
+          <div className="reading-view-layout">
             <div className="content-wrapper">
-              <div className="page-content">
+              <div className="page-content" style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative' }}>
                 <PageSelector
                   pageType={contentBook?.[pageNumer]?.page?.type || 1}
                   widgetId={contentBook?.[pageNumer]?.widgetitems?.[0]?.widgetid}
@@ -71,31 +77,14 @@ function ReadingView() {
                 />
               </div>
             </div>
-            <div className="navigation-footer">
-              <button
-                onClick={handlePreviousPage}
-                disabled={pageNumer === 0}
-                className="nav-button"
-              >
-                ←
-              </button>
-              <span className="page-number">
-                Page {pageNumer + 1} of {pagesCount}
-              </span>
-              <button
-                onClick={handleNextPage}
-                disabled={pageNumer === pagesCount - 1}
-                className="nav-button"
-              >
-                →
-              </button>{" "}
-              {pageNumer === pagesCount - 1 && (
-                <button onClick={ExitReading} className="exit-button">
-                  Save & Finish
-                </button>
-              )}
-              {currentBadge && <PopUpAchieve Badge={currentBadge} />}
-            </div>
+            <ReadingViewFooter
+              pageNumer={pageNumer}
+              pagesCount={pagesCount}
+              handlePreviousPage={handlePreviousPage}
+              handleNextPage={handleNextPage}
+              ExitReading={ExitReading}
+              currentBadge={currentBadge}
+            />
           </div>
         )}
       </div>

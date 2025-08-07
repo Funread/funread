@@ -52,9 +52,9 @@ const KonvaPage = ({ widgets }) => {
   }, []);
 
   return (
-    <div ref={containerRef} className="konva-page" style={{ width: '100%', height: '100%' }}>
+    <div ref={containerRef} style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative' }}>
       {imagesReady ? (
-        <Stage width={stageSize.width} height={stageSize.height}>
+        <Stage width={stageSize.width} height={stageSize.height} style={{ background: 'transparent' }}>
           <Layer>
             {elements.map((el, idx) => {
               if (el.type === "image") {
