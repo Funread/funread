@@ -66,68 +66,52 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
   });
 
   useEffect(() => {
-    console.log("useEffect running - widgets:", widgets);
-
-    if (!widgets) {
-      console.log("No widgets available");
+    setIsLoading(true);
+    if (!widgets || !Array.isArray(widgets)) {
+      setQuizData([]);
+      setIsLoading(false);
       return;
     }
 
-    const loadQuizData = async () => {
-      try {
-        setIsLoading(true);
-        console.log("Starting loadQuizData");
-
-        // Verificar que widgets existe y es un array
-        if (!Array.isArray(widgets)) {
-          console.error("Widgets is not an array:", typeof widgets);
-          return;
+    // Filtrar solo los widgets de tipo quiz
+    const quizWidgets = widgets.filter((widget) => widget.type === 4);
+    // Parsear el value de cada widget y extraer los datos
+    const parsedQuizData = quizWidgets.map((widget) => {
+      let valueData = widget.value;
+      if (typeof valueData === 'string') {
+        try {
+          valueData = JSON.parse(valueData);
+        } catch (e) {
+          console.error('Error parsing widget.value:', e);
+          return null;
         }
-
-        const quizWidgets = widgets.filter((widget) => {
-          console.log("Evaluating widget:", widget);
-          return widget.type === 4;
-        });
-
-        console.log("Quiz widgets found:", quizWidgets);
-
-        // Cargar las opciones para cada widget de quiz
-        const optionsPromises = quizWidgets.map(async (widget) => {
-          console.log("Loading options for widget:", widget.widgetitemid);
-          const options = await list_options_by_idwidgetitem(
-            widget.widgetitemid
-          );
-          return { widgetId: widget.widgetitemid, options };
-        });
-
-        const allOptions = await Promise.all(optionsPromises);
-        const optionsMap = {};
-        allOptions.forEach(({ widgetId, options }) => {
-          optionsMap[widgetId] = options;
-        });
-
-        setQuizOptions(optionsMap);
-        setQuizData(quizWidgets);
-
-        // Verificar si hay respuestas guardadas para marcar el quiz como respondido
-        if (savedResponses) {
-          const hasAnsweredCurrentQuizzes = quizWidgets.some(
-            (widget) => savedResponses[widget.widgetitemid]
-          );
-
-          if (hasAnsweredCurrentQuizzes) {
-            setQuizSubmitted(true);
-          }
-        }
-      } catch (error) {
-        console.error("Error in loadQuizData:", error);
-      } finally {
-        setIsLoading(false);
       }
-    };
+      // Estructura esperada: { type, title, question, options }
+      if (!valueData || !valueData.type) return null;
+      if (valueData.type === 'singleChoice') {
+        // Mapear opciones al formato esperado por QuizMultiple
+        return {
+          ...valueData,
+          answers: valueData.options.map((opt, i) => ({
+            id: i,
+            text: opt.answer,
+            isCorrect: opt.isCorrect,
+            points: opt.points,
+          }))
+        };
+      } else if (valueData.type === 'complete') {
+        // Pasar directamente a QuizComplete
+        return valueData;
+      }
+      return null;
+    }).filter(Boolean);
 
-    loadQuizData();
-  }, [widgets, savedResponses]); // Añadimos savedResponses a las dependencias
+    setQuizData(parsedQuizData);
+    // Verifica si ya se contestó alguno
+    const hasAnswered = parsedQuizData.some((w, idx) => savedResponses?.[quizWidgets[idx]?.widgetitemid]);
+    if (hasAnswered) setQuizSubmitted(true);
+    setIsLoading(false);
+  }, [widgets, savedResponses]);
 
   // Efecto para ocultar la animación después de 5 segundos
   useEffect(() => {
@@ -194,90 +178,41 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
       )}
 
       <div className="quiz-content">
-        {quizData?.map((widget) => {
-          console.log("Processing widget in map:", widget);
-
-          if (!widget.value) {
-            console.log("Widget without value:", widget);
-            return null;
-          }
-
-          let valueData = widget.value;
-          if (typeof widget.value === "string") {
-            try {
-              valueData = JSON.parse(widget.value);
-              console.log("Value parsed correctly:", valueData);
-            } catch (e) {
-              console.error("Error parsing value:", e);
-              return null;
-            }
-          }
-
-          console.log("Final valueData:", valueData);
-
-          // Verificar el tipo de quiz y los campos requeridos según el tipo
-          if (!valueData.title || !valueData.question || !valueData.type) {
-            console.error(
-              "ValueData does not have correct structure:",
-              valueData
-            );
-            return null;
-          }
-
-          // Verificar si hay una respuesta guardada para este widget
-          const savedResponse =
-            savedResponses && savedResponses[widget.widgetitemid];
+        {quizData?.map((quiz, idx) => {
+          // Adaptar para la nueva estructura
+          const savedResponse = savedResponses && savedResponses[idx];
           const initialAnswer = savedResponse ? savedResponse.answerId : null;
           const isAnswered = !!savedResponse;
 
-          console.log("savedResponse:", savedResponse);
-
-          // Renderizar el componente según el tipo de quiz
           let QuizComponent;
           let quizProps = {
             onAnswerSelected: (answerId, isCorrect, points) =>
-              handleQuizChange(widget.widgetitemid, answerId, isCorrect, points),
+              handleQuizChange(idx, answerId, isCorrect, points),
             initialAnswer: initialAnswer,
             isSubmitted: isAnswered,
           };
 
-          if (valueData.type === 'multiple') {
-            // Convertimos las opciones de la API al formato que espera QuizMultiple
-            const quizAnswers =
-              quizOptions[widget.widgetitemid]?.map((option) => ({
-                id: option.idoption,
-                text: option.answer,
-                points: option.points,
-                isCorrect: option.iscorrect === 1,
-              })) || [];
-
+          if (quiz.type === 'singleChoice') {
             QuizComponent = QuizMultiple;
             quizProps.quizData = {
-              ...valueData,
-              answers: quizAnswers,
+              title: quiz.content?.title,
+              question: quiz.content?.question,
+              answers: quiz.answers,
             };
-          } else if (valueData.type === 'complete') {
+          } else if (quiz.type === 'complete') {
             QuizComponent = QuizComplete;
-            quizProps.quizData = valueData;
+            quizProps.quizData = quiz;
           } else {
-            console.error("Tipo de quiz no soportado:", valueData.type);
+            console.error("Tipo de quiz no soportado:", quiz.type);
             return null;
           }
 
           return (
-            <div key={widget.widgetitemid} className="quiz-widget-container">
+            <div key={idx} className="quiz-widget-container">
               <QuizComponent {...quizProps} />
 
               {isAnswered && (
                 <div className="quiz-already-answered">
-                  {console.log(
-                    "Debug savedResponse:",
-                    savedResponse,
-                    "isCorrect:",
-                    savedResponse.isCorrect,
-                    "pointsAwarded:",
-                    savedResponse.pointsAwarded
-                  )}
                   {savedResponse &&
                   (savedResponse.isCorrect === true ||
                     savedResponse.isCorrect === 1 ||
