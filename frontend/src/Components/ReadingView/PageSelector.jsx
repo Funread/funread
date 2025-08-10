@@ -11,14 +11,15 @@ const PageSelector = ({ pageType, onQuizResponse, savedResponses, ...props }) =>
     case 2:
       return <KonvaPage {...props} />
     case 4:
-      console.log("caso 4")
+      // Forzar remount del quiz al cambiar de página usando key
       return (
-        <div className="quiz-page-wrapper">
+        <div className="quiz-page-wrapper" key={`quiz-${props.pageNumer}`}> 
           <QuizPage 
             widgets={props.widgets} 
             pageData={props.pageData} 
             onQuizResponse={onQuizResponse}
-            savedResponses={savedResponses}
+            savedResponses={props.savedResponsesForPage} // solo respuestas de la página actual
+            pageIndex={props.pageNumer} // opcional, para IDs únicos
           />
         </div>
       )
