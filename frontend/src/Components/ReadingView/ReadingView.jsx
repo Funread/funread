@@ -33,7 +33,8 @@ function ReadingView() {
   const [pageNumer, setPageNumer] = useState(0);
   const [widgets, setWidgets] = useState(null);
 
-  // State for managing accumulated quiz points
+  // Estado para respuestas de quiz por página y puntaje total
+  // Estructura: { [pageIndex]: { [questionId]: { answerId, isCorrect, pointsAwarded } } }
   const [quizTotalPoints, setQuizTotalPoints] = useState(0);
   const [quizResponses, setQuizResponses] = useState({});
 
@@ -54,22 +55,18 @@ function ReadingView() {
   const state = store.getState(); // Get the Redux state
   const userId = state.user.userId; // Get the user ID from Redux state
 
-  // Load saved responses from localStorage on startup
+  // Cargar respuestas guardadas desde localStorage al iniciar
   useEffect(() => {
-    const storedQuizResponses = localStorage.getItem(
-      `quiz_responses_${userId}`
-    );
-    if (storedQuizResponses) {
-      try {
-        const parsedResponses = JSON.parse(storedQuizResponses);
-        setQuizResponses(parsedResponses.responses || {});
-        setQuizTotalPoints(parsedResponses.totalPoints || 0);
-        console.log("Loading saved responses:", parsedResponses);
-      } catch (e) {
-        console.error("Error loading saved responses:", e);
-      }
+    const raw = localStorage.getItem(`quiz_responses_${userId}`);
+    if (!raw) return;
+    try {
+      const parsed = JSON.parse(raw);
+      setQuizResponses(parsed.responses || {}); // ahora responses es por página
+      setQuizTotalPoints(parsed.totalPoints || 0);
+    } catch (e) {
+      console.error(e);
     }
-  }, [user]);
+  }, [userId]);
 
   useEffect(() => {
     getBookContent();
@@ -82,76 +79,40 @@ function ReadingView() {
     }
   }, [contentBook]);
 
-  // Manejador para las respuestas del quiz
-  const handleQuizResponse = (questionId, answer, isCorrect, pointsAwarded) => {
-    console.log(
-      `QuizResponse: Q${questionId}, Answer: ${answer}, Correct: ${isCorrect}, Points: ${pointsAwarded}`
-    );
-
-    // Asegurarnos que pointsAwarded sea un número
+  // Handler para respuestas de quiz por página
+  // Estructura: { [pageIndex]: { [questionId]: { answerId, isCorrect, pointsAwarded } } }
+  const handleQuizResponse = (pageIndex, questionId, answer, isCorrect, pointsAwarded) => {
     const points = Number(pointsAwarded) || 0;
-    console.log("Converted points:", points);
 
-    // Comprobar si ya se ha respondido esta pregunta anteriormente
-    const previousResponse = quizResponses[questionId];
-    let pointsDelta = 0;
-
-    // Calcular el cambio de puntos
-    if (isCorrect) {
-      // Si la respuesta es correcta, sumar los puntos
-      pointsDelta = points;
-      console.log(`Correct answer: Adding ${pointsDelta} points`);
-    } else if (previousResponse && previousResponse.isCorrect) {
-      // Si la respuesta ahora es incorrecta pero antes era correcta, restar los puntos
-      pointsDelta = -Number(previousResponse.pointsAwarded || 0);
-      console.log(
-        `Changed from correct to incorrect: Subtracting ${-pointsDelta} points`
-      );
-    }
-
-    // Actualizar las respuestas
-    const newResponses = {
-      ...quizResponses,
-      [questionId]: {
-        answerId: answer, // Almacenar como answerId para compatibilidad
-        isCorrect,
-        pointsAwarded: points,
-      },
+    const prevPageResponses = quizResponses[pageIndex] || {};
+    // construir objeto de página
+    const updatedPageResponses = {
+      ...prevPageResponses,
+      [questionId]: { answerId: answer, isCorrect, pointsAwarded: points },
     };
 
-    // Para depuración, mostrar todas las respuestas actuales y sus puntos
-    console.log("Current responses with points:");
-    Object.entries(newResponses).forEach(([id, resp]) => {
-      if (resp.isCorrect) {
-        console.log(`- Question ${id}: ${resp.pointsAwarded} points`);
-      }
-    });
+    // construir objeto completo
+    const newResponses = {
+      ...quizResponses,
+      [pageIndex]: updatedPageResponses,
+    };
 
     setQuizResponses(newResponses);
 
-    // Calcular el total de puntos de todas las respuestas correctas
+    // Recalcular puntos totales sumando todas las páginas
     let totalCorrectPoints = 0;
-    Object.values(newResponses).forEach((resp) => {
-      if (resp.isCorrect) {
-        totalCorrectPoints += Number(resp.pointsAwarded || 0);
-      }
+    Object.values(newResponses).forEach(pageObj => {
+      Object.values(pageObj || {}).forEach(resp => {
+        if (resp.isCorrect) totalCorrectPoints += Number(resp.pointsAwarded || 0);
+      });
     });
-    console.log(
-      "Total de puntos por respuestas correctas:",
-      totalCorrectPoints
-    );
-
-    // Actualizar el total de puntos directamente con el valor calculado
     setQuizTotalPoints(totalCorrectPoints);
 
-    // Guardar las respuestas en localStorage para que persistan entre páginas
+    // Persistir
     try {
       localStorage.setItem(
         `quiz_responses_${userId}`,
-        JSON.stringify({
-          responses: newResponses,
-          totalPoints: totalCorrectPoints,
-        })
+        JSON.stringify({ responses: newResponses, totalPoints: totalCorrectPoints })
       );
     } catch (e) {
       console.error("Error saving responses to localStorage:", e);
@@ -468,14 +429,17 @@ function ReadingView() {
             <div className="content-wrapper">
               <div className="page-content">
                 <PageSelector
+                  key={`page-${pageNumer}`}
                   pageType={contentBook?.[pageNumer]?.page?.type || 1}
                   gridDirection={gridDirection}
                   gridNumRows={gridNumRows}
                   pageNumer={pageNumer}
                   widgets={widgets}
                   pageData={contentBook?.[pageNumer]?.page?.data}
-                  onQuizResponse={handleQuizResponse}
-                  savedResponses={quizResponses}
+                  onQuizResponse={(questionId, answer, isCorrect, points) =>
+                    handleQuizResponse(pageNumer, questionId, answer, isCorrect, points)
+                  }
+                  savedResponsesForPage={quizResponses[pageNumer] || {}}
                 />
               </div>
             </div>
