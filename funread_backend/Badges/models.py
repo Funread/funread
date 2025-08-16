@@ -7,7 +7,10 @@ class Badge(models.Model):
     icon = models.CharField(max_length=255, blank=True, null=True)
     is_teacher_badge = models.BooleanField(default=False)
     show_progress = models.BooleanField(default=False)
-    progress_placeholder = models.IntegerField(null=True, blank=True)  # Opcional, placeholder de progreso si aplica
+    goal_points = models.IntegerField(
+        help_text="Meta numérica para obtener el badge (1-100000)",
+        default=1
+    )
 
     def __str__(self):
         return self.title

@@ -56,6 +56,7 @@ root.render(
               <Route element={<ProtectedRoutes roles={["profesor"]} />}>
                 <Route path="library" element={<Library />} />
                 <Route path="groups" element={<Group />} />
+                <Route path="badges" element={<BadgesPage />} />
               </Route>
 
               {/* Rutas para estudiantes */}
