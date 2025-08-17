@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Stage, Layer, Text } from "react-konva";
 
 const FONT_FAMILIES = [
@@ -10,12 +10,22 @@ const FONT_FAMILIES = [
 ];
 const FONT_SIZES = [16, 20, 28, 36, 48, 64];
 
-export default function TextEditorModal({ text, onSave, fontFamily: initialFont, fontSize: initialSize, onStyleChange }) {
+export default function TextEditorModal({ text, onSave, fontFamily: initialFont, fontSize: initialSize, onStyleChange, pageType }) {
   const [value, setValue] = useState(text);
   const [fontFamily, setFontFamily] = useState(initialFont || FONT_FAMILIES[0].value);
   const [fontSize, setFontSize] = useState(initialSize || 20);
   const [isEditing, setIsEditing] = useState(false);
   const textareaRef = useRef();
+
+  // Sync incoming props (e.g. when changing pages) into local state and
+  // reset editing state so Konva stage/textarea are reinitialized.
+  useEffect(() => {
+    setValue(text);
+    setFontFamily(initialFont || FONT_FAMILIES[0].value);
+    setFontSize(initialSize || 20);
+    setIsEditing(false);
+    if (textareaRef.current) textareaRef.current.blur();
+  }, [text, initialFont, initialSize, pageType]);
 
   const handleSave = () => {
     onSave(value, { fontFamily, fontSize });
@@ -30,12 +40,19 @@ export default function TextEditorModal({ text, onSave, fontFamily: initialFont,
     }, 0);
   };
 
+  // Use a key based on incoming props so the <Stage> unmounts/remounts when
+  // the parent changes page/type. This avoids Konva getting into a broken state
+  // when the page loads already as type 4/5 or similar.
+  // include pageType so the Stage unmounts/remounts when the parent changes
+  // page type (fixes Konva getting into a broken state for types 4/5)
+  const stageKey = `stage-${String(text)}-${String(initialFont)}-${String(initialSize)}-pt-${String(pageType)}`;
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
       <div className="bg-white p-4 rounded-lg shadow-lg w-96">
         <h2 className="text-lg font-bold mb-2">Editar Texto</h2>
         <div className="mb-2 relative" style={{ height: 120 }}>
-          <Stage width={350} height={100} className="border rounded bg-gray-50">
+          <Stage key={stageKey} width={350} height={100} className="border rounded bg-gray-50">
             <Layer>
               <Text
                 text={value || "Doble clic para editar"}
