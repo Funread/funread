@@ -8,9 +8,9 @@ export function useQuizSaver({
   bookData,
   pagesList,
   currentPage,
-  
+  widgetId,
 }) {
-
+console.log('useQuizSaver', quizType, currentPage, pagesList);
   const saveQuiz = useCallback(() => {
     if (!pagesList || !pagesList[currentPage] || !pagesList[currentPage].page) {
       alert("Página no disponible");
@@ -19,14 +19,12 @@ export function useQuizSaver({
 
     const currentPageId = pagesList[currentPage].page.pageid;
     const widgetItem = pagesList[currentPage].widgetitems[0];
-  console.log('asdasdasds')
-    console.log(widgetItem)
+ 
     if (!widgetItem) {
       alert("No se encontró widgetitem en la página actual.");
       return;
     }
-
-    const widgetId = widgetItem.widgetid;
+ 
     const widgetitemid = widgetItem.widgetitemid;
     const elementorder = widgetItem.elementorder ?? 0;
     const type = 4; // Tipo de página para quiz
@@ -45,7 +43,7 @@ export function useQuizSaver({
         .catch(e => alert("Error guardando quiz: " + e.message));
       return;
     }
-  alert(widgetId);
+
     if (widgetId === 9) {
       const quizJson = quizEditorRef.current?.getQuizJson();
       if (!quizJson) {
@@ -60,7 +58,7 @@ export function useQuizSaver({
       return;
     }
 
-    alert('Tipo de widget para quiz no soportado: ' + widgetId);
+
   }, [
     quizEditorRef,
     quizCompleteEditorRef,
