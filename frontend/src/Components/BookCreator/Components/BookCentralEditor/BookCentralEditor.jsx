@@ -27,6 +27,11 @@ export default function BookCentralEditor({
   console.log(widget)
   
   if (isLoading) return <BookCreatorLoader />;
+  // Games/WordSearch pages must render regardless of widget id when pagesType === 5
+  if (pagesType === 5)
+    return (
+      <WordSearchForm initialData={elements} onSave={handleWordSearchSave} />
+    );
   if (pagesType === 2)
     return (
       <Canvas
@@ -54,10 +59,6 @@ export default function BookCentralEditor({
         pageNumber={currentPage}
         initialData={elements}
       />
-    );
-  if (pagesType === 5)
-    return (
-      <WordSearchForm initialData={elements} onSave={handleWordSearchSave} />
     );
   return null;
 }

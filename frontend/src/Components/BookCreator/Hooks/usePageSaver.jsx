@@ -24,8 +24,8 @@ export function usePageSaver(params) {
     const currentPageId = pagesList[currentPage]?.page?.pageid;
     const widgetItem = pagesList[currentPage]?.widgetitems?.[0];
 
-    if (!currentPageId || !widgetItem) {
-      alert("No se encontró información de la página o el widget.");
+    if (!currentPageId) {
+      alert("No se encontró información de la página.");
       return;
     }
 
@@ -36,6 +36,10 @@ export function usePageSaver(params) {
     if (pagesType === 5) return saveGame();
 
     if (pagesType === 4) {
+      if (!widgetItem) {
+        alert('No se encontró widget en la página para guardar el quiz.');
+        return;
+      }
       // Selecciona el tipo de guardado dinámicamente
       if (widgetItem.widgetid === 8) {
         return quizSaverComplete.saveQuiz();

@@ -31,45 +31,37 @@ export function useQuizSaver({
     const elementorder = widgetItem.elementorder ?? 0;
     const type = 4; // Tipo de página para quiz
 
-    if (quizType === "complete") {
-      if (widgetId !== 8) {
-        alert("Error: Este widget no corresponde a un quiz completo (se esperaba widgetid=8).");
-        return;
-      }
-
+    // Decide which editor to read from using the actual widgetId on the page
+    if (widgetId === 8) {
       const quizCompleteJson = quizCompleteEditorRef.current?.getQuizJson();
       if (!quizCompleteJson) {
         alert("Quiz completo no válido");
         return;
       }
-
       localStorage.setItem(`quiz-complete-page-${currentPage}`, JSON.stringify(quizCompleteJson));
-
+      console.log('Saving COMPLETE widget payload:', { widgetitemid, currentPageId, widgetId, type, value: quizCompleteJson, elementorder });
       updateWidgetItem(widgetitemid, currentPageId, widgetId, type, quizCompleteJson, elementorder)
         .then(() => alert(`Página ${currentPage + 1} guardada correctamente`))
         .catch(e => alert("Error guardando quiz: " + e.message));
-    } else {
-      if (widgetId !== 9) {
-        alert("Error: Este widget no corresponde a un quiz de selección (se esperaba widgetid=9).");
-        return;
-      }
-
+      return;
+    }
+  alert(widgetId);
+    if (widgetId === 9) {
       const quizJson = quizEditorRef.current?.getQuizJson();
       if (!quizJson) {
         alert("Quiz no válido");
         return;
       }
-
       localStorage.setItem(`quiz-page-${currentPage}`, JSON.stringify(quizJson));
-
+      console.log('Saving SINGLE CHOICE widget payload:', { widgetitemid, currentPageId, widgetId, type, value: quizJson, elementorder });
       updateWidgetItem(widgetitemid, currentPageId, widgetId, type, quizJson, elementorder)
-        .then(() => {
-          alert(`Página ${currentPage + 1} guardada correctamente`);
-        })
+        .then(() => alert(`Página ${currentPage + 1} guardada correctamente`))
         .catch(e => alert("Error guardando quiz: " + e.message));
+      return;
     }
+
+    alert('Tipo de widget para quiz no soportado: ' + widgetId);
   }, [
-    quizType,
     quizEditorRef,
     quizCompleteEditorRef,
     bookData,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './WordSearchForm.css';
 
 const DEFAULT_FORM_DATA = {
@@ -12,8 +12,27 @@ const DEFAULT_FORM_DATA = {
   words: [""]
 };
 
-export default function WordSearchForm({ onSave }) {
-  const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
+export default function WordSearchForm({ onSave, initialData = null }) {
+  const [formData, setFormData] = useState(() => initialData ? ({
+    title: initialData.title ?? initialData.title ?? DEFAULT_FORM_DATA.title,
+    difficulty: initialData.difficulty ?? DEFAULT_FORM_DATA.difficulty,
+    timeLimit: initialData.timeLimit ?? DEFAULT_FORM_DATA.timeLimit,
+    gridSize: initialData.gridSize ?? DEFAULT_FORM_DATA.gridSize,
+    words: initialData.words ?? DEFAULT_FORM_DATA.words,
+  }) : DEFAULT_FORM_DATA);
+
+  // Update when initialData changes (e.g., page load)
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        title: initialData.title ?? DEFAULT_FORM_DATA.title,
+        difficulty: initialData.difficulty ?? DEFAULT_FORM_DATA.difficulty,
+        timeLimit: initialData.timeLimit ?? DEFAULT_FORM_DATA.timeLimit,
+        gridSize: initialData.gridSize ?? DEFAULT_FORM_DATA.gridSize,
+        words: initialData.words ?? DEFAULT_FORM_DATA.words,
+      });
+    }
+  }, [initialData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -90,7 +109,7 @@ export default function WordSearchForm({ onSave }) {
   };
 
   return (
-    <div className="bg-white p-4 rounded shadow max-w-xl mx-auto">
+    <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow max-w-xl mx-auto">
       <h2 className="text-xl font-semibold mb-4">Create a Word Search Game</h2>
 
       <label className="block mb-2 font-medium">Title:</label>
@@ -193,6 +212,6 @@ export default function WordSearchForm({ onSave }) {
       >
         Save configuration
       </button>
-    </div>
+    </form>
   );
-} 
+}

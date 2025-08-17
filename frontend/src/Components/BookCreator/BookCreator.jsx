@@ -43,7 +43,7 @@ export default function BookCreator() {
   };
 
   // Custom hooks
-  const { bookData, pagesList, isLoading, error, loadBookData } = useBookData(id, onLoadPageControl);
+  const { bookData, pagesList, isLoading, error, loadBookData, setPagesList } = useBookData(id, onLoadPageControl);
 
   const { savePage } = usePageSaver({
     widget,
@@ -118,7 +118,12 @@ export default function BookCreator() {
       return;
     }
     setElements(formData);
-    savePage();
+    // Asegurarse de que el tipo de página esté en 'games' (5) antes de guardar
+    setPagesType(5);
+    // Dejar que React actualice el estado y luego llamar a savePage
+    setTimeout(() => {
+      savePage();
+    }, 0);
   };
 
  const widgetValidation = async (widgetId, type) => {
@@ -161,7 +166,26 @@ export default function BookCreator() {
         };
       }
 
-      await newWidgetItem(page.pageid, widgetId, type, defaultValue, 0);
+      const res = await newWidgetItem(page.pageid, widgetId, type, defaultValue, 0);
+      // Inject created widgetItem into local pagesList so subsequent saves see it
+      try {
+        const created = res?.data?.widgetitem ?? res?.data;
+        if (created && typeof setPagesList === 'function') {
+          setPagesList(prev => {
+            const newPages = Array.isArray(prev) ? [...prev] : [];
+            const pageIndex = currentPage;
+            // Ensure page slot exists
+            while (newPages.length <= pageIndex) newPages.push({ page: page, widgetitems: [] });
+            const current = { ...newPages[pageIndex] };
+            current.widgetitems = Array.isArray(current.widgetitems) ? [created, ...current.widgetitems] : [created];
+            newPages[pageIndex] = current;
+            return newPages;
+          });
+        }
+      } catch (err) {
+        console.error('Error injecting widgetitem into pagesList', err);
+      }
+
       // Actualizar UI local sin recargar todo el libro
       setWidget(widgetId);
       setPagesType(type);
@@ -174,14 +198,30 @@ export default function BookCreator() {
   }
 
   // Solo limpiar si el tipo de página realmente cambia
+  // if (pagesType !== type || widget !== widgetId) {
+  //   cleanElements();
+  //   setWidget(widgetId);
+  //   setPagesType(type);
+  // }
+
+  // Determine current backend widget id and page type to decide updates
+  const existingWidgetId = widgetItem?.widgetid;
+  const rawPageType = page?.type;
+  let normalizedRawType = rawPageType;
+  if (rawPageType === 1) normalizedRawType = 2;
+
+  const pageTypeChanged = normalizedRawType !== type;
+  const widgetIdChanged = existingWidgetId !== widgetId;
+
+  // Update local UI immediately if necessary
   if (pagesType !== type || widget !== widgetId) {
     cleanElements();
     setWidget(widgetId);
     setPagesType(type);
   }
 
-  // Actualiza el widget en el backend solo si cambia
-  if (widget !== widgetId || pagesType !== type) {
+  // Actualiza el widget en el backend solo si el widget real en la página o el tipo cambiaron
+  if (widgetIdChanged || pageTypeChanged) {
     try {
       // Si el widget actual se convierte a quiz y el value no tiene la estructura esperada,
       // usar una plantilla por defecto para evitar errores del backend que esperan widgetid específico.
