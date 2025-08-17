@@ -62,7 +62,8 @@ export default function BookCreator() {
     addPage,
     cleanElements,
     pageLoading,
-    pageError
+    pageError,
+    SessionModal
   } = usePages({
     id,
     loadBookData,
@@ -104,8 +105,22 @@ export default function BookCreator() {
   const page = pagesList?.[currentPage]?.page;
   const widgetItem = pagesList?.[currentPage]?.widgetitems?.[0];
 
+  // Si no hay sesión (no hay page o widgetItem), mostrar modal de sesión expirada
   if (!page || !widgetItem) {
-    alert("Error: No se encontró la página o el widget.");
+    if (typeof document !== 'undefined' && window.ReactDOM) {
+      // Evita múltiples modales
+      if (!document.getElementById('session-expired-modal')) {
+        const modalDiv = document.createElement('div');
+        modalDiv.id = 'session-expired-modal';
+        document.body.appendChild(modalDiv);
+        import('./Components/SessionExpiredModal').then(({ default: SessionExpiredModal }) => {
+          window.ReactDOM.render(
+            <SessionExpiredModal show={true} onClose={() => { window.location.href = '/'; }} />, 
+            modalDiv
+          );
+        });
+      }
+    }
     return;
   }
 
@@ -136,7 +151,9 @@ export default function BookCreator() {
   }
 };
   return (
-    <div className="flex h-screen w-full bg-gray-200">
+    <>
+      {SessionModal}
+      <div className="flex h-screen w-full bg-gray-200">
       <BookSidebarPanel
         widgetValidation={widgetValidation}
         setElements={setElements}
@@ -185,6 +202,7 @@ export default function BookCreator() {
           addPage={addPage}
         />
       )}
-    </div>
+      </div>
+    </>
   );
 }

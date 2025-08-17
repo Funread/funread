@@ -1,5 +1,8 @@
 import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { newPageWithWidgets } from "../Utils/newPageWithWidgets";
+import { useState as useReactState } from "react";
+import SessionExpiredModal from "../Components/SessionExpiredModal";
 
 export function usePages({
   id,
@@ -12,6 +15,8 @@ export function usePages({
   // Estado local si quieres loading o error en estas acciones
   const [pageLoading, setPageLoading] = useState(false);
   const [pageError, setPageError] = useState(null);
+  const [showSessionModal, setShowSessionModal] = useReactState(false);
+  const navigate = useNavigate();
 
   // ---- Agregar página ----
   const addPage = useCallback(async () => {
@@ -33,11 +38,19 @@ export function usePages({
       setElements([]);
     } catch (error) {
       setPageError(error);
+      if (error?.response?.status === 401) {
+        setShowSessionModal(true);
+      }
       console.error("Error al agregar página:", error);
     } finally {
       setPageLoading(false);
     }
   }, [id, pagesList, loadBookData, setCurrentPage, setElements]);
+
+  const handleSessionModalClose = () => {
+    setShowSessionModal(false);
+    navigate("/");
+  };
 
   // ---- Limpiar elementos de la página ----
   const cleanElements = useCallback(() => {
@@ -45,10 +58,16 @@ export function usePages({
     setSelectedId(null);
   }, [setElements, setSelectedId]);
 
+  // Renderizar el modal si es necesario
+  const SessionModal = showSessionModal ? (
+    <SessionExpiredModal show={showSessionModal} onClose={handleSessionModalClose} />
+  ) : null;
+
   return {
     addPage,
     cleanElements,
     pageLoading,
     pageError,
+    SessionModal,
   };
 }

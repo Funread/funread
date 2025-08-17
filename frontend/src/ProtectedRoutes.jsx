@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import AccessDeniedModal from './Components/ErrorHandler/AccessDeniedModal';
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { tokenVerify,axiosAuth } from './api';
 
 const ProtectedRoutes = (props) => {
     const [isAuth, setIsAuth] = useState(null); // Inicialmente establecido como null
+    const [showModal, setShowModal] = useState(false);
     const user = useSelector((state) => state.user)
 
     const rolesCheck = ( () => {
@@ -56,10 +58,14 @@ const ProtectedRoutes = (props) => {
         // Usuario autenticado
         return <Outlet />;
     } else {
-        // Usuario no autenticado, redirigir
-        alert('Access denied, check if you have the permissions to enter in this page or if you are logged in.\n\n\n(las rutas protegidas necesitan de usuarios con roles, el unico rol por el momento es "profesor")\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, ProtectedRoutes.jsx:59)')
-        //setTimeout(() => { window.location.href = '/';}, 2000);
-        return <Navigate to="/" />;
+        // Usuario no autenticado, mostrar modal y redirigir
+        const handleClose = () => {
+            setShowModal(false);
+            window.location.href = '/';
+        };
+        // Solo mostrar el modal si no está ya visible
+        if (!showModal) setShowModal(true);
+        return <AccessDeniedModal show={showModal} onClose={handleClose} />;
     }
 };
 
