@@ -30,5 +30,5 @@ export function useBookData(id, onLoadPageControl) {
   }, [id, onLoadPageControl]);
 
 
-  return { bookData, pagesList, isLoading, error, loadBookData };
+  return { bookData, pagesList, setPagesList, isLoading, error, loadBookData };
 }

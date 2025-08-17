@@ -8,7 +8,7 @@ export function useQuizSaver({
   bookData,
   pagesList,
   currentPage,
-  createMultipleOptions
+  
 }) {
 
   const saveQuiz = useCallback(() => {
@@ -63,8 +63,7 @@ export function useQuizSaver({
       localStorage.setItem(`quiz-page-${currentPage}`, JSON.stringify(quizJson));
 
       updateWidgetItem(widgetitemid, currentPageId, widgetId, type, quizJson, elementorder)
-        .then(res => {
-          createMultipleOptions(quizJson.options, res.data.widgetitemid, bookData.createdby);
+        .then(() => {
           alert(`Página ${currentPage + 1} guardada correctamente`);
         })
         .catch(e => alert("Error guardando quiz: " + e.message));
@@ -75,9 +74,8 @@ export function useQuizSaver({
     quizCompleteEditorRef,
     bookData,
     pagesList,
-    currentPage,
-    createMultipleOptions
-  ]);
+    currentPage
+   ]);
 
-  return { saveQuiz };
-}
+   return { saveQuiz };
+ }

@@ -15,30 +15,37 @@ const QuizCompleteEditor = forwardRef(
     const [points, setPoints] = useState(10);
 
     // Si recibimos datos de la BD, cargarlos
- useEffect(() => {
-  if (initialData?.content) {
-    console.log("Cargando datos iniciales:", initialData);
-    setTitle(initialData.content.title || "");
-    setQuestion(initialData.content.question || "");
-    setCorrectAnswer(initialData.content.correctAnswer || "");
-    setPoints(initialData.content.points || 10);
-  }
-}, [initialData]);
+    useEffect(() => {
+      if (initialData) {
+        // Support both shapes:
+        // 1) { content: { title, question, correctAnswer, points } }
+        // 2) { type: 'complete', title, question, correctAnswer, points }
+        console.log("Cargando datos iniciales:", initialData);
+        const src = initialData.content ? initialData.content : initialData;
+        setTitle(src.title || initialData.title || "");
+        setQuestion(src.question || initialData.question || "");
+        setCorrectAnswer(src.correctAnswer || initialData.correctAnswer || "");
+        setPoints(src.points ?? initialData.points ?? 10);
+      }
+    }, [initialData]);
 
     // Permite a un componente padre obtener el JSON final
     useImperativeHandle(ref, () => ({
       getQuizJson: () => {
-        if (!title || !question || !correctAnswer || !Number(points)) {
+        if (!title || !question || !correctAnswer) {
           alert("Please complete all fields in the quiz editor.");
           return null;
         }
 
+        // Return a consistent nested structure expected in other parts of the app/backend
         return {
-          type: "complete",
-          title,
-          question,
-          correctAnswer,
-          points: Number(points),
+          type: "COMPLETE",
+          content: {
+            title,
+            question,
+            correctAnswer,
+            points: Number(points),
+          },
         };
       },
     }));
@@ -111,4 +118,4 @@ const QuizCompleteEditor = forwardRef(
   }
 );
 
-export default QuizCompleteEditor; 
+export default QuizCompleteEditor;

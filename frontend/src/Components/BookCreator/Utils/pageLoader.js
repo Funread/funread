@@ -12,13 +12,19 @@ export async function handlePageLoad(page, setElements, setPagesType, currentPag
   if (type === 4) {
     const getWidgetInfo = page.widgetitems?.[0];
     if (getWidgetInfo) {
-      const widgetValue = getWidgetInfo.value;
-     
+      const widgetValue = getWidgetInfo.value || {};
+
       if (widgetValue && widgetValue.type === "COMPLETE") {
         setElements(widgetValue);
       } else {
-        const options = await list_options_by_idwidgetitem(getWidgetInfo.widgetitemid);
-        setElements(formatQuizData(widgetValue, options, currentPage));
+        // If the widget's value already includes options (embedded answers), prefer them
+        const embeddedOptions = Array.isArray(widgetValue?.options) && widgetValue.options.length > 0 ? widgetValue.options : null;
+        if (embeddedOptions) {
+          setElements(formatQuizData(widgetValue, embeddedOptions, currentPage));
+        } else {
+          const options = await list_options_by_idwidgetitem(getWidgetInfo.widgetitemid);
+          setElements(formatQuizData(widgetValue, options, currentPage));
+        }
       }
     }
   } else if (type === 2) {

@@ -2,8 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // API
-import { createMultipleOptions } from "../../api/options";
-import { updateWidgetItem } from "../../api/widget";
+import { updateWidgetItem, newWidgetItem } from "../../api/widget";
 // Hooks
 import { usePageSaver } from "./Hooks/usePageSaver";
 import { useBookData } from "./Hooks/useBookData";
@@ -53,7 +52,6 @@ export default function BookCreator() {
     bookData,
     pagesList,
     currentPage,
-    createMultipleOptions,
     elements,
     pagesType,
   });
@@ -80,12 +78,24 @@ export default function BookCreator() {
     }
   }, [id]);
 
+  // Refresh book data whenever the current page changes to ensure we load any remote updates
+  useEffect(() => {
+    if (id) {
+      loadBookData();
+    }
+  }, [currentPage]);
+
   // Reload page on page change
   useEffect(() => {
     if (!isLoading && pagesList[currentPage]) {
          console.log('pageloader')
            console.log(pagesList)
-      onLoadPageControl(pagesList[currentPage]);
+      // Set pagesType synchronously from pagesList to avoid transient render mismatch
+      const rawType = pagesList[currentPage].page?.type;
+      let normalizedType = rawType;
+      if (rawType === 1) normalizedType = 2; // tratar type 1 como canvas (2)
+      if (typeof normalizedType !== 'undefined') setPagesType(normalizedType);
+
       // Guardar contra páginas nuevas sin widgetitems (evita crash al acceder a [0])
       const wi = pagesList[currentPage].widgetitems?.[0];
       if (wi && wi.widgetid) {
@@ -94,6 +104,9 @@ export default function BookCreator() {
         // Si no hay widget en la página nueva, usar widget por defecto (canvas)
         setWidget(2);
       }
+
+      // Cargar datos (async) — esto puede actualizar pagesType/elements cuando termine
+      onLoadPageControl(pagesList[currentPage]);
 
     }
   }, [currentPage, pagesList, isLoading]);
@@ -112,8 +125,8 @@ export default function BookCreator() {
   const page = pagesList?.[currentPage]?.page;
   const widgetItem = pagesList?.[currentPage]?.widgetitems?.[0];
 
-  // Si no hay sesión (no hay page o widgetItem), mostrar modal de sesión expirada
-  if (!page || !widgetItem) {
+  // Si no hay sesión (no hay page), mostrar modal de sesión expirada
+  if (!page) {
     if (typeof document !== 'undefined' && window.ReactDOM) {
       // Evita múltiples modales
       if (!document.getElementById('session-expired-modal')) {
@@ -131,6 +144,35 @@ export default function BookCreator() {
     return;
   }
 
+  // Si no existe widgetItem aún, crearlo con plantilla por defecto y actualizar UI localmente
+  if (!widgetItem) {
+    try {
+      let defaultValue = {};
+      if (widgetId === 8) {
+        defaultValue = {
+          type: 'COMPLETE',
+          content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí', correctAnswer: '', points: 0 }
+        };
+      } else if (widgetId === 9) {
+        defaultValue = {
+          type: 'singleChoice',
+          content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí' },
+          options: []
+        };
+      }
+
+      await newWidgetItem(page.pageid, widgetId, type, defaultValue, 0);
+      // Actualizar UI local sin recargar todo el libro
+      setWidget(widgetId);
+      setPagesType(type);
+      setElements(defaultValue);
+      return;
+    } catch (e) {
+      alert('Error creando widget: ' + (e.message || e));
+      return;
+    }
+  }
+
   // Solo limpiar si el tipo de página realmente cambia
   if (pagesType !== type || widget !== widgetId) {
     cleanElements();
@@ -141,22 +183,46 @@ export default function BookCreator() {
   // Actualiza el widget en el backend solo si cambia
   if (widget !== widgetId || pagesType !== type) {
     try {
-      const dataToSend = widgetItem.value || {}; // si ya hay data, consérvala
-      await updateWidgetItem(
-        widgetItem.widgetitemid,
-        page.pageid,
-        widgetId,
-        type,
-        dataToSend,
-        widgetItem.elementorder ?? 0
-      );
-      // Opcional: recargar página actual para reflejar el cambio en `pagesList`
-      await loadBookData();
-    } catch (e) {
-      alert("Error actualizando widget: " + e.message);
-    }
-  }
-};
+      // Si el widget actual se convierte a quiz y el value no tiene la estructura esperada,
+      // usar una plantilla por defecto para evitar errores del backend que esperan widgetid específico.
+      const existingValue = widgetItem.value || {};
+      let dataToSend = existingValue;
+      const isConvertingToComplete = widgetId === 8;
+      const isConvertingToSingle = widgetId === 9;
+
+      if (isConvertingToComplete) {
+        const valid = existingValue && (existingValue.type === 'COMPLETE' || existingValue.type === 'complete');
+        if (!valid) {
+          dataToSend = { type: 'COMPLETE', content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí', correctAnswer: '', points: 0 } };
+        }
+      } else if (isConvertingToSingle) {
+        const valid = existingValue && (existingValue.type === 'singleChoice');
+        if (!valid) {
+          dataToSend = { type: 'singleChoice', content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí' }, options: [] };
+        }
+      }
+       await updateWidgetItem(
+         widgetItem.widgetitemid,
+         page.pageid,
+         widgetId,
+         type,
+         dataToSend,
+         widgetItem.elementorder ?? 0
+       );
+       // No recargamos todo el libro: actualizamos solo estado local para que el editor muestre cambio
+       setWidget(widgetId);
+       setPagesType(type);
+      if (dataToSend && Object.keys(dataToSend).length > 0) {
+        setElements(dataToSend);
+      }
+     } catch (e) {
+      console.error('Error updating widget:', e);
+      // Mostrar más info si viene del backend
+      const msg = e?.response?.data?.error || e?.response?.data || e.message || String(e);
+      alert("Error actualizando widget: " + msg);
+     }
+   }
+ };
   return (
     <>
       {SessionModal}
