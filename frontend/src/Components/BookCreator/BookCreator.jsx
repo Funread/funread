@@ -86,7 +86,14 @@ export default function BookCreator() {
          console.log('pageloader')
            console.log(pagesList)
       onLoadPageControl(pagesList[currentPage]);
-      setWidget(pagesList[currentPage].widgetitems[0].widgetid)
+      // Guardar contra páginas nuevas sin widgetitems (evita crash al acceder a [0])
+      const wi = pagesList[currentPage].widgetitems?.[0];
+      if (wi && wi.widgetid) {
+        setWidget(wi.widgetid);
+      } else {
+        // Si no hay widget en la página nueva, usar widget por defecto (canvas)
+        setWidget(2);
+      }
 
     }
   }, [currentPage, pagesList, isLoading]);
