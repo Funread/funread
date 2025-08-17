@@ -1,5 +1,7 @@
 import './BookBuilder.sass'
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+import SessionExpiredModal from './SessionExpiredModal';
 import { useSelector } from 'react-redux'
 import BookImage from '../BookImage/BookImage'
 import CustomSelect from '../CustomSelect/CustomSelect'
@@ -42,6 +44,8 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   const [fileImage, setFileImage] = useState(null)
   const [missingFields, setMissingFields] = useState({})
   const user = useSelector((state) => state.user)
+  const [showSessionModal, setShowSessionModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -49,10 +53,14 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
         const categoriesResponse = await listCategories()
         setCategories(categoriesResponse.data)
       } catch (error) {
-        console.error('Error fetching data:', error)
+        // Si el error es de autenticación, mostrar modal y redirigir
+        if (error?.response?.status === 401 || error?.response?.status === 403) {
+          setShowSessionModal(true);
+        } else {
+          console.error('Error fetching data:', error)
+        }
       }
     }
-
     fetchData()
   }, [])
 
@@ -228,132 +236,140 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
     setSelectedDilemmas(selectedValues)
   }
 
+  const handleSessionModalClose = () => {
+    setShowSessionModal(false);
+    navigate('/');
+  };
+
   return (
-    <Container>
-      <Row>
-        <Col>
-          <Form onSubmit={handleSubmit}>
-            <Radio.Group
-              onChange={handleSharedBookChange}
-              required
-              value={book.sharedbook}
-              style={{ marginTop: '50px', marginBottom: '30px' }}
-            >
-              <Radio.Button className='custom-radio-button-wrapper' value={1}>
-                <FontAwesomeIcon icon={faGlobe} className='pe-2' />
-                Public
-              </Radio.Button>
-              <Radio.Button className='custom-radio-button-wrapper' value={0}>
-                <FontAwesomeIcon icon={faLock} className='pe-2' />
-                Private
-              </Radio.Button>
-            </Radio.Group>
+    <>
+      <SessionExpiredModal show={showSessionModal} onClose={handleSessionModalClose} />
+      <Container>
+        <Row>
+          <Col>
+            <Form onSubmit={handleSubmit}>
+              <Radio.Group
+                onChange={handleSharedBookChange}
+                required
+                value={book.sharedbook}
+                style={{ marginTop: '50px', marginBottom: '30px' }}
+              >
+                <Radio.Button className='custom-radio-button-wrapper' value={1}>
+                  <FontAwesomeIcon icon={faGlobe} className='pe-2' />
+                  Public
+                </Radio.Button>
+                <Radio.Button className='custom-radio-button-wrapper' value={0}>
+                  <FontAwesomeIcon icon={faLock} className='pe-2' />
+                  Private
+                </Radio.Button>
+              </Radio.Group>
 
-            <BookImage
-              onImageSelect={handleImageSelect}
-              updateBookPortrait={updateBookPortrait}
-            />
+              <BookImage
+                onImageSelect={handleImageSelect}
+                updateBookPortrait={updateBookPortrait}
+              />
 
-            <Form.Control
-              className={`custom-book-builder-form-title ${
-                missingFields.title ? 'error-title' : ''
-              }`}
-              type='text'
-              name='title'
-              placeholder='Name of the book'
-              value={book.title}
-              onChange={handleChange}
-            />
-            {missingFields.title && (
-              <p className='error-message'>You need to fill this field.</p>
-            )}
+              <Form.Control
+                className={`custom-book-builder-form-title ${
+                  missingFields.title ? 'error-title' : ''
+                }`}
+                type='text'
+                name='title'
+                placeholder='Name of the book'
+                value={book.title}
+                onChange={handleChange}
+              />
+              {missingFields.title && (
+                <p className='error-message'>You need to fill this field.</p>
+              )}
 
-            <Form.Control
-              className={`custom-book-builder-text-area ${
-                missingFields.description ? 'error' : ''
-              }`}
-              as='textarea'
-              placeholder='Description'
-              rows={4}
-              name='description'
-              value={book.description}
-              onChange={handleChange}
-            />
-            {missingFields.description && (
-              <p className='error-message'>You need to fill this field.</p>
-            )}
+              <Form.Control
+                className={`custom-book-builder-text-area ${
+                  missingFields.description ? 'error' : ''
+                }`}
+                as='textarea'
+                placeholder='Description'
+                rows={4}
+                name='description'
+                value={book.description}
+                onChange={handleChange}
+              />
+              {missingFields.description && (
+                <p className='error-message'>You need to fill this field.</p>
+              )}
 
-            <CustomSelect
-              classNameStyle={`custom-book-builder-select ${
-                missingFields.category ? 'error' : ''
-              }`}
-              options={categories.map((category) => ({
-                key: category.bookcategoryid,
-                value: category.bookcategoryid,
-                label: category.name,
-              }))}
-              name='category'
-              value={selectedCategory}
-              onChange={handleCategoryChange}
-              placeholder='Category'
-            />
-            {missingFields.category && (
-              <p className='error-message'>You need to fill this field.</p>
-            )}
+              <CustomSelect
+                classNameStyle={`custom-book-builder-select ${
+                  missingFields.category ? 'error' : ''
+                }`}
+                options={categories.map((category) => ({
+                  key: category.bookcategoryid,
+                  value: category.bookcategoryid,
+                  label: category.name,
+                }))}
+                name='category'
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+                placeholder='Category'
+              />
+              {missingFields.category && (
+                <p className='error-message'>You need to fill this field.</p>
+              )}
 
-            {selectedCategory && (
-              <>
-                <CustomSelect
-                  classNameStyle={`custom-book-builder-select ${
-                    missingFields.dimension ? 'error' : ''
-                  }`}
-                  options={dimensions.map((dimension) => ({
-                    key: dimension.bookdimensionid,
-                    value: dimension.bookdimensionid,
-                    label: dimension.name,
-                  }))}
-                  name='dimension'
-                  value={selectedDimension}
-                  onChange={handleDimensionChange}
-                  placeholder='Dimension'
-                />
-                {missingFields.dimension && (
-                  <p className='error-message'>You need to fill this field.</p>
-                )}
-              </>
-            )}
+              {selectedCategory && (
+                <>
+                  <CustomSelect
+                    classNameStyle={`custom-book-builder-select ${
+                      missingFields.dimension ? 'error' : ''
+                    }`}
+                    options={dimensions.map((dimension) => ({
+                      key: dimension.bookdimensionid,
+                      value: dimension.bookdimensionid,
+                      label: dimension.name,
+                    }))}
+                    name='dimension'
+                    value={selectedDimension}
+                    onChange={handleDimensionChange}
+                    placeholder='Dimension'
+                  />
+                  {missingFields.dimension && (
+                    <p className='error-message'>You need to fill this field.</p>
+                  )}
+                </>
+              )}
 
-            {selectedDimension && (
-              <>
-                <CustomSelect
-                  classNameStyle={`custom-book-builder-select ${
-                    missingFields.dilemma ? 'error' : ''
-                  }`}
-                  options={dilemmas.map((dilemma) => ({
-                    key: dilemma.bookdilemmaid,
-                    value: dilemma.bookdilemmaid,
-                    label: dilemma.dilemma,
-                  }))}
-                  mode='multiple'
-                  name='dilemma'
-                  value={selectedDilemmas}
-                  onChange={handleDilemmaChange}
-                  placeholder='Dilemma'
-                />
-                {missingFields.dilemma && (
-                  <p className='error-message'>You need to fill this field.</p>
-                )}
-              </>
-            )}
+              {selectedDimension && (
+                <>
+                  <CustomSelect
+                    classNameStyle={`custom-book-builder-select ${
+                      missingFields.dilemma ? 'error' : ''
+                    }`}
+                    options={dilemmas.map((dilemma) => ({
+                      key: dilemma.bookdilemmaid,
+                      value: dilemma.bookdilemmaid,
+                      label: dilemma.dilemma,
+                    }))}
+                    mode='multiple'
+                    name='dilemma'
+                    value={selectedDilemmas}
+                    onChange={handleDilemmaChange}
+                    placeholder='Dilemma'
+                  />
+                  {missingFields.dilemma && (
+                    <p className='error-message'>You need to fill this field.</p>
+                  )}
+                </>
+              )}
 
-            <button className='custom-save-button' type='submit'>
-              Save
-            </button>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
-  )
+              <button className='custom-save-button' type='submit'>
+                Save
+              </button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    </>
+  );
 }
 
 export default BookBuilder

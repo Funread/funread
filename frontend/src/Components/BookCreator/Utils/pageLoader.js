@@ -4,9 +4,12 @@ import { formatQuizData } from "./formatters";
 export async function handlePageLoad(page, setElements, setPagesType, currentPage) {
   if (!page || !page.page) return;
 
-  setPagesType(page.page.type);
+  // Tratar tipo 1 igual que tipo 2 (canvas)
+  let type = page.page.type;
+  if (type === 1) type = 2;
+  setPagesType(type);
 
-  if (page.page.type === 4) {
+  if (type === 4) {
     const getWidgetInfo = page.widgetitems?.[0];
     if (getWidgetInfo) {
       const widgetValue = getWidgetInfo.value;
@@ -16,10 +19,9 @@ export async function handlePageLoad(page, setElements, setPagesType, currentPag
       } else {
         const options = await list_options_by_idwidgetitem(getWidgetInfo.widgetitemid);
         setElements(formatQuizData(widgetValue, options, currentPage));
-
       }
     }
-  } else if (page.page.type === 2) {
+  } else if (type === 2) {
     const widgetItem = page.widgetitems?.[0];
     const rawValue = widgetItem?.value;
 
@@ -36,7 +38,7 @@ export async function handlePageLoad(page, setElements, setPagesType, currentPag
         setElements([]);
       }
     }
-  } else if (page.page.type === 5) {
+  } else if (type === 5) {
     setElements(page.widgetitems?.[0]?.value || []);
   } else {
     console.warn("Tipo de página no soportado:", page.page.type);

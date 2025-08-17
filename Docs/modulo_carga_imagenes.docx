@@ -1,0 +1,113 @@
+1. Resumen del Feature
+
+El módulo permite a cualquier usuario (profesor o estudiante) cargar imágenes personalizadas y seleccionar imágenes previamente guardadas. Las imágenes se clasifican por tipo y se almacenan en carpetas específicas según el tipo y el usuario. El sistema registra el nombre del archivo (incluyendo extensión), tipo, extensión, y el tipo de galería. El usuario puede elegir entre cargar una nueva imagen o seleccionar una existente mediante un modal.
+
+2. Objetivos y No Alcance
+
+Objetivos:
+- Permitir la carga y selección de imágenes por parte del usuario.
+- Clasificar y almacenar imágenes según tipo y usuario.
+- Registrar metadatos relevantes de cada imagen.
+- Proveer un modal para gestión visual de imágenes.
+
+No Alcance:
+- No se permite edición avanzada de imágenes (solo carga y selección).
+- No se contempla integración con servicios externos de almacenamiento en esta versión.
+
+3. Requerimientos Funcionales
+
+1. El usuario puede abrir un modal para cargar una nueva imagen o seleccionar una ya guardada.
+2. Al cargar una imagen, el sistema debe registrar:
+   - Nombre del archivo (con extensión, ej: 14.png)
+   - Extensión (png, jpg, etc.)
+   - Tipo de archivo (ver tabla de tipos)
+   - Gallery type (ver tabla de tipos)
+   - userId (si aplica)
+3. Las imágenes se almacenan en la ruta:
+   Media/{galleryType}/{userId}/{id}.{ext}
+   Ejemplo: Media/personaje/13/133.png
+4. El nombre del archivo guardado debe ser el id del registro en base de datos más la extensión.
+5. El usuario puede ver y seleccionar imágenes previamente cargadas (filtradas por su userId).
+6. El sistema debe validar el tipo y tamaño de archivo permitido.
+
+4. Modelo de Datos
+
+Tabla: images
+
+| Columna      | Tipo    | Descripción                                 |
+|--------------|---------|---------------------------------------------|
+| id           | int     | Identificador único de la imagen            |
+| name         | string  | Nombre del archivo con extensión (ej: 14.png)|
+| ext          | string  | Extensión del archivo (png, jpg, etc.)      |
+| file_type    | string  | Tipo de archivo (ver tabla de tipos)        |
+| gallery_type | string  | Tipo de galería (ver tabla de tipos)        |
+| user_id      | int     | ID del usuario que subió la imagen (nullable para imágenes globales) |
+| created_at   | datetime| Fecha de carga                              |
+
+Tipos de gallery_type/file_type:
+
+| Valor | Descripción   |
+|-------|---------------|
+| 1     | Custom IMG    |
+| 2     | Background    |
+| 3     | Shapes        |
+| 4     | Personajes    |
+| 5     | Objetos       |
+| 6     | Otros         |
+
+5. Contrato de API
+
+Subir imagen
+- POST /api/images/upload
+- Body: FormData con archivo, gallery_type, file_type
+- Respuesta: 201 Created + objeto imagen
+
+Listar imágenes del usuario
+- GET /api/images?user_id=13
+- Respuesta: 200 OK + lista de imágenes
+
+Obtener imagen por id
+- GET /api/images/:id
+- Respuesta: 200 OK + objeto imagen
+
+6. Flujos de Negocio
+
+1. Carga de imagen:
+   - El usuario abre el modal y selecciona “Cargar nueva imagen”.
+   - Elige el archivo y el tipo de galería.
+   - El sistema valida y guarda la imagen en la ruta correspondiente.
+   - El nombre del archivo es {id}.{ext} donde id es el id del registro en base de datos.
+   - Se actualiza la lista de imágenes disponibles para el usuario.
+
+2. Selección de imagen existente:
+   - El usuario abre el modal y elige “Seleccionar imagen guardada”.
+   - El sistema muestra todas las imágenes del usuario (filtradas por userId).
+   - El usuario selecciona una imagen para usarla en el contexto deseado.
+
+7. UI/UX Esperado
+
+- Modal con dos opciones: “Cargar nueva imagen” y “Seleccionar imagen guardada”.
+- Vista de galería mostrando miniaturas de imágenes del usuario.
+- Al cargar una imagen, feedback visual de éxito/error.
+- Al seleccionar una imagen, se muestra una previsualización antes de confirmar.
+
+8. Criterios de Aceptación
+
+- El usuario puede cargar imágenes y verlas inmediatamente en su galería.
+- El nombre del archivo guardado es el id del registro más la extensión.
+- Las imágenes se almacenan en la ruta correcta según tipo y usuario.
+- Solo el usuario puede ver sus propias imágenes personalizadas.
+- El modal permite alternar entre carga y selección.
+- El sistema valida tipo y tamaño de archivo.
+- QA puede probar con diferentes tipos y tamaños de imagen.
+
+9. Consideraciones Técnicas
+
+- Usar almacenamiento en disco o bucket según configuración del proyecto.
+- Validar extensiones y tamaño máximo permitido (ej: 5MB).
+- El endpoint de carga debe ser seguro y asociar correctamente el userId.
+- El frontend debe actualizar la galería tras cada carga exitosa.
+- El backend debe generar el nombre del archivo como {id}.{ext} tras guardar el registro.
+- El sistema debe soportar múltiples tipos de galería y ser extensible.
+
+Fin del documento.

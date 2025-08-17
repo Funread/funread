@@ -109,27 +109,30 @@ export default function BookCreator() {
     return;
   }
 
-  // Actualiza el estado visual
-  cleanElements();
-  setWidget(widgetId);
-  setPagesType(type);
+  // Solo limpiar si el tipo de página realmente cambia
+  if (pagesType !== type || widget !== widgetId) {
+    cleanElements();
+    setWidget(widgetId);
+    setPagesType(type);
+  }
 
-  // Actualiza el widget en el backend
-  try {
-    const dataToSend = widgetItem.value || {}; // si ya hay data, consérvala
-    await updateWidgetItem(
-      widgetItem.widgetitemid,
-      page.pageid,
-      widgetId,
-      type,
-      dataToSend,
-      widgetItem.elementorder ?? 0
-    );
-
-    // Opcional: recargar página actual para reflejar el cambio en `pagesList`
-    await loadBookData();
-  } catch (e) {
-    alert("Error actualizando widget: " + e.message);
+  // Actualiza el widget en el backend solo si cambia
+  if (widget !== widgetId || pagesType !== type) {
+    try {
+      const dataToSend = widgetItem.value || {}; // si ya hay data, consérvala
+      await updateWidgetItem(
+        widgetItem.widgetitemid,
+        page.pageid,
+        widgetId,
+        type,
+        dataToSend,
+        widgetItem.elementorder ?? 0
+      );
+      // Opcional: recargar página actual para reflejar el cambio en `pagesList`
+      await loadBookData();
+    } catch (e) {
+      alert("Error actualizando widget: " + e.message);
+    }
   }
 };
   return (
