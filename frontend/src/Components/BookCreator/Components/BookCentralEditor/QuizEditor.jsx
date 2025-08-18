@@ -59,7 +59,7 @@ const QuizEditor = forwardRef(
           options: options.map((opt, index) => ({
             answer: opt,
             isCorrect: index === correctIndex,
-            points: index === correctIndex ? Number(score) : 0,
+            points: index === correctIndex ? Number(score) : 10,
             isActive: true,
           })),
         };
