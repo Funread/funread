@@ -7,6 +7,7 @@ import { faEnvelope, faUser, faEye, faEyeSlash } from "@fortawesome/free-regular
 import "./SignUp.css";
 import { useSign } from "../../hooks/useSign";
 import { InputGroup } from "react-bootstrap";
+import { useLogin } from "../../hooks/useLogin";
 
 function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,7 +15,7 @@ function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signUp } = useSign();
-
+const { logIn } = useLogin();
   /**
    * Function tooglePassword:
    * Alterna la contraseña entre estados: oculto/mostrar.
@@ -36,13 +37,19 @@ function SignUp(props) {
   const handleSubmit = async (event) => {
     event.preventDefault(); 
     const res = await signUp(name, email, password);
-    if(res == 'success'){
-      localStorage.setItem('RemenberEmail',email)
-      window.location.reload();
-    }else{
-      alert(res+'\n\n\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, SignUp.jsx:43)')
+ if(res === 'success'){
+    const loginRes = await logIn(email, password);
+
+    if(loginRes === "noRoles"){ 
+      window.location.href = "/register";
+    } else {
+      window.location.href = "/dashboard";
     }
-  };
+
+  } else {
+    alert(res+'\n\n\n(cambiar esta alerta a futuro para mostrar los errores de mejor manera, SignUp.jsx:43)')
+  }
+};
 
   /**
    * Function isEmpty:
