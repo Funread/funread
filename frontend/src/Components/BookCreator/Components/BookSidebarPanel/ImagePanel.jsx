@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { getShapesImages, getObjectImages, getPersonsImages, getBackgroundImages } from "../../../../api/images";
+import UploadMedia from '../../UploadMedia/uploadMedia';
 
 export default function ImagePanel({ widgetValidation, setElements, setImages, imageType, }) {
   const getCanvasWidth = () => {
@@ -38,6 +40,74 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
       };
     };
     reader.readAsDataURL(file);
+  };
+
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
+  const handleModalSelect = (item) => {
+    // item may be { file } or { payload } or recent-item with payload
+    const file = item?.file || item?.payload?.file || item?.payload || item;
+    if (!file) return;
+
+    // If item is already a data URL or src, handle directly
+    if (typeof file === 'string' && file.startsWith('data:')) {
+      const img = new window.Image();
+      img.src = file;
+      img.onload = () => {
+        const canvasWidth = getCanvasWidth();
+        const scale = canvasWidth / img.width;
+
+        setImages((prev) => ({ ...prev, [img.src]: img }));
+
+        setElements((prev) => [
+          ...prev,
+          {
+            id: Date.now().toString(),
+            type: "image",
+            src: img.src,
+            x: 0,
+            y: 0,
+            width: canvasWidth,
+            height: img.height * scale,
+          },
+        ]);
+      };
+      widgetValidation(2,2);
+      return;
+    }
+
+    // Otherwise assume it's a File object — read as DataURL
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new window.Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const canvasWidth = getCanvasWidth();
+        const scale = canvasWidth / img.width;
+
+        setImages((prev) => ({ ...prev, [img.src]: img }));
+
+        setElements((prev) => [
+          ...prev,
+          {
+            id: Date.now().toString(),
+            type: "image",
+            src: img.src,
+            x: 0,
+            y: 0,
+            width: canvasWidth,
+            height: img.height * scale,
+          },
+        ]);
+
+        widgetValidation(2,2);
+      };
+    };
+    try {
+      reader.readAsDataURL(file);
+    } catch (err) {
+      console.error('Error reading selected media', err);
+    }
   };
 
   const addPreloadedImage = (src) => {
@@ -88,11 +158,22 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
   return (
     <div>
       <h2 className="text-lg font-semibold mb-4">Upload Image</h2>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileUpload}
-        className="mt-4 w-full border p-2 rounded-lg cursor-pointer"
+      <div className="mt-2">
+        <button
+          className="w-full text-left border p-2 rounded-lg bg-white hover:bg-gray-50"
+          onClick={() => setShowUploadModal(true)}
+        >
+          Browse images (open media picker)
+        </button>
+      </div>
+
+      <UploadMedia
+        show={showUploadModal}
+        allowedTypes={["image"]}
+        onClose={() => setShowUploadModal(false)}
+        onSelect={(f) => { handleModalSelect(f); setShowUploadModal(false); }}
+        galleryType={imageType}
+        type="image"
       />
 
       <h3 className="text-md font-semibold mt-6 mb-2 capitalize">
