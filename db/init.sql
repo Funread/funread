@@ -103,39 +103,39 @@ INSERT INTO `media` (`name`,`extension`,`file`,`type`,`galleryType`) VALUES ('87
 Book category table injection
 */
 
-INSERT INTO `bookcategory` (`CategoryName`) VALUES ('Justicia Social');
+INSERT INTO `bookcategory` (`CategoryName`, `Description`) VALUES ('Justicia Social', 'Esta categoría se centra en la equidad y la igualdad de derechos y oportunidades para todas las personas en la sociedad.');
 
 /*
 Book dimension table injection
 */
 
-INSERT INTO `bookdimension` (`DimensionName`, `BookCategoryID`) VALUES
-('Redistribucion de recursos, bienes y capacidades',1),
-('Reconocimiento de la diversidad y la valoración y celebración',1),
-('Representación de todas las personas de forma democratica, especialmente en aquellos ambitos que ams les afectan y estan mas implicados',1);
+INSERT INTO `bookdimension` (`DimensionName`, `BookCategoryID`, `Description`) VALUES
+('Redistribucion de recursos, bienes y capacidades',1, 'Se refiere a la forma en que se distribuyen los recursos económicos, los bienes materiales y las oportunidades en una sociedad.'),
+('Reconocimiento de la diversidad y la valoración y celebración',1, 'Implica aceptar y valorar las diferencias culturales, sociales e individuales de las personas.'),
+('Representación de todas las personas de forma democratica, especialmente en aquellos ambitos que ams les afectan y estan mas implicados',1, 'Significa que todas las personas deben tener la oportunidad de participar en las decisiones que les afectan.');
 
 /*
 Book dilemma table injection
 */
 
-INSERT INTO `bookdilemma` (`Dilemma`, `BookDimensionID`) VALUES
-('Paises pobres',1),
-('Discapacidad laboral',1),
-('Trabajo infantil',1),
-('Excursion',1),
-('Becas escolares',1),
-('Idioma',2),
-('Accesso TICS',2),
-('Mujeres',2),
-('Acoso escolar',2),
-('Familia',2),
-('Hijos de parejas homosexuales',2),
-('Eleccion delegado',3),
-('Voto elecciones generales',3),
-('Alumnos escasa participacion',3),
-('Gobierno democratico',3),
-('Lenguas cooficiales',3),
-('Justicia Universal',3);
+INSERT INTO `bookdilemma` (`Dilemma`, `BookDimensionID`, `Description`) VALUES
+('Paises pobres',1, 'El dilema de la pobreza en los países en desarrollo y las posibles soluciones.'),
+('Discapacidad laboral',1, 'La inclusión laboral de personas con discapacidad y los desafíos que enfrentan.'),
+('Trabajo infantil',1, 'La explotación infantil y cómo erradicarla.'),
+('Excursion',1, 'Un dilema sobre la igualdad de oportunidades en una excursión escolar.'),
+('Becas escolares',1, 'La asignación de becas y la equidad en la educación.'),
+('Idioma',2, 'El respeto a la diversidad lingüística y cultural.'),
+('Accesso TICS',2, 'La brecha digital y el acceso a la tecnología.'),
+('Mujeres',2, 'La igualdad de género y el empoderamiento de las mujeres.'),
+('Acoso escolar',2, 'El bullying y cómo crear un ambiente escolar seguro.'),
+('Familia',2, 'La diversidad de modelos familiares y el respeto a todas las familias.'),
+('Hijos de parejas homosexuales',2, 'Los derechos de los niños en familias homoparentales.'),
+('Eleccion delegado',3, 'La democracia en el aula y la elección de representantes estudiantiles.'),
+('Voto elecciones generales',3, 'La importancia de la participación ciudadana en las elecciones.'),
+('Alumnos escasa participacion',3, 'Cómo fomentar la participación de los estudiantes en la vida escolar.'),
+('Gobierno democratico',3, 'Los principios de un gobierno democrático y la importancia de la participación ciudadana.'),
+('Lenguas cooficiales',3, 'El uso y la protección de las lenguas cooficiales en una región.'),
+('Justicia Universal',3, 'El principio de justicia universal y su aplicación en casos de crímenes de lesa humanidad.');
 
 /*
 Widget table injection
