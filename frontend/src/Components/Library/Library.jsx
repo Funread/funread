@@ -12,8 +12,10 @@ import Button from 'react-bootstrap/Button';
 import './Library.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Leaderboard from '../Leaderboard/Leaderboard';
+import { useTranslation } from 'react-i18next';
 
 const ProfessorDashboard = () => {
+  const { t } = useTranslation();
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,8 +54,8 @@ const ProfessorDashboard = () => {
 
 
   const statistics = [
-    { id: 'books', title: 'Books', icon: faBook, value: stats.books },
-    { id: 'groups', title: 'Groups', icon: faUsersRectangle, value: stats.groups }
+    { id: 'books', title: t('Books'), icon: faBook, value: stats.books },
+    { id: 'groups', title: t('Groups'), icon: faUsersRectangle, value: stats.groups }
   ];
 
   return (
@@ -87,7 +89,7 @@ const ProfessorDashboard = () => {
           {isLoading ? (
             <div className="loading-spinner">
               <div className="spinner"></div>
-              <p>Loading data...</p>
+              <p>{t('Loading data...')}</p>
             </div>
           ) : (
             <div className="tab-content">

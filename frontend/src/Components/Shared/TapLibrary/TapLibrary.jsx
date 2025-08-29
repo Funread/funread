@@ -6,8 +6,10 @@ import { listed_PrivateBooks, listed_PublishedBooks } from "../../../api/books";
 import Message from "../CustomMessage/CustomMessage";
 import { useSelector } from "react-redux";
 import BookBuilderStepper from "../BookBuilder/BookBuilderStepper";
+import { useTranslation } from 'react-i18next';
 
 function TapLibrary({ toggleSidebar, newBooks }) {
+  const { t } = useTranslation();
   const [key, setKey] = useState("mylibrary");
   const user = useSelector((state) => state.user);
   const [publishedBooks, setPublishedBooks] = useState([]);
@@ -42,11 +44,11 @@ function TapLibrary({ toggleSidebar, newBooks }) {
 
   const renderBooks = (books) => {
     if (isLoading) {
-      return <Message message={"Loading..."} />;
+      return <Message message={t("Loading...")} />;
     }
 
     if (books.length === 0) {
-      return <Message message={"No books have been entered"} />;
+      return <Message message={t("No books have been entered")} />;
     }
 
     return books.map(
@@ -84,17 +86,17 @@ function TapLibrary({ toggleSidebar, newBooks }) {
           setShowBookBuilder(false); // Siempre ocultar modal, ya no se usa
         }}
       >
-        <Tab eventKey="mylibrary" title="My library" className="tab">
+        <Tab eventKey="mylibrary" title={t("My library")} className="tab">
           <div className="section_library_Tap shadow p-3 bg-body rounded">
             {renderBooks(privateBooks)}
           </div>
         </Tab>
-        <Tab eventKey="publiclibrary" title="Public Library" className="tab">
+        <Tab eventKey="publiclibrary" title={t("Public Library")} className="tab">
           <div className="section_library_Tap shadow p-3 mb-5 bg-body rounded ">
             {renderBooks(publishedBooks)}
           </div>
         </Tab>
-        <Tab eventKey="newbook" title="New Book" className="tab">
+        <Tab eventKey="newbook" title={t("New Book")} className="tab">
           <div
             className="section_library_Tap shadow p-3 bg-body rounded d-flex justify-content-center align-items-center"
             style={{ minHeight: 400 }}

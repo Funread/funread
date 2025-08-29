@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import BookImage from '../BookImage/BookImage'
-import CustomSelect from '../CustomSelect/CustomSelect'
-import { Radio, Steps } from 'antd'
-import { Container, Row, Col, Form, Button } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGlobe, faLock, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
-import { toast } from 'react-toastify'
-import { save_Image, upload } from '../../../api'
-import { new_book } from '../../../api/books'
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import BookImage from '../BookImage/BookImage';
+import CustomSelect from '../CustomSelect/CustomSelect';
+import { Radio, Steps } from 'antd';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGlobe, faLock, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
+import { save_Image, upload } from '../../../api';
+import { new_book } from '../../../api/books';
+import { useTranslation } from 'react-i18next';
 
 import { newPageWithWidgets } from "../../BookCreator/Utils/newPageWithWidgets";
 import {
@@ -16,10 +17,10 @@ import {
   newDilemaPerBook,
   searchDilemmaByDimension,
   searchDimensionByCategory,
-} from '../../../api/bookDilemma'
-import './BookBuilderStepper.css'
+} from '../../../api/bookDilemma';
+import './BookBuilderStepper.css';
 
-const { Step } = Steps
+const { Step } = Steps;
 
 const initialBookState = {
   title: '',
@@ -31,98 +32,99 @@ const initialBookState = {
   sharedbook: 0,
   lastupdateby: null,
   description: '',
-}
+};
 
 const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
-  const [currentStep, setCurrentStep] = useState(0)
-  const [book, setBook] = useState(initialBookState)
-  const [categories, setCategories] = useState([])
-  const [dimensions, setDimensions] = useState([])
-  const [dilemmas, setDilemmas] = useState([])
-  const [selectedCategory, setSelectedCategory] = useState('')
-  const [selectedDimension, setSelectedDimension] = useState('')
-  const [selectedDilemmas, setSelectedDilemmas] = useState([])
-  const [fileImage, setFileImage] = useState(null)
-  const [missingFields, setMissingFields] = useState({})
-  const user = useSelector((state) => state.user)
+  const { t } = useTranslation();
+  const [currentStep, setCurrentStep] = useState(0);
+  const [book, setBook] = useState(initialBookState);
+  const [categories, setCategories] = useState([]);
+  const [dimensions, setDimensions] = useState([]);
+  const [dilemmas, setDilemmas] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedDimension, setSelectedDimension] = useState('');
+  const [selectedDilemmas, setSelectedDilemmas] = useState([]);
+  const [fileImage, setFileImage] = useState(null);
+  const [missingFields, setMissingFields] = useState({});
+  const user = useSelector((state) => state.user);
 
   const steps = [
     {
-      title: 'Basic Information',
+      title: t('Basic Information'),
     },
     {
-      title: 'Categorization',
+      title: t('Categorization'),
     },
     {
-      title: 'Cover Image',
+      title: t('Cover Image'),
     },
     {
-      title: 'Review and Save',
+      title: t('Review and Save'),
     },
-  ]
+  ];
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const categoriesResponse = await listCategories()
-        setCategories(categoriesResponse.data)
+        const categoriesResponse = await listCategories();
+        setCategories(categoriesResponse.data);
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('Error fetching data:', error);
       }
     }
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setBook({ ...book, [name]: value })
-  }
+    const { name, value } = e.target;
+    setBook({ ...book, [name]: value });
+  };
 
   const handleSharedBookChange = (e) => {
-    setBook({ ...book, sharedbook: e.target.value })
-  }
+    setBook({ ...book, sharedbook: e.target.value });
+  };
 
   const handleImageSelect = (selectedImage) => {
-    setFileImage(selectedImage)
-  }
+    setFileImage(selectedImage);
+  };
 
   const updateBookPortrait = (fileName) => {
-    setBook({ ...book, portrait: fileName })
-  }
+    setBook({ ...book, portrait: fileName });
+  };
 
   const next = () => {
     if (validateCurrentStep()) {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1);
     }
-  }
+  };
 
   const prev = () => {
-    setCurrentStep(currentStep - 1)
-  }
+    setCurrentStep(currentStep - 1);
+  };
 
   const validateCurrentStep = () => {
-    const missing = {}
+    const missing = {};
 
     switch (currentStep) {
       case 0: // Información básica
-        if (!book.title) missing.title = true
-        if (!book.description) missing.description = true
-        break
+        if (!book.title) missing.title = true;
+        if (!book.description) missing.description = true;
+        break;
       case 1: // Categorización
-        if (selectedCategory === '') missing.category = true
-        if (selectedDimension === '') missing.dimension = true
-        if (selectedDilemmas.length === 0) missing.dilemma = true
-        break
+        if (selectedCategory === '') missing.category = true;
+        if (selectedDimension === '') missing.dimension = true;
+        if (selectedDilemmas.length === 0) missing.dilemma = true;
+        break;
       case 2: // Imagen (opcional)
-        break
+        break;
       default:
-        break
+        break;
     }
 
-    setMissingFields(missing)
-    return Object.keys(missing).length === 0
-  }
+    setMissingFields(missing);
+    return Object.keys(missing).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -151,7 +153,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
         for (const dilemma of selectedDilemmas) {
           await addDilemmasPerBook(dilemma, response.data.bookid);
         }
-        toast.success('Book created successfully');
+        toast.success(t('Book created successfully'));
         toggleSidebar({ ...newBook });
         updateBook(newBook);
         // Limpiar el formulario
@@ -163,64 +165,64 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
         setMissingFields({});
         setCurrentStep(0);
       } else {
-        toast.error('Unable to save the book');
+        toast.error(t('Unable to save the book'));
       }
     } catch (error) {
-      toast.error('Request Error: An error occurred while processing your request');
+      toast.error(t('Request Error: An error occurred while processing your request'));
     }
   }
 
   const validateForm = () => {
-    const missing = {}
+    const missing = {};
 
     if (!book.title) {
-      missing.title = true
+      missing.title = true;
     }
 
     if (!book.description) {
-      missing.description = true
+      missing.description = true;
     }
 
     if (selectedCategory === '') {
-      missing.category = true
+      missing.category = true;
     }
 
     if (selectedDimension === '') {
-      missing.dimension = true
+      missing.dimension = true;
     }
 
     if (selectedDilemmas.length === 0) {
-      missing.dilemma = true
+      missing.dilemma = true;
     }
 
-    setMissingFields(missing)
-    return Object.keys(missing).length === 0
-  }
+    setMissingFields(missing);
+    return Object.keys(missing).length === 0;
+  };
 
   const uploadImage = async () => {
-    const response1 = await saveImageFile()
+    const response1 = await saveImageFile();
 
     if (!response1.data || !response1.data.name) {
-      throw new Error('Error uploading the image')
+      throw new Error(t('Error uploading the image'));
     }
 
-    const imageName = response1.data.name
-    const response2 = await getImageRoute(imageName)
+    const imageName = response1.data.name;
+    const response2 = await getImageRoute(imageName);
 
     if (!response2.data || !response2.data.file_route) {
-      throw new Error('Error getting the image route')
+      throw new Error(t('Error getting the image route'));
     }
 
-    return response2.data.file_route
-  }
+    return response2.data.file_route;
+  };
 
   const saveImageFile = async () => {
-    return await save_Image(fileImage)
-  }
+    return await save_Image(fileImage);
+  };
 
   const getImageRoute = async (imageName) => {
-    return await upload(imageName)
-  }
+    return await upload(imageName);
+  };
 
   const createBook = async (newBook) => {
     return await new_book(
@@ -241,45 +243,41 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   0,
                   "1",
                   1
-                )
-                toast.success('Book created successfully')
-        })
-
-
-
-
-  }
+                );
+                toast.success(t('Book created successfully'));
+        });
+  };
 
   const addDilemmasPerBook = async (dilemma, bookId) => {
-    return await newDilemaPerBook(dilemma, bookId)
-  }
+    return await newDilemaPerBook(dilemma, bookId);
+  };
 
   const handleCategoryChange = async (selectedValue) => {
-    setSelectedCategory('')
-    setSelectedDimension('')
-    setBook({ ...book, category: selectedValue })
-    setSelectedCategory(selectedValue)
+    setSelectedCategory('');
+    setSelectedDimension('');
+    setBook({ ...book, category: selectedValue });
+    setSelectedCategory(selectedValue);
     try {
-      const dimensionsResponse = await searchDimensionByCategory(selectedValue)
-      setDimensions(dimensionsResponse.data)
+      const dimensionsResponse = await searchDimensionByCategory(selectedValue);
+      setDimensions(dimensionsResponse.data);
     } catch (error) {
-      console.log('Error', error)
+      console.log('Error', error);
     }
-  }
+  };
 
   const handleDimensionChange = async (selectedValue) => {
-    setSelectedDimension(selectedValue)
+    setSelectedDimension(selectedValue);
     try {
-      const dilemmasResponse = await searchDilemmaByDimension(selectedValue)
-      setDilemmas(dilemmasResponse.data)
+      const dilemmasResponse = await searchDilemmaByDimension(selectedValue);
+      setDilemmas(dilemmasResponse.data);
     } catch (error) {
-      console.log('Error', error)
+      console.log('Error', error);
     }
-  }
+  };
 
   const handleDilemmaChange = (selectedValues) => {
-    setSelectedDilemmas(selectedValues)
-  }
+    setSelectedDilemmas(selectedValues);
+  };
 
   const renderStepContent = () => {
     switch (currentStep) {
@@ -295,11 +293,11 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
             >
               <Radio.Button className='custom-radio-button-wrapper' value={1}>
                 <FontAwesomeIcon icon={faGlobe} className='pe-2' />
-                Public
+                {t('Public')}
               </Radio.Button>
               <Radio.Button className='custom-radio-button-wrapper' value={0}>
                 <FontAwesomeIcon icon={faLock} className='pe-2' />
-                Private
+                {t('Private')}
               </Radio.Button>
             </Radio.Group>
 
@@ -309,12 +307,12 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
               }`}
               type='text'
               name='title'
-              placeholder='Book name'
+              placeholder={t('Book name')}
               value={book.title}
               onChange={handleChange}
             />
             {missingFields.title && (
-              <p className='error-message'>You must complete this field.</p>
+              <p className='error-message'>{t('You must complete this field.')}</p>
             )}
 
             <Form.Control
@@ -322,17 +320,17 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                 missingFields.description ? 'error' : ''
               }`}
               as='textarea'
-              placeholder='Book description'
+              placeholder={t('Book description')}
               rows={3}
               name='description'
               value={book.description}
               onChange={handleChange}
             />
             {missingFields.description && (
-              <p className='error-message'>You must complete this field.</p>
+              <p className='error-message'>{t('You must complete this field.')}</p>
             )}
           </div>
-        )
+        );
       
       case 1:
         return (
@@ -350,10 +348,11 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
               name='category'
               value={selectedCategory}
               onChange={handleCategoryChange}
-              placeholder='Category'
+              placeholder={t('Category')}
+              showOptionIcon={true}
             />
             {missingFields.category && (
-              <p className='error-message'>You must select a category.</p>
+              <p className='error-message'>{t('You must select a category.')}</p>
             )}
 
             {selectedCategory && (
@@ -370,10 +369,11 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   name='dimension'
                   value={selectedDimension}
                   onChange={handleDimensionChange}
-                  placeholder='Dimension'
+                  placeholder={t('Dimension')}
+                  showOptionIcon={true}
                 />
                 {missingFields.dimension && (
-                  <p className='error-message'>You must select a dimension.</p>
+                  <p className='error-message'>{t('You must select a dimension.')}</p>
                 )}
               </>
             )}
@@ -393,27 +393,29 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   name='dilemma'
                   value={selectedDilemmas}
                   onChange={handleDilemmaChange}
-                  placeholder='Dilemmas (you can select multiple)'
+                  placeholder={t('Dilemmas (you can select multiple)')}
+                  useTagRender={true}
+                  showOptionIcon={false}
                 />
                 {missingFields.dilemma && (
-                  <p className='error-message'>You must select at least one dilemma.</p>
+                  <p className='error-message'>{t('You must select at least one dilemma.')}</p>
                 )}
               </>
             )}
           </div>
-        )
+        );
       
       case 2:
         return (
           <div className="step-content">
-            <p className="step-description">Upload an image for your book cover (optional)</p>
+            <p className="step-description">{t('Upload an image for your book cover (optional)')}</p>
             
             <BookImage
               onImageSelect={handleImageSelect}
               updateBookPortrait={updateBookPortrait}
             />
           </div>
-        )
+        );
       
       case 3:
         return (
@@ -421,34 +423,34 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
             
             <div className="review-section">
               <div className="review-item">
-                <strong>Title:</strong> {book.title}
+                <strong>{t('Title:')}</strong> {book.title}
               </div>
               <div className="review-item">
-                <strong>Description:</strong> {book.description}
+                <strong>{t('Description:')}</strong> {book.description}
               </div>
               <div className="review-item">
-                <strong>Visibility:</strong> {book.sharedbook === 1 ? 'Public' : 'Private'}
+                <strong>{t('Visibility:')}</strong> {book.sharedbook === 1 ? t('Public') : t('Private')}
               </div>
               <div className="review-item">
-                <strong>Category:</strong> {categories.find(c => c.bookcategoryid === selectedCategory)?.name || 'Not selected'}
+                <strong>{t('Category:')}</strong> {categories.find(c => c.bookcategoryid === selectedCategory)?.name || t('Not selected')}
               </div>
               <div className="review-item">
-                <strong>Dimension:</strong> {dimensions.find(d => d.bookdimensionid === selectedDimension)?.name || 'Not selected'}
+                <strong>{t('Dimension:')}</strong> {dimensions.find(d => d.bookdimensionid === selectedDimension)?.name || t('Not selected')}
               </div>
               <div className="review-item">
-                <strong>Dilemmas:</strong> {selectedDilemmas.length > 0 ? selectedDilemmas.map(id => dilemmas.find(d => d.bookdilemmaid === id)?.dilemma).join(', ') : 'Not selected'}
+                <strong>{t('Dilemmas:')}</strong> {selectedDilemmas.length > 0 ? selectedDilemmas.map(id => dilemmas.find(d => d.bookdilemmaid === id)?.dilemma).join(', ') : t('Not selected')}
               </div>
               <div className="review-item">
-                <strong>Cover image:</strong> {book.portrait ? 'Yes' : 'No'}
+                <strong>{t('Cover image:')}</strong> {book.portrait ? t('Yes') : t('No')}
               </div>
             </div>
           </div>
-        )
+        );
       
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   return (
     <Container className="stepper-container">
@@ -481,7 +483,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   className="step-button"
                 >
                   <FontAwesomeIcon icon={faChevronLeft} className="me-2" />
-                  Previous
+                  {t('Previous')}
                 </Button>
               )}
               
@@ -491,7 +493,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   onClick={next}
                   className="step-button"
                 >
-                  Next
+                  {t('Next')}
                   <FontAwesomeIcon icon={faChevronRight} className="ms-2" />
                 </Button>
               )}
@@ -502,7 +504,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   onClick={handleSubmit}
                   className="step-button"
                 >
-                  Create Book
+                  {t('Create Book')}
                 </Button>
               )}
             </div>
@@ -510,7 +512,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
         </Col>
       </Row>
     </Container>
-  )
-}
+  );
+};
 
-export default BookBuilderStepper
+export default BookBuilderStepper;

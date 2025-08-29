@@ -1,31 +1,33 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import './BookView.sass'
-import { getMediaUrl } from '../../Utils/mediaUrl'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './BookView.sass';
+import { getMediaUrl } from '../../Utils/mediaUrl';
+import { useTranslation } from 'react-i18next';
 
 const BookView = ({ book, onPreview }) => {
-  const navigate = useNavigate()
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const bookImage = book.portrait
     ? getMediaUrl(book.portrait)
-    : '/imagenes/no-image.png'
+    : '/imagenes/no-image.png';
 
   const handleEditBook = () => {
-    let bookID = book.id
+    let bookID = book.id;
     navigate(`/bookcreator/${bookID}`, {
       state: {
         data: book,
       },
-    })
-  }
+    });
+  };
 
   const handleReadBook = () => {
-    let bookID = book.id
+    let bookID = book.id;
     navigate(`/readingview/${bookID}`, {
       state: {
         data: book.id,
       },
-    })
-  }
+    });
+  };
 
   return (
     <div
@@ -38,7 +40,7 @@ const BookView = ({ book, onPreview }) => {
       </div>
 
       <div className='book-image'>
-        <img src={bookImage} width={170} height={300} alt='portrait' />
+        <img src={bookImage} width={170} height={300} alt={t('portrait')} />
       </div>
 
       <div className='book-description'>
@@ -51,15 +53,15 @@ const BookView = ({ book, onPreview }) => {
       >
         
         <button className='button-editBook' onClick={handleEditBook}>
-          Edit
+          {t('Edit')}
         </button>
 
         <button className='button-editBook' onClick={handleReadBook}>
-          Read
+          {t('Read')}
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BookView
+export default BookView;

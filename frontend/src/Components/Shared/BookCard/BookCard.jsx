@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import './BookCard.sass'
-import { searchCategory } from '../../../api/bookDilemma'
-import { getMediaUrl } from '../../Utils/mediaUrl'
+import React, { useState, useEffect } from 'react';
+import './BookCard.sass';
+import { searchCategory } from '../../../api/bookDilemma';
+import { getMediaUrl } from '../../Utils/mediaUrl';
+import { useTranslation } from 'react-i18next';
 
 const BookCard = ({
   id,
@@ -13,6 +14,7 @@ const BookCard = ({
   color,
   toggleSidebar,
 }) => {
+  const { t } = useTranslation();
   const [categoryName, setCategoryName] = useState('')
   const imageCard = portrait
     ? getMediaUrl(portrait)
@@ -56,7 +58,7 @@ const BookCard = ({
           <img
             className='card-img'
             src={imageCard}
-            alt='Portrait'
+            alt={t('Portrait')}
           />
         </div>
         <div className='card-body d-flex flex-column justify-content-between'>
@@ -73,4 +75,4 @@ const BookCard = ({
   )
 }
 
-export default BookCard
+export default BookCard;
