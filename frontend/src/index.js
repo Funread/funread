@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.sass";
 import "./index.css";
@@ -46,122 +46,124 @@ const DashboardRoleHelper = () => {
 root.render(
   <>
     <TextSelectorMenu />
-    <BrowserRouter>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Routes>
-            <Route exact path="/dashboard" element={<DashboardRoleHelper />}>
+    <Suspense fallback={<div>Cargando...</div>}>
+      <BrowserRouter>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Routes>
+              <Route exact path="/dashboard" element={<DashboardRoleHelper />}>
 
-              {/* Rutas para profesores */}
-              <Route element={<ProtectedRoutes roles={["profesor"]} />}>
-                <Route path="library" element={<Library />} />
-                <Route path="groups" element={<Group />} />
-                <Route path="badges" element={<BadgesPage />} />
+                {/* Rutas para profesores */}
+                <Route element={<ProtectedRoutes roles={["profesor"]} />}>
+                  <Route path="library" element={<Library />} />
+                  <Route path="groups" element={<Group />} />
+                  <Route path="badges" element={<BadgesPage />} />
+                </Route>
+
+                {/* Rutas para estudiantes */}
+                <Route element={<ProtectedRoutes roles={["estudiante"]} />}>
+                  <Route path="myclasses" element={<MyClasses />} />
+                  <Route path="achievements" element={<BadgesPage />} />
+                </Route>
+
+                {/* Rutas para cualquier usuario autenticado */}
+                <Route element={<ProtectedRoutes roles={["profesor", "estudiante"]} />}>
+                  <Route path="leaderboard" element={<Leaderboard />} />
+                </Route>
               </Route>
-
-              {/* Rutas para estudiantes */}
-              <Route element={<ProtectedRoutes roles={["estudiante"]} />}>
-                <Route path="myclasses" element={<MyClasses />} />
-                <Route path="achievements" element={<BadgesPage />} />
-              </Route>
-
-              {/* Rutas para cualquier usuario autenticado */}
-              <Route element={<ProtectedRoutes roles={["profesor", "estudiante"]} />}>
-                <Route path="leaderboard" element={<Leaderboard />} />
-              </Route>
-            </Route>
-            <Route exact path="/" element={
-                <div className="index-background-container landing-page">
-                  <LandingPage />
-                </div>
-              }
-            />
-            {/* Esta parte es para DEMO sin iniciar Sesion */}
-            <Route
-              exact
-              path="demo/bookcreator"
-              element={
-                <div className="">
-                  <BookCreator />
-                </div>
-              }
-            />
-            <Route
-              exact
-              path="demo/library"
-              element={
-                <div className="">
-                  <Library />
-                </div>
-              }
-            />
-            <Route
-              exact
-              path="demo/ModalReadingView"
-              element={
-                <div className="">
-                  <ModalReadingView />
-                </div>
-              }
-            />
-            <Route
-              exact
-              path="demo/group"
-              element={
-                <div className="">
-                  <Group />
-                </div>
-              }
-            />
-            <Route
-              exact
-              path="/join/:code"
-              element={
-                <div className="index-background-container">
-                  <JoinValidator />
-                </div>
-              }
-            />
-            <Route //se utiliza est ruta para colocar el componente que genera los links de invitacion
-              exact
-              path="demo/book"
-              element={
-                <div className="index-background-container">
-                  <JoinCreator id="1" type="book" />
-                </div>
-              }
-            />
-            {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
-
-            <Route exact path="about" element={<About />} />
-            <Route exact path="helpers" element={<Helpers />} />
-            <Route
-              exact
-              path="ReadingView/:id"
-              element={
-                <div className="">
-                  <ReadingView />
-                </div>
-              }
-            />
-            <Route exact path="register" element={<Register />} />
-            <Route element={<ProtectedRoutes roles={["profesor"]} />}>
-              <Route
-                exact
-                path="/bookcreator/:id"
-                element={
-                  <div className="index-background-padding">
-                    <div className="index-background-container ">
-                      <BookCreator />
-                    </div>
+              <Route exact path="/" element={
+                  <div className="index-background-container landing-page">
+                    <LandingPage />
                   </div>
                 }
               />
-            </Route>
-          </Routes>
-        </PersistGate>
-      </Provider>
-    </BrowserRouter>
+              {/* Esta parte es para DEMO sin iniciar Sesion */}
+              <Route
+                exact
+                path="demo/bookcreator"
+                element={
+                  <div className="">
+                    <BookCreator />
+                  </div>
+                }
+              />
+              <Route
+                exact
+                path="demo/library"
+                element={
+                  <div className="">
+                    <Library />
+                  </div>
+                }
+              />
+              <Route
+                exact
+                path="demo/ModalReadingView"
+                element={
+                  <div className="">
+                    <ModalReadingView />
+                  </div>
+                }
+              />
+              <Route
+                exact
+                path="demo/group"
+                element={
+                  <div className="">
+                    <Group />
+                  </div>
+                }
+              />
+              <Route
+                exact
+                path="/join/:code"
+                element={
+                  <div className="index-background-container">
+                    <JoinValidator />
+                  </div>
+                }
+              />
+              <Route //se utiliza est ruta para colocar el componente que genera los links de invitacion
+                exact
+                path="demo/book"
+                element={
+                  <div className="index-background-container">
+                    <JoinCreator id="1" type="book" />
+                  </div>
+                }
+              />
+              {/* Las rutas poer debajo no son demo, pero no pueden estar dentro de las protegidas, quizas discutir si hacer una ruta protegida sin rol*/}
+
+              <Route exact path="about" element={<About />} />
+              <Route exact path="helpers" element={<Helpers />} />
+              <Route
+                exact
+                path="ReadingView/:id"
+                element={
+                  <div className="">
+                    <ReadingView />
+                  </div>
+                }
+              />
+              <Route exact path="register" element={<Register />} />
+              <Route element={<ProtectedRoutes roles={["profesor"]} />}>
+                <Route
+                  exact
+                  path="/bookcreator/:id"
+                  element={
+                    <div className="index-background-padding">
+                      <div className="index-background-container ">
+                        <BookCreator />
+                      </div>
+                    </div>
+                  }
+                />
+              </Route>
+            </Routes>
+          </PersistGate>
+        </Provider>
+      </BrowserRouter>
+    </Suspense>
   </>
 );
 
