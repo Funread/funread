@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from .serializers import MediaSeralizer
 from .models import Media
+from funread_backend.jwt_service import JwtService
+from Users.models import User
 from rest_framework import status
 from Subtitled.views import save_subtitled
 import os
@@ -15,57 +17,77 @@ from django.db import OperationalError
 
 @ api_view(['POST'])
 def save_File(request):
+    print("request.user:", request.user)
+    print("is_authenticated:", getattr(request.user, 'is_authenticated', None))
+    print("user type:", type(request.user))
 
     # token verification
-   try:
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido == False:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-   except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
- 
-   try:
-    if 'file' not in request.data:
-        raise Exception("upload file please")
-    file_request = request.FILES.get('file')
-    if file_request:
-        name_file = file_request.name
-        extension = name_file.split('.')[-1]
-        type = get_file_type(extension)
-        if (type == 0):
-            return Response({'message':'Bad file extension: only png, jpg, jpeg, gif, bmp, webp, tiff, mp3, wav, ogg, flac, aac, midi, wma, cd, aif, aifc, aiff, pcm, m4a, mp4, avi, mkv, mov, wmv, flv'}, status=status.HTTP_400_BAD_REQUEST)
-        data = {
-            'name': 'name',
-            'extension': extension,
-            'file': file_request,
-            'type':type
-        }
-        print(data)
-    serializer = MediaSeralizer(data=data)
-    print('data valida: ',serializer.is_valid())
-    if serializer.is_valid():
-        id = 0  
-        try:
-            filebefore = Media.objects.latest('id')
-            id = filebefore.id
-        except Media.DoesNotExist: pass
-        except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        validate_data = serializer.validated_data
-        file = Media(**validate_data)
-        file.name = str(id+1)
-        file.file.name = str(id+1) + '.' + file.extension
-        file.save()
-        if type == 3:
-            response = save_subtitled(file.file)
-            print('Subtitled: ', response)
-        serializer_response = MediaSeralizer(file)
-        return Response(serializer_response.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-   except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    try:
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if es_valido == False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+    except OperationalError:
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    # Extraer user_id del JWT y buscar el usuario
+    user = None
+    try:
+        authorization_header = request.headers.get('Authorization')
+        jwt_service = JwtService(authorization_header)
+        user_id = jwt_service.get_user_id()
+        if user_id:
+            try:
+                user = User.objects.get(userid=user_id)
+            except User.DoesNotExist:
+                user = None
+    except Exception as e:
+        user = None
+
+    try:
+        if 'file' not in request.data and 'file' not in request.FILES:
+            raise Exception("upload file please")
+        file_request = request.FILES.get('file')
+        if file_request:
+            name_file = file_request.name
+            extension = name_file.split('.')[-1]
+            file_type = get_file_type(extension)
+            if (file_type == 0):
+                return Response({'message':'Bad file extension: only png, jpg, jpeg, gif, bmp, webp, tiff, mp3, wav, ogg, flac, aac, midi, wma, cd, aif, aifc, aiff, pcm, m4a, mp4, avi, mkv, mov, wmv, flv'}, status=status.HTTP_400_BAD_REQUEST)
+            gallery_type = request.data.get('galleryType')
+            data = {
+                'name': 'name',
+                'extension': extension,
+                'file': file_request,
+                'type': file_type,
+                'galleryType': gallery_type,
+                'user': user.pk if user else None,
+            }
+            print(data)
+            serializer = MediaSeralizer(data=data)
+            print('data valida: ',serializer.is_valid())
+            if serializer.is_valid():
+                id = 0  
+                try:
+                    filebefore = Media.objects.latest('id')
+                    id = filebefore.id
+                except Media.DoesNotExist:
+                    pass
+                except OperationalError:
+                    return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                file = serializer.save(user=user)
+                file.name = str(id+1)
+                file.file.name = str(id+1) + '.' + file.extension
+                file.save()
+                if file_type == 3:
+                    response = save_subtitled(file.file)
+                    print('Subtitled: ', response)
+                serializer_response = MediaSeralizer(file)
+                return Response(serializer_response.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except OperationalError:
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @ api_view(['POST'])
 def upload(request):
