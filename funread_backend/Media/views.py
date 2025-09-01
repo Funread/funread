@@ -68,22 +68,34 @@ def save_File(request):
             serializer = MediaSeralizer(data=data)
             print('data valida: ',serializer.is_valid())
             if serializer.is_valid():
-                id = 0  
-                try:
-                    filebefore = Media.objects.latest('id')
-                    id = filebefore.id
-                except Media.DoesNotExist:
-                    pass
-                except OperationalError:
-                    return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-                file = serializer.save(user=user)
-                file.name = str(id+1)
-                file.file.name = str(id+1) + '.' + file.extension
-                file.save()
-                if file_type == 3:
-                    response = save_subtitled(file.file)
+                # Guarda el archivo y la instancia del modelo, obteniendo el objeto creado.
+                file_instance = serializer.save(user=user)
+
+                # Construye el nuevo nombre de archivo usando el ID de la instancia recién creada.
+                new_id = file_instance.id
+                new_name = str(new_id)
+                extension = file_instance.extension
+                new_filename = f'{new_name}.{extension}'
+
+                # Define la ruta original y la nueva ruta en el sistema de archivos.
+                original_path = file_instance.file.path
+                new_path = os.path.join(settings.MEDIA_ROOT, 'media', new_filename)
+                
+                # Renombra el archivo en el sistema de archivos.
+                os.rename(original_path, new_path)
+
+                # Actualiza la instancia del modelo con el nuevo nombre y la nueva ruta.
+                file_instance.name = new_name
+                file_instance.file.name = os.path.join('media', new_filename)
+                file_instance.save()
+
+                # Si es un video, procesa los subtítulos.
+                if file_instance.type == 3:
+                    response = save_subtitled(file_instance.file)
                     print('Subtitled: ', response)
-                serializer_response = MediaSeralizer(file)
+                
+                # Devuelve la respuesta con los datos actualizados.
+                serializer_response = MediaSeralizer(file_instance)
                 return Response(serializer_response.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except OperationalError:
@@ -131,8 +143,15 @@ def listed(request):
     if es_valido == False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    user = Media.objects.all()
-    serializer = MediaSeralizer(user, many=True)
+    # Extraer user_id del JWT
+    authorization_header = request.headers.get('Authorization')
+    jwt_service = JwtService(authorization_header)
+    user_id = jwt_service.get_user_id()
+    if user_id:
+        user_images = Media.objects.filter(user_id=user_id)
+    else:
+        user_images = Media.objects.none()
+    serializer = MediaSeralizer(user_images, many=True)
     return Response(serializer.data)
    except OperationalError:
     return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -258,4 +277,4 @@ def get_file_type(extension):
     else:
         return 0  #
    except OperationalError:
-     return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
+     return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
