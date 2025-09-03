@@ -102,40 +102,45 @@ INSERT INTO `media` (`name`,`extension`,`file`,`type`,`galleryType`) VALUES ('87
 /*
 Book category table injection
 */
-
-INSERT INTO `bookcategory` (`CategoryName`, `Description`) VALUES ('Justicia Social', 'Esta categoría se centra en la equidad y la igualdad de derechos y oportunidades para todas las personas en la sociedad.');
+INSERT INTO `bookcategory` (`CategoryName`, `Description`) VALUES 
+('Social Justice in Education', 'At school, social justice means treating everyone equally, eliminating unfair rules, and allowing everyone to participate.');
 
 /*
 Book dimension table injection
+-- Asumiendo que la categoría recién insertada tiene ID = 1
 */
-
 INSERT INTO `bookdimension` (`DimensionName`, `BookCategoryID`, `Description`) VALUES
-('Redistribucion de recursos, bienes y capacidades',1, 'Se refiere a la forma en que se distribuyen los recursos económicos, los bienes materiales y las oportunidades en una sociedad.'),
-('Reconocimiento de la diversidad y la valoración y celebración',1, 'Implica aceptar y valorar las diferencias culturales, sociales e individuales de las personas.'),
-('Representación de todas las personas de forma democratica, especialmente en aquellos ambitos que ams les afectan y estan mas implicados',1, 'Significa que todas las personas deben tener la oportunidad de participar en las decisiones que les afectan.');
+('Redistributive Dimension in Education', 1, 'Providing more help to those who need it most so that everyone has the same opportunities to learn and progress.'),
+('Recognition Dimension in Education', 1, 'Valuing all people for who they are, respecting their cultures, languages, ways of life, and beliefs.'),
+('Representation Dimension in Education', 1, 'All people should be able to participate, be heard, and make decisions in school and in society.');
 
 /*
 Book dilemma table injection
+-- Redistributive Dimension in Education (BookDimensionID = 1)
 */
-
 INSERT INTO `bookdilemma` (`Dilemma`, `BookDimensionID`, `Description`) VALUES
-('Paises pobres',1, 'El dilema de la pobreza en los países en desarrollo y las posibles soluciones.'),
-('Discapacidad laboral',1, 'La inclusión laboral de personas con discapacidad y los desafíos que enfrentan.'),
-('Trabajo infantil',1, 'La explotación infantil y cómo erradicarla.'),
-('Excursion',1, 'Un dilema sobre la igualdad de oportunidades en una excursión escolar.'),
-('Becas escolares',1, 'La asignación de becas y la equidad en la educación.'),
-('Idioma',2, 'El respeto a la diversidad lingüística y cultural.'),
-('Accesso TICS',2, 'La brecha digital y el acceso a la tecnología.'),
-('Mujeres',2, 'La igualdad de género y el empoderamiento de las mujeres.'),
-('Acoso escolar',2, 'El bullying y cómo crear un ambiente escolar seguro.'),
-('Familia',2, 'La diversidad de modelos familiares y el respeto a todas las familias.'),
-('Hijos de parejas homosexuales',2, 'Los derechos de los niños en familias homoparentales.'),
-('Eleccion delegado',3, 'La democracia en el aula y la elección de representantes estudiantiles.'),
-('Voto elecciones generales',3, 'La importancia de la participación ciudadana en las elecciones.'),
-('Alumnos escasa participacion',3, 'Cómo fomentar la participación de los estudiantes en la vida escolar.'),
-('Gobierno democratico',3, 'Los principios de un gobierno democrático y la importancia de la participación ciudadana.'),
-('Lenguas cooficiales',3, 'El uso y la protección de las lenguas cooficiales en una región.'),
-('Justicia Universal',3, 'El principio de justicia universal y su aplicación en casos de crímenes de lesa humanidad.');
+('Students with Special Needs', 1, 'Students with disabilities need more support to have the same opportunities. Helping them is a way to be fair.'),
+('Learning Difficulties', 1, 'Some students learn differently and need more time or support. Helping them is not giving them an advantage—it''s making sure everyone can learn.'),
+('School Scholarships', 1, 'Scholarships help students with fewer resources or good grades so that everyone can continue studying.'),
+('Child Labor', 1, 'Children should study and play, not work. Child labor hinders their development and should not be allowed.');
+
+/*
+-- Recognition Dimension in Education (BookDimensionID = 2)
+*/
+INSERT INTO `bookdilemma` (`Dilemma`, `BookDimensionID`, `Description`) VALUES
+('Access to ICTs', 2, 'Having access to the internet and technology enables learning, communication, and staying informed. It is a right for all.'),
+('Women', 2, 'Men and women must have the same opportunities. Treating women differently is unfair and is called discrimination.'),
+('School Bullying', 2, 'School bullying is violence. We must teach how to resolve problems with respect and support those who suffer from bullying.'),
+('Cultural Identity', 2, 'It is important to adapt to new cultures without forgetting one’s own roots. Each person does this at their own pace and deserves respect.');
+
+/*
+-- Representation Dimension in Education (BookDimensionID = 3)
+*/
+INSERT INTO `bookdilemma` (`Dilemma`, `BookDimensionID`, `Description`) VALUES
+('Students with Low Participation', 3, 'All students should feel part of the school. Listening to them and giving them space helps them participate more.'),
+('Voting and General Elections', 3, 'Voting allows people to make decisions in their country. Even if not everyone can vote, those who live there should also be heard.'),
+('Official Languages', 3, 'Bilingual education teaches in two languages to help communication and value different cultures. It’s important for schools to promote this learning to bring people together.'),
+('Universal Justice', 3, 'Universal justice seeks fair access to justice for all. Participating in decision-making is key to living in a democracy and peace.');
 
 /*
 Widget table injection
