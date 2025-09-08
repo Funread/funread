@@ -20,6 +20,8 @@ export default function Recent({ files = [], onPick = () => {}, allowedTypes = [
             } catch {}
           }
         }
+        // Solo renderizar si existe una imagen válida
+        if (!imgSrc) return null;
         return (
           <div
             key={idx}
@@ -27,13 +29,11 @@ export default function Recent({ files = [], onPick = () => {}, allowedTypes = [
             style={{ aspectRatio: '1/1', width: '100%', minHeight: 140, maxHeight: 180, height: '100%' }}
             onClick={() => onPick(f)}
           >
-            {imgSrc && (
-              <img
-                src={imgSrc}
-                alt={f.name}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 16, display: 'block' }}
-              />
-            )}
+            <img
+              src={imgSrc}
+              alt={f.name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 16, display: 'block' }}
+            />
           </div>
         );
       })}
