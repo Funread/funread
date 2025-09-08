@@ -15,6 +15,15 @@ import sys
 sys.path.append('funread_backend')
 from django.db import OperationalError
 
+GALLERY_TYPE_NAMES = {
+    1: 'CustomIMG',
+    2: 'Background',
+    3: 'Shapes',
+    4: 'Characters',
+    5: 'Objects',
+    6: 'Others',
+}
+
 @ api_view(['POST'])
 def save_File(request):
     print("request.user:", request.user)
@@ -56,6 +65,7 @@ def save_File(request):
             if (file_type == 0):
                 return Response({'message':'Bad file extension: only png, jpg, jpeg, gif, bmp, webp, tiff, mp3, wav, ogg, flac, aac, midi, wma, cd, aif, aifc, aiff, pcm, m4a, mp4, avi, mkv, mov, wmv, flv'}, status=status.HTTP_400_BAD_REQUEST)
             gallery_type = request.data.get('galleryType')
+            gallery_type_name = GALLERY_TYPE_NAMES.get(int(gallery_type), 'Others') if gallery_type else 'Others'
             data = {
                 'name': 'name',
                 'extension': extension,
@@ -64,37 +74,22 @@ def save_File(request):
                 'galleryType': gallery_type,
                 'user': user.pk if user else None,
             }
-            print(data)
             serializer = MediaSeralizer(data=data)
-            print('data valida: ',serializer.is_valid())
             if serializer.is_valid():
-                # Guarda el archivo y la instancia del modelo, obteniendo el objeto creado.
                 file_instance = serializer.save(user=user)
-
-                # Construye el nuevo nombre de archivo usando el ID de la instancia recién creada.
                 new_id = file_instance.id
                 new_name = str(new_id)
                 extension = file_instance.extension
+                user_id_folder = str(user.pk) if user else 'global'
                 new_filename = f'{new_name}.{extension}'
-
-                # Define la ruta original y la nueva ruta en el sistema de archivos.
+                dest_folder = os.path.join(settings.MEDIA_ROOT, 'media', gallery_type_name, user_id_folder)
+                os.makedirs(dest_folder, exist_ok=True)
+                new_path = os.path.join(dest_folder, new_filename)
                 original_path = file_instance.file.path
-                new_path = os.path.join(settings.MEDIA_ROOT, 'media', new_filename)
-                
-                # Renombra el archivo en el sistema de archivos.
                 os.rename(original_path, new_path)
-
-                # Actualiza la instancia del modelo con el nuevo nombre y la nueva ruta.
                 file_instance.name = new_name
-                file_instance.file.name = os.path.join('media', new_filename)
+                file_instance.file.name = os.path.join('media', gallery_type_name, user_id_folder, new_filename)
                 file_instance.save()
-
-                # Si es un video, procesa los subtítulos.
-                if file_instance.type == 3:
-                    response = save_subtitled(file_instance.file)
-                    print('Subtitled: ', response)
-                
-                # Devuelve la respuesta con los datos actualizados.
                 serializer_response = MediaSeralizer(file_instance)
                 return Response(serializer_response.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -241,7 +236,7 @@ def change_file(request):
         file_request.name = str(old_file.name)+'.'+extension
         type = get_file_type(extension)
         if (type == 0):
-            return Response({'message':'Bad file extension: only png, jpg, jpeg, gif, bmp, webp, tiff, mp3, wav, ogg, flac, aac, midi, wma, cd, aif, aifc, aiff, pcm, m4a, mp4, avi, mkv, mov, wmv, flv, opus'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message':'Bad file extension: only png, jpg, jpeg, gif, bmp, webp, tiff, mp3, wav, ogg, flac, aac, midi, wma, cd, aif, aifc, aiff, pcm, m4a, opus'}, status=status.HTTP_400_BAD_REQUEST)
         data = {
             'name': old_file.name,
             'extension': extension,
