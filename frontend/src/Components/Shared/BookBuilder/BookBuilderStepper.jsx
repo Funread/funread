@@ -242,7 +242,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   "1",
                   1
                 )
-                toast.success('Book created successfully')
+                return book;
         })
 
 
