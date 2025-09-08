@@ -73,7 +73,8 @@ def new_category(request):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     data = {
-        'name': request.data.get('name')
+        'name': request.data.get('name'),
+        'description': request.data.get('description')
     }
     serializer = BookCategorySerializer(data=data)
     if serializer.is_valid():
@@ -97,7 +98,8 @@ def change_category(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     data = {
-        'name': request.data.get('name')
+        'name': request.data.get('name'),
+        'description': request.data.get('description')
     }
     serializer = BookCategorySerializer(bookcategory, data=data)
     if serializer.is_valid():
@@ -146,6 +148,7 @@ def new_dimesion(request):
 
     data = {
         'name': request.data.get('name'),
+        'description': request.data.get('description'),
         'bookcategoryid': request.data.get('bookcategoryid')
     }
     serializer = BookDimensionSerializer(data=data)
@@ -171,6 +174,7 @@ def change_dimesion(request):
     
     data = {
         'name': request.data.get('name'),
+        'description': request.data.get('description'),
         'bookcategoryid': request.data.get('bookcategoryid')
     }
     serializer = BookDimensionSerializer(bookdimension, data=data)
@@ -220,6 +224,7 @@ def new_dilemma(request):
 
     data = {
         'dilemma': request.data.get('dilemma'),
+        'description': request.data.get('description'),
         'bookdimensionid': request.data.get('bookdimensionid')
     }
     serializer = BookDilemmaSerializer(data=data)
@@ -245,6 +250,7 @@ def change_dilemma(request):
     
     data = {
         'dilemma': request.data.get('dilemma'),
+        'description': request.data.get('description'),
         'bookdimensionid': request.data.get('bookdimensionid')
     }
     serializer = BookDilemmaSerializer(bookdilemma, data=data)
