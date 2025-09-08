@@ -6,11 +6,13 @@ export async function upload(name) {
   })
 }
 
-export async function save_Image(file) {
-  const formFile = new FormData()
-  formFile.append('file', file)
-
-  return axiosAuth().post('Media/save/', formFile)
+export async function save_Image(file, galleryType) {
+  const formFile = new FormData();
+  formFile.append('file', file);
+  if (galleryType !== undefined) {
+    formFile.append('galleryType', galleryType);
+  }
+  return axiosAuth().post('Media/save/', formFile);
 }
 
 export async function list() {
