@@ -1,5 +1,5 @@
 export const TAB_NAMES = {
-  RECENT: 'Recent',
+  RECENT: 'Reciente',
   UPLOAD_CUSTOM: 'Upload custom',
   MY_GALLERY: 'My gallery'
 };
