@@ -15,7 +15,7 @@ export default function UploadMedia({ allowedTypes = ['image'], show = false, on
   if (!show) return null;
 
   return (
-    <Modal title="Insert files using Google Drive" onClose={onClose}>
+    <Modal title="Insert files" onClose={onClose}>
       <div className="p-4">
         <Tabs
           tabs={[TAB_NAMES.RECENT, TAB_NAMES.UPLOAD_CUSTOM, TAB_NAMES.MY_GALLERY]}
