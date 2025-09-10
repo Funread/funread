@@ -1,71 +1,56 @@
-
-.custom-group-title{
-    color: grey;
-    text-align: left;
-  }
-  
-.group {
-  scroll-snap-type: x mandatory;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 100vh;
+.funread-demo .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
 }
 
-.group {
-  scroll-snap-align: center;
+.funread-demo .group-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.group::-webkit-scrollbar {
-  width: 7px;
+.funread-demo .header-actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
-.group::-webkit-scrollbar-thumb {
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
+.funread-demo .main-content {
+  padding: 1rem;
 }
 
-.group::-webkit-scrollbar-thumb:hover {
-  background-color: transparent;
+.funread-demo .summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.group::-webkit-scrollbar-track {
-  background-color: transparent;
-  border: none;
-  margin: 0;
-  box-shadow: none;
-}
-.custom-input-search {
-  border: none;
-  outline: none;
-  box-shadow: none;
-}
-.button-search-library:hover {
-  background-color: #a9def9;
+.funread-demo .details-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
-.mobile-below-tap-group{
-  height: 100vh;
+.funread-demo .card-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-@media screen and (max-width: 992px) {
-  .content_group {
-    padding-left: 2rem;
-  }
-}
-@media (max-width: 575.98px) {
-  .mobile-below-tap-group {
-    width: 100%;
-    margin-top: 10px;
-    margin-left: 3rem;
-    padding-left: 2rem;
-    padding-right: 3rem;
-  }
 
-  .col-8 {
-    flex: 0 0 91.666667%;
-    max-width: 91.666667%;
-  }
-  .content_group{
-    padding-left: 4rem;
-  }
+.funread-demo .student-item, .book-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #f8f9fa;
+  margin-bottom: 0.5rem;
+}
+
+.funread-demo .icon {
+  margin-right: 0.5rem;
 }
