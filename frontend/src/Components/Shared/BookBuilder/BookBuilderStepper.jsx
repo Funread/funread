@@ -242,7 +242,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                   "1",
                   1
                 )
-                toast.success('Book created successfully')
+                return book;
         })
 
 
@@ -346,11 +346,13 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                 key: category.bookcategoryid,
                 value: category.bookcategoryid,
                 label: category.name,
+                tooltip: category.description
               }))}
               name='category'
               value={selectedCategory}
               onChange={handleCategoryChange}
               placeholder='Category'
+              showOptionIcon={true}
             />
             {missingFields.category && (
               <p className='error-message'>You must select a category.</p>
@@ -366,11 +368,13 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                     key: dimension.bookdimensionid,
                     value: dimension.bookdimensionid,
                     label: dimension.name,
+                    tooltip: dimension.description
                   }))}
                   name='dimension'
                   value={selectedDimension}
                   onChange={handleDimensionChange}
                   placeholder='Dimension'
+                  showOptionIcon={true}
                 />
                 {missingFields.dimension && (
                   <p className='error-message'>You must select a dimension.</p>
@@ -388,12 +392,15 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                     key: dilemma.bookdilemmaid,
                     value: dilemma.bookdilemmaid,
                     label: dilemma.dilemma,
+                    tooltip: dilemma.description
                   }))}
                   mode='multiple'
                   name='dilemma'
                   value={selectedDilemmas}
                   onChange={handleDilemmaChange}
                   placeholder='Dilemmas (you can select multiple)'
+                  useTagRender={true}
+                  showOptionIcon={false}
                 />
                 {missingFields.dilemma && (
                   <p className='error-message'>You must select at least one dilemma.</p>

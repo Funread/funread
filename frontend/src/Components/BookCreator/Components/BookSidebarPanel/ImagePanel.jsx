@@ -50,7 +50,7 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
     if (!file) return;
 
     // If item is already a data URL or src, handle directly
-    if (typeof file === 'string' && file.startsWith('data:')) {
+    if (typeof file === 'string' && (file.startsWith('data:') || file.startsWith('/api/media/') || file.startsWith('http'))) {
       const img = new window.Image();
       img.src = file;
       img.onload = () => {
@@ -76,6 +76,11 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
       return;
     }
 
+    // Validar que sea un Blob/File antes de usar FileReader
+    if (!(file instanceof Blob)) {
+      console.error('Error: El archivo seleccionado no es un Blob/File:', file);
+      return;
+    }
     // Otherwise assume it's a File object — read as DataURL
     const reader = new FileReader();
     reader.onload = (event) => {

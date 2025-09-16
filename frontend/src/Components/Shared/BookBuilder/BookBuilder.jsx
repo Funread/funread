@@ -306,11 +306,13 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
                   key: category.bookcategoryid,
                   value: category.bookcategoryid,
                   label: category.name,
+                  tooltip: category.description
                 }))}
                 name='category'
                 value={selectedCategory}
                 onChange={handleCategoryChange}
                 placeholder='Category'
+                showOptionIcon={true}
               />
               {missingFields.category && (
                 <p className='error-message'>You need to fill this field.</p>
@@ -326,11 +328,13 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
                       key: dimension.bookdimensionid,
                       value: dimension.bookdimensionid,
                       label: dimension.name,
+                      tooltip: dimension.description
                     }))}
                     name='dimension'
                     value={selectedDimension}
                     onChange={handleDimensionChange}
                     placeholder='Dimension'
+                    showOptionIcon={true}
                   />
                   {missingFields.dimension && (
                     <p className='error-message'>You need to fill this field.</p>
@@ -348,12 +352,15 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
                       key: dilemma.bookdilemmaid,
                       value: dilemma.bookdilemmaid,
                       label: dilemma.dilemma,
+                      tooltip: dilemma.description
                     }))}
                     mode='multiple'
                     name='dilemma'
                     value={selectedDilemmas}
                     onChange={handleDilemmaChange}
                     placeholder='Dilemma'
+                    useTagRender={true}
+                    showOptionIcon={false}
                   />
                   {missingFields.dilemma && (
                     <p className='error-message'>You need to fill this field.</p>

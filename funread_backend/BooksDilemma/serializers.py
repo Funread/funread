@@ -15,6 +15,7 @@ class BookCategorySerializer(serializers.ModelSerializer):
 
   def update(self, instance, validated_data):
       instance.name = validated_data.get('name', instance.name)
+      instance.description = validated_data.get('description', instance.description)
       instance.save()
       return instance
 
@@ -29,6 +30,7 @@ class BookDimensionSerializer(serializers.ModelSerializer):
 
   def update(self, instance, validated_data):
       instance.name = validated_data.get('name', instance.name)
+      instance.description = validated_data.get('description', instance.description)
       instance.bookcategoryid = validated_data.get('bookcategoryid', instance.bookcategoryid)
       instance.save()
       return instance
@@ -44,6 +46,7 @@ class BookDilemmaSerializer(serializers.ModelSerializer):
 
   def update(self, instance, validated_data):
       instance.dilemma = validated_data.get('dilemma', instance.dilemma)
+      instance.description = validated_data.get('description', instance.description)
       instance.bookdimensionid = validated_data.get('bookdimensionid', instance.bookdimensionid)
       instance.save()
       return instance
