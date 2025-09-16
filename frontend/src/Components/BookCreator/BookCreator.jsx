@@ -263,58 +263,58 @@ export default function BookCreator() {
      }
    }
  };
+
   return (
     <>
       {SessionModal}
-      <div className="flex h-screen w-full bg-gray-200">
-      <BookSidebarPanel
-        widgetValidation={widgetValidation}
-        setElements={setElements}
-        setImages={setImages}
-        changeQuizType={() => {}}
-      />
-
-      <div className="flex-1 flex flex-col ml-[364px]">
-        <ToolBar
-          elements={elements}
+      <div className="flex flex-row h-screen w-full bg-gray-200 min-w-0">
+        {/* Sidebar y panel lateral */}
+        <BookSidebarPanel
+          widgetValidation={widgetValidation}
           setElements={setElements}
-          savePageToLocalStorage={savePage}
-          selectedId={selectedId}
-          setSelectedId={setSelectedId}
-          bookData={bookData}
-          pagesType={pagesType}
-          pageId={currentPage}
+          setImages={setImages}
+          changeQuizType={() => {}}
         />
-
-        <div className="flex-1 p-4 bg-white m-2 shadow-md rounded-lg" style={{ height: "calc(100vh - 80px)" }}>
-          <BookCentralEditor
-            isLoading={isLoading}
-            pagesType={pagesType}
-            widget={widget}
+        {/* Contenido principal */}
+        <div className="flex-1 flex flex-col min-w-0">
+          <ToolBar
             elements={elements}
             setElements={setElements}
-            images={images}
+            savePageToLocalStorage={savePage}
             selectedId={selectedId}
             setSelectedId={setSelectedId}
-            stageRef={stageRef}
-            transformerRef={transformerRef}
-            quizEditorRef={quizEditorRef}
-            quizCompleteEditorRef={quizCompleteEditorRef}
-            currentPage={currentPage}
-            handleWordSearchSave={handleWordSearchSave}
-            quizData={quizData}
+            bookData={bookData}
+            pagesType={pagesType}
+            pageId={currentPage}
           />
+          <div className="flex-1 p-4 bg-white m-2 shadow-md rounded-lg overflow-auto min-w-0" style={{ height: "calc(100vh - 80px)" }}>
+            <BookCentralEditor
+              isLoading={isLoading}
+              pagesType={pagesType}
+              widget={widget}
+              elements={elements}
+              setElements={setElements}
+              images={images}
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+              stageRef={stageRef}
+              transformerRef={transformerRef}
+              quizEditorRef={quizEditorRef}
+              quizCompleteEditorRef={quizCompleteEditorRef}
+              currentPage={currentPage}
+              handleWordSearchSave={handleWordSearchSave}
+              quizData={quizData}
+            />
+          </div>
+          {!isLoading && (
+            <Footer
+              pages={pagesList}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              addPage={addPage}
+            />
+          )}
         </div>
-      </div>
-
-      {!isLoading && (
-        <Footer
-          pages={pagesList}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          addPage={addPage}
-        />
-      )}
       </div>
     </>
   );
