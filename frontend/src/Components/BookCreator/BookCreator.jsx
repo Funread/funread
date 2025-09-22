@@ -88,8 +88,8 @@ export default function BookCreator() {
   // Reload page on page change
   useEffect(() => {
     if (!isLoading && pagesList[currentPage]) {
-         console.log('pageloader')
-           console.log(pagesList)
+      console.log('pageloader')
+      console.log(pagesList)
       // Set pagesType synchronously from pagesList to avoid transient render mismatch
       const rawType = pagesList[currentPage].page?.type;
       let normalizedType = rawType;
@@ -126,143 +126,143 @@ export default function BookCreator() {
     }, 0);
   };
 
- const widgetValidation = async (widgetId, type) => {
-  const page = pagesList?.[currentPage]?.page;
-  const widgetItem = pagesList?.[currentPage]?.widgetitems?.[0];
+  const widgetValidation = async (widgetId, type) => {
+    const page = pagesList?.[currentPage]?.page;
+    const widgetItem = pagesList?.[currentPage]?.widgetitems?.[0];
 
-  // Si no hay sesión (no hay page), mostrar modal de sesión expirada
-  if (!page) {
-    if (typeof document !== 'undefined' && window.ReactDOM) {
-      // Evita múltiples modales
-      if (!document.getElementById('session-expired-modal')) {
-        const modalDiv = document.createElement('div');
-        modalDiv.id = 'session-expired-modal';
-        document.body.appendChild(modalDiv);
-        import('./Components/SessionExpiredModal').then(({ default: SessionExpiredModal }) => {
-          window.ReactDOM.render(
-            <SessionExpiredModal show={true} onClose={() => { window.location.href = '/'; }} />, 
-            modalDiv
-          );
-        });
-      }
-    }
-    return;
-  }
-
-  // Si no existe widgetItem aún, crearlo con plantilla por defecto y actualizar UI localmente
-  if (!widgetItem) {
-    try {
-      let defaultValue = {};
-      if (widgetId === 8) {
-        defaultValue = {
-          type: 'COMPLETE',
-          content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí', correctAnswer: '', points: 0 }
-        };
-      } else if (widgetId === 9) {
-        defaultValue = {
-          type: 'singleChoice',
-          content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí' },
-          options: []
-        };
-      }
-
-      const res = await newWidgetItem(page.pageid, widgetId, type, defaultValue, 0);
-      // Inject created widgetItem into local pagesList so subsequent saves see it
-      try {
-        const created = res?.data?.widgetitem ?? res?.data;
-        if (created && typeof setPagesList === 'function') {
-          setPagesList(prev => {
-            const newPages = Array.isArray(prev) ? [...prev] : [];
-            const pageIndex = currentPage;
-            // Ensure page slot exists
-            while (newPages.length <= pageIndex) newPages.push({ page: page, widgetitems: [] });
-            const current = { ...newPages[pageIndex] };
-            current.widgetitems = Array.isArray(current.widgetitems) ? [created, ...current.widgetitems] : [created];
-            newPages[pageIndex] = current;
-            return newPages;
+    // Si no hay sesión (no hay page), mostrar modal de sesión expirada
+    if (!page) {
+      if (typeof document !== 'undefined' && window.ReactDOM) {
+        // Evita múltiples modales
+        if (!document.getElementById('session-expired-modal')) {
+          const modalDiv = document.createElement('div');
+          modalDiv.id = 'session-expired-modal';
+          document.body.appendChild(modalDiv);
+          import('./Components/SessionExpiredModal').then(({ default: SessionExpiredModal }) => {
+            window.ReactDOM.render(
+              <SessionExpiredModal show={true} onClose={() => { window.location.href = '/'; }} />,
+              modalDiv
+            );
           });
         }
-      } catch (err) {
-        console.error('Error injecting widgetitem into pagesList', err);
       }
-
-      // Actualizar UI local sin recargar todo el libro
-      setWidget(widgetId);
-      setPagesType(type);
-      setElements(defaultValue);
-      return;
-    } catch (e) {
-      alert('Error creando widget: ' + (e.message || e));
       return;
     }
-  }
 
-  // Solo limpiar si el tipo de página realmente cambia
-  // if (pagesType !== type || widget !== widgetId) {
-  //   cleanElements();
-  //   setWidget(widgetId);
-  //   setPagesType(type);
-  // }
-
-  // Determine current backend widget id and page type to decide updates
-  const existingWidgetId = widgetItem?.widgetid;
-  const rawPageType = page?.type;
-  let normalizedRawType = rawPageType;
-  if (rawPageType === 1) normalizedRawType = 2;
-
-  const pageTypeChanged = normalizedRawType !== type;
-  const widgetIdChanged = existingWidgetId !== widgetId;
-
-  // Update local UI immediately if necessary
-  if (pagesType !== type || widget !== widgetId) {
-    cleanElements();
-    setWidget(widgetId);
-    setPagesType(type);
-  }
-
-  // Actualiza el widget en el backend solo si el widget real en la página o el tipo cambiaron
-  if (widgetIdChanged || pageTypeChanged) {
-    try {
-      // Si el widget actual se convierte a quiz y el value no tiene la estructura esperada,
-      // usar una plantilla por defecto para evitar errores del backend que esperan widgetid específico.
-      const existingValue = widgetItem.value || {};
-      let dataToSend = existingValue;
-      const isConvertingToComplete = widgetId === 8;
-      const isConvertingToSingle = widgetId === 9;
-
-      if (isConvertingToComplete) {
-        const valid = existingValue && (existingValue.type === 'COMPLETE' || existingValue.type === 'complete');
-        if (!valid) {
-          dataToSend = { type: 'COMPLETE', content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí', correctAnswer: '', points: 0 } };
+    // Si no existe widgetItem aún, crearlo con plantilla por defecto y actualizar UI localmente
+    if (!widgetItem) {
+      try {
+        let defaultValue = {};
+        if (widgetId === 8) {
+          defaultValue = {
+            type: 'COMPLETE',
+            content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí', correctAnswer: '', points: 0 }
+          };
+        } else if (widgetId === 9) {
+          defaultValue = {
+            type: 'singleChoice',
+            content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí' },
+            options: []
+          };
         }
-      } else if (isConvertingToSingle) {
-        const valid = existingValue && (existingValue.type === 'singleChoice');
-        if (!valid) {
-          dataToSend = { type: 'singleChoice', content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí' }, options: [] };
+
+        const res = await newWidgetItem(page.pageid, widgetId, type, defaultValue, 0);
+        // Inject created widgetItem into local pagesList so subsequent saves see it
+        try {
+          const created = res?.data?.widgetitem ?? res?.data;
+          if (created && typeof setPagesList === 'function') {
+            setPagesList(prev => {
+              const newPages = Array.isArray(prev) ? [...prev] : [];
+              const pageIndex = currentPage;
+              // Ensure page slot exists
+              while (newPages.length <= pageIndex) newPages.push({ page: page, widgetitems: [] });
+              const current = { ...newPages[pageIndex] };
+              current.widgetitems = Array.isArray(current.widgetitems) ? [created, ...current.widgetitems] : [created];
+              newPages[pageIndex] = current;
+              return newPages;
+            });
+          }
+        } catch (err) {
+          console.error('Error injecting widgetitem into pagesList', err);
         }
+
+        // Actualizar UI local sin recargar todo el libro
+        setWidget(widgetId);
+        setPagesType(type);
+        setElements(defaultValue);
+        return;
+      } catch (e) {
+        alert('Error creando widget: ' + (e.message || e));
+        return;
       }
-       await updateWidgetItem(
-         widgetItem.widgetitemid,
-         page.pageid,
-         widgetId,
-         type,
-         dataToSend,
-         widgetItem.elementorder ?? 0
-       );
-       // No recargamos todo el libro: actualizamos solo estado local para que el editor muestre cambio
-       setWidget(widgetId);
-       setPagesType(type);
-      if (dataToSend && Object.keys(dataToSend).length > 0) {
-        setElements(dataToSend);
+    }
+
+    // Solo limpiar si el tipo de página realmente cambia
+    // if (pagesType !== type || widget !== widgetId) {
+    //   cleanElements();
+    //   setWidget(widgetId);
+    //   setPagesType(type);
+    // }
+
+    // Determine current backend widget id and page type to decide updates
+    const existingWidgetId = widgetItem?.widgetid;
+    const rawPageType = page?.type;
+    let normalizedRawType = rawPageType;
+    if (rawPageType === 1) normalizedRawType = 2;
+
+    const pageTypeChanged = normalizedRawType !== type;
+    const widgetIdChanged = existingWidgetId !== widgetId;
+
+    // Update local UI immediately if necessary
+    if (pagesType !== type || widget !== widgetId) {
+      cleanElements();
+      setWidget(widgetId);
+      setPagesType(type);
+    }
+
+    // Actualiza el widget en el backend solo si el widget real en la página o el tipo cambiaron
+    if (widgetIdChanged || pageTypeChanged) {
+      try {
+        // Si el widget actual se convierte a quiz y el value no tiene la estructura esperada,
+        // usar una plantilla por defecto para evitar errores del backend que esperan widgetid específico.
+        const existingValue = widgetItem.value || {};
+        let dataToSend = existingValue;
+        const isConvertingToComplete = widgetId === 8;
+        const isConvertingToSingle = widgetId === 9;
+
+        if (isConvertingToComplete) {
+          const valid = existingValue && (existingValue.type === 'COMPLETE' || existingValue.type === 'complete');
+          if (!valid) {
+            dataToSend = { type: 'COMPLETE', content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí', correctAnswer: '', points: 0 } };
+          }
+        } else if (isConvertingToSingle) {
+          const valid = existingValue && (existingValue.type === 'singleChoice');
+          if (!valid) {
+            dataToSend = { type: 'singleChoice', content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí' }, options: [] };
+          }
+        }
+        await updateWidgetItem(
+          widgetItem.widgetitemid,
+          page.pageid,
+          widgetId,
+          type,
+          dataToSend,
+          widgetItem.elementorder ?? 0
+        );
+        // No recargamos todo el libro: actualizamos solo estado local para que el editor muestre cambio
+        setWidget(widgetId);
+        setPagesType(type);
+        if (dataToSend && Object.keys(dataToSend).length > 0) {
+          setElements(dataToSend);
+        }
+      } catch (e) {
+        console.error('Error updating widget:', e);
+        // Mostrar más info si viene del backend
+        const msg = e?.response?.data?.error || e?.response?.data || e.message || String(e);
+        alert("Error actualizando widget: " + msg);
       }
-     } catch (e) {
-      console.error('Error updating widget:', e);
-      // Mostrar más info si viene del backend
-      const msg = e?.response?.data?.error || e?.response?.data || e.message || String(e);
-      alert("Error actualizando widget: " + msg);
-     }
-   }
- };
+    }
+  };
 
   return (
     <>
@@ -273,7 +273,7 @@ export default function BookCreator() {
           widgetValidation={widgetValidation}
           setElements={setElements}
           setImages={setImages}
-          changeQuizType={() => {}}
+          changeQuizType={() => { }}
         />
         {/* Contenido principal */}
         <div className="flex-1 flex flex-col min-w-0">
@@ -287,7 +287,7 @@ export default function BookCreator() {
             pagesType={pagesType}
             pageId={currentPage}
           />
-          <div className="flex-1 p-4 bg-white m-2 shadow-md rounded-lg overflow-auto min-w-0" style={{ height: "calc(100vh - 80px)" }}>
+          <div className="flex-1 min-h-0 p-4 bg-white m-2 shadow-md rounded-lg overflow-auto min-w-0">
             <BookCentralEditor
               isLoading={isLoading}
               pagesType={pagesType}

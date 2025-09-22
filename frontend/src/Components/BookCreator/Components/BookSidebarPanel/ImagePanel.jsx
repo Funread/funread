@@ -161,14 +161,15 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
   const loadedImages = getImagesByType();
 
   return (
-    <div>
+    <div className="pb-24">
       <h2 className="text-lg font-semibold mb-4">Upload Image</h2>
       <div className="mt-2">
         <button
-          className="w-full text-left border p-2 rounded-lg bg-white hover:bg-gray-50"
+          className="w-full flex items-center gap-2 border-2 border-blue-500 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-900 font-semibold shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           onClick={() => setShowUploadModal(true)}
         >
-          Browse images (open media picker)
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16V4a2 2 0 012-2h12a2 2 0 012 2v12M4 16l4-4a2 2 0 012.828 0l2.344 2.344a2 2 0 002.828 0L20 8M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" /></svg>
+          Upload or search images
         </button>
       </div>
 
