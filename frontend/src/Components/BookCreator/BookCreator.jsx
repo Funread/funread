@@ -273,7 +273,7 @@ export default function BookCreator() {
           widgetValidation={widgetValidation}
           setElements={setElements}
           setImages={setImages}
-          changeQuizType={() => { }}
+          changeQuizType={() => {}}
         />
         {/* Contenido principal */}
         <div className="flex-1 flex flex-col min-w-0">
