@@ -15,19 +15,137 @@
   font-size: 0.9rem
   color: rgb(63, 63, 63)
 
+
+
+
+
 .Book-card
+  width: 260px
+  min-width: 220px
+  max-width: 100%
+  height: 410px
+  min-height: 410px
+  max-height: 410px
+  border-radius: 18px
+  border: 1.5px solid #e5e7eb
+  /* Eliminar margin auto para que el grid controle el espacio */
+  margin: 0
+  padding: 0 !important
+  background: #fcfcfd
+  transition: box-shadow 0.2s, border 0.2s
+  position: relative
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+
+  &:hover
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.13)
+    border: 1.5px solid #2563eb
+
+  &:hover .card-title
+    color: #2563eb !important
+
+.Book-card .aspect-\[3\/4\]
+  width: 100% !important
+  min-width: 0
+  aspect-ratio: 3/4
+  height: 220px
+  padding: 0 !important
+  background: #f3f4f6
+  border-radius: 12px 12px 0 0 !important
+  box-shadow: none !important
+  margin-bottom: 0 !important
+  display: block
+
+.Book-card .book-cover-img
+  width: 100% !important
+  height: 100% !important
+  object-fit: cover
+  background: #fff
+  border-radius: 12px 12px 0 0 !important
+
+.Book-card .book-cover-img
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s
+.Book-card:hover .book-cover-img
+  transform: scale(1.04)
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.10)
+  z-index: 2
+
+.Book-card .card-title
+  font-size: 1.13rem
+  font-weight: 700
+  margin: 0.7rem 0 0.2rem 0
+  letter-spacing: -0.01em
+  transition: color 0.18s
+  color: #1e293b
+
+.Book-card .badges-row
+  display: flex
+  flex-wrap: wrap
+  gap: 0.3rem 0.5rem
+  margin-bottom: 0.2rem
+  min-height: 32px
+
+.Book-card .category-badge
+  background: linear-gradient(90deg, #e0e7ff 0%, #f0f9ff 100%)
+  color: #3730a3
+  border: 1.2px solid #c7d2fe
+  font-weight: 600
+  font-size: 0.82rem
+  padding: 0.18rem 0.7rem
+  border-radius: 8px
+  margin-right: 0.2rem
+  margin-bottom: 0.2rem
+
+.Book-card .dimension-badge
+  background: #e0f2fe
+  color: #0369a1
+  border: 1.2px solid #bae6fd
+  font-weight: 500
+  font-size: 0.81rem
+  padding: 0.16rem 0.65rem
+  border-radius: 7px
+  margin-right: 0.18rem
+  margin-bottom: 0.18rem
+
+.Book-card .dilemma-badge
+  background: #f1f5f9
+  color: #334155
+  border: 1.2px solid #cbd5e1
+  font-weight: 400
+  font-size: 0.8rem
+  padding: 0.15rem 0.6rem
+  border-radius: 7px
+  margin-right: 0.15rem
+  margin-bottom: 0.15rem
+
+.Book-card .text-sm
+  font-size: 0.97rem
+  color: #64748b
+  margin-bottom: 0.3rem
+
+.Book-card .card-title,
+.Book-card .text-sm,
+.Book-card .badges-row
   width: 100%
-  border-radius: 5px,
-  border: none,
+  text-align: center
+
+
+// Eliminados duplicados de .Book-card .aspect-[3/4] y .book-cover-img
 
 .card-img
   width: auto
   height: 160px
   border-radius: 0px
 
-.Book-card:hover
-  -webkit-transform: scale(1.1)
-  transform: scale(1.1)
+
+.Book-card
+  .book-cover-img
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1)
+  &:hover .book-cover-img
+    transform: scale(1.07)
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10)
+    z-index: 2
 
 .custom_section_book
   justify-content: center

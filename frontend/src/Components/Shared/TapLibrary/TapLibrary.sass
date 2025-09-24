@@ -1,3 +1,19 @@
+.view-toggle-btn
+  background: #fff
+  color: #222
+  border: none
+  outline: none
+  transition: background 0.18s, color 0.18s
+  border-radius: 0.75rem
+  padding: 0.45rem 0.9rem
+
+.view-toggle-btn.active
+  background: #3975f6
+  color: #fff
+
+.view-toggle-btn:not(.active):hover
+  background: #e0edff
+  color: #3975f6
 .section_library_Tap
   display: flex
   flex-direction: row
@@ -11,6 +27,9 @@
 .section_item_Tap
   width: 300px
   height: fit-content
+  min-width: 0
+  display: flex
+  justify-content: center
 
 .nav-link
   color: black
@@ -25,8 +44,55 @@
   color: #3B82F6
 
 
+.library-grid-container
+  background: #fff
+  border-radius: 16px
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.04)
+  border: 1px solid #e5e7eb
+  padding: 32px 24px
+  margin: 0 auto 24px auto
+  max-width: 100%
+  width: 100%
+  box-sizing: border-box
+  display: flex
+  flex-direction: column
+  min-height: 300px
+  overflow-y: auto
+  max-height: 60vh
 
 
+.grid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))
+  gap: 32px 28px
+  width: 100%
+  margin: 0 auto
+  min-width: 0
+
+
+.list-view-books
+  display: flex
+  flex-direction: column
+  gap: 24px
+  width: 100%
+  margin: 0 auto
+
+
+.grid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))
+  gap: 16px
+  width: 100%
+  margin: 0 auto
+  min-width: 0
+
+
+.section_item_Tap
+  margin: 0 !important
+  padding: 0 !important
+  width: 100%
+  display: flex
+  justify-content: center
 
 .section_item_Tap
   scroll-snap-align: center
@@ -58,3 +124,11 @@
 @media (min-width: 500px) and (max-width: 1300px)
   .section_item_Tap
     // margin-left: 4.5rem
+
+.tabs-header-row
+  display: flex
+  align-items: center
+  justify-content: space-between
+  margin-top: 12px
+  padding-left: 0
+  padding-right: 0
