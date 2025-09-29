@@ -11,67 +11,41 @@ export default function BookSidebarPanel({
   setImages,
   changeQuizType,
 }) {
-    const [openPanel, setOpenPanel] = useState("background");
-  if (
-    ["background", "objects", "users", "shape"].includes(openPanel)
-  ) {
-    return (
-      <React.Fragment>
-            <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
-            <div className="w-[300px] h-full bg-white shadow-md p-4 fixed left-16 top-0 border-r border-gray-300 overflow-y-auto">
-              <ImagePanel
-                widgetValidation={widgetValidation}
-                setElements={setElements}
-                setImages={setImages}
-                imageType={openPanel}
-              />
-             </div> 
-      </React.Fragment>
-   
-    );
-  }
-  if (openPanel === "text") {
-    return (
-      <React.Fragment>
-        <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
-        <div className="w-[300px] h-full bg-white shadow-md p-4 fixed left-16 top-0 border-r border-gray-300 overflow-y-auto">
-            <TextPanel
+  const [openPanel, setOpenPanel] = useState("background");
+  return (
+    <div className="flex flex-row h-full min-h-screen min-w-0">
+      {/* Sidebar */}
+  <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
+      {/* Panel lateral */}
+      <div className="flex flex-col w-[300px] h-full min-h-screen min-w-0 bg-white shadow-md p-4 border-r border-gray-300 overflow-y-auto">
+        {(["background", "objects", "users", "shape"].includes(openPanel)) && (
+          <ImagePanel
+            widgetValidation={widgetValidation}
+            setElements={setElements}
+            setImages={setImages}
+            imageType={openPanel}
+          />
+        )}
+        {openPanel === "text" && (
+          <TextPanel
             widgetValidation={widgetValidation}
             setElements={setElements}
           />
-        </div> 
-        </React.Fragment>
-   
-    );
-  }
-  if (openPanel === "games") {
-    return (
-
-      <React.Fragment>
-        <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
-        <div className="w-[300px] h-full bg-white shadow-md p-4 fixed left-16 top-0 border-r border-gray-300 overflow-y-auto">
-            <Games
+        )}
+        {openPanel === "games" && (
+          <Games
             widgetValidation={widgetValidation}
             setElements={setElements}
           />
-        </div> 
-        </React.Fragment>
-    );
-  }
-  if (openPanel === "quiz") {
-    return (
-      <React.Fragment>
-      <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
-      <div className="w-[300px] h-full bg-white shadow-md p-4 fixed left-16 top-0 border-r border-gray-300 overflow-y-auto">
-        <Quiz
-          widgetValidation={widgetValidation}
-          setElements={setElements}
-          changeQuizType={changeQuizType}
-        />
-      </div> 
-      </React.Fragment>
-  
-    );
-  }
-  return null;
+        )}
+        {openPanel === "quiz" && (
+          <Quiz
+            widgetValidation={widgetValidation}
+            setElements={setElements}
+            changeQuizType={changeQuizType}
+          />
+        )}
+      </div>
+    </div>
+  );
 }

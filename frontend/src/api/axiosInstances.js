@@ -2,18 +2,25 @@ import { store } from "../redux/store"
 import axios from "axios";
 import { BASE_URL } from "../settings";
 
-export const axiosAuth = () => {
-  const state = store.getState()
-  const user = state.user; 
-  if (user.jwt) {
-      return axios.create({
-          baseURL: BASE_URL,
-          headers: { Authorization: user.jwt },
-      });
-  }
-  console.error("axiosAuth is null: check if you are login");
-  return null;
-}
+const axiosAuthInstance = axios.create({
+    baseURL: BASE_URL,
+});
+
+axiosAuthInstance.interceptors.request.use(
+    (config) => {
+        const state = store.getState();
+        const user = state.user;
+        if (user.jwt) {
+            config.headers.Authorization = user.jwt;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+export const axiosAuth = () => axiosAuthInstance;
 
 export const axiosWithoutAuth = () => {
   return axios.create({

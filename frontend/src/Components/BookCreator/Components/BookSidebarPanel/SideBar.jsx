@@ -1,23 +1,38 @@
 import { useNavigate } from "react-router-dom";
 import SidebarIcon from "./SideBarIcon"; // Usa el nombre exacto del archivo
-import {BookOpenCheck,Gamepad,Volleyball,Boxes,Users,Landmark, Package , Home, Image, Settings, Undo, Type } from "lucide-react";
+import {BookOpenCheck, Gamepad, MessageCircle, Users, Package, Home, Image, Type} from "lucide-react";
+import logo from "../../../../FR_Logo.png";
 
 export default function SideBar({ openPanel, setOpenPanel }) {
   const navigate = useNavigate(); 
 
+  const options = [
+  { key: "home", icon: <Home />, label: "Home" },
+  { key: "text", icon: <Type />, label: "Text" },
+  { key: "background", icon: <Image />, label: "Background" },
+  { key: "objects", icon: <Package />, label: "Objects" },
+  { key: "users", icon: <Users />, label: "Characters" },
+  { key: "shape", icon: <MessageCircle />, label: "Shapes" },
+  { key: "quiz", icon: <BookOpenCheck />, label: "Quizzes" },
+  { key: "games", icon: <Gamepad />, label: "Games" }
+  ];
   return (
-    <div className="w-16 h-full bg-gray-900 text-white flex flex-col items-center p-4 space-y-6 fixed left-0 top-0 shadow-lg">
-      <SidebarIcon icon={<Home />} onClick={() => navigate("/dashboard")} active={openPanel === "home"} />
-      <SidebarIcon icon={<Type />} onClick={() => setOpenPanel("text")} active={openPanel === "text"} />
-      <SidebarIcon icon={<Landmark />} onClick={() => setOpenPanel("background")} active={openPanel === "background"} />
-      <SidebarIcon icon={<Volleyball />} onClick={() => setOpenPanel("objects")} active={openPanel === "objects"} />
-      <SidebarIcon icon={<Users />} onClick={() => setOpenPanel("users")} active={openPanel === "users"} />
-      <SidebarIcon icon={<Boxes />} onClick={() => setOpenPanel("shape")} active={openPanel === "shape"} />
-      <SidebarIcon icon={<BookOpenCheck />} onClick={() => setOpenPanel("quiz")} active={openPanel === "quiz"} />
-      <SidebarIcon icon={<Gamepad />} onClick={() => setOpenPanel("games")} active={openPanel === "games"} />
-      <button className="p-2 rounded-full border border-gray-300 bg-white shadow-md hover:bg-gray-200 transition">
-        <Undo className="w-5 h-5 text-gray-600" />
-      </button>
-    </div>
+    <nav className="w-20 h-full bg-gray-900 text-white flex flex-col items-center py-6 px-2 gap-4 shadow-lg" aria-label="Main sidebar navigation">
+      <div className="mb-2 flex justify-center w-full">
+        <img src={logo} alt="Funread Logo" className="w-19 h-19 object-contain" />
+      </div>
+      {options.map(opt => (
+        <button
+          key={opt.key}
+          onClick={() => opt.key === "home" ? navigate("/dashboard") : setOpenPanel(opt.key)}
+          className={`flex flex-col items-center w-full py-2 rounded-lg focus:outline-none transition ${openPanel === opt.key ? "bg-blue-800" : "hover:bg-gray-800"}`}
+          aria-label={opt.label}
+          title={opt.label}
+        >
+          <span className="mb-1" aria-hidden="true">{opt.icon}</span>
+          <span className="text-xs font-medium text-white opacity-80">{opt.label}</span>
+        </button>
+      ))}
+    </nav>
   );
 }
