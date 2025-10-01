@@ -59,8 +59,8 @@ const BookCard = ({
 
   return (
     <div
-  className={`Book-card ${isListView ? 'bookcard-list-view' : ''} bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-md hover:border-slate-300 transition-all duration-200 cursor-pointer ${isListView ? 'flex flex-row items-center w-full px-5 py-3 gap-6 mb-4' : 'flex flex-col items-center p-4'}`}
-  style={{ backgroundColor: color, maxWidth: isListView ? '100%' : 260, margin: isListView ? '0 0 16px 0' : '0 auto' }}
+      className={`Book-card${isListView ? ' bookcard-list-view' : ''}`}
+      style={{ backgroundColor: '#fff', maxWidth: isListView ? '100%' : 260, margin: isListView ? '0 0 4px 0' : '0 auto', border: '1.1px solid #e5e7eb', boxShadow: 'none' }}
       onClick={() =>
         toggleSidebar({
           id,
@@ -74,9 +74,10 @@ const BookCard = ({
       }
     >
       {isListView ? (
-        <div className="w-20 h-20 bg-slate-50 rounded-lg overflow-hidden flex-shrink-0 shadow-sm flex items-center justify-center">
+        <div style={{ width: 56, height: 56, minWidth: 56, minHeight: 56, background: '#f8fafc', borderRadius: 10, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: 18 }}>
           <img
-            className="w-full h-full object-cover book-cover-img"
+            className="book-cover-img"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             src={imageCard}
             alt="Portrait"
           />
@@ -90,10 +91,10 @@ const BookCard = ({
           />
         </div>
       )}
-  <div className={`flex flex-col ${isListView ? 'items-start text-left flex-1 min-w-0' : 'items-center text-center w-full'}`}>
-        <h5 className="card-title clamp-text custom-title text-lg font-bold text-slate-900 mb-1">{title}</h5>
-        {author && <div className="text-sm text-slate-500 mb-2">{author}</div>}
-        <div className="badges-row">
+      <div className={isListView ? 'd-flex flex-column flex-1 min-w-0 justify-content-center' : 'flex flex-col items-center text-center w-full'} style={isListView ? { gap: 0, marginTop: 0, marginBottom: 0 } : {}}>
+        <h5 className="card-title clamp-text custom-title" style={{ fontSize: '1.01rem', fontWeight: 700, margin: '0 0 2px 0', color: '#1e293b', lineHeight: 1.18 }}>{title}</h5>
+        {author && <div className="custom-text" style={{ fontSize: '0.93rem', color: '#64748b', margin: '0 0 2px 0' }}>{author}</div>}
+        <div className="badges-row" style={isListView ? { marginTop: 0, marginBottom: 0 } : {}}>
           {categoryBadge}
           {dimensionBadges}
           {dilemmaBadges}
