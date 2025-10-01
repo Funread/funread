@@ -1,5 +1,5 @@
 export default function Footer({ pages, currentPage, setCurrentPage, addPage }) {
-  const totalPages = pages.length;
+const totalPages = pages.length;
   const pageButtons = [];
 
   // Helper to add button
