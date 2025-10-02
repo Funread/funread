@@ -5,15 +5,6 @@ import './BookCard.sass';
 import { searchCategory } from '../../../api/bookDilemma';
 import { getMediaUrl } from '../../Utils/mediaUrl';
 
-const badgeColors = [
-  'bg-emerald-50 text-emerald-800 border-emerald-200',
-  'bg-amber-50 text-amber-800 border-amber-200',
-  'bg-blue-50 text-blue-800 border-blue-200',
-  'bg-slate-100 text-slate-700 border-slate-200',
-  'bg-stone-100 text-stone-700 border-stone-200',
-  'bg-neutral-100 text-neutral-700 border-neutral-200',
-];
-
 const BookCard = ({
   id,
   portrait,
@@ -39,18 +30,37 @@ const BookCard = ({
     <span className="category-badge">{category}</span>
   ) : null;
 
+  // Utilidad para normalizar nombres a clases
+  const toClass = (str) =>
+    str
+      .toLowerCase()
+      .replace(/á/g, 'a')
+      .replace(/é/g, 'e')
+      .replace(/í/g, 'i')
+      .replace(/ó/g, 'o')
+      .replace(/ú/g, 'u')
+      .replace(/ñ/g, 'n')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
   // Badges de dimensiones
   const dimensionBadges = Array.isArray(dimensionNames) && dimensionNames.length > 0
-    ? dimensionNames.map((d, i) => (
-        <span key={i} className="dimension-badge">{d}</span>
-      ))
+    ? dimensionNames.map((d, i) => {
+        const dimClass = `dimension-badge dimension-badge--${toClass(d)}`;
+        return (
+          <span key={i} className={dimClass}>{d}</span>
+        );
+      })
     : null;
 
   // Badges de dilemas
   const dilemmaBadges = Array.isArray(dilemmaNames) && dilemmaNames.length > 0
-    ? dilemmaNames.map((d, i) => (
-        <span key={i} className="dilemma-badge">{d}</span>
-      ))
+    ? dilemmaNames.map((d, i) => {
+        const dilClass = `dilemma-badge dilemma-badge--${toClass(d)}`;
+        return (
+          <span key={i} className={dilClass}>{d}</span>
+        );
+      })
     : null;
 
   // Detectar si es vista lista (prop: listView) o grilla (por defecto)
@@ -60,7 +70,7 @@ const BookCard = ({
   return (
     <div
       className={`Book-card${isListView ? ' bookcard-list-view' : ''}`}
-      style={{ backgroundColor: '#fff', maxWidth: isListView ? '100%' : 260, margin: isListView ? '0 0 4px 0' : '0 auto', border: '1.1px solid #e5e7eb', boxShadow: 'none' }}
+  style={{ backgroundColor: '#fff', maxWidth: isListView ? '100%' : 340, border: '1.1px solid #e5e7eb', boxShadow: 'none' }}
       onClick={() =>
         toggleSidebar({
           id,
@@ -92,10 +102,9 @@ const BookCard = ({
         </div>
       )}
       <div className={isListView ? 'd-flex flex-column flex-1 min-w-0 justify-content-center' : 'flex flex-col items-center text-center w-full'} style={isListView ? { gap: 0, marginTop: 0, marginBottom: 0 } : {}}>
-        <h5 className="card-title clamp-text custom-title" style={{ fontSize: '1.01rem', fontWeight: 700, margin: '0 0 2px 0', color: '#1e293b', lineHeight: 1.18 }}>{title}</h5>
+        <h5 className="card-title clamp-text custom-title" style={{ fontSize: '1.01rem', fontWeight: 700, margin: '10px  0 10px 0', color: '#1e293b', lineHeight: 1.18 }}>{title}</h5>
         {author && <div className="custom-text" style={{ fontSize: '0.93rem', color: '#64748b', margin: '0 0 2px 0' }}>{author}</div>}
         <div className="badges-row" style={isListView ? { marginTop: 0, marginBottom: 0 } : {}}>
-          {categoryBadge}
           {dimensionBadges}
           {dilemmaBadges}
         </div>
