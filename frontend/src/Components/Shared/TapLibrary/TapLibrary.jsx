@@ -105,7 +105,7 @@ function TapLibrary({ toggleSidebar, newBooks }) {
   // Filtros y ordenamiento
   const allBooks = tab === "mylibrary" ? privateBooks : publishedBooks;
   // Dimensiones dinámicas desde la base de datos
-  const dimensions = [{ name: "Todas las dimensiones", bookdimensionid: "all" }, ...allDimensions];
+  const dimensions = [{ name: "All Dimensions", bookdimensionid: "all" }, ...allDimensions];
   const filteredBooks = selectedDimension === "all"
     ? allBooks
     : allBooks.filter(book => {
@@ -203,8 +203,8 @@ function TapLibrary({ toggleSidebar, newBooks }) {
                 <select
                   value={selectedDimension}
                   onChange={e => setSelectedDimension(e.target.value)}
-                  className="border border-slate-200 rounded-lg px-2 py-1 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-[100px] max-w-[140px] truncate"
-                  style={{maxWidth: '140px', width: '140px'}}
+                  className="taplibrary-select"
+                  style={{maxWidth: '200px', width: '180px'}}
                 >
                   {dimensions.map(dimension => (
                     <option key={dimension.bookdimensionid} value={dimension.bookdimensionid} style={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'}}>
@@ -216,7 +216,8 @@ function TapLibrary({ toggleSidebar, newBooks }) {
                 <select
                   value={sortBy}
                   onChange={e => setSortBy(e.target.value)}
-                  className="border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="taplibrary-select"
+                  style={{maxWidth: '200px', width: '180px'}}
                 >
                   <option value="dimension">Sort by Dimension</option>
                   <option value="title">Sort A-Z</option>
@@ -239,6 +240,17 @@ function TapLibrary({ toggleSidebar, newBooks }) {
               </div>
             </div>
             <div style={{flex: 1, minHeight: 0, overflowY: 'auto'}}>
+              {/* Dynamic dimension header */}
+              {selectedDimension === "all" ? (
+                <div className="text-base font-semibold text-slate-600 mb-2">Explore dimensions</div>
+              ) : (
+                <div className="text-base font-semibold text-slate-600 mb-2">
+                  {(() => {
+                    const dim = allDimensions.find(d => d.bookdimensionid?.toString() === selectedDimension);
+                    return dim ? dim.name : '';
+                  })()}
+                </div>
+              )}
               {/* Grid/List View */}
               {isLoading ? (
                 <Message message={"Loading..."} />
