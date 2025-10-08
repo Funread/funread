@@ -1,31 +1,23 @@
 /* Main container */
 .professor-dashboard {
      background-color: white;
-     height: 85dvh;
-     overflow: hidden;
      display: flex;
      flex-direction: column;
+     min-height: 100vh;
 }
 
 .dashboard-content {
      background-color: white;
-     height: 100%;
      display: flex;
      flex-direction: column;
-     overflow: hidden;
      flex: 1;
 }
 
-.dashboard-sidebar {
-     flex-shrink: 0;
-     margin-bottom: 15px;
-}
 
 .main-content {
-     flex: 1;
-     overflow: auto;
-     display: flex;
-     flex-direction: column;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
 }
 
 /* User Stats */
@@ -36,6 +28,7 @@
      flex-wrap: nowrap;
      gap: 12px;
      flex-shrink: 0;
+     background-color: #4361ee;
 }
 
 .stat-card.books-info {
@@ -52,17 +45,10 @@
 .stat-card.students-info {
      background: linear-gradient(to bottom right, #ffeaf3, #fff0f6);
      border-left: 3px solid #f72585;
-     border-bottom: 4px solid #f72585
+     border-bottom: 4px solid #f72585;
 }
 .stat-icon.students {
      background-color: #f72585;
-}
-
-
-.stat-card.groups-info {
-     background: linear-gradient(to bottom right, #e9faff, #f0fdff);
-     border-left: 3px solid #4cc9f0;
-     border-bottom: 4px solid #4cc9f0;
 }
 
 .stat-icon.groups {
@@ -77,6 +63,22 @@
 }
 
 /* Book builder modal styles */
+     .tabs-header-row, .section-header-sticky {
+          position: sticky;
+          top: 0;
+          z-index: 10;
+          background: white;
+     }
+
+     /* Prevent horizontal scroll and overflow */
+     body, html {
+          overflow-x: hidden !important;
+     }
+
+     .library-grid-container {
+          width: 100%;
+          box-sizing: border-box;
+     }
 .book-builder-container {
      position: fixed;
      top: 0;

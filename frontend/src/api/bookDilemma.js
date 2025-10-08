@@ -4,6 +4,10 @@ export async function listCategories() {
   return axiosAuth().get('bookdilemma/listcategory/')
 }
 
+export async function listDimensions() {
+  return axiosAuth().get('bookdilemma/listdimension/')
+}
+
 export async function searchCategory(categoryId) {
   return axiosAuth().get('bookdilemma/searchcategory/' + categoryId)
 }
@@ -21,4 +25,9 @@ export async function newDilemaPerBook(bookdilemmaid, bookid) {
     bookdilemmaid: bookdilemmaid,
     bookid: bookid,
   })
+}
+
+// Obtener categoría, dimensiones y dilemas de un libro
+export async function getBookCategoryDimensionDilemmas(bookid) {
+  return axiosAuth().get(`bookdilemma/getcategoryperbook/${bookid}`)
 }

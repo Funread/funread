@@ -58,17 +58,21 @@ def new_book(request):
      if es_valido==False:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     
+     jwt_service = JwtService(authorization_header)
+     user_id = jwt_service.get_user_id()
+     if not user_id:
+         return Response({"error": "User not found in token"}, status=status.HTTP_401_UNAUTHORIZED)
+
      data = {
         'title': request.data.get('title'),
         'category': request.data.get('category'),
         'portrait': request.data.get('portrait'),
-        'createdby': request.data.get('createdby'),
+        'createdby': user_id,
         'createdat': datetime.datetime.now(),
-        'updatedby': request.data.get('updatedby'),
+        'lastupdateby': user_id,
         'lastupdateat': datetime.datetime.now(),
-        'state' : request.data.get('state' ),
+        'state' : request.data.get('state', 1), # Default state to 1 if not provided
         'sharedbook' : request.data.get('sharedbook'),
-        'lastupdateby': request.data.get('lastupdateby'),
         'description': request.data.get('description')
      }
      serializer = BookSerializer(data=data)
