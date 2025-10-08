@@ -32,9 +32,6 @@
      border-bottom: 4px solid #4cc9f0
 }
 
-/* New styles for books-info and groups-info cards */
-
-
 .stat-card.books-info,
 .stat-card.groups-info {
      flex-direction: row;

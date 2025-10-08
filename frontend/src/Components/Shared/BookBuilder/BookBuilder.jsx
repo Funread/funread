@@ -40,7 +40,7 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   const [dilemmas, setDilemmas] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedDimension, setSelectedDimension] = useState('')
-  const [selectedDilemmas, setSelectedDilemmas] = useState([])
+    const [selectedDilemma, setSelectedDilemma] = useState('')
   const [fileImage, setFileImage] = useState(null)
   const [missingFields, setMissingFields] = useState({})
   const user = useSelector((state) => state.user)
@@ -122,8 +122,8 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
         console.log(response.data)
          
         //Añadir los dilemas al libro creado
-        for (const dilemma of selectedDilemmas) {
-          await addDilemmasPerBook(dilemma, response.data.bookid)
+        if (selectedDilemma) {
+          await addDilemmasPerBook(selectedDilemma, response.data.bookid)
         }
         toast.success('Book created successfully')
 
@@ -158,7 +158,7 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
       missing.dimension = true
     }
 
-    if (selectedDilemmas.length === 0) {
+      if (!selectedDilemma) {
       missing.dilemma = true
     }
 
@@ -233,7 +233,7 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   }
 
   const handleDilemmaChange = (selectedValues) => {
-    setSelectedDilemmas(selectedValues)
+  setSelectedDilemma(selectedValues)
   }
 
   const handleSessionModalClose = () => {
@@ -354,13 +354,12 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
                       label: dilemma.dilemma,
                       tooltip: dilemma.description
                     }))}
-                    mode='multiple'
                     name='dilemma'
-                    value={selectedDilemmas}
+                      name='dilemma'
+                      value={selectedDilemma}
                     onChange={handleDilemmaChange}
                     placeholder='Dilemma'
-                    useTagRender={true}
-                    showOptionIcon={false}
+                      showOptionIcon={true}
                   />
                   {missingFields.dilemma && (
                     <p className='error-message'>You need to fill this field.</p>

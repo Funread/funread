@@ -41,7 +41,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
   const [dilemmas, setDilemmas] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedDimension, setSelectedDimension] = useState('')
-  const [selectedDilemmas, setSelectedDilemmas] = useState([])
+  const [selectedDilemma, setSelectedDilemma] = useState('')
   const [fileImage, setFileImage] = useState(null)
   const [missingFields, setMissingFields] = useState({})
   const user = useSelector((state) => state.user)
@@ -112,7 +112,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
       case 1: // Categorización
         if (selectedCategory === '') missing.category = true
         if (selectedDimension === '') missing.dimension = true
-        if (selectedDilemmas.length === 0) missing.dilemma = true
+  if (!selectedDilemma) missing.dilemma = true
         break
       case 2: // Imagen (opcional)
         break
@@ -148,8 +148,8 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
 
       if (response.data && response.status === 201) {
         // Añadir los dilemas al libro creado
-        for (const dilemma of selectedDilemmas) {
-          await addDilemmasPerBook(dilemma, response.data.bookid);
+        if (selectedDilemma) {
+          await addDilemmasPerBook(selectedDilemma, response.data.bookid);
         }
         toast.success('Book created successfully');
         toggleSidebar({ ...newBook });
@@ -158,7 +158,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
         setBook(initialBookState);
         setSelectedCategory('');
         setSelectedDimension('');
-        setSelectedDilemmas([]);
+  setSelectedDilemma('');
         setFileImage(null);
         setMissingFields({});
         setCurrentStep(0);
@@ -189,7 +189,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
       missing.dimension = true
     }
 
-    if (selectedDilemmas.length === 0) {
+    if (!selectedDilemma) {
       missing.dilemma = true
     }
 
@@ -277,8 +277,8 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
     }
   }
 
-  const handleDilemmaChange = (selectedValues) => {
-    setSelectedDilemmas(selectedValues)
+  const handleDilemmaChange = (selectedValue) => {
+    setSelectedDilemma(selectedValue)
   }
 
   const renderStepContent = () => {
@@ -394,16 +394,14 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                     label: dilemma.dilemma,
                     tooltip: dilemma.description
                   }))}
-                  mode='multiple'
                   name='dilemma'
-                  value={selectedDilemmas}
+                  value={selectedDilemma}
                   onChange={handleDilemmaChange}
-                  placeholder='Dilemmas (you can select multiple)'
-                  useTagRender={true}
-                  showOptionIcon={false}
+                  placeholder='Dilemma'
+                  showOptionIcon={true}
                 />
                 {missingFields.dilemma && (
-                  <p className='error-message'>You must select at least one dilemma.</p>
+                  <p className='error-message'>You must select a dilemma.</p>
                 )}
               </>
             )}
@@ -443,7 +441,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
                 <strong>Dimension:</strong> {dimensions.find(d => d.bookdimensionid === selectedDimension)?.name || 'Not selected'}
               </div>
               <div className="review-item">
-                <strong>Dilemmas:</strong> {selectedDilemmas.length > 0 ? selectedDilemmas.map(id => dilemmas.find(d => d.bookdilemmaid === id)?.dilemma).join(', ') : 'Not selected'}
+                <strong>Dilemma:</strong> {selectedDilemma ? dilemmas.find(d => d.bookdilemmaid === selectedDilemma)?.dilemma : 'Not selected'}
               </div>
               <div className="review-item">
                 <strong>Cover image:</strong> {book.portrait ? 'Yes' : 'No'}

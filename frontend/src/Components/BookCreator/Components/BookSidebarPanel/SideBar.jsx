@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import SidebarIcon from "./SideBarIcon"; // Usa el nombre exacto del archivo
 import {BookOpenCheck, Gamepad, MessageCircle, Users, Package, Home, Image, Type} from "lucide-react";
+import logo from "../../../../FR_Logo.png";
 
 export default function SideBar({ openPanel, setOpenPanel }) {
   const navigate = useNavigate(); 
@@ -17,6 +18,9 @@ export default function SideBar({ openPanel, setOpenPanel }) {
   ];
   return (
     <nav className="w-20 h-full bg-gray-900 text-white flex flex-col items-center py-6 px-2 gap-4 shadow-lg" aria-label="Main sidebar navigation">
+      <div className="mb-2 flex justify-center w-full">
+        <img src={logo} alt="Funread Logo" className="w-19 h-19 object-contain" />
+      </div>
       {options.map(opt => (
         <button
           key={opt.key}
