@@ -49,8 +49,8 @@
   border-radius: 16px
   box-shadow: 0 2px 12px 0 rgba(0,0,0,0.04)
   border: 1px solid #e5e7eb
-  padding: 32px 24px
-  margin: 0 auto 24px auto
+  padding: 32px 12px
+  margin: 0 0 24px 0
   max-width: 100%
   width: 100%
   box-sizing: border-box
@@ -59,15 +59,23 @@
   min-height: 300px
   overflow-y: auto
   max-height: 60vh
+  /* cleaned up: removed debug background color */
+
 
 
 .grid
   display: grid
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))
+  /* use fixed column width to avoid 1fr expansion creating extra space */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 260px))
   gap: 32px 28px
   width: 100%
-  margin: 0 auto
+  /* ensure grid items start at the left and do not stretch/center unexpectedly */
+  justify-content: start
+  justify-items: start
+  align-items: start
+  margin: 0
   min-width: 0
+  /* cleaned up: removed debug background color */
 
 
 .list-view-books
@@ -78,21 +86,14 @@
   margin: 0 auto
 
 
-.grid
-  display: grid
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))
-  gap: 16px
-  width: 100%
-  margin: 0 auto
-  min-width: 0
-
-
 .section_item_Tap
   margin: 0 !important
   padding: 0 !important
-  width: 100%
+  width: auto
   display: flex
-  justify-content: center
+  /* left align the content inside each card so books start at the left edge */
+  justify-content: flex-start
+  align-items: start
 
 .section_item_Tap
   scroll-snap-align: center
@@ -123,7 +124,7 @@
 
 @media (min-width: 500px) and (max-width: 1300px)
   .section_item_Tap
-    // margin-left: 4.5rem
+    // no forced left margin here — letting grid decide placement
 
 .tabs-header-row
   display: flex
@@ -132,3 +133,9 @@
   margin-top: 12px
   padding-left: 0
   padding-right: 0
+
+
+
+
+
+
