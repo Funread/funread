@@ -68,17 +68,7 @@ const ProfessorDashboard = () => {
               </div>
             )}
 
-            {statistics.map(stat => (
-              <StatCard
-                key={stat.id}
-                title={stat.title}
-                className={`${stat.id}-info`}
-                iconClassName={stat.id}
-                icon={<FontAwesomeIcon icon={stat.icon} />}
-              >
-                <p>{stat.value}</p>
-              </StatCard>
-            ))}
+            {/* StatCards eliminados para que solo se muestren los botones pequeños en TapLibrary */}
           </div>
         </aside>
 

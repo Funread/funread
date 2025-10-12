@@ -1,4 +1,3 @@
-
 .section_library_Tap {
 
   display: flex;
@@ -6,18 +5,17 @@
   flex-wrap: wrap;
   margin-bottom: 1rem;
   scroll-snap-type: x mandatory;
-  overflow-y: scroll;
+  overflow-y: auto; /* allow auto scrolling */
   overflow-x: hidden;
-  tranform: translate(1);
+  /* removed typo 'tranform' and invalid translate */
 }
 
 
 .section_item_Tap {
-
- flex-grow: 1;
- flex-basis: 200;
-  width: 15rem;
-  height: 15rem;
+  flex-grow: 0; /* let card/grid control sizing */
+  flex-basis: auto;
+  width: auto;
+  height: auto;
 }
 
 .nav-link {
@@ -52,11 +50,4 @@
   box-shadow: none;
 }
 
-@media (min-width: 500px) and (max-width: 1300px) {
-
-  .section_item_Tap {
-
-    margin-left: 4.5rem;
-  }
-
-}
+/* media queries removed — no special per-breakpoint left margin for section items */
