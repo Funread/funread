@@ -1,0 +1,33 @@
+/* Asegurar que las Google Fonts se carguen correctamente */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@300;400;600;700&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;600;700&family=Source+Sans+Pro:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600;700&family=Ubuntu:wght@300;400;700&family=Nunito:wght@300;400;600;700&family=Patrick+Hand&family=Kalam:wght@300;400;700&family=Fredoka+One&family=Chewy&family=Caveat:wght@400;600;700&family=Architects+Daughter&family=Lobster&family=Pacifico&family=Dancing+Script:wght@400;600;700&family=Amatic+SC:wght@400;700&family=Bangers&family=Permanent+Marker&family=Playfair+Display:wght@400;600;700&family=Merriweather:wght@300;400;700&family=Libre+Baskerville:wght@400;700&family=Lora:wght@400;600;700&family=Crimson+Text:wght@400;600&family=Source+Code+Pro:wght@300;400;600&family=Fira+Code:wght@300;400;600&family=Quicksand:wght@300;400;600;700&family=Varela+Round&family=Raleway:wght@300;400;600;700&display=swap');
+
+/* Forzar la carga de fuentes específicas */
+.font-patrick-hand { font-family: 'Patrick Hand', cursive !important; }
+.font-kalam { font-family: 'Kalam', cursive !important; }
+.font-fredoka-one { font-family: 'Fredoka One', cursive !important; }
+.font-chewy { font-family: 'Chewy', cursive !important; }
+.font-caveat { font-family: 'Caveat', cursive !important; }
+.font-architects-daughter { font-family: 'Architects Daughter', cursive !important; }
+.font-roboto { font-family: 'Roboto', sans-serif !important; }
+.font-open-sans { font-family: 'Open Sans', sans-serif !important; }
+.font-lato { font-family: 'Lato', sans-serif !important; }
+.font-montserrat { font-family: 'Montserrat', sans-serif !important; }
+.font-poppins { font-family: 'Poppins', sans-serif !important; }
+.font-inter { font-family: 'Inter', sans-serif !important; }
+.font-ubuntu { font-family: 'Ubuntu', sans-serif !important; }
+.font-nunito { font-family: 'Nunito', sans-serif !important; }
+.font-source-code-pro { font-family: 'Source Code Pro', monospace !important; }
+.font-fira-code { font-family: 'Fira Code', monospace !important; }
+
+/* Preloader oculto para forzar carga de fuentes */
+.font-preloader {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  visibility: hidden;
+  font-size: 1px;
+}
+
+.font-preloader::before {
+  content: "Loading fonts...";
+}
