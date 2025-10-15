@@ -1,4 +1,5 @@
 import verifyJwt
+import uuid
 from django.shortcuts import render
 from django.conf import settings
 from rest_framework.decorators import api_view
@@ -66,8 +67,9 @@ def save_File(request):
                 return Response({'message':'Bad file extension: only png, jpg, jpeg, gif, bmp, webp, tiff, mp3, wav, ogg, flac, aac, midi, wma, cd, aif, aifc, aiff, pcm, m4a, mp4, avi, mkv, mov, wmv, flv'}, status=status.HTTP_400_BAD_REQUEST)
             gallery_type = request.data.get('galleryType')
             gallery_type_name = GALLERY_TYPE_NAMES.get(int(gallery_type), 'Others') if gallery_type else 'Others'
+            temporary_name = str(uuid.uuid4())
             data = {
-                'name': 'name',
+                'name': temporary_name,
                 'extension': extension,
                 'file': file_request,
                 'type': file_type,
@@ -86,6 +88,8 @@ def save_File(request):
                 os.makedirs(dest_folder, exist_ok=True)
                 new_path = os.path.join(dest_folder, new_filename)
                 original_path = file_instance.file.path
+                if os.path.exists(new_path):
+                    os.remove(new_path)
                 os.rename(original_path, new_path)
                 file_instance.name = new_name
                 file_instance.file.name = os.path.join('media', gallery_type_name, user_id_folder, new_filename)
@@ -273,3 +277,6 @@ def get_file_type(extension):
         return 0  #
    except OperationalError:
      return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
+
+
+
