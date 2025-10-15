@@ -29,8 +29,31 @@ def new_group(request):
     try:
         idimage = request.data.get('idimage', 1)
 
-        if not Media.objects.filter(id=idimage).exists():
+        # Si no se proporciona imagen o está vacía, usar la imagen por defecto
+        if not idimage or idimage == "":
             idimage = 1
+
+        # Verificar si existe la imagen especificada
+        if not Media.objects.filter(id=idimage).exists():
+            # Intentar crear la imagen por defecto si no existe
+            try:
+                Media.objects.get_or_create(
+                    id=1,
+                    defaults={
+                        'name': 'default_group',
+                        'extension': 'png',
+                        'file': 'media/Logo.png',
+                        'type': 1,
+                        'galleryType': 2
+                    }
+                )
+                idimage = 1
+            except Exception as e:
+                # Si falla la creación, retornar error específico
+                return Response(
+                    {"error": f"Default image not found and could not be created: {str(e)}"},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
 
         data = {
             'name': request.data.get('name'),
