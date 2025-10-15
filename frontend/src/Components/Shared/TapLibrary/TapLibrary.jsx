@@ -6,7 +6,7 @@ import { listDimensions, searchDimensionByCategory, searchDilemmaByDimension, ge
 import Message from "../CustomMessage/CustomMessage";
 import { useSelector } from "react-redux";
 import BookBuilderStepper from "../BookBuilder/BookBuilderStepper";
-import { BookOpen, Grid3X3, List } from "lucide-react";
+import { BookOpen, Grid3X3, List, Filter, ArrowDownAZ, ChevronDown } from "lucide-react";
 import StatCard from "../../StatCard/StatCard";
 
 
@@ -140,7 +140,7 @@ function TapLibrary({ toggleSidebar, newBooks }) {
 
   {/* Header fijo: Tabs y stats */}
   <div className={`w-full flex items-center justify-between mb-6 sticky top-0 z-10 transition-transform duration-300 bg-white ${hideHeader ? ' -translate-y-[120%] opacity-0 pointer-events-none' : ' translate-y-0 opacity-100'}`} style={{paddingTop: 0, paddingBottom: 0}}>
-        <div className="flex gap-2">
+        <div className="flex gap-2 pl-1">
           <button
             className={`px-4 py-1.5 rounded-lg font-semibold shadow-sm text-base ${tab === "mylibrary" ? "bg-white text-blue-700 border-2 border-blue-400" : "bg-gray-100 text-gray-500"}`}
             onClick={() => { setTab("mylibrary"); setShowBookBuilder(false); }}
@@ -188,7 +188,7 @@ function TapLibrary({ toggleSidebar, newBooks }) {
         )}
         {(tab === "mylibrary" || tab === "publiclibrary") && (
           <React.Fragment>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2 sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-slate-100" style={{padding: '12px 0'}}>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2 sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-slate-100 py-2 px-[5px]">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-slate-100 rounded-lg">
                   <BookOpen className="h-5 w-5 text-slate-600" />
@@ -198,30 +198,46 @@ function TapLibrary({ toggleSidebar, newBooks }) {
                   <p className="text-sm text-slate-500">{sortedBooks.length} Available books</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
                 {/* Filtro por dimensión */}
-                <select
-                  value={selectedDimension}
-                  onChange={e => setSelectedDimension(e.target.value)}
-                  className="taplibrary-select"
-                  style={{maxWidth: '200px', width: '180px'}}
-                >
-                  {dimensions.map(dimension => (
-                    <option key={dimension.bookdimensionid} value={dimension.bookdimensionid} style={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'}}>
-                      {dimension.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <Filter className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <select
+                    value={selectedDimension}
+                    onChange={e => setSelectedDimension(e.target.value)}
+                    className="block w-full appearance-none rounded-lg border border-slate-200 bg-white py-2 pl-10 pr-8 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  >
+                    {dimensions.map(dimension => (
+                      <option key={dimension.bookdimensionid} value={dimension.bookdimensionid}>
+                        {dimension.name}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-700">
+                    <ChevronDown className="h-4 w-4" />
+                  </div>
+                </div>
+
                 {/* Ordenar */}
-                <select
-                  value={sortBy}
-                  onChange={e => setSortBy(e.target.value)}
-                  className="taplibrary-select"
-                  style={{maxWidth: '200px', width: '180px'}}
-                >
-                  <option value="dimension">Sort by Dimension</option>
-                  <option value="title">Sort A-Z</option>
-                </select>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <ArrowDownAZ className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <select
+                    value={sortBy}
+                    onChange={e => setSortBy(e.target.value)}
+                    className="block w-full appearance-none rounded-lg border border-slate-200 bg-white py-2 pl-10 pr-8 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  >
+                    <option value="dimension">Sort by Dimension</option>
+                    <option value="title">Sort A-Z</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-700">
+                    <ChevronDown className="h-4 w-4" />
+                  </div>
+                </div>
+
                 {/* Vista grid/list */}
                 <div className="flex border border-slate-200 rounded-lg overflow-hidden">
                   <button
@@ -242,9 +258,9 @@ function TapLibrary({ toggleSidebar, newBooks }) {
             <div style={{flex: 1, minHeight: 0, overflowY: 'auto'}}>
               {/* Dynamic dimension header */}
               {selectedDimension === "all" ? (
-                <div className="text-base font-semibold text-slate-600 mb-2">Explore dimensions</div>
+                <div className="text-base font-semibold text-slate-600 mb-2 pl-3">Explore dimensions</div>
               ) : (
-                <div className="text-base font-semibold text-slate-600 mb-2">
+                <div className="text-base font-semibold text-slate-600 mb-2 pl-3">
                   {(() => {
                     const dim = allDimensions.find(d => d.bookdimensionid?.toString() === selectedDimension);
                     return dim ? dim.name : '';
