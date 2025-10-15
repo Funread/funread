@@ -57,13 +57,18 @@ const Group = () => {
   const fetchGroups = async () => {
     try {
       const response = await listedCreatedBy(userId)
-      setGroups(response.data)
-      if (response.data.length > 0) {
-        setSelectedGroupId(response.data[0].id)
+      // Filtrar solo grupos activos
+      const activeGroups = (response.data || []).filter(group => group.isactive === 1)
+      setGroups(activeGroups)
+      if (activeGroups.length > 0) {
+        setSelectedGroupId(activeGroups[0].id)
+      } else {
+        setSelectedGroupId(null)
       }
     } catch (error) {
-      toast.error("Error fetching groups.")
       console.error("Error fetching groups:", error)
+      setGroups([])
+      setSelectedGroupId(null)
     }
   }
 
@@ -145,7 +150,7 @@ const Group = () => {
   if (newGroupName.trim()) {
     try {
       // Intenta crear el grupo
-      const groupResponse = await newGroup(newGroupName.trim(), 1, userId);
+      const groupResponse = await newGroup(newGroupName.trim(), "", userId, 1);
       const newGroupData = groupResponse.data;
       
       // Valida que el grupo se haya creado correctamente y tenga un ID
@@ -173,20 +178,26 @@ const Group = () => {
 
     } catch (error) {
       // Manejo de errores más detallado
-      let errorMessage = "Error creating group. Please check the API response.";
-      if (error.response && error.response.data) {
+      let errorMessage = "Error creating group. ";
+      
+      if (error.response && error.response.status === 400) {
+        // Error de validación del backend
         const errorData = error.response.data;
-        if (typeof errorData === 'string') {
-          errorMessage = errorData;
+        if (errorData.idimage && errorData.idimage.includes("does not exist")) {
+          errorMessage = "Database initialization error: Default image not found. Please contact the administrator.";
+        } else if (typeof errorData === 'object') {
+          errorMessage += Object.entries(errorData)
+            .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`)
+            .join('. ');
         } else {
-          errorMessage = "Error creating group:\n";
-          for (const key in errorData) {
-            errorMessage += `${key}: ${errorData[key]}\n`;
-          }
+          errorMessage += errorData;
         }
       } else if (error.message) {
-        errorMessage = error.message;
+        errorMessage += error.message;
+      } else {
+        errorMessage += "Please check the API response.";
       }
+      
       toast.error(errorMessage);
       console.error("Error creating group:", error);
     }
@@ -194,9 +205,13 @@ const Group = () => {
 };
 
   const handleDeleteGroup = async (groupId) => {
+    if (!groupId) {
+      toast.warn("Please select a group first")
+      return
+    }
     try {
       await deleteGroup(groupId)
-      fetchGroups()
+      await fetchGroups()
       toast.success("Group deleted successfully!")
     } catch (error) {
       toast.error("Error deleting group. Please try again.")
@@ -477,6 +492,11 @@ const Group = () => {
           </Card.Body>
         </Card>
       )}
+    </div>
+    </>
+  )}
+</main>
+
       {/* Modal para asignar libro a clase */}
       <Modal show={isAssignBookOpen} onHide={() => setIsAssignBookOpen(false)}>
         <Modal.Header closeButton>
@@ -502,12 +522,59 @@ const Group = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-            </div>
-          </>
-        )}
-      </main>
 
-      {/* ...existing modals for group and student... */}
+      {/* Modal for adding student */}
+      <Modal show={isAddStudentOpen} onHide={() => setIsAddStudentOpen(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Student to Group</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Control
+            type="text"
+            placeholder="Search student..."
+            value={studentSearch}
+            onChange={(e) => setStudentSearch(e.target.value)}
+          />
+          <div style={{maxHeight: '300px', overflowY: 'auto', marginTop: '10px'}}>
+            {filteredStudents.map((student) => (
+              <div
+                key={student.userid}
+                style={{
+                  padding: '8px',
+                  borderBottom: '1px solid #eee',
+                  cursor: 'pointer'
+                }}
+                onClick={() => addStudentToGroup(student.userid)}
+              >
+                {student.name} {student.lastname}
+              </div>
+            ))}
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      {/* Modal for creating group */}
+      <Modal show={isCreateGroupOpen} onHide={() => setIsCreateGroupOpen(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create New Group</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Control
+            type="text"
+            placeholder="Group name"
+            value={newGroupName}
+            onChange={(e) => setNewGroupName(e.target.value)}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setIsCreateGroupOpen(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={createGroup}>
+            Create Group
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {/* Modal for creating class */}
       <Modal show={isAddClassOpen} onHide={() => setIsAddClassOpen(false)}>
