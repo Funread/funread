@@ -527,25 +527,34 @@ const Group = () => {
       {/* Modal for creating group */}
       <Modal show={isCreateGroupOpen} onHide={() => setIsCreateGroupOpen(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Create New Group</Modal.Title>
+          <Modal.Title>Assign Book to Class</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Control
-            type="text"
-            placeholder="Group name"
-            value={newGroupName}
-            onChange={(e) => setNewGroupName(e.target.value)}
-          />
+          <Form.Group>
+            <Form.Label>Select a book</Form.Label>
+            <Form.Select value={selectedBookId} onChange={e => setSelectedBookId(e.target.value)}>
+              <option value="">Choose a book...</option>
+              {availableBooks.map(book => (
+                <option key={book.bookid} value={book.bookid}>{book.title}</option>
+              ))}
+            </Form.Select>
+          </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setIsCreateGroupOpen(false)}>
+          <Button variant="secondary" onClick={() => setIsAssignBookOpen(false)}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={createGroup}>
-            Create Group
+          <Button variant="primary" onClick={addBookToClass}>
+            Assign Book
           </Button>
         </Modal.Footer>
       </Modal>
+            </div>
+          </>
+        )}
+      </main>
+
+      {/* ...existing modals for group and student... */}
 
       {/* Modal for creating class */}
       <Modal show={isAddClassOpen} onHide={() => setIsAddClassOpen(false)}>
