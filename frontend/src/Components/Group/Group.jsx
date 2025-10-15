@@ -492,6 +492,11 @@ const Group = () => {
           </Card.Body>
         </Card>
       )}
+    </div>
+    </>
+  )}
+</main>
+
       {/* Modal para asignar libro a clase */}
       <Modal show={isAssignBookOpen} onHide={() => setIsAssignBookOpen(false)}>
         <Modal.Header closeButton>
@@ -517,44 +522,59 @@ const Group = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-            </div>
-          </>
-        )}
-      </main>
 
-      {/* ...existing modals for group and student... */}
+      {/* Modal for adding student */}
+      <Modal show={isAddStudentOpen} onHide={() => setIsAddStudentOpen(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Student to Group</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Control
+            type="text"
+            placeholder="Search student..."
+            value={studentSearch}
+            onChange={(e) => setStudentSearch(e.target.value)}
+          />
+          <div style={{maxHeight: '300px', overflowY: 'auto', marginTop: '10px'}}>
+            {filteredStudents.map((student) => (
+              <div
+                key={student.userid}
+                style={{
+                  padding: '8px',
+                  borderBottom: '1px solid #eee',
+                  cursor: 'pointer'
+                }}
+                onClick={() => addStudentToGroup(student.userid)}
+              >
+                {student.name} {student.lastname}
+              </div>
+            ))}
+          </div>
+        </Modal.Body>
+      </Modal>
 
       {/* Modal for creating group */}
       <Modal show={isCreateGroupOpen} onHide={() => setIsCreateGroupOpen(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Assign Book to Class</Modal.Title>
+          <Modal.Title>Create New Group</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group>
-            <Form.Label>Select a book</Form.Label>
-            <Form.Select value={selectedBookId} onChange={e => setSelectedBookId(e.target.value)}>
-              <option value="">Choose a book...</option>
-              {availableBooks.map(book => (
-                <option key={book.bookid} value={book.bookid}>{book.title}</option>
-              ))}
-            </Form.Select>
-          </Form.Group>
+          <Form.Control
+            type="text"
+            placeholder="Group name"
+            value={newGroupName}
+            onChange={(e) => setNewGroupName(e.target.value)}
+          />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setIsAssignBookOpen(false)}>
+          <Button variant="secondary" onClick={() => setIsCreateGroupOpen(false)}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={addBookToClass}>
-            Assign Book
+          <Button variant="primary" onClick={createGroup}>
+            Create Group
           </Button>
         </Modal.Footer>
       </Modal>
-            </div>
-          </>
-        )}
-      </main>
-
-      {/* ...existing modals for group and student... */}
 
       {/* Modal for creating class */}
       <Modal show={isAddClassOpen} onHide={() => setIsAddClassOpen(false)}>
