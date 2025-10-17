@@ -29,6 +29,7 @@ export async function listedclasses() {
 }
 
 export async function classesChange(
+  classesId,
   name,
   grade,
   teacherAssigned,
@@ -39,7 +40,8 @@ export async function classesChange(
   groupscreateid,
   isactive
 ) {
-  return axiosAuth().post('classes/changeClasses', {
+  return axiosAuth().put('classes/changeClasses', {
+    classesId: classesId,
     name: name,
     grade: grade,
     teacherAssigned: teacherAssigned,
@@ -53,7 +55,7 @@ export async function classesChange(
 }
 
 export async function deleteclasses(classesId) {
-  return axiosAuth().post('classes/deleteClasses', {
+  return axiosAuth().put('classes/deleteClasses', {
     classesId: classesId,
   })
 }
