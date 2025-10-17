@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faTrash, faUserPlus, faBook, faUsers, faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons'
 import { listedCreatedBy, newGroup, deleteGroup } from '../../api/group'
 import { studentGroupSearch, newStudentGroup, deleteStudentGroup } from '../../api/studentGroups'
-import { newClass, listedClassesId } from '../../api/classes'
+import { newClass, listedClassesId, classesChange, deleteclasses } from '../../api/classes'
 import { listed, bookSearchById } from '../../api/books'
 import { newBookPerClass, listedBooksPerClassesById } from '../../api/booksPerClasses'
 import { listedStudents } from '../../api/userroles'
@@ -25,11 +25,17 @@ const Group = () => {
   const [classes, setClasses] = useState([])
   const [isAddClassOpen, setIsAddClassOpen] = useState(false)
   const [newClassName, setNewClassName] = useState("")
+  const [classStartDate, setClassStartDate] = useState("")
+  const [classEndDate, setClassEndDate] = useState("")
   const [selectedClassId, setSelectedClassId] = useState(null)
   const [classBooks, setClassBooks] = useState([])
   const [isAssignBookOpen, setIsAssignBookOpen] = useState(false)
   const [availableBooks, setAvailableBooks] = useState([])
   const [selectedBookId, setSelectedBookId] = useState("")
+  const [isEditClassOpen, setIsEditClassOpen] = useState(false)
+  const [editingClassId, setEditingClassId] = useState(null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [classToDelete, setClassToDelete] = useState(null)
   const userId = useSelector((state) => state.user.userId)
 
   useEffect(() => {
@@ -149,32 +155,20 @@ const Group = () => {
   const createGroup = async () => {
   if (newGroupName.trim()) {
     try {
-      // Intenta crear el grupo
+      // Crear el grupo
       const groupResponse = await newGroup(newGroupName.trim(), "", userId, 1);
       const newGroupData = groupResponse.data;
       
-      // Valida que el grupo se haya creado correctamente y tenga un ID
+      // Validar que el grupo se haya creado correctamente
       if (!newGroupData || !newGroupData.id) {
         throw new Error("Failed to get group ID from API response.");
       }
-      const newGroupId = newGroupData.id;
 
-      // Intenta crear la clase usando el ID del grupo
-      await newClass(
-        newGroupName.trim(),
-        1, // Default grade
-        userId,
-        moment().format(),
-        moment().add(1, 'years').format(),
-        newGroupId,
-        1
-      );
-
-      // Si ambas llamadas son exitosas, actualiza la UI
+      // Si la llamada es exitosa, actualizar la UI
       fetchGroups();
       setNewGroupName("");
       setIsCreateGroupOpen(false);
-      toast.success("Group and class created successfully!");
+      toast.success("Group created successfully!");
 
     } catch (error) {
       // Manejo de errores más detallado
@@ -249,24 +243,105 @@ const Group = () => {
 
   // Crear clase para el grupo seleccionado
   const createClass = async () => {
-    if (newClassName.trim() && selectedGroupId) {
+    if (newClassName.trim() && selectedGroupId && classStartDate && classEndDate) {
+      // Validar que la fecha de finalización sea posterior a la de inicio
+      if (new Date(classEndDate) <= new Date(classStartDate)) {
+        toast.error("End date must be after start date.");
+        return;
+      }
+      
       try {
         await newClass(
           newClassName.trim(),
           1, // Default grade
           userId,
-          moment().format(),
-          moment().add(1, 'years').format(),
+          moment(classStartDate).format(),
+          moment(classEndDate).format(),
           selectedGroupId,
           1
         )
         fetchClasses(selectedGroupId)
         setNewClassName("")
+        setClassStartDate("")
+        setClassEndDate("")
         setIsAddClassOpen(false)
         toast.success("Class created successfully!")
       } catch (error) {
         toast.error("Error creating class.")
+        console.error("Error creating class:", error)
       }
+    } else {
+      toast.warn("Please fill in all required fields.")
+    }
+  }
+
+  // Función para editar clase
+  const handleEditClass = (classToEdit) => {
+    setEditingClassId(classToEdit.classesid)
+    setNewClassName(classToEdit.name || "")
+    setClassStartDate(moment(classToEdit.startdate).format('YYYY-MM-DD'))
+    setClassEndDate(moment(classToEdit.finishdate).format('YYYY-MM-DD'))
+    setIsEditClassOpen(true)
+  }
+
+  // Función para actualizar clase
+  const updateClass = async () => {
+    if (newClassName.trim() && classStartDate && classEndDate) {
+      if (new Date(classEndDate) <= new Date(classStartDate)) {
+        toast.error("End date must be after start date.");
+        return;
+      }
+
+      try {
+        await classesChange(
+          editingClassId,
+          newClassName.trim(),
+          1, // Default grade
+          userId,
+          moment().format(),
+          moment().format(),
+          moment(classStartDate).format(),
+          moment(classEndDate).format(),
+          selectedGroupId,
+          1
+        )
+        fetchClasses(selectedGroupId)
+        setNewClassName("")
+        setClassStartDate("")
+        setClassEndDate("")
+        setEditingClassId(null)
+        setIsEditClassOpen(false)
+        toast.success("Class updated successfully!")
+      } catch (error) {
+        toast.error("Error updating class.")
+        console.error("Error updating class:", error)
+      }
+    } else {
+      toast.warn("Please fill in all required fields.")
+    }
+  }
+
+  // Función para eliminar clase
+  const handleDeleteClass = async (classId) => {
+    setClassToDelete(classId)
+    setShowDeleteConfirm(true)
+  }
+
+  // Función para confirmar eliminación
+  const confirmDeleteClass = async () => {
+    try {
+      await deleteclasses(classToDelete)
+      if (selectedClassId === classToDelete) {
+        setSelectedClassId(null)
+        setClassBooks([])
+      }
+      await fetchClasses(selectedGroupId)
+      toast.success("Class deleted successfully!")
+      setShowDeleteConfirm(false)
+      setClassToDelete(null)
+    } catch (error) {
+      toast.error("Error deleting class.")
+      console.error("Error deleting class:", error)
     }
   }
 
@@ -435,17 +510,48 @@ const Group = () => {
                   key={cls.classesid || idx}
                   className={`class-item${isSelected ? ' selected-class' : ''}`}
                   style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
                     cursor: 'pointer',
                     fontWeight: isSelected ? 'bold' : 'normal',
                     background: isSelected ? '#e6f7ff' : 'transparent',
                     borderRadius: '6px',
-                    padding: '6px 10px',
-                    marginBottom: '4px',
+                    padding: '10px',
+                    marginBottom: '8px',
                     border: isSelected ? '2px solid #1890ff' : '1px solid #eee'
                   }}
-                  onClick={() => setSelectedClassId(Number(cls.classesid))}
                 >
-                  {cls.name ? cls.name : `Class ${cls.classesid}`}
+                  <span
+                    onClick={() => setSelectedClassId(Number(cls.classesid))}
+                    style={{flex: 1}}
+                  >
+                    {cls.name ? cls.name : `Class ${cls.classesid}`}
+                  </span>
+                  <div style={{display: 'flex', gap: '5px'}}>
+                    <Button
+                      size="sm"
+                      variant="outline-primary"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleEditClass(cls)
+                      }}
+                      title="Edit class"
+                    >
+                      ✎
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline-danger"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDeleteClass(cls.classesid)
+                      }}
+                      title="Delete class"
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                  </div>
                 </div>
               )
             })
@@ -582,19 +688,128 @@ const Group = () => {
           <Modal.Title>Create New Class</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Control
-            type="text"
-            placeholder="Class name"
-            value={newClassName}
-            onChange={(e) => setNewClassName(e.target.value)}
-          />
+          <Form.Group className="mb-3">
+            <Form.Label>Class name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter class name"
+              value={newClassName}
+              onChange={(e) => setNewClassName(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Start Date</Form.Label>
+            <Form.Control
+              type="date"
+              value={classStartDate}
+              onChange={(e) => setClassStartDate(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>End Date</Form.Label>
+            <Form.Control
+              type="date"
+              value={classEndDate}
+              onChange={(e) => setClassEndDate(e.target.value)}
+            />
+          </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setIsAddClassOpen(false)}>
+          <Button variant="secondary" onClick={() => {
+            setIsAddClassOpen(false)
+            setNewClassName("")
+            setClassStartDate("")
+            setClassEndDate("")
+          }}>
             Cancel
           </Button>
           <Button variant="primary" onClick={createClass}>
             Create Class
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal for editing class */}
+      <Modal show={isEditClassOpen} onHide={() => {
+        setIsEditClassOpen(false)
+        setEditingClassId(null)
+        setNewClassName("")
+        setClassStartDate("")
+        setClassEndDate("")
+      }}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Class</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group className="mb-3">
+            <Form.Label>Class name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter class name"
+              value={newClassName}
+              onChange={(e) => setNewClassName(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Start Date</Form.Label>
+            <Form.Control
+              type="date"
+              value={classStartDate}
+              onChange={(e) => setClassStartDate(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>End Date</Form.Label>
+            <Form.Control
+              type="date"
+              value={classEndDate}
+              onChange={(e) => setClassEndDate(e.target.value)}
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => {
+            setIsEditClassOpen(false)
+            setEditingClassId(null)
+            setNewClassName("")
+            setClassStartDate("")
+            setClassEndDate("")
+          }}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={updateClass}>
+            Update Class
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal for confirming class deletion */}
+      <Modal show={showDeleteConfirm} onHide={() => {
+        setShowDeleteConfirm(false)
+        setClassToDelete(null)
+      }} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete this class?</p>
+          <p style={{fontSize: '0.9em', color: '#666', marginTop: '10px'}}>
+            This action cannot be undone. All associated books and data will be removed.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => {
+            setShowDeleteConfirm(false)
+            setClassToDelete(null)
+          }}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmDeleteClass}>
+            Delete Class
           </Button>
         </Modal.Footer>
       </Modal>
