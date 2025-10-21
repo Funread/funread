@@ -5,10 +5,11 @@ import "./MyClasses.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
-  faChartLine,
   faCalendarAlt,
   faUser,
   faArrowLeft,
+  faStar,
+  faBookOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import { listedStudentGroups } from "../../api";
 import { listedBooksPerClassesById } from "../../api/booksPerClasses";
@@ -20,7 +21,7 @@ import { getMediaUrl } from "../Utils/mediaUrl"; // Import the function to get m
 import { getUserPoints } from "../../api/userPoints"; // Import the function to get user points
 import { getCurrentRank } from "../../api/userPoints"; // Import the function to get current rank
 import { getBooksCompleted } from "../../api/userBookProgress"; // Import the function to get completed books count
-import StatCard from '../StatCard/StatCard.jsx'; // Import the StatCard component
+
 import Star from './StarProgress.jsx';
 
 // Function to get teacher name from ID
@@ -325,60 +326,46 @@ const MyClasses = () => {
 
 
 
-      <div className="dashboard-content">
+      <div className="dashboard-content " style={{ padding: "0px" }}>
         {/* Main content area */}
         {/* Sidebar with statistics */}
+        <div className="bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 py-3">
+          <div className="max-w-8xl  px-4" >
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex-1 relative bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl p-4 border-2 border-white shadow-md transform hover:scale-[1.02] transition-transform duration-300 min-h-[140px] flex items-center justify-center">
+                <div className="absolute -top-2 -right-2 bg-yellow-400 rounded-full p-2 border-4 border-white shadow-sm">
+                  <FontAwesomeIcon icon={faStar} className="h-3 w-6 text-yellow-600" />
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="bg-white rounded-full p-2 mb-2 shadow-md">
+                    <FontAwesomeIcon icon={faUser} className="h-6 w-6 text-blue-500" />
+                  </div>
+                  <h2 className="text-2xl font-black text-white mb-1 drop-shadow-md">{`Level ${userStats.level}`}</h2>
+                  <div className="flex gap-1 mb-1">
+                    <Star value={userStats.points} max={userStats.level * 500} size={16} />
+                  </div>
+                  <div className="bg-white/25 backdrop-blur-sm rounded-full px-3 py-1 border border-white/30">
+                    <p className="text-[10px] text-white font-bold drop-shadow">{`${userStats.points} / ${userStats.level * 500} pts`}</p>
+                  </div>
+                </div>
+              </div>
 
-        <aside className="dashboard-sidebar">
-          <div className="user-stats">
-
-            {/* Tarjeta de nivel */}
-            <StatCard
-              icon={<FontAwesomeIcon icon={faUser} />}
-              title={`Level ${userStats.level}`}
-              className="user-info"
-              iconClassName="level"
-            >
-              <Star value={userStats.points} max={userStats.level * 500} />
-              <span className="progress-text">
-                {userStats.points} / {userStats.level * 500} points to next
-                level
-              </span>
-            </StatCard>
-
-
-            {/* Tarjeta de quizzes */}
-            <StatCard
-              icon={<FontAwesomeIcon icon={faChartLine} />}
-              title="Books"
-              className="books-info"
-              iconClassName="books"
-            >
-              <p>{userStats.completedQuizzes} completed</p>
-            </StatCard>
+              <div className="flex-1 relative bg-gradient-to-br from-emerald-400 to-teal-400 rounded-xl p-4 border-2 border-white shadow-md transform hover:scale-[1.02] transition-transform duration-300 min-h-[140px] flex items-center justify-center">
+                <div className="absolute -top-2 -right-2 bg-orange-400 rounded-full p-2 border-4 border-white shadow-sm">
+                  <FontAwesomeIcon icon={faBookOpen} className="h-3 w-6 text-orange-700" />
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="bg-white rounded-full p-2 mb-2 shadow-md">
+                    <FontAwesomeIcon icon={faBookOpen} className="h-6 w-6 text-emerald-500" />
+                  </div>
+                  <h2 className="text-3xl font-black text-white mb-1 drop-shadow-md">{userStats.completedQuizzes}</h2>
+                  <p className="text-base text-white font-bold drop-shadow">Books Completed</p>
+                </div>
+              </div>
+            </div>
           </div>
-
-          {/* <div className="upcoming-events">
-            <h3><FontAwesomeIcon icon={faCalendarAlt} /> Upcoming Events</h3>
-            <ul>
-              <li>
-                <span className="event-date">Today, 3:00 PM</span>
-                <span className="event-title">Literature Quiz</span>
-              </li>1
-              <li>
-                <span className="event-date">Tomorrow, 10:00 AM</span>
-                <span className="event-title">Math Class</span>
-              </li>
-              <li>
-                <span className="event-date">Friday, 2:30 PM</span>
-                <span className="event-title">Project Submission</span>
-              </li>
-            </ul>
-          </div> */}
-        </aside>
-
-        <main className="main-content">
-          
+        </div>
+        <main className="main-content bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
 
           {isLoading ? (
             <div className="loading-spinner">
@@ -398,47 +385,51 @@ const MyClasses = () => {
                         here.
                       </p>
                     </div>
-                  ) : (
-                    classes.map((classItem) => (
+                  ) : (     
+
+
+                    // revisar que actualice el progreso correctamente  
+                    // 
+                    classes.map((classItem) => (     
                       <div
                         key={classItem.id}
-                        className="class-card"
                         onClick={() => handleClassSelect(classItem)}
+                        className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 border-4 border-purple-200 hover:border-purple-400 transform hover:scale-[1.02] cursor-pointer"
                       >
-                        <div
-                          className="class-image"
-                          style={{ backgroundImage: `url(${classItem.image})` }}
-                        >
-                          <div className="class-progress">
-                            <div className="progress-circle">
-                              <svg viewBox="0 0 36 36">
-                                <path
-                                  className="circle-bg"
-                                  d="M18 2.0845
-                                    a 15.9155 15.9155 0 0 1 0 31.831
-                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                        <div className="flex items-start gap-4">
+                          <div className="flex-shrink-0 bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl p-3 shadow-md">
+                            <FontAwesomeIcon icon={faBookOpen} className="h-6 w-6 text-white" />
+                          </div>
+
+                          <div className="flex-1">
+                            <h3 className="text-xl font-bold text-gray-800 mb-2">{classItem.name}</h3>
+
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="bg-blue-100 rounded-full p-1.5">
+                                <FontAwesomeIcon icon={faUser} className="h-3 w-3 text-blue-600" />
+                              </div>
+                              <p className="text-sm font-semibold text-gray-600">{classItem.teacher}</p>
+                            </div>
+
+                            <div className="flex items-center gap-2 bg-green-50 rounded-lg px-3 py-2 mb-3">
+                              <FontAwesomeIcon icon={faCalendarAlt} className="h-3.5 w-3.5 text-green-600" />
+                              <p className="text-xs font-bold text-green-700"> {classItem.nextClass}</p>
+                            </div>
+
+                            {/* Barra de progreso */}
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="font-semibold text-gray-600">Progress</span>
+                                <span className="font-bold text-purple-600">{classItem.progress}%</span>
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                                <div
+                                  className="bg-gradient-to-r from-purple-400 to-pink-400 h-full rounded-full transition-all duration-500"
+                                  style={{ width: `${classItem.progress}%` }}
                                 />
-                                <path
-                                  className="circle"
-                                  strokeDasharray={`${classItem.progress}, 100`}
-                                  d="M18 2.0845
-                                    a 15.9155 15.9155 0 0 1 0 31.831
-                                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                                />
-                                <text x="18" y="20.35" className="percentage">
-                                  {classItem.progress}%
-                                </text>
-                              </svg>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="class-info">
-                          <h3>{classItem.name}</h3>
-                          <p className="teacher">{classItem.teacher}</p>
-                          <p className="next-class">
-                            <FontAwesomeIcon icon={faCalendarAlt} />{" "}
-                            {classItem.nextClass}
-                          </p>
                         </div>
                       </div>
                     ))
