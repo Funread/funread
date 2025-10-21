@@ -21,6 +21,8 @@ import { getMediaUrl } from "../Utils/mediaUrl"; // Import the function to get m
 import { getUserPoints } from "../../api/userPoints"; // Import the function to get user points
 import { getCurrentRank } from "../../api/userPoints"; // Import the function to get current rank
 import { getBooksCompleted } from "../../api/userBookProgress"; // Import the function to get completed books count
+import MyClassesStatCard from "./MyClassesStatCard";
+
 
 import Star from './StarProgress.jsx';
 
@@ -322,51 +324,11 @@ const MyClasses = () => {
 
   return (
     <div className="student-dashboard">
-      {/* Main content */}
-
-
-
+  
       <div className="dashboard-content " style={{ padding: "0px" }}>
-        {/* Main content area */}
         {/* Sidebar with statistics */}
-        <div className="bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 py-3">
-          <div className="max-w-8xl  px-4" >
-            <div className="flex flex-col sm:flex-row gap-3">
-              <div className="flex-1 relative bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl p-4 border-2 border-white shadow-md transform hover:scale-[1.02] transition-transform duration-300 min-h-[140px] flex items-center justify-center">
-                <div className="absolute -top-2 -right-2 bg-yellow-400 rounded-full p-2 border-4 border-white shadow-sm">
-                  <FontAwesomeIcon icon={faStar} className="h-3 w-6 text-yellow-600" />
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="bg-white rounded-full p-2 mb-2 shadow-md">
-                    <FontAwesomeIcon icon={faUser} className="h-6 w-6 text-blue-500" />
-                  </div>
-                  <h2 className="text-2xl font-black text-white mb-1 drop-shadow-md">{`Level ${userStats.level}`}</h2>
-                  <div className="flex gap-1 mb-1">
-                    <Star value={userStats.points} max={userStats.level * 500} size={16} />
-                  </div>
-                  <div className="bg-white/25 backdrop-blur-sm rounded-full px-3 py-1 border border-white/30">
-                    <p className="text-[10px] text-white font-bold drop-shadow">{`${userStats.points} / ${userStats.level * 500} pts`}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex-1 relative bg-gradient-to-br from-emerald-400 to-teal-400 rounded-xl p-4 border-2 border-white shadow-md transform hover:scale-[1.02] transition-transform duration-300 min-h-[140px] flex items-center justify-center">
-                <div className="absolute -top-2 -right-2 bg-orange-400 rounded-full p-2 border-4 border-white shadow-sm">
-                  <FontAwesomeIcon icon={faBookOpen} className="h-3 w-6 text-orange-700" />
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="bg-white rounded-full p-2 mb-2 shadow-md">
-                    <FontAwesomeIcon icon={faBookOpen} className="h-6 w-6 text-emerald-500" />
-                  </div>
-                  <h2 className="text-3xl font-black text-white mb-1 drop-shadow-md">{userStats.completedQuizzes}</h2>
-                  <p className="text-base text-white font-bold drop-shadow">Books Completed</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                <MyClassesStatCard userStats={userStats} />
         <main className="main-content bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
-
           {isLoading ? (
             <div className="loading-spinner">
               <div className="spinner"></div>
@@ -386,7 +348,6 @@ const MyClasses = () => {
                       </p>
                     </div>
                   ) : (     
-
 
                     // revisar que actualice el progreso correctamente  
                     // 
