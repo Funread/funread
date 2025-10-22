@@ -79,16 +79,24 @@ function Register(props) {
   };
 
   const CheckBoxList = () => {
+    // Filtrar roles: solo estudiante y profesor
+    const filteredRoles = roles.filter(role => role.role === "estudiante" || role.role === "profesor");
+    
     return (
       <div className="register-roles-div-flex">
-        {roles.map((role) => (
+        {filteredRoles.map((role) => (
             <Form.Check className="register-checkboxes"
               key={role.rolesid}
-              type="checkbox"
+              type="radio"
+              name="roles"
               value={role.rolesid}
-              checked={selectedRoles.includes(role)}
-              onChange={(e) => {e.target.checked?setSelectedRoles([...selectedRoles, role]):setSelectedRoles(selectedRoles.filter((selectedRole) => selectedRole !== role))}}
-              label={role.role}
+              checked={selectedRoles.length > 0 && selectedRoles[0].rolesid === role.rolesid}
+              onChange={(e) => {
+                if(e.target.checked) {
+                  setSelectedRoles([role]);
+                }
+              }}
+              label={role.role.charAt(0).toUpperCase() + role.role.slice(1)}
             />
         ))}
       </div>
@@ -136,13 +144,13 @@ function Register(props) {
                     isEmpty(e.target.value, "nameInput");
                   }}
                   className="login-form-control-lg"
-                  placeholder="You Name"
+                  placeholder="Your name"
                   required
                   />
               </Form.Group>
               <Form.Group className="form-group">
                 <Form.Label className="font-size">
-                  LastName
+                  Last Name
                 </Form.Label>
                 <Form.Control
                   id="lastnameInput"
@@ -154,13 +162,13 @@ function Register(props) {
                     isEmpty(e.target.value, "lastnameInput");
                   }}
                   className="login-form-control-lg"
-                  placeholder="You LastName"
+                  placeholder="Your last name"
                   required
                   />
               </Form.Group>
               <Form.Group className="form-group">
                 <Form.Label className="font-size">
-                  UserName
+                  User Name
                 </Form.Label>
                 <Form.Control
                   id="usernameInput"
@@ -172,7 +180,7 @@ function Register(props) {
                     isEmpty(e.target.value, "usernameInput");
                   }}
                   className="login-form-control-lg"
-                  placeholder="You UserName"
+                  placeholder="Your username"
                   required
                   />
               </Form.Group>

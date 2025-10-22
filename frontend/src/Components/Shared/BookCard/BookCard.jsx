@@ -10,12 +10,12 @@ const BookCard = ({
   portrait,
   title,
   author,
-  category, // categoryName (string)
+  category, 
   description,
   color,
   toggleSidebar,
-  dimensionNames, // array
-  dilemmaNames, // array
+  dimensionNames, 
+  dilemmaNames, 
   listView = false,
 }) => {
   const [categoryName, setCategoryName] = useState('');
@@ -104,7 +104,7 @@ const BookCard = ({
       <div className={isListView ? 'd-flex flex-column flex-1 min-w-0 justify-content-center' : 'flex flex-col items-center text-center w-full'} style={isListView ? { gap: 0, marginTop: 0, marginBottom: 0 } : {}}>
         <h5 className="card-title clamp-text custom-title" style={{ fontSize: '1.01rem', fontWeight: 700, margin: '10px  0 10px 0', color: '#1e293b', lineHeight: 1.18 }}>{title}</h5>
         {author && <div className="custom-text" style={{ fontSize: '0.93rem', color: '#64748b', margin: '0 0 2px 0' }}>{author}</div>}
-        <div className="badges-row" style={isListView ? { marginTop: 0, marginBottom: 0 } : {marginLeft:5}}>
+        <div className="badges-row" style={isListView ? { marginTop: 0, marginBottom: 0 } : {display:'flex',justifyContent:"center"}}>
           {dimensionBadges}
           {dilemmaBadges}
         </div>
