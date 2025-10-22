@@ -88,6 +88,24 @@ export const PLANTILLAS_TEXTO = {
       icon: "⚠️",
       preview: "Remember this!",
       config: { fontSize: 24, fontFamily: "Nunito, sans-serif", fill: "#E67E22", fontWeight: "bold", backgroundColor: "#FEF9E7" }
+    },
+    { 
+      name: "Question Text", 
+      icon: "❓",
+      preview: "What do you think?",
+      config: { fontSize: 26, fontFamily: "Poppins, sans-serif", fill: "#1ABC9C", fontWeight: "normal", fontStyle: "italic" }
+    },
+    { 
+      name: "Definition Box", 
+      icon: "📝",
+      preview: "Key Term: Definition",
+      config: { fontSize: 22, fontFamily: "Lato, sans-serif", fill: "#34495E", fontWeight: "bold", backgroundColor: "#E8F8F5" }
+    },
+    { 
+      name: "Fun Fact", 
+      icon: "💡",
+      preview: "Did you know?",
+      config: { fontSize: 24, fontFamily: "Quicksand, sans-serif", fill: "#F39C12", fontWeight: "bold", shadowColor: "rgba(243,156,18,0.2)", shadowBlur: 2 }
     }
   ],
   "🎨 Creative": [
@@ -108,6 +126,30 @@ export const PLANTILLAS_TEXTO = {
       icon: "✍️",
       preview: "By: The Artist",
       config: { fontSize: 28, fontFamily: "Caveat, cursive", fill: "#795548", fontWeight: "normal", fontStyle: "italic" }
+    },
+    { 
+      name: "Bold Statement", 
+      icon: "💥",
+      preview: "AWESOME!",
+      config: { fontSize: 48, fontFamily: "Bangers, cursive", fill: "#FF6B6B", fontWeight: "normal", rotation: -5, shadowColor: "rgba(255,107,107,0.5)", shadowBlur: 4 }
+    },
+    { 
+      name: "Handwritten Note", 
+      icon: "✏️",
+      preview: "Personal touch",
+      config: { fontSize: 26, fontFamily: "Patrick Hand, cursive", fill: "#5D4E37", fontWeight: "normal" }
+    },
+    { 
+      name: "Retro Style", 
+      icon: "🕹️",
+      preview: "Retro Vibes",
+      config: { fontSize: 36, fontFamily: "Permanent Marker, cursive", fill: "#E74C3C", fontWeight: "normal", backgroundColor: "#FEF5E7" }
+    },
+    { 
+      name: "Elegant Script", 
+      icon: "💐",
+      preview: "Elegant & Beautiful",
+      config: { fontSize: 34, fontFamily: "Pacifico, cursive", fill: "#9B59B6", fontWeight: "normal", shadowColor: "rgba(155,89,182,0.3)", shadowBlur: 3 }
     }
   ],
   "👶 Children": [
@@ -128,6 +170,30 @@ export const PLANTILLAS_TEXTO = {
       icon: "⭐",
       preview: "And they lived happily...",
       config: { fontSize: 40, fontFamily: "Kalam, cursive", fill: "#9B59B6", fontWeight: "normal", fontStyle: "italic" }
+    },
+    { 
+      name: "Adventure Text", 
+      icon: "🚀",
+      preview: "Let's go on an adventure!",
+      config: { fontSize: 28, fontFamily: "Fredoka One, cursive", fill: "#FF9800", fontWeight: "normal", rotation: -2 }
+    },
+    { 
+      name: "Happy Ending", 
+      icon: "🌟",
+      preview: "The End!",
+      config: { fontSize: 38, fontFamily: "Chewy, cursive", fill: "#FFC107", fontWeight: "normal", shadowColor: "rgba(255,193,7,0.5)", shadowBlur: 5 }
+    },
+    { 
+      name: "Narration", 
+      icon: "📖",
+      preview: "The story begins...",
+      config: { fontSize: 24, fontFamily: "Architects Daughter, cursive", fill: "#5D4037", fontWeight: "normal" }
+    },
+    { 
+      name: "Song Lyrics", 
+      icon: "🎵",
+      preview: "Sing along with me!",
+      config: { fontSize: 26, fontFamily: "Kalam, cursive", fill: "#E91E63", fontWeight: "normal", fontStyle: "italic" }
     }
   ],
   "📋 Formal": [
@@ -148,6 +214,120 @@ export const PLANTILLAS_TEXTO = {
       icon: "🏢",
       preview: "Professional Company Inc.",
       config: { fontSize: 26, fontFamily: "Arial, sans-serif", fill: "#5D6D7E", fontWeight: "normal" }
+    },
+    { 
+      name: "Legal Text", 
+      icon: "⚖️",
+      preview: "Terms and Conditions",
+      config: { fontSize: 22, fontFamily: "Times New Roman, serif", fill: "#2C3E50", fontWeight: "normal" }
+    },
+    { 
+      name: "Official Stamp", 
+      icon: "✅",
+      preview: "APPROVED",
+      config: { fontSize: 32, fontFamily: "Arial, sans-serif", fill: "#27AE60", fontWeight: "bold", backgroundColor: "#E8F8F5" }
+    },
+    { 
+      name: "Business Header", 
+      icon: "📑",
+      preview: "Annual Report 2025",
+      config: { fontSize: 30, fontFamily: "Georgia, serif", fill: "#1B4F72", fontWeight: "bold" }
+    }
+  ],
+  "🎉 Celebration": [
+    { 
+      name: "Party Title", 
+      icon: "🎊",
+      preview: "CELEBRATION TIME!",
+      config: { fontSize: 44, fontFamily: "Bangers, cursive", fill: "#E74C3C", fontWeight: "normal", rotation: -3, shadowColor: "rgba(231,76,60,0.4)", shadowBlur: 5 }
+    },
+    { 
+      name: "Birthday Wish", 
+      icon: "🎂",
+      preview: "Happy Birthday!",
+      config: { fontSize: 38, fontFamily: "Pacifico, cursive", fill: "#FF69B4", fontWeight: "normal", shadowColor: "rgba(255,105,180,0.5)", shadowBlur: 4 }
+    },
+    { 
+      name: "Congratulations", 
+      icon: "🏆",
+      preview: "Congratulations!",
+      config: { fontSize: 36, fontFamily: "Lobster, cursive", fill: "#FFD700", fontWeight: "normal", shadowColor: "rgba(255,215,0,0.6)", shadowBlur: 6 }
+    },
+    { 
+      name: "Achievement", 
+      icon: "🌟",
+      preview: "You Did It!",
+      config: { fontSize: 34, fontFamily: "Fredoka One, cursive", fill: "#9C27B0", fontWeight: "normal" }
+    },
+    { 
+      name: "Event Banner", 
+      icon: "🎪",
+      preview: "Grand Opening",
+      config: { fontSize: 40, fontFamily: "Permanent Marker, cursive", fill: "#FF5722", fontWeight: "normal", backgroundColor: "#FFF9C4" }
+    }
+  ],
+  "💼 Professional": [
+    { 
+      name: "Presentation Title", 
+      icon: "📊",
+      preview: "Market Analysis",
+      config: { fontSize: 34, fontFamily: "Montserrat, sans-serif", fill: "#1565C0", fontWeight: "bold" }
+    },
+    { 
+      name: "Key Point", 
+      icon: "🔑",
+      preview: "Important Insight",
+      config: { fontSize: 26, fontFamily: "Lato, sans-serif", fill: "#2E7D32", fontWeight: "bold", backgroundColor: "#E8F5E9" }
+    },
+    { 
+      name: "Quote", 
+      icon: "💬",
+      preview: "\"Excellence is not an act...\"",
+      config: { fontSize: 24, fontFamily: "Merriweather, serif", fill: "#424242", fontWeight: "normal", fontStyle: "italic" }
+    },
+    { 
+      name: "Data Label", 
+      icon: "📈",
+      preview: "Q4 Results: +25%",
+      config: { fontSize: 28, fontFamily: "Roboto, sans-serif", fill: "#00796B", fontWeight: "bold" }
+    },
+    { 
+      name: "Professional Subtitle", 
+      icon: "📋",
+      preview: "Strategic Overview",
+      config: { fontSize: 26, fontFamily: "Source Sans Pro, sans-serif", fill: "#455A64", fontWeight: "normal" }
+    }
+  ],
+  "🌈 Motivational": [
+    { 
+      name: "Inspiration", 
+      icon: "✨",
+      preview: "Dream Big!",
+      config: { fontSize: 40, fontFamily: "Lobster, cursive", fill: "#FF6B6B", fontWeight: "normal", shadowColor: "rgba(255,107,107,0.4)", shadowBlur: 4 }
+    },
+    { 
+      name: "Positive Quote", 
+      icon: "💪",
+      preview: "You Can Do This!",
+      config: { fontSize: 32, fontFamily: "Poppins, sans-serif", fill: "#4ECDC4", fontWeight: "bold" }
+    },
+    { 
+      name: "Daily Affirmation", 
+      icon: "🌟",
+      preview: "I am capable",
+      config: { fontSize: 28, fontFamily: "Quicksand, sans-serif", fill: "#9B59B6", fontWeight: "normal", fontStyle: "italic" }
+    },
+    { 
+      name: "Success Message", 
+      icon: "🎯",
+      preview: "Goal Achieved!",
+      config: { fontSize: 36, fontFamily: "Montserrat, sans-serif", fill: "#27AE60", fontWeight: "bold", shadowColor: "rgba(39,174,96,0.3)", shadowBlur: 3 }
+    },
+    { 
+      name: "Encouragement", 
+      icon: "❤️",
+      preview: "Keep Going!",
+      config: { fontSize: 30, fontFamily: "Nunito, sans-serif", fill: "#E67E22", fontWeight: "bold" }
     }
   ]
 };
