@@ -30,6 +30,12 @@
   gap: 15px;
 }
 
+.main-content.full-width {
+  width: 100%;
+  max-width: 100%;
+  flex: 1;
+}
+
 .upcoming-events {
   background-color: white;
   border-radius: 12px;
