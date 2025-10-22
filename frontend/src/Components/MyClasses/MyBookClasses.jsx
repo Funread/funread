@@ -117,10 +117,10 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
                     <h2 className="modal-book-title">{book.title || book.name || "Libro sin título"}</h2>
                     {(book.author || book.authorname) && <p className="modal-book-author">Por: {book.author || book.authorname}</p>}
                     <div className="book-details">
-                      <p>📚 ¡Listo para leer!</p>
-                      <p>✨ Haz clic en el botón para empezar la aventura.</p>
+                      <p>📚 Ready to read!</p>
+                      <p>✨ Click the button to start the adventure.</p>
                     </div>
-                    <button onClick={handleReadBook} className="read-book-button">Empezar a Leer</button>
+                    <button onClick={handleReadBook} className="read-book-button">Start Reading</button>
                     <div className="decorative-stars">
                       <Star size={20} fill="gold" color="gold" />
                       <Star size={16} fill="gold" color="gold" />
