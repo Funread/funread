@@ -24,6 +24,26 @@ import { getBooksCompleted } from "../../api/userBookProgress";
 import MyBookClasses from "./MyBookClasses";
 import MyClassesStatCard from "./MyClassesStatCard";
 
+// Helper to validate that a name is meaningful (not empty or placeholders like "unknown")
+const isValidName = (name) => {
+  if (!name || typeof name !== "string") return false;
+  const trimmed = name.trim();
+  if (!trimmed) return false;
+  const lowered = trimmed.toLowerCase();
+  const invalids = new Set([
+    "unknown",
+    "unknow", 
+    "desconocido",
+    "n/a",
+    "na",
+    "-",
+    "null",
+    "undefined",
+    "unassigned teacher",
+  ]);
+  return !invalids.has(lowered);
+};
+
 // Function to get teacher name from ID
 const getTeacherName = async (teacherId) => {
   try {
@@ -32,12 +52,13 @@ const getTeacherName = async (teacherId) => {
 
     if (response && response.data) {
       const teacherData = response.data;
-      return `${teacherData.name} ${teacherData.lastname}`;
+      const fullName = `${teacherData.name} ${teacherData.lastname}`.trim();
+      return isValidName(fullName) ? fullName : null;
     }
-    return `Teacher ID: ${teacherId}`;
+    return null;
   } catch (error) {
     console.error(`Error fetching teacher details for ID ${teacherId}:`, error);
-    return `Teacher ID: ${teacherId}`;
+    return null;
   }
 };
 
@@ -122,9 +143,13 @@ const MyClasses = () => {
             ) {
               const classData = classResponse.data[0];
 
-              let teacherName = group.teachername || "Unassigned Teacher";
+              let teacherName = null;
 
-              if (classData.teacherassigned && !group.teachername) {
+              // Try to get teacher name from group data first
+              if (group.teachername && isValidName(group.teachername)) {
+                teacherName = group.teachername;
+              } else if (classData.teacherassigned) {
+                // If group doesn't have a valid teacher name, fetch from teacher ID
                 teacherName = await getTeacherName(classData.teacherassigned);
               }
 
@@ -135,7 +160,7 @@ const MyClasses = () => {
                 grade: classData.grade,
                 progress: group.progress || Math.floor(Math.random() * 100),
                 teacherId: classData.teacherassigned,
-                teacher: teacherName,
+                teacher: teacherName, // This will be null if no valid name found
                 startDate: classData.startdate,
                 finishDate: classData.finishdate,
                 nextClass: classData.finishdate
@@ -155,11 +180,15 @@ const MyClasses = () => {
               formattedClasses.push(formattedGroup);
             } else {
               console.log("No class data found, using basic group data");
+              const teacherName = (group.teachername && isValidName(group.teachername)) 
+                ? group.teachername 
+                : null;
+              
               const formattedGroup = {
                 id: group.groupscreateid,
                 name: group.groupname || "Unnamed Class",
                 progress: group.progress || Math.floor(Math.random() * 100),
-                teacher: group.teachername || "Unassigned Teacher",
+                teacher: teacherName,
                 nextClass: "No scheduled classes",
                 image: group.image || "/Media/media/default-class.jpg",
                 bookId: group.bookid || 3,
@@ -171,11 +200,15 @@ const MyClasses = () => {
               `Error getting class details for group ${group.groupscreateid}:`,
               classError
             );
+            const teacherName = (group.teachername && isValidName(group.teachername)) 
+              ? group.teachername 
+              : null;
+            
             const formattedGroup = {
               id: group.groupscreateid,
               name: group.groupname || "Unnamed Class",
               progress: group.progress || Math.floor(Math.random() * 100),
-              teacher: group.teachername || "Unassigned Teacher",
+              teacher: teacherName,
               nextClass: "No scheduled classes",
               image: group.image || "/Media/media/default-class.jpg",
               bookId: group.bookid || 3,
@@ -338,7 +371,9 @@ const MyClasses = () => {
                               <div className="bg-blue-100 rounded-full p-1.5">
                                 <FontAwesomeIcon icon={faUser} className="h-3 w-3 text-blue-600" />
                               </div>
-                              <p className="text-sm font-semibold text-gray-600">{classItem.teacher}</p>
+                              <p className="text-sm font-semibold text-gray-600">
+                                {classItem.teacher || "Teacher not assigned"}
+                              </p>
                             </div>
 
                             <div className="flex items-center gap-2 bg-green-50 rounded-lg px-3 py-2 mb-3">

@@ -17,6 +17,30 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
   const getMedia = getMediaUrl || defaultGetMediaUrl
   const coverUrl = book.cover || getMedia(book.cover)
 
+  // Helper to validate that a name is meaningful (not empty or placeholders like "unknown")
+  const isValidName = (name) => {
+    if (!name || typeof name !== "string") return false
+    const trimmed = name.trim()
+    if (!trimmed) return false
+    const lowered = trimmed.toLowerCase()
+    const invalids = new Set([
+      "unknown",
+      "unknow", 
+      "desconocido",
+      "unknown author",
+      "autor desconocido",
+      "n/a",
+      "na",
+      "-",
+      "null",
+      "undefined",
+    ])
+    return !invalids.has(lowered)
+  }
+
+  // Find first valid author name from book data or use teacher name as fallback
+  const displayAuthorName = [book.author, book.authorname, teacherName].find(isValidName)
+
   const colors = [
     "from-pink-400 via-purple-400 to-indigo-500",
     "from-yellow-400 via-orange-400 to-red-500",
@@ -99,7 +123,7 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
           <div className="title-badge">
             <h3 className="book-title">{book.title || book.name || "Libro sin título"}</h3>
           </div>
-          {(book.author || book.authorname || teacherName) && <p className="book-author">📝 {book.author || book.authorname || teacherName}</p>}
+          {displayAuthorName && <p className="book-author">📝 {displayAuthorName}</p>}
         </div>
       </div>
 
@@ -115,7 +139,7 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
                 <div className="book-page left-page">
                   <div className="page-content">
                     <h2 className="modal-book-title">{book.title || book.name || "Libro sin título"}</h2>
-                    {(book.author || book.authorname) && <p className="modal-book-author">Por: {book.author || book.authorname}</p>}
+                    {displayAuthorName && <p className="modal-book-author">By: {displayAuthorName}</p>}
                     <div className="book-details">
                       <p>📚 Ready to read!</p>
                       <p>✨ Click the button to start the adventure.</p>
@@ -177,9 +201,9 @@ const MyBookClasses = ({
   const [displayStyle, setDisplayStyle] = useState("cropped")
 
   const styles = [
-    { id: "overlay", name: "Superposición", icon: Palette, desc: "Imagen con transparencia" },
-    { id: "cropped", name: "Recorte Central", icon: Scissors, desc: "Imagen recortada en el centro" },
-    { id: "framed", name: "Marco Decorativo", icon: Image, desc: "Imagen dentro de un marco" },
+    { id: "overlay", name: "Superposición", icon: Palette, desc: "Image with transparency" },
+    { id: "cropped", name: "Recorte Central", icon: Scissors, desc: "Image cropped in the center" },
+    { id: "framed", name: "Marco Decorativo", icon: Image, desc: "Image inside a frame"},
   ]
 
   const handleBackClick = (e) => {
@@ -211,7 +235,7 @@ const MyBookClasses = ({
 
             {showStyleTools && (
               <div className="flex items-center gap-3 ml-auto">
-                <span className="text-xs font-medium text-white/90 hidden sm:inline">Herramientas:</span>
+                <span className="text-xs font-medium text-white/90 hidden sm:inline">Tools:</span>
                 <div className="flex items-center gap-1.5">
                   {styles.map((style) => {
                     const IconComponent = style.icon;
@@ -263,7 +287,7 @@ const MyBookClasses = ({
               onClick={onBookClick} 
               getMediaUrl={getMediaUrl}
               displayStyle={displayStyle} 
-              teacherName={book.authorname || teacherName}
+              teacherName={teacherName}
             />
           ))}
         </div>
@@ -271,8 +295,8 @@ const MyBookClasses = ({
         {books.length === 0 && (
           <div className="text-center py-20">
             <Sparkles size={64} className="mx-auto text-purple-400 mb-4" />
-            <h3 className="text-2xl font-bold text-slate-700 mb-2">No hay libros disponibles</h3>
-            <p className="text-slate-600">Agrega libros para comenzar tu biblioteca</p>
+            <h3 className="text-2xl font-bold text-slate-700 mb-2">There are no books available.</h3>
+            <p className="text-slate-600">Soon, a teacher will add a book.</p>
           </div>
         )}
       </main>
