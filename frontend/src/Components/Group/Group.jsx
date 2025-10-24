@@ -165,7 +165,11 @@ const Group = () => {
       }
 
       // Si la llamada es exitosa, actualizar la UI
-      fetchGroups();
+      await fetchGroups();
+      
+      // Seleccionar automáticamente el grupo recién creado
+      setSelectedGroupId(newGroupData.id);
+      
       setNewGroupName("");
       setIsCreateGroupOpen(false);
       toast.success("Group created successfully!");
@@ -427,7 +431,7 @@ const Group = () => {
         </div>
       </div>
 
-      <main className="main-content">
+      <main className="main-content main-content-scrollable">
         {groups.length === 0 ? (
   <div style={{textAlign:'center', marginTop:'40px', fontSize:'1.2em', color:'#888'}}>
     No groups created yet.
@@ -472,7 +476,7 @@ const Group = () => {
             </Button>
           </div>
         </Card.Header>
-        <Card.Body>
+        <Card.Body className="card-scrollable">
           {students.length > 0 ? (
             students.map((student) => (
               <div key={student.userid} className="student-item">
@@ -501,7 +505,7 @@ const Group = () => {
             </Button>
           </div>
         </Card.Header>
-        <Card.Body>
+        <Card.Body className="card-scrollable">
           {classes.length > 0 ? (
             classes.map((cls, idx) => {
               const isSelected = Number(selectedClassId) === Number(cls.classesid)
@@ -582,7 +586,7 @@ const Group = () => {
               </Button>
             </div>
           </Card.Header>
-          <Card.Body>
+          <Card.Body className="card-scrollable">
             {classBooks && classBooks.length > 0 ? (
               classBooks.map((book, idx) => (
                 <div key={book.booksperclassesid || book.bookid || idx} className="book-item">
