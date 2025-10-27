@@ -336,7 +336,6 @@ const MyClasses = () => {
           {isLoading ? (
             <div className="loading-spinner">
               <div className="spinner"></div>
-              <p>Loading your classes...</p>
             </div>
           ) : (
             <div className="tab-content">
@@ -407,7 +406,6 @@ const MyClasses = () => {
                   {loadingBooks ? (
                     <div className="loading-spinner">
                       <div className="spinner"></div>
-                      <p>Loading books...</p>
                     </div>
                   ) : (
                     <MyBookClasses 

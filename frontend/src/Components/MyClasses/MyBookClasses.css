@@ -287,7 +287,20 @@
         .book-details p {
           font-size: 1.1rem;
           color: #888;
+          margin: 0;
+        }
+
+        .detail-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
           margin: 10px 0;
+          justify-content: center;
+        }
+
+        .detail-icon {
+          color: #667eea;
+          flex-shrink: 0;
         }
 
         .decorative-stars {
@@ -393,14 +406,13 @@
         .book-dimensions-loading {
           display: flex;
           align-items: center;
-          gap: 10px;
           justify-content: center;
-          padding: 15px;
+          padding: 30px 15px;
           margin: 15px 0;
         }
 
         .loading-spinner {
-          animation: spin 1s linear infinite;
+          animation: spin 1.5s linear infinite;
           color: #9333ea;
         }
 
@@ -411,11 +423,6 @@
           to {
             transform: rotate(360deg);
           }
-        }
-
-        .loading-text {
-          font-size: 0.875rem;
-          color: #9333ea;
         }
 
         .book-dimensions-info {

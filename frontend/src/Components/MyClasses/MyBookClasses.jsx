@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from "react"
-import { Sparkles, Star, X, ArrowLeft, Palette, Scissors, Image, BookOpen, Lightbulb } from "lucide-react"
+import { Sparkles, Star, X, ArrowLeft, Palette, Scissors, Image, BookOpen, Lightbulb, Book, Wand2 } from "lucide-react"
 import './MyBookClasses.css'
 import { getBookCategoryDimensionDilemmas } from '../../api/bookDilemma'
 
@@ -165,8 +165,7 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
                     {/* Información de categoría y dimensiones */}
                     {loadingDimensions ? (
                       <div className="book-dimensions-loading">
-                        <Sparkles size={20} className="loading-spinner" />
-                        <span className="loading-text">Loading details...</span>
+                        <Sparkles size={32} className="loading-spinner" />
                       </div>
                     ) : bookDimensions && (
                       <div className="book-dimensions-info">
@@ -205,8 +204,14 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
                     )}
                     
                     <div className="book-details">
-                      <p>📚 Ready to read!</p>
-                      <p>✨ Click the button to start the adventure.</p>
+                      <div className="detail-item">
+                        <Book size={20} className="detail-icon" />
+                        <p>Ready to read!</p>
+                      </div>
+                      <div className="detail-item">
+                        <Wand2 size={20} className="detail-icon" />
+                        <p>Click the button to start the adventure.</p>
+                      </div>
                     </div>
                     <button onClick={handleReadBook} className="read-book-button">Start Reading</button>
                     <div className="decorative-stars">
