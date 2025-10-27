@@ -1,0 +1,563 @@
+        .mybook-classes-card-wrapper {
+          cursor: pointer;
+          transition: transform 0.4s ease;
+        }
+
+        .mybook-classes-card-wrapper:hover {
+          transform: translateY(-15px) scale(1.05);
+          z-index: 10;
+        }
+
+        .mybook-classes-glow-wrapper {
+          position: relative;
+        }
+
+        .mybook-classes-glow {
+          position: absolute;
+          inset: -20px;
+          border-radius: 20px;
+          opacity: 0;
+          filter: blur(25px);
+          transition: opacity 0.4s ease;
+          z-index: -1;
+        }
+
+        .mybook-classes-card-wrapper:hover .mybook-classes-glow {
+          opacity: 0.8;
+        }
+
+        .mybook-classes-card-container {
+          position: relative;
+          width: 220px;
+          height: 270px;
+          perspective: 1500px;
+          margin-bottom: 20px;
+        }
+
+        .mybook-classes-spine {
+          position: absolute;
+          left: -10px;
+          top: 15px;
+          width: 10px;
+          height: 250px;
+          border-radius: 3px 0 0 3px;
+          z-index: 1;
+          box-shadow: -3px 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .mybook-classes-cover-3d {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          border-radius: 12px;
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+          transition: all 0.5s ease;
+          transform: rotateY(-8deg) rotateX(2deg);
+          overflow: hidden;
+        }
+
+        .mybook-classes-card-wrapper:hover .mybook-classes-cover-3d {
+          transform: rotateY(0deg) rotateX(0deg) scale(1.02);
+          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .mybook-classes-background {
+          position: absolute;
+          inset: 0;
+          border-radius: 12px;
+        }
+
+        .mybook-classes-background-pattern {
+          position: absolute;
+          inset: 0;
+          background-image:
+            radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
+        }
+
+        .mybook-classes-image-container {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 5;
+        }
+
+        .mybook-classes-cover-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+        }
+
+        .mybook-classes-style-overlay .mybook-classes-cover-img {
+          opacity: 0.85;
+          mix-blend-mode: overlay;
+        }
+
+        .mybook-classes-style-cropped .mybook-classes-image-container {
+          inset: 15%;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.4),
+            inset 0 0 0 3px rgba(255, 255, 255, 0.6);
+          z-index: 5;
+        }
+
+        .mybook-classes-style-cropped .mybook-classes-cover-img {
+          opacity: 1;
+          mix-blend-mode: normal;
+        }
+
+        .mybook-classes-style-framed .mybook-classes-image-container {
+          inset: 25px;
+          border-radius: 12px;
+          overflow: hidden;
+          border: 8px solid white;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+          background: white;
+          padding: 6px;
+          z-index: 10;
+        }
+
+        .mybook-classes-style-framed .mybook-classes-cover-img {
+          opacity: 1;
+          mix-blend-mode: normal;
+        }
+
+        .mybook-classes-no-image-icon {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 5;
+        }
+
+        .mybook-classes-shine {
+          position: absolute;
+          top: -100%;
+          left: -100%;
+          width: 150%;
+          height: 150%;
+          background: linear-gradient(45deg, transparent 0%, transparent 45%, rgba(255, 255, 255, 0.8) 50%, transparent 55%, transparent 100%);
+          transform: rotate(45deg);
+          pointer-events: none;
+          z-index: 10;
+        }
+
+        .mybook-classes-card-wrapper:hover .mybook-classes-shine {
+          animation: mybook-classes-shine 1.5s ease-in-out;
+        }
+
+        @keyframes mybook-classes-shine {
+          0% {
+            top: -100%;
+            left: -100%;
+          }
+
+          100% {
+            top: 100%;
+            left: 100%;
+          }
+        }
+
+        .mybook-classes-title-container {
+          text-align: center;
+        }
+
+        .mybook-classes-title-badge {
+          background: white;
+          padding: 12px 20px;
+          border-radius: 20px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+          margin-bottom: 10px;
+        }
+
+        .mybook-classes-book-title {
+          font-size: 1.2rem;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-weight: 800;
+          margin: 0;
+        }
+
+        .mybook-classes-book-author {
+          font-size: 1rem;
+          color: rgba(5, 5, 5, 0.81);
+          margin: 8px 0 0 0;
+          font-weight: 600;
+        }
+
+        .mybook-classes-modal-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.85);
+          backdrop-filter: blur(10px);
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+        }
+
+        .mybook-classes-modal-content {
+          position: relative;
+          width: 100%;
+          max-width: 1000px;
+        }
+
+        .mybook-classes-close-button {
+          position: absolute;
+          top: -60px;
+          right: 0;
+          background: rgba(255, 255, 255, 0.2);
+          border: 3px solid white;
+          color: white;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .mybook-classes-close-button:hover {
+          background: rgba(255, 255, 255, 0.3);
+          transform: rotate(90deg) scale(1.1);
+        }
+
+        .mybook-classes-modal-book-container {
+          perspective: 2000px;
+        }
+
+        .mybook-classes-opened-book {
+          display: flex;
+          width: 100%;
+          height: 600px;
+        }
+
+        .mybook-classes-book-page {
+          flex: 1;
+          background: white;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .mybook-classes-left-page {
+          border-radius: 20px 0 0 20px;
+          border-right: 2px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .mybook-classes-right-page {
+          border-radius: 0 20px 20px 0;
+        }
+
+        .mybook-classes-page-content {
+          padding: 60px 40px;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+        }
+
+        .mybook-classes-modal-book-title {
+          font-size: 2.5rem;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-weight: 900;
+          margin: 0 0 20px 0;
+        }
+
+        .mybook-classes-modal-book-author {
+          font-size: 1.3rem;
+          color: #666;
+          margin: 0 0 30px 0;
+        }
+
+        .mybook-classes-book-details p {
+          font-size: 1.1rem;
+          color: #888;
+          margin: 0;
+        }
+
+        .mybook-classes-detail-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin: 10px 0;
+          justify-content: center;
+        }
+
+        .mybook-classes-detail-icon {
+          color: #667eea;
+          flex-shrink: 0;
+        }
+
+        .mybook-classes-decorative-stars {
+          display: flex;
+          gap: 15px;
+          margin-top: 40px;
+        }
+
+        .mybook-classes-page-cover {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 30px;
+          background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+        }
+
+        .mybook-classes-modal-cover-img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+          border-radius: 15px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .mybook-classes-modal-placeholder {
+          width: 80%;
+          height: 80%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 15px;
+        }
+
+        .mybook-classes-floating-sparkles {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+
+        .mybook-classes-float-sparkle {
+          position: absolute;
+          animation: mybook-classes-floatSparkle 3s ease-in-out infinite;
+        }
+
+        .mybook-classes-float-1 {
+          top: 10%;
+          left: 10%;
+        }
+
+        .mybook-classes-float-2 {
+          top: 20%;
+          right: 15%;
+          animation-delay: 0.5s;
+        }
+
+        .mybook-classes-float-3 {
+          bottom: 15%;
+          left: 15%;
+          animation-delay: 1s;
+        }
+
+        .mybook-classes-float-4 {
+          bottom: 20%;
+          right: 10%;
+          animation-delay: 1.5s;
+        }
+
+        @keyframes mybook-classes-floatSparkle {
+
+          0%,
+          100% {
+            transform: translateY(0px);
+            opacity: 0.6;
+          }
+
+          50% {
+            transform: translateY(-20px);
+            opacity: 1;
+          }
+        }
+
+        .mybook-classes-read-book-button {
+          margin-top: 20px;
+          padding: 12px 24px;
+          border-radius: 10px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: none;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .mybook-classes-read-book-button:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Book Dimensions Styles */
+        .mybook-classes-book-dimensions-loading {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 30px 15px;
+          margin: 15px 0;
+        }
+
+        .mybook-classes-loading-spinner {
+          animation: mybook-classes-spin 1.5s linear infinite;
+          color: #9333ea;
+        }
+
+        @keyframes mybook-classes-spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .mybook-classes-book-dimensions-info {
+          margin: 15px 0;
+          padding: 15px;
+          background: linear-gradient(135deg, #f8f9ff 0%, #fff5f7 100%);
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          text-align: left;
+        }
+
+        .mybook-classes-dimension-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          margin-bottom: 12px;
+          padding: 10px;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+          transition: all 0.2s ease;
+        }
+
+        .mybook-classes-dimension-item:last-child {
+          margin-bottom: 0;
+        }
+
+        .mybook-classes-dimension-item:hover {
+          transform: translateX(3px);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .mybook-classes-category-item {
+          background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+          color: white;
+          margin-bottom: 15px;
+        }
+
+        .mybook-classes-category-item .mybook-classes-dimension-label,
+        .mybook-classes-category-item .mybook-classes-dimension-value {
+          color: white;
+        }
+
+        .mybook-classes-category-item .mybook-classes-dimension-icon svg {
+          color: white;
+        }
+
+        .mybook-classes-dimension-icon {
+          flex-shrink: 0;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(147, 51, 234, 0.1);
+          border-radius: 6px;
+        }
+
+        .mybook-classes-dimension-icon svg {
+          color: #9333ea;
+        }
+
+        .mybook-classes-category-item .mybook-classes-dimension-icon {
+          background: rgba(255, 255, 255, 0.25);
+        }
+
+        .mybook-classes-dimension-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        .mybook-classes-dimension-label {
+          font-size: 0.7rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: #9333ea;
+        }
+
+        .mybook-classes-dimension-value {
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: #1f2937;
+        }
+
+        .mybook-classes-dimensions-list {
+          margin-top: 10px;
+        }
+
+        .mybook-classes-dimensions-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 12px;
+          padding: 8px 10px;
+          background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+          border-radius: 8px;
+        }
+
+        .mybook-classes-lightbulb-icon {
+          color: #f59e0b;
+          fill: #fef3c7;
+        }
+
+        .mybook-classes-dimensions-title {
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: #92400e;
+        }
+
+        .mybook-classes-dimension-badge {
+          flex-shrink: 0;
+          width: 26px;
+          height: 26px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border-radius: 50%;
+          font-weight: 700;
+          font-size: 0.8rem;
+        }
+
+        .mybook-classes-dimension-name {
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #4b5563;
+        }
+
+        .mybook-classes-dimension-description {
+          font-size: 0.8rem;
+          color: #6b7280;
+          margin: 4px 0 0 0;
+          line-height: 1.3;
+        }
