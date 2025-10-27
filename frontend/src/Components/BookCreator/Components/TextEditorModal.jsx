@@ -24,12 +24,9 @@ export default function TextEditorModal({
   onStyleChange, 
   pageType 
 }) {
-  // Estados del texto
   const [value, setValue] = useState(text);
   const [fontFamily, setFontFamily] = useState(initialFont || "Arial");
   const [fontSize, setFontSize] = useState(initialSize || 20);
-  
-  // Estados de estilo avanzados - usar valores actuales del elemento
   const [colorTexto, setColorTexto] = useState(initialFill || "#000000");
   const [colorFondo, setColorFondo] = useState(initialBackgroundColor || "transparent");
   const [estiloTexto, setEstiloTexto] = useState(() => {
@@ -42,17 +39,11 @@ export default function TextEditorModal({
   const [sombra, setSombra] = useState(!!initialShadowColor);
   const [rotacion, setRotacion] = useState(initialRotation || 0);
   const [espaciadoLinea, setEspaciadoLinea] = useState(initialLineHeight || 1.2);
-  
-  // Estados de UI
   const [isEditing, setIsEditing] = useState(false);
   const [categoriaFuenteSeleccionada, setCategoriaFuenteSeleccionada] = useState("System");
   
   const textareaRef = useRef();
-
-  // Categorías únicas de fuentes
   const categoriasFuentes = getCategoriasFuentes();
-  
-  // Filtrar fuentes por categoría
   const fuentesFiltradas = getFuentesFiltradas(categoriaFuenteSeleccionada);
 
   useEffect(() => {
@@ -62,7 +53,6 @@ export default function TextEditorModal({
     setColorTexto(initialFill || "#000000");
     setColorFondo(initialBackgroundColor || "transparent");
     
-    // Reconstruir estilo de texto
     let style = "normal";
     if (initialFontWeight === "bold") style += " bold";
     if (initialFontStyle === "italic") style += " italic";
@@ -79,7 +69,6 @@ export default function TextEditorModal({
       initialBackgroundColor, initialOpacity, initialShadowColor, initialRotation, 
       initialLineHeight, pageType]);
 
-  // Función para obtener estilos CSS para el preview
   const obtenerEstiloCSS = () => ({
     fontSize: `${fontSize}px`,
     color: colorTexto,
@@ -100,7 +89,6 @@ export default function TextEditorModal({
     const fontStyle = estiloTexto.includes("italic") ? "italic" : "normal";
     const isBold = estiloTexto.includes("bold");
     
-    // Calcular stroke para negrita
     let strokeColor = undefined;
     let strokeWidth = 0;
     if (isBold) {
@@ -144,32 +132,33 @@ export default function TextEditorModal({
       <div className="bg-white p-6 rounded-lg shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
         <h2 className="text-xl font-bold mb-4 text-gray-800">✏️ Advanced Text Editor</h2>
         
-        {/* Vista Previa Mejorada */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Preview:
-          </label>
-          <div className="border-2 border-gray-200 rounded-lg p-4 bg-gray-50 min-h-[100px] relative overflow-hidden">
-            <div className="relative" style={{ height: 120 }}>
-              <Stage key={stageKey} width={550} height={100} className="border rounded bg-white">
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-sm font-semibold text-gray-800 flex items-center gap-2">
+              👁️ Preview
+            </label>
+            <span className="text-xs text-gray-500 italic">Double-click to edit directly</span>
+          </div>
+          <div className="bg-gradient-to-br from-gray-50 to-slate-100 rounded-xl p-6 border-2 border-dashed border-gray-300 shadow-inner min-h-[140px] relative overflow-hidden">
+            <div className="relative" style={{ height: 130 }}>
+              <Stage key={stageKey} width={540} height={120} className="rounded-lg bg-white shadow-sm mx-auto">
                 <Layer>
-                  {/* Fondo del texto si hay */}
                   {colorFondo !== "transparent" && (
                     <Rect
                       x={8}
-                      y={28}
+                      y={35}
                       width={Math.max(value.length * (fontSize * 0.6), fontSize * 2)}
                       height={fontSize * espaciadoLinea + 8}
                       fill={colorFondo}
-                      cornerRadius={4}
+                      cornerRadius={6}
                       opacity={opacidad / 100}
                       rotation={rotacion}
                     />
                   )}
                   <Text
                     text={value || "Type your text here..."}
-                    x={10}
-                    y={30}
+                    x={15}
+                    y={40}
                     fontSize={fontSize}
                     fontFamily={fontFamily}
                     fill={colorTexto}
@@ -184,8 +173,8 @@ export default function TextEditorModal({
                     shadowBlur={sombra ? 4 : 0}
                     shadowOffsetX={sombra ? 2 : 0}
                     shadowOffsetY={sombra ? 2 : 0}
-                    width={530}
-                    height={60}
+                    width={510}
+                    height={70}
                     align="left"
                     verticalAlign="middle"
                     onDblClick={handleTextClick}
@@ -198,24 +187,27 @@ export default function TextEditorModal({
               {isEditing && (
                 <textarea
                   ref={textareaRef}
-                  className="absolute top-0 left-0 w-full h-full border-2 border-blue-400 p-3 rounded-lg bg-white shadow-lg"
+                  className="absolute top-0 left-0 w-full h-full border-3 border-blue-500 p-4 rounded-xl bg-white shadow-xl z-10"
                   value={value}
                   onChange={e => setValue(e.target.value)}
                   onBlur={() => setIsEditing(false)}
                   style={obtenerEstiloCSS()}
-                  rows={3}
+                  rows={4}
                   placeholder="Type your text here..."
                 />
               )}
             </div>
+            <div className="absolute bottom-2 right-2 flex items-center gap-2 text-xs text-gray-500">
+              <span className="bg-white px-2 py-1 rounded-full shadow-sm">
+                {value.length} characters
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Controles Principales */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex flex-col md:flex-row gap-4">
           
-          {/* Fuente y Tamaño */}
-          <div className="space-y-3">
+          <div className="flex-1 space-y-3">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 📝 Font Category:
@@ -265,8 +257,7 @@ export default function TextEditorModal({
             </div>
           </div>
 
-          {/* Estilos y Efectos */}
-          <div className="space-y-3">
+          <div className="flex-1 space-y-3">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 💫 Text Style:
@@ -343,9 +334,8 @@ export default function TextEditorModal({
           </div>
         </div>
 
-        {/* Controles Avanzados */}
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
+        <div className="mt-4 flex flex-col md:flex-row gap-4">
+          <div className="flex-1">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               🔄 Rotation: {rotacion}°
             </label>
@@ -359,7 +349,7 @@ export default function TextEditorModal({
             />
           </div>
           
-          <div>
+          <div className="flex-1">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               💨 Opacity: {opacidad}%
             </label>
@@ -373,7 +363,7 @@ export default function TextEditorModal({
             />
           </div>
           
-          <div>
+          <div className="flex-1">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               📏 Line Spacing: {espaciadoLinea.toFixed(1)}
             </label>
@@ -389,7 +379,6 @@ export default function TextEditorModal({
           </div>
         </div>
 
-        {/* Efectos */}
         <div className="mt-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             ✨ Effects:
@@ -406,7 +395,6 @@ export default function TextEditorModal({
           </button>
         </div>
 
-        {/* Botones de Acción */}
         <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
           <button 
             className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"

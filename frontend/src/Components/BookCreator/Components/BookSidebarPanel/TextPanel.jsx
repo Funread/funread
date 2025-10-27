@@ -10,17 +10,14 @@ import {
 } from "../shared/textConstants";
 
 export default function TextPanel({ setElements, widgetValidation }) {
- // Estados para el editor de texto
   const [textoPersonalizado, setTextoPersonalizado] = useState("Type your text here");
   const [fuenteSeleccionada, setFuenteSeleccionada] = useState("Arial, sans-serif");
   const [tamanoFuente, setTamanoFuente] = useState(24);
   const [colorTexto, setColorTexto] = useState("#000000");
-  const [estiloTexto, setEstiloTexto] = useState("normal"); // normal, bold, italic
-  const [modoEditor, setModoEditor] = useState("personalizado"); // personalizado, plantillas
+  const [estiloTexto, setEstiloTexto] = useState("normal"); 
+  const [modoEditor, setModoEditor] = useState("personalizado");
   
-  // Efecto para forzar la carga de Google Fonts
   useEffect(() => {
-    // Crear elementos de prueba ocultos para forzar la carga de fuentes
     const testElements = [
       'Patrick Hand', 'Kalam', 'Fredoka One', 'Chewy', 'Caveat', 'Architects Daughter',
       'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Poppins', 'Inter', 'Ubuntu', 'Nunito',
@@ -43,24 +40,16 @@ export default function TextPanel({ setElements, widgetValidation }) {
     });
   }, []);
   
-  // Nuevos estados para mejoras
-  const [decoracion, setDecoracion] = useState("none"); // none, underline, line-through
+  const [decoracion, setDecoracion] = useState("none"); 
   const [espaciadoLinea, setEspaciadoLinea] = useState(1.2);
   const [sombra, setSombra] = useState(false);
   const [colorFondo, setColorFondo] = useState("transparent");
   const [rotacion, setRotacion] = useState(0);
   const [opacidad, setOpacidad] = useState(100);
-  
-  // Nuevo estado para filtro de fuentes
   const [categoriaFuenteSeleccionada, setCategoriaFuenteSeleccionada] = useState("All");
-  
-  // Estado para categoría de plantillas
   const [categoriaPlantillaSeleccionada, setCategoriaPlantillaSeleccionada] = useState("📚 Educational");
 
-  // Obtener categorías únicas
   const categoriasFuentes = getCategoriasFuentes();
-  
-  // Filtrar fuentes por categoría
   const fuentesFiltradas = getFuentesFiltradas(categoriaFuenteSeleccionada);
 
   // Función para obtener estilos para Konva Canvas
@@ -69,15 +58,13 @@ export default function TextPanel({ setElements, widgetValidation }) {
     const fontStyle = estiloTexto.includes("italic") ? "italic" : "normal";
     const isBold = estiloTexto.includes("bold");
     
-    // Stroke para hacer la negrita más visible
     let strokeColor = undefined;
     let strokeWidth = 0;
     const isMonospace = fuenteSeleccionada.includes("monospace");
     
     if (isBold) {
-      // Para TODAS las fuentes en negrita, agregar un stroke más visible
       strokeColor = colorTexto;
-      strokeWidth = isMonospace ? 1.0 : 0.6; // Aumentar para mejor visibilidad
+      strokeWidth = isMonospace ? 1.0 : 0.6; 
     }
     
     return {
@@ -95,12 +82,9 @@ export default function TextPanel({ setElements, widgetValidation }) {
       shadowBlur: sombra ? 4 : 0,
       shadowOffsetX: sombra ? 2 : 0,
       shadowOffsetY: sombra ? 2 : 0,
-      // Agregar color de fondo para el canvas
       backgroundColor: colorFondo !== "transparent" ? colorFondo : undefined,
     };
   };
-
-  // Función para obtener estilos CSS (para preview)
   const obtenerEstiloCSS = () => ({
     fontSize: `${tamanoFuente}px`,
     color: colorTexto,
@@ -167,212 +151,225 @@ export default function TextPanel({ setElements, widgetValidation }) {
   };
 
   return (<div className="flex flex-col h-full w-full overflow-hidden">
-      {/* Header Compacto */}
-      <div className="flex-shrink-0 text-center p-2 border-b bg-white">
-        <h3 className="text-sm font-semibold text-gray-800">
-          📝 Text Editor
-        </h3>
+      <div className="flex-shrink-0 border-b bg-gradient-to-b from-gray-50 to-white shadow-sm">
+        <div className="text-center pt-2.5 pb-1.5">
+          <h3 className="text-sm font-bold text-gray-800">
+            📝 Text Editor
+          </h3>
+        </div>
+        
+        <div className="px-2 pb-2">
+          <div className="bg-gray-100 rounded-lg p-1 flex gap-1">
+            <button
+              className={`flex-1 py-1.5 px-2 rounded-md text-xs font-semibold transition-all text-center ${
+                modoEditor === "personalizado" 
+                  ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md" 
+                  : "text-gray-600 hover:bg-gray-200"
+              }`}
+              onClick={() => setModoEditor("personalizado")}
+              title="Advanced editor"
+            >
+              ✏️ Editor
+            </button>
+            <button
+              className={`flex-1 py-1.5 px-2 rounded-md text-xs font-semibold transition-all text-center ${
+                modoEditor === "plantillas" 
+                  ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md" 
+                  : "text-gray-600 hover:bg-gray-200"
+              }`}
+              onClick={() => setModoEditor("plantillas")}
+              title="Templates"
+            >
+              📋 Templates
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Selector de Modo - Posición Equitativa */}
-      <div className="flex-shrink-0 bg-gray-100 rounded-lg p-1 mx-2 mb-2 grid grid-cols-2 gap-1">
-        <button
-          className={`py-1 px-2 rounded text-xs font-medium transition-all text-center ${
-            modoEditor === "personalizado" 
-              ? "bg-white text-blue-600 shadow-sm" 
-              : "text-gray-600"
-          }`}
-          onClick={() => setModoEditor("personalizado")}
-          title="Advanced editor with all customization options"
-        >
-          ✏️ Editor
-        </button>
-        <button
-          className={`py-1 px-2 rounded text-xs font-medium transition-all text-center ${
-            modoEditor === "plantillas" 
-              ? "bg-white text-blue-600 shadow-sm" 
-              : "text-gray-600"
-          }`}
-          onClick={() => setModoEditor("plantillas")}
-          title="Predefined templates for quick use"
-        >
-          📋 Templates
-        </button>
-      </div>
-
-      {/* Contenido Principal - Scrollable que ocupa todo el espacio */}
-      <div className="flex-1 overflow-y-auto px-2 pb-2 h-0">
+      <div className="flex-1 overflow-y-auto px-2 pb-1 h-0">
         {modoEditor === "personalizado" ? (
-          <div className="space-y-2 h-full">
-            {/* Campo de Texto Compacto */}
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                Text ({textoPersonalizado.length}):
+          <div className="space-y-1.5">
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-2 border border-blue-200">
+              <label className="block text-xs font-semibold text-blue-900 mb-1 flex items-center justify-between">
+                <span>✍️ Your Text</span>
+                <span className="text-blue-600 bg-white px-1.5 py-0.5 rounded text-xs">{textoPersonalizado.length}</span>
               </label>
               <textarea
                 value={textoPersonalizado}
                 onChange={(e) => setTextoPersonalizado(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded text-xs resize-none"
+                className="w-full p-2 border-2 border-blue-200 rounded-md text-xs resize-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 bg-white"
                 rows="2"
-                placeholder="Type here..."
+                placeholder="Type your creative text here..."
               />
             </div>
 
-            {/* Fuente y Tamaño - Grid Compacto */}
-            <div className="grid grid-cols-1 gap-2">
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Font Category:
-                </label>
-                <select
-                  value={categoriaFuenteSeleccionada}
-                  onChange={(e) => setCategoriaFuenteSeleccionada(e.target.value)}
-                  className="w-full p-1 border border-gray-300 rounded text-xs mb-1"
-                >
-                  {categoriasFuentes.map((categoria) => (
-                    <option key={categoria} value={categoria}>
-                      {categoria} {categoria !== "All" && `(${FUENTES_DISPONIBLES.filter(f => f.categoria === categoria).length})`}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Font ({fuentesFiltradas.length}):
+            <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-lg p-2 border border-green-200">
+              <div className="text-xs font-semibold text-green-900 mb-1.5">🔤 Font</div>
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <label className="block text-xs font-medium text-green-800 mb-1">
+                    Category:
                   </label>
                   <select
-                    value={fuenteSeleccionada}
-                    onChange={(e) => setFuenteSeleccionada(e.target.value)}
-                    className="w-full p-1 border border-gray-300 rounded text-xs"
+                    value={categoriaFuenteSeleccionada}
+                    onChange={(e) => setCategoriaFuenteSeleccionada(e.target.value)}
+                    className="w-full p-1.5 border-2 border-green-200 rounded-md text-xs focus:border-green-400 focus:ring-2 focus:ring-green-100 bg-white"
                   >
-                    {fuentesFiltradas.map((fuente) => (
-                      <option key={fuente.value} value={fuente.value} style={{fontFamily: fuente.value}}>
-                        {fuente.name}
+                    {categoriasFuentes.map((categoria) => (
+                      <option key={categoria} value={categoria}>
+                        {categoria}
                       </option>
                     ))}
                   </select>
                 </div>
                 
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Size: {tamanoFuente}px
+                <div className="flex-1">
+                  <label className="block text-xs font-medium text-green-800 mb-1">
+                    Style ({fuentesFiltradas.length}):
                   </label>
+                  <select
+                    value={fuenteSeleccionada}
+                    onChange={(e) => setFuenteSeleccionada(e.target.value)}
+                    className="w-full p-1.5 border-2 border-green-200 rounded-md text-xs focus:border-green-400 focus:ring-2 focus:ring-green-100 bg-white"
+                    style={{ fontFamily: fuenteSeleccionada }}
+                  >
+                    {fuentesFiltradas.map((fuente) => (
+                      <option key={fuente.value} value={fuente.value} style={{ fontFamily: fuente.value }}>
+                        {fuente.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-br from-cyan-50 to-sky-50 rounded-lg p-2 border border-cyan-200">
+              <label className="flex items-center justify-between text-xs font-semibold text-cyan-900 mb-1.5">
+                <span>📏 Size</span>
+                <span className="text-cyan-600 bg-white px-2 py-0.5 rounded text-xs">{tamanoFuente}px</span>
+              </label>
+              <input
+                type="range"
+                min="8"
+                max="100"
+                value={tamanoFuente}
+                onChange={(e) => setTamanoFuente(parseInt(e.target.value))}
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #0891b2 0%, #0891b2 ${((tamanoFuente - 8) / (100 - 8)) * 100}%, #e0e7ff ${((tamanoFuente - 8) / (100 - 8)) * 100}%, #e0e7ff 100%)`
+                }}
+              />
+            </div>
+            
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-2 border border-purple-200">
+              <label className="block text-xs font-semibold text-purple-900 mb-1.5">
+                ✨ Style
+              </label>
+              <div className="flex gap-1.5">
+                <button
+                  className={`flex-1 py-1.5 text-sm border-2 rounded-md font-bold transition-all ${
+                    estiloTexto.includes("bold") 
+                      ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white border-blue-600 shadow-md" 
+                      : "bg-white text-gray-700 border-gray-300 hover:border-blue-300 hover:bg-blue-50"
+                  }`}
+                  onClick={() => setEstiloTexto(estiloTexto.includes("bold") ? estiloTexto.replace("bold", "").trim() || "normal" : `${estiloTexto} bold`.trim())}
+                >
+                  B
+                </button>
+                <button
+                  className={`flex-1 py-1.5 text-sm border-2 rounded-md italic transition-all ${
+                    estiloTexto.includes("italic") 
+                      ? "bg-gradient-to-br from-purple-500 to-purple-600 text-white border-purple-600 shadow-md" 
+                      : "bg-white text-gray-700 border-gray-300 hover:border-purple-300 hover:bg-purple-50"
+                  }`}
+                  onClick={() => setEstiloTexto(estiloTexto.includes("italic") ? estiloTexto.replace("italic", "").trim() || "normal" : `${estiloTexto} italic`.trim())}
+                >
+                  I
+                </button>
+                <button
+                  className={`flex-1 py-1.5 text-sm border-2 rounded-md transition-all ${
+                    sombra 
+                      ? "bg-gradient-to-br from-gray-600 to-gray-700 text-white border-gray-700 shadow-md" 
+                      : "bg-white text-gray-700 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
+                  }`}
+                  onClick={() => setSombra(!sombra)}
+                >
+                  🌫️
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-2 border border-orange-200">
+              <div className="text-xs font-semibold text-orange-900 mb-1.5">🎨 Colors</div>
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <label className="block text-xs font-medium text-orange-800 mb-1">
+                    Text:
+                  </label>
+                  <div className="flex gap-1 mb-1">
+                    {COLORES_PREDEFINIDOS.slice(0, 3).map((color) => (
+                      <button
+                        key={color}
+                        className={`w-5 h-5 rounded-md border-2 transition-all ${
+                          colorTexto === color ? "border-gray-800 scale-110 shadow-md" : "border-gray-300 hover:border-gray-400"
+                        }`}
+                        style={{ backgroundColor: color }}
+                        onClick={() => setColorTexto(color)}
+                      />
+                    ))}
+                  </div>
                   <input
-                    type="range"
-                    min="8"
-                    max="100"
-                    value={tamanoFuente}
-                    onChange={(e) => setTamanoFuente(parseInt(e.target.value))}
-                    className="w-full h-2"
+                    type="color"
+                    value={colorTexto}
+                    onChange={(e) => setColorTexto(e.target.value)}
+                    className="w-full h-7 border-2 border-gray-300 rounded-md cursor-pointer"
+                  />
+                </div>
+
+                <div className="flex-1">
+                  <label className="block text-xs font-medium text-orange-800 mb-1">
+                    Background:
+                  </label>
+                  <div className="flex gap-1 mb-1">
+                    <button
+                      className={`w-5 h-5 rounded-md border-2 transition-all ${
+                        colorFondo === "transparent" ? "border-gray-800 scale-110 shadow-md" : "border-gray-300 hover:border-gray-400"
+                      }`}
+                      style={{ 
+                        background: "linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%), linear-gradient(45deg, #ccc 25%, white 25%, white 75%, #ccc 75%)",
+                        backgroundSize: "6px 6px",
+                        backgroundPosition: "0 0, 3px 3px"
+                      }}
+                      onClick={() => setColorFondo("transparent")}
+                    />
+                    {COLORES_PREDEFINIDOS.slice(0, 2).map((color) => (
+                      <button
+                        key={color}
+                        className={`w-5 h-5 rounded-md border-2 transition-all ${
+                          colorFondo === color ? "border-gray-800 scale-110 shadow-md" : "border-gray-300 hover:border-gray-400"
+                        }`}
+                        style={{ backgroundColor: color }}
+                        onClick={() => setColorFondo(color)}
+                      />
+                    ))}
+                  </div>
+                  <input
+                    type="color"
+                    value={colorFondo === "transparent" ? "#ffffff" : colorFondo}
+                    onChange={(e) => setColorFondo(e.target.value)}
+                    className="w-full h-7 border-2 border-gray-300 rounded-md cursor-pointer"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Estilo y Alineación - Compacto */}
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Style:
-                </label>
-                <div className="flex gap-1">
-                  <button
-                    className={`flex-1 px-1 py-1 text-xs border rounded ${
-                      estiloTexto.includes("bold") 
-                        ? "bg-blue-500 text-white" 
-                        : "bg-white text-gray-700"
-                    }`}
-                    onClick={() => setEstiloTexto(estiloTexto.includes("bold") ? estiloTexto.replace("bold", "").trim() || "normal" : `${estiloTexto} bold`.trim())}
-                    title="Toggle bold text"
-                  >
-                    <strong>B</strong>
-                  </button>
-                  <button
-                    className={`flex-1 px-1 py-1 text-xs border rounded ${
-                      estiloTexto.includes("italic") 
-                        ? "bg-blue-500 text-white" 
-                        : "bg-white text-gray-700"
-                    }`}
-                    onClick={() => setEstiloTexto(estiloTexto.includes("italic") ? estiloTexto.replace("italic", "").trim() || "normal" : `${estiloTexto} italic`.trim())}
-                    title="Toggle italic text"
-                  >
-                    <em>I</em>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Colores - Más Compacto */}
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Text Color:
-                </label>
-                <div className="flex gap-1 mb-1">
-                  {COLORES_PREDEFINIDOS.slice(0, 4).map((color) => (
-                    <button
-                      key={color}
-                      className={`w-4 h-4 rounded border ${
-                        colorTexto === color ? "border-gray-800 border-2" : "border-gray-300"
-                      }`}
-                      style={{ backgroundColor: color }}
-                      onClick={() => setColorTexto(color)}
-                      title={`Apply ${color} color to text`}
-                    />
-                  ))}
-                </div>
-                <input
-                  type="color"
-                  value={colorTexto}
-                  onChange={(e) => setColorTexto(e.target.value)}
-                  className="w-full h-6 border rounded"
-                  title="Custom color picker for text"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Background:
-                </label>
-                <div className="flex gap-1 mb-1">
-                  <button
-                    className={`w-4 h-4 rounded border ${
-                      colorFondo === "transparent" ? "border-gray-800 border-2" : "border-gray-300"
-                    }`}
-                    style={{ background: "linear-gradient(45deg, #ccc 25%, transparent 25%)" }}
-                    onClick={() => setColorFondo("transparent")}
-                    title="No background color (transparent)"
-                  />
-                  {COLORES_PREDEFINIDOS.slice(0, 3).map((color) => (
-                    <button
-                      key={color}
-                      className={`w-4 h-4 rounded border ${
-                        colorFondo === color ? "border-gray-800 border-2" : "border-gray-300"
-                      }`}
-                      style={{ backgroundColor: color }}
-                      onClick={() => setColorFondo(color)}
-                      title={`Apply ${color} as text background`}
-                    />
-                  ))}
-                </div>
-                <input
-                  type="color"
-                  value={colorFondo === "transparent" ? "#ffffff" : colorFondo}
-                  onChange={(e) => setColorFondo(e.target.value)}
-                  className="w-full h-6 border rounded"
-                  title="Custom color picker for text background"
-                />
-              </div>
-            </div>
-
-            {/* Controles Avanzados - Más Compactos */}
-            <div>
-              <div className="grid grid-cols-2 gap-2 mb-2">
+            <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-lg p-2 border border-indigo-200">
+              <div className="text-xs font-semibold text-indigo-900 mb-1.5">🎛️ Controls</div>
+              <div className="space-y-2">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Line Spacing: {espaciadoLinea}
+                  <label className="flex items-center justify-between text-xs font-medium text-indigo-800 mb-1">
+                    <span>Line Spacing</span>
+                    <span className="text-indigo-600 bg-white px-1.5 py-0.5 rounded text-xs">{espaciadoLinea}</span>
                   </label>
                   <input
                     type="range"
@@ -381,14 +378,17 @@ export default function TextPanel({ setElements, widgetValidation }) {
                     step="0.1"
                     value={espaciadoLinea}
                     onChange={(e) => setEspaciadoLinea(parseFloat(e.target.value))}
-                    className="w-full h-2"
-                    title="Adjust line spacing of text"
+                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                    style={{
+                      background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${((espaciadoLinea - 0.5) / (3 - 0.5)) * 100}%, #e0e7ff ${((espaciadoLinea - 0.5) / (3 - 0.5)) * 100}%, #e0e7ff 100%)`
+                    }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Opacity: {opacidad}%
+                  <label className="flex items-center justify-between text-xs font-medium text-indigo-800 mb-1">
+                    <span>Opacity</span>
+                    <span className="text-indigo-600 bg-white px-1.5 py-0.5 rounded text-xs">{opacidad}%</span>
                   </label>
                   <input
                     type="range"
@@ -396,85 +396,73 @@ export default function TextPanel({ setElements, widgetValidation }) {
                     max="100"
                     value={opacidad}
                     onChange={(e) => setOpacidad(parseInt(e.target.value))}
-                    className="w-full h-2"
-                    title="Adjust text transparency (100% = opaque, 10% = very transparent)"
+                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                    style={{
+                      background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${((opacidad - 10) / (100 - 10)) * 100}%, #e0e7ff ${((opacidad - 10) / (100 - 10)) * 100}%, #e0e7ff 100%)`
+                    }}
+                  />
+                </div>
+                
+                <div>
+                  <label className="flex items-center justify-between text-xs font-medium text-indigo-800 mb-1">
+                    <span>Rotation</span>
+                    <span className="text-indigo-600 bg-white px-1.5 py-0.5 rounded text-xs">{rotacion}°</span>
+                  </label>
+                  <input
+                    type="range"
+                    min="-180"
+                    max="180"
+                    value={rotacion}
+                    onChange={(e) => setRotacion(parseInt(e.target.value))}
+                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                    style={{
+                      background: `linear-gradient(to right, #a78bfa 0%, #a78bfa ${((rotacion + 180) / 360) * 100}%, #e0e7ff ${((rotacion + 180) / 360) * 100}%, #e0e7ff 100%)`
+                    }}
                   />
                 </div>
               </div>
-
-              {/* Efectos */}
-              <div className="flex items-center gap-3 mb-2">
-                <label className="flex items-center text-xs">
-                  <input
-                    type="checkbox"
-                    checked={sombra}
-                    onChange={(e) => setSombra(e.target.checked)}
-                    className="mr-1"
-                    title="Add shadow to text for depth"
-                  />
-                  🌫️ Shadow
-                </label>
-              </div>
-
-              {/* Rotación */}
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Rotation: {rotacion}°
-                </label>
-                <input
-                  type="range"
-                  min="-180"
-                  max="180"
-                  value={rotacion}
-                  onChange={(e) => setRotacion(parseInt(e.target.value))}
-                  className="w-full h-2"
-                  title="Rotate text in degrees (-180° to 180°). Useful for creative titles"
-                />
-              </div>
             </div>
 
-            {/* Vista Previa Compacta */}
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="block text-xs font-medium text-gray-700">
-                  Preview:
+            <div className="bg-gradient-to-br from-gray-50 to-slate-100 rounded-lg p-2 border border-gray-300">
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-xs font-semibold text-gray-800">
+                  👁️ Preview
                 </label>
                 <button
                   onClick={resetearEstilos}
-                  className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 rounded border transition-colors"
-                  title="Reset all styles to default values"
+                  className="px-2 py-1 text-xs bg-gradient-to-r from-red-50 to-orange-50 hover:from-red-100 hover:to-orange-100 text-gray-700 rounded-md border-2 border-gray-300 hover:border-orange-300 transition-all font-medium"
+                  title="Reset all styles"
                 >
-                  🔄
+                  🔄 Reset
                 </button>
               </div>
-              <div className="p-2 border border-gray-300 rounded bg-gray-50 min-h-[40px] flex items-center justify-center overflow-hidden">
+              <div className="p-3 border-2 border-dashed border-gray-400 rounded-md bg-white min-h-[35px] flex items-center justify-center">
                 <span
                   style={{
                     ...obtenerEstiloCSS(),
-                    fontSize: Math.min(tamanoFuente, 14), // Limitar tamaño en preview
-                    padding: colorFondo !== "transparent" ? "2px 4px" : "0",
-                    borderRadius: colorFondo !== "transparent" ? "2px" : "0",
+                    fontSize: Math.min(tamanoFuente, 16),
+                    padding: colorFondo !== "transparent" ? "3px 6px" : "0",
+                    borderRadius: colorFondo !== "transparent" ? "4px" : "0",
                     display: "inline-block",
                     maxWidth: "100%",
                   }}
                 >
-                  {textoPersonalizado.length > 20 ? textoPersonalizado.substring(0, 20) + "..." : textoPersonalizado || "Preview"}
+                  {textoPersonalizado.substring(0, 20) || "Preview"}
                 </span>
               </div>
             </div>
           </div>
         ) : (
           <div className="space-y-3 h-full overflow-y-auto">
-            {/* Selector de Categoría de Plantillas */}
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-2">
                 Thematic Categories:
               </label>
-              <div className="grid grid-cols-2 gap-1">
+              <div className="flex flex-wrap gap-1">
                 {Object.keys(PLANTILLAS_TEXTO).map((categoria) => (
                   <button
                     key={categoria}
-                    className={`px-2 py-1 text-xs rounded transition-all ${
+                    className={`flex-1 min-w-[calc(50%-0.25rem)] px-2 py-1 text-xs rounded transition-all ${
                       categoriaPlantillaSeleccionada === categoria
                         ? "bg-blue-500 text-white shadow-sm"
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -488,7 +476,6 @@ export default function TextPanel({ setElements, widgetValidation }) {
               </div>
             </div>
             
-            {/* Plantillas de la Categoría Seleccionada */}
             <div className="space-y-2">
               <h4 className="text-xs font-medium text-gray-700 border-b pb-1 flex items-center">
                 <span className="mr-1">{categoriaPlantillaSeleccionada}</span>
@@ -516,29 +503,27 @@ export default function TextPanel({ setElements, widgetValidation }) {
                     </div>
                   </div>
                   
-                  {/* Vista Previa Mejorada */}
                   <div 
                     style={{
                       fontFamily: plantilla.config.fontFamily,
-                      fontSize: Math.min(plantilla.config.fontSize * 0.6, 18), // Aumentado de 0.4 a 0.6 y máximo de 18px
+                      fontSize: Math.min(plantilla.config.fontSize * 0.6, 18),
                       color: plantilla.config.fill,
                       fontWeight: plantilla.config.fontWeight || "normal",
                       fontStyle: plantilla.config.fontStyle || "normal",
                       backgroundColor: plantilla.config.backgroundColor || "transparent",
-                      padding: plantilla.config.backgroundColor ? "6px 10px" : "2px 0", // Más padding
+                      padding: plantilla.config.backgroundColor ? "6px 10px" : "2px 0",
                       borderRadius: plantilla.config.backgroundColor ? "6px" : "0",
                       textShadow: plantilla.config.shadowColor ? `${plantilla.config.shadowOffsetX || 1}px ${plantilla.config.shadowOffsetY || 1}px ${plantilla.config.shadowBlur || 2}px ${plantilla.config.shadowColor}` : "none",
                       transform: plantilla.config.rotation ? `rotate(${plantilla.config.rotation}deg)` : "none",
                       display: "inline-block",
                       maxWidth: "100%",
-                      lineHeight: "1.4" // Mejor espaciado entre líneas
+                      lineHeight: "1.4"
                     }}
-                    className="text-base leading-relaxed" // Cambiado de text-sm a text-base
+                    className="text-base leading-relaxed"
                   >
                     {plantilla.preview}
                   </div>
                   
-                  {/* Indicadores de Efectos */}
                   <div className="flex flex-wrap gap-1 mt-2">
                     {plantilla.config.fontWeight === "bold" && (
                       <span className="text-xs bg-yellow-100 text-yellow-800 px-1 py-0.5 rounded">Bold</span>
@@ -563,7 +548,6 @@ export default function TextPanel({ setElements, widgetValidation }) {
         )}
       </div>
 
-      {/* Tip Section - Appears in empty space */}
       <div className="flex-shrink-0 px-3 py-2 bg-blue-50 border-t border-blue-100">
         <div className="flex items-center space-x-2">
           <span className="text-blue-500">💡</span>
@@ -573,7 +557,6 @@ export default function TextPanel({ setElements, widgetValidation }) {
         </div>
       </div>
 
-      {/* Botón Agregar - Fijo en la parte inferior ocupando todo el ancho */}
       <div className="flex-shrink-0 p-2 border-t bg-white w-full">
         <Button 
           onClick={handleAgregarTextoPersonalizado}
