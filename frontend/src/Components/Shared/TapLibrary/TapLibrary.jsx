@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import BookBuilderStepper from "../BookBuilder/BookBuilderStepper";
 
 function TapLibrary({ toggleSidebar, newBooks }) {
-  const [key, setKey] = useState("mylibrary");
+  const [key, setKey] = useState("private");
   const user = useSelector((state) => state.user);
   const [publishedBooks, setPublishedBooks] = useState([]);
   const [privateBooks, setPrivateBooks] = useState([]);
@@ -70,7 +70,7 @@ function TapLibrary({ toggleSidebar, newBooks }) {
 
   // Refresca la lista de libros privados y cambia la pestaña
   const handleBookCreated = () => {
-    setKey("mylibrary");
+    setKey("private");
     fetchData();
   };
 
@@ -84,7 +84,7 @@ function TapLibrary({ toggleSidebar, newBooks }) {
           setShowBookBuilder(false); // Siempre ocultar modal, ya no se usa
         }}
       >
-        <Tab eventKey="mylibrary" title="My library" className="tab">
+        <Tab eventKey="private" title="Private" className="tab">
           <div className="section_library_Tap shadow p-3 bg-body rounded">
             {renderBooks(privateBooks)}
           </div>
