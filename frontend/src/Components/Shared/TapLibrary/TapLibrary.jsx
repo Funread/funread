@@ -3,6 +3,7 @@ import BookCard from "../BookCard/BookCard";
 import "./TapLibrary.sass";
 import { Tabs, Tab } from "react-bootstrap";
 import { listed_PrivateBooks, listed_PublishedBooks } from "../../../api/books";
+import { getBookCategoryDimensionDilemmas } from "../../../api/bookDilemma";
 import Message from "../CustomMessage/CustomMessage";
 import { useSelector } from "react-redux";
 import BookBuilderStepper from "../BookBuilder/BookBuilderStepper";
@@ -14,6 +15,7 @@ function TapLibrary({ toggleSidebar, newBooks }) {
   const [privateBooks, setPrivateBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showBookBuilder, setShowBookBuilder] = useState(false);
+  const [bookDimensionsData, setBookDimensionsData] = useState({});
 
   // Muevo fetchData aquí para que esté disponible en todo el componente
   const fetchData = async () => {
@@ -29,11 +31,47 @@ function TapLibrary({ toggleSidebar, newBooks }) {
 
       setPublishedBooks(publishedResponse.data);
       setPrivateBooks(filteredBooks);
+
+      // Cargar dimensiones y dilemas para todos los libros
+      await loadBooksMetadata([...publishedResponse.data, ...filteredBooks]);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Función para cargar dimensiones y dilemas de los libros
+  const loadBooksMetadata = async (books) => {
+    const metadataPromises = books.map(async (book) => {
+      try {
+        const bookId = book.bookid;
+        if (!bookId) return null;
+        
+        const response = await getBookCategoryDimensionDilemmas(bookId);
+        if (response.data) {
+          return {
+            bookId,
+            data: response.data
+          };
+        }
+      } catch (error) {
+        console.error(`Error loading metadata for book ${book.bookid}:`, error);
+        return null;
+      }
+    });
+
+    const results = await Promise.all(metadataPromises);
+    
+    // Crear un mapa de bookId -> metadata
+    const metadataMap = {};
+    results.forEach((result) => {
+      if (result) {
+        metadataMap[result.bookId] = result.data;
+      }
+    });
+    
+    setBookDimensionsData(metadataMap);
   };
 
   useEffect(() => {
@@ -50,21 +88,38 @@ function TapLibrary({ toggleSidebar, newBooks }) {
     }
 
     return books.map(
-      ({ bookid, portrait, title, category, author, description }, index) => (
-        <div key={index} className="section_item_Tap">
-          <BookCard
-            key={index}
-            id={bookid}
-            portrait={portrait}
-            title={title}
-            category={category}
-            author={author}
-            description={description}
-            color={"#D0F4DE"}
-            toggleSidebar={toggleSidebar}
-          />
-        </div>
-      )
+      ({ bookid, portrait, title, category, author, description }, index) => {
+        // Obtener metadata del libro
+        const metadata = bookDimensionsData[bookid] || {};
+        
+        // Extraer nombres de dimensiones
+        const dimensionNames = metadata.dimensions 
+          ? metadata.dimensions.map(dim => dim.name)
+          : [];
+        
+        // Extraer nombres de dilemas
+        const dilemmaNames = metadata.dilemmas
+          ? metadata.dilemmas.map(dil => dil.dilemma)
+          : [];
+
+        return (
+          <div key={index} className="section_item_Tap">
+            <BookCard
+              key={index}
+              id={bookid}
+              portrait={portrait}
+              title={title}
+              category={category}
+              author={author}
+              description={description}
+              color={"#D0F4DE"}
+              toggleSidebar={toggleSidebar}
+              dimensionNames={dimensionNames}
+              dilemmaNames={dilemmaNames}
+            />
+          </div>
+        );
+      }
     );
   };
 
