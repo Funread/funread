@@ -93,44 +93,44 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
   return (
     <>
       <div
-        className="book-card-wrapper"
+        className="mybook-classes-card-wrapper"
         onClick={handleCardClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="book-glow-wrapper">
-          <div className={`book-glow bg-gradient-to-br ${bookColor}`}></div>
+        <div className="mybook-classes-glow-wrapper">
+          <div className={`mybook-classes-glow bg-gradient-to-br ${bookColor}`}></div>
 
-          <div className="book-card-container">
-            <div className={`book-spine bg-gradient-to-r ${bookColor}`}></div>
+          <div className="mybook-classes-card-container">
+            <div className={`mybook-classes-spine bg-gradient-to-r ${bookColor}`}></div>
 
-            <div className={`book-cover-3d style-${displayStyle}`}>
-              <div className={`book-background bg-gradient-to-br ${bookColor}`}>
-                <div className="background-pattern"></div>
+            <div className={`mybook-classes-cover-3d mybook-classes-style-${displayStyle}`}>
+              <div className={`mybook-classes-background bg-gradient-to-br ${bookColor}`}>
+                <div className="mybook-classes-background-pattern"></div>
               </div>
 
-              <div className={`book-image-container ${hasImage ? "has-image" : ""}`}>
+              <div className={`mybook-classes-image-container ${hasImage ? "has-image" : ""}`}>
                 {hasImage && (
                   <img
                     src={coverUrl || "/placeholder.svg"}
                     alt={book.title || "Libro"}
                     onError={() => setImageError(true)}
-                    className="book-cover-img"
+                    className="mybook-classes-cover-img"
                   />
                 )}
               </div>
 
               {!hasImage && (
-                <div className="no-image-icon">
+                <div className="mybook-classes-no-image-icon">
                   <Sparkles size={48} color="white" strokeWidth={2} />
                 </div>
               )}
 
-              <div className="book-shine"></div>
-              <div className="book-corner-fold"></div>
+              <div className="mybook-classes-shine"></div>
+              <div className="mybook-classes-corner-fold"></div>
 
               {isHovered && (
-                <div className="book-sparkles">
+                <div className="mybook-classes-sparkles">
                   <Star className="sparkle sparkle-1" size={16} fill="gold" color="gold" />
                   <Star className="sparkle sparkle-2" size={12} fill="yellow" color="yellow" />
                   <Star className="sparkle sparkle-3" size={14} fill="gold" color="gold" />
@@ -140,60 +140,60 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
           </div>
         </div>
 
-        <div className="book-title-container">
-          <div className="title-badge">
-            <h3 className="book-title">{book.title || book.name || "Libro sin título"}</h3>
+        <div className="mybook-classes-title-container">
+          <div className="mybook-classes-title-badge">
+            <h3 className="mybook-classes-book-title">{book.title || book.name || "Libro sin título"}</h3>
           </div>
-          {displayAuthorName && <p className="book-author"> {displayAuthorName}</p>}
+          {displayAuthorName && <p className="mybook-classes-book-author"> {displayAuthorName}</p>}
         </div>
       </div>
 
       {isOpen && (
-        <div className="book-modal-overlay" onClick={handleClose}>
-          <div className="book-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-button" onClick={handleClose}>
+        <div className="mybook-classes-modal-overlay" onClick={handleClose}>
+          <div className="mybook-classes-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="mybook-classes-close-button" onClick={handleClose}>
               <X size={32} />
             </button>
 
-            <div className="modal-book-container">
-              <div className="opened-book">
-                <div className="book-page left-page">
-                  <div className="page-content">
-                    <h2 className="modal-book-title">{book.title || book.name || "Libro sin título"}</h2>
-                    {displayAuthorName && <p className="modal-book-author">By: {displayAuthorName}</p>}
+            <div className="mybook-classes-modal-book-container">
+              <div className="mybook-classes-opened-book">
+                <div className="mybook-classes-book-page mybook-classes-left-page">
+                  <div className="mybook-classes-page-content">
+                    <h2 className="mybook-classes-modal-book-title">{book.title || book.name || "Libro sin título"}</h2>
+                    {displayAuthorName && <p className="mybook-classes-modal-book-author">By: {displayAuthorName}</p>}
                     
                     {/* Información de categoría y dimensiones */}
                     {loadingDimensions ? (
-                      <div className="book-dimensions-loading">
-                        <Sparkles size={32} className="loading-spinner" />
+                      <div className="mybook-classes-book-dimensions-loading">
+                        <Sparkles size={32} className="mybook-classes-loading-spinner" />
                       </div>
                     ) : bookDimensions && (
-                      <div className="book-dimensions-info">
+                      <div className="mybook-classes-book-dimensions-info">
                         {bookDimensions.category && (
-                          <div className="dimension-item category-item">
-                            <div className="dimension-icon">
+                          <div className="mybook-classes-dimension-item mybook-classes-category-item">
+                            <div className="mybook-classes-dimension-icon">
                               <BookOpen size={18} />
                             </div>
-                            <div className="dimension-content">
-                              <span className="dimension-label">Category:</span>
-                              <span className="dimension-value">{bookDimensions.category}</span>
+                            <div className="mybook-classes-dimension-content">
+                              <span className="mybook-classes-dimension-label">Category:</span>
+                              <span className="mybook-classes-dimension-value">{bookDimensions.category}</span>
                             </div>
                           </div>
                         )}
                         
                         {bookDimensions.dimensions && bookDimensions.dimensions.length > 0 && (
-                          <div className="dimensions-list">
-                            <div className="dimensions-header">
-                              <Lightbulb size={16} className="lightbulb-icon" />
-                              <span className="dimensions-title">Learning Dimensions:</span>
+                          <div className="mybook-classes-dimensions-list">
+                            <div className="mybook-classes-dimensions-header">
+                              <Lightbulb size={16} className="mybook-classes-lightbulb-icon" />
+                              <span className="mybook-classes-dimensions-title">Learning Dimensions:</span>
                             </div>
                             {bookDimensions.dimensions.map((dimension, index) => (
-                              <div key={index} className="dimension-item">
-                                <div className="dimension-badge">{index + 1}</div>
-                                <div className="dimension-content">
-                                  <span className="dimension-name">{dimension.name || dimension.dimension}</span>
+                              <div key={index} className="mybook-classes-dimension-item">
+                                <div className="mybook-classes-dimension-badge">{index + 1}</div>
+                                <div className="mybook-classes-dimension-content">
+                                  <span className="mybook-classes-dimension-name">{dimension.name || dimension.dimension}</span>
                                   {dimension.description && (
-                                    <p className="dimension-description">{dimension.description}</p>
+                                    <p className="mybook-classes-dimension-description">{dimension.description}</p>
                                   )}
                                 </div>
                               </div>
@@ -203,18 +203,18 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
                       </div>
                     )}
                     
-                    <div className="book-details">
-                      <div className="detail-item">
-                        <Book size={20} className="detail-icon" />
+                    <div className="mybook-classes-book-details">
+                      <div className="mybook-classes-detail-item">
+                        <Book size={20} className="mybook-classes-detail-icon" />
                         <p>Ready to read!</p>
                       </div>
-                      <div className="detail-item">
-                        <Wand2 size={20} className="detail-icon" />
+                      <div className="mybook-classes-detail-item">
+                        <Wand2 size={20} className="mybook-classes-detail-icon" />
                         <p>Click the button to start the adventure.</p>
                       </div>
                     </div>
-                    <button onClick={handleReadBook} className="read-book-button">Start Reading</button>
-                    <div className="decorative-stars">
+                    <button onClick={handleReadBook} className="mybook-classes-read-book-button">Start Reading</button>
+                    <div className="mybook-classes-decorative-stars">
                       <Star size={20} fill="gold" color="gold" />
                       <Star size={16} fill="gold" color="gold" />
                       <Star size={18} fill="gold" color="gold" />
@@ -222,16 +222,16 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
                   </div>
                 </div>
 
-                <div className="book-page right-page">
-                  <div className="page-cover">
+                <div className="mybook-classes-book-page mybook-classes-right-page">
+                  <div className="mybook-classes-page-cover">
                     {hasImage ? (
                       <img
                         src={coverUrl || "/placeholder.svg"}
                         alt={book.title || "Libro"}
-                        className="modal-cover-img"
+                        className="mybook-classes-modal-cover-img"
                       />
                     ) : (
-                      <div className={`modal-placeholder bg-gradient-to-br ${bookColor}`}>
+                      <div className={`mybook-classes-modal-placeholder bg-gradient-to-br ${bookColor}`}>
                         <Sparkles size={80} color="white" strokeWidth={2} />
                       </div>
                     )}
@@ -240,11 +240,11 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
               </div>
             </div>
 
-            <div className="floating-sparkles">
-              <Sparkles className="float-sparkle float-1" size={24} color="gold" />
-              <Sparkles className="float-sparkle float-2" size={20} color="yellow" />
-              <Sparkles className="float-sparkle float-3" size={22} color="gold" />
-              <Sparkles className="float-sparkle float-4" size={18} color="yellow" />
+            <div className="mybook-classes-floating-sparkles">
+              <Sparkles className="mybook-classes-float-sparkle mybook-classes-float-1" size={24} color="gold" />
+              <Sparkles className="mybook-classes-float-sparkle mybook-classes-float-2" size={20} color="yellow" />
+              <Sparkles className="mybook-classes-float-sparkle mybook-classes-float-3" size={22} color="gold" />
+              <Sparkles className="mybook-classes-float-sparkle mybook-classes-float-4" size={18} color="yellow" />
             </div>
           </div>
         </div>

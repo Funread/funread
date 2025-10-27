@@ -1,18 +1,18 @@
-        .book-card-wrapper {
+        .mybook-classes-card-wrapper {
           cursor: pointer;
           transition: transform 0.4s ease;
         }
 
-        .book-card-wrapper:hover {
+        .mybook-classes-card-wrapper:hover {
           transform: translateY(-15px) scale(1.05);
           z-index: 10;
         }
 
-        .book-glow-wrapper {
+        .mybook-classes-glow-wrapper {
           position: relative;
         }
 
-        .book-glow {
+        .mybook-classes-glow {
           position: absolute;
           inset: -20px;
           border-radius: 20px;
@@ -22,11 +22,11 @@
           z-index: -1;
         }
 
-        .book-card-wrapper:hover .book-glow {
+        .mybook-classes-card-wrapper:hover .mybook-classes-glow {
           opacity: 0.8;
         }
 
-        .book-card-container {
+        .mybook-classes-card-container {
           position: relative;
           width: 220px;
           height: 270px;
@@ -34,7 +34,7 @@
           margin-bottom: 20px;
         }
 
-        .book-spine {
+        .mybook-classes-spine {
           position: absolute;
           left: -10px;
           top: 15px;
@@ -45,7 +45,7 @@
           box-shadow: -3px 0 10px rgba(0, 0, 0, 0.3);
         }
 
-        .book-cover-3d {
+        .mybook-classes-cover-3d {
           position: relative;
           width: 100%;
           height: 100%;
@@ -56,18 +56,18 @@
           overflow: hidden;
         }
 
-        .book-card-wrapper:hover .book-cover-3d {
+        .mybook-classes-card-wrapper:hover .mybook-classes-cover-3d {
           transform: rotateY(0deg) rotateX(0deg) scale(1.02);
           box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
         }
 
-        .book-background {
+        .mybook-classes-background {
           position: absolute;
           inset: 0;
           border-radius: 12px;
         }
 
-        .background-pattern {
+        .mybook-classes-background-pattern {
           position: absolute;
           inset: 0;
           background-image:
@@ -75,7 +75,7 @@
             radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
         }
 
-        .book-image-container {
+        .mybook-classes-image-container {
           position: absolute;
           inset: 0;
           display: flex;
@@ -84,19 +84,19 @@
           z-index: 5;
         }
 
-        .book-cover-img {
+        .mybook-classes-cover-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           object-position: center;
         }
 
-        .style-overlay .book-cover-img {
+        .mybook-classes-style-overlay .mybook-classes-cover-img {
           opacity: 0.85;
           mix-blend-mode: overlay;
         }
 
-        .style-cropped .book-image-container {
+        .mybook-classes-style-cropped .mybook-classes-image-container {
           inset: 15%;
           border-radius: 20px;
           overflow: hidden;
@@ -106,12 +106,12 @@
           z-index: 5;
         }
 
-        .style-cropped .book-cover-img {
+        .mybook-classes-style-cropped .mybook-classes-cover-img {
           opacity: 1;
           mix-blend-mode: normal;
         }
 
-        .style-framed .book-image-container {
+        .mybook-classes-style-framed .mybook-classes-image-container {
           inset: 25px;
           border-radius: 12px;
           overflow: hidden;
@@ -122,12 +122,12 @@
           z-index: 10;
         }
 
-        .style-framed .book-cover-img {
+        .mybook-classes-style-framed .mybook-classes-cover-img {
           opacity: 1;
           mix-blend-mode: normal;
         }
 
-        .no-image-icon {
+        .mybook-classes-no-image-icon {
           position: absolute;
           inset: 0;
           display: flex;
@@ -136,7 +136,7 @@
           z-index: 5;
         }
 
-        .book-shine {
+        .mybook-classes-shine {
           position: absolute;
           top: -100%;
           left: -100%;
@@ -148,11 +148,11 @@
           z-index: 10;
         }
 
-        .book-card-wrapper:hover .book-shine {
-          animation: shine 1.5s ease-in-out;
+        .mybook-classes-card-wrapper:hover .mybook-classes-shine {
+          animation: mybook-classes-shine 1.5s ease-in-out;
         }
 
-        @keyframes shine {
+        @keyframes mybook-classes-shine {
           0% {
             top: -100%;
             left: -100%;
@@ -164,11 +164,11 @@
           }
         }
 
-        .book-title-container {
+        .mybook-classes-title-container {
           text-align: center;
         }
 
-        .title-badge {
+        .mybook-classes-title-badge {
           background: white;
           padding: 12px 20px;
           border-radius: 20px;
@@ -176,7 +176,7 @@
           margin-bottom: 10px;
         }
 
-        .book-title {
+        .mybook-classes-book-title {
           font-size: 1.2rem;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           -webkit-background-clip: text;
@@ -185,14 +185,14 @@
           margin: 0;
         }
 
-        .book-author {
+        .mybook-classes-book-author {
           font-size: 1rem;
           color: rgba(5, 5, 5, 0.81);
           margin: 8px 0 0 0;
           font-weight: 600;
         }
 
-        .book-modal-overlay {
+        .mybook-classes-modal-overlay {
           position: fixed;
           inset: 0;
           background: rgba(0, 0, 0, 0.85);
@@ -204,13 +204,13 @@
           padding: 20px;
         }
 
-        .book-modal-content {
+        .mybook-classes-modal-content {
           position: relative;
           width: 100%;
           max-width: 1000px;
         }
 
-        .close-button {
+        .mybook-classes-close-button {
           position: absolute;
           top: -60px;
           right: 0;
@@ -227,22 +227,22 @@
           transition: all 0.3s ease;
         }
 
-        .close-button:hover {
+        .mybook-classes-close-button:hover {
           background: rgba(255, 255, 255, 0.3);
           transform: rotate(90deg) scale(1.1);
         }
 
-        .modal-book-container {
+        .mybook-classes-modal-book-container {
           perspective: 2000px;
         }
 
-        .opened-book {
+        .mybook-classes-opened-book {
           display: flex;
           width: 100%;
           height: 600px;
         }
 
-        .book-page {
+        .mybook-classes-book-page {
           flex: 1;
           background: white;
           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
@@ -250,16 +250,16 @@
           overflow: hidden;
         }
 
-        .left-page {
+        .mybook-classes-left-page {
           border-radius: 20px 0 0 20px;
           border-right: 2px dashed rgba(0, 0, 0, 0.1);
         }
 
-        .right-page {
+        .mybook-classes-right-page {
           border-radius: 0 20px 20px 0;
         }
 
-        .page-content {
+        .mybook-classes-page-content {
           padding: 60px 40px;
           height: 100%;
           display: flex;
@@ -269,7 +269,7 @@
           text-align: center;
         }
 
-        .modal-book-title {
+        .mybook-classes-modal-book-title {
           font-size: 2.5rem;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           -webkit-background-clip: text;
@@ -278,19 +278,19 @@
           margin: 0 0 20px 0;
         }
 
-        .modal-book-author {
+        .mybook-classes-modal-book-author {
           font-size: 1.3rem;
           color: #666;
           margin: 0 0 30px 0;
         }
 
-        .book-details p {
+        .mybook-classes-book-details p {
           font-size: 1.1rem;
           color: #888;
           margin: 0;
         }
 
-        .detail-item {
+        .mybook-classes-detail-item {
           display: flex;
           align-items: center;
           gap: 10px;
@@ -298,18 +298,18 @@
           justify-content: center;
         }
 
-        .detail-icon {
+        .mybook-classes-detail-icon {
           color: #667eea;
           flex-shrink: 0;
         }
 
-        .decorative-stars {
+        .mybook-classes-decorative-stars {
           display: flex;
           gap: 15px;
           margin-top: 40px;
         }
 
-        .page-cover {
+        .mybook-classes-page-cover {
           width: 100%;
           height: 100%;
           display: flex;
@@ -319,7 +319,7 @@
           background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
         }
 
-        .modal-cover-img {
+        .mybook-classes-modal-cover-img {
           max-width: 100%;
           max-height: 100%;
           object-fit: contain;
@@ -327,7 +327,7 @@
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .modal-placeholder {
+        .mybook-classes-modal-placeholder {
           width: 80%;
           height: 80%;
           display: flex;
@@ -336,41 +336,41 @@
           border-radius: 15px;
         }
 
-        .floating-sparkles {
+        .mybook-classes-floating-sparkles {
           position: absolute;
           inset: 0;
           pointer-events: none;
         }
 
-        .float-sparkle {
+        .mybook-classes-float-sparkle {
           position: absolute;
-          animation: floatSparkle 3s ease-in-out infinite;
+          animation: mybook-classes-floatSparkle 3s ease-in-out infinite;
         }
 
-        .float-1 {
+        .mybook-classes-float-1 {
           top: 10%;
           left: 10%;
         }
 
-        .float-2 {
+        .mybook-classes-float-2 {
           top: 20%;
           right: 15%;
           animation-delay: 0.5s;
         }
 
-        .float-3 {
+        .mybook-classes-float-3 {
           bottom: 15%;
           left: 15%;
           animation-delay: 1s;
         }
 
-        .float-4 {
+        .mybook-classes-float-4 {
           bottom: 20%;
           right: 10%;
           animation-delay: 1.5s;
         }
 
-        @keyframes floatSparkle {
+        @keyframes mybook-classes-floatSparkle {
 
           0%,
           100% {
@@ -384,7 +384,7 @@
           }
         }
 
-        .read-book-button {
+        .mybook-classes-read-book-button {
           margin-top: 20px;
           padding: 12px 24px;
           border-radius: 10px;
@@ -397,13 +397,13 @@
           box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .read-book-button:hover {
+        .mybook-classes-read-book-button:hover {
           transform: translateY(-3px);
           box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         /* Book Dimensions Styles */
-        .book-dimensions-loading {
+        .mybook-classes-book-dimensions-loading {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -411,12 +411,12 @@
           margin: 15px 0;
         }
 
-        .loading-spinner {
-          animation: spin 1.5s linear infinite;
+        .mybook-classes-loading-spinner {
+          animation: mybook-classes-spin 1.5s linear infinite;
           color: #9333ea;
         }
 
-        @keyframes spin {
+        @keyframes mybook-classes-spin {
           from {
             transform: rotate(0deg);
           }
@@ -425,7 +425,7 @@
           }
         }
 
-        .book-dimensions-info {
+        .mybook-classes-book-dimensions-info {
           margin: 15px 0;
           padding: 15px;
           background: linear-gradient(135deg, #f8f9ff 0%, #fff5f7 100%);
@@ -434,7 +434,7 @@
           text-align: left;
         }
 
-        .dimension-item {
+        .mybook-classes-dimension-item {
           display: flex;
           align-items: flex-start;
           gap: 10px;
@@ -446,31 +446,31 @@
           transition: all 0.2s ease;
         }
 
-        .dimension-item:last-child {
+        .mybook-classes-dimension-item:last-child {
           margin-bottom: 0;
         }
 
-        .dimension-item:hover {
+        .mybook-classes-dimension-item:hover {
           transform: translateX(3px);
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .category-item {
+        .mybook-classes-category-item {
           background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
           color: white;
           margin-bottom: 15px;
         }
 
-        .category-item .dimension-label,
-        .category-item .dimension-value {
+        .mybook-classes-category-item .mybook-classes-dimension-label,
+        .mybook-classes-category-item .mybook-classes-dimension-value {
           color: white;
         }
 
-        .category-item .dimension-icon svg {
+        .mybook-classes-category-item .mybook-classes-dimension-icon svg {
           color: white;
         }
 
-        .dimension-icon {
+        .mybook-classes-dimension-icon {
           flex-shrink: 0;
           width: 32px;
           height: 32px;
@@ -481,22 +481,22 @@
           border-radius: 6px;
         }
 
-        .dimension-icon svg {
+        .mybook-classes-dimension-icon svg {
           color: #9333ea;
         }
 
-        .category-item .dimension-icon {
+        .mybook-classes-category-item .mybook-classes-dimension-icon {
           background: rgba(255, 255, 255, 0.25);
         }
 
-        .dimension-content {
+        .mybook-classes-dimension-content {
           flex: 1;
           display: flex;
           flex-direction: column;
           gap: 3px;
         }
 
-        .dimension-label {
+        .mybook-classes-dimension-label {
           font-size: 0.7rem;
           font-weight: 700;
           text-transform: uppercase;
@@ -504,17 +504,17 @@
           color: #9333ea;
         }
 
-        .dimension-value {
+        .mybook-classes-dimension-value {
           font-size: 0.95rem;
           font-weight: 700;
           color: #1f2937;
         }
 
-        .dimensions-list {
+        .mybook-classes-dimensions-list {
           margin-top: 10px;
         }
 
-        .dimensions-header {
+        .mybook-classes-dimensions-header {
           display: flex;
           align-items: center;
           gap: 8px;
@@ -524,18 +524,18 @@
           border-radius: 8px;
         }
 
-        .lightbulb-icon {
+        .mybook-classes-lightbulb-icon {
           color: #f59e0b;
           fill: #fef3c7;
         }
 
-        .dimensions-title {
+        .mybook-classes-dimensions-title {
           font-size: 0.85rem;
           font-weight: 700;
           color: #92400e;
         }
 
-        .dimension-badge {
+        .mybook-classes-dimension-badge {
           flex-shrink: 0;
           width: 26px;
           height: 26px;
@@ -549,13 +549,13 @@
           font-size: 0.8rem;
         }
 
-        .dimension-name {
+        .mybook-classes-dimension-name {
           font-size: 0.9rem;
           font-weight: 700;
           color: #4b5563;
         }
 
-        .dimension-description {
+        .mybook-classes-dimension-description {
           font-size: 0.8rem;
           color: #6b7280;
           margin: 4px 0 0 0;
