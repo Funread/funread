@@ -1,3 +1,19 @@
+.view-toggle-btn
+  background: #fff
+  color: #222
+  border: none
+  outline: none
+  transition: background 0.18s, color 0.18s
+  border-radius: 0.75rem
+  padding: 0.45rem 0.9rem
+
+.view-toggle-btn.active
+  background: #3975f6
+  color: #fff
+
+.view-toggle-btn:not(.active):hover
+  background: #e0edff
+  color: #3975f6
 .section_library_Tap
   display: flex
   flex-direction: row
@@ -11,6 +27,9 @@
 .section_item_Tap
   width: 300px
   height: fit-content
+  min-width: 0
+  display: flex
+  justify-content: center
 
 .nav-link
   color: black
@@ -25,8 +44,56 @@
   color: #3B82F6
 
 
+.library-grid-container
+  background: #fff
+  border-radius: 16px
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.04)
+  border: 1px solid #e5e7eb
+  padding: 32px 12px
+  margin: 0 0 24px 0
+  max-width: 100%
+  width: 100%
+  box-sizing: border-box
+  display: flex
+  flex-direction: column
+  min-height: 300px
+  overflow-y: auto
+  max-height: 60vh
+  /* cleaned up: removed debug background color */
 
 
+
+.grid
+  display: grid
+  /* use fixed column width to avoid 1fr expansion creating extra space */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 260px))
+  gap: 32px 28px
+  width: 100%
+  /* ensure grid items start at the left and do not stretch/center unexpectedly */
+  justify-content: start
+  justify-items: start
+  align-items: start
+  margin: 0
+  min-width: 0
+  /* cleaned up: removed debug background color */
+
+
+.list-view-books
+  display: flex
+  flex-direction: column
+  gap: 24px
+  width: 100%
+  margin: 0 auto
+
+
+.section_item_Tap
+  margin: 0 !important
+  padding: 0 !important
+  width: auto
+  display: flex
+  /* left align the content inside each card so books start at the left edge */
+  justify-content: flex-start
+  align-items: start
 
 .section_item_Tap
   scroll-snap-align: center
@@ -57,4 +124,18 @@
 
 @media (min-width: 500px) and (max-width: 1300px)
   .section_item_Tap
-    // margin-left: 4.5rem
+    // no forced left margin here — letting grid decide placement
+
+.tabs-header-row
+  display: flex
+  align-items: center
+  justify-content: space-between
+  margin-top: 12px
+  padding-left: 0
+  padding-right: 0
+
+
+
+
+
+

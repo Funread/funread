@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Stage, Layer, Image as KonvaImage, Text, Transformer } from "react-konva";
+import { Stage, Layer, Image as KonvaImage, Text, Transformer, Rect } from "react-konva";
 import Modal from "../TextEditorModal";
 
 export default function Canvas({ elements, setElements, selectedId, setSelectedId, stageRef }) {
@@ -90,20 +90,31 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
     setTextValue(el.text);
   };
 
-  const handleTextChange = (newData) => {
-    if (newData === null) {
+  const handleTextChange = (newText, newStyles) => {
+    if (newText === null) {
       setEditingText(null);
       return;
     }
-    const { text, fontWeight, fill } = typeof newData === "string"
-      ? { text: newData, fontWeight: "normal", fill: "black" }
-      : newData;
-
-    setElements((prev) =>
-      prev.map((el) =>
-        el.id === editingText ? { ...el, text, fontWeight, fill } : el
-      )
-    );
+    
+    // Si solo se pasa texto (compatibilidad)
+    if (typeof newText === "string" && !newStyles) {
+      setElements((prev) =>
+        prev.map((el) =>
+          el.id === editingText ? { ...el, text: newText } : el
+        )
+      );
+    } else {
+      // Si se pasan estilos completos desde el modal
+      setElements((prev) =>
+        prev.map((el) =>
+          el.id === editingText ? { 
+            ...el, 
+            text: newText, 
+            ...newStyles // Aplicar todos los estilos del modal
+          } : el
+        )
+      );
+    }
     setEditingText(null);
   };
 
@@ -117,25 +128,80 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
           className="border bg-gray-100"
         >
           <Layer>
-            {elements.map((el) =>
-              el.type === "text" ? (
-                <Text
-                  key={el.id}
-                  id={el.id}
-                  x={el.x}
-                  y={el.y}
-                  text={el.text}
-                  fontSize={el.fontSize}
-                  fill={el.fill || "black"}
-                  fontStyle={el.fontStyle || "normal"}
-                  fontWeight={el.fontWeight || "normal"}
-                  draggable
-                  onClick={() => setSelectedId(el.id)}
-                  onDblClick={() => handleTextDblClick(el)}
-                  onDragEnd={(e) => handleDragEnd(e, el.id)}
-                  onTransformEnd={(e) => handleTransformEnd(e, el.id)}
-                />
-              ) : el.type === "image" ? (
+            {elements.map((el) => {
+              if (el.type === "text") {
+                // Crear elementos para el texto (fondo + texto)
+                const textElements = [];
+                
+                // Si hay color de fondo, agregar un rectángulo
+                if (el.backgroundColor) {
+                  // Crear un texto temporal para medir dimensiones reales
+                  const tempText = new window.Konva.Text({
+                    text: el.text,
+                    fontSize: el.fontSize,
+                    fontFamily: el.fontFamily || "Arial",
+                    fontStyle: el.fontStyle || "normal",
+                    fontWeight: el.fontWeight || "normal",
+                    lineHeight: el.lineHeight || 1.2,
+                  });
+                  
+                  const padding = 8;
+                  const textWidth = tempText.width();
+                  const textHeight = tempText.height();
+                  
+                  // Limpiar el texto temporal
+                  tempText.destroy();
+                  
+                  textElements.push(
+                    <Rect
+                      key={`bg-${el.id}`}
+                      x={el.x - padding}
+                      y={el.y - padding}
+                      width={textWidth + (padding * 2)}
+                      height={textHeight + (padding * 2)}
+                      fill={el.backgroundColor}
+                      cornerRadius={4}
+                      opacity={el.opacity || 1}
+                      rotation={el.rotation || 0}
+                    />
+                  );
+                }
+                
+                // Agregar el texto
+                textElements.push(
+                  <Text
+                    key={el.id}
+                    id={el.id}
+                    x={el.x}
+                    y={el.y}
+                    text={el.text}
+                    fontSize={el.fontSize}
+                    fill={el.fill || "black"}
+                    fontFamily={el.fontFamily || "Arial"}
+                    fontStyle={el.fontStyle || "normal"}
+                    fontWeight={el.fontWeight || "normal"}
+                    lineHeight={el.lineHeight || 1.2}
+                    stroke={el.stroke}
+                    strokeWidth={el.strokeWidth || 0}
+                    rotation={el.rotation || 0}
+                    opacity={el.opacity || 1}
+                    shadowColor={el.shadowColor}
+                    shadowBlur={el.shadowBlur || 0}
+                    shadowOffsetX={el.shadowOffsetX || 0}
+                    shadowOffsetY={el.shadowOffsetY || 0}
+                    draggable
+                    onClick={() => setSelectedId(el.id)}
+                    onDblClick={() => handleTextDblClick(el)}
+                    onDragEnd={(e) => handleDragEnd(e, el.id)}
+                    onTransformEnd={(e) => handleTransformEnd(e, el.id)}
+                    perfectDrawEnabled={false}
+                  />
+                );
+                
+                return textElements;
+              }
+              
+              return el.type === "image" ? (
                 <KonvaImage
                   key={el.id}
                   id={el.id}
@@ -149,8 +215,8 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                   onDragEnd={(e) => handleDragEnd(e, el.id)}
                   onTransformEnd={(e) => handleTransformEnd(e, el.id)}
                 />
-              ) : null
-            )}
+              ) : null;
+            })}
             <Transformer
               ref={transformerRef}
               boundBoxFunc={(oldBox, newBox) => {
@@ -164,7 +230,26 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
         </Stage>
       </div>
 
-      {editingText && <Modal text={textValue} onSave={handleTextChange} />}
+      {editingText && (() => {
+        const currentElement = elements.find(el => el.id === editingText);
+        return (
+          <Modal 
+            text={textValue} 
+            onSave={handleTextChange}
+            fontFamily={currentElement?.fontFamily}
+            fontSize={currentElement?.fontSize}
+            fill={currentElement?.fill}
+            fontWeight={currentElement?.fontWeight}
+            fontStyle={currentElement?.fontStyle}
+            backgroundColor={currentElement?.backgroundColor}
+            opacity={currentElement?.opacity}
+            rotation={currentElement?.rotation}
+            lineHeight={currentElement?.lineHeight}
+            shadowColor={currentElement?.shadowColor}
+            currentElement={currentElement}
+          />
+        );
+      })()}
     </>
   );
 }
