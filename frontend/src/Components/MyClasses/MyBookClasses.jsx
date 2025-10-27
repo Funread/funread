@@ -1,13 +1,16 @@
 'use client'
 
-import { useState } from "react"
-import { Sparkles, Star, X, ArrowLeft, Palette, Scissors, Image } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Sparkles, Star, X, ArrowLeft, Palette, Scissors, Image, BookOpen, Lightbulb } from "lucide-react"
 import './MyBookClasses.css'
+import { getBookCategoryDimensionDilemmas } from '../../api/bookDilemma'
 
 const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teacherName }) => {
   const [imageError, setImageError] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [bookDimensions, setBookDimensions] = useState(null)
+  const [loadingDimensions, setLoadingDimensions] = useState(false)
 
   const defaultGetMediaUrl = (path) => {
     if (!path) return null
@@ -54,6 +57,24 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
   const handleCardClick = (e) => {
     e.stopPropagation()
     setIsOpen(true)
+    loadBookDimensions()
+  }
+
+  const loadBookDimensions = async () => {
+    const bookId = book.id || book.booksid
+    if (!bookId) return
+    
+    setLoadingDimensions(true)
+    try {
+      const response = await getBookCategoryDimensionDilemmas(bookId)
+      if (response.data) {
+        setBookDimensions(response.data)
+      }
+    } catch (error) {
+      console.error('Error loading book dimensions:', error)
+    } finally {
+      setLoadingDimensions(false)
+    }
   }
 
   const handleClose = (e) => {
@@ -123,7 +144,7 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
           <div className="title-badge">
             <h3 className="book-title">{book.title || book.name || "Libro sin título"}</h3>
           </div>
-          {displayAuthorName && <p className="book-author">📝 {displayAuthorName}</p>}
+          {displayAuthorName && <p className="book-author"> {displayAuthorName}</p>}
         </div>
       </div>
 
@@ -140,6 +161,49 @@ const BookCard = ({ book, onClick, getMediaUrl, displayStyle = "overlay", teache
                   <div className="page-content">
                     <h2 className="modal-book-title">{book.title || book.name || "Libro sin título"}</h2>
                     {displayAuthorName && <p className="modal-book-author">By: {displayAuthorName}</p>}
+                    
+                    {/* Información de categoría y dimensiones */}
+                    {loadingDimensions ? (
+                      <div className="book-dimensions-loading">
+                        <Sparkles size={20} className="loading-spinner" />
+                        <span className="loading-text">Loading details...</span>
+                      </div>
+                    ) : bookDimensions && (
+                      <div className="book-dimensions-info">
+                        {bookDimensions.category && (
+                          <div className="dimension-item category-item">
+                            <div className="dimension-icon">
+                              <BookOpen size={18} />
+                            </div>
+                            <div className="dimension-content">
+                              <span className="dimension-label">Category:</span>
+                              <span className="dimension-value">{bookDimensions.category}</span>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {bookDimensions.dimensions && bookDimensions.dimensions.length > 0 && (
+                          <div className="dimensions-list">
+                            <div className="dimensions-header">
+                              <Lightbulb size={16} className="lightbulb-icon" />
+                              <span className="dimensions-title">Learning Dimensions:</span>
+                            </div>
+                            {bookDimensions.dimensions.map((dimension, index) => (
+                              <div key={index} className="dimension-item">
+                                <div className="dimension-badge">{index + 1}</div>
+                                <div className="dimension-content">
+                                  <span className="dimension-name">{dimension.name || dimension.dimension}</span>
+                                  {dimension.description && (
+                                    <p className="dimension-description">{dimension.description}</p>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
                     <div className="book-details">
                       <p>📚 Ready to read!</p>
                       <p>✨ Click the button to start the adventure.</p>

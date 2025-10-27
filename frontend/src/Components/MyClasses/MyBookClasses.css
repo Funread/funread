@@ -281,7 +281,6 @@
         .modal-book-author {
           font-size: 1.3rem;
           color: #666;
-          font-style: italic;
           margin: 0 0 30px 0;
         }
 
@@ -388,4 +387,170 @@
         .read-book-button:hover {
           transform: translateY(-3px);
           box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Book Dimensions Styles */
+        .book-dimensions-loading {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          justify-content: center;
+          padding: 15px;
+          margin: 15px 0;
+        }
+
+        .loading-spinner {
+          animation: spin 1s linear infinite;
+          color: #9333ea;
+        }
+
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .loading-text {
+          font-size: 0.875rem;
+          color: #9333ea;
+        }
+
+        .book-dimensions-info {
+          margin: 15px 0;
+          padding: 15px;
+          background: linear-gradient(135deg, #f8f9ff 0%, #fff5f7 100%);
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          text-align: left;
+        }
+
+        .dimension-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          margin-bottom: 12px;
+          padding: 10px;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+          transition: all 0.2s ease;
+        }
+
+        .dimension-item:last-child {
+          margin-bottom: 0;
+        }
+
+        .dimension-item:hover {
+          transform: translateX(3px);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-item {
+          background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+          color: white;
+          margin-bottom: 15px;
+        }
+
+        .category-item .dimension-label,
+        .category-item .dimension-value {
+          color: white;
+        }
+
+        .category-item .dimension-icon svg {
+          color: white;
+        }
+
+        .dimension-icon {
+          flex-shrink: 0;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(147, 51, 234, 0.1);
+          border-radius: 6px;
+        }
+
+        .dimension-icon svg {
+          color: #9333ea;
+        }
+
+        .category-item .dimension-icon {
+          background: rgba(255, 255, 255, 0.25);
+        }
+
+        .dimension-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        .dimension-label {
+          font-size: 0.7rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: #9333ea;
+        }
+
+        .dimension-value {
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: #1f2937;
+        }
+
+        .dimensions-list {
+          margin-top: 10px;
+        }
+
+        .dimensions-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 12px;
+          padding: 8px 10px;
+          background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+          border-radius: 8px;
+        }
+
+        .lightbulb-icon {
+          color: #f59e0b;
+          fill: #fef3c7;
+        }
+
+        .dimensions-title {
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: #92400e;
+        }
+
+        .dimension-badge {
+          flex-shrink: 0;
+          width: 26px;
+          height: 26px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border-radius: 50%;
+          font-weight: 700;
+          font-size: 0.8rem;
+        }
+
+        .dimension-name {
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #4b5563;
+        }
+
+        .dimension-description {
+          font-size: 0.8rem;
+          color: #6b7280;
+          margin: 4px 0 0 0;
+          line-height: 1.3;
         }
