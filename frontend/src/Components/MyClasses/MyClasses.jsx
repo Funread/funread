@@ -141,43 +141,45 @@ const MyClasses = () => {
               classResponse.data &&
               classResponse.data.length > 0
             ) {
-              const classData = classResponse.data[0];
+              // Iterate through ALL classes returned for this group
+              for (const classData of classResponse.data) {
+                let teacherName = null;
 
-              let teacherName = null;
+                // Try to get teacher name from group data first
+                if (group.teachername && isValidName(group.teachername)) {
+                  teacherName = group.teachername;
+                } else if (classData.teacherassigned) {
+                  // If group doesn't have a valid teacher name, fetch from teacher ID
+                  teacherName = await getTeacherName(classData.teacherassigned);
+                }
 
-              // Try to get teacher name from group data first
-              if (group.teachername && isValidName(group.teachername)) {
-                teacherName = group.teachername;
-              } else if (classData.teacherassigned) {
-                // If group doesn't have a valid teacher name, fetch from teacher ID
-                teacherName = await getTeacherName(classData.teacherassigned);
+                const formattedGroup = {
+                  id: `${group.groupscreateid}-${classData.classesid}`, // Unique ID combining group and class
+                  groupId: group.groupscreateid,
+                  classId: classData.classesid,
+                  name: classData.name || "Unnamed Class",
+                  grade: classData.grade,
+                  progress: group.progress || Math.floor(Math.random() * 100),
+                  teacherId: classData.teacherassigned,
+                  teacher: teacherName, // This will be null if no valid name found
+                  startDate: classData.startdate,
+                  finishDate: classData.finishdate,
+                  nextClass: classData.finishdate
+                    ? `Ends: ${new Date(
+                        classData.finishdate
+                      ).toLocaleDateString()}`
+                    : "No scheduled classes",
+                  image: group.image || "/Media/media/default-class.jpg",
+                  bookId: group.bookid || 3,
+                  isActive: classData.isactive,
+                };
+
+                console.log(
+                  "Formatted class with complete data:",
+                  formattedGroup
+                );
+                formattedClasses.push(formattedGroup);
               }
-
-              const formattedGroup = {
-                id: group.groupscreateid,
-                classId: classData.classesid,
-                name: classData.name || "Unnamed Class",
-                grade: classData.grade,
-                progress: group.progress || Math.floor(Math.random() * 100),
-                teacherId: classData.teacherassigned,
-                teacher: teacherName, // This will be null if no valid name found
-                startDate: classData.startdate,
-                finishDate: classData.finishdate,
-                nextClass: classData.finishdate
-                  ? `Ends: ${new Date(
-                      classData.finishdate
-                    ).toLocaleDateString()}`
-                  : "No scheduled classes",
-                image: group.image || "/Media/media/default-class.jpg",
-                bookId: group.bookid || 3,
-                isActive: classData.isactive,
-              };
-
-              console.log(
-                "Formatted class with complete data:",
-                formattedGroup
-              );
-              formattedClasses.push(formattedGroup);
             } else {
               console.log("No class data found, using basic group data");
               const teacherName = (group.teachername && isValidName(group.teachername)) 
@@ -186,6 +188,7 @@ const MyClasses = () => {
               
               const formattedGroup = {
                 id: group.groupscreateid,
+                groupId: group.groupscreateid,
                 name: group.groupname || "Unnamed Class",
                 progress: group.progress || Math.floor(Math.random() * 100),
                 teacher: teacherName,
@@ -206,6 +209,7 @@ const MyClasses = () => {
             
             const formattedGroup = {
               id: group.groupscreateid,
+              groupId: group.groupscreateid,
               name: group.groupname || "Unnamed Class",
               progress: group.progress || Math.floor(Math.random() * 100),
               teacher: teacherName,
