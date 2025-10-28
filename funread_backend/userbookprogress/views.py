@@ -73,6 +73,7 @@ def mark_as_completed(request):
     """
     Marca un libro como completado con calificación 100.
     Requiere userId y bookId en el cuerpo de la solicitud.
+    Retorna información sobre si los puntos ya fueron otorgados.
     """
     user_id = request.data.get('userId')
     book_id = request.data.get('bookId')
@@ -83,21 +84,39 @@ def mark_as_completed(request):
     try:
         # Intenta encontrar el registro existente
         progress = UserBookProgress.objects.get(user_id=user_id, book_id=book_id)
+        
+        # Check if already completed and points were awarded
+        already_awarded = progress.status == 1 and progress.points_awarded
+        
         # Actualiza el registro con estado completado y calificación 100
         progress.status = 1  # 1 = Completado según STATUS_CHOICES
         progress.calificacion = 100.0
+        # Note: points_awarded will be set to True when points are actually added
         progress.save()
+        
+        serializer = UserBookProgressSerializer(progress)
+        return Response({
+            **serializer.data,
+            'already_awarded': already_awarded,
+            'message': 'Points already awarded for this book' if already_awarded else 'Book marked as completed'
+        }, status=status.HTTP_200_OK)
+        
     except UserBookProgress.DoesNotExist:
         # Si no existe, crea un nuevo registro
         progress = UserBookProgress.objects.create(
             user_id=user_id,
             book_id=book_id,
             status=1,  # Completado
-            calificacion=100.0
+            calificacion=100.0,
+            points_awarded=False  # Points not yet awarded
         )
-
-    serializer = UserBookProgressSerializer(progress)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        serializer = UserBookProgressSerializer(progress)
+        return Response({
+            **serializer.data,
+            'already_awarded': False,
+            'message': 'Book marked as completed (new record)'
+        }, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -138,5 +157,52 @@ def books_completed(request, user_id):
         return Response(
             {"error": f"Error al obtener libros completados: {str(e)}"}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['POST'])
+def mark_points_awarded(request):
+    """
+    Marca que los puntos fueron otorgados para un libro específico.
+    Requiere userId y bookId en el cuerpo de la solicitud.
+    Solo marca si el libro está completado y aún no se otorgaron puntos.
+    """
+    user_id = request.data.get('userId')
+    book_id = request.data.get('bookId')
+
+    if not user_id or not book_id:
+        return Response({"error": "Faltan userId o bookId"}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        progress = UserBookProgress.objects.get(user_id=user_id, book_id=book_id)
+        
+        # Verificar si ya se otorgaron puntos
+        if progress.points_awarded:
+            return Response({
+                "error": "Points were already awarded for this book",
+                "already_awarded": True
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Verificar si el libro está completado
+        if progress.status != 1:
+            return Response({
+                "error": "Book must be completed before awarding points",
+                "status": progress.status
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Marcar que los puntos fueron otorgados
+        progress.points_awarded = True
+        progress.save()
+        
+        serializer = UserBookProgressSerializer(progress)
+        return Response({
+            **serializer.data,
+            "message": "Points marked as awarded successfully"
+        }, status=status.HTTP_200_OK)
+        
+    except UserBookProgress.DoesNotExist:
+        return Response(
+            {"error": "Book progress not found. Please complete the book first."}, 
+            status=status.HTTP_404_NOT_FOUND
         )
 

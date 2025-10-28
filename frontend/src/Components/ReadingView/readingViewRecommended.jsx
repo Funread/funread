@@ -16,7 +16,7 @@ import PopUpAchieve from "../Badges/PopUpAchieve";
 import Loader from "../Shared/Loader/Loader";
 import { getMediaUrl } from "../../mediaUrl";
 import { addPointsToUser } from "../../api/userPoints";
-import { markBookAsCompleted } from "../../api/userBookProgress";
+import { markBookAsCompleted, markPointsAwarded } from "../../api/userBookProgress";
 import { store } from "../../redux/store";
 
 function ReadingView() {
@@ -77,30 +77,71 @@ function ReadingView() {
         return;
       }
 
-      // Add points if there are quiz responses
-      if (Object.keys(quizResponses).length > 0) {
-        console.log("Sending points to user:", quizTotalPoints);
+      console.log("=== Starting submitResponses (Recommended) ===");
+      console.log("User ID:", userId);
+      console.log("Book ID:", bookid);
+      console.log("Quiz Total Points:", quizTotalPoints);
 
-        // Only add the earned points to user using addPointsToUser
-        if (quizTotalPoints > 0) {
-          await addPointsToUser(userId, quizTotalPoints);
-        }
-
-        // Clear localStorage after sending
-        localStorage.removeItem(`quiz_responses_${userId}`);
-
-        console.log("Points added to user successfully");
-        alert(`Quiz completed! You've earned ${quizTotalPoints} points.`);
+      if (Object.keys(quizResponses).length === 0) {
+        console.log("No quiz responses found - Book will NOT be marked as completed");
+        alert("This book does not have quizzes or you haven't answered any quiz questions. The book will not be marked as completed.");
+        return;
       }
 
-      // Mark the book as completed with 100% qualification
-      console.log(`Marking book ${bookid} as completed for user ${userId}`);
+      let alreadyAwarded = false;
       try {
-        const response = await markBookAsCompleted(userId, bookid);
-        console.log("Book marked as completed:", response.data);
+        const markResponse = await markBookAsCompleted(userId, bookid);
+        console.log("Book marked as completed:", markResponse);
+        
+        alreadyAwarded = markResponse.data?.already_awarded || false;
+        
+        if (alreadyAwarded) {
+          console.log("Points were already awarded for this book");
+          alert("You have already completed this book and received the points.");
+          localStorage.removeItem(`quiz_responses_${userId}`);
+          return;
+        }
       } catch (markError) {
         console.error("Error marking book as completed:", markError);
+        return;
       }
+
+      // Add points if there are quiz responses and not already awarded
+      if (!alreadyAwarded) {
+        console.log("Sending points to user:", quizTotalPoints);
+
+        localStorage.setItem('book_completed_trigger', JSON.stringify({
+          userId: userId,
+          bookId: bookid,
+          timestamp: Date.now()
+        }));
+
+        if (quizTotalPoints > 0) {
+          try {
+            await addPointsToUser(userId, quizTotalPoints);
+            
+            try {
+              await markPointsAwarded(userId, bookid);
+            } catch (markPointsError) {
+              console.error("Warning: Could not mark points as awarded:", markPointsError);
+            }
+            
+            localStorage.removeItem(`quiz_responses_${userId}`);
+            
+            alert(`Quiz completed! You've earned ${quizTotalPoints} points.`);
+          } catch (pointsError) {
+            console.error("Error adding points:", pointsError);
+            alert(`Error adding points: ${pointsError.message || 'Unknown error'}`);
+          }
+        } else {
+          console.log("No points to add");
+          localStorage.removeItem(`quiz_responses_${userId}`);
+          console.log("LocalStorage cleared");
+          alert("Book completed! No points earned. Please answer quiz questions correctly to earn points.");
+        }
+      }
+
+      console.log("=== Finished submitResponses ===");
     } catch (error) {
       console.error("Error in submitResponses:", error);
     }

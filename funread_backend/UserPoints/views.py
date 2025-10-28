@@ -50,13 +50,31 @@ def add_points_to_user(request, user_id):
         if es_valido==False:
          return Response(status=status.HTTP_401_UNAUTHORIZED)
         
-        user_points = get_object_or_404(UserPoints, user_id=user_id)
-        user_points.total_points += request.data['points']
+        # Get or create UserPoints record for this user
+        user_points, created = UserPoints.objects.get_or_create(
+            user_id=user_id,
+            defaults={'total_points': 0}
+        )
+        
+        if created:
+            print(f"Created new UserPoints record for user {user_id}")
+        
+        # Add points
+        points_to_add = request.data.get('points', 0)
+        user_points.total_points += points_to_add
         user_points.save()
+        
+        print(f"Added {points_to_add} points to user {user_id}. New total: {user_points.total_points}")
 
-        return Response({"message": "Points added successfully"}, status=status.HTTP_200_OK)
+        return Response({
+            "message": "Points added successfully",
+            "total_points": user_points.total_points,
+            "points_added": points_to_add,
+            "was_created": created
+        }, status=status.HTTP_200_OK)
 
     except Exception as e:
+        print(f"Error in add_points_to_user: {str(e)}")
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # Consultar puntos totales de un usuario
