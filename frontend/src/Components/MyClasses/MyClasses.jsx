@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./MyClasses.css";
@@ -20,7 +20,7 @@ import imgLogo from "../../logoFunread.png";
 import { getMediaUrl } from "../Utils/mediaUrl";
 import { getUserPoints } from "../../api/userPoints";
 import { getCurrentRank } from "../../api/userPoints";
-import { getBooksCompleted } from "../../api/userBookProgress";
+import { getBooksCompleted, calculateClassProgress } from "../../api/userBookProgress";
 import MyBookClasses from "./MyBookClasses";
 import MyClassesStatCard from "./MyClassesStatCard";
 
@@ -66,6 +66,7 @@ const MyClasses = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [classes, setClasses] = useState([]);
+  const classesRef = useRef([]); // Ref para mantener referencia actualizada
   const [userStats, setUserStats] = useState({
     level: 1,
     points: 0,
@@ -78,6 +79,11 @@ const MyClasses = () => {
   const [selectedClass, setSelectedClass] = useState(null);
   const [classBooks, setClassBooks] = useState([]);
   const [loadingBooks, setLoadingBooks] = useState(false);
+
+  // Mantener classesRef sincronizado con classes
+  useEffect(() => {
+    classesRef.current = classes;
+  }, [classes]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -153,13 +159,24 @@ const MyClasses = () => {
                   teacherName = await getTeacherName(classData.teacherassigned);
                 }
 
+                let realProgress = 0;
+                try {
+                  const classBooks = await listedBooksPerClassesById(classData.classesid);
+                  if (classBooks?.data && classBooks.data.length > 0) {
+                    const bookIds = classBooks.data.map(book => book.booksid || book.id);
+                    realProgress = await calculateClassProgress(user.userId, bookIds);
+                  }
+                } catch (progressError) {
+                  realProgress = 0;
+                }
+
                 const formattedGroup = {
-                  id: `${group.groupscreateid}-${classData.classesid}`, // Unique ID combining group and class
+                  id: `${group.groupscreateid}-${classData.classesid}`,
                   groupId: group.groupscreateid,
                   classId: classData.classesid,
                   name: classData.name || "Unnamed Class",
                   grade: classData.grade,
-                  progress: group.progress || Math.floor(Math.random() * 100),
+                  progress: realProgress,
                   teacherId: classData.teacherassigned,
                   teacher: teacherName, // This will be null if no valid name found
                   startDate: classData.startdate,
@@ -190,7 +207,7 @@ const MyClasses = () => {
                 id: group.groupscreateid,
                 groupId: group.groupscreateid,
                 name: group.groupname || "Unnamed Class",
-                progress: group.progress || Math.floor(Math.random() * 100),
+                progress: group.progress || 0,
                 teacher: teacherName,
                 nextClass: "No scheduled classes",
                 image: group.image || "/Media/media/default-class.jpg",
@@ -211,7 +228,7 @@ const MyClasses = () => {
               id: group.groupscreateid,
               groupId: group.groupscreateid,
               name: group.groupname || "Unnamed Class",
-              progress: group.progress || Math.floor(Math.random() * 100),
+              progress: group.progress || 0,
               teacher: teacherName,
               nextClass: "No scheduled classes",
               image: group.image || "/Media/media/default-class.jpg",
@@ -232,6 +249,107 @@ const MyClasses = () => {
 
     fetchData();
   }, [user.userId]);
+
+  useEffect(() => {
+    if (isLoading || classes.length === 0) {
+      return;
+    }
+
+    let isProcessing = false;
+
+    const updateClassProgress = async () => {
+      if (isProcessing) {
+        return;
+      }
+
+      try {
+        const trigger = localStorage.getItem('book_completed_trigger');
+        
+        if (!trigger) return;
+
+        isProcessing = true;
+        const { userId, bookId, timestamp } = JSON.parse(trigger);
+        
+        if (userId !== user.userId) {
+          localStorage.removeItem('book_completed_trigger');
+          isProcessing = false;
+          return;
+        }
+
+        if (Date.now() - timestamp > 10000) {
+          localStorage.removeItem('book_completed_trigger');
+          isProcessing = false;
+          return;
+        }
+        
+        let targetClassId = null;
+        let found = false;
+        
+        for (const classItem of classesRef.current) {
+          console.log(`🔍 Checking class ${classItem.classId || classItem.id}: ${classItem.name}`);
+          
+          if (classItem.classId) {
+            try {
+              const booksResponse = await listedBooksPerClassesById(classItem.classId);
+              console.log(`📖 Books in class ${classItem.classId}:`, booksResponse?.data?.length || 0);
+              
+              if (booksResponse?.data) {
+                const hasBook = booksResponse.data.some(
+                  book => {
+                    const bookIdToCheck = book.booksid || book.id;
+                    // Comparar asegurando que ambos sean del mismo tipo
+                    const match = Number(bookIdToCheck) === Number(bookId);
+                    console.log(`  Checking book ${bookIdToCheck} === ${bookId}?`, match);
+                    return match;
+                  }
+                );
+                
+                if (hasBook) {
+                  targetClassId = classItem.classId;
+                  found = true;
+                  
+                  const classBookIds = booksResponse.data.map(
+                    book => book.booksid || book.id
+                  );
+                  
+                  const newProgress = await calculateClassProgress(userId, classBookIds);
+                  
+                  setClasses(prevClasses => {
+                    const updatedClasses = prevClasses.map(cls => 
+                      cls.classId === targetClassId 
+                        ? { ...cls, progress: newProgress }
+                        : cls
+                    );
+                    return updatedClasses;
+                  });
+                  
+                  break;
+                }
+              }
+            } catch (error) {
+              console.error(`Error checking books for class ${classItem.classId}:`, error);
+            }
+          }
+        }
+
+        localStorage.removeItem('book_completed_trigger');
+        
+      } catch (error) {
+        console.error("Error updating class progress:", error);
+        localStorage.removeItem('book_completed_trigger');
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    const interval = setInterval(updateClassProgress, 1000);
+    
+    updateClassProgress();
+    
+    return () => {
+      clearInterval(interval);
+    };
+  }, [user.userId, isLoading, classes.length]);
 
   // Function to fetch books for a specific class
   const fetchClassBooks = async (classId) => {
