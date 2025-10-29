@@ -506,7 +506,7 @@ function ReadingView() {
                   className="bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white rounded-full px-5 md:px-8 py-2 md:py-2.5 text-lg md:text-xl font-black shadow-xl disabled:opacity-30 disabled:cursor-not-allowed transition-all hover:scale-110 active:scale-95 border-4 border-white/70 flex items-center"
                 >
                   <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 mr-1 md:mr-2" />
-                  <span>Anterior</span>
+                  <span>Previous</span>
                 </button>
 
                 <div className="flex items-center gap-2 md:gap-3 bg-white rounded-full px-4 md:px-6 py-1.5 md:py-2 shadow-lg border-4 border-purple-300">
@@ -521,7 +521,7 @@ function ReadingView() {
                     onClick={ExitReading}
                     className="bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white rounded-full px-5 md:px-8 py-2 md:py-2.5 text-lg md:text-xl font-black shadow-xl transition-all hover:scale-110 active:scale-95 border-4 border-white/70 flex items-center"
                   >
-                    <span>Terminar</span>
+                    <span>Finish</span>
                     <Star className="w-6 h-6 md:w-8 md:h-8 ml-1 md:ml-2 fill-white" />
                   </button>
                 ) : (
@@ -530,7 +530,7 @@ function ReadingView() {
                     disabled={pageNumer === pagesCount - 1}
                     className="bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white rounded-full px-5 md:px-8 py-2 md:py-2.5 text-lg md:text-xl font-black shadow-xl disabled:opacity-30 disabled:cursor-not-allowed transition-all hover:scale-110 active:scale-95 border-4 border-white/70 flex items-center"
                   >
-                    <span>Siguiente</span>
+                    <span>Next</span>
                     <ChevronRight className="w-7 h-7 md:w-10 md:h-10 ml-1 md:ml-2" />
                   </button>
                 )}
