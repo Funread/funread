@@ -42,7 +42,20 @@ export function useKonvaSaver({ elements, pagesList, currentPage }) {
           text: el.text,
           fontSize: el.fontSize,
           fontWeight: el.fontWeight,
-          fill: el.fill
+          fontStyle: el.fontStyle,
+          fontFamily: el.fontFamily,
+          fill: el.fill,
+          backgroundColor: el.backgroundColor,
+          stroke: el.stroke,
+          strokeWidth: el.strokeWidth,
+          opacity: el.opacity,
+          rotation: el.rotation,
+          lineHeight: el.lineHeight,
+          shadowColor: el.shadowColor,
+          shadowBlur: el.shadowBlur,
+          shadowOffsetX: el.shadowOffsetX,
+          shadowOffsetY: el.shadowOffsetY,
+          textDecoration: el.textDecoration
         });
       }
     });
