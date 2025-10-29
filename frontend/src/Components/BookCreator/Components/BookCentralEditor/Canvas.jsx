@@ -7,12 +7,11 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
   const containerRef = useRef(null);
   const [editingText, setEditingText] = useState(null);
   const [textValue, setTextValue] = useState("");
-  const [stageSize, setStageSize] = useState({ width: 1200, height: 800 });
+  const [stageSize, setStageSize] = useState({ width: 1100, height: 700 });
   const [loadedImages, setLoadedImages] = useState({});
 
-  // Tamaño mínimo del canvas
-  const MIN_CANVAS_WIDTH = 1200;
-  const MIN_CANVAS_HEIGHT = 729;
+  const MIN_CANVAS_WIDTH = 1100;
+  const MIN_CANVAS_HEIGHT = 700;
 
   // Ajustar el tamaño del canvas dinámicamente al contenedor
   useEffect(() => {
@@ -21,7 +20,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
         const parent = containerRef.current.parentElement;
         if (parent) {
           const { clientWidth, clientHeight } = parent;
-          // Usar el mayor entre el espacio disponible y el tamaño mínimo
+          // Usar el mayor entre el espacio disponible y el tamaño del canvas
           const newWidth = Math.max(MIN_CANVAS_WIDTH, clientWidth);
           const newHeight = Math.max(MIN_CANVAS_HEIGHT, clientHeight);
           setStageSize({ width: newWidth, height: newHeight });
