@@ -15,7 +15,7 @@ import PopUpAchieve from "../Badges/PopUpAchieve";
 import { getMediaUrl } from "../../Components/Utils/mediaUrl";
 import { addPointsToUser } from "../../api/userPoints";
 import { store } from "../../redux/store";
-import { markBookAsCompleted } from "../../api/userBookProgress";
+import { markBookAsCompleted, markPointsAwarded } from "../../api/userBookProgress";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { ChevronLeft, ChevronRight, BookOpen, Star } from "lucide-react";
