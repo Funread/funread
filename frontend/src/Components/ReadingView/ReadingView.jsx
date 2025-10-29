@@ -266,37 +266,85 @@ function ReadingView() {
   // Function to send points to the user without submitting quiz responses
   const submitResponses = async () => {
     try {
-      // Marcar el libro como completado con calificación 100
-      try {
-        await markBookAsCompleted(userId, bookid);
-        console.log("Book marked as completed successfully");
-      } catch (markError) {
-        console.error("Error marking book as completed:", markError);
-      }
+      console.log("=== Starting submitResponses ===");
+      console.log("User ID:", userId);
+      console.log("Book ID:", bookid);
+      console.log("Quiz Total Points:", quizTotalPoints);
+      console.log("Quiz Responses:", quizResponses);
 
       if (Object.keys(quizResponses).length === 0) {
-        console.log("No responses to send");
+        console.log("No quiz responses found - Book will NOT be marked as completed");
+        alert("This book does not have quizzes or you haven't answered any quiz questions. The book will not be marked as completed.");
+        return;
+      }
+
+      let alreadyAwarded = false;
+      try {
+        const markResponse = await markBookAsCompleted(userId, bookid);
+        console.log("Book marked as completed:", markResponse);
+        
+        alreadyAwarded = markResponse.data?.already_awarded || false;
+        
+        if (alreadyAwarded) {
+          console.log("Points were already awarded for this book");
+          alert("You have already completed this book and received the points.");
+          localStorage.removeItem(`quiz_responses_${userId}`);
+          return;
+        }
+      } catch (markError) {
+        console.error("Error marking book as completed:", markError);
+        alert(`Error marking book as completed: ${markError.message || markError}`);
         return;
       }
 
       console.log("Sending points to user:", quizTotalPoints);
       if (!userId) {
         console.error("Could not get user ID");
+        alert("Error: User ID not found. Please log in again.");
         return;
       }
 
-      // Only add the earned points to user using addPointsToUser
+      localStorage.setItem('book_completed_trigger', JSON.stringify({
+        userId: userId,
+        bookId: bookid,
+        timestamp: Date.now()
+      }));
+
       if (quizTotalPoints > 0) {
-        await addPointsToUser(userId, quizTotalPoints);
+        try {
+          const pointsResponse = await addPointsToUser(userId, quizTotalPoints);
+          
+          try {
+            await markPointsAwarded(userId, bookid);
+          } catch (markPointsError) {
+            console.error("Warning: Could not mark points as awarded:", markPointsError);
+          }
+          
+          localStorage.removeItem(`quiz_responses_${userId}`);
+          
+          alert(`Quiz completed! You've earned ${quizTotalPoints} points.`);
+        } catch (pointsError) {
+          console.error("Error adding points:", pointsError);
+          console.error("Error details:", pointsError.response?.data || pointsError.message);
+          
+          // Check if it's a 404 error (user points record not found)
+          if (pointsError.response?.status === 404) {
+            alert(`Error: Your user points record was not found. Please contact an administrator to initialize your account.`);
+          } else {
+            alert(`Error adding points: ${pointsError.response?.data?.error || pointsError.message || 'Unknown error'}`);
+          }
+        }
+      } else {
+        console.log("No points to add (quizTotalPoints is 0 or negative)");
+        localStorage.removeItem(`quiz_responses_${userId}`);
+        console.log("LocalStorage cleared");
+        alert("Book completed! No points earned. Please answer quiz questions correctly to earn points.");
       }
 
-      // Clear localStorage after sending
-      localStorage.removeItem(`quiz_responses_${userId}`);
-
-      console.log("Points added to user successfully");
-      alert(`Quiz completed! You've earned ${quizTotalPoints} points.`);
+      console.log("=== Finished submitResponses ===");
     } catch (error) {
-      console.error("Error adding points:", error);
+      console.error("Unexpected error in submitResponses:", error);
+      alert(`Unexpected error: ${error.message || error}`);
     }
   };
 

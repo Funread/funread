@@ -14,6 +14,7 @@ class UserBookProgress(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, db_column='BookId')
     status = models.IntegerField(choices=STATUS_CHOICES, default=0, db_column='Status')
     calificacion = models.FloatField(null=True, blank=True, db_column='Calificacion')
+    points_awarded = models.BooleanField(default=False, db_column='PointsAwarded')  # Track if points were already given
 
     class Meta:
         db_table = 'userbookprogress'

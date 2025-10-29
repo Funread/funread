@@ -10,4 +10,5 @@ urlpatterns = [
     path('mark-as-completed/', views.mark_as_completed),
     path('get-progress/<int:user_id>/<int:book_id>/', views.get_progress),
     path('books-completed/<int:user_id>/', views.books_completed),
+    path('mark-points-awarded/', views.mark_points_awarded),
 ]

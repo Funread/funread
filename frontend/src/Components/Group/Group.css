@@ -22,6 +22,33 @@
   padding: 1rem;
 }
 
+/* Estilos para scrollbar en main-content */
+.funread-demo .main-content-scrollable {
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+
+/* Estilo del scrollbar para navegadores webkit (Chrome, Safari, Edge) */
+.funread-demo .main-content-scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+
+.funread-demo .main-content-scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.funread-demo .main-content-scrollable::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.funread-demo .main-content-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .funread-demo .summary-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -53,4 +80,31 @@
 
 .funread-demo .icon {
   margin-right: 0.5rem;
+}
+
+/* Estilos para scrollbars en Card Body */
+.funread-demo .card-scrollable {
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+
+/* Estilo del scrollbar para navegadores webkit (Chrome, Safari, Edge) */
+.funread-demo .card-scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+
+.funread-demo .card-scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.funread-demo .card-scrollable::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.funread-demo .card-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

@@ -1,27 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./MyClasses.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
-  faChartLine,
   faCalendarAlt,
   faUser,
   faArrowLeft,
+  faStar,
+  faBookOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import { listedStudentGroups } from "../../api";
 import { listedBooksPerClassesById } from "../../api/booksPerClasses";
 import { bookSearchById } from "../../api/books";
 import { listedClassesId } from "../../api/classes";
-import { userListById } from "../../api/users"; // Import the function to get user details by ID
-import imgLogo from "../../logoFunread.png"; // Import logo image
-import { getMediaUrl } from "../Utils/mediaUrl"; // Import the function to get media URL
-import { getUserPoints } from "../../api/userPoints"; // Import the function to get user points
-import { getCurrentRank } from "../../api/userPoints"; // Import the function to get current rank
-import { getBooksCompleted } from "../../api/userBookProgress"; // Import the function to get completed books count
-import StatCard from '../StatCard/StatCard.jsx'; // Import the StatCard component
-import Star from './StarProgress.jsx';
+import { userListById } from "../../api/users";
+import imgLogo from "../../logoFunread.png";
+import { getMediaUrl } from "../Utils/mediaUrl";
+import { getUserPoints } from "../../api/userPoints";
+import { getCurrentRank } from "../../api/userPoints";
+import { getBooksCompleted, calculateClassProgress } from "../../api/userBookProgress";
+import MyBookClasses from "./MyBookClasses";
+import MyClassesStatCard from "./MyClassesStatCard";
+
+// Helper to validate that a name is meaningful (not empty or placeholders like "unknown")
+const isValidName = (name) => {
+  if (!name || typeof name !== "string") return false;
+  const trimmed = name.trim();
+  if (!trimmed) return false;
+  const lowered = trimmed.toLowerCase();
+  const invalids = new Set([
+    "unknown",
+    "unknow", 
+    "desconocido",
+    "n/a",
+    "na",
+    "-",
+    "null",
+    "undefined",
+    "unassigned teacher",
+  ]);
+  return !invalids.has(lowered);
+};
 
 // Function to get teacher name from ID
 const getTeacherName = async (teacherId) => {
@@ -31,13 +52,13 @@ const getTeacherName = async (teacherId) => {
 
     if (response && response.data) {
       const teacherData = response.data;
-      // Create a formatted name with both first and last name
-      return `${teacherData.name} ${teacherData.lastname}`;
+      const fullName = `${teacherData.name} ${teacherData.lastname}`.trim();
+      return isValidName(fullName) ? fullName : null;
     }
-    return `Teacher ID: ${teacherId}`;
+    return null;
   } catch (error) {
     console.error(`Error fetching teacher details for ID ${teacherId}:`, error);
-    return `Teacher ID: ${teacherId}`;
+    return null;
   }
 };
 
@@ -45,6 +66,7 @@ const MyClasses = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [classes, setClasses] = useState([]);
+  const classesRef = useRef([]); // Ref para mantener referencia actualizada
   const [userStats, setUserStats] = useState({
     level: 1,
     points: 0,
@@ -57,6 +79,12 @@ const MyClasses = () => {
   const [selectedClass, setSelectedClass] = useState(null);
   const [classBooks, setClassBooks] = useState([]);
   const [loadingBooks, setLoadingBooks] = useState(false);
+
+  // Mantener classesRef sincronizado con classes
+  useEffect(() => {
+    classesRef.current = classes;
+  }, [classes]);
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -66,34 +94,25 @@ const MyClasses = () => {
           const pointsResponse = await getUserPoints(user.userId);
           console.log("User points response:", pointsResponse);
 
-          // Get current rank position
           const rankResponse = await getCurrentRank(user.userId);
           console.log("User rank response:", rankResponse);
 
-          // Get completed books count
           const booksCompletedResponse = await getBooksCompleted(user.userId);
           console.log("Books completed response:", booksCompletedResponse);
 
-          // Extract the completed books count from the response
           const completedBooksCount =
             booksCompletedResponse?.data?.completed_books || 0;
 
           if (pointsResponse) {
-            // Access total_points from the correct structure in the response
             const userPoints = parseInt(pointsResponse.total_points || 0);
-            // Calculate level based on points (1 level for each 500 points)
             const level = Math.max(1, Math.floor(userPoints / 500) + 1);
 
-            // Update user stats with real data
             setUserStats((prev) => ({
               ...prev,
               points: userPoints,
               level: level,
-              // Add rank position from rankResponse
               ranking: rankResponse ? rankResponse.position : 0,
-              // Points needed for next level
               pointsToNextLevel: level * 500 - userPoints,
-              // Update completed quizzes with books completed count
               completedQuizzes: completedBooksCount,
             }));
           }
@@ -108,19 +127,15 @@ const MyClasses = () => {
         const studentsGroups = await listedStudentGroups();
         console.log("Groups obtained:", studentsGroups);
 
-        // Filter groups belonging to current user
         const studentGroups = studentsGroups.data.filter(
           (student) => student.userid === user.userId
         );
         console.log("Current user groups:", studentGroups);
 
-        // Array to store classes with complete data
         const formattedClasses = [];
 
-        // For each group, get the complete class details
         for (const group of studentGroups) {
           try {
-            // Get class details using group ID
             const classResponse = await listedClassesId(group.groupscreateid);
             console.log(
               `Class details for group ${group.groupscreateid}:`,
@@ -132,50 +147,68 @@ const MyClasses = () => {
               classResponse.data &&
               classResponse.data.length > 0
             ) {
-              const classData = classResponse.data[0]; // Take the first result
+              // Iterate through ALL classes returned for this group
+              for (const classData of classResponse.data) {
+                let teacherName = null;
 
-              let teacherName = group.teachername || "Unassigned Teacher";
+                // Try to get teacher name from group data first
+                if (group.teachername && isValidName(group.teachername)) {
+                  teacherName = group.teachername;
+                } else if (classData.teacherassigned) {
+                  // If group doesn't have a valid teacher name, fetch from teacher ID
+                  teacherName = await getTeacherName(classData.teacherassigned);
+                }
 
-              // If teacher ID is available but no name, fetch the teacher's details
-              if (classData.teacherassigned && !group.teachername) {
-                teacherName = await getTeacherName(classData.teacherassigned);
+                let realProgress = 0;
+                try {
+                  const classBooks = await listedBooksPerClassesById(classData.classesid);
+                  if (classBooks?.data && classBooks.data.length > 0) {
+                    const bookIds = classBooks.data.map(book => book.booksid || book.id);
+                    realProgress = await calculateClassProgress(user.userId, bookIds);
+                  }
+                } catch (progressError) {
+                  realProgress = 0;
+                }
+
+                const formattedGroup = {
+                  id: `${group.groupscreateid}-${classData.classesid}`,
+                  groupId: group.groupscreateid,
+                  classId: classData.classesid,
+                  name: classData.name || "Unnamed Class",
+                  grade: classData.grade,
+                  progress: realProgress,
+                  teacherId: classData.teacherassigned,
+                  teacher: teacherName, // This will be null if no valid name found
+                  startDate: classData.startdate,
+                  finishDate: classData.finishdate,
+                  nextClass: classData.finishdate
+                    ? `Ends: ${new Date(
+                        classData.finishdate
+                      ).toLocaleDateString()}`
+                    : "No scheduled classes",
+                  image: group.image || "/Media/media/default-class.jpg",
+                  bookId: group.bookid || 3,
+                  isActive: classData.isactive,
+                };
+
+                console.log(
+                  "Formatted class with complete data:",
+                  formattedGroup
+                );
+                formattedClasses.push(formattedGroup);
               }
-
-              // Create object with class data
-              const formattedGroup = {
-                id: group.groupscreateid,
-                classId: classData.classesid,
-                name: classData.name || "Unnamed Class",
-                grade: classData.grade,
-                progress: group.progress || Math.floor(Math.random() * 100),
-                teacherId: classData.teacherassigned,
-                // Use the fetched teacher name instead of just the ID
-                teacher: teacherName,
-                startDate: classData.startdate,
-                finishDate: classData.finishdate,
-                nextClass: classData.finishdate
-                  ? `Ends: ${new Date(
-                    classData.finishdate
-                  ).toLocaleDateString()}`
-                  : "No scheduled classes",
-                image: group.image || "/Media/media/default-class.jpg",
-                bookId: group.bookid || 3,
-                isActive: classData.isactive,
-              };
-
-              console.log(
-                "Formatted class with complete data:",
-                formattedGroup
-              );
-              formattedClasses.push(formattedGroup);
             } else {
-              // If class details couldn't be obtained, use basic data
               console.log("No class data found, using basic group data");
+              const teacherName = (group.teachername && isValidName(group.teachername)) 
+                ? group.teachername 
+                : null;
+              
               const formattedGroup = {
                 id: group.groupscreateid,
+                groupId: group.groupscreateid,
                 name: group.groupname || "Unnamed Class",
-                progress: group.progress || Math.floor(Math.random() * 100),
-                teacher: group.teachername || "Unassigned Teacher",
+                progress: group.progress || 0,
+                teacher: teacherName,
                 nextClass: "No scheduled classes",
                 image: group.image || "/Media/media/default-class.jpg",
                 bookId: group.bookid || 3,
@@ -187,12 +220,16 @@ const MyClasses = () => {
               `Error getting class details for group ${group.groupscreateid}:`,
               classError
             );
-            // Add the group with limited data
+            const teacherName = (group.teachername && isValidName(group.teachername)) 
+              ? group.teachername 
+              : null;
+            
             const formattedGroup = {
               id: group.groupscreateid,
+              groupId: group.groupscreateid,
               name: group.groupname || "Unnamed Class",
-              progress: group.progress || Math.floor(Math.random() * 100),
-              teacher: group.teachername || "Unassigned Teacher",
+              progress: group.progress || 0,
+              teacher: teacherName,
               nextClass: "No scheduled classes",
               image: group.image || "/Media/media/default-class.jpg",
               bookId: group.bookid || 3,
@@ -203,8 +240,6 @@ const MyClasses = () => {
 
         console.log("Formatted classes with complete data:", formattedClasses);
         setClasses(formattedClasses);
-
-        // We already have user statistics from the API, no need to overwrite
       } catch (error) {
         console.error("Error loading classes:", error);
       } finally {
@@ -215,50 +250,142 @@ const MyClasses = () => {
     fetchData();
   }, [user.userId]);
 
+  useEffect(() => {
+    if (isLoading || classes.length === 0) {
+      return;
+    }
+
+    let isProcessing = false;
+
+    const updateClassProgress = async () => {
+      if (isProcessing) {
+        return;
+      }
+
+      try {
+        const trigger = localStorage.getItem('book_completed_trigger');
+        
+        if (!trigger) return;
+
+        isProcessing = true;
+        const { userId, bookId, timestamp } = JSON.parse(trigger);
+        
+        if (userId !== user.userId) {
+          localStorage.removeItem('book_completed_trigger');
+          isProcessing = false;
+          return;
+        }
+
+        if (Date.now() - timestamp > 10000) {
+          localStorage.removeItem('book_completed_trigger');
+          isProcessing = false;
+          return;
+        }
+        
+        let targetClassId = null;
+        let found = false;
+        
+        for (const classItem of classesRef.current) {
+          console.log(`🔍 Checking class ${classItem.classId || classItem.id}: ${classItem.name}`);
+          
+          if (classItem.classId) {
+            try {
+              const booksResponse = await listedBooksPerClassesById(classItem.classId);
+              console.log(`📖 Books in class ${classItem.classId}:`, booksResponse?.data?.length || 0);
+              
+              if (booksResponse?.data) {
+                const hasBook = booksResponse.data.some(
+                  book => {
+                    const bookIdToCheck = book.booksid || book.id;
+                    // Comparar asegurando que ambos sean del mismo tipo
+                    const match = Number(bookIdToCheck) === Number(bookId);
+                    console.log(`  Checking book ${bookIdToCheck} === ${bookId}?`, match);
+                    return match;
+                  }
+                );
+                
+                if (hasBook) {
+                  targetClassId = classItem.classId;
+                  found = true;
+                  
+                  const classBookIds = booksResponse.data.map(
+                    book => book.booksid || book.id
+                  );
+                  
+                  const newProgress = await calculateClassProgress(userId, classBookIds);
+                  
+                  setClasses(prevClasses => {
+                    const updatedClasses = prevClasses.map(cls => 
+                      cls.classId === targetClassId 
+                        ? { ...cls, progress: newProgress }
+                        : cls
+                    );
+                    return updatedClasses;
+                  });
+                  
+                  break;
+                }
+              }
+            } catch (error) {
+              console.error(`Error checking books for class ${classItem.classId}:`, error);
+            }
+          }
+        }
+
+        localStorage.removeItem('book_completed_trigger');
+        
+      } catch (error) {
+        console.error("Error updating class progress:", error);
+        localStorage.removeItem('book_completed_trigger');
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    const interval = setInterval(updateClassProgress, 1000);
+    
+    updateClassProgress();
+    
+    return () => {
+      clearInterval(interval);
+    };
+  }, [user.userId, isLoading, classes.length]);
+
   // Function to fetch books for a specific class
   const fetchClassBooks = async (classId) => {
     setLoadingBooks(true);
     try {
-      // Get book IDs associated with the class
       const response = await listedBooksPerClassesById(classId);
       console.log("Books associated with class:", response);
 
       if (response && response.data && response.data.length > 0) {
-        // Array to store books with complete details
         const booksWithDetails = [];
 
-        // For each book, get its complete details
         for (const bookItem of response.data) {
           try {
-            // Get book ID
             const bookId = bookItem.booksid || bookItem.id;
 
             if (bookId) {
-              // Call API to get book details
               const bookDetailsResponse = await bookSearchById(bookId);
               console.log(`Book details for ${bookId}:`, bookDetailsResponse);
 
               if (bookDetailsResponse && bookDetailsResponse.data) {
                 const bookDetails = bookDetailsResponse.data;
 
-                // Create object with complete book details
                 const bookWithDetails = {
                   id: bookId,
                   title: bookDetails.title || "Untitled Book",
                   author: bookDetails.author || "Unknown Author",
                   category: bookDetails.category,
                   description: bookDetails.description || "",
-                  // Use portrait path as cover image
                   cover:
                     bookDetails.portrait || "/Media/media/default-book.jpg",
                   progress: bookItem.progress || 0,
-                  // Keep other potentially useful data
                   ...bookItem,
                 };
 
                 booksWithDetails.push(bookWithDetails);
               } else {
-                // If details couldn't be obtained, use basic data
                 booksWithDetails.push({
                   ...bookItem,
                   id: bookId,
@@ -271,7 +398,6 @@ const MyClasses = () => {
             }
           } catch (detailError) {
             console.error(`Error getting book details:`, detailError);
-            // Add book with limited data
             booksWithDetails.push({
               ...bookItem,
               id: bookItem.booksid || bookItem.id,
@@ -298,17 +424,20 @@ const MyClasses = () => {
 
   // Function to handle class selection and show books
   const handleClassSelect = async (classItem) => {
+    console.log("Selected class:", classItem);
     setSelectedClass(classItem);
     await fetchClassBooks(classItem.classId);
   };
 
   // Function to navigate to reading view for a specific book
   const handleBookClick = (bookId) => {
+    console.log("Navigating to book:", bookId);
     navigate(`/readingview/${bookId}`);
   };
 
   // Function to go back to classes view
   const handleBackToClasses = () => {
+    console.log("Going back to classes");
     setSelectedClass(null);
     setClassBooks([]);
   };
@@ -321,72 +450,18 @@ const MyClasses = () => {
 
   return (
     <div className="student-dashboard">
-      {/* Main content */}
-
-
-
-      <div className="dashboard-content">
-        {/* Main content area */}
-        {/* Sidebar with statistics */}
-
-        <aside className="dashboard-sidebar">
-          <div className="user-stats">
-
-            {/* Tarjeta de nivel */}
-            <StatCard
-              icon={<FontAwesomeIcon icon={faUser} />}
-              title={`Level ${userStats.level}`}
-              className="user-info"
-              iconClassName="level"
-            >
-              <Star value={userStats.points} max={userStats.level * 500} />
-              <span className="progress-text">
-                {userStats.points} / {userStats.level * 500} points to next
-                level
-              </span>
-            </StatCard>
-
-
-            {/* Tarjeta de quizzes */}
-            <StatCard
-              icon={<FontAwesomeIcon icon={faChartLine} />}
-              title="Books"
-              className="books-info"
-              iconClassName="books"
-            >
-              <p>{userStats.completedQuizzes} completed</p>
-            </StatCard>
-          </div>
-
-          {/* <div className="upcoming-events">
-            <h3><FontAwesomeIcon icon={faCalendarAlt} /> Upcoming Events</h3>
-            <ul>
-              <li>
-                <span className="event-date">Today, 3:00 PM</span>
-                <span className="event-title">Literature Quiz</span>
-              </li>1
-              <li>
-                <span className="event-date">Tomorrow, 10:00 AM</span>
-                <span className="event-title">Math Class</span>
-              </li>
-              <li>
-                <span className="event-date">Friday, 2:30 PM</span>
-                <span className="event-title">Project Submission</span>
-              </li>
-            </ul>
-          </div> */}
-        </aside>
-
-        <main className="main-content">
-          
-
+      <div className="dashboard-content" style={{ padding: "0px" }}>
+        {/* Sidebar with statistics - Only show when no class is selected */}
+        {!selectedClass && <MyClassesStatCard userStats={userStats} />}
+        
+        <main className={`main-content bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 ${selectedClass ? 'full-width' : ''}`}> 
           {isLoading ? (
             <div className="loading-spinner">
               <div className="spinner"></div>
-              <p>Loading your classes...</p>
             </div>
           ) : (
             <div className="tab-content">
+              {/* Show classes grid when no class is selected */}
               {activeTab === "classes" && !selectedClass && (
                 <div className="classes-grid">
                   {classes.length === 0 ? (
@@ -402,43 +477,44 @@ const MyClasses = () => {
                     classes.map((classItem) => (
                       <div
                         key={classItem.id}
-                        className="class-card"
                         onClick={() => handleClassSelect(classItem)}
+                        className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 border-4 border-purple-200 hover:border-purple-400 transform hover:scale-[1.02] cursor-pointer"
                       >
-                        <div
-                          className="class-image"
-                          style={{ backgroundImage: `url(${classItem.image})` }}
-                        >
-                          <div className="class-progress">
-                            <div className="progress-circle">
-                              <svg viewBox="0 0 36 36">
-                                <path
-                                  className="circle-bg"
-                                  d="M18 2.0845
-                                    a 15.9155 15.9155 0 0 1 0 31.831
-                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                        <div className="flex items-start gap-4">
+                          <div className="flex-shrink-0 bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl p-3 shadow-md">
+                            <FontAwesomeIcon icon={faBookOpen} className="h-6 w-6 text-white" />
+                          </div>
+
+                          <div className="flex-1">
+                            <h3 className="text-xl font-bold text-gray-800 mb-2">{classItem.name}</h3>
+
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="bg-blue-100 rounded-full p-1.5">
+                                <FontAwesomeIcon icon={faUser} className="h-3 w-3 text-blue-600" />
+                              </div>
+                              <p className="text-sm font-semibold text-gray-600">
+                                {classItem.teacher || "Teacher not assigned"}
+                              </p>
+                            </div>
+
+                            <div className="flex items-center gap-2 bg-green-50 rounded-lg px-3 py-2 mb-3">
+                              <FontAwesomeIcon icon={faCalendarAlt} className="h-3.5 w-3.5 text-green-600" />
+                              <p className="text-xs font-bold text-green-700">{classItem.nextClass}</p>
+                            </div>
+
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="font-semibold text-gray-600">Progress</span>
+                                <span className="font-bold text-purple-600">{classItem.progress}%</span>
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                                <div
+                                  className="bg-gradient-to-r from-purple-400 to-pink-400 h-full rounded-full transition-all duration-500"
+                                  style={{ width: `${classItem.progress}%` }}
                                 />
-                                <path
-                                  className="circle"
-                                  strokeDasharray={`${classItem.progress}, 100`}
-                                  d="M18 2.0845
-                                    a 15.9155 15.9155 0 0 1 0 31.831
-                                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                                />
-                                <text x="18" y="20.35" className="percentage">
-                                  {classItem.progress}%
-                                </text>
-                              </svg>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="class-info">
-                          <h3>{classItem.name}</h3>
-                          <p className="teacher">{classItem.teacher}</p>
-                          <p className="next-class">
-                            <FontAwesomeIcon icon={faCalendarAlt} />{" "}
-                            {classItem.nextClass}
-                          </p>
                         </div>
                       </div>
                     ))
@@ -448,58 +524,27 @@ const MyClasses = () => {
 
               {/* Show books for selected class */}
               {activeTab === "classes" && selectedClass && (
-                <div className="class-books-container">
-                  <div className="class-books-header">
-                    <button
-                      onClick={handleBackToClasses}
-                      className="back-button"
-                    >
-                      <FontAwesomeIcon icon={faArrowLeft} /> Back to classes
-                    </button>
-                    <h2>Books from {selectedClass.name}</h2>
-                  </div>
-
+                <>
                   {loadingBooks ? (
                     <div className="loading-spinner">
                       <div className="spinner"></div>
-                      <p>Loading books...</p>
                     </div>
                   ) : (
-                    <div className="books-grid">
-                      {classBooks.length === 0 ? (
-                        <div className="no-books-message">
-                          <FontAwesomeIcon icon={faBook} size="3x" />
-                          <h3>No books available</h3>
-                          <p>This class doesn't have any assigned books yet.</p>
-                        </div>
-                      ) : (
-                        classBooks.map((book) => (
-                          <div
-                            key={book.id || book.booksid}
-                            className="book-card"
-                            onClick={() =>
-                              handleBookClick(book.id || book.booksid)
-                            }
-                          >
-                            <div
-                              className="book-cover"
-                              style={{
-                                backgroundImage: `url(${getMediaUrl(
-                                  book.cover || "/Media/media/default-book.jpg"
-                                )})`,
-                              }}
-                            ></div>
-                            <div className="book-info">
-                              <h3>{book.title || "Untitled Book"}</h3>
-                            </div>
-                          </div>
-                        ))
-                      )}
-                    </div>
+                    <MyBookClasses 
+                      books={classBooks} 
+                      onBookClick={handleBookClick} 
+                      getMediaUrl={getMediaUrl} 
+                      teacherName={selectedClass.teacher}
+                      headerTitle={`Books from ${selectedClass.name}`}
+                      headerSubtitle="Explore your book collection and begin your learning adventure"
+                      onBackToClasses={handleBackToClasses}
+                      backButtonText=" Return to Classes"
+                      showBackButton={true}
+                      showStyleTools={true}
+                    />
                   )}
-                </div>
+                </>
               )}
-
             </div>
           )}
         </main>
