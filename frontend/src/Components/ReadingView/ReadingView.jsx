@@ -365,9 +365,11 @@ function ReadingView() {
         navigate("/library");
       } else {
         const allBadges = await awardBadges(bookid);
-        setAwardedBadges(allBadges);
+        
+        // Asegurar que awardedBadges siempre sea un array
+        setAwardedBadges(Array.isArray(allBadges) ? allBadges : []);
 
-        if (allBadges === null) {
+        if (!allBadges || allBadges.length === 0) {
           navigate("/dashboard");
         }
       }
@@ -423,7 +425,8 @@ function ReadingView() {
 
   // Mostrar badges uno por uno
   useEffect(() => {
-    if (!awardedBadges.length) return;
+    // Validar que awardedBadges sea un array válido
+    if (!awardedBadges || !Array.isArray(awardedBadges) || !awardedBadges.length) return;
 
     let index = 0;
     setCurrentBadge(awardedBadges[index]);

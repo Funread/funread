@@ -1,0 +1,132 @@
+/* Badge Table Styles */
+
+.badge-table-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 70vh; /* 70% de la altura de la ventana */
+  display: block;
+  position: relative;
+}
+
+.badge-table {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.badge-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.badge-table thead th {
+  border: none;
+  padding: 15px 10px;
+  font-weight: 600;
+  text-align: left;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.badge-table tbody tr {
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.badge-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.badge-table tbody td {
+  padding: 15px 10px;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+/* Columns */
+.badge-id {
+  font-weight: 600;
+  color: #6c757d;
+  min-width: 60px;
+}
+
+.badge-title {
+  min-width: 180px;
+  font-weight: 600;
+}
+
+.badge-description {
+  max-width: 250px;
+  color: #6c757d;
+}
+
+.badge-points .points-badge {
+  font-size: 12px;
+  padding: 5px 10px;
+  font-weight: 600;
+}
+
+.badge-goal {
+  min-width: 100px;
+}
+
+.badge-type {
+  min-width: 100px;
+}
+
+.badge-auto {
+  text-align: center;
+  min-width: 60px;
+}
+
+.badge-users {
+  min-width: 100px;
+}
+
+.badge-actions {
+  min-width: 120px;
+  text-align: right;
+}
+
+.badge-actions .btn {
+  margin: 0 2px;
+}
+
+/* Badges (Bootstrap) */
+.badge {
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .badge-table {
+    font-size: 12px;
+  }
+
+  .badge-table thead th,
+  .badge-table tbody td {
+    padding: 10px 8px;
+  }
+
+  .badge-description {
+    max-width: 150px;
+  }
+
+  .badge-actions .btn {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .badge-table-container {
+    overflow-x: scroll;
+  }
+
+  .badge-table {
+    min-width: 800px;
+  }
+}

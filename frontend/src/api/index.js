@@ -16,6 +16,8 @@ export * from './booksPerClasses'
 export * from './classes'
 export * from './pages'
 export * from './widget'
+export * from './admin/badges'
+export * from './badges/userBadges'
 // export * from "./"
 // export * from "./"
 // export * from "./"

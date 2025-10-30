@@ -2,71 +2,82 @@ import React, { useEffect, useState } from 'react';
 import AccessDeniedModal from './Components/ErrorHandler/AccessDeniedModal';
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { tokenVerify,axiosAuth } from './api';
+import { tokenVerify, axiosAuth } from './api';
 
 const ProtectedRoutes = (props) => {
-    const [isAuth, setIsAuth] = useState(null); // Inicialmente establecido como null
+    const [isAuth, setIsAuth] = useState(null); // null = cargando, true = autorizado, false = denegado
     const [showModal, setShowModal] = useState(false);
-    const user = useSelector((state) => state.user)
-
-    const rolesCheck = ( () => {
-        setIsAuth(false)
-        props.roles.forEach(role => {
-            user.roles.forEach(userRole => {
-                if(userRole.role === role){
-                    setIsAuth(true);
-                }
-            });
-        });
-    })
+    const user = useSelector((state) => state.user);
 
     useEffect(() => {
         const checkAuth = async () => {
-            if(user.email === ""){
-                window.location.href = '/';              
-            }
-            if(!props.roles){
-                setIsAuth(true)
-            }
-            if(user.roles){
-                await rolesCheck();
-            }
-            if (isAuth!==false) {
-                try {
-                    // Realizar la verificación de autenticación aquí
-                    tokenVerify().then((res) => {
-                        setIsAuth(res.data.login); // Establecer el valor de isAuth
-                    })
-                } catch (error) {
-                    console.error("Error verifying token:", error);
-                    setIsAuth(false); // En caso de error, establecer como falso
+            try {
+                // 1. Verificar si hay usuario logueado
+                if (!user.email || user.email === "") {
+                    console.log("No hay usuario logueado");
+                    setIsAuth(false);
+                    return;
                 }
-            } else {
-                setIsAuth(false); // Si axiosAuth no está definido, establecer como falso
+
+                // 2. Verificar el token JWT
+                const tokenResponse = await tokenVerify();
+                if (!tokenResponse.data.login) {
+                    console.log("Token inválido");
+                    setIsAuth(false);
+                    return;
+                }
+
+                // 3. Verificar roles si se requieren
+                if (props.roles && props.roles.length > 0) {
+                    if (!user.roles || user.roles.length === 0) {
+                        console.log("Usuario sin roles asignados");
+                        setIsAuth(false);
+                        return;
+                    }
+
+                    // Verificar si el usuario tiene alguno de los roles requeridos
+                    const hasRequiredRole = user.roles.some(userRole => 
+                        props.roles.includes(userRole.role)
+                    );
+
+                    console.log("Roles requeridos:", props.roles);
+                    console.log("Roles del usuario:", user.roles.map(r => r.role));
+                    console.log("Tiene acceso:", hasRequiredRole);
+
+                    setIsAuth(hasRequiredRole);
+                } else {
+                    // Si no se requieren roles específicos, solo verificar autenticación
+                    setIsAuth(true);
+                }
+            } catch (error) {
+                console.error("Error verificando autenticación:", error);
+                setIsAuth(false);
             }
-            
         };
 
-        checkAuth(); // Llamar a la función de verificación de autenticación
-    }, [axiosAuth, rolesCheck, isAuth,  props.rol, user.roles]);
+        checkAuth();
+    }, [user.email, user.roles, props.roles]); // Dependencias estables
 
-        // Renderizar basado en el valor de isAuth
+    // Renderizar basado en el valor de isAuth
     if (isAuth === null) {
-        // Esperando la verificación de autenticación, se puede mostrar un indicador de carga aquí
+        // Esperando la verificación de autenticación
         return <div>Cargando...</div>;
-    } else if (isAuth) {
-        // Usuario autenticado
-        return <Outlet />;
-    } else {
-        // Usuario no autenticado, mostrar modal y redirigir
-        const handleClose = () => {
-            setShowModal(false);
-            window.location.href = '/';
-        };
-        // Solo mostrar el modal si no está ya visible
-        if (!showModal) setShowModal(true);
-        return <AccessDeniedModal show={showModal} onClose={handleClose} />;
     }
+
+    if (isAuth) {
+        // Usuario autenticado y autorizado
+        return <Outlet />;
+    }
+
+    // Usuario no autenticado o no autorizado
+    const handleClose = () => {
+        setShowModal(false);
+        window.location.href = '/';
+    };
+
+    if (!showModal) setShowModal(true);
+    
+    return <AccessDeniedModal show={showModal} onClose={handleClose} />;
 };
 
-export default ProtectedRoutes
+export default ProtectedRoutes;

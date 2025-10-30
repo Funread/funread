@@ -27,6 +27,7 @@ import { store, persistor } from "./redux/store";
 import BadgesPage from "./Components/Badges/BadgesPage";
 import DashboardLayout from "./Components/DashboardLayout/DashboardLayout";
 import Leaderboard from "./Components/Leaderboard/Leaderboard";
+import AdminBadgesPage from "./Components/Admin/Badges/AdminBadgesPage";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -46,17 +47,27 @@ const DashboardRoleHelper = () => {
 root.render(
   <>
     <TextSelectorMenu />
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true
+      }}
+    >
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Routes>
             <Route exact path="/dashboard" element={<DashboardRoleHelper />}>
 
+              {/* Rutas para administradores - PRIMERO para evitar conflictos */}
+              <Route element={<ProtectedRoutes roles={["administrativo"]} />}>
+                <Route path="badges" element={<AdminBadgesPage />} />
+              </Route>
+
               {/* Rutas para profesores */}
               <Route element={<ProtectedRoutes roles={["profesor"]} />}>
                 <Route path="library" element={<Library />} />
                 <Route path="groups" element={<Group />} />
-                <Route path="badges" element={<BadgesPage />} />
+                <Route path="teacher-badges" element={<BadgesPage />} />
               </Route>
 
               {/* Rutas para estudiantes */}
