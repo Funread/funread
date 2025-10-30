@@ -1,6 +1,6 @@
 import React from "react";
-import Badges from "../../badges/badges";
+import StudentAchievements from "./StudentAchievements/StudentAchievements";
 
 export default function BadgesPage() {
-  return <Badges />;
+  return <StudentAchievements />;
 }
