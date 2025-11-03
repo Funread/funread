@@ -7,8 +7,32 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
   const containerRef = useRef(null);
   const [editingText, setEditingText] = useState(null);
   const [textValue, setTextValue] = useState("");
-  const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
+  const [stageSize, setStageSize] = useState({ width: 1100, height: 700 });
   const [loadedImages, setLoadedImages] = useState({});
+
+  const MIN_CANVAS_WIDTH = 1100;
+  const MIN_CANVAS_HEIGHT = 700;
+
+  // Ajustar el tamaño del canvas dinámicamente al contenedor
+  useEffect(() => {
+    const resize = () => {
+      if (containerRef.current) {
+        const parent = containerRef.current.parentElement;
+        if (parent) {
+          const { clientWidth, clientHeight } = parent;
+          // Usar el mayor entre el espacio disponible y el tamaño del canvas
+          const newWidth = Math.max(MIN_CANVAS_WIDTH, clientWidth);
+          const newHeight = Math.max(MIN_CANVAS_HEIGHT, clientHeight);
+          setStageSize({ width: newWidth, height: newHeight });
+        }
+      }
+    };
+    
+    // Ejecutar inmediatamente y en cada resize
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
 
   // 🔁 Precargar imágenes cuando cambian los elementos
   useEffect(() => {
@@ -33,18 +57,6 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
   }, [elements]);
 
   useEffect(() => {
-    const resize = () => {
-      if (containerRef.current) {
-        const { clientWidth, clientHeight } = containerRef.current;
-        setStageSize({ width: clientWidth, height: clientHeight });
-      }
-    };
-    resize();
-    window.addEventListener("resize", resize);
-    return () => window.removeEventListener("resize", resize);
-  }, []);
-
-  useEffect(() => {
     if (!selectedId || !stageRef.current || !transformerRef.current) return;
 
     const stage = stageRef.current;
@@ -59,30 +71,108 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
   }, [selectedId, elements]);
 
   const handleDragEnd = (e, id) => {
+    const node = e.target;
+    const stage = stageRef.current;
+    
+    if (!stage) {
+      setElements((prev) =>
+        prev.map((el) => (el.id === id ? { ...el, x: node.x(), y: node.y() } : el))
+      );
+      return;
+    }
+
+    // Obtener dimensiones del stage y del nodo
+    const stageWidth = stage.width();
+    const stageHeight = stage.height();
+    const nodeWidth = node.width() * node.scaleX();
+    const nodeHeight = node.height() * node.scaleY();
+
+    // Calcular límites
+    let newX = node.x();
+    let newY = node.y();
+
+    // Restringir X
+    if (newX < 0) newX = 0;
+    if (newX + nodeWidth > stageWidth) newX = stageWidth - nodeWidth;
+
+    // Restringir Y
+    if (newY < 0) newY = 0;
+    if (newY + nodeHeight > stageHeight) newY = stageHeight - nodeHeight;
+
+    // Actualizar posición del nodo si es necesario
+    if (newX !== node.x() || newY !== node.y()) {
+      node.x(newX);
+      node.y(newY);
+    }
+
     setElements((prev) =>
-      prev.map((el) => (el.id === id ? { ...el, x: e.target.x(), y: e.target.y() } : el))
+      prev.map((el) => (el.id === id ? { ...el, x: newX, y: newY } : el))
     );
   };
 
   const handleTransformEnd = (e, id) => {
     const node = e.target;
+    const stage = stageRef.current;
     const scaleX = node.scaleX();
     const scaleY = node.scaleY();
+    
+    const newWidth = Math.max(5, node.width() * scaleX);
+    const newHeight = Math.max(5, node.height() * scaleY);
+    
     node.scaleX(1);
     node.scaleY(1);
-    setElements((prev) =>
-      prev.map((el) =>
-        el.id === id
-          ? {
-              ...el,
-              x: node.x(),
-              y: node.y(),
-              width: Math.max(5, node.width() * scaleX),
-              height: Math.max(5, node.height() * scaleY),
-            }
-          : el
-      )
-    );
+
+    if (stage) {
+      // Obtener dimensiones del stage
+      const stageWidth = stage.width();
+      const stageHeight = stage.height();
+
+      // Calcular límites para posición
+      let newX = node.x();
+      let newY = node.y();
+
+      // Restringir X
+      if (newX < 0) newX = 0;
+      if (newX + newWidth > stageWidth) newX = stageWidth - newWidth;
+
+      // Restringir Y
+      if (newY < 0) newY = 0;
+      if (newY + newHeight > stageHeight) newY = stageHeight - newHeight;
+
+      // Actualizar posición del nodo si es necesario
+      if (newX !== node.x() || newY !== node.y()) {
+        node.x(newX);
+        node.y(newY);
+      }
+
+      setElements((prev) =>
+        prev.map((el) =>
+          el.id === id
+            ? {
+                ...el,
+                x: newX,
+                y: newY,
+                width: newWidth,
+                height: newHeight,
+              }
+            : el
+        )
+      );
+    } else {
+      setElements((prev) =>
+        prev.map((el) =>
+          el.id === id
+            ? {
+                ...el,
+                x: node.x(),
+                y: node.y(),
+                width: newWidth,
+                height: newHeight,
+              }
+            : el
+        )
+      );
+    }
   };
 
   const handleTextDblClick = (el) => {
@@ -120,14 +210,15 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
 
   return (
     <>
-      <div ref={containerRef} className="w-full h-full overflow-hidden">
-        <Stage
-          width={stageSize.width}
-          height={stageSize.height}
-          ref={stageRef}
-          className="border bg-gray-100"
-        >
-          <Layer>
+      <div className="w-full h-full overflow-auto bg-gray-100">
+        <div ref={containerRef} style={{ minWidth: MIN_CANVAS_WIDTH, minHeight: MIN_CANVAS_HEIGHT }}>
+          <Stage
+            width={stageSize.width}
+            height={stageSize.height}
+            ref={stageRef}
+            className="border bg-gray-100"
+          >
+            <Layer>
             {elements.map((el) => {
               if (el.type === "text") {
                 // Crear elementos para el texto (fondo + texto)
@@ -220,14 +311,50 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
             <Transformer
               ref={transformerRef}
               boundBoxFunc={(oldBox, newBox) => {
+                // Validar tamaño mínimo
                 if (newBox.width < 5 || newBox.height < 5) {
                   return oldBox;
                 }
-                return newBox;
+
+                // Obtener dimensiones del stage
+                const stage = stageRef.current;
+                if (!stage) return newBox;
+
+                const stageWidth = stage.width();
+                const stageHeight = stage.height();
+
+                // Asegurar que el elemento no se salga del canvas durante el redimensionamiento
+                let adjustedBox = { ...newBox };
+
+                // Limitar posición X
+                if (adjustedBox.x < 0) {
+                  adjustedBox.width += adjustedBox.x;
+                  adjustedBox.x = 0;
+                }
+                if (adjustedBox.x + adjustedBox.width > stageWidth) {
+                  adjustedBox.width = stageWidth - adjustedBox.x;
+                }
+
+                // Limitar posición Y
+                if (adjustedBox.y < 0) {
+                  adjustedBox.height += adjustedBox.y;
+                  adjustedBox.y = 0;
+                }
+                if (adjustedBox.y + adjustedBox.height > stageHeight) {
+                  adjustedBox.height = stageHeight - adjustedBox.y;
+                }
+
+                // Verificar nuevamente tamaño mínimo después de ajustes
+                if (adjustedBox.width < 5 || adjustedBox.height < 5) {
+                  return oldBox;
+                }
+
+                return adjustedBox;
               }}
             />
           </Layer>
         </Stage>
+        </div>
       </div>
 
       {editingText && (() => {

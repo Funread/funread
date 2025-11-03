@@ -12,14 +12,13 @@ import PageSelector from "./PageSelector";
 import { award_badge_to_user } from "../../api/userBadges";
 import { getBadgesPerBook } from "../../api/Badges";
 import PopUpAchieve from "../Badges/PopUpAchieve";
-// import Loader from "../Shared/Loader/Loader";
 import { getMediaUrl } from "../../Components/Utils/mediaUrl";
 import { addPointsToUser } from "../../api/userPoints";
 import { store } from "../../redux/store";
 import { markBookAsCompleted, markPointsAwarded } from "../../api/userBookProgress";
-import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { ChevronLeft, ChevronRight, BookOpen, Star } from "lucide-react";
 
 function ReadingView() {
   const navigate = useNavigate();
@@ -44,7 +43,6 @@ function ReadingView() {
   const [contentBook, setContentBook] = useState();
 
   // Loading states
-  // const [isLoading, setIsLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [totalImagesToLoad, setTotalImagesToLoad] = useState(0);
   const [loadedImagesCount, setLoadedImagesCount] = useState(0);
@@ -179,7 +177,6 @@ function ReadingView() {
 
   const getBookContent = () => {
     async function fetchData() {
-      // setIsLoading(true);
       setError(null);
 
       try {
@@ -196,7 +193,6 @@ function ReadingView() {
       } catch (error) {
         setError("Error fetching data");
         console.error("Error fetching data:", error);
-        // setIsLoading(false);
       }
     }
 
@@ -212,6 +208,7 @@ function ReadingView() {
         console.log("ArrowRight");
         if (pageNumer < pagesCount - 1) {
           currentPage = pageNumer + 1;
+          setDirection("right");
         }
         if (pageNumer === pagesCount - 1) {
           // Submit responses before exiting
@@ -222,6 +219,7 @@ function ReadingView() {
         console.log("ArrowLeft");
         if (pageNumer > 0) {
           currentPage = pageNumer - 1;
+          setDirection("left");
         }
       }
 
@@ -251,7 +249,6 @@ function ReadingView() {
     setGridNumRows(currentPageContent.page.gridNumRows);
     setPagesCount(currentContent.length);
     setWidgets(currentPageContent.widgetitems);
-    // setIsLoading(false);
   };
 
   const exitPresentation = () => {
@@ -261,6 +258,7 @@ function ReadingView() {
   const handlePreviousPage = () => {
     if (pageNumer > 0) {
       const currentPage = pageNumer - 1;
+      setDirection("left");
       setPageNumer(currentPage);
       loadPage(contentBook, currentPage);
     }
@@ -352,6 +350,7 @@ function ReadingView() {
 
   const handleNextPage = () => {
     const currentPage = pageNumer + 1;
+    setDirection("right");
     setPageNumer(currentPage);
     loadPage(contentBook, currentPage);
   };
@@ -422,6 +421,9 @@ function ReadingView() {
 
   const [awardedBadges, setAwardedBadges] = useState([]); // Badges logrados por el usuario
   const [currentBadge, setCurrentBadge] = useState(null); // Badge actual a mostrar
+  
+  // Animation state for page transitions
+  const [direction, setDirection] = useState("right");
 
   // Mostrar badges uno por uno
   useEffect(() => {
@@ -451,74 +453,147 @@ function ReadingView() {
     return () => clearInterval(interval);
   }, [awardedBadges]);
 
-  // Determina si debemos mostrar la pantalla de carga
-  // const showLoader = isLoading || !imagesLoaded;
-  // const loadingMessage = isLoading
-  //   ? "Cargando libro..."
-  //   : "Preparando imágenes...";
-
   return (
     <FullScreen handle={handle}>
-      <div className="presentation-container">
-        {/* Componente Loader para mostrar durante la carga */}
-        {/* <Loader loading={showLoader} text={loadingMessage} /> */}
+      <div className="min-h-screen bg-gradient-to-br from-sky-100 via-purple-50 to-pink-100 flex flex-col relative overflow-hidden">
+        {/* Botón cerrar */}
+        <button
+          onClick={ForceExitReading}
+          className="fixed top-4 left-4 z-50 bg-red-500 hover:bg-red-600 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg transition-all hover:scale-110 active:scale-95"
+          aria-label="Cerrar libro"
+        >
+          <FontAwesomeIcon icon={faTimes} className="text-xl" />
+        </button>
 
-        <Button className="close-button" onClick={ForceExitReading}>
-          <FontAwesomeIcon icon={faTimes} />
-        </Button>
+        {/* Floating bubbles decoration */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div
+            className="absolute top-10 left-10 w-20 h-20 bg-yellow-300/20 rounded-full blur-xl animate-bounce"
+            style={{ animationDelay: "0s", animationDuration: "3s" }}
+          />
+          <div
+            className="absolute top-40 right-20 w-32 h-32 bg-pink-300/20 rounded-full blur-xl animate-bounce"
+            style={{ animationDelay: "1s", animationDuration: "4s" }}
+          />
+          <div
+            className="absolute bottom-20 left-1/4 w-24 h-24 bg-blue-300/20 rounded-full blur-xl animate-bounce"
+            style={{ animationDelay: "2s", animationDuration: "3.5s" }}
+          />
+          <div
+            className="absolute top-1/3 right-1/3 w-16 h-16 bg-purple-300/20 rounded-full blur-xl animate-bounce"
+            style={{ animationDelay: "0.5s", animationDuration: "4.5s" }}
+          />
+        </div>
 
-        {quizTotalPoints > 0 && (
-          <div className="quiz-points-display">Points: {quizTotalPoints}</div>
-        )}
+        {/* Header with points display */}
+        <header className="relative z-10 px-4 py-3 flex justify-end">
+          {quizTotalPoints > 0 && (
+            <div className="flex items-center gap-2 bg-yellow-400 rounded-full px-4 md:px-6 py-2 shadow-lg border-4 border-yellow-300">
+              <Star className="w-5 h-5 md:w-6 md:h-6 text-yellow-700 fill-yellow-700" />
+              <span className="text-base md:text-xl font-black text-yellow-900">{quizTotalPoints}</span>
+            </div>
+          )}
+        </header>
 
         {error ? (
           <div>
             <ErrorPage />
           </div>
         ) : (
-          <div className={`reading-view-layout`}>
-            <div className="content-wrapper">
-              <div className="page-content">
-                <PageSelector
-                  key={`page-${pageNumer}`}
-                  pageType={contentBook?.[pageNumer]?.page?.type || 1}
-                  gridDirection={gridDirection}
-                  gridNumRows={gridNumRows}
-                  pageNumer={pageNumer}
-                  widgets={widgets}
-                  pageData={contentBook?.[pageNumer]?.page?.data}
-                  onQuizResponse={(questionId, answer, isCorrect, points) =>
-                    handleQuizResponse(pageNumer, questionId, answer, isCorrect, points)
-                  }
-                  savedResponsesForPage={quizResponses[pageNumer] || {}}
-                />
+          <>
+            {/* Main book area */}
+            <main className="flex-1 flex items-center justify-center px-2 md:px-4 relative z-10">
+              <div className="relative w-full" style={{ maxWidth: '1150px' }}>
+                {/* Shadow effect */}
+                <div className="absolute inset-0 bg-gradient-to-b from-purple-400 to-pink-400 rounded-[2rem] md:rounded-[3rem] blur-2xl opacity-40 transform translate-y-6" />
+
+                {/* Book card */}
+                <div className="relative bg-white rounded-[2rem] md:rounded-[3rem] shadow-2xl overflow-hidden border-8 border-gradient-to-r from-yellow-300 via-pink-300 to-purple-300">
+                  {/* Book spines */}
+                  <div className="absolute left-0 top-0 bottom-0 w-3 md:w-6 bg-gradient-to-b from-yellow-400 via-pink-400 to-purple-400 shadow-inner" />
+                  <div className="absolute right-0 top-0 bottom-0 w-3 md:w-6 bg-gradient-to-b from-purple-400 via-pink-400 to-yellow-400 shadow-inner" />
+
+                  {/* Paper texture */}
+                  <div
+                    className="absolute inset-0 opacity-[0.04] pointer-events-none"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E")`,
+                    }}
+                  />
+
+                  {/* Content area */}
+                  <div className="relative bg-gradient-to-br from-amber-50 via-white to-rose-50 p-4 md:p-6 flex items-center justify-center" style={{ minHeight: '730px' }}>
+                    <div className="w-full flex items-center justify-center">
+                      <div
+                        key={pageNumer}
+                        className={`${direction === "right" ? "animate-slide-in-right" : "animate-slide-in-left"}`}
+                      >
+                        <PageSelector
+                          key={`page-${pageNumer}`}
+                          pageType={contentBook?.[pageNumer]?.page?.type || 1}
+                          gridDirection={gridDirection}
+                          gridNumRows={gridNumRows}
+                          pageNumer={pageNumer}
+                          widgets={widgets}
+                          pageData={contentBook?.[pageNumer]?.page?.data}
+                          onQuizResponse={(questionId, answer, isCorrect, points) =>
+                            handleQuizResponse(pageNumer, questionId, answer, isCorrect, points)
+                          }
+                          savedResponsesForPage={quizResponses[pageNumer] || {}}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="navigation-footer">
-              <button
-                onClick={handlePreviousPage}
-                disabled={pageNumer === 0}
-                className="nav-button"
-              >
-                ←
-              </button>
-              <span className="page-number">
-                Page {pageNumer + 1} of {pagesCount}
-              </span>
-              <button
-                onClick={handleNextPage}
-                disabled={pageNumer === pagesCount - 1}
-                className="nav-button"
-              >
-                →
-              </button>{" "}
-              {pageNumer === pagesCount - 1 && (
-                <button onClick={ExitReading} className="exit-button">
-                  Save & Finish
+            </main>
+
+            {/* Navigation footer */}
+            <nav className="relative z-10 bg-gradient-to-r from-yellow-400/30 via-pink-400/30 to-purple-400/30 backdrop-blur-md px-4 py-1 md:py-1.5 border-t-4 border-white/50 rounded-t-3xl">
+              <div className="max-w-6xl mx-auto flex items-center justify-between gap-3 md:gap-6">
+                <button
+                  onClick={handlePreviousPage}
+                  disabled={pageNumer === 0}
+                  className="bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white rounded-full px-5 md:px-8 py-2 md:py-2.5 text-lg md:text-xl font-black shadow-xl disabled:opacity-30 disabled:cursor-not-allowed transition-all hover:scale-110 active:scale-95 border-4 border-white/70 flex items-center"
+                >
+                  <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 mr-1 md:mr-2" />
+                  <span>Previous</span>
                 </button>
-              )}
-              {currentBadge && <PopUpAchieve Badge={currentBadge} />}
-            </div>
+
+                <div className="flex items-center gap-2 md:gap-3 bg-white rounded-full px-4 md:px-6 py-1.5 md:py-2 shadow-lg border-4 border-purple-300">
+                  <BookOpen className="w-5 h-5 md:w-6 md:h-6 text-purple-500" />
+                  <span className="text-base md:text-xl font-black text-gray-800">
+                    {pageNumer + 1} / {pagesCount}
+                  </span>
+                </div>
+
+                {pageNumer === pagesCount - 1 ? (
+                  <button
+                    onClick={ExitReading}
+                    className="bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white rounded-full px-5 md:px-8 py-2 md:py-2.5 text-lg md:text-xl font-black shadow-xl transition-all hover:scale-110 active:scale-95 border-4 border-white/70 flex items-center"
+                  >
+                    <span>Finish</span>
+                    <Star className="w-6 h-6 md:w-8 md:h-8 ml-1 md:ml-2 fill-white" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleNextPage}
+                    disabled={pageNumer === pagesCount - 1}
+                    className="bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white rounded-full px-5 md:px-8 py-2 md:py-2.5 text-lg md:text-xl font-black shadow-xl disabled:opacity-30 disabled:cursor-not-allowed transition-all hover:scale-110 active:scale-95 border-4 border-white/70 flex items-center"
+                  >
+                    <span>Next</span>
+                    <ChevronRight className="w-7 h-7 md:w-10 md:h-10 ml-1 md:ml-2" />
+                  </button>
+                )}
+              </div>
+            </nav>
+          </>
+        )}
+
+        {/* Badge popup overlay */}
+        {currentBadge && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <PopUpAchieve Badge={currentBadge} />
           </div>
         )}
       </div>
