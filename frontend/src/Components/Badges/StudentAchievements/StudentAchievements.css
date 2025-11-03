@@ -1,0 +1,272 @@
+/* Student Achievements Page Styles */
+
+.student-achievements {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.achievements-header {
+  text-align: center;
+  padding: 1.5rem 0;
+  border-bottom: 2px solid #e9ecef;
+  margin-bottom: 1.5rem;
+}
+
+.achievements-header h2 {
+  color: #2c3e50;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  color: #34495e;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #3498db;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+/* Sección de badges con scroll */
+.badges-section {
+  margin-bottom: 2rem;
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: visible;
+  padding-right: 0.5rem;
+}
+
+/* Row de badges con gap de 15px */
+.badges-row {
+  margin: -7.5px; /* Compensar el gap (15px / 2) */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.badges-row > [class*="col-"] {
+  padding: 19.5px; /* 7.5px + 7.5px = 15px de gap entre tarjetas */
+  display: flex; /* Para que la card ocupe todo el alto */
+}
+
+/* Badge Card Styles */
+.badge-card {
+  width: 100%; /* Ocupar todo el ancho de la columna */
+  height: 100%;
+  min-height: 400px; /* Altura mínima uniforme */
+  max-width: 100%; /* No exceder el ancho de la columna */
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-card .card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.badge-card.achieved {
+  border-color: #27ae60;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fff9 100%);
+  box-shadow: 0 4px 6px rgba(39, 174, 96, 0.1);
+}
+
+.badge-card.achieved:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(39, 174, 96, 0.2);
+}
+
+.badge-card.locked {
+  border-color: #bdc3c7;
+  background: linear-gradient(135deg, #ffffff 0%, #f5f6fa 100%);
+  opacity: 0.9;
+}
+
+.badge-card.locked:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge Icon Container */
+.badge-icon-container {
+  position: relative;
+  text-align: center;
+  padding: 1.5rem 0;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-icon {
+  max-width: 80px;
+  max-height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.badge-card.locked .badge-icon {
+  filter: grayscale(100%) opacity(0.5);
+}
+
+.badge-icon-placeholder {
+  opacity: 0.6;
+}
+
+.achievement-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #f39c12;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(243, 156, 18, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Badge Content */
+.badge-title {
+  color: #2c3e50;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  min-height: 50px; /* Altura mínima para títulos */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-description {
+  font-size: 0.9rem;
+  text-align: center;
+  min-height: 60px; /* Altura mínima para descripciones */
+  line-height: 1.4;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Progress Section */
+.progress-section {
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.badge-progress {
+  height: 8px;
+  border-radius: 4px;
+  background-color: #e9ecef;
+}
+
+.badge-progress .progress-bar {
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+/* Badge Footer */
+.badge-footer {
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.badge-footer .badge {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  font-weight: 600;
+}
+
+/* Empty State */
+.alert.text-center svg {
+  color: #3498db;
+  opacity: 0.3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .achievements-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .badge-card {
+    margin-bottom: 1rem;
+  }
+
+  .badge-icon-container {
+    min-height: 100px;
+  }
+
+  .badge-icon {
+    max-width: 60px;
+    max-height: 60px;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* Loading State */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Animations */
+.badge-card {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Achievement Badge Shine Effect */
+.badge-card.achieved::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.badge-card.achieved:hover::before {
+  left: 100%;
+}

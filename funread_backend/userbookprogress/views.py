@@ -4,6 +4,8 @@ from rest_framework import status
 from .models import UserBookProgress
 from .serializers import UserBookProgressSerializer
 from django.db.models import Count
+# Importar funciones de asignación de badges
+from Badges.badge_assignment import check_and_assign_badges
 
 
 @api_view(['POST'])
@@ -72,8 +74,8 @@ def get_or_create_progress(request):
 def mark_as_completed(request):
     """
     Marca un libro como completado con calificación 100.
+    Automáticamente verifica y asigna badges basados en libros leídos.
     Requiere userId y bookId en el cuerpo de la solicitud.
-    Retorna información sobre si los puntos ya fueron otorgados.
     """
     user_id = request.data.get('userId')
     book_id = request.data.get('bookId')
@@ -84,38 +86,43 @@ def mark_as_completed(request):
     try:
         # Intenta encontrar el registro existente
         progress = UserBookProgress.objects.get(user_id=user_id, book_id=book_id)
-        
-        # Check if already completed and points were awarded
-        already_awarded = progress.status == 1 and progress.points_awarded
-        
         # Actualiza el registro con estado completado y calificación 100
         progress.status = 1  # 1 = Completado según STATUS_CHOICES
         progress.calificacion = 100.0
-        # Note: points_awarded will be set to True when points are actually added
         progress.save()
-        
-        serializer = UserBookProgressSerializer(progress)
-        return Response({
-            **serializer.data,
-            'already_awarded': already_awarded,
-            'message': 'Points already awarded for this book' if already_awarded else 'Book marked as completed'
-        }, status=status.HTTP_200_OK)
-        
     except UserBookProgress.DoesNotExist:
         # Si no existe, crea un nuevo registro
         progress = UserBookProgress.objects.create(
             user_id=user_id,
             book_id=book_id,
             status=1,  # Completado
-            calificacion=100.0,
-            points_awarded=False  # Points not yet awarded
+            calificacion=100.0
         )
+
+    # ✨ AUTOMÁTICAMENTE VERIFICAR Y ASIGNAR BADGES
+    try:
+        newly_assigned = check_and_assign_badges(user_id)
         
+        # Serializar el progreso del libro
+        serializer = UserBookProgressSerializer(progress)
+        
+        # Retornar información del libro completado + badges asignados
+        response_data = {
+            "book_progress": serializer.data,
+            "badges_assigned": newly_assigned,  # Lista de badges nuevos
+            "has_new_badges": len(newly_assigned) > 0
+        }
+        
+        return Response(response_data, status=status.HTTP_200_OK)
+        
+    except Exception as badge_error:
+        # Si falla la asignación de badges, aún retornar el progreso del libro
         serializer = UserBookProgressSerializer(progress)
         return Response({
-            **serializer.data,
-            'already_awarded': False,
-            'message': 'Book marked as completed (new record)'
+            "book_progress": serializer.data,
+            "badges_assigned": [],
+            "has_new_badges": False,
+            "badge_error": str(badge_error)
         }, status=status.HTTP_200_OK)
 
 
@@ -167,17 +174,24 @@ def mark_points_awarded(request):
     Requiere userId y bookId en el cuerpo de la solicitud.
     Solo marca si el libro está completado y aún no se otorgaron puntos.
     """
+    print(f"📥 mark_points_awarded - Datos recibidos: {request.data}")
+    
     user_id = request.data.get('userId')
     book_id = request.data.get('bookId')
 
+    print(f"   userId: {user_id}, bookId: {book_id}")
+
     if not user_id or not book_id:
+        print(f"Error: Faltan parámetros - userId: {user_id}, bookId: {book_id}")
         return Response({"error": "Faltan userId o bookId"}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         progress = UserBookProgress.objects.get(user_id=user_id, book_id=book_id)
+        print(f"   Progress encontrado - status: {progress.status}, points_awarded: {progress.points_awarded}")
         
         # Verificar si ya se otorgaron puntos
         if progress.points_awarded:
+            print(f"Puntos ya otorgados para userId={user_id}, bookId={book_id}")
             return Response({
                 "error": "Points were already awarded for this book",
                 "already_awarded": True
@@ -185,6 +199,7 @@ def mark_points_awarded(request):
         
         # Verificar si el libro está completado
         if progress.status != 1:
+            print(f"Libro no completado - status: {progress.status}")
             return Response({
                 "error": "Book must be completed before awarding points",
                 "status": progress.status
@@ -193,14 +208,22 @@ def mark_points_awarded(request):
         # Marcar que los puntos fueron otorgados
         progress.points_awarded = True
         progress.save()
+        print(f"Puntos marcados como otorgados para userId={user_id}, bookId={book_id}")
         
         serializer = UserBookProgressSerializer(progress)
+        # Ensure serializer.data is a mapping before unpacking with **
+        try:
+            data_mapping = serializer.data if isinstance(serializer.data, dict) else dict(serializer.data)
+        except Exception:
+            # Fallback: embed the serializer data under a key if it cannot be converted to a dict
+            data_mapping = {"serializer_data": serializer.data}
         return Response({
-            **serializer.data,
+            **data_mapping,
             "message": "Points marked as awarded successfully"
         }, status=status.HTTP_200_OK)
         
     except UserBookProgress.DoesNotExist:
+        print(f"Progress no encontrado para userId={user_id}, bookId={book_id}")
         return Response(
             {"error": "Book progress not found. Please complete the book first."}, 
             status=status.HTTP_404_NOT_FOUND
