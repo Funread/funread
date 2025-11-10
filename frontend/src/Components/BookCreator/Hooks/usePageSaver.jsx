@@ -4,19 +4,18 @@ import { useGamesSaver } from "./useGamesSaver";
 import { updatePageType } from "../../../api/pages";
 
 export function usePageSaver(params) {
-  const { pagesList, pagesType, currentPage } = params;
-console.log('usePageSaver',params)
-  // Creamos ambos hooks de quiz de una vez (aunque usemos solo uno después)
+  const { pagesList, pagesType, currentPage, widget } = params;
+  
   const quizSaverComplete = useQuizSaver({
     ...params,
     quizType: "complete",
-    widgetId: 8 // Asumiendo que 8 es el ID del widget de quiz completo
+    widgetId: 8
   });
 
   const quizSaverSingle = useQuizSaver({
     ...params,
     quizType: "singleChoice",
-    widgetId:9 // Asumiendo que 9 es el ID del widget de quiz completo
+    widgetId:9
   });
 
   const { saveKonva } = useKonvaSaver(params, updatePageType);
@@ -31,22 +30,24 @@ console.log('usePageSaver',params)
       return;
     }
 
-    // Actualizar tipo de página
+    if (pagesType === 4) {
+      if (widget === 8) {
+        return quizSaverComplete.saveQuiz();
+      } else if (widget === 9) {
+        return quizSaverSingle.saveQuiz();
+      } else {
+        if (widgetItem.widgetid === 8) {
+          return quizSaverComplete.saveQuiz();
+        } else {
+          return quizSaverSingle.saveQuiz();
+        }
+      }
+    }
+
     updatePageType(currentPageId, pagesType);
 
     if (pagesType === 2) return saveKonva();
     if (pagesType === 5) return saveGame();
-
-    if (pagesType === 4) {
-      // Selecciona el tipo de guardado dinámicamente
-      if (widgetItem.widgetid === 8) {
-        return quizSaverComplete.saveQuiz();
-      } else {
-        return quizSaverSingle.saveQuiz();
-      }
-    }
-
-  
   };
 
   return { savePage };

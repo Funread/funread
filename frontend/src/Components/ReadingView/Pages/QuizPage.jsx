@@ -6,6 +6,7 @@ import { list_options_by_idwidgetitem } from "../../../api/options";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Lottie from "react-lottie";
+import { Sparkles, Trophy, Star, Zap } from "lucide-react";
 // Importamos animaciones divertidas para niños
 import happyAnimalAnimation from "../../../assets/animations/happy-animal.json";
 import pencilDancingAnimation from "../../../assets/animations/pencil-dancing.json";
@@ -86,23 +87,48 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
           return null;
         }
       }
-      // Estructura esperada: { type, title, question, options }
-      if (!valueData || !valueData.type) return null;
-      if (valueData.type === 'singleChoice') {
-        // Mapear opciones al formato esperado por QuizMultiple
+      
+      console.log('Quiz widget valueData:', valueData);
+      
+      // Estructura esperada del BookCreator
+      if (!valueData || !valueData.type) {
+        console.log('❌ Quiz widget sin tipo válido:', valueData);
+        return null;
+      }
+      
+      // Normalizar el tipo a minúsculas para comparación
+      const quizType = valueData.type.toLowerCase();
+      console.log('📝 Quiz type detected:', quizType);
+      
+      if (quizType === 'singlechoice') {
+        // Estructura del QuizEditor: { type, content: {title, question}, options: [{answer, isCorrect, points}] }
+        console.log('✅ Parsing singleChoice quiz');
         return {
-          ...valueData,
-          answers: valueData.options.map((opt, i) => ({
+          type: 'singleChoice',
+          content: valueData.content,
+          answers: valueData.options?.map((opt, i) => ({
             id: i,
             text: opt.answer,
             isCorrect: opt.isCorrect,
             points: opt.points,
-          }))
+          })) || []
         };
-      } else if (valueData.type === 'complete') {
-        // Pasar directamente a QuizComplete
-        return valueData;
+      } else if (quizType === 'complete') {
+        // Estructura del QuizCompleteEditor: { type: "complete", content: {title, question, correctAnswer, points} }
+        console.log('✅ Parsing complete quiz, content:', valueData.content);
+        const parsedQuiz = {
+          type: 'complete',
+          title: valueData.content?.title,
+          question: valueData.content?.question,
+          correctAnswer: valueData.content?.correctAnswer,
+          points: valueData.content?.points || 10,
+          media: valueData.media
+        };
+        console.log('📦 Parsed quiz complete:', parsedQuiz);
+        return parsedQuiz;
       }
+      
+      console.log('❌ Quiz type not supported:', quizType);
       return null;
     }).filter(Boolean);
 
@@ -161,7 +187,14 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
   };
 
   if (isLoading) {
-    return <div className="quiz-page-loading">Loading quiz...</div>;
+    return (
+      <div className="quiz-page-loading">
+        <div className="loading-spinner">
+          <Sparkles className="spinner-icon" size={48} />
+        </div>
+        <p>Loading quiz...</p>
+      </div>
+    );
   }
 
   // Debug de datos antes del render
@@ -169,6 +202,16 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
 
   return (
     <div className="quiz-page-container">
+      {/* Header decorativo */}
+      <div className="quiz-page-header">
+        <div className="header-decoration">
+          <Star className="header-icon" size={24} />
+          <h1 className="quiz-page-title">Quiz Time!</h1>
+          <Star className="header-icon" size={24} />
+        </div>
+        <p className="quiz-page-subtitle">Test your knowledge and earn points</p>
+      </div>
+
       {/* Animación que se muestra cuando una respuesta es correcta */}
       {showAnimation && (
         <div className="celebration-animation">
@@ -209,19 +252,34 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
 
           return (
             <div key={idx} className="quiz-widget-container">
+              <div className="quiz-widget-header">
+                <div className="quiz-number-badge">
+                  <Zap size={20} />
+                  Question {idx + 1}
+                </div>
+                <div className={`quiz-type-badge ${quiz.type === 'singleChoice' ? 'single-choice' : 'fill-blank'}`}>
+                  {quiz.type === 'singleChoice' ? 'Multiple Choice' : 'Fill in the Blank'}
+                </div>
+              </div>
+
               <QuizComponent {...quizProps} />
 
               {isAnswered && (
-                <div className="quiz-already-answered">
+                <div className="quiz-feedback-container">
                   {savedResponse &&
                   (savedResponse.isCorrect === true ||
                     savedResponse.isCorrect === 1 ||
                     savedResponse.isCorrect === "true") ? (
-                    <div className="correct-answer">
-                      Correct answer: +{savedResponse.pointsAwarded} points
+                    <div className="feedback-card correct">
+                      <Trophy className="feedback-icon" size={20} />
+                      <span className="feedback-text">
+                        Correct answer! +{savedResponse.pointsAwarded} points
+                      </span>
                     </div>
                   ) : (
-                    <div className="incorrect-answer">Incorrect answer</div>
+                    <div className="feedback-card incorrect">
+                      <span className="feedback-text">Incorrect answer. Try again next time!</span>
+                    </div>
                   )}
                 </div>
               )}

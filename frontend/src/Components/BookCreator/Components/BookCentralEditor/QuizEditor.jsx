@@ -1,4 +1,5 @@
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import "./QuizEditor.css";
 
 const QuizEditor = forwardRef(
   (
@@ -18,13 +19,18 @@ const QuizEditor = forwardRef(
     // Cargar datos desde el backend o inicializar 3 opciones vacías
     useEffect(() => {
       if (initialData) {
-        console.log('initialData')
-         console.log(initialData)
         const content = initialData.content || {};
-        setQuestion(content.question || "");
-        setTitle(content.title || content.audio || content.video || "");
+        
+        const cleanQuestion = content.question === "Escribe la pregunta aquí" ? "" : (content.question || "");
+        const cleanTitle = content.title === "Nuevo Quiz" ? "" : (content.title || content.audio || content.video || "");
+        
+        setQuestion(cleanQuestion);
+        setTitle(cleanTitle);
 
-        const loadedOptions = initialData.options?.map((opt) => opt.answer);
+        const loadedOptions = initialData.options?.map((opt) => {
+          const isDefaultOption = /^Option [123]$/.test(opt.answer);
+          return isDefaultOption ? "" : opt.answer;
+        });
         const hasValidOptions = Array.isArray(loadedOptions) && loadedOptions.length > 0;
         setOptions(hasValidOptions ? loadedOptions : Array(3).fill(""));
 
@@ -34,17 +40,20 @@ const QuizEditor = forwardRef(
         const correctPoints = initialData.options?.[correctIdx]?.points || 10;
         setScore(correctPoints);
       } else {
-        // fallback por si no hay datos iniciales
         setOptions(Array(3).fill(""));
       }
     }, [initialData]);
 
     useImperativeHandle(ref, () => ({
       getQuizJson: () => {
-        const isAnyEmpty = options.some((opt) => opt.trim() === "");
-        if (!question || correctIndex === null || !Number(score) || isAnyEmpty) {
-          alert("Please complete all fields in the quiz editor.");
-          return null;
+        const hasContent = title || question || options.some(opt => opt.trim() !== "");
+        
+        if (hasContent) {
+          const isAnyEmpty = options.some((opt) => opt.trim() === "");
+          if (!question || correctIndex === null || !Number(score) || isAnyEmpty) {
+            alert("Please complete all fields in the quiz editor.");
+            return null;
+          }
         }
 
         const content = { question };
@@ -75,45 +84,55 @@ const QuizEditor = forwardRef(
     const renderTitleField = () => {
       if (type === "singleChoice") {
         return (
-          <>
-            <label className="block mb-2 font-medium">Title:</label>
+          <div className="quiz-editor-field">
+            <label className="quiz-editor-label">
+              Title
+              <span className="required-star">*</span>
+            </label>
             <input
               type="text"
-              className="w-full p-2 border rounded mb-4"
+              className="quiz-editor-input"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter quiz title..."
             />
-          </>
+          </div>
         );
       }
 
       if (type === "audioQuiz") {
         return (
-          <>
-            <label className="block mb-2 font-medium">Audio URL:</label>
+          <div className="quiz-editor-field">
+            <label className="quiz-editor-label">
+              🎵 Audio URL
+              <span className="required-star">*</span>
+            </label>
             <input
               type="text"
-              className="w-full p-2 border rounded mb-4"
+              className="quiz-editor-input"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="https://.../audio.mp3"
             />
-          </>
+          </div>
         );
       }
 
       if (type === "videoQuiz") {
         return (
-          <>
-            <label className="block mb-2 font-medium">Video URL:</label>
+          <div className="quiz-editor-field">
+            <label className="quiz-editor-label">
+              🎬 Video URL
+              <span className="required-star">*</span>
+            </label>
             <input
               type="text"
-              className="w-full p-2 border rounded mb-4"
+              className="quiz-editor-input"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="https://.../video.mp4"
             />
-          </>
+          </div>
         );
       }
 
@@ -121,52 +140,77 @@ const QuizEditor = forwardRef(
     };
 
     return (
-      <div className="bg-white p-4 rounded shadow max-w-xl mx-auto">
-        <h2 className="text-xl font-semibold mb-4">
-          Create a {type === "singleChoice" ? "Single Choice" : type === "audioQuiz" ? "Audio" : "Video"} Quiz
-        </h2>
+      <div className="quiz-editor-container">
+        <div className="quiz-editor-header">
+          <h2 className="quiz-editor-title">
+            {type === "singleChoice" ? "Multiple Choice Quiz" : type === "audioQuiz" ? "Audio Quiz" : "Video Quiz"}
+          </h2>
+          <p className="quiz-editor-subtitle">
+            Create engaging questions for your students
+          </p>
+        </div>
 
-        {renderTitleField()}
+        <div className="quiz-editor-content">
+          {renderTitleField()}
 
-        <label className="block mb-2 font-medium">Question:</label>
-        <input
-          type="text"
-          className="w-full p-2 border rounded mb-4"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-        />
-
-        <label className="block mb-2 font-medium">Options:</label>
-        {options.map((opt, index) => (
-          <div key={index} className="flex items-center mb-2 gap-2">
+          <div className="quiz-editor-field">
+            <label className="quiz-editor-label">
+              Question
+              <span className="required-star">*</span>
+            </label>
             <input
               type="text"
-              value={opt}
-              onChange={(e) => handleOptionChange(index, e.target.value)}
-              className="flex-1 p-2 border rounded"
+              className="quiz-editor-input"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              placeholder="Enter your question..."
             />
-            <button
-              type="button"
-              onClick={() => setCorrectIndex(index)}
-              className={`px-3 py-1 text-sm rounded ${
-                correctIndex === index
-                  ? "bg-green-500 text-white"
-                  : "border border-gray-300 text-gray-600"
-              }`}
-            >
-              {correctIndex === index ? "✓ Correct" : "Mark Correct"}
-            </button>
           </div>
-        ))}
 
-        <label className="block mb-2 font-medium mt-2">Points:</label>
-        <input
-          type="number"
-          min={1}
-          className="w-24 p-2 border rounded mb-4"
-          value={score}
-          onChange={(e) => setScore(e.target.value)}
-        />
+          <div className="quiz-editor-field">
+            <label className="quiz-editor-label">
+              Answer Options
+              <span className="required-star">*</span>
+            </label>
+            <div className="quiz-options-list">
+              {options.map((opt, index) => (
+                <div key={index} className="quiz-option-item">
+                  <div className="option-number">{index + 1}</div>
+                  <input
+                    type="text"
+                    value={opt}
+                    onChange={(e) => handleOptionChange(index, e.target.value)}
+                    className="quiz-option-input"
+                    placeholder={`Option ${index + 1}`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setCorrectIndex(index)}
+                    className={`quiz-correct-button ${correctIndex === index ? 'correct-selected' : ''}`}
+                    title="Mark as correct answer"
+                  >
+                    {correctIndex === index ? '✓' : '○'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="quiz-editor-field">
+            <label className="quiz-editor-label">
+              Points
+              <span className="required-star">*</span>
+            </label>
+            <input
+              type="number"
+              min={1}
+              className="quiz-editor-input quiz-points-input"
+              value={score}
+              onChange={(e) => setScore(e.target.value)}
+              placeholder="10"
+            />
+          </div>
+        </div>
       </div>
     );
   }
