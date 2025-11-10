@@ -85,29 +85,21 @@ export default function BookCreator() {
     }
   }, [currentPage]);
 
-  // Reload page on page change
   useEffect(() => {
     if (!isLoading && pagesList[currentPage]) {
-      console.log('pageloader')
-      console.log(pagesList)
-      // Set pagesType synchronously from pagesList to avoid transient render mismatch
       const rawType = pagesList[currentPage].page?.type;
       let normalizedType = rawType;
-      if (rawType === 1) normalizedType = 2; // tratar type 1 como canvas (2)
+      if (rawType === 1) normalizedType = 2;
       if (typeof normalizedType !== 'undefined') setPagesType(normalizedType);
 
-      // Guardar contra páginas nuevas sin widgetitems (evita crash al acceder a [0])
       const wi = pagesList[currentPage].widgetitems?.[0];
       if (wi && wi.widgetid) {
         setWidget(wi.widgetid);
       } else {
-        // Si no hay widget en la página nueva, usar widget por defecto (canvas)
         setWidget(2);
       }
 
-      // Cargar datos (async) — esto puede actualizar pagesType/elements cuando termine
       onLoadPageControl(pagesList[currentPage]);
-
     }
   }, [currentPage, pagesList, isLoading]);
 
@@ -156,13 +148,17 @@ export default function BookCreator() {
         if (widgetId === 8) {
           defaultValue = {
             type: 'COMPLETE',
-            content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí', correctAnswer: '', points: 0 }
+            content: { title: '', question: '', correctAnswer: '', points: 10 }
           };
         } else if (widgetId === 9) {
           defaultValue = {
             type: 'singleChoice',
-            content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí' },
-            options: []
+            content: { title: '', question: '' },
+            options: [
+              { answer: '', isCorrect: true, points: 10, isActive: true },
+              { answer: '', isCorrect: false, points: 10, isActive: true },
+              { answer: '', isCorrect: false, points: 10, isActive: true }
+            ]
           };
         }
 
@@ -233,12 +229,20 @@ export default function BookCreator() {
         if (isConvertingToComplete) {
           const valid = existingValue && (existingValue.type === 'COMPLETE' || existingValue.type === 'complete');
           if (!valid) {
-            dataToSend = { type: 'COMPLETE', content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí', correctAnswer: '', points: 0 } };
+            dataToSend = { type: 'COMPLETE', content: { title: '', question: '', correctAnswer: '', points: 10 } };
           }
         } else if (isConvertingToSingle) {
           const valid = existingValue && (existingValue.type === 'singleChoice');
           if (!valid) {
-            dataToSend = { type: 'singleChoice', content: { title: 'Nuevo Quiz', question: 'Escribe la pregunta aquí' }, options: [] };
+            dataToSend = { 
+              type: 'singleChoice', 
+              content: { title: '', question: '' }, 
+              options: [
+                { answer: '', isCorrect: true, points: 10, isActive: true },
+                { answer: '', isCorrect: false, points: 10, isActive: true },
+                { answer: '', isCorrect: false, points: 10, isActive: true }
+              ]
+            };
           }
         }
         await updateWidgetItem(

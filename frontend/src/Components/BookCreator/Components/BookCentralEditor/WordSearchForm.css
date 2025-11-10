@@ -1,22 +1,234 @@
-/* Estilos básicos para el formulario de sopa de letras */
-.word-search-form {
-  /* Los estilos principales ahora se manejan con Tailwind CSS */
+/* Word Search Editor - Modern Interface Styles */
+
+.word-search-editor-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  position: relative;
 }
 
-/* Estilos para los mensajes de validación */
-input:invalid,
-select:invalid {
-  border-color: rgb(239, 68, 68) !important;
+.word-search-editor-header {
+  background: white;
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.word-search-editor-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.word-search-editor-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  font-weight: 400;
+}
+
+.word-search-editor-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.word-search-editor-field {
+  margin-bottom: 18px;
+}
+
+.word-search-editor-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.required-star {
+  color: #ef4444;
+  margin-left: 4px;
+}
+
+.word-search-editor-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #1f2937;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.word-search-editor-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.word-search-editor-input::placeholder {
+  color: #9ca3af;
+}
+
+.word-search-editor-select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #1f2937;
+  transition: all 0.2s ease;
+  background: white;
+  cursor: pointer;
+}
+
+.word-search-editor-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.word-search-time-input {
+  width: 140px;
+}
+
+.word-search-grid-inputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.word-search-grid-input {
+  width: 80px;
+}
+
+.word-search-grid-separator {
+  font-size: 18px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.word-search-words-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.word-search-word-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.word-search-remove-btn {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 8px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+}
+
+.word-search-remove-btn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+.word-search-add-btn {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 4px;
+}
+
+.word-search-add-btn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.word-search-save-btn {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.word-search-save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.word-search-save-btn:active {
+  transform: translateY(0);
 }
 
 /* Estilos responsivos */
-@media (max-width: 480px) {
-  .word-search-form {
-    padding: 10px;
+@media (max-width: 768px) {
+  .word-search-editor-container {
+    padding: 12px;
+  }
+
+  .word-search-editor-header {
+    padding: 12px 14px;
+  }
+
+  .word-search-editor-title {
+    font-size: 20px;
+  }
+
+  .word-search-editor-content {
+    padding: 16px;
+  }
+
+  .word-search-grid-inputs {
+    flex-wrap: wrap;
   }
 }
 
-/* Asegurar que los inputs de números tengan el ancho correcto */
-input[type="number"] {
-  width: auto;
-} 
+@media (max-width: 480px) {
+  .word-search-time-input {
+    width: 100%;
+  }
+
+  .word-search-grid-input {
+    width: 100%;
+  }
+
+  .word-search-grid-separator {
+    display: none;
+  }
+}

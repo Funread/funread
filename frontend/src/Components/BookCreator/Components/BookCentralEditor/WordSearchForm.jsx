@@ -109,109 +109,145 @@ export default function WordSearchForm({ onSave, initialData = null }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow max-w-xl mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Create a Word Search Game</h2>
-
-      <label className="block mb-2 font-medium">Title:</label>
-      <input
-        type="text"
-        name="title"
-        value={formData.title}
-        onChange={handleInputChange}
-        className="w-full p-2 border rounded mb-4"
-        required
-      />
-
-      <label className="block mb-2 font-medium">Difficulty:</label>
-      <select
-        name="difficulty"
-        value={formData.difficulty}
-        onChange={handleInputChange}
-        className="w-full p-2 border rounded mb-4"
-        required
-      >
-        <option value="Easy">Easy</option>
-        <option value="Medium">Medium</option>
-        <option value="Hard">Hard</option>
-      </select>
-
-      <label className="block mb-2 font-medium">Time limit (seconds):</label>
-      <input
-        type="number"
-        name="timeLimit"
-        min="60"
-        max="600"
-        value={formData.timeLimit}
-        onChange={handleInputChange}
-        className="w-24 p-2 border rounded mb-4"
-        required
-      />
-
-      <label className="block mb-2 font-medium">Grid size:</label>
-      <div className="flex items-center gap-2 mb-4">
-        <input
-          type="number"
-          name="gridSize.rows"
-          min="5"
-          max="15"
-          value={formData.gridSize.rows}
-          onChange={handleInputChange}
-          className="w-20 p-2 border rounded"
-          required
-        />
-        <span className="text-gray-600 font-medium">x</span>
-        <input
-          type="number"
-          name="gridSize.columns"
-          min="5"
-          max="15"
-          value={formData.gridSize.columns}
-          onChange={handleInputChange}
-          className="w-20 p-2 border rounded"
-          required
-        />
+    <div className="word-search-editor-container">
+      <div className="word-search-editor-header">
+        <h2 className="word-search-editor-title">
+          Word Search Puzzle
+        </h2>
+        <p className="word-search-editor-subtitle">
+          Create an engaging word search game for students
+        </p>
       </div>
 
-      <label className="block mb-2 font-medium">Words:</label>
-      <div className="space-y-2 mb-4">
-        {formData.words.map((word, index) => (
-          <div key={index} className="flex items-center gap-2">
+      <form onSubmit={handleSubmit} className="word-search-editor-content">
+        <div className="word-search-editor-field">
+          <label className="word-search-editor-label">
+            Title
+            <span className="required-star">*</span>
+          </label>
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleInputChange}
+            className="word-search-editor-input"
+            placeholder="Enter puzzle title"
+            required
+          />
+        </div>
+
+        <div className="word-search-editor-field">
+          <label className="word-search-editor-label">
+            Difficulty
+            <span className="required-star">*</span>
+          </label>
+          <select
+            name="difficulty"
+            value={formData.difficulty}
+            onChange={handleInputChange}
+            className="word-search-editor-select"
+            required
+          >
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+
+        <div className="word-search-editor-field">
+          <label className="word-search-editor-label">
+            Time limit (seconds)
+            <span className="required-star">*</span>
+          </label>
+          <input
+            type="number"
+            name="timeLimit"
+            min="60"
+            max="600"
+            value={formData.timeLimit}
+            onChange={handleInputChange}
+            className="word-search-editor-input word-search-time-input"
+            required
+          />
+        </div>
+
+        <div className="word-search-editor-field">
+          <label className="word-search-editor-label">
+            Grid size
+            <span className="required-star">*</span>
+          </label>
+          <div className="word-search-grid-inputs">
             <input
-              type="text"
-              value={word}
-              onChange={(e) => handleWordChange(index, e.target.value)}
-              placeholder="Enter a word"
-              className="flex-1 p-2 border rounded"
+              type="number"
+              name="gridSize.rows"
+              min="5"
+              max="15"
+              value={formData.gridSize.rows}
+              onChange={handleInputChange}
+              className="word-search-editor-input word-search-grid-input"
               required
             />
-            {formData.words.length > 1 && (
+            <span className="word-search-grid-separator">x</span>
+            <input
+              type="number"
+              name="gridSize.columns"
+              min="5"
+              max="15"
+              value={formData.gridSize.columns}
+              onChange={handleInputChange}
+              className="word-search-editor-input word-search-grid-input"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="word-search-editor-field">
+          <label className="word-search-editor-label">
+            Words
+            <span className="required-star">*</span>
+          </label>
+          <div className="word-search-words-list">
+            {formData.words.map((word, index) => (
+              <div key={index} className="word-search-word-row">
+                <input
+                  type="text"
+                  value={word}
+                  onChange={(e) => handleWordChange(index, e.target.value)}
+                  placeholder={`Word ${index + 1}`}
+                  className="word-search-editor-input"
+                  required
+                />
+                {formData.words.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeWord(index)}
+                    className="word-search-remove-btn"
+                    title="Remove word"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+            ))}
+            {formData.words.length < 10 && (
               <button
                 type="button"
-                onClick={() => removeWord(index)}
-                className="px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                onClick={addWord}
+                className="word-search-add-btn"
               >
-                ×
+                + Add word
               </button>
             )}
           </div>
-        ))}
-        {formData.words.length < 10 && (
-          <button
-            type="button"
-            onClick={addWord}
-            className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-          >
-            + Add word
-          </button>
-        )}
-      </div>
+        </div>
 
-      <button 
-        type="submit" 
-        className="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition-colors font-medium"
-      >
-        Save configuration
-      </button>
-    </form>
+        <button 
+          type="submit" 
+          className="word-search-save-btn"
+        >
+          Save configuration
+        </button>
+      </form>
+    </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import "./QuizCompleteEditor.css";
 
 const QuizCompleteEditor = forwardRef(
   (
@@ -17,27 +18,31 @@ const QuizCompleteEditor = forwardRef(
     // Si recibimos datos de la BD, cargarlos
     useEffect(() => {
       if (initialData) {
-        // Support both shapes:
-        // 1) { content: { title, question, correctAnswer, points } }
-        // 2) { type: 'complete', title, question, correctAnswer, points }
         console.log("Cargando datos iniciales:", initialData);
         const src = initialData.content ? initialData.content : initialData;
-        setTitle(src.title || initialData.title || "");
-        setQuestion(src.question || initialData.question || "");
-        setCorrectAnswer(src.correctAnswer || initialData.correctAnswer || "");
+        
+        const cleanTitle = (src.title || initialData.title || "") === "Nuevo Quiz" ? "" : (src.title || initialData.title || "");
+        const cleanQuestion = (src.question || initialData.question || "") === "Escribe la pregunta aquí" ? "" : (src.question || initialData.question || "");
+        const cleanCorrectAnswer = (src.correctAnswer || initialData.correctAnswer || "") === "answer" ? "" : (src.correctAnswer || initialData.correctAnswer || "");
+        
+        setTitle(cleanTitle);
+        setQuestion(cleanQuestion);
+        setCorrectAnswer(cleanCorrectAnswer);
         setPoints(src.points ?? initialData.points ?? 10);
       }
     }, [initialData]);
 
-    // Permite a un componente padre obtener el JSON final
     useImperativeHandle(ref, () => ({
       getQuizJson: () => {
-        if (!title || !question || !correctAnswer) {
-          alert("Please complete all fields in the quiz editor.");
-          return null;
+        const hasContent = title || question || correctAnswer;
+        
+        if (hasContent) {
+          if (!title || !question || !correctAnswer) {
+            alert("Please complete all fields in the quiz editor.");
+            return null;
+          }
         }
 
-        // Return a consistent nested structure expected in other parts of the app/backend
         return {
           type: "COMPLETE",
           content: {
@@ -51,64 +56,104 @@ const QuizCompleteEditor = forwardRef(
     }));
 
     return (
-      <div className="bg-white p-4 rounded shadow max-w-xl mx-auto">
-        <h2 className="text-xl font-semibold mb-4">Create a Complete Quiz</h2>
-
-        <label className="block mb-2 font-medium">Title:</label>
-        <input
-          type="text"
-          className="w-full p-2 border rounded mb-4"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="e.g., Complete the sentence"
-        />
-
-        <label className="block mb-2 font-medium">Question:</label>
-        <div className="mb-2 text-sm text-gray-600">
-          Use _______ to indicate where the blank space should be
+      <div className="quiz-complete-editor-container">
+        <div className="quiz-complete-header">
+          <h2 className="quiz-complete-title">
+            Fill in the Blank Quiz
+          </h2>
+          <p className="quiz-complete-subtitle">
+            Create a complete-the-sentence quiz for students
+          </p>
         </div>
-        <input
-          type="text"
-          className="w-full p-2 border rounded mb-4"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          placeholder="e.g., Hannah runs _______ than Olivia."
-        />
 
-        <label className="block mb-2 font-medium">Correct Answer:</label>
-        <input
-          type="text"
-          className="w-full p-2 border rounded mb-4"
-          value={correctAnswer}
-          onChange={(e) => setCorrectAnswer(e.target.value)}
-          placeholder="e.g., faster"
-        />
+        <div className="quiz-complete-content">
+          <div className="quiz-complete-field">
+            <label className="quiz-complete-label">
+              Title
+              <span className="required-star">*</span>
+            </label>
+            <input
+              type="text"
+              className="quiz-complete-input"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="e.g., Complete the sentence"
+            />
+          </div>
 
-        <label className="block mb-2 font-medium">Points:</label>
-        <input
-          type="number"
-          min={1}
-          className="w-24 p-2 border rounded mb-4"
-          value={points}
-          onChange={(e) => setPoints(e.target.value)}
-        />
+          <div className="quiz-hint-box">
+            <span className="hint-icon">💡</span>
+            <span>Use <strong>_______</strong> (underscores) to indicate where the blank space should be</span>
+          </div>
+
+          <div className="quiz-complete-field">
+            <label className="quiz-complete-label">
+              Question
+              <span className="required-star">*</span>
+            </label>
+            <textarea
+              rows={3}
+              className="quiz-complete-textarea"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              placeholder="e.g., Hannah runs _______ than Olivia."
+            />
+          </div>
+
+          <div className="quiz-complete-field">
+            <label className="quiz-complete-label">
+              Correct Answer
+              <span className="required-star">*</span>
+            </label>
+            <input
+              type="text"
+              className="quiz-complete-input"
+              value={correctAnswer}
+              onChange={(e) => setCorrectAnswer(e.target.value)}
+              placeholder="e.g., faster"
+            />
+          </div>
+
+          <div className="quiz-complete-field">
+            <label className="quiz-complete-label">
+              Points
+              <span className="required-star">*</span>
+            </label>
+            <input
+              type="number"
+              min={1}
+              className="quiz-complete-input quiz-points-input"
+              value={points}
+              onChange={(e) => setPoints(e.target.value)}
+              placeholder="10"
+            />
+          </div>
+        </div>
 
         {/* Preview section */}
         {title && question && correctAnswer && (
-          <div className="mt-6 p-4 bg-gray-50 rounded border">
-            <h3 className="font-medium mb-2">Preview:</h3>
-            <div className="text-sm">
-              <div className="mb-2">
-                <strong>Title:</strong> {title}
+          <div className="quiz-complete-preview">
+            <div className="preview-header">
+              👁️ Preview
+            </div>
+            <div className="preview-card">
+              <div className="preview-title-text">{title}</div>
+              <div className="preview-question-interactive">
+                {question.split('_______').map((part, index, array) => (
+                  <span key={index}>
+                    {part}
+                    {index < array.length - 1 && (
+                      <span className="preview-blank-space">____</span>
+                    )}
+                  </span>
+                ))}
               </div>
-              <div className="mb-2">
-                <strong>Question:</strong> {question.replace('_______', '_____')}
+              <div className="preview-answer-section">
+                <span className="preview-answer-label">Correct Answer:</span>
+                <span className="preview-answer-value">{correctAnswer}</span>
               </div>
-              <div className="mb-2">
-                <strong>Correct Answer:</strong> {correctAnswer}
-              </div>
-              <div>
-                <strong>Points:</strong> {points}
+              <div className="preview-points-badge">
+                🏆 {points} points
               </div>
             </div>
           </div>

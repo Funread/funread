@@ -15,6 +15,8 @@ const QuizComplete = ({ quizData, onAnswerSelected, initialAnswer = null, isSubm
     console.log('QuizComplete: No quiz data');
     return null;
   }
+  
+  console.log('✅ QuizComplete rendering with data:', quizData);
 
   const handleSubmit = () => {
     if (userAnswer.trim() !== '' && !localIsSubmitted) {
@@ -49,7 +51,6 @@ const QuizComplete = ({ quizData, onAnswerSelected, initialAnswer = null, isSubm
         </div>
       )}
 
-      <div className="quiz-question">
         <div className="fill-in-blank">
           {questionParts[0]}
           <input
@@ -68,7 +69,6 @@ const QuizComplete = ({ quizData, onAnswerSelected, initialAnswer = null, isSubm
           />
           {questionParts[1]}
         </div>
-      </div>
 
       {localIsSubmitted && (
         <div className="answer-feedback">
