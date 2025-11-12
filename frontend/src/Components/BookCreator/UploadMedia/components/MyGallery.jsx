@@ -1,11 +1,22 @@
 import React from 'react';
 import { BASE_URL } from '../../../../settings';
 
-export default function MyGallery({ gallery = [], onPick = () => {}, allowedTypes = ['image'] }) {
+export default function MyGallery({ gallery = [], onPick = () => {}, allowedTypes = ['image'], galleryType = null }) {
   // Permitir tanto 'image' como 1 para imágenes
   const allowedTypeValues = allowedTypes.map(t => t === 'image' ? 1 : t);
-  const filtered = gallery.filter(f => allowedTypeValues.includes(f.type));
-  if (!filtered.length) return <div className="p-4 text-sm text-gray-600">No items in gallery</div>;
+  let filtered = gallery.filter(f => allowedTypeValues.includes(f.type));
+  
+  // Additionally filter by galleryType if provided
+  if (galleryType) {
+    filtered = filtered.filter(f => {
+      const itemGalleryType = f.gallery_type || f.galleryType || f.type;
+      return itemGalleryType === galleryType;
+    });
+  }
+  
+  console.log('MyGallery - Total items:', gallery.length, 'Filtrados:', filtered.length, 'galleryType:', galleryType);
+  
+  if (!filtered.length) return <div className="p-4 text-sm text-gray-600">No items in gallery for this type</div>;
   return (
     <div style={{ maxHeight: 400, overflowY: 'auto' }} className="grid grid-cols-4 gap-4">
       {filtered.map((g, i) => (

@@ -1,10 +1,16 @@
 import React from 'react';
 
-export default function Recent({ files = [], onPick = () => {}, allowedTypes = ['image'] }) {
+export default function Recent({ files = [], onPick = () => {}, allowedTypes = ['image'], galleryType = null }) {
   // Permitir tanto 'image' como 1 para imágenes
   const allowedTypeValues = allowedTypes.map(t => t === 'image' ? 1 : t);
-  const filtered = files.filter(f => allowedTypeValues.includes(f.type));
-  if (!filtered.length) return <div className="p-4 text-sm text-gray-600">No recent items</div>;
+  let filtered = files.filter(f => allowedTypeValues.includes(f.type));
+  
+  // Filter by galleryType if provided
+  if (galleryType) {
+    filtered = filtered.filter(f => f.gallery_type === galleryType);
+  }
+  
+  if (!filtered.length) return <div className="p-4 text-sm text-gray-600">No recent items for this type</div>;
   return (
     <div style={{ maxHeight: 400, overflowY: 'auto' }} className="grid grid-cols-4 gap-4">
       {filtered.map((f, idx) => {

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import SidebarIcon from "./SideBarIcon"; // Usa el nombre exacto del archivo
-import {BookOpenCheck, Gamepad, MessageCircle, Users, Package, Home, Image, Type} from "lucide-react";
+import {BookOpenCheck, Gamepad, MessageCircle, Users, Package, Home, Image, Type, ImagePlus} from "lucide-react";
 import logo from "../../../../FR_Logo.png";
 
 export default function SideBar({ openPanel, setOpenPanel }) {
@@ -10,6 +10,7 @@ export default function SideBar({ openPanel, setOpenPanel }) {
   { key: "home", icon: <Home />, label: "Home" },
   { key: "text", icon: <Type />, label: "Text" },
   { key: "background", icon: <Image />, label: "Background" },
+  { key: "custom", icon: <ImagePlus />, label: "Custom" },
   { key: "objects", icon: <Package />, label: "Objects" },
   { key: "users", icon: <Users />, label: "Characters" },
   { key: "shape", icon: <MessageCircle />, label: "Shapes" },

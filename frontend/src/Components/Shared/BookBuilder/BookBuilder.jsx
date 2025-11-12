@@ -354,7 +354,6 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
                       label: dilemma.dilemma,
                       tooltip: dilemma.description
                     }))}
-                    name='dilemma'
                       name='dilemma'
                       value={selectedDilemma}
                     onChange={handleDilemmaChange}

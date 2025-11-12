@@ -2,6 +2,18 @@ import { useState } from 'react';
 import { getShapesImages, getObjectImages, getPersonsImages, getBackgroundImages } from "../../../../api/images";
 import UploadMedia from '../../UploadMedia/uploadMedia';
 
+// Map sidebar imageType strings to galleryType numbers
+const imageTypeToGalleryType = (imageType) => {
+  const mapping = {
+    'custom': 1,      // Custom IMG
+    'background': 2,  // Background
+    'shape': 3,       // Shapes
+    'users': 4,       // Characters
+    'objects': 5,     // Objects
+  };
+  return mapping[imageType] || 1; // Default to Custom if not found
+};
+
 export default function ImagePanel({ widgetValidation, setElements, setImages, imageType, }) {
   const getCanvasWidth = () => {
     const container = document.querySelector("#canvas-container");
@@ -145,10 +157,12 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
 
   const getImagesByType = () => {
     switch (imageType) {
+      case "custom":
+        return []; // Custom images come from user uploads only
       case "objects":
         return getObjectImages();
-        case "background":
-          return getBackgroundImages();
+      case "background":
+        return getBackgroundImages();
       case "users":
         return getPersonsImages();
       case "shape":
@@ -178,7 +192,7 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
         allowedTypes={["image"]}
         onClose={() => setShowUploadModal(false)}
         onSelect={(f) => { handleModalSelect(f); setShowUploadModal(false); }}
-        galleryType={imageType}
+        galleryType={imageTypeToGalleryType(imageType)}
         type="image"
       />
 
