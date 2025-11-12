@@ -4,6 +4,10 @@ export const MEDIA_BASE_URL = BASE_URL;
 
 export function getMediaUrl(path) {
   if (!path) return path;
+  // If path is already a data URL or blob URL, return as-is
+  if (typeof path === 'string' && (path.startsWith('data:') || path.startsWith('blob:'))) {
+    return path;
+  }
   
   // Handle old /Media/media/ format
   if (path.startsWith("/Media/media/")) {

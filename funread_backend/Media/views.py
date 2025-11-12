@@ -23,6 +23,7 @@ GALLERY_TYPE_NAMES = {
     4: 'Characters',
     5: 'Objects',
     6: 'Others',
+    7: 'BookCover',
 }
 
 @ api_view(['POST'])

@@ -185,10 +185,14 @@ function ReadingView() {
           console.log("asd asd currentContent");
           console.log(currentContent);
 
-          setContentBook(currentContent);
-          loadPage(currentContent, pageNumer);
-          console.log("BcurrentContent");
-          console.log(contentBook);
+          // Guard: only set and load if content exists and has at least one page
+          if (currentContent && Array.isArray(currentContent) && currentContent.length > 0) {
+            setContentBook(currentContent);
+            loadPage(currentContent, pageNumer);
+          } else {
+            console.warn('getBookContent: received empty or invalid content for book', bookid);
+            setContentBook([]);
+          }
         });
       } catch (error) {
         setError("Error fetching data");
@@ -236,19 +240,29 @@ function ReadingView() {
   }, [contentBook, pageNumer, pagesCount, quizResponses]);
 
   const loadPage = (currentContent, pageNumber) => {
-    console.log("pageNumer");
-    console.log(pageNumer);
-    console.log("--contentBook---");
-    console.log(contentBook);
-    console.log("-----");
-    console.log("-----");
+    // Defensive guards: ensure currentContent and the requested page exist
+    if (!currentContent || !Array.isArray(currentContent) || currentContent.length === 0) {
+      console.warn('loadPage: currentContent is empty or invalid');
+      return;
+    }
 
-    let currentPageContent = currentContent[pageNumber];
+    if (pageNumber == null || pageNumber < 0 || pageNumber >= currentContent.length) {
+      console.warn('loadPage: pageNumber out of range', pageNumber);
+      return;
+    }
+
+    const currentPageContent = currentContent[pageNumber];
+    if (!currentPageContent) {
+      console.warn('loadPage: currentPageContent is undefined for page', pageNumber);
+      return;
+    }
+
+    // Update states based on the valid page content
     setContentBook(currentContent);
-    setGridDirection(currentPageContent.page.gridDirection);
-    setGridNumRows(currentPageContent.page.gridNumRows);
+    setGridDirection(currentPageContent.page?.gridDirection || null);
+    setGridNumRows(currentPageContent.page?.gridNumRows || null);
     setPagesCount(currentContent.length);
-    setWidgets(currentPageContent.widgetitems);
+    setWidgets(currentPageContent.widgetitems || []);
   };
 
   const exitPresentation = () => {

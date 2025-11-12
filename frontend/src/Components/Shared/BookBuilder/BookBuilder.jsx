@@ -184,7 +184,8 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   }
 
   const saveImageFile = async () => {
-    return await save_Image(fileImage)
+    // galleryType = 7 para portadas de libro (BookCover)
+    return await save_Image(fileImage, 7)
   }
 
   const getImageRoute = async (imageName) => {
@@ -354,7 +355,6 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
                       label: dilemma.dilemma,
                       tooltip: dilemma.description
                     }))}
-                    name='dilemma'
                       name='dilemma'
                       value={selectedDilemma}
                     onChange={handleDilemmaChange}

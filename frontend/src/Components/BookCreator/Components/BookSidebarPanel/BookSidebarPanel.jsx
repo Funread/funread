@@ -18,7 +18,7 @@ export default function BookSidebarPanel({
   <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
       {/* Panel lateral */}
       <div className="flex flex-col w-[300px] h-full min-h-screen min-w-0 bg-white shadow-md p-4 border-r border-gray-300 overflow-y-auto">
-        {(["background", "objects", "users", "shape"].includes(openPanel)) && (
+        {(["background", "custom", "objects", "users", "shape"].includes(openPanel)) && (
           <ImagePanel
             widgetValidation={widgetValidation}
             setElements={setElements}

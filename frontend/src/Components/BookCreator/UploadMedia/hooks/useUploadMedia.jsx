@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { TAB_NAMES } from '../constants';
 import { list } from '../../../../api/media';
 
-export function useUploadMedia({ allowedTypes = ['image'] } = {}) {
+export function useUploadMedia({ allowedTypes = ['image'], galleryType = null } = {}) {
 
 
   const [activeView, setActiveView] = useState(TAB_NAMES.RECENT);
@@ -15,10 +15,29 @@ export function useUploadMedia({ allowedTypes = ['image'] } = {}) {
     if (activeView === TAB_NAMES.MY_GALLERY) {
       list().then(res => {
         console.log('Respuesta API /Media/list:', res.data);
-        setGallery(res.data);
+        console.log('galleryType filtro actual:', galleryType);
+        
+        // Log first item to see structure
+        if (res.data && res.data.length > 0) {
+          console.log('Estructura primer item:', res.data[0]);
+          console.log('Claves del primer item:', Object.keys(res.data[0]));
+        }
+        
+        // Filter by galleryType if provided
+        let filtered = res.data;
+        if (galleryType) {
+          // Try different possible field names from backend
+          filtered = res.data.filter(item => {
+            const itemGalleryType = item.gallery_type || item.galleryType || item.type;
+            console.log('Item:', item.name, 'gallery_type:', itemGalleryType, 'match:', itemGalleryType === galleryType);
+            return itemGalleryType === galleryType;
+          });
+        }
+        console.log('Items filtrados:', filtered.length);
+        setGallery(filtered);
       });
     }
-  }, [activeView]);
+  }, [activeView, galleryType]);
 
   const addRecent = (file) => {
     // Permitir File, Blob, o string con tipo imagen
@@ -36,6 +55,7 @@ export function useUploadMedia({ allowedTypes = ['image'] } = {}) {
     const item = {
       name: file.name || file.file?.name || 'file',
       type: 1, // 1 para imagen
+      gallery_type: galleryType, // Store the galleryType with recent items
       time: Date.now(),
       size: file.size || 0,
       payload: file
