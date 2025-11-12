@@ -27,6 +27,8 @@ class Media(models.Model):
     #3 Personajes
     #4 Escenarios
     #5 Object
+    #6 Others
+    #7 BookCover (Portada de libro)
 
     # type es un enum, distribuido de la siguiente manera
     # 1 = Imagen

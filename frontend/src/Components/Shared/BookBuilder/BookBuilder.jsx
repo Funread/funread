@@ -184,7 +184,8 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
   }
 
   const saveImageFile = async () => {
-    return await save_Image(fileImage)
+    // galleryType = 7 para portadas de libro (BookCover)
+    return await save_Image(fileImage, 7)
   }
 
   const getImageRoute = async (imageName) => {
