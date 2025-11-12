@@ -26,16 +26,35 @@ const KonvaPage = ({ widgets }) => {
   useEffect(() => {
     const loadImages = async () => {
       const imgMap = {};
+      // Load images but do not let a single failure reject the whole Promise.all
       await Promise.all(
         elements.map(async (el, index) => {
           if (el.type === 'image') {
-            const img = new window.Image();
-            img.src = getMediaUrl(el.src);
-            await new Promise((res, rej) => {
-              img.onload = () => res();
-              img.onerror = () => rej();
-            });
-            imgMap[el.id || index] = img;
+            try {
+              const img = new window.Image();
+              const src = getMediaUrl(el.src);
+              if (!src) {
+                console.warn('KonvaPage: no src for image element', el);
+                return;
+              }
+
+              const loaded = await new Promise((res) => {
+                img.onload = () => res(true);
+                img.onerror = () => {
+                  console.error('KonvaPage: image failed to load', src);
+                  // resolve false so Promise.all continues
+                  res(false);
+                };
+                img.src = src;
+              });
+
+              // Only store the image if it loaded successfully
+              if (loaded) {
+                imgMap[el.id || index] = img;
+              }
+            } catch (e) {
+              console.error('KonvaPage: unexpected error loading image', e);
+            }
           }
         })
       );

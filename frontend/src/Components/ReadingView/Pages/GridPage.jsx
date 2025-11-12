@@ -14,15 +14,23 @@ function GridPage( {gridDirection, gridNumRows, pageNumer , widgets}) {
     console.log(widgets) 
     let direction=  gridDirection
     let numRows= gridNumRows
+      // Defensive checks: ensure widgets is an array and has expected indexes
+      if (!widgets || !Array.isArray(widgets) || widgets.length === 0) {
+        console.warn('GridPage: widgets is empty or invalid', widgets);
+        return null;
+      }
+
       if (direction === 'horizontal' && numRows === 1) {
         // return 'FullSingleGrid';
-        return  <Image textbackgroundColor="#355377" textColor="#FFFFFF" img= {widgets[0]} />
-      } 
-      
+        return  <Image textbackgroundColor="#355377" textColor="#FFFFFF" img={widgets[0]} />
+      }
+
       else if (direction === 'horizontalBigFirst' && numRows === 2) {
-       
-        return <RV_ImageWithText textbackgroundColor="#355377" textColor="#FFFFFF" text={widgets[0].value} img ={widgets[1].value}/>
-      } 
+        // Ensure the expected widget values exist
+        const textVal = widgets[0] ? widgets[0].value : '';
+        const imgVal = widgets[1] ? widgets[1].value : null;
+        return <RV_ImageWithText textbackgroundColor="#355377" textColor="#FFFFFF" text={textVal} img={imgVal} />
+      }
       // Puedes agregar más condiciones aquí para otros tipos de grid
       else {
         return 'UnknownGridType';

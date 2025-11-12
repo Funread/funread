@@ -17,22 +17,27 @@ export default function SideBar({ openPanel, setOpenPanel }) {
   { key: "games", icon: <Gamepad />, label: "Games" }
   ];
   return (
-    <nav className="w-20 h-full bg-gray-900 text-white flex flex-col items-center py-6 px-2 gap-4 shadow-lg" aria-label="Main sidebar navigation">
-      <div className="mb-2 flex justify-center w-full">
-        <img src={logo} alt="Funread Logo" className="w-19 h-19 object-contain" />
+    <nav className="w-20 h-full bg-gray-900 text-white flex flex-col items-center shadow-lg" aria-label="Main sidebar navigation">
+      {/* Logo section */}
+      <div className="flex-shrink-0 w-full py-4 px-2 flex justify-center border-b border-gray-700">
+        <img src={logo} alt="Funread Logo" className="w-13 h-13 object-contain" />
       </div>
-      {options.map(opt => (
-        <button
-          key={opt.key}
-          onClick={() => opt.key === "home" ? navigate("/dashboard") : setOpenPanel(opt.key)}
-          className={`flex flex-col items-center w-full py-2 rounded-lg focus:outline-none transition ${openPanel === opt.key ? "bg-blue-800" : "hover:bg-gray-800"}`}
-          aria-label={opt.label}
-          title={opt.label}
-        >
-          <span className="mb-1" aria-hidden="true">{opt.icon}</span>
-          <span className="text-xs font-medium text-white opacity-80">{opt.label}</span>
-        </button>
-      ))}
+      
+      {/* Buttons section - distributed evenly */}
+      <div className="flex-1 w-full px-2 py-3 flex flex-col justify-evenly">
+        {options.map(opt => (
+          <button
+            key={opt.key}
+            onClick={() => opt.key === "home" ? navigate("/dashboard") : setOpenPanel(opt.key)}
+            className={`flex flex-col items-center w-full py-2 px-1 rounded-lg focus:outline-none transition ${openPanel === opt.key ? "bg-blue-600" : "hover:bg-gray-800"}`}
+            aria-label={opt.label}
+            title={opt.label}
+          >
+            <span className="mb-1 flex-shrink-0" aria-hidden="true">{opt.icon}</span>
+            <span className="text-[10px] leading-tight font-medium text-white text-center opacity-90">{opt.label}</span>
+          </button>
+        ))}
+      </div>
     </nav>
   );
 }
