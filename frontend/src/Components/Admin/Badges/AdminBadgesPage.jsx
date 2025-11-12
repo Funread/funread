@@ -156,13 +156,13 @@ const AdminBadgesPage = () => {
       
     } catch (error) {
       console.error('Error guardando badge:', error);
-      toast.error('Error al guardar badge');
+      toast.error('Error saving badge');
       throw error;
     }
   };
 
   const handleAssignToAll = async () => {
-    if (!window.confirm('¿Deseas asignar badges a todos los usuarios según sus libros leídos? Esto puede tardar unos momentos.')) {
+    if (!window.confirm('Do you want to assign badges to all users based on their read books? This may take a few moments.')) {
       return;
     }
 
@@ -171,16 +171,16 @@ const AdminBadgesPage = () => {
       
       if (result.success) {
         toast.success(
-          `¡Asignación completada! ${result.total_badges_assigned} badges asignados a ${result.total_users_processed} usuarios`,
+          `Assignment complete! ${result.total_badges_assigned} badges assigned to ${result.total_users_processed} users`,
           { autoClose: 5000 }
         );
         loadBadges();
       } else {
-        toast.error('Error en la asignación masiva');
+        toast.error('Error in batch assignment');
       }
     } catch (error) {
       console.error('Error en asignación masiva:', error);
-      toast.error('Error al asignar badges');
+      toast.error('Error assigning badges');
     }
   };
 
@@ -190,10 +190,10 @@ const AdminBadgesPage = () => {
       <div className="page-header mb-4">
         <h2 className="page-title">
           <FontAwesomeIcon icon={faTrophy} className="me-2" />
-          Gestión de Badges
+          Badge Management
         </h2>
         <p className="text-muted">
-          Administra los badges del sistema y asígnales a los usuarios
+          Manage system badges and assign them to users
         </p>
       </div>
 
@@ -207,7 +207,7 @@ const AdminBadgesPage = () => {
               </div>
               <div className="stat-content">
                 <h3>{stats.totalBadges}</h3>
-                <p className="text-muted">Total de Badges</p>
+                <p className="text-muted">Total Badges</p>
               </div>
             </Card.Body>
           </Card>
@@ -220,7 +220,7 @@ const AdminBadgesPage = () => {
               </div>
               <div className="stat-content">
                 <h3>{stats.totalUsers}</h3>
-                <p className="text-muted">Asignaciones Totales</p>
+                <p className="text-muted">Total Assignments</p>
               </div>
             </Card.Body>
           </Card>
@@ -233,7 +233,7 @@ const AdminBadgesPage = () => {
               </div>
               <div className="stat-content">
                 <h3>{filteredBadges.filter(b => b.show_progress).length}</h3>
-                <p className="text-muted">Badges Automáticos</p>
+                <p className="text-muted">Automatic Badges</p>
               </div>
             </Card.Body>
           </Card>
@@ -251,14 +251,14 @@ const AdminBadgesPage = () => {
                 className="me-2"
               >
                 <FontAwesomeIcon icon={faPlus} className="me-2" />
-                Crear Badge
+                Create Badge
               </Button>
               <Button 
                 variant="outline-secondary" 
                 onClick={handleAssignToAll}
               >
                 <FontAwesomeIcon icon={faSync} className="me-2" />
-                Asignar a Todos
+                Assign to All
               </Button>
             </Col>
             <Col md={4}>
@@ -268,7 +268,7 @@ const AdminBadgesPage = () => {
                 </InputGroup.Text>
                 <Form.Control
                   type="text"
-                  placeholder="Buscar badges..."
+                  placeholder="Search badges..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -279,9 +279,9 @@ const AdminBadgesPage = () => {
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}
               >
-                <option value="all">Todos los badges</option>
-                <option value="student">Para estudiantes</option>
-                <option value="teacher">Para profesores</option>
+                <option value="all">All badges</option>
+                <option value="student">For students</option>
+                <option value="teacher">For teachers</option>
               </Form.Select>
             </Col>
           </Row>
@@ -294,14 +294,14 @@ const AdminBadgesPage = () => {
           {loading ? (
             <div className="text-center py-5">
               <Spinner animation="border" variant="primary" />
-              <p className="mt-3 text-muted">Cargando badges...</p>
+              <p className="mt-3 text-muted">Loading badges...</p>
             </div>
           ) : filteredBadges.length === 0 ? (
             <Alert variant="info">
               <FontAwesomeIcon icon={faTrophy} className="me-2" />
               {searchTerm || filterType !== 'all' 
-                ? 'No se encontraron badges con los filtros aplicados.'
-                : 'No hay badges creados. ¡Crea el primero!'}
+                ? 'No badges found with the applied filters.'
+                : 'No badges created yet. Create the first one!'}
             </Alert>
           ) : (
             <BadgeTable 
