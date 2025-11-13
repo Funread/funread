@@ -32,18 +32,16 @@ const BadgeTable = ({ badges, onEdit, onDelete }) => {
 
   return (
     <div className="badge-table-container">
-      <Table responsive hover className="badge-table">
+      <Table hover className="badge-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Badge</th>
-            <th>Descripción</th>
-            <th>Puntos</th>
-            <th>Libros Req.</th>
-            <th>Tipo</th>
-            <th>Auto</th>
-            <th>Usuarios</th>
-            <th>Acciones</th>
+            <th className="badge-id">ID</th>
+            <th className="badge-title">Badge</th>
+            <th className="badge-points">Points</th>
+            <th className="badge-goal">Required Books</th>
+            <th className="badge-type">Type</th>
+            <th className="badge-auto">Auto</th>
+            <th className="badge-actions">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -52,24 +50,18 @@ const BadgeTable = ({ badges, onEdit, onDelete }) => {
               <td className="badge-id">#{badge.id}</td>
               
               <td className="badge-title">
-                <div className="d-flex align-items-center">
-                  <FontAwesomeIcon 
-                    icon={faTrophy} 
-                    className="me-2" 
-                    style={{ color: badge.is_teacher_badge ? '#6c757d' : '#ffd700' }}
-                  />
-                  <strong>{badge.title}</strong>
-                </div>
-              </td>
-              
-              <td className="badge-description">
                 <OverlayTrigger
                   placement="top"
                   overlay={<Tooltip>{badge.description}</Tooltip>}
                 >
-                  <span className="text-truncate d-inline-block" style={{ maxWidth: '200px' }}>
-                    {badge.description}
-                  </span>
+                  <div className="d-flex align-items-center gap-2" style={{ cursor: 'pointer' }}>
+                    <FontAwesomeIcon 
+                      icon={faTrophy} 
+                      className="flex-shrink-0" 
+                      style={{ color: badge.is_teacher_badge ? '#6c757d' : '#ffd700' }}
+                    />
+                    <strong>{badge.title}</strong>
+                  </div>
                 </OverlayTrigger>
               </td>
               
@@ -81,7 +73,7 @@ const BadgeTable = ({ badges, onEdit, onDelete }) => {
               
               <td className="badge-goal">
                 {badge.goal_points ? (
-                  <Badge bg="info">{badge.goal_points} libros</Badge>
+                  <Badge bg="info">{badge.goal_points} books</Badge>
                 ) : (
                   <span className="text-muted">-</span>
                 )}
@@ -89,22 +81,16 @@ const BadgeTable = ({ badges, onEdit, onDelete }) => {
               
               <td className="badge-type">
                 <Badge bg={badge.is_teacher_badge ? 'secondary' : 'primary'}>
-                  {badge.is_teacher_badge ? 'Profesor' : 'Estudiante'}
+                  {badge.is_teacher_badge ? 'Teacher' : 'Student'}
                 </Badge>
               </td>
               
               <td className="badge-auto">
                 {badge.show_progress ? (
-                  <FontAwesomeIcon icon={faCheck} className="text-success" title="Asignación automática" />
+                  <FontAwesomeIcon icon={faCheck} className="text-success" title="Automatic assignment" />
                 ) : (
                   <FontAwesomeIcon icon={faTimes} className="text-muted" title="Manual" />
                 )}
-              </td>
-              
-              <td className="badge-users">
-                <Badge bg="light" text="dark">
-                  {badge.users_count || 0} usuarios
-                </Badge>
               </td>
               
               <td className="badge-actions">
