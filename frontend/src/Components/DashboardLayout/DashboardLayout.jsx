@@ -12,8 +12,6 @@ const DashboardLayout = ({ role }) => {
       return <Navigate to="/dashboard/library" replace />;
     } else if (role === "estudiante") {
       return <Navigate to="/dashboard/myclasses" replace />;
-    } else if (role === "administrativo") {
-      return <Navigate to="/dashboard/badges" replace />;
     }
   }
 
