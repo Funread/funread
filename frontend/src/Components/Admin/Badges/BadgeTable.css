@@ -3,24 +3,57 @@
 .badge-table-container {
   width: 100%;
   overflow-x: auto;
-  overflow-y: auto;
-  max-height: 70vh; /* 70% de la altura de la ventana */
+  overflow-y: scroll;
+  max-height: 500px;
+  min-height: 300px;
   display: block;
   position: relative;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
 }
 
 .badge-table {
   margin-bottom: 0;
   width: 100%;
+  table-layout: auto;
+  min-width: 800px;
+  border-collapse: collapse !important;
+  border-spacing: 0;
+}
+
+/* Forzar eliminación total de bordes en toda la tabla */
+.badge-table-container .table,
+.badge-table-container .table thead,
+.badge-table-container .table tbody,
+.badge-table-container .table thead tr,
+.badge-table-container .table tbody tr,
+.badge-table-container .table thead th,
+.badge-table-container .table tbody td {
+  border: 0 !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+}
+
+.badge-table, .badge-table thead, .badge-table tbody, .badge-table tr, .badge-table th, .badge-table td {
+  border: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important;
 }
 
 .badge-table thead {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  border: none !important;
 }
 
 .badge-table thead th {
-  border: none;
+  border: none !important;
+  border-bottom: none !important;
   padding: 15px 10px;
   font-weight: 600;
   text-align: left;
@@ -28,9 +61,21 @@
   white-space: nowrap;
 }
 
+/* Asegurar que no haya líneas después del thead */
+.badge-table thead tr {
+  border: none !important;
+  border-bottom: none !important;
+}
+
 .badge-table tbody tr {
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid #e9ecef;
+  border: none !important;
+  border-bottom: none !important;
+  border-top: none !important;
+}
+
+.badge-table tbody tr:last-child {
+  border-bottom: none !important;
 }
 
 .badge-table tbody tr:hover {
@@ -41,55 +86,94 @@
   padding: 15px 10px;
   vertical-align: middle;
   font-size: 14px;
+  border: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.badge-table tbody tr:last-child td {
+  padding-bottom: 20px;
 }
 
 /* Columns */
 .badge-id {
   font-weight: 600;
   color: #6c757d;
+  width: 60px;
   min-width: 60px;
 }
 
 .badge-title {
-  min-width: 180px;
+  width: auto;
+  min-width: 250px;
   font-weight: 600;
 }
 
-.badge-description {
-  max-width: 250px;
-  color: #6c757d;
+.badge-points {
+  width: 120px;
+  min-width: 120px;
 }
 
 .badge-points .points-badge {
   font-size: 12px;
   padding: 5px 10px;
   font-weight: 600;
+  display: inline-block;
 }
 
 .badge-goal {
-  min-width: 100px;
+  width: 120px;
+  min-width: 120px;
 }
 
 .badge-type {
-  min-width: 100px;
+  width: 120px;
+  min-width: 120px;
 }
 
 .badge-auto {
   text-align: center;
-  min-width: 60px;
-}
-
-.badge-users {
+  width: 100px;
   min-width: 100px;
 }
 
 .badge-actions {
-  min-width: 120px;
+  width: 140px;
+  min-width: 140px;
   text-align: right;
+  white-space: nowrap;
 }
 
 .badge-actions .btn {
   margin: 0 2px;
+}
+
+/* Custom Scrollbar */
+.badge-table-container::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.badge-table-container::-webkit-scrollbar-track {
+  background: #f1f3f5;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.badge-table-container::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 5px;
+  border: 2px solid #f1f3f5;
+}
+
+.badge-table-container::-webkit-scrollbar-thumb:hover {
+  background: #764ba2;
+}
+
+/* For Firefox */
+.badge-table-container {
+  scrollbar-width: thin;
+  scrollbar-color: #667eea #f1f3f5;
 }
 
 /* Badges (Bootstrap) */
