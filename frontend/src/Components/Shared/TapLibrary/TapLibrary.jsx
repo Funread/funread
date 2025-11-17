@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import BookCard from "../BookCard/BookCard";
 import "./TapLibrary.sass";
 import { listed_PrivateBooks, listed_PublishedBooks } from "../../../api/books";
+import { usersList } from "../../../api/users";
 import { listDimensions, searchDimensionByCategory, searchDilemmaByDimension, getBookCategoryDimensionDilemmas } from "../../../api/bookDilemma";
 import Message from "../CustomMessage/CustomMessage";
 import { useSelector } from "react-redux";
@@ -21,25 +22,20 @@ function TapLibrary({ toggleSidebar, newBooks }) {
   const [selectedDimension, setSelectedDimension] = useState("all");
   const [sortBy, setSortBy] = useState("dimension");
   const [allDimensions, setAllDimensions] = useState([]);
-  const [hideHeader, setHideHeader] = useState(false);
-  const [lastScroll, setLastScroll] = useState(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const scrollY = window.scrollY;
-      setHideHeader(scrollY > 60 && scrollY > lastScroll);
-      setLastScroll(scrollY);
-    };
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [lastScroll]);
 
   const fetchData = async () => {
     try {
-      const [publishedResponse, privateResponse] = await Promise.all([
+      const [publishedResponse, privateResponse, usersResponse] = await Promise.all([
         listed_PublishedBooks(),
         listed_PrivateBooks(),
+        usersList(),
       ]);
+
+      const usersData = usersResponse?.data || [];
+      const resolveUsername = (userId) => {
+        const u = usersData.find(user => user.userid === userId);
+        return u ? `${u.name} ${u.lastname}` : null;
+      };
 
       // Helper para enriquecer cada libro con detalles de categoría, dimensiones y dilemas
       const enrichBooks = async (books) => {
@@ -61,13 +57,14 @@ function TapLibrary({ toggleSidebar, newBooks }) {
                 dilemmaNames = details.dilemmas.map(d => d.dilemma);
               }
             } catch (error) {
-              // Si falla, dejar vacío
+              // Silenciar error y continuar
             }
             return {
               ...book,
               categoryName,
               dimensionNames,
               dilemmaNames,
+              username: resolveUsername(book.createdby),
             };
           })
         );
@@ -139,7 +136,7 @@ function TapLibrary({ toggleSidebar, newBooks }) {
 <div className="w-full">
 
   {/* Header fijo: Tabs y stats */}
-  <div className={`w-full flex items-center justify-between mb-6 sticky top-0 z-10 transition-transform duration-300 bg-white ${hideHeader ? ' -translate-y-[120%] opacity-0 pointer-events-none' : ' translate-y-0 opacity-100'}`} style={{paddingTop: 0, paddingBottom: 0}}>
+  <div className="w-full flex items-center justify-between mb-6 sticky top-0 z-10 bg-white" style={{paddingTop: 0, paddingBottom: 0}}>
         <div className="flex gap-2 pl-1">
           <button
             className={`px-4 py-1.5 rounded-lg font-semibold shadow-sm text-base ${tab === "mylibrary" ? "bg-white text-blue-700 border-2 border-blue-400" : "bg-gray-100 text-gray-500"}`}
@@ -188,14 +185,11 @@ function TapLibrary({ toggleSidebar, newBooks }) {
         )}
         {(tab === "mylibrary" || tab === "publiclibrary") && (
           <React.Fragment>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2 sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-slate-100 py-2 px-[5px]">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-slate-100 rounded-lg">
-                  <BookOpen className="h-5 w-5 text-slate-600" />
-                </div>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-0 sticky top-0 z-20 bg-white/95 backdrop-blur border-b border-slate-200 py-1 px-2">
+              <div className="flex items-center gap-1.5">
                 <div>
-                  <h2 className="text-xl font-semibold text-slate-900">{tab === "mylibrary" ? "My Library" : "Public Library"}</h2>
-                  <p className="text-sm text-slate-500">{sortedBooks.length} Available books</p>
+                  <h2 className="text-sm font-semibold text-slate-900 leading-tight">{tab === "mylibrary" ? "My Library" : "Public Library"}</h2>
+                  <p className="text-[10px] text-slate-500 leading-tight">{sortedBooks.length} Available books</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -207,7 +201,7 @@ function TapLibrary({ toggleSidebar, newBooks }) {
                   <select
                     value={selectedDimension}
                     onChange={e => setSelectedDimension(e.target.value)}
-                    className="block w-full appearance-none rounded-lg border border-slate-200 bg-white py-2 pl-10 pr-8 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="block w-full appearance-none rounded-lg border border-slate-200 bg-white py-1.5 pl-10 pr-8 text-sm font-normal text-slate-700 shadow-sm transition hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   >
                     {dimensions.map(dimension => (
                       <option key={dimension.bookdimensionid} value={dimension.bookdimensionid}>
@@ -228,7 +222,7 @@ function TapLibrary({ toggleSidebar, newBooks }) {
                   <select
                     value={sortBy}
                     onChange={e => setSortBy(e.target.value)}
-                    className="block w-full appearance-none rounded-lg border border-slate-200 bg-white py-2 pl-10 pr-8 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="block w-full appearance-none rounded-lg border border-slate-200 bg-white py-1.5 pl-10 pr-8 text-sm font-normal text-slate-700 shadow-sm transition hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   >
                     <option value="dimension">Sort by Dimension</option>
                     <option value="title">Sort A-Z</option>
@@ -255,12 +249,12 @@ function TapLibrary({ toggleSidebar, newBooks }) {
                 </div>
               </div>
             </div>
-            <div style={{flex: 1, minHeight: 0, overflowY: 'auto'}}>
+            <div style={{flex: 1, minHeight: 0}}>
               {/* Dynamic dimension header */}
               {selectedDimension === "all" ? (
-                <div className="text-base font-semibold text-slate-600 mb-2 pl-3">Explore dimensions</div>
+                <div className="text-xs font-medium text-slate-500 mb-1 pl-2 pt-1">Explore dimensions</div>
               ) : (
-                <div className="text-base font-semibold text-slate-600 mb-2 pl-3">
+                <div className="text-xs font-medium text-slate-500 mb-1 pl-2 pt-1">
                   {(() => {
                     const dim = allDimensions.find(d => d.bookdimensionid?.toString() === selectedDimension);
                     return dim ? dim.name : '';
@@ -287,6 +281,8 @@ function TapLibrary({ toggleSidebar, newBooks }) {
                           title={book.title}
                           category={book.categoryName || book.category}
                           author={book.author}
+                          username={book.username}
+                          createdby={book.createdby}
                           description={book.description}
                           dimensionNames={book.dimensionNames}
                           dilemmaNames={book.dilemmaNames}
@@ -308,6 +304,8 @@ function TapLibrary({ toggleSidebar, newBooks }) {
                           title={book.title}
                           category={book.categoryName || book.category}
                           author={book.author}
+                          username={book.username}
+                          createdby={book.createdby}
                           description={book.description}
                           dimensionNames={book.dimensionNames}
                           dilemmaNames={book.dilemmaNames}
