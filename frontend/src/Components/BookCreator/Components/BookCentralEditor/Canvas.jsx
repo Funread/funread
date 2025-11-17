@@ -57,7 +57,12 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
   }, [elements]);
 
   useEffect(() => {
-    if (!selectedId || !stageRef.current || !transformerRef.current) return;
+    if (!transformerRef.current) return;
+
+    if (!selectedId || !stageRef.current) {
+      transformerRef.current.nodes([]);
+      return;
+    }
 
     const stage = stageRef.current;
     const node = stage.findOne(`#${selectedId}`);
