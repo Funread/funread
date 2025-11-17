@@ -24,6 +24,7 @@ GALLERY_TYPE_NAMES = {
     5: 'Objects',
     6: 'Others',
     7: 'BookCover',
+    8: 'BadgeIcons',
 }
 
 @ api_view(['POST'])
