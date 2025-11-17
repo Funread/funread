@@ -29,41 +29,11 @@ const BookView = ({ book, onPreview }) => {
 
   return (
     <div className='book-view-container'>
-      {/* Decorative floating stars */}
-      <div className='decorative-star star-1'>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-        </svg>
-      </div>
-      <div className='decorative-star star-2'>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M12 3v18m-9-9h18" />
-          <circle cx="12" cy="12" r="4" />
-        </svg>
-      </div>
-      <div className='decorative-star star-3'>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-        </svg>
-      </div>
-      <div className='decorative-star star-4'>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M12 3v18m-9-9h18" />
-          <circle cx="12" cy="12" r="4" />
-        </svg>
-      </div>
-
       {/* Content Container */}
       <div className='book-content-wrapper'>
         {/* Book Cover */}
         <div className='book-cover'>
           <img src={bookImage} alt={book.title} />
-          <div className='book-cover-sparkle'>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 3v18m-9-9h18" />
-              <circle cx="12" cy="12" r="4" />
-            </svg>
-          </div>
         </div>
 
         {/* Book Title */}
@@ -72,9 +42,6 @@ const BookView = ({ book, onPreview }) => {
         {/* Book Author - Mostrar author, createdby, o username si están disponibles */}
         {(book.author || book.createdby || book.username) && (
           <p className='book-author'>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#eab308">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
             {book.author || book.username || `User ${book.createdby}`}
           </p>
         )}
