@@ -192,7 +192,7 @@ const SidebarLeftTopTop = () => {
         <div className='custom-nav-heading d-flex justify-content-between align-items-center'>
           {isExpanded && (
             <div className='custom-nav-brand'>
-              <h2>FUNREAD</h2>
+              <img src="/Logo.png" alt="FunRead Logo" style={{ width: '50px', height: '50px', objectFit: 'contain' }} />
             </div>
           )}
           <button

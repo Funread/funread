@@ -106,7 +106,7 @@ export default function TextPanel({ setElements, widgetValidation }) {
     
     widgetValidation(2, 2);
     setElements((prev) => [
-      ...prev,
+      ...(Array.isArray(prev) ? prev : []),
       {
         id: Date.now().toString(),
         type: "text",
@@ -121,7 +121,7 @@ export default function TextPanel({ setElements, widgetValidation }) {
   const handleAgregarPlantilla = (plantilla) => {
     widgetValidation(2, 2);
     setElements((prev) => [
-      ...prev,
+      ...(Array.isArray(prev) ? prev : []),
       {
         id: Date.now().toString(),
         type: "text",

@@ -1,6 +1,5 @@
 import React from "react";
 // import { Navbar, Nav } from "react-bootstrap";
-import logoFunread from "../../../logoFunread.png";
 import "./Header.sass";
 
 import Button from 'react-bootstrap/Button';
@@ -20,7 +19,7 @@ class Header extends React.Component {
           <Container fluid>
             <Navbar.Brand>
               <img
-                src={logoFunread}
+                src="/Logo.png"
                 alt="logo"
                 className="header-navbar-logo-funread"
               ></img>

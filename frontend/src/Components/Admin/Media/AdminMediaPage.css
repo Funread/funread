@@ -1,0 +1,68 @@
+/* Admin Media Page Styles */
+
+.admin-media-page {
+  padding: 20px;
+  max-width: 1600px;
+}
+
+.admin-media-page .page-header {
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.admin-media-page .page-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.admin-media-page .nav-tabs {
+  border-bottom: 2px solid #dee2e6;
+}
+
+.admin-media-page .nav-tabs .nav-link {
+  color: #6c757d;
+  font-weight: 500;
+  padding: 12px 20px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.admin-media-page .nav-tabs .nav-link:hover {
+  color: #495057;
+  border-bottom-color: #e9ecef;
+}
+
+.admin-media-page .nav-tabs .nav-link.active {
+  color: #667eea;
+  background: transparent;
+  border-bottom-color: #667eea;
+  font-weight: 600;
+}
+
+/* Cards */
+.admin-media-page .card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-media-page {
+    padding: 10px;
+  }
+
+  .admin-media-page .page-title {
+    font-size: 22px;
+  }
+
+  .admin-media-page .page-header .d-flex {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 15px;
+  }
+}
