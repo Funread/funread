@@ -2,12 +2,13 @@ import { useNavigate } from "react-router-dom";
 import SidebarIcon from "./SideBarIcon"; // Usa el nombre exacto del archivo
 import {BookOpenCheck, Gamepad, MessageCircle, Users, Package, Home, Image, Type, ImagePlus} from "lucide-react";
 import logo from "../../../../FR_Logo.png";
+import { library } from "@fortawesome/fontawesome-svg-core";
 
 export default function SideBar({ openPanel, setOpenPanel }) {
   const navigate = useNavigate(); 
 
   const options = [
-  { key: "home", icon: <Home />, label: "Home" },
+  { key: "home", icon: <Home />, label: "My library" },
   { key: "text", icon: <Type />, label: "Text" },
   { key: "background", icon: <Image />, label: "Background" },
   { key: "custom", icon: <ImagePlus />, label: "Custom" },
