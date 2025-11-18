@@ -8,8 +8,8 @@ export default function Games({ widgetValidation, setElements, setImages }) {
       // Solo cambiar el tipo de página a 5 (WordSearch)
       widgetValidation(9, 5);
       
-      // No establecer elementos iniciales
-      setElements(null);
+      // Establecer elementos como array vacío
+      setElements([]);
     }
   };
   

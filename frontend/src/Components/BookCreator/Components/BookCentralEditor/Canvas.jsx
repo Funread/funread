@@ -36,6 +36,12 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
 
   // 🔁 Precargar imágenes cuando cambian los elementos
   useEffect(() => {
+    // Validar que elements sea un array
+    if (!Array.isArray(elements)) {
+      console.warn('elements is not an array:', elements);
+      return;
+    }
+    
     const newImages = {};
     const promises = elements
       .filter(el => el.type === "image")
@@ -76,7 +82,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
     
     if (!stage) {
       setElements((prev) =>
-        prev.map((el) => (el.id === id ? { ...el, x: node.x(), y: node.y() } : el))
+        Array.isArray(prev) ? prev.map((el) => (el.id === id ? { ...el, x: node.x(), y: node.y() } : el)) : []
       );
       return;
     }
@@ -106,7 +112,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
     }
 
     setElements((prev) =>
-      prev.map((el) => (el.id === id ? { ...el, x: newX, y: newY } : el))
+      Array.isArray(prev) ? prev.map((el) => (el.id === id ? { ...el, x: newX, y: newY } : el)) : []
     );
   };
 
@@ -146,7 +152,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
       }
 
       setElements((prev) =>
-        prev.map((el) =>
+        Array.isArray(prev) ? prev.map((el) =>
           el.id === id
             ? {
                 ...el,
@@ -156,11 +162,11 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                 height: newHeight,
               }
             : el
-        )
+        ) : []
       );
     } else {
       setElements((prev) =>
-        prev.map((el) =>
+        Array.isArray(prev) ? prev.map((el) =>
           el.id === id
             ? {
                 ...el,
@@ -170,7 +176,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                 height: newHeight,
               }
             : el
-        )
+        ) : []
       );
     }
   };
@@ -189,20 +195,20 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
     // Si solo se pasa texto (compatibilidad)
     if (typeof newText === "string" && !newStyles) {
       setElements((prev) =>
-        prev.map((el) =>
+        Array.isArray(prev) ? prev.map((el) =>
           el.id === editingText ? { ...el, text: newText } : el
-        )
+        ) : []
       );
     } else {
       // Si se pasan estilos completos desde el modal
       setElements((prev) =>
-        prev.map((el) =>
+        Array.isArray(prev) ? prev.map((el) =>
           el.id === editingText ? { 
             ...el, 
             text: newText, 
             ...newStyles // Aplicar todos los estilos del modal
           } : el
-        )
+        ) : []
       );
     }
     setEditingText(null);
@@ -219,7 +225,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
             className="border bg-gray-100"
           >
             <Layer>
-            {elements.map((el) => {
+            {Array.isArray(elements) && elements.map((el) => {
               if (el.type === "text") {
                 // Crear elementos para el texto (fondo + texto)
                 const textElements = [];

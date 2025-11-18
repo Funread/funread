@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { getShapesImages, getObjectImages, getPersonsImages, getBackgroundImages } from "../../../../api/images";
 import UploadMedia from '../../UploadMedia/uploadMedia';
 
@@ -15,6 +16,49 @@ const imageTypeToGalleryType = (imageType) => {
 };
 
 export default function ImagePanel({ widgetValidation, setElements, setImages, imageType, }) {
+  const [loadedImages, setLoadedImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  
+  // Obtener token de Redux o sessionStorage
+  const user = useSelector((state) => state.user);
+  const token = user.jwt || sessionStorage.getItem('jwt');
+
+  // Cargar imágenes cuando cambie el tipo
+  useEffect(() => {
+    loadImagesByType();
+  }, [imageType, token]);
+
+  const loadImagesByType = async () => {
+    setLoading(true);
+    try {
+      let images = [];
+      switch (imageType) {
+        case "custom":
+          images = []; // Custom images come from user uploads only
+          break;
+        case "objects":
+          images = await getObjectImages(token);
+          break;
+        case "background":
+          images = await getBackgroundImages(token);
+          break;
+        case "users":
+          images = await getPersonsImages(token);
+          break;
+        case "shape":
+          images = await getShapesImages(token);
+          break;
+        default:
+          images = [];
+      }
+      setLoadedImages(images);
+    } catch (error) {
+      console.error('Error loading images:', error);
+      setLoadedImages([]);
+    } finally {
+      setLoading(false);
+    }
+  };
   const getCanvasWidth = () => {
     const container = document.querySelector("#canvas-container");
     return container ? container.clientWidth : 800;
@@ -36,7 +80,7 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
         setImages((prev) => ({ ...prev, [img.src]: img }));
 
         setElements((prev) => [
-          ...prev,
+          ...(Array.isArray(prev) ? prev : []),
           {
             id: Date.now().toString(),
             type: "image",
@@ -72,7 +116,7 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
         setImages((prev) => ({ ...prev, [img.src]: img }));
 
         setElements((prev) => [
-          ...prev,
+          ...(Array.isArray(prev) ? prev : []),
           {
             id: Date.now().toString(),
             type: "image",
@@ -105,7 +149,7 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
         setImages((prev) => ({ ...prev, [img.src]: img }));
 
         setElements((prev) => [
-          ...prev,
+          ...(Array.isArray(prev) ? prev : []),
           {
             id: Date.now().toString(),
             type: "image",
@@ -136,7 +180,7 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
 
       setImages((prev) => ({ ...prev, [img.src]: img }));
       setElements((prev) => [
-        ...prev,
+        ...(Array.isArray(prev) ? prev : []),
         {
           id: Date.now().toString(),
           type: "image",
@@ -154,25 +198,6 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
   const handleDragStart = (e, img) => {
     e.dataTransfer.setData("image-src", img.src);
   };
-
-  const getImagesByType = () => {
-    switch (imageType) {
-      case "custom":
-        return []; // Custom images come from user uploads only
-      case "objects":
-        return getObjectImages();
-      case "background":
-        return getBackgroundImages();
-      case "users":
-        return getPersonsImages();
-      case "shape":
-        return getShapesImages();
-      default:
-        return [];
-    }
-  };
-
-  const loadedImages = getImagesByType();
 
   return (
     <div className="pb-24">
@@ -199,19 +224,43 @@ export default function ImagePanel({ widgetValidation, setElements, setImages, i
       <h3 className="text-md font-semibold mt-6 mb-2 capitalize">
         Funread's {imageType}
       </h3>
-      <div className="flex flex-col gap-4">
-        {loadedImages.map((img) => (
-          <img
-            key={img.id}
-            src={img.src}
-            alt={img.id}
-            draggable
-            onClick={() => addPreloadedImage(img.src)}
-            onDragStart={(e) => handleDragStart(e, img)}
-            className="w-full h-40 object-contain cursor-pointer border-2 border-gray-300 rounded-lg shadow bg-white hover:scale-105 transition-transform"
-          />
-        ))}
-      </div>
+      
+      {loading ? (
+        <div className="flex justify-center items-center py-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {loadedImages.length === 0 ? (
+            <p className="text-gray-500 text-center py-4">
+              No images available. Upload your first image!
+            </p>
+          ) : (
+            loadedImages.map((img) => (
+              <div key={img.id} className="relative group">
+                <img
+                  src={img.src}
+                  alt={img.name || img.id}
+                  draggable
+                  onClick={() => addPreloadedImage(img.src)}
+                  onDragStart={(e) => handleDragStart(e, img)}
+                  className="w-full h-40 object-contain cursor-pointer border-2 border-gray-300 rounded-lg shadow bg-white hover:scale-105 transition-transform"
+                />
+                {img.name && (
+                  <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white text-xs p-2 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                    {img.name}
+                  </div>
+                )}
+                {img.fromDatabase && (
+                  <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                    Custom
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -2,6 +2,7 @@ import verifyJwt
 import uuid
 from django.shortcuts import render
 from django.conf import settings
+from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
@@ -279,6 +280,175 @@ def get_file_type(extension):
         return 0  #
    except OperationalError:
      return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
+
+
+# ============================================
+# ENDPOINTS DE ADMINISTRADOR PARA MEDIA
+# ============================================
+
+@api_view(['GET'])
+def get_media_by_type(request, gallery_type):
+    """
+    Obtener todas las imágenes de un tipo de galería específico
+    Endpoint: GET /api/Media/by-type/<gallery_type>/
+    """
+    try:
+        # Token verification
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if not es_valido:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # Obtener user_id del JWT
+        jwt_service = JwtService(authorization_header)
+        user_id = jwt_service.get_user_id()
+
+        # Obtener TODAS las imágenes del galleryType (sin filtrar por usuario)
+        # Esto permite que todos vean todas las imágenes, pero mantiene el registro de quién las subió
+        medias = Media.objects.filter(
+            galleryType=gallery_type
+        ).order_by('-id')
+        
+        # Serializar y retornar
+        media_list = []
+        for media in medias:
+            # Intentar extraer el nombre original del archivo
+            original_name = media.name
+            if media.file:
+                # Si tiene extensión, remover el ID y dejar solo el nombre
+                file_name = os.path.basename(str(media.file))
+                # Quitar la extensión para obtener solo el nombre
+                name_without_ext = os.path.splitext(file_name)[0]
+                # Si el nombre es solo un número (ID), usar un nombre genérico
+                if name_without_ext.isdigit():
+                    gallery_name = GALLERY_TYPE_NAMES.get(media.galleryType, 'Image')
+                    original_name = f"{gallery_name} {name_without_ext}"
+                else:
+                    original_name = file_name
+            
+            # Obtener información del usuario que subió la imagen
+            uploaded_by = None
+            if media.user:
+                try:
+                    user_info = User.objects.get(userid=media.user.userid)
+                    uploaded_by = {
+                        'id': user_info.userid,
+                        'name': user_info.name or user_info.username or user_info.email,
+                        'email': user_info.email
+                    }
+                except User.DoesNotExist:
+                    uploaded_by = None
+            
+            media_list.append({
+                'id': media.id,
+                'name': original_name,
+                'file': f'/api/media/{media.file}' if media.file else None,
+                'url': f'/api/media/{media.file}' if media.file else None,
+                'type': media.type,
+                'galleryType': media.galleryType,
+                'extension': media.extension,
+                'uploadedBy': uploaded_by,
+            })
+        
+        return Response(media_list, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        print(f"Error getting media by type: {e}")
+        return Response(
+            {"error": str(e)}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['DELETE'])
+def delete_media(request, media_id):
+    """
+    Eliminar una imagen del sistema
+    Endpoint: DELETE /api/Media/delete/<media_id>/
+    """
+    try:
+        # Token verification
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if not es_valido:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # Buscar el media
+        try:
+            media = Media.objects.get(id=media_id)
+        except Media.DoesNotExist:
+            return Response(
+                {"error": "Media not found"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Eliminar el archivo físico si existe
+        if media.file:
+            file_path = os.path.join(settings.MEDIA_ROOT, str(media.file))
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+        # Eliminar el registro de la base de datos
+        media.delete()
+        
+        return Response(
+            {"message": "Media deleted successfully"}, 
+            status=status.HTTP_200_OK
+        )
+        
+    except Exception as e:
+        print(f"Error deleting media: {e}")
+        return Response(
+            {"error": str(e)}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['GET'])
+def get_all_media(request):
+    """
+    Obtener todas las imágenes del sistema (admin)
+    Endpoint: GET /api/Media/all/
+    """
+    try:
+        # Token verification
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        es_valido = verify.validar_token()
+        if not es_valido:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # Obtener todas las medias
+        medias = Media.objects.all().order_by('-id')
+        
+        # Serializar y retornar
+        media_list = []
+        for media in medias:
+            media_list.append({
+                'id': media.id,
+                'name': media.name,
+                'file': f'/api/media/{media.file}' if media.file else None,
+                'url': f'/api/media/{media.file}' if media.file else None,
+                'type': media.type,
+                'galleryType': media.galleryType,
+                'extension': media.extension,
+                'galleryTypeName': GALLERY_TYPE_NAMES.get(media.galleryType, 'Unknown'),
+            })
+        
+        return Response({
+            'count': len(media_list),
+            'media': media_list
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        print(f"Error getting all media: {e}")
+        return Response(
+            {"error": str(e)}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+ 
 
 
 
