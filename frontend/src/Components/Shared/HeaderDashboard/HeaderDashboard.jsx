@@ -1,6 +1,5 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import logoFunread from "../../../logoFunread.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
@@ -39,12 +38,11 @@ class HeaderDashboard extends React.Component {
           variant="dark"
         >
           <Navbar.Brand href="#" className="header-dashboard-navbar-brand">
-            <div
+            <img
+              src="/Logo.png"
+              alt="FunRead Logo"
               className="logo-funread"
-              style={{
-                backgroundImage: `url(${logoFunread})`,
-              }}
-            ></div>
+            />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">

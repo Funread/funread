@@ -36,7 +36,7 @@ export default function Background({ setElements, setImages }) {
         setImages((prev) => ({ ...prev, [img.src]: img }));
 
         setElements((prev) => [
-          ...prev,
+          ...(Array.isArray(prev) ? prev : []),
           {
             id: Date.now().toString(),
             type: "image",
@@ -72,7 +72,7 @@ export default function Background({ setElements, setImages }) {
           width: canvasWidth,
           height: img.height * scale,
         },
-        ...prev
+        ...(Array.isArray(prev) ? prev : [])
       ]);
     };
   };

@@ -28,6 +28,7 @@ import BadgesPage from "./Components/Badges/BadgesPage";
 import DashboardLayout from "./Components/DashboardLayout/DashboardLayout";
 import Leaderboard from "./Components/Leaderboard/Leaderboard";
 import AdminBadgesPage from "./Components/Admin/Badges/AdminBadgesPage";
+import AdminMediaPage from "./Components/Admin/Media/AdminMediaPage";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -61,6 +62,7 @@ root.render(
               {/* Rutas para administradores - PRIMERO para evitar conflictos */}
               <Route element={<ProtectedRoutes roles={["administrativo"]} />}>
                 <Route path="badges" element={<AdminBadgesPage />} />
+                <Route path="media" element={<AdminMediaPage />} />
               </Route>
 
               {/* Rutas para profesores */}
