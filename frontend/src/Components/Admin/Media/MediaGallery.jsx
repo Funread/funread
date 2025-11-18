@@ -77,9 +77,9 @@ const MediaGallery = ({ galleryType, galleryName, token, refreshKey }) => {
 
   return (
     <div className="media-gallery">
-      {/* Search bar */}
-      <div className="mb-4">
-        <Form.Group>
+      {/* Search bar and count - Fixed at top */}
+      <div className="mb-3">
+        <Form.Group className="mb-3">
           <div className="position-relative">
             <FontAwesomeIcon 
               icon={faSearch} 
@@ -95,58 +95,66 @@ const MediaGallery = ({ galleryType, galleryName, token, refreshKey }) => {
             />
           </div>
         </Form.Group>
+
+        {/* Image count */}
+        <p className="text-muted mb-0">
+          {filteredImages.length} image{filteredImages.length !== 1 ? 's' : ''} found
+        </p>
       </div>
 
-      {/* Image count */}
-      <p className="text-muted mb-3">
-        {filteredImages.length} image{filteredImages.length !== 1 ? 's' : ''} found
-      </p>
-
-      {/* Images grid */}
-      {filteredImages.length === 0 ? (
-        <Alert variant="info">
-          {searchTerm 
-            ? 'No images found matching your search.'
-            : `No images uploaded yet in ${galleryName} category. Upload your first image!`
-          }
-        </Alert>
-      ) : (
-        <Row>
-          {filteredImages.map((image) => (
-            <Col key={image.id} xs={6} sm={4} md={3} lg={2} className="mb-4">
-              <Card className="media-card h-100">
-                <div className="media-image-container">
-                  <Card.Img 
-                    variant="top" 
-                    src={image.file || image.url} 
-                    alt={image.name || 'Image'}
-                    className="media-image"
-                  />
-                </div>
-                <Card.Body className="p-2">
-                  <Card.Title className="media-title" title={image.name || `Image ${image.id}`}>
-                    {image.name || `Image ${image.id}`}
-                  </Card.Title>
-                  {image.uploadedBy && (
-                    <Card.Text className="text-muted small mb-2" title={`Uploaded by: ${image.uploadedBy.name}`}>
-                      <small>By: {image.uploadedBy.name}</small>
-                    </Card.Text>
-                  )}
-                  <Button
-                    variant="outline-danger"
-                    size="sm"
-                    className="w-100 mt-2"
-                    onClick={() => handleDelete(image.id, image.name || `Image ${image.id}`)}
-                  >
-                    <FontAwesomeIcon icon={faTrash} className="me-1" />
-                    Delete
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      )}
+      {/* Scrollable images grid */}
+      <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', paddingRight: '5px' }}>
+        {/* Images grid */}
+        {filteredImages.length === 0 ? (
+          <Alert variant="info">
+            {searchTerm 
+              ? 'No images found matching your search.'
+              : `No images uploaded yet in ${galleryName} category. Upload your first image!`
+            }
+          </Alert>
+        ) : (
+          <Row>
+            {filteredImages.map((image) => (
+              <Col key={image.id} xs={6} sm={4} md={3} lg={2} className="mb-4">
+                <Card className="media-card h-100">
+                  <div className="media-image-container">
+                    <Card.Img 
+                      variant="top" 
+                      src={image.file || image.url} 
+                      alt={image.name || 'Image'}
+                      className="media-image"
+                    />
+                  </div>
+                  <Card.Body className="p-2">
+                    <Card.Title className="media-title" title={image.name || `Image ${image.id}`}>
+                      {image.name || `Image ${image.id}`}
+                    </Card.Title>
+                    {image.isfunreadMedia && (
+                      <Card.Text className="text-success small mb-1">
+                        <small>✓ Public (FunRead Media)</small>
+                      </Card.Text>
+                    )}
+                    {image.uploadedBy && (
+                      <Card.Text className="text-muted small mb-2" title={`Uploaded by: ${image.uploadedBy.name}`}>
+                        <small>By: {image.uploadedBy.name}</small>
+                      </Card.Text>
+                    )}
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      className="w-100 mt-2"
+                      onClick={() => handleDelete(image.id, image.name || `Image ${image.id}`)}
+                    >
+                      <FontAwesomeIcon icon={faTrash} className="me-1" />
+                      Delete
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        )}
+      </div>
     </div>
   );
 };

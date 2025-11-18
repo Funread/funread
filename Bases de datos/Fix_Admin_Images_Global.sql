@@ -1,8 +1,15 @@
--- Script de verificación de imágenes en el sistema
--- Este script muestra todas las imágenes del sistema con información del usuario que las subió
--- YA NO es necesario modificar user_id, el sistema ahora muestra TODAS las imágenes
+-- Script para marcar imágenes de administradores como públicas (isfunreadMedia = TRUE)
+-- Este script actualiza todas las imágenes que fueron subidas por usuarios con rol 'Administrativo'
+-- para que sean públicas y visibles para todos los usuarios
 
--- Verificar todas las imágenes del sistema con información del usuario
+UPDATE media m
+INNER JOIN userroles ur ON m.user_id = ur.IdUser
+INNER JOIN roles r ON ur.IdRole = r.RolesId
+SET m.isfunreadMedia = TRUE
+WHERE LOWER(r.Role) = 'administrativo' 
+  AND m.galleryType IN (2, 3, 4, 5); -- Background, Shapes, Characters, Objects
+
+-- Verificar los cambios realizados
 SELECT 
     m.id,
     m.name,
@@ -17,9 +24,10 @@ SELECT
     m.user_id,
     u.name as uploaded_by_name,
     u.email as uploaded_by_email,
+    m.isfunreadMedia,
     CASE 
-        WHEN m.user_id IS NULL THEN 'GLOBAL (System)'
-        ELSE CONCAT('User: ', COALESCE(u.name, u.username, u.email))
+        WHEN m.isfunreadMedia = TRUE THEN 'PUBLIC (FunRead Media)'
+        ELSE CONCAT('PRIVATE (User: ', COALESCE(u.name, u.username, u.email), ')')
     END as visibility
 FROM media m
 LEFT JOIN user u ON m.user_id = u.UserId

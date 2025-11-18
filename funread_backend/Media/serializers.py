@@ -15,5 +15,6 @@ class MediaSeralizer(serializers.ModelSerializer):
         instance.file = validated_data.get('file', instance.file)
         instance.type = validated_data.get('type', instance.type)
         instance.galleryType = validated_data.get('galleryType', instance.galleryType)
+        instance.isfunreadMedia = validated_data.get('isfunreadMedia', instance.isfunreadMedia)
         instance.save()
         return instance
