@@ -10,6 +10,8 @@ from .serializers import MediaSeralizer
 from .models import Media
 from funread_backend.jwt_service import JwtService
 from Users.models import User
+from Userroles.models import Userroles
+from Roles.models import Roles
 from rest_framework import status
 from Subtitled.views import save_subtitled
 import os
@@ -46,17 +48,30 @@ def save_File(request):
     
     # Extraer user_id del JWT y buscar el usuario
     user = None
+    is_admin = False
     try:
         authorization_header = request.headers.get('Authorization')
         jwt_service = JwtService(authorization_header)
         user_id = jwt_service.get_user_id()
+        print(f"DEBUG - User ID: {user_id}")
         if user_id:
             try:
                 user = User.objects.get(userid=user_id)
+                print(f"DEBUG - User found: {user.email}")
+                # Verificar si el usuario es administrador
+                user_role = Userroles.objects.filter(iduser=user).first()
+                print(f"DEBUG - User role: {user_role}")
+                if user_role:
+                    print(f"DEBUG - Role name: {user_role.idrole.role}")
+                    if user_role.idrole.role.lower() == 'administrativo':
+                        is_admin = True
+                        print(f"DEBUG - IS ADMIN: {is_admin}")
             except User.DoesNotExist:
                 user = None
+                print("DEBUG - User not found")
     except Exception as e:
         user = None
+        print(f"DEBUG - Error: {e}")
         
     try:
         if 'file' not in request.data and 'file' not in request.FILES:
@@ -71,6 +86,9 @@ def save_File(request):
             gallery_type = request.data.get('galleryType')
             gallery_type_name = GALLERY_TYPE_NAMES.get(int(gallery_type), 'Others') if gallery_type else 'Others'
             temporary_name = str(uuid.uuid4())
+            
+            print(f"DEBUG - Before saving: is_admin={is_admin}, user={user}, gallery_type={gallery_type}")
+            
             data = {
                 'name': temporary_name,
                 'extension': extension,
@@ -78,7 +96,11 @@ def save_File(request):
                 'type': file_type,
                 'galleryType': gallery_type,
                 'user': user.pk if user else None,
+                'isfunreadMedia': is_admin,  # True si es admin, False si no
             }
+            
+            print(f"DEBUG - Data to save: {data}")
+            
             serializer = MediaSeralizer(data=data)
             if serializer.is_valid():
                 file_instance = serializer.save(user=user)
@@ -304,10 +326,13 @@ def get_media_by_type(request, gallery_type):
         jwt_service = JwtService(authorization_header)
         user_id = jwt_service.get_user_id()
 
-        # Obtener TODAS las imágenes del galleryType (sin filtrar por usuario)
-        # Esto permite que todos vean todas las imágenes, pero mantiene el registro de quién las subió
+        # Obtener imágenes del galleryType:
+        # - Imágenes públicas (isfunreadMedia=True) subidas por admins
+        # - O imágenes del usuario actual
         medias = Media.objects.filter(
             galleryType=gallery_type
+        ).filter(
+            Q(isfunreadMedia=True) | Q(user_id=user_id)
         ).order_by('-id')
         
         # Serializar y retornar
@@ -349,6 +374,7 @@ def get_media_by_type(request, gallery_type):
                 'galleryType': media.galleryType,
                 'extension': media.extension,
                 'uploadedBy': uploaded_by,
+                'isfunreadMedia': media.isfunreadMedia,
             })
         
         return Response(media_list, status=status.HTTP_200_OK)

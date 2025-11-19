@@ -2,13 +2,19 @@
 
 .admin-media-page {
   padding: 20px;
-  max-width: 1600px;
+  max-width: 100%;
+  height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .admin-media-page .page-header {
   border-bottom: 2px solid #e9ecef;
   padding-bottom: 15px;
   margin-bottom: 20px;
+  flex-shrink: 0;
 }
 
 .admin-media-page .page-title {
@@ -20,6 +26,7 @@
 
 .admin-media-page .nav-tabs {
   border-bottom: 2px solid #dee2e6;
+  flex-shrink: 0;
 }
 
 .admin-media-page .nav-tabs .nav-link {
@@ -48,6 +55,18 @@
   border: none;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Card Body with Scroll */
+.admin-media-page .card-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Responsive */
