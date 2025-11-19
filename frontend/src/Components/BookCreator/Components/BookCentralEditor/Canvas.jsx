@@ -7,10 +7,11 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
   const containerRef = useRef(null);
   const [editingText, setEditingText] = useState(null);
   const [textValue, setTextValue] = useState("");
-  const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
   const [loadedImages, setLoadedImages] = useState({});
+  const [scale, setScale] = useState(1);
 
-  // 🔁 Precargar imágenes cuando cambian los elementos
+  const CANVAS_WIDTH = 1400;
+  const CANVAS_HEIGHT = 690;
   useEffect(() => {
     const newImages = {};
     const promises = elements
@@ -18,7 +19,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
       .map(el => {
         return new Promise((resolve) => {
           const img = new window.Image();
-          img.crossOrigin = "anonymous"; // por si vienen de un dominio diferente
+          img.crossOrigin = "anonymous"; 
           img.src = el.src;
           img.onload = () => {
             newImages[el.src] = img;
@@ -33,21 +34,23 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
   }, [elements]);
 
   useEffect(() => {
-    const resize = () => {
+    const calculateScale = () => {
       if (containerRef.current) {
         const { clientWidth, clientHeight } = containerRef.current;
-        setStageSize({ width: clientWidth, height: clientHeight });
+        const scaleX = clientWidth / CANVAS_WIDTH;
+        const scaleY = clientHeight / CANVAS_HEIGHT;
+        const newScale = Math.min(scaleX, scaleY);
+        setScale(newScale);
       }
     };
-    resize();
-    window.addEventListener("resize", resize);
-    return () => window.removeEventListener("resize", resize);
+    calculateScale();
+    window.addEventListener("resize", calculateScale);
+    return () => window.removeEventListener("resize", calculateScale);
   }, []);
 
   useEffect(() => {
     if (!transformerRef.current) return;
 
-    // If no selection, clear transformer
     if (!selectedId || !stageRef.current) {
       transformerRef.current.nodes([]);
       return;
@@ -56,12 +59,10 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
     const stage = stageRef.current;
     const node = stage.findOne(`#${selectedId}`);
 
-    // Only attach transformer if node exists and is still in the layer
     if (node && node.getLayer()) {
       transformerRef.current.nodes([node]);
       transformerRef.current.getLayer().batchDraw();
     } else {
-      // Clear transformer if node doesn't exist or was removed
       transformerRef.current.nodes([]);
     }
   }, [selectedId, elements]);
@@ -104,7 +105,6 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
       return;
     }
     
-    // Si solo se pasa texto (compatibilidad)
     if (typeof newText === "string" && !newStyles) {
       setElements((prev) =>
         prev.map((el) =>
@@ -112,13 +112,12 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
         )
       );
     } else {
-      // Si se pasan estilos completos desde el modal
       setElements((prev) =>
         prev.map((el) =>
           el.id === editingText ? { 
             ...el, 
             text: newText, 
-            ...newStyles // Aplicar todos los estilos del modal
+            ...newStyles 
           } : el
         )
       );
@@ -128,22 +127,27 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
 
   return (
     <>
-      <div ref={containerRef} className="w-full h-full overflow-hidden">
-        <Stage
-          width={stageSize.width}
-          height={stageSize.height}
-          ref={stageRef}
-          className="border bg-gray-100"
+      <div ref={containerRef} className="w-full h-full overflow-hidden flex items-center justify-center">
+        <div 
+          style={{
+            transform: `scale(${scale})`,
+            transformOrigin: 'center center',
+            width: CANVAS_WIDTH,
+            height: CANVAS_HEIGHT,
+          }}
         >
+          <Stage
+            width={CANVAS_WIDTH}
+            height={CANVAS_HEIGHT}
+            ref={stageRef}
+            className="bg-white"
+          >
             <Layer>
             {elements.map((el) => {
               if (el.type === "text") {
-                // Crear elementos para el texto (fondo + texto)
                 const textElements = [];
                 
-                // Si hay color de fondo, agregar un rectángulo
                 if (el.backgroundColor) {
-                  // Crear un texto temporal para medir dimensiones reales
                   const tempText = new window.Konva.Text({
                     text: el.text,
                     fontSize: el.fontSize,
@@ -157,7 +161,6 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                   const textWidth = tempText.width();
                   const textHeight = tempText.height();
                   
-                  // Limpiar el texto temporal
                   tempText.destroy();
                   
                   textElements.push(
@@ -175,7 +178,6 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                   );
                 }
                 
-                // Agregar el texto
                 textElements.push(
                   <Text
                     key={el.id}
@@ -217,7 +219,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                   y={el.y}
                   width={el.width}
                   height={el.height}
-                  image={loadedImages[el.src]} // ✅ precargada correctamente
+                  image={loadedImages[el.src]}
                   draggable
                   onClick={() => setSelectedId(el.id)}
                   onDragEnd={(e) => handleDragEnd(e, el.id)}
@@ -236,6 +238,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
             />
           </Layer>
         </Stage>
+        </div>
       </div>
 
       {editingText && (() => {

@@ -201,9 +201,10 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
   console.log("QuizData before render:", quizData);
 
   return (
-    <div className="quiz-page-container">
-      {/* Header decorativo */}
-      <div className="quiz-page-header">
+    <div className="quiz-page-wrapper">
+      <div className="quiz-page-container">
+        {/* Header decorativo */}
+        <div className="quiz-page-header">
         <div className="header-decoration">
           <Star className="header-icon" size={24} />
           <h1 className="quiz-page-title">Quiz Time!</h1>
@@ -286,6 +287,7 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
             </div>
           );
         })}
+      </div>
       </div>
     </div>
   );
