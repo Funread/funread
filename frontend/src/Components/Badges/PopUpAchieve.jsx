@@ -83,6 +83,11 @@ const PopUpAchieve = ({ Badge }) => {
                 <span className="hyphen_sep">-</span>
                 <span className="badg_name">{Badge?.name}</span>
               </div>
+              {Badge?.description && (
+                <div className="badge_description">
+                  {Badge.description}
+                </div>
+              )}
             </div>
           </div>
         </div>

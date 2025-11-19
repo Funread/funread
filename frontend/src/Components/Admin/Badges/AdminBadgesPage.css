@@ -3,12 +3,18 @@
 .admin-badges-page {
   padding: 15px;
   max-width: 1400px;
+  height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .admin-badges-page .page-header {
   border-bottom: 2px solid #e9ecef;
   padding-bottom: 10px;
   margin-bottom: 15px;
+  flex-shrink: 0;
 }
 
 .admin-badges-page .page-title {
@@ -21,6 +27,11 @@
 .admin-badges-page .page-header p {
   margin-bottom: 0;
   font-size: 13px;
+}
+
+/* Stats Row */
+.admin-badges-page .stats-row {
+  flex-shrink: 0;
 }
 
 /* Stat Cards */
@@ -40,17 +51,17 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 15px;
+  padding: 5px 15px;
 }
 
 .admin-badges-page .stat-icon {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   color: white;
   flex-shrink: 0;
 }
@@ -68,7 +79,7 @@
 }
 
 .admin-badges-page .stat-content h3 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   margin-bottom: 2px;
   color: #2c3e50;
@@ -76,7 +87,7 @@
 
 .admin-badges-page .stat-content p {
   margin: 0;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 /* Buttons - SOLO para admin badges page */
@@ -98,6 +109,26 @@
   border-radius: 8px;
   padding: 10px 20px;
   font-weight: 600;
+}
+
+/* Controls Card */
+.admin-badges-page .controls-card {
+  flex-shrink: 0;
+}
+
+/* Main Content Card */
+.admin-badges-page .content-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-badges-page .content-card .card-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Cards - SOLO para admin badges page */

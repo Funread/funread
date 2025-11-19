@@ -426,6 +426,20 @@
   text-overflow: ellipsis;
 }
 
+.badge_description {
+  width: 100%;
+  color: white;
+  font-size: 10pt;
+  line-height: 14px;
+  margin-top: 4px;
+  opacity: 0.9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
 .badge_score {
   margin-left: 5px;
   margin-right: 5px;

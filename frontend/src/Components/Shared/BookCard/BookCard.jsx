@@ -1,6 +1,6 @@
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './BookCard.sass';
 import { searchCategory } from '../../../api/bookDilemma';
 import { getMediaUrl } from '../../Utils/mediaUrl';
@@ -10,6 +10,8 @@ const BookCard = ({
   portrait,
   title,
   author,
+  username,
+  createdby,
   category, 
   description,
   color,
@@ -67,16 +69,22 @@ const BookCard = ({
   // Permitir prop explícita para vista lista
   const isListView = !!(typeof window !== 'undefined' && document?.body?.classList?.contains('book-list-view')) || (typeof listView !== 'undefined' && listView);
 
+  // Fallback de autor: prioriza author -> username -> `User <createdby>`
+  const displayAuthor = author || username || (createdby ? `User ${createdby}` : null);
+
+
   return (
     <div
-      className={`Book-card${isListView ? ' bookcard-list-view' : ''}`}
-  style={{ backgroundColor: '#fff', maxWidth: isListView ? '100%' : 340, border: '1.1px solid #e5e7eb', boxShadow: 'none' }}
+      className={isListView ? 'Book-card bookcard-list-view' : 'Book-card Book-card--grid'}
       onClick={() =>
         toggleSidebar({
           id,
           portrait,
           title,
-          author,
+          author: displayAuthor,
+          rawAuthor: author,
+          username,
+          createdby,
           category,
           description,
           color,
@@ -84,31 +92,46 @@ const BookCard = ({
       }
     >
       {isListView ? (
-        <div style={{ width: 56, height: 56, minWidth: 56, minHeight: 56, background: '#f8fafc', borderRadius: 10, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: 18 , marginLeft:10}}>
+        <div className="book-cover-container-list">
           <img
             className="book-cover-img"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block'}}
             src={imageCard}
             alt="Portrait"
           />
         </div>
       ) : (
-        <div className="aspect-[3/4] w-full bg-slate-50 overflow-hidden">
-          <img
-            className="w-full h-full object-cover book-cover-img transition-transform duration-300 hover:scale-105"
-            src={imageCard}
-            alt="Portrait"
-          />
+        <>
+          {/* Imagen */}
+          <div className="Book-card__imageRatio">
+            <img
+              src={imageCard}
+              alt={title}
+              className="Book-card__image"
+            />
+          </div>
+          {/* Separador */}
+          <div className="Book-card__separator"></div>
+          {/* Contenido */}
+          <div className="Book-card__body">
+            <h5 className="Book-card__title">{title}</h5>
+            {/* {displayAuthor && <p className="Book-card__author">{displayAuthor}</p>} */}
+            <div className="Book-card__badgesRow">
+              {dimensionBadges}
+              {dilemmaBadges}
+            </div>
+          </div>
+        </>
+      )}
+      {isListView && (
+        <div className="book-content-list">
+          <h5 className="card-title">{title}</h5>
+          {displayAuthor && <div className="card-author">{displayAuthor}</div>}
+          <div className="badges-row">
+            {dimensionBadges}
+            {dilemmaBadges}
+          </div>
         </div>
       )}
-      <div className={isListView ? 'd-flex flex-column flex-1 min-w-0 justify-content-center' : 'flex flex-col items-center text-center w-full'} style={isListView ? { gap: 0, marginTop: 0, marginBottom: 0 } : {}}>
-        <h5 className="card-title clamp-text custom-title" style={{ fontSize: '1.01rem', fontWeight: 700, margin: '10px  0 10px 0', color: '#1e293b', lineHeight: 1.18 }}>{title}</h5>
-        {author && <div className="custom-text" style={{ fontSize: '0.93rem', color: '#64748b', margin: '0 0 2px 0' }}>{author}</div>}
-        <div className="badges-row" style={isListView ? { marginTop: 0, marginBottom: 0 } : {display:'flex',justifyContent:"center"}}>
-          {dimensionBadges}
-          {dilemmaBadges}
-        </div>
-      </div>
     </div>
   );
 };

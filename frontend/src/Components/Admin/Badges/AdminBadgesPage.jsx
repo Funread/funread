@@ -190,15 +190,15 @@ const AdminBadgesPage = () => {
       <div className="page-header mb-4">
         <h2 className="page-title">
           <FontAwesomeIcon icon={faTrophy} className="me-2" />
-          Gestión de Badges
+          Badges Management
         </h2>
         <p className="text-muted">
-          Administra los badges del sistema y asígnales a los usuarios
+          Manage system badges and assign them to users
         </p>
       </div>
 
       {/* Estadísticas */}
-      <Row className="mb-3">
+      <Row className="mb-3 stats-row">
         <Col md={4}>
           <Card className="stat-card">
             <Card.Body>
@@ -207,7 +207,7 @@ const AdminBadgesPage = () => {
               </div>
               <div className="stat-content">
                 <h3>{stats.totalBadges}</h3>
-                <p className="text-muted">Total de Badges</p>
+                <p className="text-muted">Total Badges</p>
               </div>
             </Card.Body>
           </Card>
@@ -220,7 +220,7 @@ const AdminBadgesPage = () => {
               </div>
               <div className="stat-content">
                 <h3>{stats.totalUsers}</h3>
-                <p className="text-muted">Asignaciones Totales</p>
+                <p className="text-muted">Total Assignments</p>
               </div>
             </Card.Body>
           </Card>
@@ -233,7 +233,7 @@ const AdminBadgesPage = () => {
               </div>
               <div className="stat-content">
                 <h3>{filteredBadges.filter(b => b.show_progress).length}</h3>
-                <p className="text-muted">Badges Automáticos</p>
+                <p className="text-muted">Automatic Badges</p>
               </div>
             </Card.Body>
           </Card>
@@ -241,7 +241,7 @@ const AdminBadgesPage = () => {
       </Row>
 
       {/* Controles */}
-      <Card className="mb-3">
+      <Card className="mb-3 controls-card">
         <Card.Body className="py-2">
           <Row className="align-items-center">
             <Col md={4}>
@@ -251,14 +251,14 @@ const AdminBadgesPage = () => {
                 className="me-2"
               >
                 <FontAwesomeIcon icon={faPlus} className="me-2" />
-                Crear Badge
+                Create Badge
               </Button>
               <Button 
                 variant="outline-secondary" 
                 onClick={handleAssignToAll}
               >
                 <FontAwesomeIcon icon={faSync} className="me-2" />
-                Asignar a Todos
+                Assign to All
               </Button>
             </Col>
             <Col md={4}>
@@ -268,7 +268,7 @@ const AdminBadgesPage = () => {
                 </InputGroup.Text>
                 <Form.Control
                   type="text"
-                  placeholder="Buscar badges..."
+                  placeholder="Search badges..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -279,9 +279,9 @@ const AdminBadgesPage = () => {
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}
               >
-                <option value="all">Todos los badges</option>
-                <option value="student">Para estudiantes</option>
-                <option value="teacher">Para profesores</option>
+                <option value="all">All badges</option>
+                <option value="student">For students</option>
+                <option value="teacher">For teachers</option>
               </Form.Select>
             </Col>
           </Row>
@@ -289,19 +289,19 @@ const AdminBadgesPage = () => {
       </Card>
 
       {/* Tabla de badges */}
-      <Card>
+      <Card className="content-card">
         <Card.Body>
           {loading ? (
             <div className="text-center py-5">
               <Spinner animation="border" variant="primary" />
-              <p className="mt-3 text-muted">Cargando badges...</p>
+              <p className="mt-3 text-muted">Loading badges...</p>
             </div>
           ) : filteredBadges.length === 0 ? (
             <Alert variant="info">
               <FontAwesomeIcon icon={faTrophy} className="me-2" />
               {searchTerm || filterType !== 'all' 
-                ? 'No se encontraron badges con los filtros aplicados.'
-                : 'No hay badges creados. ¡Crea el primero!'}
+                ? 'No badges found with the applied filters.'
+                : 'No badges created yet. Create the first one!'}
             </Alert>
           ) : (
             <BadgeTable 

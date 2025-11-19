@@ -35,7 +35,7 @@ export default function BookCentralEditor({
   if (pagesType === 2)
     return (
       <Canvas
-        elements={elements}
+        elements={Array.isArray(elements) ? elements : []}
         setElements={setElements}
         images={images}
         selectedId={selectedId}

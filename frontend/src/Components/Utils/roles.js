@@ -13,6 +13,7 @@ export const roleTabs = {
   ],
   administrativo: [
     { label: 'Badges Management', path: 'badges' },
+    { label: 'Media Management', path: 'media' },
     { label: 'Users', path: 'users' },
     { label: 'Statistics', path: 'statistics' },
   ],

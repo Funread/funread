@@ -27,12 +27,12 @@ class Migration(migrations.Migration):
 
             /* Book dimension table injection */
             INSERT INTO `bookdimension` (`DimensionName`, `BookCategoryID`, `Description`) VALUES
-            ('Redistributive Dimension in Education', @cat_id, 'Providing more help to those who need it most so that everyone has the same opportunities to learn and progress.'),
+            ('Redistribution Dimension in education', @cat_id, 'Providing more help to those who need it most so that everyone has the same opportunities to learn and progress.'),
             ('Recognition Dimension in Education', @cat_id, 'Valuing all people for who they are, respecting their cultures, languages, ways of life, and beliefs.'),
             ('Representation Dimension in Education', @cat_id, 'All people should be able to participate, be heard, and make decisions in school and in society.');
 
             -- Guardar los IDs de las dimensiones
-            SET @dim1 = (SELECT bookdimensionid FROM bookdimension WHERE DimensionName = 'Redistributive Dimension in Education' AND BookCategoryID = @cat_id);
+            SET @dim1 = (SELECT bookdimensionid FROM bookdimension WHERE DimensionName = 'Redistribution Dimension in education' AND BookCategoryID = @cat_id);
             SET @dim2 = (SELECT bookdimensionid FROM bookdimension WHERE DimensionName = 'Recognition Dimension in Education' AND BookCategoryID = @cat_id);
             SET @dim3 = (SELECT bookdimensionid FROM bookdimension WHERE DimensionName = 'Representation Dimension in Education' AND BookCategoryID = @cat_id);
 

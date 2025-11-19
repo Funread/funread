@@ -2,10 +2,9 @@
 
 .badge-table-container {
   width: 100%;
-  overflow-x: auto;
-  overflow-y: scroll;
-  max-height: 500px;
-  min-height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex: 1;
   display: block;
   position: relative;
   border: 1px solid #dee2e6;

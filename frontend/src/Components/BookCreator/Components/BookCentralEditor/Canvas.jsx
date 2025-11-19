@@ -13,6 +13,12 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
   const CANVAS_WIDTH = 1400;
   const CANVAS_HEIGHT = 690;
   useEffect(() => {
+    // Validar que elements sea un array
+    if (!Array.isArray(elements)) {
+      console.warn('elements is not an array:', elements);
+      return;
+    }
+    
     const newImages = {};
     const promises = elements
       .filter(el => el.type === "image")
@@ -107,19 +113,19 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
     
     if (typeof newText === "string" && !newStyles) {
       setElements((prev) =>
-        prev.map((el) =>
+        Array.isArray(prev) ? prev.map((el) =>
           el.id === editingText ? { ...el, text: newText } : el
-        )
+        ) : []
       );
     } else {
       setElements((prev) =>
-        prev.map((el) =>
+        Array.isArray(prev) ? prev.map((el) =>
           el.id === editingText ? { 
             ...el, 
             text: newText, 
             ...newStyles 
           } : el
-        )
+        ) : []
       );
     }
     setEditingText(null);
@@ -143,7 +149,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
             className="bg-white"
           >
             <Layer>
-            {elements.map((el) => {
+            {Array.isArray(elements) && elements.map((el) => {
               if (el.type === "text") {
                 const textElements = [];
                 
