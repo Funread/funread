@@ -25,41 +25,35 @@ function ReadingView() {
   const handle = useFullScreenHandle();
   const user = useSelector((state) => state.user);
 
-  // Pages Info
   const [pagesCount, setPagesCount] = useState(0);
   const [gridDirection, setGridDirection] = useState(null);
   const [gridNumRows, setGridNumRows] = useState(null);
   const [pageNumer, setPageNumer] = useState(0);
   const [widgets, setWidgets] = useState(null);
 
-  // Estado para respuestas de quiz por página y puntaje total
-  // Estructura: { [pageIndex]: { [questionId]: { answerId, isCorrect, pointsAwarded } } }
   const [quizTotalPoints, setQuizTotalPoints] = useState(0);
   const [quizResponses, setQuizResponses] = useState({});
 
-  // Book Info
   const location = useLocation();
   const bookid = useParams().id;
   const [contentBook, setContentBook] = useState();
 
-  // Loading states
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [totalImagesToLoad, setTotalImagesToLoad] = useState(0);
   const [loadedImagesCount, setLoadedImagesCount] = useState(0);
 
   const [error, setError] = useState(null);
 
-  const [currentPageIndex, setCurrentPageIndex] = useState(0); // State for current page
-  const state = store.getState(); // Get the Redux state
-  const userId = state.user.userId; // Get the user ID from Redux state
+  const [currentPageIndex, setCurrentPageIndex] = useState(0); 
+  const state = store.getState(); 
+  const userId = state.user.userId; 
 
-  // Cargar respuestas guardadas desde localStorage al iniciar
   useEffect(() => {
     const raw = localStorage.getItem(`quiz_responses_${userId}`);
     if (!raw) return;
     try {
       const parsed = JSON.parse(raw);
-      setQuizResponses(parsed.responses || {}); // ahora responses es por página
+      setQuizResponses(parsed.responses || {}); 
       setQuizTotalPoints(parsed.totalPoints || 0);
     } catch (e) {
       console.error(e);
@@ -76,19 +70,15 @@ function ReadingView() {
     }
   }, [contentBook]);
 
-  // Handler para respuestas de quiz por página
-  // Estructura: { [pageIndex]: { [questionId]: { answerId, isCorrect, pointsAwarded } } }
   const handleQuizResponse = (pageIndex, questionId, answer, isCorrect, pointsAwarded) => {
     const points = Number(pointsAwarded) || 0;
 
     const prevPageResponses = quizResponses[pageIndex] || {};
-    // construir objeto de página
     const updatedPageResponses = {
       ...prevPageResponses,
       [questionId]: { answerId: answer, isCorrect, pointsAwarded: points },
     };
 
-    // construir objeto completo
     const newResponses = {
       ...quizResponses,
       [pageIndex]: updatedPageResponses,
@@ -96,7 +86,6 @@ function ReadingView() {
 
     setQuizResponses(newResponses);
 
-    // Recalcular puntos totales sumando todas las páginas
     let totalCorrectPoints = 0;
     Object.values(newResponses).forEach(pageObj => {
       Object.values(pageObj || {}).forEach(resp => {
@@ -105,7 +94,6 @@ function ReadingView() {
     });
     setQuizTotalPoints(totalCorrectPoints);
 
-    // Persistir
     try {
       localStorage.setItem(
         `quiz_responses_${userId}`,
@@ -116,27 +104,24 @@ function ReadingView() {
     }
   };
 
-  // Función para precargar todas las imágenes del libro
   const preloadAllImages = () => {
     if (!contentBook || contentBook.length === 0) return;
 
     setImagesLoaded(false);
 
-    // Recopilar todas las widgets con imágenes de todas las páginas
     const imageWidgets = [];
     contentBook.forEach((pageContent) => {
       if (pageContent.widgetitems) {
         const pageWidgets = pageContent.widgetitems.filter(
           (widget) =>
-            widget.type === "2" || // Tipo imagen
-            (widget.value && widget.value.src) // Cualquier widget con una propiedad src en value
+            widget.type === "2" || 
+            (widget.value && widget.value.src) 
         );
         imageWidgets.push(...pageWidgets);
       }
     });
 
     if (imageWidgets.length === 0) {
-      // No hay imágenes para cargar
       setImagesLoaded(true);
       return;
     }
@@ -144,12 +129,10 @@ function ReadingView() {
     setTotalImagesToLoad(imageWidgets.length);
     setLoadedImagesCount(0);
 
-    // Cargar cada imagen
     imageWidgets.forEach((widget) => {
       const imgSrc =
         widget.value && widget.value.src ? getMediaUrl(widget.value.src) : null;
       if (!imgSrc) {
-        // Si no tiene URL de imagen, incrementamos el contador
         setLoadedImagesCount((prev) => prev + 1);
         return;
       }
@@ -166,7 +149,6 @@ function ReadingView() {
     });
   };
 
-  // Efecto para verificar cuando todas las imágenes estén cargadas
   useEffect(() => {
     if (totalImagesToLoad > 0 && loadedImagesCount >= totalImagesToLoad) {
       setImagesLoaded(true);
@@ -181,7 +163,6 @@ function ReadingView() {
         const fullBookResponse = await fullBook(bookid).then((data) => {
           let currentContent = data.data.book_content;
 
-          // Guard: only set and load if content exists and has at least one page
           if (currentContent && Array.isArray(currentContent) && currentContent.length > 0) {
             setContentBook(currentContent);
             loadPage(currentContent, pageNumer);
@@ -201,7 +182,7 @@ function ReadingView() {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      let currentPage = pageNumer; // Use current pageNumer to calculate the new page
+      let currentPage = pageNumer; 
 
       if (event.key === "ArrowRight") {
         if (pageNumer < pagesCount - 1) {
@@ -209,7 +190,6 @@ function ReadingView() {
           setDirection("right");
         }
         if (pageNumer === pagesCount - 1) {
-          // Submit responses before exiting
           submitResponses();
           navigate("/dashboard");
         }
@@ -232,7 +212,6 @@ function ReadingView() {
   }, [contentBook, pageNumer, pagesCount, quizResponses]);
 
   const loadPage = (currentContent, pageNumber) => {
-    // Defensive guards: ensure currentContent and the requested page exist
     if (!currentContent || !Array.isArray(currentContent) || currentContent.length === 0) {
       console.warn('loadPage: currentContent is empty or invalid');
       return;
@@ -249,7 +228,6 @@ function ReadingView() {
       return;
     }
 
-    // Update states based on the valid page content
     setContentBook(currentContent);
     setGridDirection(currentPageContent.page?.gridDirection || null);
     setGridNumRows(currentPageContent.page?.gridNumRows || null);
@@ -258,7 +236,7 @@ function ReadingView() {
   };
 
   const exitPresentation = () => {
-    handle.exit(); // Exit fullscreen mode
+    handle.exit();
   };
 
   const handlePreviousPage = () => {
@@ -269,7 +247,6 @@ function ReadingView() {
       loadPage(contentBook, currentPage);
     }
   };
-  // Function to send points to the user without submitting quiz responses
   const submitResponses = async () => {
     try {
 
@@ -334,7 +311,6 @@ function ReadingView() {
           console.error("Error adding points:", pointsError);
           console.error("Error details:", pointsError.response?.data || pointsError.message);
           
-          // Check if it's a 404 error (user points record not found)
           if (pointsError.response?.status === 404) {
             alert(`Error: Your user points record was not found. Please contact an administrator to initialize your account.`);
           } else {
@@ -358,10 +334,8 @@ function ReadingView() {
     setPageNumer(currentPage);
     loadPage(contentBook, currentPage);
   };
-  // Función para salir de la lectura
   const ExitReading = async () => {
     try {
-      // Primero enviar las respuestas y marcar como completado
       await submitResponses();
 
       if (user.roles[0].role === "profesor") {
@@ -410,9 +384,6 @@ function ReadingView() {
     }
   };
 
-  // Otorgar badges al usuario
-
-  // Badge awarding function
   const awardBadges = async (book_id) => {
     try {
       const badges = await getBadgesPerBook(book_id);
@@ -430,7 +401,6 @@ function ReadingView() {
         }
       }
 
-      // Filtrar nulls después de resolver las promesas
       const validBadges = awarded.filter(Boolean);
       console.log("Awarded badges:", validBadges);
       if (validBadges.length === 0) {
@@ -452,15 +422,11 @@ function ReadingView() {
     }
   };
 
-  const [awardedBadges, setAwardedBadges] = useState([]); // Badges logrados por el usuario
-  const [currentBadge, setCurrentBadge] = useState(null); // Badge actual a mostrar
-  
-  // Animation state for page transitions
+  const [awardedBadges, setAwardedBadges] = useState([]); 
+  const [currentBadge, setCurrentBadge] = useState(null); 
   const [direction, setDirection] = useState("right");
 
-  // Mostrar badges uno por uno
   useEffect(() => {
-    // Validar que awardedBadges sea un array válido
     if (!awardedBadges || !Array.isArray(awardedBadges) || !awardedBadges.length) return;
 
     let index = 0;
@@ -489,7 +455,6 @@ function ReadingView() {
   return (
     <FullScreen handle={handle}>
       <div className="min-h-screen bg-gradient-to-br from-sky-100 via-purple-50 to-pink-100 flex flex-col relative overflow-hidden">
-        {/* Botón cerrar */}
         <button
           onClick={ForceExitReading}
           className="fixed top-4 left-4 z-50 bg-red-500 hover:bg-red-600 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg transition-all hover:scale-110 active:scale-95"
@@ -498,7 +463,6 @@ function ReadingView() {
           <FontAwesomeIcon icon={faTimes} className="text-xl" />
         </button>
 
-        {/* Floating bubbles decoration */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div
             className="absolute top-10 left-10 w-20 h-20 bg-yellow-300/20 rounded-full blur-xl animate-bounce"
@@ -518,7 +482,6 @@ function ReadingView() {
           />
         </div>
 
-        {/* Header with points display */}
         <header className="relative z-10 px-4 py-3 flex justify-end">
           {quizTotalPoints > 0 && (
             <div className="flex items-center gap-2 bg-yellow-400 rounded-full px-4 md:px-6 py-2 shadow-lg border-4 border-yellow-300">
@@ -534,19 +497,13 @@ function ReadingView() {
           </div>
         ) : (
           <>
-            {/* Main book area */}
-            <main className="flex-1 flex items-center justify-center px-2 md:px-4 relative z-10">
-              <div className="relative w-full" style={{ maxWidth: '1150px' }}>
-                {/* Shadow effect */}
+            <main className="flex-1 flex items-center justify-center px-2 md:px-4 py-4 relative z-10">
+              <div className="relative w-full h-full max-w-[95vw] max-h-[85vh]" style={{ aspectRatio: '1400/690' }}>
                 <div className="absolute inset-0 bg-gradient-to-b from-purple-400 to-pink-400 rounded-[2rem] md:rounded-[3rem] blur-2xl opacity-40 transform translate-y-6" />
 
-                {/* Book card */}
-                <div className="relative bg-white rounded-[2rem] md:rounded-[3rem] shadow-2xl overflow-hidden border-8 border-gradient-to-r from-yellow-300 via-pink-300 to-purple-300">
-                  {/* Book spines */}
+                <div className="relative bg-white rounded-[2rem] md:rounded-[3rem] shadow-2xl overflow-hidden border-8 border-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 w-full h-full">
                   <div className="absolute left-0 top-0 bottom-0 w-3 md:w-6 bg-gradient-to-b from-yellow-400 via-pink-400 to-purple-400 shadow-inner" />
                   <div className="absolute right-0 top-0 bottom-0 w-3 md:w-6 bg-gradient-to-b from-purple-400 via-pink-400 to-yellow-400 shadow-inner" />
-
-                  {/* Paper texture */}
                   <div
                     className="absolute inset-0 opacity-[0.04] pointer-events-none"
                     style={{
@@ -554,12 +511,12 @@ function ReadingView() {
                     }}
                   />
 
-                  {/* Content area */}
-                  <div className="relative bg-gradient-to-br from-amber-50 via-white to-rose-50 p-4 md:p-6 flex items-center justify-center" style={{ minHeight: '730px' }}>
-                    <div className="w-full flex items-center justify-center">
+                  <div className="relative bg-gradient-to-br from-amber-50 via-white to-rose-50 flex items-center justify-center" style={{ width: '100%', height: '100%', padding: '0' }}>
+                    <div className="w-full h-full flex items-center justify-center">
                       <div
                         key={pageNumer}
                         className={`${direction === "right" ? "animate-slide-in-right" : "animate-slide-in-left"}`}
+                        style={{ width: '100%', height: '100%' }}
                       >
                         <PageSelector
                           key={`page-${pageNumer}`}
@@ -581,7 +538,6 @@ function ReadingView() {
               </div>
             </main>
 
-            {/* Navigation footer */}
             <nav className="relative z-10 bg-gradient-to-r from-yellow-400/30 via-pink-400/30 to-purple-400/30 backdrop-blur-md px-4 py-1 md:py-1.5 border-t-4 border-white/50 rounded-t-3xl">
               <div className="max-w-6xl mx-auto flex items-center justify-between gap-3 md:gap-6">
                 <button
@@ -623,7 +579,6 @@ function ReadingView() {
           </>
         )}
 
-        {/* Badge popup overlay */}
         {currentBadge && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
             <PopUpAchieve Badge={currentBadge} />

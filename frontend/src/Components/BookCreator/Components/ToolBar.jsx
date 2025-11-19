@@ -10,10 +10,8 @@ export default function ToolBar({
 }) {
   const handleDelete = () => {
     if (!selectedId) return;
-    setElements((prev) => Array.isArray(prev) ? prev.filter((el) => el.id !== selectedId) : []);
     setSelectedId(null);
-
-    if (window.transformerCleanup) window.transformerCleanup();
+    setElements((prev) => prev.filter((el) => el.id !== selectedId));
   };
 
   return (

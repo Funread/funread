@@ -152,7 +152,6 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
           await addDilemmasPerBook(selectedDilemma, response.data.bookid);
         }
         toast.success('Book created successfully');
-        toggleSidebar({ ...newBook });
         updateBook(newBook);
         // Limpiar el formulario
         setBook(initialBookState);
@@ -328,7 +327,11 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
               name='description'
               value={book.description}
               onChange={handleChange}
+              maxLength={500}
             />
+            <div className="text-end text-muted small">
+              {book.description.length}/500 characters
+            </div>
             {missingFields.description && (
               <p className='error-message'>You must complete this field.</p>
             )}

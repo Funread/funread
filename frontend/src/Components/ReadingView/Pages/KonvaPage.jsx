@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Stage, Layer, Image, Shape, Text, Rect } from 'react-konva';
 import { getMediaUrl } from '../../Utils/mediaUrl';
 
 const KonvaPage = ({ widgets }) => {
   const [elements, setElements] = useState([]);
   const [images, setImages] = useState({});
+  const [scale, setScale] = useState(1);
+  const containerRef = useRef(null);
 
-  // Tamaño fijo del canvas - sincronizado con Canvas.jsx del editor
-  const CANVAS_WIDTH = 1100;
-  const CANVAS_HEIGHT = 700;
+  const CANVAS_WIDTH = 1400;
+  const CANVAS_HEIGHT = 690;
 
-  // Parseamos el JSON que está dentro del widget.value (debería haber solo un widget)
   useEffect(() => {
     if (!widgets || widgets.length === 0) return;
     const raw = widgets[0]?.value;
@@ -22,11 +22,29 @@ const KonvaPage = ({ widgets }) => {
     }
   }, [widgets]);
 
-  // Carga de imágenes
+  useEffect(() => {
+    const calculateScale = () => {
+      if (containerRef.current) {
+        const { clientWidth, clientHeight } = containerRef.current;
+        const scaleX = clientWidth / CANVAS_WIDTH;
+        const scaleY = clientHeight / CANVAS_HEIGHT;
+        const newScale = Math.min(scaleX, scaleY);
+        
+        setScale(newScale);
+      }
+    };
+    
+    const timer = setTimeout(calculateScale, 100);
+    window.addEventListener("resize", calculateScale);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", calculateScale);
+    };
+  }, []);
+
   useEffect(() => {
     const loadImages = async () => {
       const imgMap = {};
-      // Load images but do not let a single failure reject the whole Promise.all
       await Promise.all(
         elements.map(async (el, index) => {
           if (el.type === 'image') {
@@ -34,26 +52,21 @@ const KonvaPage = ({ widgets }) => {
               const img = new window.Image();
               const src = getMediaUrl(el.src);
               if (!src) {
-                console.warn('KonvaPage: no src for image element', el);
                 return;
               }
 
               const loaded = await new Promise((res) => {
                 img.onload = () => res(true);
                 img.onerror = () => {
-                  console.error('KonvaPage: image failed to load', src);
-                  // resolve false so Promise.all continues
                   res(false);
                 };
                 img.src = src;
               });
 
-              // Only store the image if it loaded successfully
               if (loaded) {
                 imgMap[el.id || index] = img;
               }
             } catch (e) {
-              console.error('KonvaPage: unexpected error loading image', e);
             }
           }
         })
@@ -64,18 +77,37 @@ const KonvaPage = ({ widgets }) => {
   }, [elements]);
 
   return (
-    <div className="konva-page-container" style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div className="konva-stage-wrapper">
-        <Stage width={CANVAS_WIDTH} height={CANVAS_HEIGHT}>
+    <div 
+      ref={containerRef}
+      style={{ 
+        width: '100%', 
+        height: '100%',
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        overflow: 'hidden',
+        backgroundColor: 'transparent'
+      }}
+    >
+      <div 
+        style={{
+          transform: `scale(${scale})`,
+          transformOrigin: 'center center',
+          width: CANVAS_WIDTH,
+          height: CANVAS_HEIGHT,
+        }}
+      >
+        <Stage 
+          width={CANVAS_WIDTH} 
+          height={CANVAS_HEIGHT}
+          style={{ backgroundColor: 'white' }}
+        >
           <Layer>
-        {elements.map((el, index) => {
-          // Renderizar TEXTOS con todos sus atributos
+            {elements.map((el, index) => {
           if (el.type === 'text') {
             const textElements = [];
             
-            // Si el texto tiene fondo, agregar un rectángulo
             if (el.backgroundColor) {
-              // Crear texto temporal para medir dimensiones (con todas las propiedades que afectan el tamaño)
               const tempText = new window.Konva.Text({
                 text: el.text,
                 fontSize: el.fontSize,
@@ -108,7 +140,6 @@ const KonvaPage = ({ widgets }) => {
               );
             }
             
-            // Renderizar el texto con todos sus atributos
             textElements.push(
               <Text
                 key={el.id || index}
@@ -136,7 +167,6 @@ const KonvaPage = ({ widgets }) => {
             return textElements;
           }
           
-          // Renderizar IMÁGENES
           if (el.type === 'image' && images[el.id || index]) {
             return (
               <Image
@@ -150,7 +180,6 @@ const KonvaPage = ({ widgets }) => {
             );
           }
           
-          // Renderizar FORMAS
           if (el.type === 'shape') {
             return (
               <Shape
@@ -166,9 +195,9 @@ const KonvaPage = ({ widgets }) => {
             );
           }
           return null;
-        })}
-      </Layer>
-    </Stage>
+            })}
+          </Layer>
+        </Stage>
       </div>
     </div>
   );

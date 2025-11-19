@@ -4,10 +4,17 @@ from Users.serializers import UserSerializer
 from .models import Book
 
 class BookSerializer(serializers.ModelSerializer):
+  author = serializers.SerializerMethodField()
 
   class Meta:
     model = Book
     fields = '__all__'
+
+  def get_author(self, obj):
+    if obj.createdby:
+      full_name = f"{obj.createdby.name or ''} {obj.createdby.lastname or ''}".strip()
+      return full_name if full_name else obj.createdby.username
+    return None
 
   def create(self, validated_data):
       return Book.objects.create(**validated_data)

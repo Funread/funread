@@ -270,7 +270,8 @@ def change_file(request):
             'name': old_file.name,
             'extension': extension,
             'file': file_request,
-            'type': type
+            'type': type,
+            'isfunreadMedia': request.data.get('isfunreadMedia', old_file.isfunreadMedia)
         }
     serializer = MediaSeralizer(old_file, data=data)
     if serializer.is_valid():

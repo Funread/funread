@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import SidebarIcon from "./SideBarIcon"; // Usa el nombre exacto del archivo
+import SidebarIcon from "./SideBarIcon";
 import {BookOpenCheck, Gamepad, MessageCircle, Users, Package, Home, Image, Type, ImagePlus} from "lucide-react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
@@ -21,7 +21,12 @@ export default function SideBar({ openPanel, setOpenPanel }) {
     <nav className="w-20 h-full bg-gray-900 text-white flex flex-col items-center shadow-lg" aria-label="Main sidebar navigation">
       {/* Logo section */}
       <div className="flex-shrink-0 w-full py-4 px-2 flex justify-center border-b border-gray-700">
-        <img src="/Logo.png" alt="Funread Logo" className="w-13 h-13 object-contain" />
+        <img 
+          src="/Logo.png" 
+          alt="Funread Logo" 
+          className="w-12 h-12 object-contain cursor-pointer hover:opacity-80 transition"
+          onClick={() => navigate("/dashboard")}
+        />
       </div>
       
       {/* Buttons section - distributed evenly */}
