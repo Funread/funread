@@ -62,7 +62,6 @@ function ReadingView() {
         const parsedResponses = JSON.parse(storedQuizResponses);
         setQuizResponses(parsedResponses.responses || {});
         setQuizTotalPoints(parsedResponses.totalPoints || 0);
-        console.log("Loading saved responses:", parsedResponses);
       } catch (e) {
         console.error("Error loading saved responses:", e);
       }
@@ -77,26 +76,29 @@ function ReadingView() {
         return;
       }
 
-      console.log("=== Starting submitResponses (Recommended) ===");
-      console.log("User ID:", userId);
-      console.log("Book ID:", bookid);
-      console.log("Quiz Total Points:", quizTotalPoints);
 
       if (Object.keys(quizResponses).length === 0) {
-        console.log("No quiz responses found - Book will NOT be marked as completed");
         alert("This book does not have quizzes or you haven't answered any quiz questions. The book will not be marked as completed.");
         return;
       }
 
       let alreadyAwarded = false;
+      let automaticBadges = []; // Badges asignados automáticamente por el backend
+      
       try {
         const markResponse = await markBookAsCompleted(userId, bookid);
-        console.log("Book marked as completed:", markResponse);
         
         alreadyAwarded = markResponse.data?.already_awarded || false;
         
+        // Capturar badges automáticos asignados por el backend
+        if (markResponse.data?.badges_assigned && markResponse.data.badges_assigned.length > 0) {
+          automaticBadges = markResponse.data.badges_assigned;
+          
+          // Guardar badges automáticos en localStorage para mostrarlos después
+          localStorage.setItem('automatic_badges', JSON.stringify(automaticBadges));
+        }
+        
         if (alreadyAwarded) {
-          console.log("Points were already awarded for this book");
           alert("You have already completed this book and received the points.");
           localStorage.removeItem(`quiz_responses_${userId}`);
           return;
@@ -108,7 +110,6 @@ function ReadingView() {
 
       // Add points if there are quiz responses and not already awarded
       if (!alreadyAwarded) {
-        console.log("Sending points to user:", quizTotalPoints);
 
         localStorage.setItem('book_completed_trigger', JSON.stringify({
           userId: userId,
@@ -134,14 +135,11 @@ function ReadingView() {
             alert(`Error adding points: ${pointsError.message || 'Unknown error'}`);
           }
         } else {
-          console.log("No points to add");
           localStorage.removeItem(`quiz_responses_${userId}`);
-          console.log("LocalStorage cleared");
           alert("Book completed! No points earned. Please answer quiz questions correctly to earn points.");
         }
       }
 
-      console.log("=== Finished submitResponses ===");
     } catch (error) {
       console.error("Error in submitResponses:", error);
     }
@@ -153,7 +151,6 @@ function ReadingView() {
       const badges = await getBadgesPerBook(book_id);
 
       if (badges?.length === 0) {
-        console.log("No badges to award for this book.");
         return null;
       }
 
@@ -167,7 +164,6 @@ function ReadingView() {
 
       // Filtrar nulls después de resolver las promesas
       const validBadges = awarded.filter(Boolean);
-      console.log("Awarded badges:", validBadges);
       if (validBadges.length === 0) {
         return null;
       } else {
@@ -188,10 +184,40 @@ function ReadingView() {
       if (user.roles[0].role === "profesor") {
         navigate("/library");
       } else {
-        const allBadges = await awardBadges(bookid);
-        setAwardedBadges(allBadges);
+        // Obtener badges del libro específico
+        const bookBadges = await awardBadges(bookid);
+        
+        // Obtener badges automáticos del localStorage
+        const automaticBadgesStr = localStorage.getItem('automatic_badges');
+        const automaticBadges = automaticBadgesStr ? JSON.parse(automaticBadgesStr) : [];
+        
+        // Combinar ambos tipos de badges
+        const allBadges = [...(Array.isArray(bookBadges) ? bookBadges : [])];
+        
+        // Agregar badges automáticos formateados para el popup
+        if (automaticBadges.length > 0) {
+          console.log("🎯 Combining automatic badges with book badges");
+          automaticBadges.forEach(badge => {
+            allBadges.push({
+              id: badge.id,
+              name: badge.title,  // PopUp usa 'name'
+              title: badge.title,
+              description: badge.description,
+              points: badge.points,
+              icon: badge.icon || null,
+              rare: false  // Badges automáticos como normales
+            });
+          });
+          
+          // Limpiar localStorage después de usar los badges
+          localStorage.removeItem('automatic_badges');
+        }
+        
+        console.log("🏆 All badges to display (book + automatic):", allBadges);
+        
+        setAwardedBadges(allBadges.length > 0 ? allBadges : null);
 
-        if (allBadges === null) {
+        if (allBadges.length === 0) {
           navigate("/myclasses");
         }
       }
@@ -202,12 +228,6 @@ function ReadingView() {
 
   const loadPage = useCallback(
     (currentContent, pageNumber) => {
-      console.log("pageNumer");
-      console.log(pageNumer);
-      console.log("--contentBook---");
-      console.log(contentBook);
-      console.log("-----");
-      console.log("-----");
 
       let currentPageContent = currentContent[pageNumber];
       setContentBook(currentContent);
@@ -232,13 +252,9 @@ function ReadingView() {
       try {
         await fullBook(bookid).then((data) => {
           let currentContent = data.data.book_content;
-          console.log("asd asd currentContent");
-          console.log(currentContent);
 
           setContentBook(currentContent);
           loadPage(currentContent, pageNumer);
-          console.log("BcurrentContent");
-          console.log(contentBook);
         });
       } catch (error) {
         setError("Error fetching data");
@@ -252,7 +268,6 @@ function ReadingView() {
 
   useEffect(() => {
     if (contentBook) {
-      console.log("The contentBook state has been updated:", contentBook);
       preloadAllImages();
     }
   }, [contentBook]);
@@ -260,13 +275,9 @@ function ReadingView() {
   // Manejador para las respuestas del quiz
   const handleQuizResponse = useCallback(
     (questionId, answer, isCorrect, pointsAwarded) => {
-      console.log(
-        `QuizResponse: Q${questionId}, Answer: ${answer}, Correct: ${isCorrect}, Points: ${pointsAwarded}`
-      );
 
       // Asegurarnos que pointsAwarded sea un número
       const points = Number(pointsAwarded) || 0;
-      console.log("Converted points:", points);
 
       // Comprobar si ya se ha respondido esta pregunta anteriormente
       const previousResponse = quizResponses[questionId];
@@ -296,10 +307,8 @@ function ReadingView() {
       };
 
       // Para depuración, mostrar todas las respuestas actuales y sus puntos
-      console.log("Current responses with points:");
       Object.entries(newResponses).forEach(([id, resp]) => {
         if (resp.isCorrect) {
-          console.log(`- Question ${id}: ${resp.pointsAwarded} points`);
         }
       });
 
@@ -312,10 +321,6 @@ function ReadingView() {
           totalCorrectPoints += Number(resp.pointsAwarded || 0);
         }
       });
-      console.log(
-        "Total de puntos por respuestas correctas:",
-        totalCorrectPoints
-      );
 
       // Actualizar el total de puntos directamente con el valor calculado
       setQuizTotalPoints(totalCorrectPoints);
@@ -389,18 +394,15 @@ function ReadingView() {
   // Efecto para verificar cuando todas las imágenes estén cargadas
   useEffect(() => {
     if (totalImagesToLoad > 0 && loadedImagesCount >= totalImagesToLoad) {
-      console.log("All images loaded:", loadedImagesCount);
       setImagesLoaded(true);
     }
   }, [loadedImagesCount, totalImagesToLoad]);
 
   useEffect(() => {
-    console.log("using current pageNumer " + contentBook);
     const handleKeyDown = (event) => {
       let currentPage = pageNumer; // Use current pageNumer to calculate the new page
 
       if (event.key === "ArrowRight") {
-        console.log("ArrowRight");
         if (pageNumer < pagesCount - 1) {
           currentPage = pageNumer + 1;
         }
@@ -409,14 +411,12 @@ function ReadingView() {
           ExitReading();
         }
       } else if (event.key === "ArrowLeft") {
-        console.log("ArrowLeft");
         if (pageNumer > 0) {
           currentPage = pageNumer - 1;
         }
       }
 
       setPageNumer(currentPage);
-      console.log("using current pageNumer " + pageNumer);
       loadPage(contentBook, currentPage);
     };
 
@@ -465,7 +465,7 @@ function ReadingView() {
     if (awardedBadges.length === 1) {
       const timeout = setTimeout(() => {
         navigate("/myclasses");
-      }, 8500);
+      }, 4500);
       return () => clearTimeout(timeout);
     }
 
