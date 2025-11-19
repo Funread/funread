@@ -56,8 +56,9 @@ def assign_badge_to_user(user_id, badge_id, books_read):
         user_badge = UserBadge.objects.create(
             user_id=user_id,
             badge_id=badge_id,
-            date_earned=datetime.now(),
-            progress=100.0  # 100% porque ya lo obtuvo
+            date=datetime.now(),  # Corregido: el campo se llama 'date', no 'date_earned'
+            achieved=True,  # Marcar como logrado
+            progress=100  # 100% porque ya lo obtuvo
         )
         
         # Otorgar puntos al usuario
@@ -238,7 +239,7 @@ def get_user_badges_with_progress(user_id):
                 'points': ub.badge.points,
                 'icon': ub.badge.icon,
                 'goal_points': ub.badge.goal_points,
-                'date_achieved': ub.date_earned.isoformat() if ub.date_earned else None,
+                'date_achieved': ub.date.isoformat() if ub.date else None,  # Corregido: el campo se llama 'date'
                 'achieved': True,
                 'progress': 100.0
             })
