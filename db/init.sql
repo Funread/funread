@@ -6,6 +6,38 @@ Role table injection
 
 INSERT INTO `roles` (`Role`) VALUES ('administrativo'),('estudiante'),('profesor');
 
+/*
+Admin user injection
+*/
+
+-- Crear usuario administrador
+INSERT INTO `user` (`Name`, `LastName`, `UserName`, `Email`, `password`, `Actived`, `CreatedAt`, `Level`)
+VALUES (
+    'Admin',
+    'FunRead',
+    'admin',
+    'admin@funread.com',
+    '3eb3fe66b31e3b4d10fa70b5cad49c7112294af6ae4e476a1c405155d45aa121',
+    1,
+    NOW(),
+    1
+)
+ON DUPLICATE KEY UPDATE
+    Name = VALUES(Name),
+    LastName = VALUES(LastName),
+    UserName = VALUES(UserName),
+    Actived = 1,
+    Level = 1;
+
+-- Asignar rol administrativo al usuario admin
+SET @admin_user_id = (SELECT UserId FROM user WHERE Email = 'admin@funread.com');
+SET @admin_role_id = (SELECT RolesId FROM roles WHERE Role = 'administrativo');
+
+DELETE FROM userroles WHERE IdUser = @admin_user_id;
+
+INSERT INTO `userroles` (`IdUser`, `IdRole`)
+VALUES (@admin_user_id, @admin_role_id);
+
 
 /*
 Media table inject
