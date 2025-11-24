@@ -8,6 +8,7 @@ import { usePageSaver } from "./Hooks/usePageSaver";
 import { useBookData } from "./Hooks/useBookData";
 import { usePages } from "./Hooks/usePages";
 import { usePageManagement } from "./Hooks/usePageManagement";
+import { useUnsavedChanges } from "./Hooks/useUnsavedChanges";
 
 // UTILS
 import { handlePageLoad } from "./Utils/pageLoader";
@@ -17,6 +18,7 @@ import ToolBar from "./Components/ToolBar";
 import Footer from "./Components/Footer";
 import BookSidebarPanel from "./Components/BookSidebarPanel/BookSidebarPanel";
 import BookCentralEditor from "./Components/BookCentralEditor/BookCentralEditor";
+import UnsavedChangesModal from "./Components/UnsavedChangesModal";
 
 export default function BookCreator() {
   const { id } = useParams();
@@ -88,6 +90,38 @@ export default function BookCreator() {
       alert(error);
     },
   });
+
+  // Hook para detectar cambios no guardados
+  const {
+    hasUnsavedChanges,
+    handlePageChangeRequest,
+    markAsSaved,
+    showModal,
+    handleSave,
+    handleDiscard,
+    handleCancel,
+  } = useUnsavedChanges({
+    elements,
+    currentPage,
+    pagesList,
+    savePage,
+  });
+
+  // Función segura para cambiar de página que verifica cambios no guardados
+  const safeSetCurrentPage = (newPageIndex) => {
+    handlePageChangeRequest(newPageIndex, setCurrentPage);
+  };
+
+  // Función de guardado que marca como guardado después de éxito
+  const savePageWithConfirmation = async () => {
+    try {
+      await savePage();
+      markAsSaved();
+    } catch (error) {
+      console.error('Error saving page:', error);
+      throw error;
+    }
+  };
 
   // Load initial data
   useEffect(() => {
@@ -289,6 +323,12 @@ export default function BookCreator() {
   return (
     <>
       {SessionModal}
+      <UnsavedChangesModal
+        isOpen={showModal}
+        onSave={handleSave}
+        onDiscard={handleDiscard}
+        onCancel={handleCancel}
+      />
       <div className="flex flex-row h-screen w-full bg-gray-200 min-w-0">
         {/* Sidebar y panel lateral */}
         <BookSidebarPanel
@@ -302,7 +342,7 @@ export default function BookCreator() {
           <ToolBar
             elements={elements}
             setElements={setElements}
-            savePageToLocalStorage={savePage}
+            savePageToLocalStorage={savePageWithConfirmation}
             selectedId={selectedId}
             setSelectedId={setSelectedId}
             bookData={bookData}
@@ -332,12 +372,13 @@ export default function BookCreator() {
             <Footer
               pages={pagesList}
               currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              setCurrentPage={safeSetCurrentPage}
               addPage={addPage}
               onDeletePage={handleDeletePage}
               onMovePageBackward={movePageBackward}
               onMovePageForward={movePageForward}
               pageManagementLoading={pageManagementLoading}
+              hasUnsavedChanges={hasUnsavedChanges}
             />
           )}
         </div>
