@@ -1,4 +1,15 @@
-export default function Footer({ pages, currentPage, setCurrentPage, addPage }) {
+import PageManagementControls from './PageManagementControls';
+
+export default function Footer({ 
+  pages, 
+  currentPage, 
+  setCurrentPage, 
+  addPage,
+  onDeletePage,
+  onMovePageBackward,
+  onMovePageForward,
+  pageManagementLoading = false
+}) {
 const totalPages = pages.length;
   const pageButtons = [];
 
@@ -51,28 +62,43 @@ const totalPages = pages.length;
 
   return (
     <footer className="w-full bg-[#2C3E50] text-white px-2 py-3 shadow-lg">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 max-w-5xl mx-auto">
-        {/* Número de Página Actual */}
-        <div className="text-base md:text-lg font-semibold flex items-center justify-center md:justify-start">
-          <span className="mr-2">📖 Page</span>
-          <span className="text-yellow-400">{currentPage + 1}</span>
-          <span className="mx-1">of</span>
-          <span className="text-yellow-400">{pages.length}</span>
+      <div className="flex flex-col gap-3 max-w-6xl mx-auto">
+        {/* Fila principal con información y navegación */}
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+          {/* Número de Página Actual */}
+          <div className="text-base md:text-lg font-semibold flex items-center justify-center md:justify-start">
+            <span className="mr-2">📖 Page</span>
+            <span className="text-yellow-400">{currentPage + 1}</span>
+            <span className="mx-1">of</span>
+            <span className="text-yellow-400">{pages.length}</span>
+          </div>
+
+          {/* Lista de Páginas Compacta */}
+          <div className="flex flex-wrap justify-center items-center gap-1 md:gap-2 overflow-x-auto max-w-full py-1">
+            {pageButtons}
+          </div>
+
+          {/* Botón Agregar Página */}
+          <div className="flex justify-center md:justify-end">
+            <button
+              onClick={addPage}
+              className="px-3 md:px-4 py-2 bg-green-500 hover:bg-green-600 rounded-lg text-white font-semibold transition text-xs md:text-base"
+            >
+              ➕ New Page
+            </button>
+          </div>
         </div>
 
-        {/* Lista de Páginas Compacta */}
-        <div className="flex flex-wrap justify-center items-center gap-1 md:gap-2 overflow-x-auto max-w-full py-1">
-          {pageButtons}
-        </div>
-
-        {/* Botón Agregar Página */}
-        <div className="flex justify-center md:justify-end">
-          <button
-            onClick={addPage}
-            className="px-3 md:px-4 py-2 bg-green-500 hover:bg-green-600 rounded-lg text-white font-semibold transition text-xs md:text-base"
-          >
-            ➕ New Page
-          </button>
+        {/* Fila de controles de gestión de páginas */}
+        <div className="flex justify-center items-center border-t border-gray-600 pt-3">
+          <PageManagementControls
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onDelete={onDeletePage}
+            onMoveBackward={onMovePageBackward}
+            onMoveForward={onMovePageForward}
+            isLoading={pageManagementLoading}
+          />
         </div>
       </div>
     </footer>

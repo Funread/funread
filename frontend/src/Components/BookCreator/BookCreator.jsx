@@ -7,6 +7,7 @@ import { updateWidgetItem, newWidgetItem } from "../../api/widget";
 import { usePageSaver } from "./Hooks/usePageSaver";
 import { useBookData } from "./Hooks/useBookData";
 import { usePages } from "./Hooks/usePages";
+import { usePageManagement } from "./Hooks/usePageManagement";
 
 // UTILS
 import { handlePageLoad } from "./Utils/pageLoader";
@@ -69,6 +70,23 @@ export default function BookCreator() {
     setElements,
     setSelectedId,
     pagesList
+  });
+
+  const {
+    handleDeletePage,
+    movePageForward,
+    movePageBackward,
+    isLoading: pageManagementLoading,
+    error: pageManagementError,
+  } = usePageManagement({
+    loadBookData,
+    pagesList,
+    currentPage,
+    setCurrentPage,
+    onError: (error) => {
+      console.error("Page management error:", error);
+      alert(error);
+    },
   });
 
   // Load initial data
@@ -316,6 +334,10 @@ export default function BookCreator() {
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               addPage={addPage}
+              onDeletePage={handleDeletePage}
+              onMovePageBackward={movePageBackward}
+              onMovePageForward={movePageForward}
+              pageManagementLoading={pageManagementLoading}
             />
           )}
         </div>
