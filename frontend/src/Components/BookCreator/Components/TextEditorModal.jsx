@@ -1,11 +1,16 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { Stage, Layer, Text, Rect } from "react-konva";
 import { 
-  FUENTES_DISPONIBLES, 
-  COLORES_PREDEFINIDOS,
+  FUENTES_DISPONIBLES,
   getCategoriasFuentes,
   getFuentesFiltradas 
 } from "./shared/textConstants";
+import { dividirTextoAutomatico } from "./shared/textUtils";
+import RangeSlider from "./shared/RangeSlider";
+import StyleButtons from "./shared/StyleButtons";
+import AlignmentButtons from "./shared/AlignmentButtons";
+import ColorPicker from "./shared/ColorPicker";
+import { useTextStyles } from "./hooks/useTextStyles";
 
 export default function TextEditorModal({ 
   text, 
@@ -29,6 +34,10 @@ export default function TextEditorModal({
   const [fontSize, setFontSize] = useState(initialSize || 20);
   const [colorTexto, setColorTexto] = useState(initialFill || "#000000");
   const [colorFondo, setColorFondo] = useState(initialBackgroundColor || "transparent");
+  const [textAlign, setTextAlign] = useState(currentElement?.textAlign || "left");
+  const [letterSpacing, setLetterSpacing] = useState(currentElement?.letterSpacing || 0);
+  const [textDecoration, setTextDecoration] = useState(currentElement?.textDecoration || "none");
+  const [searchFont, setSearchFont] = useState("");
   const [estiloTexto, setEstiloTexto] = useState(() => {
     let style = "normal";
     if (initialFontWeight === "bold") style += " bold";
@@ -43,8 +52,16 @@ export default function TextEditorModal({
   const [categoriaFuenteSeleccionada, setCategoriaFuenteSeleccionada] = useState("System");
   
   const textareaRef = useRef();
-  const categoriasFuentes = getCategoriasFuentes();
-  const fuentesFiltradas = getFuentesFiltradas(categoriaFuenteSeleccionada);
+  const categoriasFuentes = useMemo(() => getCategoriasFuentes(), []);
+  const fuentesFiltradas = useMemo(() => {
+    let fuentes = getFuentesFiltradas(categoriaFuenteSeleccionada);
+    if (searchFont.trim()) {
+      fuentes = fuentes.filter(f => 
+        f.name.toLowerCase().includes(searchFont.toLowerCase())
+      );
+    }
+    return fuentes;
+  }, [categoriaFuenteSeleccionada, searchFont]);
 
   useEffect(() => {
     setValue(text);
@@ -69,7 +86,7 @@ export default function TextEditorModal({
       initialBackgroundColor, initialOpacity, initialShadowColor, initialRotation, 
       initialLineHeight, pageType]);
 
-  const obtenerEstiloCSS = () => ({
+  const obtenerEstiloCSS = useCallback(() => ({
     fontSize: `${fontSize}px`,
     color: colorTexto,
     fontFamily: fontFamily,
@@ -82,7 +99,7 @@ export default function TextEditorModal({
     opacity: opacidad / 100,
     padding: colorFondo !== "transparent" ? "4px 8px" : "0",
     borderRadius: colorFondo !== "transparent" ? "4px" : "0",
-  });
+  }), [fontSize, colorTexto, fontFamily, estiloTexto, espaciadoLinea, sombra, colorFondo, rotacion, opacidad]);
 
   const handleSave = () => {
     const fontWeight = estiloTexto.includes("bold") ? "bold" : "normal";
@@ -96,6 +113,9 @@ export default function TextEditorModal({
       strokeWidth = 0.6;
     }
     
+    const maxWidth = fontSize * 20;
+    const textoAjustado = dividirTextoAutomatico(value, fontSize, fontFamily, maxWidth);
+    
     const estilos = {
       fontSize: fontSize,
       fill: colorTexto,
@@ -103,6 +123,7 @@ export default function TextEditorModal({
       fontStyle: fontStyle,
       fontWeight: fontWeight,
       lineHeight: espaciadoLinea,
+      width: maxWidth,
       stroke: strokeColor,
       strokeWidth: strokeWidth,
       rotation: rotacion,
@@ -112,9 +133,12 @@ export default function TextEditorModal({
       shadowOffsetX: sombra ? 2 : 0,
       shadowOffsetY: sombra ? 2 : 0,
       backgroundColor: colorFondo !== "transparent" ? colorFondo : undefined,
+      textAlign: textAlign,
+      letterSpacing: letterSpacing,
+      textDecoration: textDecoration,
     };
     
-    onSave(value, estilos);
+    onSave(textoAjustado, estilos);
     if (onStyleChange) onStyleChange(estilos);
   };
 
@@ -173,6 +197,7 @@ export default function TextEditorModal({
                     shadowBlur={sombra ? 4 : 0}
                     shadowOffsetX={sombra ? 2 : 0}
                     shadowOffsetY={sombra ? 2 : 0}
+                    textDecoration={textDecoration}
                     width={510}
                     height={70}
                     align="left"
@@ -210,6 +235,19 @@ export default function TextEditorModal({
           <div className="flex-1 space-y-3">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
+                🔍 Search Font:
+              </label>
+              <input
+                type="text"
+                value={searchFont}
+                onChange={(e) => setSearchFont(e.target.value)}
+                placeholder="Type to search fonts..."
+                className="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 📝 Font Category:
               </label>
               <select
@@ -219,7 +257,7 @@ export default function TextEditorModal({
               >
                 {categoriasFuentes.map((categoria) => (
                   <option key={categoria} value={categoria}>
-                    {categoria} ({categoria === "All" ? FUENTES_DISPONIBLES.length : fuentesFiltradas.length})
+                    {categoria}
                   </option>
                 ))}
               </select>
@@ -242,19 +280,15 @@ export default function TextEditorModal({
               </select>
             </div>
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                📏 Size: {fontSize}px
-              </label>
-              <input
-                type="range"
-                min="8"
-                max="100"
-                value={fontSize}
-                onChange={e => setFontSize(Number(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
+            <RangeSlider
+              label="📏 Size"
+              value={fontSize}
+              min={8}
+              max={100}
+              onChange={(val) => setFontSize(val)}
+              unit="px"
+              gradientColor="#0891b2"
+            />
           </div>
 
           <div className="flex-1 space-y-3">
@@ -262,137 +296,84 @@ export default function TextEditorModal({
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 💫 Text Style:
               </label>
-              <div className="flex gap-2">
-                <button
-                  className={`flex-1 px-3 py-2 text-sm border rounded-md transition-colors ${
-                    estiloTexto.includes("bold") 
-                      ? "bg-blue-500 text-white border-blue-500" 
-                      : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                  }`}
-                  onClick={() => setEstiloTexto(estiloTexto.includes("bold") ? estiloTexto.replace("bold", "").trim() || "normal" : `${estiloTexto} bold`.trim())}
-                >
-                  <strong>B</strong> Bold
-                </button>
-                <button
-                  className={`flex-1 px-3 py-2 text-sm border rounded-md transition-colors ${
-                    estiloTexto.includes("italic") 
-                      ? "bg-blue-500 text-white border-blue-500" 
-                      : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                  }`}
-                  onClick={() => setEstiloTexto(estiloTexto.includes("italic") ? estiloTexto.replace("italic", "").trim() || "normal" : `${estiloTexto} italic`.trim())}
-                >
-                  <em>I</em> Italic
-                </button>
-              </div>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                🌈 Text Color:
-              </label>
-              <div className="flex gap-1 mb-2">
-                {COLORES_PREDEFINIDOS.slice(0, 6).map((color) => (
-                  <button
-                    key={color}
-                    className={`w-6 h-6 rounded border-2 transition-transform hover:scale-110 ${
-                      colorTexto === color ? "border-gray-800" : "border-gray-300"
-                    }`}
-                    style={{ backgroundColor: color }}
-                    onClick={() => setColorTexto(color)}
-                  />
-                ))}
-              </div>
-              <input
-                type="color"
-                value={colorTexto}
-                onChange={(e) => setColorTexto(e.target.value)}
-                className="w-full h-8 border border-gray-300 rounded cursor-pointer"
+              <StyleButtons
+                textStyles={{
+                  fontStyle: estiloTexto,
+                  textDecoration: textDecoration,
+                  shadow: sombra
+                }}
+                toggleBold={() => setEstiloTexto(estiloTexto.includes("bold") ? estiloTexto.replace("bold", "").trim() || "normal" : `${estiloTexto} bold`.trim())}
+                toggleItalic={() => setEstiloTexto(estiloTexto.includes("italic") ? estiloTexto.replace("italic", "").trim() || "normal" : `${estiloTexto} italic`.trim())}
+                toggleUnderline={() => setTextDecoration(textDecoration.includes("underline") ? "none" : "underline")}
+                toggleStrike={() => setTextDecoration(textDecoration.includes("line-through") ? "none" : "line-through")}
+                toggleShadow={() => setSombra(!sombra)}
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                🎨 Background Color:
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                📐 Text Alignment:
               </label>
-              <div className="flex gap-2 items-center">
-                <button
-                  className={`px-3 py-1 text-xs border rounded ${
-                    colorFondo === "transparent" ? "bg-gray-200 text-gray-700" : "bg-white text-gray-600"
-                  }`}
-                  onClick={() => setColorFondo("transparent")}
-                >
-                  No background
-                </button>
-                <input
-                  type="color"
-                  value={colorFondo === "transparent" ? "#ffffff" : colorFondo}
-                  onChange={(e) => setColorFondo(e.target.value)}
-                  className="flex-1 h-8 border border-gray-300 rounded cursor-pointer"
-                />
-              </div>
+              <AlignmentButtons
+                value={textAlign}
+                onChange={(value) => setTextAlign(value)}
+              />
             </div>
+            
+            <ColorPicker
+              label="🌈 Text Color:"
+              value={colorTexto}
+              onChange={(color) => setColorTexto(color)}
+              presetCount={6}
+            />
+            
+            <ColorPicker
+              label="🎨 Background Color:"
+              value={colorFondo}
+              onChange={(color) => setColorFondo(color)}
+              showTransparent={true}
+              presetCount={6}
+            />
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col md:flex-row gap-4">
+        <div className="mt-4 flex gap-4">
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              🔄 Rotation: {rotacion}°
-            </label>
-            <input
-              type="range"
-              min="-45"
-              max="45"
+            <RangeSlider
+              label="🔄 Rotation"
               value={rotacion}
-              onChange={(e) => setRotacion(parseInt(e.target.value))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              min={-45}
+              max={45}
+              onChange={(val) => setRotacion(val)}
+              unit="°"
+              gradientColor="#a78bfa"
             />
           </div>
           
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              💨 Opacity: {opacidad}%
-            </label>
-            <input
-              type="range"
-              min="10"
-              max="100"
+            <RangeSlider
+              label="💨 Opacity"
               value={opacidad}
-              onChange={(e) => setOpacidad(parseInt(e.target.value))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              min={10}
+              max={100}
+              onChange={(val) => setOpacidad(val)}
+              unit="%"
+              gradientColor="#8b5cf6"
             />
           </div>
           
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              📏 Line Spacing: {espaciadoLinea.toFixed(1)}
-            </label>
-            <input
-              type="range"
-              min="0.8"
-              max="2.0"
-              step="0.1"
+            <RangeSlider
+              label="📏 Line Spacing"
               value={espaciadoLinea}
-              onChange={(e) => setEspaciadoLinea(parseFloat(e.target.value))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              min={0.8}
+              max={2.0}
+              step={0.1}
+              onChange={(val) => setEspaciadoLinea(val)}
+              formatValue={(val) => val.toFixed(1)}
+              gradientColor="#6366f1"
             />
           </div>
-        </div>
-
-        <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            ✨ Effects:
-          </label>
-          <button
-            className={`px-4 py-2 text-sm border rounded-md transition-colors ${
-              sombra 
-                ? "bg-purple-500 text-white border-purple-500" 
-                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-            }`}
-            onClick={() => setSombra(!sombra)}
-          >
-            🌟 {sombra ? "Disable" : "Enable"} Shadow
-          </button>
         </div>
 
         <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">

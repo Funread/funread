@@ -66,6 +66,18 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
     const node = stage.findOne(`#${selectedId}`);
 
     if (node && node.getLayer()) {
+      // Para textos, ajustar el width al contenido real si es menor
+      const element = elements.find(el => el.id === selectedId);
+      if (element && element.type === "text" && node.width) {
+        const actualWidth = node.getTextWidth ? node.getTextWidth() : node.width();
+        const definedWidth = element.width || node.width();
+        
+        // Si el contenido es más pequeño que el width definido, ajustar
+        if (actualWidth < definedWidth) {
+          node.width(actualWidth);
+        }
+      }
+      
       transformerRef.current.nodes([node]);
       transformerRef.current.getLayer().batchDraw();
     } else {
@@ -79,24 +91,84 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
     );
   };
 
+  // Función para reajustar texto al nuevo ancho
+  const reajustarTextoAlAncho = (texto, fontSize, fontFamily, nuevoAncho) => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.font = `${fontSize}px ${fontFamily}`;
+    
+    // Si el texto ya tiene saltos de línea, unirlo primero
+    const textoOriginal = texto.replace(/\n/g, ' ');
+    const palabras = textoOriginal.split(' ');
+    const lineas = [];
+    let lineaActual = '';
+    
+    for (let i = 0; i < palabras.length; i++) {
+      const palabra = palabras[i];
+      const lineaPrueba = lineaActual + (lineaActual ? ' ' : '') + palabra;
+      const medida = ctx.measureText(lineaPrueba);
+      
+      if (medida.width > nuevoAncho && lineaActual) {
+        lineas.push(lineaActual);
+        lineaActual = palabra;
+      } else {
+        lineaActual = lineaPrueba;
+      }
+    }
+    
+    if (lineaActual) {
+      lineas.push(lineaActual);
+    }
+    
+    return lineas.join('\n');
+  };
+
   const handleTransformEnd = (e, id) => {
     const node = e.target;
     const scaleX = node.scaleX();
     const scaleY = node.scaleY();
     node.scaleX(1);
     node.scaleY(1);
+    
     setElements((prev) =>
-      prev.map((el) =>
-        el.id === id
-          ? {
-              ...el,
-              x: node.x(),
-              y: node.y(),
-              width: Math.max(5, node.width() * scaleX),
-              height: Math.max(5, node.height() * scaleY),
-            }
-          : el
-      )
+      prev.map((el) => {
+        if (el.id !== id) return el;
+        
+        // Si es texto, manejar tanto fontSize como ancho
+        if (el.type === "text") {
+          const newFontSize = Math.max(8, Math.round(el.fontSize * scaleY));
+          const nuevoAncho = Math.max(100, node.width() * scaleX);
+          
+          // Reajustar el texto al nuevo ancho si se cambió el ancho significativamente
+          let textoAjustado = el.text;
+          if (Math.abs(scaleX - 1) > 0.1) {
+            textoAjustado = reajustarTextoAlAncho(
+              el.text, 
+              newFontSize, 
+              el.fontFamily || "Arial", 
+              nuevoAncho
+            );
+          }
+          
+          return {
+            ...el,
+            x: node.x(),
+            y: node.y(),
+            fontSize: newFontSize,
+            text: textoAjustado,
+            width: nuevoAncho,
+          };
+        }
+        
+        // Si es imagen, escalar width y height
+        return {
+          ...el,
+          x: node.x(),
+          y: node.y(),
+          width: Math.max(5, node.width() * scaleX),
+          height: Math.max(5, node.height() * scaleY),
+        };
+      })
     );
   };
 
@@ -161,6 +233,8 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                     fontStyle: el.fontStyle || "normal",
                     fontWeight: el.fontWeight || "normal",
                     lineHeight: el.lineHeight || 1.2,
+                    width: el.width || undefined,
+                    wrap: el.width ? "word" : "none",
                   });
                   
                   const padding = 8;
@@ -197,6 +271,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                     fontStyle={el.fontStyle || "normal"}
                     fontWeight={el.fontWeight || "normal"}
                     lineHeight={el.lineHeight || 1.2}
+                    width={el.width || undefined}
                     stroke={el.stroke}
                     strokeWidth={el.strokeWidth || 0}
                     rotation={el.rotation || 0}
@@ -205,6 +280,10 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                     shadowBlur={el.shadowBlur || 0}
                     shadowOffsetX={el.shadowOffsetX || 0}
                     shadowOffsetY={el.shadowOffsetY || 0}
+                    align={el.textAlign || "left"}
+                    letterSpacing={el.letterSpacing || 0}
+                    textDecoration={el.textDecoration || ""}
+                    wrap="word"
                     draggable
                     onClick={() => setSelectedId(el.id)}
                     onDblClick={() => handleTextDblClick(el)}
@@ -235,12 +314,14 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
             })}
             <Transformer
               ref={transformerRef}
+              ignoreStroke={true}
               boundBoxFunc={(oldBox, newBox) => {
                 if (newBox.width < 5 || newBox.height < 5) {
                   return oldBox;
                 }
                 return newBox;
               }}
+              enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right', 'middle-left', 'middle-right']}
             />
           </Layer>
         </Stage>
