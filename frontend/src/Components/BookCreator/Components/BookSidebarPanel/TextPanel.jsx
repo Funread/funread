@@ -1,21 +1,36 @@
 import { Button } from "../Button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import "./fonts.css";
 import { 
   FUENTES_DISPONIBLES, 
-  COLORES_PREDEFINIDOS, 
   PLANTILLAS_TEXTO,
   getCategoriasFuentes,
   getFuentesFiltradas 
 } from "../shared/textConstants";
+import { dividirTextoAutomatico } from "../shared/textUtils";
+import { useTextStyles } from "../hooks/useTextStyles";
+import RangeSlider from "../shared/RangeSlider";
+import StyleButtons from "../shared/StyleButtons";
+import AlignmentButtons from "../shared/AlignmentButtons";
+import ColorPicker from "../shared/ColorPicker";
 
 export default function TextPanel({ setElements, widgetValidation }) {
-  const [textoPersonalizado, setTextoPersonalizado] = useState("Type your text here");
-  const [fuenteSeleccionada, setFuenteSeleccionada] = useState("Arial, sans-serif");
-  const [tamanoFuente, setTamanoFuente] = useState(24);
-  const [colorTexto, setColorTexto] = useState("#000000");
-  const [estiloTexto, setEstiloTexto] = useState("normal"); 
+  const {
+    textStyles,
+    updateStyle,
+    toggleBold,
+    toggleItalic,
+    toggleUnderline,
+    toggleStrike,
+    toggleShadow,
+    resetStyles,
+    getCSSStyles,
+    getKonvaStyles,
+    showContrastWarning
+  } = useTextStyles();
+  
   const [modoEditor, setModoEditor] = useState("personalizado");
+  const [searchFont, setSearchFont] = useState("");
   
   useEffect(() => {
     const testElements = [
@@ -40,69 +55,32 @@ export default function TextPanel({ setElements, widgetValidation }) {
     });
   }, []);
   
-  const [decoracion, setDecoracion] = useState("none"); 
-  const [espaciadoLinea, setEspaciadoLinea] = useState(1.2);
-  const [sombra, setSombra] = useState(false);
-  const [colorFondo, setColorFondo] = useState("transparent");
-  const [rotacion, setRotacion] = useState(0);
-  const [opacidad, setOpacidad] = useState(100);
   const [categoriaFuenteSeleccionada, setCategoriaFuenteSeleccionada] = useState("All");
   const [categoriaPlantillaSeleccionada, setCategoriaPlantillaSeleccionada] = useState("📚 Educational");
 
-  const categoriasFuentes = getCategoriasFuentes();
-  const fuentesFiltradas = getFuentesFiltradas(categoriaFuenteSeleccionada);
-
-  // Función para obtener estilos para Konva Canvas
-  const obtenerEstiloKonva = () => {
-    const fontWeight = estiloTexto.includes("bold") ? "bold" : "normal";
-    const fontStyle = estiloTexto.includes("italic") ? "italic" : "normal";
-    const isBold = estiloTexto.includes("bold");
-    
-    let strokeColor = undefined;
-    let strokeWidth = 0;
-    const isMonospace = fuenteSeleccionada.includes("monospace");
-    
-    if (isBold) {
-      strokeColor = colorTexto;
-      strokeWidth = isMonospace ? 1.0 : 0.6; 
+  const categoriasFuentes = useMemo(() => getCategoriasFuentes(), []);
+  const fuentesFiltradas = useMemo(() => {
+    let fuentes = getFuentesFiltradas(categoriaFuenteSeleccionada);
+    if (searchFont.trim()) {
+      fuentes = fuentes.filter(f => 
+        f.name.toLowerCase().includes(searchFont.toLowerCase())
+      );
     }
-    
-    return {
-      fontSize: tamanoFuente,
-      fill: colorTexto,
-      fontFamily: fuenteSeleccionada,
-      fontStyle: fontStyle,
-      fontWeight: fontWeight,
-      lineHeight: espaciadoLinea,
-      stroke: strokeColor,
-      strokeWidth: strokeWidth,
-      rotation: rotacion,
-      opacity: opacidad / 100,
-      shadowColor: sombra ? "rgba(0,0,0,0.5)" : undefined,
-      shadowBlur: sombra ? 4 : 0,
-      shadowOffsetX: sombra ? 2 : 0,
-      shadowOffsetY: sombra ? 2 : 0,
-      backgroundColor: colorFondo !== "transparent" ? colorFondo : undefined,
-    };
-  };
-  const obtenerEstiloCSS = () => ({
-    fontSize: `${tamanoFuente}px`,
-    color: colorTexto,
-    fontFamily: fuenteSeleccionada,
-    fontStyle: estiloTexto.includes("italic") ? "italic" : "normal",
-    fontWeight: estiloTexto.includes("bold") ? "bold" : "normal",
-    textDecoration: decoracion,
-    lineHeight: espaciadoLinea,
-    textShadow: sombra ? "2px 2px 4px rgba(0,0,0,0.5)" : "none",
-    backgroundColor: colorFondo,
-    transform: `rotate(${rotacion}deg)`,
-    opacity: opacidad / 100,
-  });
+    return fuentes;
+  }, [categoriaFuenteSeleccionada, searchFont]);
 
   const handleAgregarTextoPersonalizado = () => {
-    if (!textoPersonalizado.trim()) return;
+    if (!textStyles.text.trim()) return;
     
-    const estiloKonva = obtenerEstiloKonva();
+    const estiloKonva = getKonvaStyles();
+    
+    const maxWidth = textStyles.fontSize * 20;
+    const textoAjustado = dividirTextoAutomatico(
+      textStyles.text, 
+      textStyles.fontSize, 
+      textStyles.fontFamily,
+      maxWidth
+    );
     
     widgetValidation(2, 2);
     setElements((prev) => [
@@ -110,24 +88,34 @@ export default function TextPanel({ setElements, widgetValidation }) {
       {
         id: Date.now().toString(),
         type: "text",
-        text: textoPersonalizado,
+        text: textoAjustado,
         x: 100,
         y: 100,
+        width: maxWidth,
         ...estiloKonva,
       },
     ]);
   };
 
   const handleAgregarPlantilla = (plantilla) => {
+    const maxWidth = plantilla.config.fontSize * 20;
+    const textoAjustado = dividirTextoAutomatico(
+      plantilla.name, 
+      plantilla.config.fontSize, 
+      plantilla.config.fontFamily,
+      maxWidth
+    );
+    
     widgetValidation(2, 2);
     setElements((prev) => [
       ...(Array.isArray(prev) ? prev : []),
       {
         id: Date.now().toString(),
         type: "text",
-        text: plantilla.name,
+        text: textoAjustado,
         x: 100,
         y: 100,
+        width: maxWidth,
         ...plantilla.config,
       },
     ]);
@@ -136,26 +124,16 @@ export default function TextPanel({ setElements, widgetValidation }) {
 
 
   const resetearEstilos = () => {
-    setTextoPersonalizado("Type your text here");
-    setFuenteSeleccionada("Arial, sans-serif");
-    setTamanoFuente(24);
-    setColorTexto("#000000");
-    setEstiloTexto("normal");
-    setDecoracion("none");
-    setEspaciadoLinea(1.2);
-    setSombra(false);
-    setColorFondo("transparent");
-    setRotacion(0);
-    setOpacidad(100);
+    resetStyles();
+    setSearchFont("");
     setCategoriaPlantillaSeleccionada("📚 Educational");
   };
 
-  return (<div className="flex flex-col h-full w-full overflow-hidden">
+  return (
+    <div className="flex flex-col h-full w-full overflow-hidden">
       <div className="flex-shrink-0 border-b bg-gradient-to-b from-gray-50 to-white shadow-sm">
         <div className="text-center pt-2.5 pb-1.5">
-          <h3 className="text-sm font-bold text-gray-800">
-            📝 Text Editor
-          </h3>
+          <h3 className="text-sm font-bold text-gray-800">📝 Text Editor</h3>
         </div>
         
         <div className="px-2 pb-2">
@@ -192,11 +170,13 @@ export default function TextPanel({ setElements, widgetValidation }) {
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-2 border border-blue-200">
               <label className="block text-xs font-semibold text-blue-900 mb-1 flex items-center justify-between">
                 <span>✍️ Your Text</span>
-                <span className="text-blue-600 bg-white px-1.5 py-0.5 rounded text-xs">{textoPersonalizado.length}</span>
+                <span className="text-blue-600 bg-white px-1.5 py-0.5 rounded text-xs">
+                  {textStyles.text.length}
+                </span>
               </label>
               <textarea
-                value={textoPersonalizado}
-                onChange={(e) => setTextoPersonalizado(e.target.value)}
+                value={textStyles.text}
+                onChange={(e) => updateStyle('text', e.target.value)}
                 className="w-full p-2 border-2 border-blue-200 rounded-md text-xs resize-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 bg-white"
                 rows="2"
                 placeholder="Type your creative text here..."
@@ -205,6 +185,15 @@ export default function TextPanel({ setElements, widgetValidation }) {
 
             <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-lg p-2 border border-green-200">
               <div className="text-xs font-semibold text-green-900 mb-1.5">🔤 Font</div>
+              <div className="mb-2">
+                <input
+                  type="text"
+                  value={searchFont}
+                  onChange={(e) => setSearchFont(e.target.value)}
+                  placeholder="🔍 Search fonts..."
+                  className="w-full p-1.5 border-2 border-green-200 rounded-md text-xs focus:border-green-400 focus:ring-2 focus:ring-green-100 bg-white"
+                />
+              </div>
               <div className="flex gap-2">
                 <div className="flex-1">
                   <label className="block text-xs font-medium text-green-800 mb-1">
@@ -228,10 +217,10 @@ export default function TextPanel({ setElements, widgetValidation }) {
                     Style ({fuentesFiltradas.length}):
                   </label>
                   <select
-                    value={fuenteSeleccionada}
-                    onChange={(e) => setFuenteSeleccionada(e.target.value)}
+                    value={textStyles.fontFamily}
+                    onChange={(e) => updateStyle('fontFamily', e.target.value)}
                     className="w-full p-1.5 border-2 border-green-200 rounded-md text-xs focus:border-green-400 focus:ring-2 focus:ring-green-100 bg-white"
-                    style={{ fontFamily: fuenteSeleccionada }}
+                    style={{ fontFamily: textStyles.fontFamily }}
                   >
                     {fuentesFiltradas.map((fuente) => (
                       <option key={fuente.value} value={fuente.value} style={{ fontFamily: fuente.value }}>
@@ -246,187 +235,120 @@ export default function TextPanel({ setElements, widgetValidation }) {
             <div className="bg-gradient-to-br from-cyan-50 to-sky-50 rounded-lg p-2 border border-cyan-200">
               <label className="flex items-center justify-between text-xs font-semibold text-cyan-900 mb-1.5">
                 <span>📏 Size</span>
-                <span className="text-cyan-600 bg-white px-2 py-0.5 rounded text-xs">{tamanoFuente}px</span>
               </label>
-              <input
-                type="range"
-                min="8"
-                max="100"
-                value={tamanoFuente}
-                onChange={(e) => setTamanoFuente(parseInt(e.target.value))}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                style={{
-                  background: `linear-gradient(to right, #0891b2 0%, #0891b2 ${((tamanoFuente - 8) / (100 - 8)) * 100}%, #e0e7ff ${((tamanoFuente - 8) / (100 - 8)) * 100}%, #e0e7ff 100%)`
-                }}
+              <RangeSlider
+                value={textStyles.fontSize}
+                min={8}
+                max={100}
+                onChange={(val) => updateStyle('fontSize', val)}
+                unit="px"
+                gradientColor="#0891b2"
+                showWarning={textStyles.fontSize < 12}
+                warningMessage="⚠️ Text may be too small for reading"
               />
             </div>
             
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-2 border border-purple-200">
-              <label className="block text-xs font-semibold text-purple-900 mb-1.5">
-                ✨ Style
+              <label className="block text-xs font-semibold text-purple-900 mb-1.5 flex items-center justify-between">
+                <span>✨ Style</span>
+                <span className="text-xs text-purple-600 font-normal">Ctrl+B/I/U</span>
               </label>
-              <div className="flex gap-1.5">
-                <button
-                  className={`flex-1 py-1.5 text-sm border-2 rounded-md font-bold transition-all ${
-                    estiloTexto.includes("bold") 
-                      ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white border-blue-600 shadow-md" 
-                      : "bg-white text-gray-700 border-gray-300 hover:border-blue-300 hover:bg-blue-50"
-                  }`}
-                  onClick={() => setEstiloTexto(estiloTexto.includes("bold") ? estiloTexto.replace("bold", "").trim() || "normal" : `${estiloTexto} bold`.trim())}
-                >
-                  B
-                </button>
-                <button
-                  className={`flex-1 py-1.5 text-sm border-2 rounded-md italic transition-all ${
-                    estiloTexto.includes("italic") 
-                      ? "bg-gradient-to-br from-purple-500 to-purple-600 text-white border-purple-600 shadow-md" 
-                      : "bg-white text-gray-700 border-gray-300 hover:border-purple-300 hover:bg-purple-50"
-                  }`}
-                  onClick={() => setEstiloTexto(estiloTexto.includes("italic") ? estiloTexto.replace("italic", "").trim() || "normal" : `${estiloTexto} italic`.trim())}
-                >
-                  I
-                </button>
-                <button
-                  className={`flex-1 py-1.5 text-sm border-2 rounded-md transition-all ${
-                    sombra 
-                      ? "bg-gradient-to-br from-gray-600 to-gray-700 text-white border-gray-700 shadow-md" 
-                      : "bg-white text-gray-700 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
-                  }`}
-                  onClick={() => setSombra(!sombra)}
-                >
-                  🌫️
-                </button>
-              </div>
+              <StyleButtons
+                textStyles={textStyles}
+                toggleBold={toggleBold}
+                toggleItalic={toggleItalic}
+                toggleUnderline={toggleUnderline}
+                toggleStrike={toggleStrike}
+                toggleShadow={toggleShadow}
+              />
+            </div>
+            
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-lg p-2 border border-teal-200">
+              <label className="block text-xs font-semibold text-teal-900 mb-1.5">
+                📏 Alignment
+              </label>
+              <AlignmentButtons 
+                value={textStyles.textAlign} 
+                onChange={(value) => updateStyle('textAlign', value)} 
+              />
             </div>
 
             <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-2 border border-orange-200">
-              <div className="text-xs font-semibold text-orange-900 mb-1.5">🎨 Colors</div>
+              <div className="text-xs font-semibold text-orange-900 mb-1.5 flex items-center justify-between">
+                <span>🎨 Colors</span>
+                {showContrastWarning && (
+                  <span 
+                    className="text-xs text-red-600 bg-red-100 px-1.5 py-0.5 rounded" 
+                    title="Low contrast ratio"
+                  >
+                    ⚠️ Low contrast
+                  </span>
+                )}
+              </div>
               <div className="flex gap-2">
                 <div className="flex-1">
-                  <label className="block text-xs font-medium text-orange-800 mb-1">
-                    Text:
-                  </label>
-                  <div className="flex gap-1 mb-1">
-                    {COLORES_PREDEFINIDOS.slice(0, 3).map((color) => (
-                      <button
-                        key={color}
-                        className={`w-5 h-5 rounded-md border-2 transition-all ${
-                          colorTexto === color ? "border-gray-800 scale-110 shadow-md" : "border-gray-300 hover:border-gray-400"
-                        }`}
-                        style={{ backgroundColor: color }}
-                        onClick={() => setColorTexto(color)}
-                      />
-                    ))}
-                  </div>
-                  <input
-                    type="color"
-                    value={colorTexto}
-                    onChange={(e) => setColorTexto(e.target.value)}
-                    className="w-full h-7 border-2 border-gray-300 rounded-md cursor-pointer"
+                  <ColorPicker
+                    label="Text:"
+                    value={textStyles.color}
+                    onChange={(color) => updateStyle('color', color)}
+                    presetCount={3}
                   />
                 </div>
 
                 <div className="flex-1">
-                  <label className="block text-xs font-medium text-orange-800 mb-1">
-                    Background:
-                  </label>
-                  <div className="flex gap-1 mb-1">
-                    <button
-                      className={`w-5 h-5 rounded-md border-2 transition-all ${
-                        colorFondo === "transparent" ? "border-gray-800 scale-110 shadow-md" : "border-gray-300 hover:border-gray-400"
-                      }`}
-                      style={{ 
-                        background: "linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%), linear-gradient(45deg, #ccc 25%, white 25%, white 75%, #ccc 75%)",
-                        backgroundSize: "6px 6px",
-                        backgroundPosition: "0 0, 3px 3px"
-                      }}
-                      onClick={() => setColorFondo("transparent")}
-                    />
-                    {COLORES_PREDEFINIDOS.slice(0, 2).map((color) => (
-                      <button
-                        key={color}
-                        className={`w-5 h-5 rounded-md border-2 transition-all ${
-                          colorFondo === color ? "border-gray-800 scale-110 shadow-md" : "border-gray-300 hover:border-gray-400"
-                        }`}
-                        style={{ backgroundColor: color }}
-                        onClick={() => setColorFondo(color)}
-                      />
-                    ))}
-                  </div>
-                  <input
-                    type="color"
-                    value={colorFondo === "transparent" ? "#ffffff" : colorFondo}
-                    onChange={(e) => setColorFondo(e.target.value)}
-                    className="w-full h-7 border-2 border-gray-300 rounded-md cursor-pointer"
+                  <ColorPicker
+                    label="Background:"
+                    value={textStyles.backgroundColor}
+                    onChange={(color) => updateStyle('backgroundColor', color)}
+                    showTransparent={true}
+                    presetCount={3}
                   />
                 </div>
               </div>
             </div>
 
             <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-lg p-2 border border-indigo-200">
-              <div className="text-xs font-semibold text-indigo-900 mb-1.5">🎛️ Controls</div>
+              <div className="text-xs font-semibold text-indigo-900 mb-1.5">
+                🎛️ Advanced Controls
+              </div>
               <div className="space-y-2">
-                <div>
-                  <label className="flex items-center justify-between text-xs font-medium text-indigo-800 mb-1">
-                    <span>Line Spacing</span>
-                    <span className="text-indigo-600 bg-white px-1.5 py-0.5 rounded text-xs">{espaciadoLinea}</span>
-                  </label>
-                  <input
-                    type="range"
-                    min="0.5"
-                    max="3"
-                    step="0.1"
-                    value={espaciadoLinea}
-                    onChange={(e) => setEspaciadoLinea(parseFloat(e.target.value))}
-                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${((espaciadoLinea - 0.5) / (3 - 0.5)) * 100}%, #e0e7ff ${((espaciadoLinea - 0.5) / (3 - 0.5)) * 100}%, #e0e7ff 100%)`
-                    }}
-                  />
-                </div>
-
-                <div>
-                  <label className="flex items-center justify-between text-xs font-medium text-indigo-800 mb-1">
-                    <span>Opacity</span>
-                    <span className="text-indigo-600 bg-white px-1.5 py-0.5 rounded text-xs">{opacidad}%</span>
-                  </label>
-                  <input
-                    type="range"
-                    min="10"
-                    max="100"
-                    value={opacidad}
-                    onChange={(e) => setOpacidad(parseInt(e.target.value))}
-                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${((opacidad - 10) / (100 - 10)) * 100}%, #e0e7ff ${((opacidad - 10) / (100 - 10)) * 100}%, #e0e7ff 100%)`
-                    }}
-                  />
-                </div>
+                <RangeSlider
+                  label="Line Spacing"
+                  value={textStyles.lineHeight}
+                  min={0.5}
+                  max={3}
+                  step={0.1}
+                  onChange={(val) => updateStyle('lineHeight', val)}
+                  formatValue={(val) => val.toFixed(1)}
+                  gradientColor="#6366f1"
+                />
                 
-                <div>
-                  <label className="flex items-center justify-between text-xs font-medium text-indigo-800 mb-1">
-                    <span>Rotation</span>
-                    <span className="text-indigo-600 bg-white px-1.5 py-0.5 rounded text-xs">{rotacion}°</span>
-                  </label>
-                  <input
-                    type="range"
-                    min="-180"
-                    max="180"
-                    value={rotacion}
-                    onChange={(e) => setRotacion(parseInt(e.target.value))}
-                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: `linear-gradient(to right, #a78bfa 0%, #a78bfa ${((rotacion + 180) / 360) * 100}%, #e0e7ff ${((rotacion + 180) / 360) * 100}%, #e0e7ff 100%)`
-                    }}
-                  />
-                </div>
+                <RangeSlider
+                  label="Opacity"
+                  value={textStyles.opacity}
+                  min={10}
+                  max={100}
+                  onChange={(val) => updateStyle('opacity', val)}
+                  unit="%"
+                  gradientColor="#8b5cf6"
+                />
+                
+                <RangeSlider
+                  label="Rotation"
+                  value={textStyles.rotation}
+                  min={-180}
+                  max={180}
+                  onChange={(val) => updateStyle('rotation', val)}
+                  unit="°"
+                  gradientColor="#a78bfa"
+                />
               </div>
             </div>
 
             <div className="bg-gradient-to-br from-gray-50 to-slate-100 rounded-lg p-2 border border-gray-300">
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-xs font-semibold text-gray-800">
-                  👁️ Preview
+                  👁️ Live Preview
                 </label>
                 <button
                   onClick={resetearEstilos}
@@ -436,19 +358,26 @@ export default function TextPanel({ setElements, widgetValidation }) {
                   🔄 Reset
                 </button>
               </div>
-              <div className="p-3 border-2 border-dashed border-gray-400 rounded-md bg-white min-h-[35px] flex items-center justify-center">
-                <span
+              <div className="p-4 border-2 border-dashed border-gray-400 rounded-md bg-white min-h-[60px] flex items-center justify-center overflow-hidden">
+                <div
                   style={{
-                    ...obtenerEstiloCSS(),
-                    fontSize: Math.min(tamanoFuente, 16),
-                    padding: colorFondo !== "transparent" ? "3px 6px" : "0",
-                    borderRadius: colorFondo !== "transparent" ? "4px" : "0",
+                    ...getCSSStyles(),
+                    fontSize: Math.min(textStyles.fontSize, 18),
+                    padding: textStyles.backgroundColor !== "transparent" ? "4px 8px" : "0",
+                    borderRadius: textStyles.backgroundColor !== "transparent" ? "6px" : "0",
                     display: "inline-block",
                     maxWidth: "100%",
+                    wordBreak: "break-word",
                   }}
                 >
-                  {textoPersonalizado.substring(0, 20) || "Preview"}
-                </span>
+                  {textStyles.text.substring(0, 50) || "Preview text..."}
+                  {textStyles.text.length > 50 && "..."}
+                </div>
+              </div>
+              <div className="mt-1 text-xs text-gray-500 flex justify-between">
+                <span>📊 {textStyles.fontSize}px</span>
+                <span>🎨 {textStyles.fontFamily.split(',')[0]}</span>
+                <span>✅ {textStyles.text.length} chars</span>
               </div>
             </div>
           </div>
@@ -479,7 +408,9 @@ export default function TextPanel({ setElements, widgetValidation }) {
             <div className="space-y-2">
               <h4 className="text-xs font-medium text-gray-700 border-b pb-1 flex items-center">
                 <span className="mr-1">{categoriaPlantillaSeleccionada}</span>
-                <span className="text-gray-500">({PLANTILLAS_TEXTO[categoriaPlantillaSeleccionada].length})</span>
+                <span className="text-gray-500">
+                  ({PLANTILLAS_TEXTO[categoriaPlantillaSeleccionada].length})
+                </span>
               </h4>
               
               {PLANTILLAS_TEXTO[categoriaPlantillaSeleccionada].map((plantilla, i) => (

@@ -27,7 +27,7 @@ export function usePageSaver(params) {
 
     if (!currentPageId || !widgetItem) {
       alert("No se encontró información de la página o el widget.");
-      return;
+      return Promise.reject(new Error("No se encontró información de la página o el widget."));
     }
 
     if (pagesType === 4) {
@@ -48,6 +48,9 @@ export function usePageSaver(params) {
 
     if (pagesType === 2) return saveKonva();
     if (pagesType === 5) return saveGame();
+    
+    // Retornar una Promise resuelta si no hay acción específica
+    return Promise.resolve();
   };
 
   return { savePage };

@@ -27,3 +27,16 @@ export async function newPage(bookid, type, template, elementorder, gridDirectio
   });
 }
 
+export async function deletePage(pageid) {
+  return axiosAuth().put('pages/deletePage/', {
+    pageid,
+  });
+}
+
+export async function swapPages(pageid1, pageid2) {
+  return axiosAuth().put('pages/swapPages/', {
+    pageid1,
+    pageid2,
+  });
+}
+

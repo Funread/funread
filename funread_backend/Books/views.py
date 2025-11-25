@@ -97,12 +97,16 @@ def bookSearch(request, title):
         # Usar JwtService para obtener id del usuario actual
         jwt_service = JwtService(authorization_header)
         user_id = jwt_service.get_user_id()
+        
+        if not user_id:
+            return Response({"error": "User ID not found in token"}, status=status.HTTP_401_UNAUTHORIZED)
 
         book = Book.objects.get(title=title)
         serializer = BookSerializer(book)
         
         # Verificar si el libro fue creado por el usuario o si es compartido (sharedbook = 1) para mostrarlo
-        if serializer.data['createdby'] == user_id or book.sharedbook == 1:
+        # Comparar el userid del creador con el user_id del token
+        if (book.createdby and book.createdby.userid == int(user_id)) or book.sharedbook == 1:
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)

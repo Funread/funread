@@ -182,3 +182,47 @@ def update_page_type(request):
         return Response({"error": "Página no encontrada"}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['PUT'])
+def swap_pages(request):
+    """
+    Intercambia el orden (elementorder) de dos páginas.
+    Requiere: pageid1, pageid2
+    """
+    try:
+        # Validar token
+        authorization_header = request.headers.get('Authorization')
+        verify = verifyJwt.JWTValidator(authorization_header)
+        if not verify.validar_token():
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        pageid1 = request.data.get('pageid1')
+        pageid2 = request.data.get('pageid2')
+
+        if pageid1 is None or pageid2 is None:
+            return Response({"error": "Faltan datos obligatorios: pageid1 y pageid2"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Obtener ambas páginas
+        page1 = Pages.objects.get(pageid=pageid1)
+        page2 = Pages.objects.get(pageid=pageid2)
+
+        # Intercambiar elementorder
+        temp_order = page1.elementorder
+        page1.elementorder = page2.elementorder
+        page2.elementorder = temp_order
+
+        page1.save()
+        page2.save()
+
+        return Response({
+            "message": "Páginas intercambiadas correctamente",
+            "page1": {"pageid": page1.pageid, "elementorder": page1.elementorder},
+            "page2": {"pageid": page2.pageid, "elementorder": page2.elementorder}
+        }, status=status.HTTP_200_OK)
+    
+    except Pages.DoesNotExist:
+        return Response({"error": "Una o ambas páginas no fueron encontradas"}, status=status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
