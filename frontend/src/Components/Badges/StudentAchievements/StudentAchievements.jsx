@@ -36,8 +36,8 @@ const StudentAchievements = () => {
       const data = await getUserBadgesWithProgress(userId, token);
       setBadgesData(data);
     } catch (err) {
-      console.error('Error cargando badges:', err);
-      setError('No se pudieron cargar tus logros. Por favor, intenta más tarde.');
+      console.error('Error loading badges:', err);
+      setError('Could not load your achievements. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -87,7 +87,7 @@ const StudentAchievements = () => {
                 <div className="d-flex justify-content-between mb-2">
                   <small className="text-muted">
                     <FontAwesomeIcon icon={faBook} className="me-1" />
-                    {displayProgress} / {goalPoints} libros
+                    {displayProgress} / {goalPoints} books
                   </small>
                   <small className="text-muted">
                     {Math.round(progressPercentage)}%
@@ -103,7 +103,7 @@ const StudentAchievements = () => {
 
             <div className="badge-footer mt-3">
               <BootstrapBadge bg={isBadgeAchieved ? 'success' : 'secondary'} className="me-2">
-                {isBadgeAchieved ? 'Obtenido' : 'Bloqueado'}
+                {isBadgeAchieved ? 'Earned' : 'Locked'}
               </BootstrapBadge>
               <BootstrapBadge bg="info">
                 <FontAwesomeIcon icon={faMedal} className="me-1" />
@@ -111,7 +111,7 @@ const StudentAchievements = () => {
               </BootstrapBadge>
               {isBadgeAchieved && badge.date_achieved && (
                 <small className="text-muted d-block mt-2">
-                  Obtenido: {new Date(badge.date_achieved).toLocaleDateString()}
+                  Earned: {new Date(badge.date_achieved).toLocaleDateString()}
                 </small>
               )}
             </div>
@@ -125,7 +125,7 @@ const StudentAchievements = () => {
     return (
       <Container className="text-center py-5">
         <Spinner animation="border" variant="primary" />
-        <p className="mt-3">Cargando tus logros...</p>
+        <p className="mt-3">Loading your achievements...</p>
       </Container>
     );
   }
@@ -146,10 +146,10 @@ const StudentAchievements = () => {
       <div className="achievements-header mb-4">
         <h2>
           <FontAwesomeIcon icon={faTrophy} className="me-2 text-warning" />
-          Mis Logros
+          My Achievements
         </h2>
         <p className="text-muted">
-          Has leído <strong>{books_read || 0}</strong> {books_read === 1 ? 'libro' : 'libros'}
+          You have read <strong>{books_read || 0}</strong> {books_read === 1 ? 'book' : 'books'}
         </p>
       </div>
 
@@ -158,7 +158,7 @@ const StudentAchievements = () => {
         <div className="mb-4">
           <h4 className="section-title mb-3">
             <FontAwesomeIcon icon={faStar} className="me-2 text-warning" />
-            Badges Obtenidos ({achieved_badges.length})
+            Earned Badges ({achieved_badges.length})
           </h4>
           <div className="badges-section">
             <Row className="badges-row">
@@ -173,7 +173,7 @@ const StudentAchievements = () => {
         <div className="mb-4">
           <h4 className="section-title mb-3">
             <FontAwesomeIcon icon={faLock} className="me-2" />
-            Próximos Desafíos ({next_badges.length})
+            Next Challenges ({next_badges.length})
           </h4>
           <div className="badges-section">
             <Row className="badges-row">
@@ -188,9 +188,9 @@ const StudentAchievements = () => {
        (!next_badges || next_badges.length === 0) && (
         <Alert variant="info" className="text-center">
           <FontAwesomeIcon icon={faBook} size="3x" className="mb-3 d-block mx-auto" />
-          <h5>¡Comienza a leer para desbloquear badges!</h5>
+          <h5>Start reading to unlock badges!</h5>
           <p className="mb-0">
-            Completa libros para ganar badges y puntos. ¡Cada libro cuenta!
+            Complete books to earn badges and points. Every book counts!
           </p>
         </Alert>
       )}
