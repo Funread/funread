@@ -78,6 +78,8 @@ export default function BookCreator() {
     handleDeletePage,
     movePageForward,
     movePageBackward,
+    navigateToNextPage,
+    navigateToPreviousPage,
     isLoading: pageManagementLoading,
     error: pageManagementError,
   } = usePageManagement({
@@ -348,6 +350,12 @@ export default function BookCreator() {
             bookData={bookData}
             pagesType={pagesType}
             pageId={currentPage}
+            currentPage={currentPage}
+            totalPages={pagesList.length}
+            onSwapPageBackward={movePageBackward}
+            onSwapPageForward={movePageForward}
+            pageManagementLoading={pageManagementLoading}
+            hasUnsavedChanges={hasUnsavedChanges}
           />
           <div className="flex-1 min-h-0 p-4 bg-white m-2 shadow-md rounded-lg overflow-auto min-w-0">
             <BookCentralEditor
@@ -375,8 +383,8 @@ export default function BookCreator() {
               setCurrentPage={safeSetCurrentPage}
               addPage={addPage}
               onDeletePage={handleDeletePage}
-              onMovePageBackward={movePageBackward}
-              onMovePageForward={movePageForward}
+              onNavigatePrevious={navigateToPreviousPage}
+              onNavigateNext={navigateToNextPage}
               pageManagementLoading={pageManagementLoading}
               hasUnsavedChanges={hasUnsavedChanges}
             />

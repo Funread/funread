@@ -142,6 +142,7 @@ export function usePageManagement({
 
   /**
    * Mueve una página hacia adelante (incrementa su orden)
+   * Intercambia la página actual con la siguiente
    * @param {number} pageIndex - Índice de la página a mover
    */
   const movePageForward = useCallback(async (pageIndex) => {
@@ -156,6 +157,7 @@ export function usePageManagement({
 
   /**
    * Mueve una página hacia atrás (decrementa su orden)
+   * Intercambia la página actual con la anterior
    * @param {number} pageIndex - Índice de la página a mover
    */
   const movePageBackward = useCallback(async (pageIndex) => {
@@ -168,11 +170,37 @@ export function usePageManagement({
     await handleSwapPages(pageIndex, pageIndex - 1);
   }, [handleSwapPages, onError]);
 
+  /**
+   * Navega a la siguiente página sin intercambiar
+   * Simplemente cambia la página actual
+   * @param {number} currentPageIndex - Índice de la página actual
+   */
+  const navigateToNextPage = useCallback((currentPageIndex) => {
+    if (currentPageIndex >= pagesList.length - 1) {
+      return;
+    }
+    setCurrentPage(currentPageIndex + 1);
+  }, [pagesList, setCurrentPage]);
+
+  /**
+   * Navega a la página anterior sin intercambiar
+   * Simplemente cambia la página actual
+   * @param {number} currentPageIndex - Índice de la página actual
+   */
+  const navigateToPreviousPage = useCallback((currentPageIndex) => {
+    if (currentPageIndex <= 0) {
+      return;
+    }
+    setCurrentPage(currentPageIndex - 1);
+  }, [setCurrentPage]);
+
   return {
     handleDeletePage,
     handleSwapPages,
     movePageForward,
     movePageBackward,
+    navigateToNextPage,
+    navigateToPreviousPage,
     isLoading,
     error,
     clearError: () => setError(null),
