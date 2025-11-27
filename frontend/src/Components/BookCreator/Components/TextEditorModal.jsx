@@ -64,11 +64,16 @@ export default function TextEditorModal({
   }, [categoriaFuenteSeleccionada, searchFont]);
 
   useEffect(() => {
-    setValue(text);
+    const alignValue = currentElement?.textAlign || "left";
+    const cleanText = alignValue === 'justify' ? text.replace(/\n/g, ' ') : text;
+    setValue(cleanText);
     setFontFamily(initialFont || "Arial");
     setFontSize(initialSize || 20);
     setColorTexto(initialFill || "#000000");
     setColorFondo(initialBackgroundColor || "transparent");
+    setTextAlign(alignValue);
+    setLetterSpacing(currentElement?.letterSpacing || 0);
+    setTextDecoration(currentElement?.textDecoration || "none");
     
     let style = "normal";
     if (initialFontWeight === "bold") style += " bold";
@@ -84,7 +89,7 @@ export default function TextEditorModal({
     if (textareaRef.current) textareaRef.current.blur();
   }, [text, initialFont, initialSize, initialFill, initialFontWeight, initialFontStyle, 
       initialBackgroundColor, initialOpacity, initialShadowColor, initialRotation, 
-      initialLineHeight, pageType]);
+      initialLineHeight, pageType, currentElement]);
 
   const obtenerEstiloCSS = useCallback(() => ({
     fontSize: `${fontSize}px`,
@@ -114,7 +119,9 @@ export default function TextEditorModal({
     }
     
     const maxWidth = fontSize * 20;
-    const textoAjustado = dividirTextoAutomatico(value, fontSize, fontFamily, maxWidth);
+    const shouldWrapText = textAlign !== 'justify';
+    const cleanValue = textAlign === 'justify' ? value.replace(/\n/g, ' ') : value;
+    const textoAjustado = shouldWrapText ? dividirTextoAutomatico(cleanValue, fontSize, fontFamily, maxWidth) : cleanValue;
     
     const estilos = {
       fontSize: fontSize,

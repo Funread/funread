@@ -52,36 +52,51 @@ const WordSearchPage = ({ widgets, pageData }) => {
   };
 
   useEffect(() => {
-    console.log('WordSearchPage - Received widgets:', widgets);
+    console.log('=== WordSearchPage useEffect ===');
+    console.log('Received widgets:', JSON.stringify(widgets, null, 2));
+    console.log('Widgets length:', widgets?.length);
     
     if (widgets && widgets.length > 0) {
-      const wordSearchWidget = widgets.find(w => w.widgetid === 9);
-      console.log('Found word search widget:', wordSearchWidget);
+      // Los widgets son los widgetitems de la página tipo 5 (games)
+      // Tomar el primer widget directamente
+      const wordSearchWidget = widgets[0];
+      console.log('Word search widget (first):', JSON.stringify(wordSearchWidget, null, 2));
+      console.log('Widget has value?', !!wordSearchWidget?.value);
+      console.log('Widget value type:', typeof wordSearchWidget?.value);
       
-      if (wordSearchWidget) {
+      if (wordSearchWidget && wordSearchWidget.value) {
         let configData;
         try {
           configData = typeof wordSearchWidget.value === 'string' 
             ? JSON.parse(wordSearchWidget.value)
             : wordSearchWidget.value;
           
-          console.log('Parsed config data:', configData);
+          console.log('Parsed config data:', JSON.stringify(configData, null, 2));
+          console.log('Config has words?', !!configData?.words);
+          console.log('Words length:', configData?.words?.length);
           
-          setConfig(configData);
-          setGameState(prev => ({
-            ...prev,
-            timeLeft: configData.timeLimit,
-            grid: generateWordSearchGrid(configData)
-          }));
+          // Verificar que tenga la estructura esperada
+          if (configData && configData.words && configData.words.length > 0) {
+            console.log('✅ Config is valid, setting up game');
+            setConfig(configData);
+            setGameState(prev => ({
+              ...prev,
+              timeLeft: configData.timeLimit || 300,
+              grid: generateWordSearchGrid(configData)
+            }));
+          } else {
+            console.error('❌ Config data missing words:', configData);
+          }
         } catch (error) {
-          console.error('Error parsing word search config:', error);
+          console.error('❌ Error parsing word search config:', error);
         }
       } else {
-        console.log('No word search widget found with widgetid 9');
+        console.error('❌ No word search widget value found. Widget:', wordSearchWidget);
       }
     } else {
-      console.log('No widgets available');
+      console.error('❌ No widgets available. Widgets:', widgets);
     }
+    console.log('=== End WordSearchPage useEffect ===');
   }, [widgets]);
 
   useEffect(() => {
@@ -170,7 +185,11 @@ const WordSearchPage = ({ widgets, pageData }) => {
     // Place each word
     words.forEach(word => {
       let placed = false;
-      while (!placed) {
+      let attempts = 0;
+      const maxAttempts = 1000; // Límite de intentos para evitar bucle infinito
+      
+      while (!placed && attempts < maxAttempts) {
+        attempts++;
         const direction = Math.random() < 0.5 ? 'right' : 'down';
         const row = Math.floor(Math.random() * rows);
         const col = Math.floor(Math.random() * columns);
@@ -179,6 +198,10 @@ const WordSearchPage = ({ widgets, pageData }) => {
           placeWord(word, row, col, direction);
           placed = true;
         }
+      }
+      
+      if (!placed) {
+        console.warn(`No se pudo colocar la palabra "${word}" después de ${maxAttempts} intentos`);
       }
     });
     

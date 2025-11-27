@@ -164,8 +164,10 @@ function ReadingView() {
           let currentContent = data.data.book_content;
 
           if (currentContent && Array.isArray(currentContent) && currentContent.length > 0) {
-            setContentBook(currentContent);
-            loadPage(currentContent, pageNumer);
+            // CRITICAL: Hacer copia profunda para evitar referencias compartidas entre páginas
+            const deepCopyContent = JSON.parse(JSON.stringify(currentContent));
+            setContentBook(deepCopyContent);
+            loadPage(deepCopyContent, pageNumer);
           } else {
             console.warn('getBookContent: received empty or invalid content for book', bookid);
             setContentBook([]);
@@ -520,7 +522,13 @@ function ReadingView() {
                       >
                         <PageSelector
                           key={`page-${pageNumer}`}
-                          pageType={contentBook?.[pageNumer]?.page?.type || 1}
+                          pageType={(() => {
+                            const type = contentBook?.[pageNumer]?.page?.type || 1;
+                            console.log(`ReadingView - Page ${pageNumer} type:`, type);
+                            console.log(`Page data:`, contentBook?.[pageNumer]?.page);
+                            console.log(`Widgets:`, widgets);
+                            return type;
+                          })()}
                           gridDirection={gridDirection}
                           gridNumRows={gridNumRows}
                           pageNumer={pageNumer}

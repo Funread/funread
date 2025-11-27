@@ -27,8 +27,9 @@ export function useUnsavedChanges({ elements, currentPage, pagesList, savePage }
     
     // Esperar a que los elementos se carguen
     const timer = setTimeout(() => {
-      initialElementsRef.current = JSON.stringify(elements);
-      lastSavedElementsRef.current = JSON.stringify(elements);
+      const elementsStr = JSON.stringify(elements);
+      initialElementsRef.current = elementsStr;
+      lastSavedElementsRef.current = elementsStr;
       isLoadingPageRef.current = false;
     }, 300);
     
@@ -36,7 +37,7 @@ export function useUnsavedChanges({ elements, currentPage, pagesList, savePage }
       clearTimeout(timer);
       isLoadingPageRef.current = false;
     };
-  }, [currentPage]);
+  }, [currentPage, pagesList]); // Añadido pagesList para detectar cuando se recarga la data
 
   // Detectar cambios en los elementos
   useEffect(() => {
@@ -46,7 +47,6 @@ export function useUnsavedChanges({ elements, currentPage, pagesList, savePage }
     }
     
     const currentElementsStr = JSON.stringify(elements);
-    const hasContent = hasPageContent(elements);
     
     // Si no hay referencia guardada, establecerla y salir
     if (lastSavedElementsRef.current === null) {
@@ -54,8 +54,12 @@ export function useUnsavedChanges({ elements, currentPage, pagesList, savePage }
       return;
     }
     
-    // Solo marcar como no guardado si hay contenido y es diferente al último guardado
-    if (hasContent && currentElementsStr !== lastSavedElementsRef.current) {
+    // Comparar con los elementos iniciales de la página (no con el último guardado)
+    // Esto evita que se marque como modificado si la página viene vacía de la BD
+    const hasChangedFromInitial = currentElementsStr !== initialElementsRef.current;
+    
+    // Solo marcar como no guardado si hay cambios reales desde que se cargó la página
+    if (hasChangedFromInitial) {
       setHasUnsavedChanges(true);
     } else {
       setHasUnsavedChanges(false);
@@ -105,21 +109,36 @@ export function useUnsavedChanges({ elements, currentPage, pagesList, savePage }
   };
 
   /**
-   * Maneja el intento de cambio de página con confirmación
+   * Maneja el intento de cambio de página con auto-guardado
    */
   const handlePageChangeRequest = useCallback((newPageIndex, setCurrentPageFn) => {
-    const hasContent = hasPageContent(elements);
+    // Siempre intentar guardar antes de cambiar de página
+    const saveResult = savePage();
     
-    // Si no hay contenido o no hay cambios sin guardar, cambiar directamente
-    if (!hasContent || !hasUnsavedChanges) {
+    // Verificar si savePage retorna una Promise
+    if (saveResult && typeof saveResult.then === 'function') {
+      saveResult
+        .then(() => {
+          const elementsStr = JSON.stringify(elements);
+          lastSavedElementsRef.current = elementsStr;
+          initialElementsRef.current = elementsStr;
+          setHasUnsavedChanges(false);
+          setCurrentPageFn(newPageIndex);
+        })
+        .catch((error) => {
+          console.error('Error saving before page change:', error);
+          // Cambiar de página de todos modos para no bloquear al usuario
+          setCurrentPageFn(newPageIndex);
+        });
+    } else {
+      // Si no es una Promise, asumir que guardó correctamente
+      const elementsStr = JSON.stringify(elements);
+      lastSavedElementsRef.current = elementsStr;
+      initialElementsRef.current = elementsStr;
+      setHasUnsavedChanges(false);
       setCurrentPageFn(newPageIndex);
-      return;
     }
-
-    // Guardar la navegación pendiente y mostrar el modal
-    pendingNavigationRef.current = { newPageIndex, setCurrentPageFn };
-    setShowModal(true);
-  }, [elements, hasUnsavedChanges]);
+  }, [elements, savePage]);
 
   /**
    * Maneja la acción de guardar desde el modal
@@ -179,7 +198,9 @@ export function useUnsavedChanges({ elements, currentPage, pagesList, savePage }
    * Marca la página como guardada (llamar después de guardar exitosamente)
    */
   const markAsSaved = useCallback(() => {
-    lastSavedElementsRef.current = JSON.stringify(elements);
+    const elementsStr = JSON.stringify(elements);
+    lastSavedElementsRef.current = elementsStr;
+    initialElementsRef.current = elementsStr;
     setHasUnsavedChanges(false);
   }, [elements]);
 

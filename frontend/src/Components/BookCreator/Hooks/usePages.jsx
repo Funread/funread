@@ -24,16 +24,24 @@ export function usePages({
     setPageError(null);
 
     try {
+      // Calcular el elementorder máximo de las páginas existentes
+      const maxElementOrder = pagesList.reduce((max, pageData) => {
+        const order = pageData?.page?.elementorder || 0;
+        return Math.max(max, order);
+      }, 0);
+      
+      const newElementOrder = maxElementOrder + 1;
       const nextPageIndex = pagesList.length;
+      
       await newPageWithWidgets(
         id,
         2,// Siempre vamos a agregar una pagina de tipo konva por default
         0,
-        nextPageIndex + 1,
+        newElementOrder,
         "1",
         1
       );
-      await loadBookData();
+      await loadBookData(nextPageIndex);
       setCurrentPage(nextPageIndex);
       setElements([]);
     } catch (error) {

@@ -21,10 +21,6 @@ export default function BookCentralEditor({
   currentPage,
   handleWordSearchSave,
 }) {
-
-  console.log('BookCentralEditor')
-  console.log(elements)
-  console.log(widget)
   
   if (isLoading) return <BookCreatorLoader />;
   // Games/WordSearch pages must render regardless of widget id when pagesType === 5

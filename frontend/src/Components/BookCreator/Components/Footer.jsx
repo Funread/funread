@@ -7,8 +7,8 @@ export default function Footer({
   setCurrentPage, 
   addPage,
   onDeletePage,
-  onMovePageBackward,
-  onMovePageForward,
+  onNavigatePrevious,
+  onNavigateNext,
   pageManagementLoading = false,
   hasUnsavedChanges = false
 }) {
@@ -36,15 +36,15 @@ export default function Footer({
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
       
       if (e.key === 'ArrowLeft' && canMoveBackward && !pageManagementLoading) {
-        onMovePageBackward(currentPage);
+        onNavigatePrevious(currentPage);
       } else if (e.key === 'ArrowRight' && canMoveForward && !pageManagementLoading) {
-        onMovePageForward(currentPage);
+        onNavigateNext(currentPage);
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentPage, canMoveBackward, canMoveForward, pageManagementLoading, onMovePageBackward, onMovePageForward]);
+  }, [currentPage, canMoveBackward, canMoveForward, pageManagementLoading, onNavigatePrevious, onNavigateNext]);
 
   // Smart pagination: show pages around current page
   const getVisiblePages = useCallback(() => {
@@ -108,16 +108,16 @@ export default function Footer({
 
           {/* Navigation Section - Primary focus */}
           <div className="flex items-center gap-3 flex-1 justify-center">
-            {/* Move Backward Button - Icon only on mobile */}
+            {/* Navigate Previous Button */}
             <button
-              onClick={() => onMovePageBackward(currentPage)}
+              onClick={() => onNavigatePrevious(currentPage)}
               disabled={!canMoveBackward || pageManagementLoading}
               className={`p-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-1.5 flex-shrink-0 ${
                 canMoveBackward && !pageManagementLoading
                   ? "bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md"
                   : "bg-gray-700 text-gray-500 cursor-not-allowed"
               }`}
-              title="Move page backward (←)"
+              title="Previous page (←)"
             >
               <ChevronLeft size={16} />
             </button>
@@ -158,16 +158,16 @@ export default function Footer({
               })}
             </div>
 
-            {/* Move Forward Button - Icon only on mobile */}
+            {/* Navigate Next Button */}
             <button
-              onClick={() => onMovePageForward(currentPage)}
+              onClick={() => onNavigateNext(currentPage)}
               disabled={!canMoveForward || pageManagementLoading}
               className={`p-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-1.5 flex-shrink-0 ${
                 canMoveForward && !pageManagementLoading
                   ? "bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md"
                   : "bg-gray-700 text-gray-500 cursor-not-allowed"
               }`}
-              title="Move page forward (→)"
+              title="Next page (→)"
             >
               <ChevronRight size={16} />
             </button>

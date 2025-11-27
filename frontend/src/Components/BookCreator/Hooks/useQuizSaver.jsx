@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { updateWidgetItem } from "../../../api/widget";
 import { updatePageType } from "../../../api/pages";
+import { toast } from "react-toastify";
 
 export function useQuizSaver({
   quizType,
@@ -10,8 +11,8 @@ export function useQuizSaver({
   pagesList,
   currentPage,
   widgetId,
+  setPagesList,
 }) {
-console.log('useQuizSaver', quizType, currentPage, pagesList);
   const saveQuiz = useCallback(() => {
     if (!pagesList || !pagesList[currentPage] || !pagesList[currentPage].page) {
       alert("Página no disponible");
@@ -59,7 +60,23 @@ console.log('useQuizSaver', quizType, currentPage, pagesList);
       
       updatePageType(currentPageId, type)
         .then(() => updateWidgetItem(widgetitemid, currentPageId, widgetId, type, quizCompleteJson, elementorder))
-        .then(() => alert(`Página ${currentPage + 1} guardada correctamente`))
+        .then(() => {
+          // Actualizar pagesList con el nuevo valor guardado
+          if (setPagesList) {
+            const pageIndex = currentPage;
+            setPagesList(prev => {
+              // Hacer copia profunda de TODO el array para romper cualquier referencia compartida
+              const updated = JSON.parse(JSON.stringify(prev));
+              if (updated[pageIndex] && updated[pageIndex].widgetitems && updated[pageIndex].widgetitems[0]) {
+                updated[pageIndex].page.type = type;
+                updated[pageIndex].widgetitems[0].widgetid = widgetId;
+                updated[pageIndex].widgetitems[0].value = quizCompleteJson;
+              }
+              return updated;
+            });
+          }
+          toast.success(`Página ${currentPage + 1} guardada correctamente`);
+        })
         .catch(e => {
           console.error('Error guardando quiz completo:', e);
           alert("Error guardando quiz: " + (e?.response?.data?.error || e.message));
@@ -82,7 +99,23 @@ console.log('useQuizSaver', quizType, currentPage, pagesList);
       
       updatePageType(currentPageId, type)
         .then(() => updateWidgetItem(widgetitemid, currentPageId, widgetId, type, quizJson, elementorder))
-        .then(() => alert(`Página ${currentPage + 1} guardada correctamente`))
+        .then(() => {
+          // Actualizar pagesList con el nuevo valor guardado
+          if (setPagesList) {
+            const pageIndex = currentPage;
+            setPagesList(prev => {
+              // Hacer copia profunda de TODO el array para romper cualquier referencia compartida
+              const updated = JSON.parse(JSON.stringify(prev));
+              if (updated[pageIndex] && updated[pageIndex].widgetitems && updated[pageIndex].widgetitems[0]) {
+                updated[pageIndex].page.type = type;
+                updated[pageIndex].widgetitems[0].widgetid = widgetId;
+                updated[pageIndex].widgetitems[0].value = quizJson;
+              }
+              return updated;
+            });
+          }
+          toast.success(`Página ${currentPage + 1} guardada correctamente`);
+        })
         .catch(e => {
           console.error('Error guardando quiz:', e);
           alert("Error guardando quiz: " + (e?.response?.data?.error || e.message));

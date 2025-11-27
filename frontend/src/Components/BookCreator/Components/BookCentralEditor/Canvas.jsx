@@ -12,6 +12,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
 
   const CANVAS_WIDTH = 1400;
   const CANVAS_HEIGHT = 690;
+  
   useEffect(() => {
     // Validar que elements sea un array
     if (!Array.isArray(elements)) {
@@ -134,14 +135,14 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
       prev.map((el) => {
         if (el.id !== id) return el;
         
-        // Si es texto, manejar tanto fontSize como ancho
         if (el.type === "text") {
           const newFontSize = Math.max(8, Math.round(el.fontSize * scaleY));
           const nuevoAncho = Math.max(100, node.width() * scaleX);
           
-          // Reajustar el texto al nuevo ancho si se cambió el ancho significativamente
           let textoAjustado = el.text;
-          if (Math.abs(scaleX - 1) > 0.1) {
+          const shouldReajustText = Math.abs(scaleX - 1) > 0.1 && el.textAlign !== 'justify';
+          
+          if (shouldReajustText) {
             textoAjustado = reajustarTextoAlAncho(
               el.text, 
               newFontSize, 
@@ -160,7 +161,6 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
           };
         }
         
-        // Si es imagen, escalar width y height
         return {
           ...el,
           x: node.x(),
@@ -199,7 +199,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
           } : el
         ) : []
       );
-    }
+    }  
     setEditingText(null);
   };
 
@@ -224,6 +224,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
             {Array.isArray(elements) && elements.map((el) => {
               if (el.type === "text") {
                 const textElements = [];
+                const textWidth = el.width || (el.textAlign === "justify" ? el.fontSize * 20 : undefined);
                 
                 if (el.backgroundColor) {
                   const tempText = new window.Konva.Text({
@@ -233,23 +234,27 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                     fontStyle: el.fontStyle || "normal",
                     fontWeight: el.fontWeight || "normal",
                     lineHeight: el.lineHeight || 1.2,
-                    width: el.width || undefined,
-                    wrap: el.width ? "word" : "none",
+                    letterSpacing: el.letterSpacing || 0,
+                    width: textWidth,
+                    wrap: textWidth ? "word" : "none",
+                    align: el.textAlign || "left",
                   });
                   
-                  const padding = 8;
-                  const textWidth = tempText.width();
-                  const textHeight = tempText.height();
+                  const padding = 4;
+                  const measuredWidth = tempText.getTextWidth ? tempText.getTextWidth() : tempText.width();
+                  const measuredHeight = tempText.height();
                   
                   tempText.destroy();
                   
                   textElements.push(
                     <Rect
                       key={`bg-${el.id}`}
-                      x={el.x - padding}
-                      y={el.y - padding}
-                      width={textWidth + (padding * 2)}
-                      height={textHeight + (padding * 2)}
+                      x={el.x}
+                      y={el.y}
+                      width={measuredWidth + (padding * 2)}
+                      height={measuredHeight + (padding * 2)}
+                      offsetX={padding}
+                      offsetY={padding}
                       fill={el.backgroundColor}
                       cornerRadius={4}
                       opacity={el.opacity || 1}
@@ -271,7 +276,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                     fontStyle={el.fontStyle || "normal"}
                     fontWeight={el.fontWeight || "normal"}
                     lineHeight={el.lineHeight || 1.2}
-                    width={el.width || undefined}
+                    width={textWidth}
                     stroke={el.stroke}
                     strokeWidth={el.strokeWidth || 0}
                     rotation={el.rotation || 0}
@@ -283,7 +288,7 @@ export default function Canvas({ elements, setElements, selectedId, setSelectedI
                     align={el.textAlign || "left"}
                     letterSpacing={el.letterSpacing || 0}
                     textDecoration={el.textDecoration || ""}
-                    wrap="word"
+                    wrap={textWidth ? "word" : "none"}
                     draggable
                     onClick={() => setSelectedId(el.id)}
                     onDblClick={() => handleTextDblClick(el)}

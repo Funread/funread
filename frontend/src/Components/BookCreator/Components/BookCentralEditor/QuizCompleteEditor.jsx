@@ -18,7 +18,6 @@ const QuizCompleteEditor = forwardRef(
     // Si recibimos datos de la BD, cargarlos
     useEffect(() => {
       if (initialData) {
-        console.log("Cargando datos iniciales:", initialData);
         const src = initialData.content ? initialData.content : initialData;
         
         const cleanTitle = (src.title || initialData.title || "") === "Nuevo Quiz" ? "" : (src.title || initialData.title || "");
