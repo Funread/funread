@@ -159,7 +159,7 @@ export function useTextStyles(initialStyles = {}) {
       shadowOffsetX: textStyles.shadow ? 2 : 0,
       shadowOffsetY: textStyles.shadow ? 2 : 0,
       backgroundColor: textStyles.backgroundColor !== "transparent" ? textStyles.backgroundColor : undefined,
-      align: textStyles.textAlign,
+      textAlign: textStyles.textAlign,
       letterSpacing: textStyles.letterSpacing,
       textDecoration: textStyles.textDecoration,
     };

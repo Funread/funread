@@ -109,16 +109,10 @@ export function useUnsavedChanges({ elements, currentPage, pagesList, savePage }
   };
 
   /**
-   * Maneja el intento de cambio de página con confirmación
+   * Maneja el intento de cambio de página con auto-guardado
    */
   const handlePageChangeRequest = useCallback((newPageIndex, setCurrentPageFn) => {
-    // Si no hay cambios sin guardar, cambiar directamente
-    if (!hasUnsavedChanges) {
-      setCurrentPageFn(newPageIndex);
-      return;
-    }
-
-    // Si hay cambios sin guardar, autoguardar antes de cambiar de página
+    // Siempre intentar guardar antes de cambiar de página
     const saveResult = savePage();
     
     // Verificar si savePage retorna una Promise
@@ -132,8 +126,9 @@ export function useUnsavedChanges({ elements, currentPage, pagesList, savePage }
           setCurrentPageFn(newPageIndex);
         })
         .catch((error) => {
-          console.error('Error saving page:', error);
-          alert('Error al guardar la página. Por favor, intenta de nuevo.');
+          console.error('Error saving before page change:', error);
+          // Cambiar de página de todos modos para no bloquear al usuario
+          setCurrentPageFn(newPageIndex);
         });
     } else {
       // Si no es una Promise, asumir que guardó correctamente
@@ -143,7 +138,7 @@ export function useUnsavedChanges({ elements, currentPage, pagesList, savePage }
       setHasUnsavedChanges(false);
       setCurrentPageFn(newPageIndex);
     }
-  }, [elements, hasUnsavedChanges, savePage]);
+  }, [elements, savePage]);
 
   /**
    * Maneja la acción de guardar desde el modal

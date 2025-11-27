@@ -3,8 +3,21 @@ import SidebarIcon from "./SideBarIcon";
 import {BookOpenCheck, Gamepad, MessageCircle, Users, Package, Home, Image, Type, ImagePlus} from "lucide-react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-export default function SideBar({ openPanel, setOpenPanel }) {
-  const navigate = useNavigate(); 
+export default function SideBar({ openPanel, setOpenPanel, savePage, hasUnsavedChanges }) {
+  const navigate = useNavigate();
+
+  const handleNavigateToDashboard = async () => {
+    // Siempre intentar guardar antes de salir, independientemente de hasUnsavedChanges
+    if (savePage) {
+      try {
+        await savePage();
+      } catch (error) {
+        console.error('Error saving before navigation:', error);
+        // Aún así navegar incluso si falla el guardado
+      }
+    }
+    navigate("/dashboard");
+  };
 
   const options = [
   { key: "home", icon: <Home />, label: "My library" },
@@ -25,7 +38,7 @@ export default function SideBar({ openPanel, setOpenPanel }) {
           src="/Logo.png" 
           alt="Funread Logo" 
           className="w-12 h-12 object-contain cursor-pointer hover:opacity-80 transition"
-          onClick={() => navigate("/dashboard")}
+          onClick={handleNavigateToDashboard}
         />
       </div>
       
@@ -34,7 +47,7 @@ export default function SideBar({ openPanel, setOpenPanel }) {
         {options.map(opt => (
           <button
             key={opt.key}
-            onClick={() => opt.key === "home" ? navigate("/dashboard") : setOpenPanel(opt.key)}
+            onClick={() => opt.key === "home" ? handleNavigateToDashboard() : setOpenPanel(opt.key)}
             className={`flex flex-col items-center w-full py-2 px-1 rounded-lg focus:outline-none transition ${openPanel === opt.key ? "bg-blue-600" : "hover:bg-gray-800"}`}
             aria-label={opt.label}
             title={opt.label}

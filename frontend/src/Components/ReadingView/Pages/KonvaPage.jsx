@@ -106,6 +106,7 @@ const KonvaPage = ({ widgets }) => {
             {elements.map((el, index) => {
           if (el.type === 'text') {
             const textElements = [];
+            const textWidth = el.width || (el.textAlign === "justify" ? el.fontSize * 20 : undefined);
             
             if (el.backgroundColor) {
               const tempText = new window.Konva.Text({
@@ -115,23 +116,27 @@ const KonvaPage = ({ widgets }) => {
                 fontStyle: el.fontStyle || 'normal',
                 fontWeight: el.fontWeight || 'normal',
                 lineHeight: el.lineHeight || 1.2,
-                textDecoration: el.textDecoration || '',
-                stroke: el.stroke,
-                strokeWidth: el.strokeWidth || 0,
+                letterSpacing: el.letterSpacing || 0,
+                width: textWidth,
+                wrap: textWidth ? 'word' : 'none',
+                align: el.textAlign || 'left',
               });
               
-              const padding = 8;
-              const textWidth = tempText.width();
-              const textHeight = tempText.height();
+              const padding = 4;
+              const measuredWidth = tempText.getTextWidth ? tempText.getTextWidth() : tempText.width();
+              const measuredHeight = tempText.height();
+              
               tempText.destroy();
               
               textElements.push(
                 <Rect
                   key={`bg-${el.id || index}`}
-                  x={(el.x || 0) - padding}
-                  y={(el.y || 0) - padding}
-                  width={textWidth + (padding * 2)}
-                  height={textHeight + (padding * 2)}
+                  x={el.x || 0}
+                  y={el.y || 0}
+                  width={measuredWidth + (padding * 2)}
+                  height={measuredHeight + (padding * 2)}
+                  offsetX={padding}
+                  offsetY={padding}
                   fill={el.backgroundColor}
                   cornerRadius={4}
                   rotation={el.rotation || 0}
@@ -153,6 +158,10 @@ const KonvaPage = ({ widgets }) => {
                 fontWeight={el.fontWeight || 'normal'}
                 textDecoration={el.textDecoration || ''}
                 lineHeight={el.lineHeight || 1.2}
+                width={textWidth}
+                align={el.textAlign || 'left'}
+                letterSpacing={el.letterSpacing || 0}
+                wrap={textWidth ? 'word' : 'none'}
                 stroke={el.stroke}
                 strokeWidth={el.strokeWidth || 0}
                 rotation={el.rotation || 0}

@@ -41,7 +41,7 @@ export default function ToolBar({
               ? "bg-gray-200 hover:bg-gray-300 text-gray-700"
               : "bg-gray-100 text-gray-400 cursor-not-allowed"
           }`}
-          title="Intercambiar página con la anterior"
+          title="Swap page with previous"
         >
           <ChevronLeft size={20} />
         </button>
@@ -54,7 +54,7 @@ export default function ToolBar({
           {hasUnsavedChanges && (
             <span 
               className="ml-1 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" 
-              title="Sin guardar"
+              title="Unsaved changes"
             />
           )}
         </div>
@@ -68,7 +68,7 @@ export default function ToolBar({
               ? "bg-gray-200 hover:bg-gray-300 text-gray-700"
               : "bg-gray-100 text-gray-400 cursor-not-allowed"
           }`}
-          title="Intercambiar página con la siguiente"
+          title="Swap page with next"
         >
           <ChevronRight size={20} />
         </button>

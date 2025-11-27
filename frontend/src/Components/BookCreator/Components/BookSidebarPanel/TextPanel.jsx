@@ -82,13 +82,16 @@ export default function TextPanel({ setElements, widgetValidation }) {
       maxWidth
     );
     
+    const shouldWrapText = textStyles.textAlign !== 'justify';
+    const finalText = shouldWrapText ? textoAjustado : textStyles.text;
+    
     widgetValidation(2, 2);
     setElements((prev) => [
       ...(Array.isArray(prev) ? prev : []),
       {
         id: Date.now().toString(),
         type: "text",
-        text: textoAjustado,
+        text: finalText,
         x: 100,
         y: 100,
         width: maxWidth,

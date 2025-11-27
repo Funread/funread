@@ -1,7 +1,9 @@
 import { useCallback } from "react";
 import { updateWidgetItem } from "../../../api/widget";
+import { updatePageType } from "../../../api/pages";
+import { toast } from "react-toastify";
 
-export function useKonvaSaver({ elements, pagesList, currentPage }) {
+export function useKonvaSaver({ elements, pagesList, currentPage, setPagesList }) {
   const saveKonva = useCallback(() => {
     if (!pagesList || !pagesList[currentPage] || !pagesList[currentPage].page) {
       alert("Página no disponible");
@@ -66,12 +68,27 @@ export function useKonvaSaver({ elements, pagesList, currentPage }) {
     if (background) finalValue.push({ ...background, type: "background" });
     finalValue.push(...otherElements);
 
-    // Guardar en un solo widgetitem
-    updateWidgetItem(widgetitemid, currentPageId, widgetId, 2, finalValue, 1)
-      .then(() => alert(`Página ${currentPage + 1} guardada correctamente`))
+    // CRITICAL: Primero actualizar el tipo de página a Canvas (tipo 2), luego guardar el widget
+    updatePageType(currentPageId, 2)
+      .then(() => updateWidgetItem(widgetitemid, currentPageId, widgetId, 2, finalValue, 1))
+      .then(() => {
+        if (setPagesList) {
+          const pageIndex = currentPage;
+          setPagesList(prev => {
+            // Hacer copia profunda de TODO el array para romper cualquier referencia compartida
+            const updated = JSON.parse(JSON.stringify(prev));
+            if (updated[pageIndex] && updated[pageIndex].widgetitems && updated[pageIndex].widgetitems[0]) {
+              // Actualizar solo la página actual con copia profunda del nuevo valor
+              updated[pageIndex].widgetitems[0].value = JSON.parse(JSON.stringify(finalValue));
+            }
+            return updated;
+          });
+        }
+        toast.success(`Página ${currentPage + 1} guardada correctamente`);
+      })
       .catch((e) => console.error("Error guardando elementos konva", e));
 
-  }, [elements, pagesList, currentPage]);
+  }, [elements, pagesList, currentPage, setPagesList]);
 
   return { saveKonva };
 }

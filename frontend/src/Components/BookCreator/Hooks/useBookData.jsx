@@ -14,16 +14,15 @@ export function useBookData(id, onLoadPageControl) {
     try {
       const [fullbook2] = await Promise.all([fullBook(id)]);
       setBookData(fullbook2.data.book_details);
-      setPagesList(fullbook2.data.book_content);
-      console.log('bookData')
-      console.log(fullbook2)
+      // Hacer copia profunda del book_content para evitar referencias compartidas entre páginas
+      const bookContent = JSON.parse(JSON.stringify(fullbook2.data.book_content));
+      setPagesList(bookContent);
       if (onLoadPageControl) {
-        onLoadPageControl(fullbook2.data.book_content[currentPage]);
+        onLoadPageControl(bookContent[currentPage]);
       }
   
     } catch (err) {
       setError(err);
-      console.error("Error al cargar el libro:", err);
     } finally {
       setIsLoading(false);
     }

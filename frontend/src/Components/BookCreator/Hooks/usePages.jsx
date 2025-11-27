@@ -41,7 +41,7 @@ export function usePages({
         "1",
         1
       );
-      await loadBookData();
+      await loadBookData(nextPageIndex);
       setCurrentPage(nextPageIndex);
       setElements([]);
     } catch (error) {

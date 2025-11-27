@@ -72,8 +72,9 @@ export function usePageManagement({
         setCurrentPage(currentPage - 1);
       }
       
-      // Recargar datos del libro
-      await loadBookData();
+      // Recargar datos del libro con la página ajustada
+      const adjustedPage = pageIndex < currentPage ? currentPage - 1 : currentPage;
+      await loadBookData(adjustedPage);
     } catch (err) {
       const errorMsg = err?.response?.data?.error || "Error al eliminar la página";
       setError(errorMsg);
@@ -120,13 +121,22 @@ export function usePageManagement({
     try {
       await swapPagesAPI(page1.page.pageid, page2.page.pageid);
       
+      // Determinar qué página cargar después del intercambio
+      let targetPage = currentPage;
+      if (currentPage === pageIndex1) {
+        targetPage = pageIndex2;
+        setCurrentPage(pageIndex2);
+      } else if (currentPage === pageIndex2) {
+        targetPage = pageIndex1;
+        setCurrentPage(pageIndex1);
+      }
+      
       // Recargar datos del libro para reflejar el cambio
-      await loadBookData();
+      await loadBookData(targetPage);
       
       // Mantener el foco en una de las páginas intercambiadas
       // Si la página actual es una de las intercambiadas, mover a la nueva posición
-      if (currentPage === pageIndex1) {
-        setCurrentPage(pageIndex2);
+      if (false) { // Ya manejado arriba
       } else if (currentPage === pageIndex2) {
         setCurrentPage(pageIndex1);
       }

@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 
 // API
 import { updateWidgetItem, newWidgetItem } from "../../api/widget";
+import { updatePageType } from "../../api/pages";
 // Hooks
 import { usePageSaver } from "./Hooks/usePageSaver";
 import { useBookData } from "./Hooks/useBookData";
@@ -19,6 +20,8 @@ import Footer from "./Components/Footer";
 import BookSidebarPanel from "./Components/BookSidebarPanel/BookSidebarPanel";
 import BookCentralEditor from "./Components/BookCentralEditor/BookCentralEditor";
 import UnsavedChangesModal from "./Components/UnsavedChangesModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function BookCreator() {
   const { id } = useParams();
@@ -26,6 +29,7 @@ export default function BookCreator() {
   // Estado general
   const [currentPage, setCurrentPage] = useState(0);
   const [elements, setElements] = useState([]);
+  
   const [selectedId, setSelectedId] = useState(null);
   const [images, setImages] = useState({});
   const [pagesType, setPagesType] = useState(2); // 2=canvas, 4=quiz, 5=gamify
@@ -36,14 +40,20 @@ export default function BookCreator() {
   const transformerRef = useRef(null);
   const quizEditorRef = useRef(null);
   const quizCompleteEditorRef = useRef(null);
+  const isLoadingFromBackendRef = useRef(false);
 
   // Nuevo estado para quiz
   const [quizData, setQuizData] = useState(null);
 
-  // Callback para cargar los datos por tipo
-  const onLoadPageControl = (page) => {
+  // Callback para cargar los datos por tipo - usar useCallback para estabilidad
+  const onLoadPageControl = useCallback((page) => {
+    isLoadingFromBackendRef.current = true;
     handlePageLoad(page, setElements, setPagesType, currentPage, setQuizData);
-  };
+    // Reset el flag después de un tick para dar tiempo a que setElements se ejecute
+    setTimeout(() => {
+      isLoadingFromBackendRef.current = false;
+    }, 100); // Aumentado a 100ms para dar más tiempo
+  }, [currentPage]); // Dependencia de currentPage
 
   // Custom hooks
   const { bookData, pagesList, isLoading, error, loadBookData, setPagesList } = useBookData(id, onLoadPageControl);
@@ -54,6 +64,7 @@ export default function BookCreator() {
     quizCompleteEditorRef,
     bookData,
     pagesList,
+    setPagesList,
     currentPage,
     elements,
     pagesType,
@@ -78,8 +89,8 @@ export default function BookCreator() {
     handleDeletePage,
     movePageForward,
     movePageBackward,
-    navigateToNextPage,
-    navigateToPreviousPage,
+    navigateToNextPage: unsafeNavigateToNextPage,
+    navigateToPreviousPage: unsafeNavigateToPreviousPage,
     isLoading: pageManagementLoading,
     error: pageManagementError,
   } = usePageManagement({
@@ -114,6 +125,17 @@ export default function BookCreator() {
     handlePageChangeRequest(newPageIndex, setCurrentPage);
   };
 
+  // Funciones de navegación seguras que auto-guardan antes de cambiar
+  const navigateToNextPage = (currentPageIndex) => {
+    if (currentPageIndex >= pagesList.length - 1) return;
+    safeSetCurrentPage(currentPageIndex + 1);
+  };
+
+  const navigateToPreviousPage = (currentPageIndex) => {
+    if (currentPageIndex <= 0) return;
+    safeSetCurrentPage(currentPageIndex - 1);
+  };
+
   // Función de guardado que marca como guardado después de éxito
   const savePageWithConfirmation = async () => {
     try {
@@ -128,19 +150,13 @@ export default function BookCreator() {
   // Load initial data
   useEffect(() => {
     if (id) {
-      loadBookData();
+      loadBookData(0); // Cargar la primera página
     }
   }, [id]);
 
-  // Refresh book data whenever the current page changes to ensure we load any remote updates
+  // Cargar la página cuando cambia currentPage (navegación entre páginas)
   useEffect(() => {
-    if (id) {
-      loadBookData();
-    }
-  }, [currentPage]);
-
-  useEffect(() => {
-    if (!isLoading && pagesList[currentPage]) {
+    if (!isLoading && pagesList.length > 0 && pagesList[currentPage]) {
       const rawType = pagesList[currentPage].page?.type;
       let normalizedType = rawType;
       if (rawType === 1) normalizedType = 2;
@@ -153,23 +169,69 @@ export default function BookCreator() {
         setWidget(2);
       }
 
+      // CRITICAL: Llamar onLoadPageControl para cargar los elementos de la nueva página
+      // Esto carga los elementos desde pagesList (que ya tiene las últimas actualizaciones en memoria)
       onLoadPageControl(pagesList[currentPage]);
     }
-  }, [currentPage, pagesList, isLoading]);
+  }, [currentPage, isLoading, pagesList, onLoadPageControl]); // Incluir pagesList para que se actualice cuando guardemos
 
   // Guardar datos de juegos
-  const handleWordSearchSave = (formData) => {
+  const handleWordSearchSave = async (formData) => {
     if (!pagesList?.[currentPage]?.page) {
       alert("Error: La página no está lista.");
       return;
     }
+    
+    // Primero actualizar los elementos en el estado
     setElements(formData);
-    // Asegurarse de que el tipo de página esté en 'games' (5) antes de guardar
     setPagesType(5);
-    // Dejar que React actualice el estado y luego llamar a savePage
-    setTimeout(() => {
-      savePage();
-    }, 0);
+    
+    // Guardar directamente con los datos del formulario
+    const currentPageId = pagesList[currentPage].page.pageid;
+    const widgetitemid = pagesList[currentPage].widgetitems[0].widgetitemid;
+    const widgetId = 9;
+    const type = 5;
+    
+    try {
+      if (formData && formData.words && formData.words.length >= 3) {
+        console.log('=== Saving Word Search ===');
+        console.log('Form data:', formData);
+        console.log('Widget item ID:', widgetitemid);
+        console.log('Page ID:', currentPageId);
+        
+        // CRITICAL: Primero actualizar el tipo de página
+        await updatePageType(currentPageId, type);
+        console.log('✅ updatePageType successful');
+        
+        // Luego actualizar el widget
+        await updateWidgetItem(widgetitemid, currentPageId, widgetId, type, formData, 0);
+        console.log('✅ updateWidgetItem successful');
+        
+        // Actualizar pagesList en memoria
+        if (setPagesList) {
+          const pageIndex = currentPage;
+          setPagesList(prev => {
+            const updated = JSON.parse(JSON.stringify(prev));
+            if (updated[pageIndex] && updated[pageIndex].widgetitems && updated[pageIndex].widgetitems[0]) {
+              updated[pageIndex].page.type = type;
+              updated[pageIndex].widgetitems[0].widgetid = widgetId;
+              updated[pageIndex].widgetitems[0].value = formData;
+              console.log('✅ pagesList updated in memory');
+              console.log('Updated page:', updated[pageIndex]);
+            }
+            return updated;
+          });
+        }
+        
+        toast.success(`Sopa de letras guardada correctamente en la página ${currentPage + 1}`);
+        markAsSaved();
+      } else {
+        throw new Error("No hay configuración válida para guardar");
+      }
+    } catch (error) {
+      console.error("Error guardando sopa de letras:", error);
+      alert("Error al guardar la sopa de letras. Por favor, inténtalo nuevamente.");
+    }
   };
 
   const widgetValidation = async (widgetId, type) => {
@@ -247,13 +309,6 @@ export default function BookCreator() {
       }
     }
 
-    // Solo limpiar si el tipo de página realmente cambia
-    // if (pagesType !== type || widget !== widgetId) {
-    //   cleanElements();
-    //   setWidget(widgetId);
-    //   setPagesType(type);
-    // }
-
     // Determine current backend widget id and page type to decide updates
     const existingWidgetId = widgetItem?.widgetid;
     const rawPageType = page?.type;
@@ -263,11 +318,15 @@ export default function BookCreator() {
     const pageTypeChanged = normalizedRawType !== type;
     const widgetIdChanged = existingWidgetId !== widgetId;
 
-    // Update local UI immediately if necessary
-    if (pagesType !== type || widget !== widgetId) {
+    // Solo limpiar elementos si el TIPO realmente cambió (no solo el widget)
+    // Por ejemplo, si pasamos de quiz (tipo 4) a canvas (tipo 2)
+    if (pagesType !== type) {
       cleanElements();
       setWidget(widgetId);
       setPagesType(type);
+    } else if (widget !== widgetId) {
+      // Si solo cambió el widget pero no el tipo, solo actualizar el widget
+      setWidget(widgetId);
     }
 
     // Actualiza el widget en el backend solo si el widget real en la página o el tipo cambiaron
@@ -310,7 +369,8 @@ export default function BookCreator() {
         // No recargamos todo el libro: actualizamos solo estado local para que el editor muestre cambio
         setWidget(widgetId);
         setPagesType(type);
-        if (dataToSend && Object.keys(dataToSend).length > 0) {
+        // Solo establecer elements si el tipo cambió (no para canvas tipo 2 que maneja sus propios elementos)
+        if (pageTypeChanged && dataToSend && Object.keys(dataToSend).length > 0) {
           setElements(dataToSend);
         }
       } catch (e) {
@@ -324,6 +384,17 @@ export default function BookCreator() {
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {SessionModal}
       <UnsavedChangesModal
         isOpen={showModal}
@@ -338,6 +409,8 @@ export default function BookCreator() {
           setElements={setElements}
           setImages={setImages}
           changeQuizType={() => {}}
+          savePage={savePage}
+          hasUnsavedChanges={hasUnsavedChanges}
         />
         {/* Contenido principal */}
         <div className="flex-1 flex flex-col min-w-0">

@@ -10,12 +10,14 @@ export default function BookSidebarPanel({
   setElements,
   setImages,
   changeQuizType,
+  savePage,
+  hasUnsavedChanges,
 }) {
   const [openPanel, setOpenPanel] = useState("background");
   return (
     <div className="flex flex-row h-full min-h-screen min-w-0">
       {/* Sidebar */}
-  <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} />
+  <SideBar openPanel={openPanel} setOpenPanel={setOpenPanel} savePage={savePage} hasUnsavedChanges={hasUnsavedChanges} />
       {/* Panel lateral */}
       <div className="flex flex-col w-[300px] h-full min-h-screen min-w-0 bg-white shadow-md p-4 border-r border-gray-300 overflow-y-auto">
         {(["background", "custom", "objects", "users", "shape"].includes(openPanel)) && (

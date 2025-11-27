@@ -68,16 +68,15 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
 
   useEffect(() => {
     setIsLoading(true);
-    if (!widgets || !Array.isArray(widgets)) {
+    if (!widgets || !Array.isArray(widgets) || widgets.length === 0) {
       setQuizData([]);
       setIsLoading(false);
       return;
     }
 
-    // Filtrar solo los widgets de tipo quiz
-    const quizWidgets = widgets.filter((widget) => widget.type === 4);
-    // Parsear el value de cada widget y extraer los datos
-    const parsedQuizData = quizWidgets.map((widget) => {
+    // Los widgets son los widgetitems de la página, no necesitamos filtrar
+    // Solo procesamos si el tipo de página es 4 (quiz)
+    const parsedQuizData = widgets.map((widget) => {
       let valueData = widget.value;
       if (typeof valueData === 'string') {
         try {
@@ -134,7 +133,7 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
 
     setQuizData(parsedQuizData);
     // Verifica si ya se contestó alguno
-    const hasAnswered = parsedQuizData.some((w, idx) => savedResponses?.[quizWidgets[idx]?.widgetitemid]);
+    const hasAnswered = parsedQuizData.some((w, idx) => savedResponses?.[widgets[idx]?.widgetitemid]);
     if (hasAnswered) setQuizSubmitted(true);
     setIsLoading(false);
   }, [widgets, savedResponses]);

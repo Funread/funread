@@ -18,8 +18,8 @@ export function usePageSaver(params) {
     widgetId:9
   });
 
-  const { saveKonva } = useKonvaSaver(params, updatePageType);
-  const { saveGame } = useGamesSaver(params, updatePageType);
+  const { saveKonva } = useKonvaSaver(params);
+  const { saveGame } = useGamesSaver(params);
 
   const savePage = () => {
     const currentPageId = pagesList[currentPage]?.page?.pageid;
@@ -44,7 +44,8 @@ export function usePageSaver(params) {
       }
     }
 
-    updatePageType(currentPageId, pagesType);
+    // NO llamar updatePageType aquí - cada saver lo hace internamente
+    // updatePageType(currentPageId, pagesType);
 
     if (pagesType === 2) return saveKonva();
     if (pagesType === 5) return saveGame();
