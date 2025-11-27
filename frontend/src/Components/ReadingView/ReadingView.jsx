@@ -341,7 +341,7 @@ function ReadingView() {
       await submitResponses();
 
       if (user.roles[0].role === "profesor") {
-        navigate("/library");
+        navigate("/dashboard/library");
       } else {
         // Obtener badges del libro específico
         const bookBadges = await awardBadges(bookid);

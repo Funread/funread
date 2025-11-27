@@ -17,7 +17,7 @@ function Leaderboard() {
         setLeaderboard(leaderboardResponse);
       } catch (error) {
         console.error('Error fetching leaderboard:', error);
-        setError('Error al cargar el ranking. Intenta de nuevo.');
+        setError('Error loading ranking. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -41,7 +41,7 @@ function Leaderboard() {
         <h1>Leaderboard</h1>
         <div className="loading-spinner">
           <div className="spinner"></div>
-          <p>Cargando ranking...</p>
+          <p>Loading ranking...</p>
         </div>
       </div>
     );
@@ -63,7 +63,7 @@ function Leaderboard() {
       <div className="leaderboard">
         <h1>Leaderboard</h1>
         <div className="no-data-message">
-          <p>No hay datos de ranking disponibles.</p>
+          <p>No ranking data available.</p>
         </div>
       </div>
     );

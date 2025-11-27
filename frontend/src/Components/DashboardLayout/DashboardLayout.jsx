@@ -1,6 +1,7 @@
 import "./DashboardLayout.css";
 
 import { Outlet, Navigate, useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import TabMenu from "./TabMenu";
 import DashboardLayoutHeader from "./DashboardLayoutHeader.jsx";
 
@@ -20,7 +21,7 @@ const DashboardLayout = ({ role }) => {
   return (
     <div className="dashboard">
 
-      <DashboardLayoutHeader />      
+      <DashboardLayoutHeader />
 
       <div className="dashboard__content">
         <TabMenu role={role} />
@@ -28,6 +29,17 @@ const DashboardLayout = ({ role }) => {
           <Outlet />
         </main>
       </div>
+
+      {/* ToastContainer centralizado para todas las notificaciones del dashboard */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick={true}
+        pauseOnHover={true}
+        draggable={false}
+      />
     </div>
   );
 };
