@@ -311,21 +311,21 @@ def login(request):
 @ api_view(['POST'])
 def tokenVerify(request):
     #token verification
-   try:
-    response = Response()
-    
+ try:
+  response = Response()
 
-    authorization_header = request.headers.get('Authorization')
-    verify = verifyJwt.JWTValidator(authorization_header)
-    es_valido = verify.validar_token()
-    if es_valido==False:
-        response.data= {'login':False}
-    else:
-        response.data= {'login':True}
+  authorization_header = request.headers.get('Authorization')
+  verify = verifyJwt.JWTValidator(authorization_header)
+  es_valido = verify.validar_token()
 
-    return response
-   except OperationalError:
-         return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+  if es_valido == False:
+   # explicit 401 when token invalid or expired
+   return Response({"detail": "Invalid or expired token"}, status=status.HTTP_401_UNAUTHORIZED)
+  else:
+   response.data = {'login': True}
+   return response
+ except OperationalError:
+  return Response({"error": "Error en la base de datos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
 def usercompleteSearch(request):

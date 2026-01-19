@@ -7,7 +7,7 @@ import { listedCreatedBy, newGroup, deleteGroup } from '../../api/group'
 import { studentGroupSearch, newStudentGroup, deleteStudentGroup } from '../../api/studentGroups'
 import { newClass, listedClassesId, classesChange, deleteclasses } from '../../api/classes'
 import { listed, bookSearchById } from '../../api/books'
-import { newBookPerClass, listedBooksPerClassesById } from '../../api/booksPerClasses'
+import { newBookPerClass, listedBooksPerClassesById, deleteBookPerClass } from '../../api/booksPerClasses'
 import { listedStudents } from '../../api/userroles'
 import { useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
@@ -391,10 +391,23 @@ const Group = () => {
     }
   }
 
-  // Quitar libro de clase (simulado)
-  const removeBookFromClass = (bookPerClassId) => {
-    // Aquí podrías implementar la lógica real si tienes el endpoint
-    toast.warn("Removing books from class is not yet implemented.")
+  // Quitar libro de clase
+  const removeBookFromClass = async (bookPerClassId) => {
+    if (!bookPerClassId) {
+      toast.warn('Invalid book entry.')
+      return
+    }
+    const confirmDelete = window.confirm('Are you sure you want to remove this book from the class?')
+    if (!confirmDelete) return
+    try {
+      await deleteBookPerClass(bookPerClassId)
+      toast.success('Book removed from class')
+      // refresh
+      if (selectedClassId) fetchClassBooks(selectedClassId)
+    } catch (error) {
+      console.error('Error removing book from class:', error)
+      toast.error('Error removing book from class. Please try again.')
+    }
   }
 
   const filteredStudents = allStudents.filter(student =>
@@ -415,7 +428,7 @@ const Group = () => {
             <Dropdown.Menu>
               {groups.map((group) => (
                 <Dropdown.Item key={group.id} eventKey={group.id}>
-                  {group.name} ({students.length} students)
+                  {group.name} 
                 </Dropdown.Item>
               ))}
             </Dropdown.Menu>

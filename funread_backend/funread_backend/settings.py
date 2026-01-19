@@ -14,6 +14,26 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 from datetime import timedelta
+def _parse_ttl(value, default_hours=6):
+    """Parse token TTL from env-like string.
+    Accepts formats like '6h', '360m', '360' (minutes) or integer minutes.
+    Returns a timedelta.
+    """
+    if not value:
+        return timedelta(hours=default_hours)
+    v = str(value).strip().lower()
+    try:
+        if v.endswith('h'):
+            hours = float(v[:-1])
+            return timedelta(hours=hours)
+        if v.endswith('m'):
+            minutes = float(v[:-1])
+            return timedelta(minutes=minutes)
+        # if plain number, interpret as minutes
+        minutes = float(v)
+        return timedelta(minutes=minutes)
+    except Exception:
+        return timedelta(hours=default_hours)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
@@ -83,8 +103,10 @@ INSTALLED_APPS = [
 ]
 
 
+JWT_TTL_ENV = os.environ.get('JWT_ACCESS_TOKEN_TTL') or os.environ.get('jwt.accessTokenTtl')
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=50),  # Duración del token de acceso (ejemplo: 1 hora)
+    # Default 6 hours, configurable with env `JWT_ACCESS_TOKEN_TTL` (eg '6h' or '360')
+    'ACCESS_TOKEN_LIFETIME': _parse_ttl(JWT_TTL_ENV, default_hours=6),
     'ALGORITHM': 'HS256',  # Algoritmo de firma JWT
     'SIGNING_KEY': SECRET_KEY, #'funreadkeysecret',  # Clave secreta para firmar los tokens
     'VERIFYING_KEY': None,  # Clave pública para verificar tokens (puede dejarse en None)
