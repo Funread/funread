@@ -42,7 +42,7 @@ const Classes = ({ groupId, groudName, toggleGroupClasses, newActivities }) => {
           })
         setBooks(filteredBooks)
       } catch (error) {
-        console.log('error', error)
+        
       }
     }
 

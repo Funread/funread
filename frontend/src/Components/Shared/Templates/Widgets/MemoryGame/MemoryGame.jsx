@@ -63,7 +63,7 @@ function MemoryGame(props) {
    },[choiceOne, choiceTwo]
    )
   
-   console.log(cards)
+   
 
    const resetTurn=()=>{
     setChoiceOne(null)

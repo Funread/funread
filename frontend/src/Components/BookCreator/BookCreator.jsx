@@ -194,18 +194,15 @@ export default function BookCreator() {
     
     try {
       if (formData && formData.words && formData.words.length >= 3) {
-        console.log('=== Saving Word Search ===');
-        console.log('Form data:', formData);
-        console.log('Widget item ID:', widgetitemid);
-        console.log('Page ID:', currentPageId);
+
         
         // CRITICAL: Primero actualizar el tipo de página
         await updatePageType(currentPageId, type);
-        console.log('✅ updatePageType successful');
+
         
         // Luego actualizar el widget
         await updateWidgetItem(widgetitemid, currentPageId, widgetId, type, formData, 0);
-        console.log('✅ updateWidgetItem successful');
+
         
         // Actualizar pagesList en memoria
         if (setPagesList) {
@@ -216,8 +213,7 @@ export default function BookCreator() {
               updated[pageIndex].page.type = type;
               updated[pageIndex].widgetitems[0].widgetid = widgetId;
               updated[pageIndex].widgetitems[0].value = formData;
-              console.log('✅ pagesList updated in memory');
-              console.log('Updated page:', updated[pageIndex]);
+          
             }
             return updated;
           });
@@ -229,7 +225,7 @@ export default function BookCreator() {
         throw new Error("No hay configuración válida para guardar");
       }
     } catch (error) {
-      console.error("Error guardando sopa de letras:", error);
+
       alert("Error al guardar la sopa de letras. Por favor, inténtalo nuevamente.");
     }
   };
@@ -295,7 +291,7 @@ export default function BookCreator() {
             });
           }
         } catch (err) {
-          console.error('Error injecting widgetitem into pagesList', err);
+        
         }
 
         // Actualizar UI local sin recargar todo el libro
@@ -374,7 +370,7 @@ export default function BookCreator() {
           setElements(dataToSend);
         }
       } catch (e) {
-        console.error('Error updating widget:', e);
+     
         // Mostrar más info si viene del backend
         const msg = e?.response?.data?.error || e?.response?.data || e.message || String(e);
         alert("Error actualizando widget: " + msg);

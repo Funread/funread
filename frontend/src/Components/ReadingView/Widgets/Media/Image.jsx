@@ -7,8 +7,7 @@ const RV_ImageWithText = ({ textbackgroundColor, textColor , img  , text}) => {
     color: textColor,
  
   };
-  console.log("here img")
-  console.log(img.value)
+  
   return (
     <div>
     <div className={"image-container"}>

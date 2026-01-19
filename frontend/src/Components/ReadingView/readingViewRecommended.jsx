@@ -196,7 +196,7 @@ function ReadingView() {
         
         // Agregar badges automáticos formateados para el popup
         if (automaticBadges.length > 0) {
-          console.log("🎯 Combining automatic badges with book badges");
+          
           automaticBadges.forEach(badge => {
             allBadges.push({
               id: badge.id,
@@ -213,7 +213,7 @@ function ReadingView() {
           localStorage.removeItem('automatic_badges');
         }
         
-        console.log("🏆 All badges to display (book + automatic):", allBadges);
+        
         
         setAwardedBadges(allBadges.length > 0 ? allBadges : null);
 
@@ -284,16 +284,13 @@ function ReadingView() {
       let pointsDelta = 0;
 
       // Calcular el cambio de puntos
-      if (isCorrect) {
+        if (isCorrect) {
         // Si la respuesta es correcta, sumar los puntos
         pointsDelta = points;
-        console.log(`Correct answer: Adding ${pointsDelta} points`);
       } else if (previousResponse && previousResponse.isCorrect) {
         // Si la respuesta ahora es incorrecta pero antes era correcta, restar los puntos
         pointsDelta = -Number(previousResponse.pointsAwarded || 0);
-        console.log(
-          `Changed from correct to incorrect: Subtracting ${-pointsDelta} points`
-        );
+        
       }
 
       // Actualizar las respuestas

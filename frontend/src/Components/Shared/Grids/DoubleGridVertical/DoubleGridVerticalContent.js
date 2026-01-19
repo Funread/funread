@@ -79,7 +79,7 @@ const Content = (props) => {
         >
           {row.length !== 0
             ? row.map((ele, index) => {
-              console.log(index);
+              
               
             })
             : <div style={{ height: "  200" }}></div>}

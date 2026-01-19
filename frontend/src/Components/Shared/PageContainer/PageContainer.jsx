@@ -86,7 +86,7 @@ const PageContainer = ({
     const content = pageInfo(pageNumber)
     setContentPage(content)
     setIsFullScreen(true)
-    console.log(isFullScreen)
+    
     toggleButtonVisibility(false)
     handle.enter()
     setSelectedWidget(true)

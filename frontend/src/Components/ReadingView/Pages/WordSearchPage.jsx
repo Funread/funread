@@ -52,17 +52,11 @@ const WordSearchPage = ({ widgets, pageData }) => {
   };
 
   useEffect(() => {
-    console.log('=== WordSearchPage useEffect ===');
-    console.log('Received widgets:', JSON.stringify(widgets, null, 2));
-    console.log('Widgets length:', widgets?.length);
     
     if (widgets && widgets.length > 0) {
       // Los widgets son los widgetitems de la página tipo 5 (games)
       // Tomar el primer widget directamente
       const wordSearchWidget = widgets[0];
-      console.log('Word search widget (first):', JSON.stringify(wordSearchWidget, null, 2));
-      console.log('Widget has value?', !!wordSearchWidget?.value);
-      console.log('Widget value type:', typeof wordSearchWidget?.value);
       
       if (wordSearchWidget && wordSearchWidget.value) {
         let configData;
@@ -71,13 +65,11 @@ const WordSearchPage = ({ widgets, pageData }) => {
             ? JSON.parse(wordSearchWidget.value)
             : wordSearchWidget.value;
           
-          console.log('Parsed config data:', JSON.stringify(configData, null, 2));
-          console.log('Config has words?', !!configData?.words);
-          console.log('Words length:', configData?.words?.length);
+          
           
           // Verificar que tenga la estructura esperada
           if (configData && configData.words && configData.words.length > 0) {
-            console.log('✅ Config is valid, setting up game');
+            
             setConfig(configData);
             setGameState(prev => ({
               ...prev,
@@ -96,7 +88,6 @@ const WordSearchPage = ({ widgets, pageData }) => {
     } else {
       console.error('❌ No widgets available. Widgets:', widgets);
     }
-    console.log('=== End WordSearchPage useEffect ===');
   }, [widgets]);
 
   useEffect(() => {
@@ -308,7 +299,6 @@ const WordSearchPage = ({ widgets, pageData }) => {
   };
 
   if (!config) {
-    console.log('Config is null, showing loading state');
     return <div>Loading...</div>;
   }
 

@@ -379,7 +379,7 @@ const Group = () => {
         console.error("Class ID invalid:", selectedClassId)
         return
       }
-      console.log("Assigning book", bookIdNum, "to class", classIdNum)
+      
       await newBookPerClass(bookIdNum, classIdNum, 1, true)
       toast.success("Book assigned to class!")
       setIsAssignBookOpen(false)

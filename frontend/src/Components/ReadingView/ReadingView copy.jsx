@@ -9,10 +9,10 @@ function ReadingView() {
   const screen2 = useFullScreenHandle();
   const reportChange = useCallback((state, handle) => {
     if (handle === screen1) {
-      console.log('Screen 1 went to', state, handle);
+      
     }
     if (handle === screen2) {
-      console.log('Screen 2 went to', state, handle);
+      
     }
   }, [screen1, screen2]);
   const goToNextPage = () => {

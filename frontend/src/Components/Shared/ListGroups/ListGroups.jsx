@@ -56,7 +56,7 @@ const ListGroups = ({
           setGroups(activeGroups)
         }
       } catch (error) {
-        console.log('error', error)
+        
       }
     }
     fetchData()
@@ -69,7 +69,7 @@ const ListGroups = ({
         const response = await listedStudents()
         setStudents(response.data)
       } catch (error) {
-        console.log('error', error)
+        
       }
     }
 
@@ -102,7 +102,7 @@ const ListGroups = ({
 
         setSelectedStudents(studentsWithGroupsCreateId)
       } catch (error) {
-        console.log('error', error)
+        
       }
     }
 
@@ -132,7 +132,7 @@ const ListGroups = ({
       }
 
       setStudent(updatedStudent)
-      console.log(updatedStudent)
+      
       try {
         await newStudentGroup(
           updatedStudent.userid,
@@ -169,7 +169,7 @@ const ListGroups = ({
   const handleStudentDelete = async (id, userid) => {
     try {
       const response = await studentGroupSearch(id)
-      console.log(response.data)
+      
       const studentId = response.data.find(
         (student) => student.userid === userid
       )

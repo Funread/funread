@@ -34,29 +34,27 @@ export function useQuizSaver({
     // Usar el widgetId del parámetro (representa el widget deseado del estado local)
     // El widgetItem.widgetid puede estar desactualizado si acabamos de convertir la página
     const currentWidgetId = widgetItem.widgetid;
-    console.log('currentWidgetId from page:', currentWidgetId, 'param widgetId (desired):', widgetId);
+
 
     // Usar el widgetId del parámetro para decidir qué editor usar
     if (widgetId === 8) {
-      console.log('Quiz Complete - Verificando ref:', quizCompleteEditorRef);
-      console.log('Quiz Complete - Ref.current:', quizCompleteEditorRef.current);
+
       
       const quizCompleteJson = quizCompleteEditorRef.current?.getQuizJson();
-      console.log('Quiz Complete - JSON obtenido:', quizCompleteJson);
-      
+ 
       if (quizCompleteJson === null) {
         // Validación falló (campos parcialmente llenos), no guardar
-        console.log('Quiz Complete - Validación falló (null)');
+    
         return;
       }
       if (!quizCompleteJson) {
         // Ref no disponible
-        console.log('Quiz Complete - Ref no disponible o undefined');
+
         alert("Editor no disponible");
         return;
       }
       localStorage.setItem(`quiz-complete-page-${currentPage}`, JSON.stringify(quizCompleteJson));
-      console.log('Saving COMPLETE widget payload:', { widgetitemid, currentPageId, widgetId, type, value: quizCompleteJson, elementorder });
+      
       
       updatePageType(currentPageId, type)
         .then(() => updateWidgetItem(widgetitemid, currentPageId, widgetId, type, quizCompleteJson, elementorder))
@@ -78,7 +76,7 @@ export function useQuizSaver({
           toast.success(`Página ${currentPage + 1} guardada correctamente`);
         })
         .catch(e => {
-          console.error('Error guardando quiz completo:', e);
+   
           alert("Error guardando quiz: " + (e?.response?.data?.error || e.message));
         });
       return;
@@ -95,7 +93,7 @@ export function useQuizSaver({
         return;
       }
       localStorage.setItem(`quiz-page-${currentPage}`, JSON.stringify(quizJson));
-      console.log('Saving MULTIPLE CHOICE widget payload:', { widgetitemid, currentPageId, widgetId, type, value: quizJson, elementorder });
+   
       
       updatePageType(currentPageId, type)
         .then(() => updateWidgetItem(widgetitemid, currentPageId, widgetId, type, quizJson, elementorder))
@@ -117,7 +115,7 @@ export function useQuizSaver({
           toast.success(`Página ${currentPage + 1} guardada correctamente`);
         })
         .catch(e => {
-          console.error('Error guardando quiz:', e);
+
           alert("Error guardando quiz: " + (e?.response?.data?.error || e.message));
         });
       return;

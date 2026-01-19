@@ -12,7 +12,7 @@ function ModalReadingView({ contentPage, onClose }) {
     setShow(false)}
   const handleShow = () => setShow(true)
 
-  console.log('contentPage', contentPage)
+  
 
   return (
     <>

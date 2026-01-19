@@ -14,14 +14,6 @@ export function useUploadMedia({ allowedTypes = ['image'], galleryType = null } 
   useEffect(() => {
     if (activeView === TAB_NAMES.MY_GALLERY) {
       list().then(res => {
-        console.log('Respuesta API /Media/list:', res.data);
-        console.log('galleryType filtro actual:', galleryType);
-        
-        // Log first item to see structure
-        if (res.data && res.data.length > 0) {
-          console.log('Estructura primer item:', res.data[0]);
-          console.log('Claves del primer item:', Object.keys(res.data[0]));
-        }
         
         // Filter by galleryType if provided
         let filtered = res.data;
@@ -29,11 +21,9 @@ export function useUploadMedia({ allowedTypes = ['image'], galleryType = null } 
           // Try different possible field names from backend
           filtered = res.data.filter(item => {
             const itemGalleryType = item.gallery_type || item.galleryType || item.type;
-            console.log('Item:', item.name, 'gallery_type:', itemGalleryType, 'match:', itemGalleryType === galleryType);
             return itemGalleryType === galleryType;
           });
         }
-        console.log('Items filtrados:', filtered.length);
         setGallery(filtered);
       });
     }

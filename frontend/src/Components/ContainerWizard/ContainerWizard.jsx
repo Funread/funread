@@ -34,9 +34,6 @@ export const ContainerWizard = (props) => {
     setActivePage((index) => 2);
     setPages(pages + 1);
     setWizardTitle("Add Book Information");
-    console.log(nameOfBook);
-    console.log(classOfBook);
-    console.log(numberOfPages);
   };
 
   const BtnCloseClick = () => {
@@ -46,8 +43,7 @@ export const ContainerWizard = (props) => {
 
   const BtnSafeClick = () => {
     /**Use variables from hooks in this area to save them */
-    console.log(tools);
-    console.log("Información guardada!");
+    
     callToast();
   };
 

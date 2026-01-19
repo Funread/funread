@@ -14,7 +14,7 @@ export default function MyGallery({ gallery = [], onPick = () => {}, allowedType
     });
   }
   
-  console.log('MyGallery - Total items:', gallery.length, 'Filtrados:', filtered.length, 'galleryType:', galleryType);
+  
   
   if (!filtered.length) return <div className="p-4 text-sm text-gray-600">No items in gallery for this type</div>;
   return (

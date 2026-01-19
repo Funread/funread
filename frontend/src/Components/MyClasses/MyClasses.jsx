@@ -48,7 +48,7 @@ const isValidName = (name) => {
 const getTeacherName = async (teacherId) => {
   try {
     const response = await userListById(teacherId);
-    console.log(`Teacher details for ID ${teacherId}:`, response);
+    
 
     if (response && response.data) {
       const teacherData = response.data;
@@ -92,13 +92,10 @@ const MyClasses = () => {
         // Get user points and ranking from API
         try {
           const pointsResponse = await getUserPoints(user.userId);
-          console.log("User points response:", pointsResponse);
 
           const rankResponse = await getCurrentRank(user.userId);
-          console.log("User rank response:", rankResponse);
 
           const booksCompletedResponse = await getBooksCompleted(user.userId);
-          console.log("Books completed response:", booksCompletedResponse);
 
           const completedBooksCount =
             booksCompletedResponse?.data?.completed_books || 0;
@@ -125,22 +122,17 @@ const MyClasses = () => {
 
         // Get student groups from API
         const studentsGroups = await listedStudentGroups();
-        console.log("Groups obtained:", studentsGroups);
 
         const studentGroups = studentsGroups.data.filter(
           (student) => student.userid === user.userId
         );
-        console.log("Current user groups:", studentGroups);
+        
 
         const formattedClasses = [];
 
         for (const group of studentGroups) {
-          try {
+            try {
             const classResponse = await listedClassesId(group.groupscreateid);
-            console.log(
-              `Class details for group ${group.groupscreateid}:`,
-              classResponse
-            );
 
             if (
               classResponse &&
@@ -191,14 +183,10 @@ const MyClasses = () => {
                   isActive: classData.isactive,
                 };
 
-                console.log(
-                  "Formatted class with complete data:",
-                  formattedGroup
-                );
+                
                 formattedClasses.push(formattedGroup);
               }
-            } else {
-              console.log("No class data found, using basic group data");
+              } else {
               const teacherName = (group.teachername && isValidName(group.teachername)) 
                 ? group.teachername 
                 : null;
@@ -238,7 +226,7 @@ const MyClasses = () => {
           }
         }
 
-        console.log("Formatted classes with complete data:", formattedClasses);
+        
         setClasses(formattedClasses);
       } catch (error) {
         console.error("Error loading classes:", error);
@@ -286,12 +274,11 @@ const MyClasses = () => {
         let found = false;
         
         for (const classItem of classesRef.current) {
-          console.log(`🔍 Checking class ${classItem.classId || classItem.id}: ${classItem.name}`);
           
           if (classItem.classId) {
             try {
               const booksResponse = await listedBooksPerClassesById(classItem.classId);
-              console.log(`📖 Books in class ${classItem.classId}:`, booksResponse?.data?.length || 0);
+              
               
               if (booksResponse?.data) {
                 const hasBook = booksResponse.data.some(
@@ -299,7 +286,7 @@ const MyClasses = () => {
                     const bookIdToCheck = book.booksid || book.id;
                     // Comparar asegurando que ambos sean del mismo tipo
                     const match = Number(bookIdToCheck) === Number(bookId);
-                    console.log(`  Checking book ${bookIdToCheck} === ${bookId}?`, match);
+                    
                     return match;
                   }
                 );
@@ -356,7 +343,6 @@ const MyClasses = () => {
     setLoadingBooks(true);
     try {
       const response = await listedBooksPerClassesById(classId);
-      console.log("Books associated with class:", response);
 
       if (response && response.data && response.data.length > 0) {
         const booksWithDetails = [];
@@ -367,7 +353,6 @@ const MyClasses = () => {
 
             if (bookId) {
               const bookDetailsResponse = await bookSearchById(bookId);
-              console.log(`Book details for ${bookId}:`, bookDetailsResponse);
 
               if (bookDetailsResponse && bookDetailsResponse.data) {
                 const bookDetails = bookDetailsResponse.data;
@@ -409,7 +394,7 @@ const MyClasses = () => {
           }
         }
 
-        console.log("Books with complete details:", booksWithDetails);
+        
         setClassBooks(booksWithDetails);
       } else {
         setClassBooks([]);
@@ -424,20 +409,20 @@ const MyClasses = () => {
 
   // Function to handle class selection and show books
   const handleClassSelect = async (classItem) => {
-    console.log("Selected class:", classItem);
+    
     setSelectedClass(classItem);
     await fetchClassBooks(classItem.classId);
   };
 
   // Function to navigate to reading view for a specific book
   const handleBookClick = (bookId) => {
-    console.log("Navigating to book:", bookId);
+    
     navigate(`/readingview/${bookId}`);
   };
 
   // Function to go back to classes view
   const handleBackToClasses = () => {
-    console.log("Going back to classes");
+    
     setSelectedClass(null);
     setClassBooks([]);
   };

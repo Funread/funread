@@ -15,7 +15,7 @@ const GroupView = ({ name, idimage }) => {
 
           setImage(getMediaUrl(imageRoute.data.file_route))
         } catch (error) {
-          console.log('error', error)
+          
         }
       }
     }

@@ -355,7 +355,7 @@ function ReadingView() {
         
         // Agregar badges automáticos formateados para el popup
         if (automaticBadges.length > 0) {
-          console.log("🎯 Combining automatic badges with book badges");
+          
           automaticBadges.forEach(badge => {
             allBadges.push({
               id: badge.id,
@@ -372,7 +372,7 @@ function ReadingView() {
           localStorage.removeItem('automatic_badges');
         }
         
-        console.log("🏆 All badges to display (book + automatic):", allBadges);
+        
         
         // Asegurar que awardedBadges siempre sea un array
         setAwardedBadges(allBadges);
@@ -391,7 +391,7 @@ function ReadingView() {
       const badges = await getBadgesPerBook(book_id);
 
       if (badges?.length === 0) {
-        console.log("No badges to award for this book.");
+        
         return null;
       }
 
@@ -404,7 +404,7 @@ function ReadingView() {
       }
 
       const validBadges = awarded.filter(Boolean);
-      console.log("Awarded badges:", validBadges);
+      
       if (validBadges.length === 0) {
         return null;
       } else {
@@ -524,9 +524,6 @@ function ReadingView() {
                           key={`page-${pageNumer}`}
                           pageType={(() => {
                             const type = contentBook?.[pageNumer]?.page?.type || 1;
-                            console.log(`ReadingView - Page ${pageNumer} type:`, type);
-                            console.log(`Page data:`, contentBook?.[pageNumer]?.page);
-                            console.log(`Widgets:`, widgets);
                             return type;
                           })()}
                           gridDirection={gridDirection}

@@ -13,7 +13,6 @@ function Leaderboard() {
         setLoading(true);
         setError(null);
         const leaderboardResponse = await getLeaderboard();
-        console.log('Leaderboard data:', leaderboardResponse);
         setLeaderboard(leaderboardResponse);
       } catch (error) {
         console.error('Error fetching leaderboard:', error);

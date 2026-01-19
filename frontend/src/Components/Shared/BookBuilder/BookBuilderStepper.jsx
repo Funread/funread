@@ -263,7 +263,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
       const dimensionsResponse = await searchDimensionByCategory(selectedValue)
       setDimensions(dimensionsResponse.data)
     } catch (error) {
-      console.log('Error', error)
+      
     }
   }
 
@@ -273,7 +273,7 @@ const BookBuilderStepper = ({ toggleSidebar, updateBook }) => {
       const dilemmasResponse = await searchDilemmaByDimension(selectedValue)
       setDilemmas(dilemmasResponse.data)
     } catch (error) {
-      console.log('Error', error)
+      
     }
   }
 

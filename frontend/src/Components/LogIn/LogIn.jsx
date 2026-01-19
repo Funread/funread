@@ -61,7 +61,7 @@ function LogIn(props) {
       .then((res) => {
         // useLogin returns either roles (array) on success, "noRoles" string,
         // or a string with an error detail when login fails.
-        console.log("login", res);
+        
 
         if (res === "noRoles") {
           navigate("/register");

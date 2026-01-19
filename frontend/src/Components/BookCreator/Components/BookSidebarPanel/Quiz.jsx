@@ -7,8 +7,7 @@ export default function Quiz({ widgetValidation, changeQuizType }) {
   ];
 
   const handleAddQuiz = (widgetId) => {
-    console.log('widgetId')
-    console.log(widgetId)
+
     // Establecer el tipo de quiz primero
     if (widgetId === "CompleteQuiz") {
       changeQuizType("complete");

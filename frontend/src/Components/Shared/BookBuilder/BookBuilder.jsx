@@ -104,8 +104,8 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
 
       // // Enviar libro al servidor
       const response = await createBook(newBook).then((book) => {
-        console.log('newbook')
-        console.log(book.data)
+        
+        
         newPage(
           book.data.bookid,
               1,
@@ -119,7 +119,7 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
 
 
       if (response.data && response.status === 201) {
-        console.log(response.data)
+        
          
         //Añadir los dilemas al libro creado
         if (selectedDilemma) {
@@ -219,7 +219,7 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
       const dimensionsResponse = await searchDimensionByCategory(selectedValue)
       setDimensions(dimensionsResponse.data)
     } catch (error) {
-      console.log('Error', error)
+      
     }
   }
 
@@ -229,7 +229,7 @@ const BookBuilder = ({ toggleSidebar, updateBook }) => {
       const dilemmasResponse = await searchDilemmaByDimension(selectedValue)
       setDilemmas(dilemmasResponse.data)
     } catch (error) {
-      console.log('Error', error)
+      
     }
   }
 

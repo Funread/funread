@@ -59,7 +59,7 @@ const ClassesList = ({ groupId, newActivities, message }) => {
         setDroppedBooks(loadedBooks)
         setActivities(classResponse.data)
       } catch (error) {
-        console.log('error', error)
+        
       }
     }
 
@@ -102,7 +102,7 @@ const ClassesList = ({ groupId, newActivities, message }) => {
     try {
       await newBookPerClass(book.bookid, activityId, order, 1)
     } catch (error) {
-      console.log(error)
+      
     }
   }
 

@@ -9,9 +9,9 @@ function GridPage( {gridDirection, gridNumRows, pageNumer , widgets}) {
 
 
   const getGrid = () => { 
-    console.log(gridDirection) 
-    console.log(gridNumRows) 
-    console.log(widgets) 
+    
+    
+    
     let direction=  gridDirection
     let numRows= gridNumRows
       // Defensive checks: ensure widgets is an array and has expected indexes
