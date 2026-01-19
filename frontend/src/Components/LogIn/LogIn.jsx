@@ -59,28 +59,35 @@ function LogIn(props) {
       console.log('algun error ocure')
       //console.error(error)
     }
-    logIn(email, password).then((res) => {
-      //Esto debe hacerce para evitar que axiosAuth revise si el token existe antes de terminar el login
-      console.log('login')
-      console.log(res)
-  
-      if(res=="User not found"){
-    
-      throw new Error("User not found");
-      
-      }
-      if (res == "noRoles") {
-        console.log('login')
-        navigate('/register');
-      }
-      else ( navigate('/dashboard') );
+    logIn(email, password)
+      .then((res) => {
+        // useLogin returns either roles (array) on success, "noRoles" string,
+        // or a string with an error detail when login fails.
+        console.log("login", res);
 
-    }).catch((e) => {
-      setPassword("")
-    
-      setModalMessage("User not found, please verify your credentials.");
-      setIsModalOpen(true); 
-    });
+        if (res === "noRoles") {
+          navigate("/register");
+          return;
+        }
+
+        if (Array.isArray(res)) {
+          // Successful login: roles returned -> go to dashboard
+          navigate("/dashboard");
+          return;
+        }
+
+        // Any other non-array response is treated as an error detail string
+        setPassword("");
+        setModalMessage(typeof res === "string" && res.length ? res : "Please verify your credentials.");
+        setIsModalOpen(true);
+      })
+      .catch((e) => {
+        // Fallback: show generic message if something unexpected happened
+        console.error("Login error:", e);
+        setPassword("");
+        setModalMessage("An unexpected error occurred. Please try again.");
+        setIsModalOpen(true);
+      });
 
 
 
