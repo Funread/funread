@@ -1,6 +1,6 @@
 import { store } from "../redux/store"
 import axios from "axios";
-import { BASE_URL } from "../settings";
+import { BASE_URL, LOGIN_PATH } from "../settings";
 import { deleteUser } from "../redux/userSlice";
 
 const axiosAuthInstance = axios.create({
@@ -32,14 +32,20 @@ axiosAuthInstance.interceptors.response.use(
                     _isHandlingSessionExpired = true;
                     // clear auth state
                     store.dispatch(deleteUser());
-                    // build return url and avoid loops when already on /login
+                    // build return url and avoid loops when already on the login path
                     const currentPath = window.location.pathname + window.location.search;
-                    if (!currentPath.startsWith('/login')) {
-                        const redirect = `/login?returnUrl=${encodeURIComponent(currentPath)}`;
-                        // use replace to avoid creating history entries
-                        window.location.replace(redirect);
+                    const loginPath = LOGIN_PATH || '/';
+                    // if login path is root, just redirect to root without returnUrl
+                    if (loginPath === '/') {
+                        window.location.replace('/');
                     } else {
-                        _isHandlingSessionExpired = false;
+                        if (!currentPath.startsWith(loginPath)) {
+                            const redirect = `${loginPath}?returnUrl=${encodeURIComponent(currentPath)}`;
+                            // use replace to avoid creating history entries
+                            window.location.replace(redirect);
+                        } else {
+                            _isHandlingSessionExpired = false;
+                        }
                     }
                 }
             } catch (e) {

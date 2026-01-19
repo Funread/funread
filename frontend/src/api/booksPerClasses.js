@@ -16,3 +16,9 @@ export async function listedBooksPerClasses() {
 export async function listedBooksPerClassesById(classId) {
   return axiosAuth().get("booksPerClasses/listBooksPerClassesid/" + classId);
 }
+
+export async function deleteBookPerClass(booksPerClassesId) {
+  return axiosAuth().put("booksPerClasses/deleteBooksPerClasses/", {
+    booksPerClassesId: booksPerClassesId,
+  });
+}
