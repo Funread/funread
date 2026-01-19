@@ -1,6 +1,7 @@
 import { store } from "../redux/store"
 import axios from "axios";
 import { BASE_URL } from "../settings";
+import { deleteUser } from "../redux/userSlice";
 
 const axiosAuthInstance = axios.create({
     baseURL: BASE_URL,
@@ -16,6 +17,36 @@ axiosAuthInstance.interceptors.request.use(
         return config;
     },
     (error) => {
+        return Promise.reject(error);
+    }
+);
+
+// Single-shot session expired handling to avoid multiple redirects
+let _isHandlingSessionExpired = false;
+axiosAuthInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error && error.response && error.response.status === 401) {
+            try {
+                if (!_isHandlingSessionExpired) {
+                    _isHandlingSessionExpired = true;
+                    // clear auth state
+                    store.dispatch(deleteUser());
+                    // build return url and avoid loops when already on /login
+                    const currentPath = window.location.pathname + window.location.search;
+                    if (!currentPath.startsWith('/login')) {
+                        const redirect = `/login?returnUrl=${encodeURIComponent(currentPath)}`;
+                        // use replace to avoid creating history entries
+                        window.location.replace(redirect);
+                    } else {
+                        _isHandlingSessionExpired = false;
+                    }
+                }
+            } catch (e) {
+                // eslint-disable-next-line no-console
+                console.error('Error handling session expired', e);
+            }
+        }
         return Promise.reject(error);
     }
 );

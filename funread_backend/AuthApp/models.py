@@ -126,11 +126,23 @@ class User(AbstractBaseUser, PermissionsMixin):
         Generates a JSON Web Token that stores this user's ID and has an expiry
         date set to 60 days into the future.
         """
-        dt = datetime.now() + timedelta(days=60)
+        # Use configured SIMPLE_JWT lifetime if available, otherwise fallback to 60 days
+        lifetime = getattr(settings, 'SIMPLE_JWT', {}).get('ACCESS_TOKEN_LIFETIME')
+        if lifetime is None:
+            dt = datetime.now() + timedelta(days=60)
+        else:
+            dt = datetime.utcnow() + lifetime
 
-        token = jwt.encode({
+        payload = {
             'id': self.pk,
-            'exp': int(dt.strftime('%s'))
-        }, settings.SECRET_KEY, algorithm='HS256')
+            'exp': int(dt.timestamp())
+        }
+        algorithm = getattr(settings, 'SIMPLE_JWT', {}).get('ALGORITHM', 'HS256')
+        signing_key = getattr(settings, 'SIMPLE_JWT', {}).get('SIGNING_KEY', settings.SECRET_KEY)
 
-        return token.decode('utf-8')
+        token = jwt.encode(payload, signing_key, algorithm=algorithm)
+
+        # jwt.encode may return bytes or str depending on PyJWT version
+        if isinstance(token, bytes):
+            return token.decode('utf-8')
+        return token
