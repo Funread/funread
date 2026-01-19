@@ -59,12 +59,7 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
     },
   };
 
-  // Agregamos log para ver si el componente se monta y qué props recibe
-  console.log("QuizPage mounted - props received:", {
-    widgets,
-    pageData,
-    savedResponses,
-  });
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -82,26 +77,25 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
         try {
           valueData = JSON.parse(valueData);
         } catch (e) {
-          console.error('Error parsing widget.value:', e);
+        
           return null;
         }
       }
       
-      console.log('Quiz widget valueData:', valueData);
+
       
       // Estructura esperada del BookCreator
       if (!valueData || !valueData.type) {
-        console.log('❌ Quiz widget sin tipo válido:', valueData);
+
         return null;
       }
       
       // Normalizar el tipo a minúsculas para comparación
       const quizType = valueData.type.toLowerCase();
-      console.log('📝 Quiz type detected:', quizType);
-      
+
       if (quizType === 'singlechoice') {
         // Estructura del QuizEditor: { type, content: {title, question}, options: [{answer, isCorrect, points}] }
-        console.log('✅ Parsing singleChoice quiz');
+
         return {
           type: 'singleChoice',
           content: valueData.content,
@@ -114,7 +108,7 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
         };
       } else if (quizType === 'complete') {
         // Estructura del QuizCompleteEditor: { type: "complete", content: {title, question, correctAnswer, points} }
-        console.log('✅ Parsing complete quiz, content:', valueData.content);
+   
         const parsedQuiz = {
           type: 'complete',
           title: valueData.content?.title,
@@ -123,11 +117,11 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
           points: valueData.content?.points || 10,
           media: valueData.media
         };
-        console.log('📦 Parsed quiz complete:', parsedQuiz);
+
         return parsedQuiz;
       }
       
-      console.log('❌ Quiz type not supported:', quizType);
+  
       return null;
     }).filter(Boolean);
 
@@ -151,11 +145,11 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
 
   // Función para manejar los cambios en las respuestas del quiz
   const handleQuizChange = (widgetId, selectedAnswer, isCorrect, points) => {
-    console.log("Quiz updated:", widgetId, selectedAnswer, isCorrect, points);
+   
 
     // Asegurarse de que los puntos sean un número
     const pointsNumber = Number(points) || 0;
-    console.log("Points converted to number:", pointsNumber);
+
 
     // Comunicar la respuesta al componente padre (ReadingView)
     if (onQuizResponse) {
@@ -195,9 +189,6 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
       </div>
     );
   }
-
-  // Debug de datos antes del render
-  console.log("QuizData before render:", quizData);
 
   return (
     <div className="quiz-page-wrapper">
@@ -246,7 +237,7 @@ const QuizPage = ({ widgets, pageData, onQuizResponse, savedResponses }) => {
             QuizComponent = QuizComplete;
             quizProps.quizData = quiz;
           } else {
-            console.error("Tipo de quiz no soportado:", quiz.type);
+          
             return null;
           }
 
