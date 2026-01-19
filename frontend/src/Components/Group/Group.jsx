@@ -428,7 +428,7 @@ const Group = () => {
             <Dropdown.Menu>
               {groups.map((group) => (
                 <Dropdown.Item key={group.id} eventKey={group.id}>
-                  {group.name} ({students.length} students)
+                  {group.name} 
                 </Dropdown.Item>
               ))}
             </Dropdown.Menu>
