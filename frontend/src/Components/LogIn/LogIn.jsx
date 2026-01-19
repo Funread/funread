@@ -56,8 +56,6 @@ function LogIn(props) {
         localStorage.removeItem('RemenberEmail')
       }
     } catch (error) {
-      console.log('algun error ocure')
-      //console.error(error)
     }
     logIn(email, password)
       .then((res) => {
@@ -83,23 +81,11 @@ function LogIn(props) {
       })
       .catch((e) => {
         // Fallback: show generic message if something unexpected happened
-        console.error("Login error:", e);
         setPassword("");
         setModalMessage("An unexpected error occurred. Please try again.");
         setIsModalOpen(true);
       });
 
-
-
-    // Esto es un ejemplo de como utilizar el hook useLogin, especificamente la constante axiosAuth
-
-    // if(axiosAuth() !== null){                            -Primero hacemos un if que confirme que podemos usar axiosAuth
-    //   axiosAuth().get("users/list/").then((res) => {   - Hacemos nuestra consulta, Nota: no se debe colocar toda la url, el endpoint pincipal ya esta en la instancia de axios (http://localhost:8000/) por lo que colocamos la porcion del endpoint que falta para realizar la consulta, en este caso "users/list/"
-    //     console.log(res.data)                          - Obtenemos nuestros resultados, podemos usar res.data, res.headers, res.status, entre algunos mas
-    //   })
-    // }else{                           -Encaso de no poder usar axiosAuth, podemos hacer diferentes accioes, informar que no se puede usar, movernos a la pagina de login, lo que se necesite en el momento
-    //   console.log("unAuthenticaded")
-    // }
 
   };
 

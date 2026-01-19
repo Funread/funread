@@ -279,12 +279,11 @@ def login(request):
         'password').encode('utf-8')).hexdigest()
      user = User.objects.filter(email=emailSe).first()
      if user is None:
-        raise AuthenticationFailed('User not found')
+        raise AuthenticationFailed('Please verify your credentials. User not found or password is incorrect')
      if not user.actived.__eq__(1):
         raise AuthenticationFailed('inactive user')
      if not user.password.__eq__(passwordSe):
-        raise AuthenticationFailed('Incorrect password')
-
+        raise AuthenticationFailed('Please verify your credentials. User not found or password is incorrect')
      signing_key = settings.SIMPLE_JWT['SIGNING_KEY']
      payload = {
         'exp': datetime.utcnow() + settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],

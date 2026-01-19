@@ -52,22 +52,17 @@ export async function handlePageLoad(page, setElements, setPagesType, currentPag
     }
   } else if (type === 5) {
     // CRITICAL: Hacer copia profunda para evitar compartir referencias entre páginas
-    console.log('=== Loading Game (Type 5) ===');
-    console.log('Page:', page);
-    console.log('Widgetitems:', page.widgetitems);
     const gameValue = page.widgetitems?.[0]?.value;
-    console.log('Game value:', gameValue);
-    console.log('Game value type:', typeof gameValue);
+
     if (gameValue) {
       const deepCopy = JSON.parse(JSON.stringify(gameValue));
-      console.log('Setting elements with deep copy:', deepCopy);
+
       setElements(deepCopy);
     } else {
-      console.log('No game value, setting empty array');
+
       setElements([]);
     }
   } else {
-    console.warn("Tipo de página no soportado:", page.page.type);
     setElements([]);
   }
 }

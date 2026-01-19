@@ -92,7 +92,7 @@ def checkJoin(request):
      if join is None:
         raise AuthenticationFailed('Join not found')
      if not join.password.__eq__(password):
-        raise AuthenticationFailed('Incorrect password')
+        raise AuthenticationFailed('Please verify your credentials.')
 
      signing_key = settings.SIMPLE_JWT['SIGNING_KEY']
      payload = {

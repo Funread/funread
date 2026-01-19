@@ -11,7 +11,7 @@ export const useSign = () => {
         return 'success'
       }
     }).catch( (error) => {
-      console.log(error)
+
       return error.response.data.email[0]
     });
   };

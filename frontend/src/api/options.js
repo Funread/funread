@@ -29,14 +29,6 @@ export const list_options_by_idwidgetitem = async (widgetitemid) => {
 
 // Función para enviar las respuestas del quiz al backend
 export const submit_quiz_responses = async (quizResponses, bookId, userId) => {
-  console.log(
-    "Enviando respuestas del quiz:",
-    quizResponses,
-    "bookId:",
-    bookId,
-    "userId:",
-    userId
-  );
 
   try {
     // Formatear los datos para enviarlos al backend
@@ -53,12 +45,12 @@ export const submit_quiz_responses = async (quizResponses, bookId, userId) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error al enviar respuestas del quiz:", error);
+
     throw error;
   }
 };
 export const createMultipleOptions = async (options, idwidgetitem, createdby) => {
-  console.log("Enviando opciones:", options);
+
 
   try {
      
@@ -71,7 +63,7 @@ export const createMultipleOptions = async (options, idwidgetitem, createdby) =>
   
   
   } catch (error) {
-    console.error("Error al crear opciones:", error);
+  
     throw error;
   }
 };

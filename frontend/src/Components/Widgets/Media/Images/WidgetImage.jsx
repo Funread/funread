@@ -85,22 +85,22 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
         <Content>
           {selectedImage ? (
             <div className='image-container'>
-              {/* {console.log('Imagen seleccionada:', selectedImage)} */}
+
               <img
                 src={getMediaUrl(selectedImage.file_route)}
                 alt='Descripción de la imagen de la galería'
                 className='custom-imagePrincipal-widgetImage'
-              //onClick={() => setSelectedImage(null)}
+          
               />
             </div>
           ) : selectedFile ? (
             <div>
-              {/* {console.log('Imagen seleccionada:', selectedFile)} */}
+         
               <img
                 src={URL.createObjectURL(selectedFile)}
                 alt='Descripción de la imagen del archivo'
                 className='custom-imagePrincipal-widgetFile'
-              //onClick={() => setSelectedFile(null)}
+         
               />
             </div>
           ) : (

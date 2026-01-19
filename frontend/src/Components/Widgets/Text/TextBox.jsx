@@ -23,7 +23,7 @@ const Box = ({ onWidgetChange }) => {
   const handleEditorDataChange = () => {
     const data = editorRef.current.editor.getData();
     setEditorData(data);
-    console.log(data)
+
     onWidgetChange({ type: 'Box', data: {data: data }})
     // Aquí puedes manejar los datos como necesites, por ejemplo, enviarlos a un servidor
 };

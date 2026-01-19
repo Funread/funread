@@ -14,7 +14,6 @@ const ProtectedRoutes = (props) => {
             try {
                 // 1. Verificar si hay usuario logueado
                 if (!user.email || user.email === "") {
-                    console.log("No hay usuario logueado");
                     setIsAuth(false);
                     return;
                 }
@@ -22,7 +21,7 @@ const ProtectedRoutes = (props) => {
                 // 2. Verificar el token JWT
                 const tokenResponse = await tokenVerify();
                 if (!tokenResponse.data.login) {
-                    console.log("Token inválido");
+            
                     setIsAuth(false);
                     return;
                 }
@@ -30,7 +29,7 @@ const ProtectedRoutes = (props) => {
                 // 3. Verificar roles si se requieren
                 if (props.roles && props.roles.length > 0) {
                     if (!user.roles || user.roles.length === 0) {
-                        console.log("Usuario sin roles asignados");
+                    
                         setIsAuth(false);
                         return;
                     }
@@ -39,10 +38,6 @@ const ProtectedRoutes = (props) => {
                     const hasRequiredRole = user.roles.some(userRole => 
                         props.roles.includes(userRole.role)
                     );
-
-                    console.log("Roles requeridos:", props.roles);
-                    console.log("Roles del usuario:", user.roles.map(r => r.role));
-                    console.log("Tiene acceso:", hasRequiredRole);
 
                     setIsAuth(hasRequiredRole);
                 } else {

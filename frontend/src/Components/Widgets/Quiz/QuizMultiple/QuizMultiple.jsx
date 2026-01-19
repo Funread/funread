@@ -15,17 +15,13 @@ const QuizMultiple = ({ quizData, onAnswerSelected, initialAnswer = null, isSubm
 
   // Validación mejorada
   if (!quizData) {
-    console.log('QuizMultiple: No quiz data');
+
     return null;
   }
 
-  console.log('QuizMultiple - received quizData:', quizData);
-  console.log('QuizMultiple - answers:', quizData.answers);
-  console.log('QuizMultiple - initialAnswer:', initialAnswer, 'isSubmitted:', isSubmitted);
-
   // Validar específicamente las respuestas
   if (!quizData.answers || !Array.isArray(quizData.answers) || quizData.answers.length === 0) {
-    console.log('QuizMultiple: No valid answers');
+
     return <div>No answers available</div>;
   }
 

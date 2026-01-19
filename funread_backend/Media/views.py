@@ -68,7 +68,7 @@ def save_File(request):
                         print(f"DEBUG - IS ADMIN: {is_admin}")
             except User.DoesNotExist:
                 user = None
-                print("DEBUG - User not found")
+         
     except Exception as e:
         user = None
         print(f"DEBUG - Error: {e}")
