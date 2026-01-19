@@ -2,7 +2,7 @@ import React from 'react';
 
 const QuizMedia = ({ media }) => {
   if (!media || !media.url) {
-    console.log('QuizMedia: No hay datos de media');
+
     return null;
   }
 

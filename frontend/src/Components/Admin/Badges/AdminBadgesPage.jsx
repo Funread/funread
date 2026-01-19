@@ -133,11 +133,10 @@ const AdminBadgesPage = () => {
 
   const handleSaveBadge = async (badgeData) => {
     try {
-      console.log('💾 Guardando badge...', JSON.stringify(badgeData, null, 2));
-      
+  
       if (editingBadge) {
         // Actualizar badge existente
-        console.log('📝 Actualizando badge ID:', editingBadge.id);
+  
         await updateBadgeAdmin(editingBadge.id, badgeData, token);
         toast.success('Badge actualizado correctamente');
       } else {
@@ -155,7 +154,7 @@ const AdminBadgesPage = () => {
       await loadBadges(); // Esperar a que termine de cargar
       
     } catch (error) {
-      console.error('Error guardando badge:', error);
+ 
       toast.error('Error al guardar badge');
       throw error;
     }
@@ -179,7 +178,7 @@ const AdminBadgesPage = () => {
         toast.error('Error en la asignación masiva');
       }
     } catch (error) {
-      console.error('Error en asignación masiva:', error);
+  
       toast.error('Error al asignar badges');
     }
   };

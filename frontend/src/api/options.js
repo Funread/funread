@@ -2,7 +2,7 @@ import { axiosAuth } from './axiosInstances'
 import { BASE_URL } from "../settings";
 
 export const list_options_by_idwidgetitem = async (widgetitemid) => {
-  console.log("Llamando a API con widgetitemid:", widgetitemid);
+
   try {
     // Using the BASE_URL from settings instead of a relative URL
     const response = await fetch(
@@ -37,7 +37,7 @@ export const submit_quiz_responses = async (quizResponses, bookId, userId) => {
       userId,
       responses: quizResponses,
     };
-    console.log("Formatted data:", formattedData);
+
     // Enviar los datos al endpoint correspondiente
     const response = await axiosAuth.post(
       "/Quizzes/submit_responses/",

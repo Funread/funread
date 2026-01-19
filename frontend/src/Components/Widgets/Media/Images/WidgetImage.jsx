@@ -33,7 +33,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
   }
 
   const handleSaveChanges = () => {
-    console.log('Imagen seleccionada handleSave:', selectedImage)
+  
 
     setShowGallery(false)
     onWidgetChange({ type: 'WidgetImage', data: {data:selectedImage.file_route} })
@@ -48,9 +48,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
     try {
       if (selectedFile) {
         const response = await save_Image(selectedFile)
-        console.log(
-          'Imagen enviada exitosamente a la base de datos:',
-          response.data);
+      
         setShowAlert(true);
 
         setTimeout(() => {
@@ -58,7 +56,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
         }, 5000);
 
       } else {
-        console.error('No se ha seleccionado un archivo de imagen.')
+   
         setShowErrorAlert(true);
 
 
@@ -67,7 +65,7 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
         }, 5000);
       }
     } catch (error) {
-      console.error('Error al guardar la imagen:', error)
+
 
       setShowSaveErrorAlert(true);
 
@@ -115,10 +113,6 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
         </Content>
       </div>
  
-    
-      {/* <Button variant="primary" onClick={handleShow}>
-        Widget Images
-      </Button> */}
 
       <Modal show={showModal} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>
@@ -138,22 +132,22 @@ const WidgetImage = ({ onWidgetChange, updateWidgetDropData}) => {
           <Content>
             {selectedImage ? (
               <div className='image-container'>
-                {/* {console.log('Imagen seleccionada:', selectedImage)} */}
+
                 <img
                   src={getMediaUrl(selectedImage.file_route)}
                   alt='Descripción de la imagen de la galería'
                   className='custom-imagePrincipal-widgetImage'
-                //onClick={() => setSelectedImage(null)}
+          
                 />
               </div>
             ) : selectedFile ? (
               <div>
-                {/* {console.log('Imagen seleccionada:', selectedFile)} */}
+            
                 <img
                   src={URL.createObjectURL(selectedFile)}
                   alt='Descripción de la imagen del archivo'
                   className='custom-imagePrincipal-widgetFile'
-                //onClick={() => setSelectedFile(null)}
+             
                 />
               </div>
             ) : (

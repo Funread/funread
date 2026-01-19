@@ -151,7 +151,7 @@ export async function markPointsAwarded(userId, bookId) {
     );
     return response;
   } catch (error) {
-    console.error("Error al marcar puntos como otorgados:", error);
+ 
     throw error;
   }
 }
@@ -180,17 +180,17 @@ export async function calculateClassProgress(userId, classBookIds) {
         }
       } catch (error) {
         // Si no existe progreso para este libro, no está completado
-        console.log(`No progress found for book ${bookId}, counting as not completed`);
+   
       }
     }
 
     // Calcular porcentaje: (completados / total) * 100
     const progressPercentage = Math.round((completedCount / classBookIds.length) * 100);
-    console.log(`Class Progress: ${completedCount}/${classBookIds.length} books completed = ${progressPercentage}%`);
+  
     
     return progressPercentage;
   } catch (error) {
-    console.error("Error calculating class progress:", error);
+
     return 0;
   }
 }

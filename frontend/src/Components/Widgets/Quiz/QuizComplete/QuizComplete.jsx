@@ -12,11 +12,11 @@ const QuizComplete = ({ quizData, onAnswerSelected, initialAnswer = null, isSubm
   }, [initialAnswer, isSubmitted]);
 
   if (!quizData) {
-    console.log('QuizComplete: No quiz data');
+
     return null;
   }
   
-  console.log('✅ QuizComplete rendering with data:', quizData);
+
 
   const handleSubmit = () => {
     if (userAnswer.trim() !== '' && !localIsSubmitted) {

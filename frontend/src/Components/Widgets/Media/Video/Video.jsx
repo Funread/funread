@@ -51,13 +51,13 @@ function Video({ onWidgetChange }) {
       } catch (error) {
         toast.error('Error al guardar la imagen')
         setLoading(false)
-        console.error('Error al guardar la imagen:', error)
+    
       }
     }else if(selectedFile == null){
       toast.error('No se ha seleccionado un archivo de video.')
       setLoading(false);
     }else{
-      console.log('link de youtube: ',selectedFile) //eliminar este console
+  
       onWidgetChange({ type: 'Video', data: {data:selectedFile} })
       setLoading(false)
       setShow(false)
