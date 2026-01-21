@@ -109,7 +109,7 @@ def save_File(request):
                 extension = file_instance.extension
                 user_id_folder = str(user.pk) if user else 'global'
                 new_filename = f'{new_name}.{extension}'
-                dest_folder = os.path.join(settings.MEDIA_ROOT, 'media', gallery_type_name, user_id_folder)
+                dest_folder = os.path.join(settings.MEDIA_ROOT, gallery_type_name, user_id_folder)
                 os.makedirs(dest_folder, exist_ok=True)
                 new_path = os.path.join(dest_folder, new_filename)
                 original_path = file_instance.file.path
@@ -117,7 +117,7 @@ def save_File(request):
                     os.remove(new_path)
                 os.rename(original_path, new_path)
                 file_instance.name = new_name
-                file_instance.file.name = os.path.join('media', gallery_type_name, user_id_folder, new_filename)
+                file_instance.file.name = os.path.join(gallery_type_name, user_id_folder, new_filename)
                 file_instance.save()
                 serializer_response = MediaSeralizer(file_instance)
                 return Response(serializer_response.data, status=status.HTTP_201_CREATED)
@@ -270,8 +270,7 @@ def change_file(request):
             'name': old_file.name,
             'extension': extension,
             'file': file_request,
-            'type': type,
-            'isfunreadMedia': request.data.get('isfunreadMedia', old_file.isfunreadMedia)
+            'type': type
         }
     serializer = MediaSeralizer(old_file, data=data)
     if serializer.is_valid():
